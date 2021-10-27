@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "airbnb-base"
+  ],
+  "plugins": [
+    "jest"
+  ],
+  "env": {
+    "jest/globals": true
+  },
+  "rules": {
+    "max-len": [{"code": 120}],
+    "no-underscore-dangle": 0,
+    "object-curly-newline": [
+      "error", {
+        "ObjectPattern": {
+          "multiline": true,
+          "minProperties": 5
+        }
+      }
+    ]
+  }
+}

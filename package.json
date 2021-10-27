@@ -1,0 +1,54 @@
+{
+  "name": "paysage-api",
+  "version": "0.0.1",
+  "description": "API Paysage",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "NODE_ENV=development nodemon --experimental-specifier-resolution=node index.js",
+    "start:production": "NODE_ENV=production node --experimental-specifier-resolution=node src/index.js",
+    "start:staging": "NODE_ENV=staging node --experimental-specifier-resolution=node src/index.js",
+    "test": "NODE_ENV=testing node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --watchAll --runInBand"
+  },
+  "keywords": [
+    "paysage"
+  ],
+  "author": "DOAD",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "express-openapi-validator": "^4.12.11",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.6",
+    "nodemailer": "^6.6.2",
+    "swagger-ui-express": "^4.1.6",
+    "swift": "^2.7.3",
+    "winston": "^3.3.3",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-jest": "^24.4.0",
+    "jest": "^27.0.6",
+    "mongodb-memory-server": "^7.3.6",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.4"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./tests/globalSetup.js"
+    ],
+    "testEnvironment": "node",
+    "modulePathIgnorePatterns": [
+      "save"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
+}
