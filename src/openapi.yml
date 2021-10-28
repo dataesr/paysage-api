@@ -17,7 +17,7 @@ servers:
     description: Production server
 
 paths:
-  '/signup':
+  '/auth/signup':
     post:
       tags:
         - Authentication

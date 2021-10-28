@@ -1,4 +1,4 @@
-import db from '../utils/mongo-connexion';
+import db from '../database';
 import { addInsertMeta } from './utils/metas';
 
 export default {

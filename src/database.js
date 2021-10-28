@@ -1,6 +1,6 @@
 import mongodb from 'mongodb';
 import logger from './logger';
-import configs from '../config';
+import configs from './config';
 
 const { MONGO_URI, MONGO_DBNAME } = configs[process.env.NODE_ENV].database;
 
@@ -15,7 +15,7 @@ client.connect().catch((e) => {
   process.kill(process.pid, 'SIGTERM');
 });
 
-const connexion = client.db(MONGO_DBNAME);
+const db = client.db(MONGO_DBNAME);
 logger.info(`Connected to mongo database... ${MONGO_DBNAME}`);
 
-export default connexion;
+export default db;

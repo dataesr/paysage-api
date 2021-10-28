@@ -4,7 +4,6 @@ import UnauthorizedError from './Unauthorized';
 import ForbiddenError from './Forbidden';
 import NotFoundError from './NotFound';
 import ServerError from './ServerError';
-import MongoError from './MongoError';
 
 export {
   CustomError,
@@ -13,5 +12,4 @@ export {
   ForbiddenError,
   NotFoundError,
   ServerError,
-  MongoError,
 };

@@ -3,7 +3,7 @@ import authControllers from '../controllers/auth';
 import usersControllers from '../controllers/users';
 
 const router = new express.Router();
-router.post('/signup', authControllers.signup);
+router.post('/auth/signup', authControllers.signup);
 
 router.get('/users/:id', usersControllers.getUser);
 

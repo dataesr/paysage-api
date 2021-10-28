@@ -1,6 +1,5 @@
 import userService from '../services/users';
-import {NotFoundError} from '../utils/errors'
-
+import { NotFoundError } from '../utils/errors';
 
 export default {
   getUser: async (req, res) => {

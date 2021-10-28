@@ -1,6 +1,6 @@
 import development from './development';
 // import staging from './staging';
 import production from './production';
-// import testing from './testing';
+import testing from './testing';
 
-export default { development, production };
+export default { development, testing, production };

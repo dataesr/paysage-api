@@ -1,5 +1,5 @@
 import winston from 'winston';
-import configs from '../config';
+import configs from './config';
 
 const { LOG_LEVEL } = configs[process.env.NODE_ENV].logger;
 

@@ -1,4 +1,4 @@
-import db from '../../utils/mongo-connexion';
+import db from '../../database';
 
 function generateId() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
