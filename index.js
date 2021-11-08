@@ -41,4 +41,4 @@ app.use(routes);
 // Erreurs personnalisées
 app.use(handleErrors);
 
-app.listen(3000, () => console.log('Lancement du serveur ok - 3000'));
+app.listen(4000, () => console.log('http://localhost:4000/docs'));
