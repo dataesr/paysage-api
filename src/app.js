@@ -5,11 +5,7 @@ import * as OAV from 'express-openapi-validator';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import { handleErrors, authenticate } from './utils/middlewares';
-
-// import configs from './config';
 import routes from './routes';
-
-// const config = configs[process.env.NODE_ENV];
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'src/openapi.yml');

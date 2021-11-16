@@ -1,9 +1,5 @@
-import getUniqueId from './get-unique-id';
-
-export async function addInsertMeta(data, actor) {
-  const id = await getUniqueId();
+export function addInsertMeta(data, actor) {
   return {
-    id,
     createdAt: new Date(),
     updatedAt: new Date(),
     updatedBy: actor,
@@ -12,6 +8,6 @@ export async function addInsertMeta(data, actor) {
   };
 }
 
-export function addUpdateMeta(data, actor = null) {
+export function addUpdateMeta(data, actor) {
   return { updatedAt: new Date(), updatedBy: actor, ...data };
 }

@@ -3,4 +3,6 @@ import development from './development';
 import production from './production';
 import testing from './testing';
 
-export default { development, testing, production };
+const configs = { development, testing, production };
+
+export default configs[process.env.NODE_ENV];

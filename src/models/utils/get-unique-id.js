@@ -13,7 +13,7 @@ function generateId() {
   return id;
 }
 
-export default async () => {
+export default async function getUniqueId() {
   let id;
   for (let retries = 0; retries < 100; retries += 1) {
     id = generateId();
@@ -27,4 +27,4 @@ export default async () => {
     .catch((e) => { throw new Error(e); });
   if (result.ok) { return id; }
   throw new Error('Too many retries ...');
-};
+}

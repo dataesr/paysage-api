@@ -1,7 +1,7 @@
 import winston from 'winston';
-import configs from './config';
+import config from './config';
 
-const { LOG_LEVEL } = configs[process.env.NODE_ENV].logger;
+const { LOG_LEVEL } = config.logger;
 
 const alignColorsAndTime = winston.format.combine(
   winston.format.colorize({

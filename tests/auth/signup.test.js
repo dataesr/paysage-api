@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 it('can register new user successfully', async () => {
   const response = await global.superapp
     .post('/auth/signup')
@@ -11,6 +13,8 @@ it('can register new user successfully', async () => {
     .expect(201);
   expect(response.body.accessToken).toBeTruthy();
   expect(response.body.refreshToken).toBeTruthy();
+  const { user } = jwt.decode(response.body.accessToken);
+  expect(user.username).toBe('user');
 });
 it('throws error on duplicate email at registration', async () => {
   await global.superapp

@@ -36,11 +36,211 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/signupResponse'
+                $ref: '#/components/schemas/signResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/ServerError'
+
+  '/auth/signin':
+    post:
+      tags:
+        - Authentication
+      summary: Sign a user in
+      requestBody:
+        description: Required user info for signin
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/signinPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/signResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  
+  '/auth/signout':
+    post:
+      tags:
+        - Authentication
+      summary: Sign a user out
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  '/auth/activate-account':
+    post:
+      tags:
+        - Authentication
+      summary: Activate user account
+      requestBody:
+        description: Information for account activation
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - activationCode
+              properties:
+                activationCode:
+                  type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  '/auth/refresh-access-token':
+    post:
+      tags:
+        - Authentication
+      summary: Use refresh token to regenerate access token
+      requestBody:
+        description: Required user info for authentication
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/signResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  '/auth/renew-activation-code':
+    get:
+      tags:
+        - Authentication
+      summary: Renew account activation code
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  '/auth/send-password-renewal-code':
+    post:
+      tags:
+        - Authentication
+      summary: Send an email with a code to change password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account
+              properties:
+                account:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  
+  '/auth/reset-password':
+    post:
+      tags:
+        - Authentication
+      summary: Resets user password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account
+                - password
+                - code
+              properties:
+                account:
+                  type: string
+                password:
+                  type: string
+                  pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+                code:
+                  type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   '/users/{userId}':
     get:
       tags:
@@ -148,11 +348,23 @@ components:
           type: string
           example: Olland
 
-    signupResponse:
+    signinPayload:
+      type: object
+      required:
+        - password
+        - account
+      properties:
+        password:
+          type: string
+          pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+          example: Azertyui!87
+          description: Minimum eight characters, at least one letter, one number and one special character
+        account:
+          type: string
+
+    signResponse:
       type: object
       properties:
-        message:
-          type: string
         accessToken:
           type: string
         refreshToken:

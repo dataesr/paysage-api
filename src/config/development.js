@@ -3,6 +3,7 @@ export default {
   systemName: 'paysage',
   accessTokenExpiresIn: '1h',
   refreshTokenExpiresIn: '20d',
+  codesExpiresIn: 900,
   database: {
     MONGO_URI: process.env.MONGO_URI,
     MONGO_DBNAME: 'paysage-devj',

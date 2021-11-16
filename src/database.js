@@ -1,8 +1,8 @@
 import mongodb from 'mongodb';
 import logger from './logger';
-import configs from './config';
+import config from './config';
 
-const { MONGO_URI, MONGO_DBNAME } = configs[process.env.NODE_ENV].database;
+const { MONGO_URI, MONGO_DBNAME } = config.database;
 
 const client = new mongodb.MongoClient(
   MONGO_URI,
