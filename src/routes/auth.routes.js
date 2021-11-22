@@ -1,6 +1,6 @@
 import express from 'express';
-import authControllers from '../controllers/auth';
-import usersControllers from '../controllers/users';
+import authControllers from '../controllers/auth.controllers';
+import usersControllers from '../controllers/user.controllers';
 
 const router = new express.Router();
 router.post('/auth/signup', authControllers.signup);

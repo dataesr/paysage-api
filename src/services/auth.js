@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import emitter from '../emitter';
-import Users from '../models/users';
+import Users from '../models/user.models';
 import { BadRequestError, NotFoundError } from '../utils/errors';
 import { addInsertMeta, addUpdateMeta } from './utils/metas';
 

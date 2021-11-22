@@ -1,5 +1,5 @@
 import emitter from '../emitter';
-import Users from '../models/users';
+import Users from '../models/user.models';
 
 import config from '../config';
 

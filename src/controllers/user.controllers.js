@@ -6,6 +6,6 @@ export default {
     const { id } = req.params;
     const user = await userService.getUser(id);
     if (!user) throw new NotFoundError();
-    res.status(200).json(user);
+    res.status(200).json({ email: user.email, username: user.username });
   },
 };

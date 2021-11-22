@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Tokens from '../models/tokens';
+import Tokens from '../models/token.models';
 
 import config from '../config';
 import { BadRequestError } from '../utils/errors';

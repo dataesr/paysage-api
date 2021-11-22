@@ -9,7 +9,7 @@ info:
     url: 'https://github.com/dataesr/paysage-api/LICENCE.md'
   version: 1.0.0
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://localhost:5500'
     description: Development server
   - url: 'https://api.paysage.dataesr.ovh'
     description: Preprod server
@@ -65,7 +65,7 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/ServerError'
-  
+
   '/auth/signout':
     post:
       tags:
@@ -201,7 +201,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
-  
+
   '/auth/reset-password':
     post:
       tags:
@@ -246,7 +246,7 @@ paths:
       tags:
         - Users
       summary: Get a user by id
-      description: Create a user account
+      description: Retrieve a user account
       parameters:
         - in: path
           name: userId
@@ -269,6 +269,73 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+
+  '/structures':
+    get:
+      tags:
+        - Structure
+      summary: All Structures
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Structure
+      summary: Create a structure
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/structure'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/structure'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  '/structure/{id}/identifiers':
+    get:
+      tags:
+        - Structure identifiers
+      summary: All Structures' Identifiers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
 components:
   responses:
     NotFound:
@@ -370,6 +437,11 @@ components:
         refreshToken:
           type: string
 
+    structure:
+      type: object
+      properties:
+        descriptionFr:
+          type: string
     user:
       type: object
       additionalProperties: false
