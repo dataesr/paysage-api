@@ -1,23 +1,12 @@
-import db from '../../database';
-import getUniqueId from '../utils/get-unique-id';
+import mongoose from 'mongoose';
 
-async function findAll() {
-  return db.collection('structure').find();
-}
+const structureSchema = new mongoose.Schema(
+  {
+    descriptionFr: { type: String, required: true },
+  },
+  { timestamps: true },
+);
 
-async function findById(id) {
-  return db.collection('structure').findOne({ id }, { projection: { password: 0, _id: 0 } });
-}
+const Structure = mongoose.model('structure', structureSchema);
 
-async function insertOne(data) {
-  const id = await getUniqueId();
-  console.debug('==== insertOne ==== ', data);
-  await db.collection('structure').insertOne({ id, descriptionFr: data.body.descriptionFr });
-  return findById(id);
-}
-
-export default {
-  findAll,
-  insertOne,
-  findById,
-};
+export default Structure;

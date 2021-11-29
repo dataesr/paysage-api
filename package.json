@@ -23,6 +23,7 @@
     "express-openapi-validator": "^4.12.11",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.6",
+    "mongoose": "^6.0.13",
     "nodemailer": "^6.6.2",
     "swagger-ui-express": "^4.1.6",
     "swift": "^2.7.3",

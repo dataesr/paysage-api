@@ -14,7 +14,7 @@ export default {
     const { password, account } = req.body;
     const user = await authService.signin(account, password);
     const tokens = await tokenService.generateAuthTokens(user, req.userAgent);
-    res.status(200).json(tokens);
+    res.status(200).json({ tokens, user });
   },
 
   signout: async (req, res) => {

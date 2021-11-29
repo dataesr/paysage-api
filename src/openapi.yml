@@ -270,7 +270,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  '/structures':
+  '/api/structure/all':
     get:
       tags:
         - Structure
@@ -281,7 +281,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/structure'
                 properties:
                   message:
                     type: string
@@ -291,33 +291,57 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/ServerError'
-    post:
+
+  '/api/structure/{id}':
+    get:
       tags:
         - Structure
-      summary: Create a structure
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/structure'
-        required: true
+      summary: One Structure
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/structure'
+                properties:
+                  message:
+                    type: string
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/ServerError'
 
-  '/structure/{id}/identifiers':
-    get:
+
+  '/api/structure/add':
+    post:
       tags:
-        - Structure identifiers
-      summary: All Structures' Identifiers
+        - Structure
+      summary: All Structures
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/structure'
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  '/api/structure/{id}/description':
+    post:
+      tags:
+        - Structure description
+      summary: Update Structure description
       responses:
         '200':
           description: Success
@@ -440,8 +464,12 @@ components:
     structure:
       type: object
       properties:
+        id:
+          type: string
+          readOnly: true
         descriptionFr:
           type: string
+
     user:
       type: object
       additionalProperties: false
