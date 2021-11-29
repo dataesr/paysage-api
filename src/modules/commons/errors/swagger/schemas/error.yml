@@ -1,0 +1,18 @@
+title: Error
+type: object
+required:
+  - error
+properties:
+  error:
+    type: string
+  details:
+    type: array
+    items:
+      type: object
+      properties:
+        message:
+          type: string
+        path:
+          type: string
+        errorCode:
+          type: string

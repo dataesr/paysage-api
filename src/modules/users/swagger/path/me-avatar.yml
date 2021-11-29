@@ -1,0 +1,24 @@
+put:
+  tags:
+    - Users
+  summary: Change user avatar
+  requestBody:
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            file:
+              type: string
+              format: binary
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/user.yml'
+    '401':
+      $ref: '../../../commons/errors/swagger/unauthorized.yml'
+    '500':
+      $ref: '../../../commons/errors/swagger/server-error.yml'

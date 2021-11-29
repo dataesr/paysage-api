@@ -1,0 +1,23 @@
+post:
+  tags:
+    - Authentication
+  summary: Sign a user up
+  description: Create a user account
+  requestBody:
+    description: Required user info for account creation
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/signup.payload.yml'
+    required: true
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/sign.response.yml'
+    '400':
+      $ref: '../../../commons/errors/swagger/bad-request.yml'
+    '500':
+      $ref: '../../../commons/errors/swagger/server-error.yml'

@@ -1,0 +1,18 @@
+post:
+  tags:
+    - Authentication
+  summary: Sign a user out
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    '400':
+      $ref: '../../../commons/errors/swagger/bad-request.yml'
+    '500':
+      $ref: '../../../commons/errors/swagger/server-error.yml'

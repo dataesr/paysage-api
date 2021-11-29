@@ -1,0 +1,72 @@
+get:
+  tags:
+    - Users
+  summary: Get a user by id
+  parameters:
+    - in: path
+      name: userId
+      schema:
+        type: string
+      required: true
+      description: Unique user identifier
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/user.yml'
+    '400':
+      $ref: '../../../commons/errors/swagger/bad-request.yml'
+    '401':
+      $ref: '../../../commons/errors/swagger/unauthorized.yml'
+    '403':
+      $ref: '../../../commons/errors/swagger/forbidden.yml'
+    '404':
+      $ref: '../../../commons/errors/swagger/not-found.yml'
+    '500':
+      $ref: '../../../commons/errors/swagger/server-error.yml'
+
+post:
+  tags:
+    - Users
+  summary: Create a new user
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/user.yml'
+    '400':
+      $ref: '../../../commons/errors/swagger/bad-request.yml'
+    '401':
+      $ref: '../../../commons/errors/swagger/unauthorized.yml'
+    '403':
+      $ref: '../../../commons/errors/swagger/forbidden.yml'
+    '404':
+      $ref: '../../../commons/errors/swagger/not-found.yml'
+    '500':
+      $ref: '../../../commons/errors/swagger/server-error.yml'
+
+patch:
+  tags:
+    - Users
+  summary: Update a user
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/user.yml'
+    '400':
+      $ref: '../../../commons/errors/swagger/bad-request.yml'
+    '401':
+      $ref: '../../../commons/errors/swagger/unauthorized.yml'
+    '403':
+      $ref: '../../../commons/errors/swagger/forbidden.yml'
+    '404':
+      $ref: '../../../commons/errors/swagger/not-found.yml'
+    '500':
+      $ref: '../../../commons/errors/swagger/server-error.yml'

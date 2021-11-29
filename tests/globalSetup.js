@@ -1,15 +1,14 @@
 import 'dotenv/config';
 import request from 'supertest';
 import app from '../src/app';
-import db from '../src/database';
-import setupDatabase from '../src/database-setup';
+import db from '../src/modules/commons/services/database.service';
+import setupDatabase from '../src/config/database.config';
+import Utils from './utils';
 
 beforeAll(async () => {
   global.superapp = request(app);
+  global.utils = new Utils(db);
   global.db = db;
-  const collections = await db.listCollections().toArray();
-  await Promise.all(collections.map(async (collection) => {
-    await db.collection(collection.name).deleteMany({});
-  }));
+  await global.utils.clearDB();
   await setupDatabase();
 });
