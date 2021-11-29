@@ -5,10 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "NODE_ENV=development nodemon --experimental-specifier-resolution=node index.js",
-    "start:production": "NODE_ENV=production node --experimental-specifier-resolution=node index.js",
-    "start:staging": "NODE_ENV=staging node --experimental-specifier-resolution=node index.js",
-    "test": "NODE_ENV=testing node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --watchAll --runInBand"
+    "build:docs": "swagger-cli bundle src/openapi.yml --outfile docs/openapi.yml --type yaml",
+    "start": "npm run build:docs && NODE_ENV=development nodemon --experimental-specifier-resolution=node index.js",
+    "start:production": "npm run build:docs && NODE_ENV=production node --experimental-specifier-resolution=node index.js",
+    "start:staging": "npm run build:docs && NODE_ENV=staging node --experimental-specifier-resolution=node index.js",
+    "test": "npm run build:docs && NODE_ENV=testing node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --watchAll --runInBand"
   },
   "keywords": [
     "paysage"
@@ -36,7 +37,8 @@
     "eslint-plugin-jest": "^24.4.0",
     "jest": "^27.0.6",
     "nodemon": "^2.0.7",
-    "supertest": "^6.1.4"
+    "supertest": "^6.1.4",
+    "swagger-cli": "^4.0.4"
   },
   "jest": {
     "setupFilesAfterEnv": [
