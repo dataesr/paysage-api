@@ -4,7 +4,7 @@ import 'express-async-errors';
 import * as OAV from 'express-openapi-validator';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
-import { handleErrors, authenticate } from './utils/middlewares';
+import { handleErrors } from './modules/commons/middlewares/handle-errors.middlewares';
 import structure from './modules/structure/structure.routes';
 
 // Load API specifications
@@ -27,8 +27,6 @@ app.use(OAV.middleware({
   // validateResponses: true,
   ignorePaths: /(.*\/docs\/?|.*\/health\/?|\/specs\.yml\/?)/,
 }));
-
-app.use(authenticate);
 
 // Register routes
 app.use('/api/structure', structure);

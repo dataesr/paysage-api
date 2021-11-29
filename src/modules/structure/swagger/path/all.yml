@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Structure
+  summary: All Structures
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/structure.yml'
+            properties:
+              message:
+                type: string
+    '400':
+      $ref: '../../../commons/errors/swagger/bad-request.yml'
+    '401':
+      $ref: '../../../commons/errors/swagger/unauthorized.yml'
+    '500':
+      $ref: '../../../commons/errors/swagger/server-error.yml'

@@ -1,5 +1,5 @@
 import structureServices from './structure.services';
-import { NotFoundError } from '../../utils/errors';
+import { NotFoundError } from '../commons/errors';
 
 export default {
   getAll: async (req, res, next) => {
