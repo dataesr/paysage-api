@@ -1,7 +1,5 @@
-// import identifiers from '../models/structure/identifier.models';
-// import structure from '../models/structure/structure.models';
-// import db from '../database';
-import structureServices from '../services/structure.services';
+import structureServices from './structure.services';
+import { NotFoundError } from '../../utils/errors';
 
 export default {
   getAll: async (req, res, next) => {
@@ -33,16 +31,18 @@ export default {
       next(error);
     }
   },
-  getOne: async (req, res, next) => {
+
+  getById: async (req, res, next) => {
     try {
-      const structure = await structureServices.findOne({ _id: req.params.id });
+      const structure = await structureServices.findOne(req.params.id);
+
+      if (!structure) throw new NotFoundError();
+
       res.status(200).send({ structure });
     } catch (error) {
       error.msg = 'failed to retrieve structure';
       next(error);
     }
-
-    // }));
   },
 
 };

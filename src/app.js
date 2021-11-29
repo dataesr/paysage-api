@@ -5,8 +5,7 @@ import * as OAV from 'express-openapi-validator';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import { handleErrors, authenticate } from './utils/middlewares';
-// import auth from './routes/auth.routes';
-import structure from './routes/structure.routes';
+import structure from './modules/structure/structure.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'src/openapi.yml');
@@ -32,7 +31,6 @@ app.use('/specs.yml', (req, res) => { res.send(swaggerDocument); });
 app.use(authenticate);
 
 // Register routes
-// app.use(auth);
 app.use('/api/structure', structure);
 
 // Erreurs personnalisées

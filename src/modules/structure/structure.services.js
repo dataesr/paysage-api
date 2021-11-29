@@ -1,10 +1,11 @@
-import Structure from '../models/structure/structure.models';
+import Structure from './structure.models';
+// import db from '../../database';
 
 export default {
 
   find: () => Structure.find(),
 
-  findOne: (id) => Structure.findOne({ id }),
+  findOne: (id) => Structure.findById(id),
 
   updateOne: (id, query) => Structure.updateOne({ _id: id }, { $set: { ...query } }),
 
