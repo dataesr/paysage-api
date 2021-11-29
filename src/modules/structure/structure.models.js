@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const structureSchema = new mongoose.Schema(
   {
     descriptionFr: { type: String, required: true },
+    nameFr: { type: String, required: false },
   },
   { timestamps: true },
 );

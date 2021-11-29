@@ -1,13 +1,14 @@
 import Structure from './structure.models';
-// import db from '../../database';
 
 export default {
 
-  find: () => Structure.find(),
+  find: () => Structure.find({}),
 
-  findOne: (id) => Structure.findById(id),
+  delete: () => Structure.deleteMany({}),
 
-  updateOne: (id, query) => Structure.updateOne({ _id: id }, { $set: { ...query } }),
+  findOne: (id, params) => Structure.findById(id, params),
+
+  update: (id, query) => Structure.findByIdAndUpdate(id, query),
 
   save: async (structureData) => {
     const structure = new Structure({ ...structureData });

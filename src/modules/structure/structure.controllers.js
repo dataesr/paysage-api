@@ -1,5 +1,6 @@
 import structureServices from './structure.services';
-import { NotFoundError } from '../commons/errors';
+import { BadRequestError } from '../commons/errors';
+import CustomError from '../commons/errors/custom.error';
 
 export default {
   getAll: async (req, res, next) => {
@@ -7,41 +8,61 @@ export default {
       const structures = await structureServices.find();
       res.status(200).send({ structures });
     } catch (error) {
-      error.msg = 'failed to retrieve structures';
       next(error);
+      throw new CustomError(error.msg);
     }
   },
 
-  add: async (req, res, next) => {
+  deleteAll: async (req, res, next) => {
+    try {
+      const structures = await structureServices.delete();
+      res.status(200).send({ structures });
+    } catch (error) {
+      next(error);
+      throw new CustomError(error.msg);
+    }
+  },
+
+  addOne: async (req, res, next) => {
     try {
       const structure = await structureServices.save(req.body);
-      res.status(200).send({ message: 'Structure Added', structure });
+      res.status(200).send({ structure });
     } catch (error) {
-      error.msg = 'failed to create post';
       next(error);
-    }
-  },
-
-  updateOne: async (req, res, next) => {
-    try {
-      const structure = await structureServices.updateOne(req.params.id, req.body);
-      res.status(200).send({ message: 'Structure Description updated', structure });
-    } catch (error) {
-      error.msg = 'failed to create post';
-      next(error);
+      throw new CustomError(error.msg);
     }
   },
 
   getById: async (req, res, next) => {
     try {
       const structure = await structureServices.findOne(req.params.id);
-
-      if (!structure) throw new NotFoundError();
-
       res.status(200).send({ structure });
     } catch (error) {
-      error.msg = 'failed to retrieve structure';
       next(error);
+      throw new CustomError(error.msg);
+    }
+  },
+
+  updateDescription: async (req, res, next) => {
+    if (!req.body.descriptionFr) {
+      throw new BadRequestError('descriptionFr is missing');
+    }
+    try {
+      const structure = await structureServices.update(req.params.id, { descriptionFr: req.body.descriptionFr });
+      res.status(200).send({ structure });
+    } catch (error) {
+      next(error);
+      throw new CustomError(error.msg);
+    }
+  },
+
+  getDescription: async (req, res, next) => {
+    try {
+      const structure = await structureServices.findOne(req.params.id, { descriptionFr: 1 });
+      res.status(200).send({ structure });
+    } catch (error) {
+      next(error);
+      throw new CustomError(error.msg);
     }
   },
 

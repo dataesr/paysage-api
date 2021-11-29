@@ -14,41 +14,6 @@ servers:
 
 paths:
 
-  ### AUTH ###
-  '/auth/signup':
-    $ref: './modules/auth/swagger/path/signup.yml'
-
-  '/auth/signin':
-    $ref: './modules/auth/swagger/path/signin.yml'
-
-  '/auth/signout':
-    $ref: './modules/auth/swagger/path/signout.yml'
-
-  '/auth/activate-account':
-    $ref: './modules/auth/swagger/path/activate-account.yml'
-
-  '/auth/refresh-access-token':
-    $ref: './modules/auth/swagger/path/refresh-access-token.yml'
-
-  '/auth/renew-activation-code':
-    $ref: './modules/auth/swagger/path/renew-activation-code.yml'
-
-  '/auth/send-password-renewal-code':
-    $ref: './modules/auth/swagger/path/send-password-renewal-code.yml'
-
-  '/auth/reset-password':
-    $ref: './modules/auth/swagger/path/reset-password.yml'
-
-  ### USERS ###
-  '/users/{userId}':
-    $ref: 'modules/users/swagger/path/user.yml'
-
-  ### CURRENT USER ###
-  '/me':
-    $ref: 'modules/users/swagger/path/me.yml'
-  '/me/password':
-    $ref: 'modules/users/swagger/path/me-password.yml'
-
   ### STRUCTURE ###
   '/api/structure/all':
     $ref: 'modules/structure/swagger/path/all.yml'
