@@ -1,13 +1,15 @@
 import express from 'express';
 import structureControllers from './structure.controllers';
+import { handleErrors } from '../commons/middlewares/handle-errors.middlewares';
 
 const router = new express.Router();
-router.get('/all', structureControllers.getAll);
-router.delete('/all', structureControllers.deleteAll);
-router.get('/:id', structureControllers.getById);
-router.post('/add', structureControllers.addOne);
+router.get('/', handleErrors, structureControllers.getAll);
+router.delete('/', handleErrors, structureControllers.deleteAll);
+router.post('/', handleErrors, structureControllers.addOne);
+router.get('/:id', handleErrors, structureControllers.getById);
+router.patch('/:id', handleErrors, structureControllers.update);
 
-router.get('/:id/description', structureControllers.getDescription);
-router.patch('/:id/description', structureControllers.updateDescription);
+router.get('/:id/identifiers', handleErrors, structureControllers.getIdentifiers);
+router.patch('/:id/identifiers', handleErrors, structureControllers.updateIdentifiers);
 
 export default router;

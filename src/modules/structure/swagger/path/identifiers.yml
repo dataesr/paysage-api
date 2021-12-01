@@ -8,7 +8,7 @@ patch:
       content:
         application/json:
           schema:
-            type: object
+            type: array
             properties:
               message:
                 type: string
@@ -29,7 +29,7 @@ get:
       content:
         application/json:
           schema:
-            type: object
+            type: array
             properties:
               message:
                 type: string

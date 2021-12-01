@@ -29,7 +29,7 @@ app.use(OAV.middleware({
 }));
 
 // Register routes
-app.use('/api/structure', structure);
+app.use('/api/structures', structure);
 
 // Erreurs personnalisées
 app.use(handleErrors);

@@ -15,11 +15,9 @@ servers:
 paths:
 
   ### STRUCTURE ###
-  '/api/structure/all':
-    $ref: 'modules/structure/swagger/path/all.yml'
-  '/api/structure/{id}':
-    $ref: 'modules/structure/swagger/path/one.yml'
-  '/api/structure/add':
-    $ref: 'modules/structure/swagger/path/add.yml'
-  '/api/structure/{id}/description':
-    $ref: 'modules/structure/swagger/path/description.yml'
+  '/api/structures':
+    $ref: 'modules/structure/swagger/path/structures.yml'
+  '/api/structures/{id}':
+    $ref: 'modules/structure/swagger/path/structure.yml'
+  '/api/structures/{id}/identifiers':
+    $ref: 'modules/structure/swagger/path/identifiers.yml'

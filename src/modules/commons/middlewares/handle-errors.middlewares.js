@@ -3,7 +3,6 @@ import mongodb from 'mongodb';
 import { CustomError } from '../errors';
 import logger from '../services/logger.service';
 
-// eslint-disable-next-line no-unused-vars
 export function handleErrors(err, req, res, next) {
   logger.error(err.message);
 
@@ -39,7 +38,10 @@ export function handleErrors(err, req, res, next) {
       details: err.errors,
     });
   }
-  return res.status(err.status || 500).json({
-    message: 'Something went wrong', details: [],
-  });
+  if (err) {
+    return res.status(err.status || 500).json({
+      message: 'Something went wrong', details: [],
+    });
+  }
+  return next();
 }
