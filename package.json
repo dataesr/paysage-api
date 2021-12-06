@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build:docs": "swagger-cli bundle src/openapi.yml --outfile docs/openapi.yml --type yaml",
+    "build:docs": "swagger-cli bundle src/openapi/openapi.yml --outfile docs/openapi.yml --type yaml",
     "start": "npm run build:docs && NODE_ENV=development nodemon --experimental-specifier-resolution=node index.js",
     "start:production": "npm run build:docs && NODE_ENV=production node --experimental-specifier-resolution=node index.js",
     "start:staging": "npm run build:docs && NODE_ENV=staging node --experimental-specifier-resolution=node index.js",

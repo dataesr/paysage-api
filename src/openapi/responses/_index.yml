@@ -1,0 +1,10 @@
+BadRequest:
+  $ref: './errors/bad-request.yml'
+NotFound:
+  $ref: './errors/not-found.yml'
+Unauthorized:
+  $ref: './errors/unauthorized.yml'
+Forbidden:
+  $ref: './errors/forbidden.yml'
+ServerError:
+  $ref: './errors/server-error.yml'

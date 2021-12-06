@@ -1,7 +1,7 @@
 import winston from 'winston';
 import config from '../../../config/app.config';
 
-const { LOG_LEVEL } = config.logger;
+const { logLevel } = config.logger;
 
 const alignColorsAndTime = winston.format.combine(
   winston.format.colorize({
@@ -16,7 +16,7 @@ const alignColorsAndTime = winston.format.combine(
 );
 
 export default winston.createLogger({
-  level: LOG_LEVEL,
+  level: logLevel,
   transports: [
     new (winston.transports.Console)({
       format: winston.format.combine(winston.format.colorize(), alignColorsAndTime),

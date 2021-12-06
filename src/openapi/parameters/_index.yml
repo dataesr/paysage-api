@@ -1,0 +1,9 @@
+# query
+filter:
+  $ref: './query/filters.yml'
+skip:
+  $ref: './query/skip.yml'
+limit:
+  $ref: './query/limit.yml'
+sort:
+  $ref: './query/sort.yml'

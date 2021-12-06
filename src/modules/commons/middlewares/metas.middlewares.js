@@ -1,11 +1,5 @@
-import { getUniqueId } from '../services/ids.service';
-
 export async function addInsertMetaToPayload(req, res, next) {
-  const id = await getUniqueId();
   req.body = {
-    id,
-    updatedAt: new Date(),
-    createdAt: new Date(),
     updatedBy: req.currentUser.id,
     createdBy: req.currentUser.id,
     ...req.body,
@@ -15,7 +9,6 @@ export async function addInsertMetaToPayload(req, res, next) {
 
 export function addUpdateMetaToPayload(req, res, next) {
   req.body = {
-    updatedAt: new Date(),
     updatedBy: req.currentUser.id,
     ...req.body,
   };

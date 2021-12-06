@@ -2,10 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import config from '../src/config/app.config';
 
-const {
-  jwtSecret,
-  accessTokenExpiresIn,
-} = config;
+const { jwtSecret } = config;
 
 export default class Utils {
   constructor(db) {
@@ -26,6 +23,7 @@ export default class Utils {
       email: `${username}@test.com`,
       username,
       password,
+      avatar: 'http://avatars.com/tester',
       firstName: 'firstName',
       lastName: 'lastName',
       active: true,
@@ -36,7 +34,7 @@ export default class Utils {
     const accessToken = jwt.sign(
       { user },
       jwtSecret,
-      { expiresIn: accessTokenExpiresIn },
+      { expiresIn: '15m' },
     );
     return `Bearer ${accessToken}`;
   }
