@@ -1,0 +1,7 @@
+name: limit
+in: query
+description: max records to return
+schema:
+  type: integer
+  format: int32
+  default: 20

@@ -1,0 +1,36 @@
+openapi: 3.0.1
+info:
+  title: Paysage-api.
+  description: Documentation for the Paysage rest API routes.
+  contact:
+    email: frederic.olland@enseignementsup.gouv.fr
+  license:
+    name: MIT
+    url: 'https://github.com/dataesr/paysage-api/LICENCE.md'
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3000/'
+
+
+paths:
+
+  ### STRUCTURE ###
+  '/structures':
+    $ref: '../modules/structures/swagger/path/structures.yml'
+  '/structures/{structureId}':
+    $ref: '../modules/structures/swagger/path/structure.yml'
+  '/structures/{structureId}/identifiers':
+    $ref: '../modules/structures/swagger/path/identifiers.yml'
+  '/structures/{structureId}/identifiers/{identifierId}':
+    $ref: '../modules/structures/swagger/path/identifier.yml'
+
+components:
+  parameters:
+    $ref: './parameters/_index.yml'
+
+  responses:
+    $ref: './responses/_index.yml'
+
+  schemas:
+    Error:
+      $ref: './schemas/error.yml'

@@ -5,10 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "NODE_ENV=development nodemon --experimental-specifier-resolution=node index.js",
-    "start:production": "NODE_ENV=production node --experimental-specifier-resolution=node src/index.js",
-    "start:staging": "NODE_ENV=staging node --experimental-specifier-resolution=node src/index.js",
-    "test": "NODE_ENV=testing node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --watchAll --runInBand"
+    "build:docs": "swagger-cli bundle src/openapi/openapi.yml --outfile docs/openapi.yml --type yaml",
+    "start": "npm run build:docs && NODE_ENV=development nodemon --experimental-specifier-resolution=node index.js",
+    "start:production": "npm run build:docs && NODE_ENV=production node --experimental-specifier-resolution=node index.js",
+    "start:staging": "npm run build:docs && NODE_ENV=staging node --experimental-specifier-resolution=node index.js",
+    "test": "npm run build:docs && NODE_ENV=testing node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --watchAll --runInBand"
   },
   "keywords": [
     "paysage"
@@ -23,6 +24,7 @@
     "express-openapi-validator": "^4.12.11",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.6",
+    "mongoose": "^6.0.13",
     "nodemailer": "^6.6.2",
     "swagger-ui-express": "^4.1.6",
     "swift": "^2.7.3",
@@ -35,9 +37,9 @@
     "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-jest": "^24.4.0",
     "jest": "^27.0.6",
-    "mongodb-memory-server": "^7.3.6",
     "nodemon": "^2.0.7",
-    "supertest": "^6.1.4"
+    "supertest": "^6.1.4",
+    "swagger-cli": "^4.0.4"
   },
   "jest": {
     "setupFilesAfterEnv": [

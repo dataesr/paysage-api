@@ -1,0 +1,7 @@
+name: filters
+in: query
+description: A filtering object
+style: deepObject
+schema:
+  type: object
+  description: '?filters[lastName][$eq]=Dupond&filters[lastName][$neq]=Dupont'
