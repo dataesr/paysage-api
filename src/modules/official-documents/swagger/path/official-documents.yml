@@ -1,0 +1,63 @@
+get:
+  tags:
+    - Official Documents
+  summary: List official documents
+  parameters:
+    - $ref: '../../../../openapi/parameters/query/filters.yml'
+    - $ref: '../../../../openapi/parameters/query/skip.yml'
+    - $ref: '../../../../openapi/parameters/query/limit.yml'
+    - $ref: '../../../../openapi/parameters/query/sort.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '../schemas/official-document.yml'
+              totalCount:
+                type: number
+    '400':
+      $ref: '../../../../openapi/responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+    '500':
+      $ref: '../../../../openapi/responses/errors/server-error.yml'
+
+post:
+  tags:
+    - Official Documents
+  summary: Create an official document
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: CreateOfficialDocuments
+          type: object
+          required:
+            - nature
+            - type
+            - title
+          allOf:
+            - $ref: '../schemas/official-document.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/official-document.yml'
+    '400':
+      $ref: '../../../../openapi/responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+    '500':
+      $ref: '../../../../openapi/responses/errors/server-error.yml'

@@ -13,6 +13,17 @@ servers:
 
 
 paths:
+  ### CATEGORIES ##
+  '/categories':
+    $ref: '../modules/categories/swagger/path/categories.yml'
+  '/categories/{categoryId}':
+    $ref: '../modules/categories/swagger/path/category.yml'
+
+  ### OFFICIAL DOCUMENTS ##
+  '/official-documents':
+    $ref: '../modules/official-documents/swagger/path/official-documents.yml'
+  '/official-documents/{officialDocumentId}':
+    $ref: '../modules/official-documents/swagger/path/official-document.yml'
 
   ### STRUCTURE ###
   '/structures':

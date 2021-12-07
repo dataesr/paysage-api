@@ -1,6 +1,7 @@
 title: Identifier
 description: 'Identifiant WikiData, IdRef...'
 type: object
+additionalProperties: false
 properties:
   id:
     type: integer

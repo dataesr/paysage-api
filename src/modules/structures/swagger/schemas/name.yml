@@ -1,6 +1,7 @@
 title: Structure Names
 description: Différentes dénominations d'une structure
 type: object
+additionalProperties: false
 properties:
   id:
     type: integer
