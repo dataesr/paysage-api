@@ -1,0 +1,104 @@
+get:
+  tags:
+    - Structure
+  summary: Get a structure name
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
+    - name: nameId
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: Unique name id
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/name.yml'
+    '401':
+      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../../openapi/responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../../openapi/responses/errors/server-error.yml'
+
+delete:
+  tags:
+    - Structure
+  summary: Delete a structure name
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
+    - name: nameId
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: Unique name id
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../../openapi/responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../../openapi/responses/errors/server-error.yml'
+
+patch:
+  tags:
+    - Structure
+  summary: Update a structure name
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
+    - name: nameId
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: Unique name id
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: UpdateStructureName
+          type: object
+          allOf:
+            - $ref: '../schemas/name.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/name.yml'
+    '400':
+      $ref: '../../../../openapi/responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../../openapi/responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../../openapi/responses/errors/server-error.yml'

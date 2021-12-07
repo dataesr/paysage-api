@@ -23,6 +23,10 @@ paths:
     $ref: '../modules/structures/swagger/path/identifiers.yml'
   '/structures/{structureId}/identifiers/{identifierId}':
     $ref: '../modules/structures/swagger/path/identifier.yml'
+  '/structures/{structureId}/names':
+    $ref: '../modules/structures/swagger/path/names.yml'
+  '/structures/{structureId}/names/{nameId}':
+    $ref: '../modules/structures/swagger/path/name.yml'
 
 components:
   parameters:
