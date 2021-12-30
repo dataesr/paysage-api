@@ -11,8 +11,9 @@ export default class Utils {
 
   async clearDB() {
     const collections = await this.db.listCollections().toArray();
-    await Promise.all(collections.map(async (collection) => {
-      await this.db.collection(collection.name).deleteMany({});
+    const collectionsToDelete = collections.filter((collection) => collection.name !== 'system.views');
+    await Promise.all(collectionsToDelete.map(async (collection) => {
+      await this.db.collection(collection.name).drop();
     }));
   }
 

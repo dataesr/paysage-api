@@ -18,7 +18,7 @@ const testing = {
   jwtSecret: 'VerYvErySecrREt',
   database: {
     ...production.database,
-    mongoDbName: 'paysage-test',
+    mongoDbName: 'paysage-test1',
   },
   logger: {
     logLevel: 'debug',

@@ -18,4 +18,5 @@ client.connect().catch((e) => {
 const db = client.db(mongoDbName);
 logger.info(`Connected to mongo database... ${mongoDbName}`);
 
+export { client };
 export default db;

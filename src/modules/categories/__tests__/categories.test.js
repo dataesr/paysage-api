@@ -33,6 +33,7 @@ describe('API > categories > categories > create', () => {
       .expect(201);
     expect(response.body.id).toBeTruthy();
     expect(response.body.usualNameFr).toBe('string');
+    expect(response.body.usualNameEn).toBe('string');
     expect(response.body.createdBy.username).toBe('user');
     id = response.body.id;
   });
