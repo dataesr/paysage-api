@@ -1,6 +1,6 @@
 import { error as OAVError } from 'express-openapi-validator';
 import mongodb from 'mongodb';
-import { CustomError } from '../errors';
+import { CustomError, Redirected } from '../errors';
 import logger from '../services/logger.service';
 
 export function handleErrors(err, req, res, next) {
@@ -9,6 +9,10 @@ export function handleErrors(err, req, res, next) {
   if (err instanceof CustomError) {
     const { statusCode, ...error } = err.extract();
     return res.status(statusCode).json(error);
+  }
+  if (err instanceof Redirected) {
+    const { statusCode, location, message } = err;
+    return res.status(statusCode).json({ location, message });
   }
   if (err instanceof mongodb.MongoError) {
     const duplicated = err.message.split('index:')[1].split('dup key')[0].split('_')[0].trim();

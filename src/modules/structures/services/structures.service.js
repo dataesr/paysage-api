@@ -1,43 +1,60 @@
-import emitter from '../../commons/services/emitter.service';
-import structuresRepository from '../repositories/structures.repo';
-import { NotFoundError } from '../../commons/errors';
+import { NotFoundError, Redirected } from '../../commons/errors';
+import db, { client } from '../../commons/services/database.service';
+import { getUniqueId } from '../../commons/services/ids.service';
 
-// emitter.on('structures:identifierCreated', ({ structureId }) => {
-//   structuresRepository.incrementFieldById(structureId, 'identifiersCount', 1);
-// });
-
-export default {
-  list: async (filters, options) => structuresRepository.find(filters, options),
-
-  delete: async (id) => {
-    const { ok } = await structuresRepository.deleteById(id);
-    if (ok) {
-      emitter.emit('structures:structureDeleted', { structureId: id });
-      return { id };
-    }
-    throw new NotFoundError();
+const pipeline = [
+  {
+    $lookup: {
+      from: 'users',
+      localField: 'createdBy',
+      foreignField: 'id',
+      as: 'user',
+    },
   },
-
-  read: async (id, options) => {
-    const structure = await structuresRepository.findById(id, options);
-    if (!structure) throw new NotFoundError();
-    return structure;
+  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
+  { $set: { createdBy: { id: '$user.id', username: '$user.username', avatar: '$user.avatar' } } },
+  {
+    $lookup: {
+      from: 'users',
+      localField: 'updatedBy',
+      foreignField: 'id',
+      as: 'user',
+    },
   },
+  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
+  { $set: { updatedBy: { id: '$user.id', username: '$user.username', avatar: '$user.avatar' } } },
+  { $project: { _id: 0, user: 0, __status: 0 } },
+];
 
-  update: async (id, data) => {
-    const { ok } = await structuresRepository.updateById(id, data);
-    if (ok) {
-      const structure = structuresRepository.findById(id);
-      emitter.emit('structures:structureUpdated', { structure });
-      return structure;
-    }
-    throw new NotFoundError();
-  },
+export async function createStructure(data) {
+  const session = client.startSession();
+  const id = await getUniqueId();
+  const _data = { id, __status: { status: 'draft' }, ...data };
+  await session.withTransaction(async () => {
+    await db.collection('structures').insertOne(_data, { session });
+    await db.collection('event-store').insertOne({
+      userId: data.createdBy,
+      timestamp: '$$NOW',
+      action: 'create',
+      resource: `/structures/${id}`,
+      prevState: null,
+      nextState: _data,
+    }, { session });
+  });
+  session.endSession();
+  return { id };
+}
 
-  create: async (data) => {
-    const insertedId = await structuresRepository.insert(data);
-    const structure = await structuresRepository.findById(insertedId);
-    emitter.emit('structures:structureCreated', structure);
-    return structure;
-  },
-};
+export async function getStructureById(structureId) {
+  const structure = await db.collection('structures').findOne(
+    { id: structureId, '__status.targetId': { $exists: true } },
+  );
+  if (structure?.__status.targetId) throw new Redirected('Resource redirected', { location: `/structures/${__status.targetId}` });
+  const _pipeline = [
+    { $match: { id: structureId } },
+    ...pipeline,
+  ];
+  const data = await db.collection('structures').aggregate(_pipeline).toArray();
+  if (!data.length) throw new NotFoundError();
+  return data[0];
+}

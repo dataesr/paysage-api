@@ -14,30 +14,30 @@ servers:
 
 paths:
   ### CATEGORIES ##
-  '/categories':
-    $ref: '../modules/categories/swagger/path/categories.yml'
-  '/categories/{categoryId}':
-    $ref: '../modules/categories/swagger/path/category.yml'
+  # '/categories':
+  #   $ref: '../modules/categories/swagger/path/categories.yml'
+  # '/categories/{categoryId}':
+  #   $ref: '../modules/categories/swagger/path/category.yml'
 
-  ### OFFICIAL DOCUMENTS ##
-  '/official-documents':
-    $ref: '../modules/official-documents/swagger/path/official-documents.yml'
-  '/official-documents/{officialDocumentId}':
-    $ref: '../modules/official-documents/swagger/path/official-document.yml'
+  # ### OFFICIAL DOCUMENTS ##
+  # '/official-documents':
+  #   $ref: '../modules/official-documents/swagger/path/official-documents.yml'
+  # '/official-documents/{officialDocumentId}':
+  #   $ref: '../modules/official-documents/swagger/path/official-document.yml'
 
   ### STRUCTURE ###
   '/structures':
     $ref: '../modules/structures/swagger/path/structures.yml'
   '/structures/{structureId}':
     $ref: '../modules/structures/swagger/path/structure.yml'
-  '/structures/{structureId}/identifiers':
-    $ref: '../modules/structures/swagger/path/identifiers.yml'
-  '/structures/{structureId}/identifiers/{identifierId}':
-    $ref: '../modules/structures/swagger/path/identifier.yml'
-  '/structures/{structureId}/names':
-    $ref: '../modules/structures/swagger/path/names.yml'
-  '/structures/{structureId}/names/{nameId}':
-    $ref: '../modules/structures/swagger/path/name.yml'
+  # '/structures/{structureId}/identifiers':
+  #   $ref: '../modules/structures/swagger/path/identifiers.yml'
+  # '/structures/{structureId}/identifiers/{identifierId}':
+  #   $ref: '../modules/structures/swagger/path/identifier.yml'
+  # '/structures/{structureId}/names':
+  #   $ref: '../modules/structures/swagger/path/names.yml'
+  # '/structures/{structureId}/names/{nameId}':
+  #   $ref: '../modules/structures/swagger/path/name.yml'
 
 components:
   parameters:

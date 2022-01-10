@@ -1,15 +1,12 @@
 import db from './database.service';
 
 function generateId() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const numbers = '0123456789';
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let id = '';
-  for (let i = 0; i < 6; i += 1) {
-    id += numbers.charAt(Math.floor(Math.random() * numbers.length));
-  }
-  for (let i = 0; i < 2; i += 1) {
+  for (let i = 0; i < 5; i += 1) {
     id += chars.charAt(Math.floor(Math.random() * chars.length));
   }
+  if (id.startsWith(0) || id.match(/\d{5}$/)) return generateId();
   return id;
 }
 

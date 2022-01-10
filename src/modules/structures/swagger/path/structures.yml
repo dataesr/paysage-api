@@ -1,34 +1,34 @@
-get:
-  tags:
-    - Structure
-  summary: List structures
-  parameters:
-    - $ref: '../../../../openapi/parameters/query/filters.yml'
-    - $ref: '../../../../openapi/parameters/query/skip.yml'
-    - $ref: '../../../../openapi/parameters/query/limit.yml'
-    - $ref: '../../../../openapi/parameters/query/sort.yml'
-  responses:
-    '200':
-      description: Success
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '../schemas/structure.yml'
-              totalCount:
-                type: number
-    '400':
-      $ref: '../../../../openapi/responses/errors/bad-request.yml'
-    '401':
-      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
-    '403':
-      $ref: '../../../../openapi/responses/errors/forbidden.yml'
-    '500':
-      $ref: '../../../../openapi/responses/errors/server-error.yml'
+# get:
+#   tags:
+#     - Structure
+#   summary: List structures
+#   parameters:
+#     - $ref: '../../../../openapi/parameters/query/filters.yml'
+#     - $ref: '../../../../openapi/parameters/query/skip.yml'
+#     - $ref: '../../../../openapi/parameters/query/limit.yml'
+#     - $ref: '../../../../openapi/parameters/query/sort.yml'
+#   responses:
+#     '200':
+#       description: Success
+#       content:
+#         application/json:
+#           schema:
+#             type: object
+#             properties:
+#               data:
+#                 type: array
+#                 items:
+#                   $ref: '../schemas/structure.yml'
+#               totalCount:
+#                 type: number
+#     '400':
+#       $ref: '../../../../openapi/responses/errors/bad-request.yml'
+#     '401':
+#       $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+#     '403':
+#       $ref: '../../../../openapi/responses/errors/forbidden.yml'
+#     '500':
+#       $ref: '../../../../openapi/responses/errors/server-error.yml'
 
 post:
   tags:
@@ -38,10 +38,16 @@ post:
     content:
       application/json:
         schema:
-          title: CreateStructure
+          title: CreateStructurePayload
           type: object
-          allOf:
-            - $ref: '../schemas/structure.yml'
+          additionalProperties: false
+          properties:
+            status:
+              type: string
+              enum:
+                - active
+                - inactive
+                - forthcoming
   responses:
     '201':
       description: Created
@@ -49,8 +55,6 @@ post:
         application/json:
           schema:
             $ref: '../schemas/structure.yml'
-    '400':
-      $ref: '../../../../openapi/responses/errors/bad-request.yml'
     '401':
       $ref: '../../../../openapi/responses/errors/unauthorized.yml'
     '403':

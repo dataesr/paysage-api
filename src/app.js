@@ -7,8 +7,6 @@ import YAML from 'yamljs';
 import { handleErrors } from './modules/commons/middlewares/handle-errors.middlewares';
 import { authenticate } from './modules/commons/middlewares/authenticate.middlewares';
 import structuresRoutes from './modules/structures/structures.routes';
-import categoriesRoutes from './modules/categories/categories.routes';
-import officialDocumentsRoutes from './modules/official-documents/official-documents.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/openapi.yml');
@@ -36,8 +34,6 @@ app.use(authenticate);
 
 // Register routes
 app.use(structuresRoutes);
-app.use(categoriesRoutes);
-app.use(officialDocumentsRoutes);
 
 // Erreurs personnalisées
 app.use(handleErrors);
