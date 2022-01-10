@@ -8,4 +8,7 @@ router.use(requireActiveUser);
 router.post('/structures', addInsertMetaToPayload, controllers.createStructure);
 router.get('/structures/:structureId', controllers.getStructureById);
 
+router.post('/structures/:structureId/names', addInsertMetaToPayload, controllers.createStructureName);
+router.get('/structures/:structureId/names', controllers.listStructureNames);
+
 export default router;

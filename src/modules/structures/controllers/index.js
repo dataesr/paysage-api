@@ -1,6 +1,7 @@
-import { createStructure, getStructureById } from './structures.controllers';
+import structuresControllers from './structures.controllers';
+import namesControllers from './names.controllers';
 
 export default {
-  createStructure,
-  getStructureById,
+  structure: structuresControllers,
+  names: namesControllers,
 };

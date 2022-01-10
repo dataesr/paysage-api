@@ -26,7 +26,7 @@ const pipeline = [
   { $project: { _id: 0, user: 0, __status: 0 } },
 ];
 
-export async function createStructure(data) {
+async function create(data) {
   const session = client.startSession();
   const id = await getUniqueId();
   const _data = { id, __status: { status: 'draft' }, ...data };
@@ -44,6 +44,7 @@ export async function createStructure(data) {
   session.endSession();
   return { id };
 }
+
 
 export async function getStructureById(structureId) {
   const structure = await db.collection('structures').findOne(
