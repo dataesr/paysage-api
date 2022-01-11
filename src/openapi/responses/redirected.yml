@@ -1,0 +1,5 @@
+description: Ressource has been redirected to another id
+content:
+  application/json:
+    schema:
+      $ref: '../schemas/redirected.yml'

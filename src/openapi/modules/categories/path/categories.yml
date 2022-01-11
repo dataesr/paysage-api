@@ -1,0 +1,59 @@
+get:
+  tags:
+    - Categories
+  summary: List categories
+  parameters:
+    - $ref: '../../../parameters/query/filters.yml'
+    - $ref: '../../../parameters/query/skip.yml'
+    - $ref: '../../../parameters/query/limit.yml'
+    - $ref: '../../../parameters/query/sort.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '../schemas/category.yml'
+              totalCount:
+                type: number
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+post:
+  tags:
+    - Categories
+  summary: Create a category
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: CreateCategory
+          type: object
+          allOf:
+            - $ref: '../schemas/category.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/category.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

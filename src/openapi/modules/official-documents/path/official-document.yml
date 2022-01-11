@@ -1,0 +1,86 @@
+get:
+  tags:
+    - Official Documents
+  summary: Get an official document
+  parameters:
+    - name: officialDocumentId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique official document id
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/official-document.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+delete:
+  tags:
+    - Official Documents
+  summary: Delete an official document
+  parameters:
+    - name: officialDocumentId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique official document id
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+patch:
+  tags:
+    - Official Documents
+  summary: Update an official document
+  parameters:
+    - name: officialDocumentId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique official document id
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: UpdateCategory
+          type: object
+          allOf:
+            - $ref: '../schemas/official-document.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/official-document.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

@@ -1,0 +1,12 @@
+title: Redirected
+type: object
+required:
+  - message
+  - location
+additionalProperties: false
+properties:
+  message:
+    type: string
+  location:
+    type: string
+    format: uri

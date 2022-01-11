@@ -1,0 +1,104 @@
+get:
+  tags:
+    - Structure
+  summary: Get a structure identifier
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
+    - name: identifierId
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: Unique identifier id
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/identifier.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+delete:
+  tags:
+    - Structure
+  summary: Delete a structure identifier
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
+    - name: identifierId
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: Unique identifier id
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+patch:
+  tags:
+    - Structure
+  summary: Update a structure identifier
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
+    - name: identifierId
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: Unique identifier id
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: UpdateStructureIdentifier
+          type: object
+          allOf:
+            - $ref: '../schemas/identifier.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/identifier.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

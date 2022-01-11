@@ -1,0 +1,14 @@
+title: StructureInternalStatus
+description: Structure Internal Status
+type: object
+properties:
+  status:
+    type: string
+    enum:
+      - deleted
+      - draft
+      - redirected
+      - valid
+  targetId: 
+    type: string
+    
