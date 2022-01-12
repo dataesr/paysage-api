@@ -1,0 +1,86 @@
+get:
+  tags:
+    - Categories
+  summary: Get a category
+  parameters:
+    - name: categoryId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique category id
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/category.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+delete:
+  tags:
+    - Categories
+  summary: Delete a category
+  parameters:
+    - name: categoryId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique category id
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+patch:
+  tags:
+    - Categories
+  summary: Update a category
+  parameters:
+    - name: categoryId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique category id
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: UpdateCategory
+          type: object
+          allOf:
+            - $ref: '../schemas/category.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/category.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

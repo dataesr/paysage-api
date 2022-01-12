@@ -1,5 +1,4 @@
-import emitter from '../../commons/services/emitter.service';
-import structuresRepository from '../repositories/structures.repo';
+import structuresRepository from '../structures.repo';
 import { NotFoundError } from '../../commons/errors';
 
 // emitter.on('structures:identifierCreated', ({ structureId }) => {
@@ -12,7 +11,6 @@ export default {
   delete: async (id) => {
     const { ok } = await structuresRepository.deleteById(id);
     if (ok) {
-      emitter.emit('structures:structureDeleted', { structureId: id });
       return { id };
     }
     throw new NotFoundError();
@@ -28,7 +26,6 @@ export default {
     const { ok } = await structuresRepository.updateById(id, data);
     if (ok) {
       const structure = structuresRepository.findById(id);
-      emitter.emit('structures:structureUpdated', { structure });
       return structure;
     }
     throw new NotFoundError();
@@ -37,7 +34,6 @@ export default {
   create: async (data) => {
     const insertedId = await structuresRepository.insert(data);
     const structure = await structuresRepository.findById(insertedId);
-    emitter.emit('structures:structureCreated', structure);
     return structure;
   },
 };
