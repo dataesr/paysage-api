@@ -1,4 +1,4 @@
-import identifiersService from '../services/identifiers.service';
+import structuresRepo from '../structures.repo';
 
 export default {
   create: async (req, res) => {

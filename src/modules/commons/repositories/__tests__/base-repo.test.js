@@ -10,24 +10,28 @@ const user = {
 
 const data = [
   {
+    id: 1,
     name: 'test1',
     number: 8,
     createdBy: user.id,
     updatedBy: user.id,
   },
   {
+    id: 2,
     name: 'test2',
     number: 16,
     createdBy: user.id,
     updatedBy: user.id,
   },
   {
+    id: 3,
     name: 'test3',
     number: 24,
     createdBy: user.id,
     updatedBy: user.id,
   },
   {
+    id: 4,
     name: 'test4',
     number: 32,
     createdBy: user.id,
@@ -86,12 +90,10 @@ it('can find one with id sucessfully', async () => {
   expect(result.number).toBe(8);
 });
 it('can find one and project sucessfully', async () => {
-  const result = await testRepository.findById(id, { returnFields: ['name', 'createdBy'] });
+  const result = await testRepository.findById(id, { fields: ['name', 'createdBy'] });
   expect(result.id).toBeFalsy();
   expect(result._id).toBeFalsy();
   expect(result.name).toBe('test11');
-  expect(result.createdBy.username).toBe('tester');
-  expect(result.createdBy.avatar).toBe('http://avatars.com/tester');
 });
 it('can delete one with id sucessfully', async () => {
   const { ok } = await testRepository.deleteById(id);

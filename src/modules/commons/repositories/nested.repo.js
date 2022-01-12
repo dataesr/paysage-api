@@ -1,13 +1,15 @@
-import BaseRepo from './base.repo';
+import db from '../services/database.service';
+import { parseSortParams, parseReturnFieldsParams } from '../helpers/parseParams';
 
-export default class NestedRepo extends BaseRepo {
+export default class NestedRepo {
   constructor({ collection, field, pipeline = [] }) {
-    if (!field) { throw new Error('field must be specified'); }
+    if (!field) { throw new Error("Parameter 'field' must be specified"); }
     if (!(typeof field === 'string' && Object.prototype.toString.call(field) === '[object String]')) {
-      throw new Error('field must be a string');
+      throw new Error("Parameter 'field' must be a string");
     }
-    super({ collection, pipeline });
+    this._collection = db.collection(collection);
     this._field = field;
+    this._pipeline = pipeline;
   }
 
   async _getUniqueId() {
@@ -18,10 +20,10 @@ export default class NestedRepo extends BaseRepo {
     return 1;
   }
 
-  async find(rid, filters = {}, { skip = 0, limit = 20, sort = null, returnFields = null } = {}) {
-    if (!rid) { throw new Error('A ressource identifier must be specified to find subresources'); }
+  async find(resourceId, filters = {}, { skip = 0, limit = 20, sort = null, fields = null } = {}) {
+    if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const _pipeline = [
-      { $match: { id: rid } },
+      { $match: { id: resourceId } },
       { $unwind: { path: `$${this._field}` } },
       { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
       { $replaceRoot: { newRoot: `$${this._field}` } },
@@ -31,11 +33,10 @@ export default class NestedRepo extends BaseRepo {
       ..._pipeline,
       { $skip: skip || 0 },
       { $limit: limit || 20 },
-      ...this._globalPipeline,
       ...this._pipeline,
     ];
-    if (returnFields) queryPipeline.push({ $project: this._parseReturnFieldsParams(returnFields) });
-    if (sort) queryPipeline.push({ $sort: this._parseSortParams(sort) });
+    if (fields) queryPipeline.push({ $project: parseReturnFieldsParams(fields) });
+    if (sort) queryPipeline.push({ $sort: parseSortParams(sort) });
     const countPipeline = [..._pipeline, { $count: 'totalCount' }];
     const data = await this._collection.aggregate([
       { $facet: { data: queryPipeline, total: countPipeline } },
@@ -45,27 +46,27 @@ export default class NestedRepo extends BaseRepo {
     return data[0];
   }
 
-  async findById(rid, id, { returnFields = null } = {}) {
-    if (!rid) { throw new Error('A ressource identifier must be specified to find subresources'); }
-    const { data } = await this.find(rid, { id }, { limit: 1, returnFields });
+  async findById(resourceId, id, { fields = null } = {}) {
+    if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
+    const { data } = await this.find(resourceId, { id }, { limit: 1, fields });
     return data ? data[0] : null;
   }
 
-  async insert(rid, data) {
-    if (!rid) { throw new Error('A ressource identifier must be specified to find subresources'); }
+  async insert(resourceId, data) {
+    if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const id = await this._getUniqueId();
     const _data = { ...data, id, createdAt: new Date(), updatedAt: new Date() };
     const { modifiedCount } = await this._collection.updateOne(
-      { id: rid, [this._field]: { $not: { $elemMatch: { id: _data.id } } } },
+      { id: resourceId, [this._field]: { $not: { $elemMatch: { id: _data.id } } } },
       { $push: { [this._field]: _data } },
     );
     return modifiedCount ? id : 0;
   }
 
-  async updateById(rid, id, data) {
-    if (!rid) { throw new Error('A ressource identifier must be specified to find subresources'); }
+  async updateById(resourceId, id, data) {
+    if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const pipe = [
-      { $match: { id: rid } },
+      { $match: { id: resourceId } },
       { $unwind: { path: `$${this._field}` } },
       { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
       { $replaceRoot: { newRoot: `$${this._field}` } },
@@ -74,15 +75,17 @@ export default class NestedRepo extends BaseRepo {
     const currentData = await this._collection.aggregate(pipe).toArray();
     const _data = { ...currentData[0], ...data, updatedAt: new Date() };
     const { modifiedCount } = await this._collection.updateOne(
-      { id: rid, [`${this._field}.id`]: id },
+      { id: resourceId, [`${this._field}.id`]: id },
       { $set: { [`${this._field}.$`]: _data } },
     );
     return { ok: !!modifiedCount };
   }
 
-  async deleteById(rid, id) {
-    if (!rid) { throw new Error('A ressource identifier must be specified to find subresources'); }
-    const { modifiedCount } = await this._collection.updateOne({ id: rid }, { $pull: { [this._field]: { id } } });
+  async deleteById(resourceId, id) {
+    if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
+    const { modifiedCount } = await this._collection.updateOne(
+      { id: resourceId }, { $pull: { [this._field]: { id } } },
+    );
     return { ok: !!modifiedCount };
   }
 }

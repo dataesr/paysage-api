@@ -12,24 +12,28 @@ const user = {
 
 const data = [
   {
+    id: 1,
     name: 'test1',
     number: 88,
     createdBy: user.id,
     updatedBy: user.id,
   },
   {
+    id: 2,
     name: 'test2',
     number: 1616,
     createdBy: user.id,
     updatedBy: user.id,
   },
   {
+    id: 3,
     name: 'test3',
     number: 2424,
     createdBy: user.id,
     updatedBy: user.id,
   },
   {
+    id: 4,
     name: 'test4',
     number: 3232,
     createdBy: user.id,
@@ -40,7 +44,7 @@ let rid;
 let id;
 beforeAll(async () => {
   await global.utils.db.collection('users').insertOne(user);
-  const insertedId = await baseRepository.insert({ name: 'test1', createdBy: user.id, updatedBy: user.id });
+  const insertedId = await baseRepository.insert({ id: 1, name: 'test1', createdBy: user.id, updatedBy: user.id });
   rid = insertedId;
 });
 it('can insert data sucessfully', async () => {
@@ -91,9 +95,8 @@ it('can find one with id sucessfully', async () => {
   expect(result.number).toBe(88);
 });
 it('can find one and project sucessfully', async () => {
-  const result = await testRepository.findById(rid, id, { returnFields: ['name', 'createdBy'] });
+  const result = await testRepository.findById(rid, id, { returnFields: ['id', 'name', 'createdBy'] });
   expect(result.id).toBeFalsy();
-  expect(result._id).toBeFalsy();
   expect(result.name).toBe('test11');
   expect(result.createdBy.username).toBe('tester');
   expect(result.createdBy.avatar).toBe('http://avatars.com/tester');
