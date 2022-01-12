@@ -1,4 +1,4 @@
-import db, { client } from '../../commons/services/database.service'
+import db, { client } from '../../commons/services/database.service';
 import { getUniqueId } from '../../commons/services/ids.service';
 import { NotFoundError } from '../../commons/errors';
 
@@ -17,7 +17,7 @@ export default {
   list: async (filters, options) => {
     const { fields, sort, ...opts } = options;
     if (fields) opts.projection = fields.reduce((doc, field) => ({ ...doc, [field]: 1 }), {});
-    if (sort) opts.sort = parseSortParams(sort)
+    if (sort) opts.sort = parseSortParams(sort);
     const data = await db.collection('categories-view').find(filters, opts).toArray();
     const totalCount = await db.collection('categories-view').countDocuments(filters);
     return { data, totalCount };
@@ -38,15 +38,15 @@ export default {
         prevState,
         nextState: null,
       }, { session });
-    })
+    });
     console.log(result.ok);
     session.endSession();
-    return id
+    return id;
   },
 
   read: async (id, fields = []) => {
     const data = await db.collection('categories-view').findOne(
-      { id }, { projection: fields.reduce((doc, field) => ({ ...doc, [field]: 1 }), {})},
+      { id }, { projection: fields.reduce((doc, field) => ({ ...doc, [field]: 1 }), {}) },
     );
     if (!data) throw new NotFoundError();
     return data;
@@ -68,7 +68,7 @@ export default {
         prevState,
         nextState,
       }, { session });
-    })
+    });
     session.endSession();
     return db.collection('categories-view').findOne({ id });
   },
@@ -88,7 +88,7 @@ export default {
         prevState: null,
         nextState: _data,
       }, { session });
-    })
+    });
     session.endSession();
     return db.collection('categories-view').findOne({ id });
   },

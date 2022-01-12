@@ -1,0 +1,6 @@
+Error:
+  $ref: './error.yml'
+Redirected:
+  $ref: './redirected.yml'
+Structure:
+  $ref: '../modules/structures/schemas/structure.yml'

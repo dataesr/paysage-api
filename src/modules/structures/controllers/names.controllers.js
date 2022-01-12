@@ -1,4 +1,5 @@
-import namesService from '../services/names.service';
+import structuresRepo from '../structures.repo';
+import eventsRepo from '../../commons/repositories/events.repo';
 
 export default {
   create: async (req, res) => {

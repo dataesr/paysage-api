@@ -8,41 +8,26 @@ export default {
   create: async (req, res) => {
     const session = client.startSession();
     const id = await getUniqueId();
-    console.log('ID', id);
     const data = { id, ...req.body, __status: { status: 'draft' } };
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.insert(data, { session });
       await eventsRepo.insert({
-        userId: null,
-        timestamp: '$$NOW',
+        userId: req.currentUser.id,
+        timestamp: new Date(),
         action: 'insert',
         resourceId: id,
         resourceType: 'structures',
+        subresourceId: null,
+        subresourceType: null,
         prevState: null,
         nextState: data,
       }, { session });
-      session.endSession();
-    });
+    }).catch(async () => session.endSession());
+    session.endSession();
     if (!result.ok) throw new ServerError();
-    const structure = await structuresRepo.findById(id);
-    res.status(201).json(structure);
+    const resource = await structuresRepo.findById(id);
+    res.status(201).json(resource);
   },
-
-  // const session = client.startSession();
-  // const { result } = await session.withTransaction(async () => {
-  //   await db.collection('categories').deleteOne({ id }, { session });
-  //   await db.collection('event-store').insertOne({
-  //     userId: null,
-  //     timestamp: '$$NOW',
-  //     action: 'delete',
-  //     resourceId: id,
-  //     resourceType: 'category',
-  //     prevState,
-  //     nextState: null,
-  //   }, { session });
-  // })
-  //   console.log(result.ok);
-  // session.endSession();
 
   read: async (req, res) => {
     const { structureId } = req.params;
@@ -52,10 +37,25 @@ export default {
   },
 
   update: async (req, res) => {
+    const session = client.startSession();
     const { structureId } = req.params;
     const data = req.body;
-    const structure = await structuresRepo.update(structureId, data);
-    res.status(200).json(structure);
+    const { result } = await session.withTransaction(async () => {
+      await structuresRepo.update(structureId, data);
+      await eventsRepo.insert({
+        userId: req.currentUser.id,
+        timestamp: new Date(),
+        action: 'update',
+        resourceId: structureId,
+        resourceType: 'structures',
+        prevState: null,
+        nextState: data,
+      }, { session });
+    }).catch(async () => session.endSession());
+    session.endSession();
+    if (!result.ok) throw new ServerError();
+    const resource = await structuresRepo.findById(structureId);
+    res.status(200).json(resource);
   },
 
   // delete: async (req, res) => {

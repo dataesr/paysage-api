@@ -4,16 +4,6 @@ properties:
   id:
     type: string
     readOnly: true
-  currentName:
-    type: string
-    readOnly: true
-  identifiersCount:
-    type: number
-    readOnly: true
-  descriptionFr:
-    type: string
-  descriptionEn:
-    type: string
   status:
     type: string
     enum:
