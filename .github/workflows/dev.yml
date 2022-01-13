@@ -16,6 +16,7 @@ jobs:
       - name: Deploy to Cluster
         run: |
           git checkout docs
+          npm i
           npm run build:docs
           rm -rf !(docs)
           git config --global user.name 'folland87'
