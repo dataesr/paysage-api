@@ -23,5 +23,7 @@ jobs:
           ls
           git config --global user.name 'folland87'
           git config --global user.email 'folland87@users.noreply.github.com'
+          git add .
+          git commit -m 'deploy docs'
           git push
 
