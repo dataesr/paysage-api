@@ -4,3 +4,7 @@ Redirected:
   $ref: './redirected.yml'
 Structure:
   $ref: '../modules/structures/schemas/structure.yml'
+StructureName:
+  $ref: '../modules/structures/schemas/name.yml'
+StructureIdentifier:
+  $ref: '../modules/structures/schemas/identifier.yml'

@@ -10,6 +10,11 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:3000/'
+    description: Development server
+  - url: 'https://api.paysage.staging.dataesr.ovh/'
+    description: Staging server
+  - url: 'https://api.paysage.dataesr.ovh/'
+    description: Production server
 
 
 paths:
