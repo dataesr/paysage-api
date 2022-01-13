@@ -8,3 +8,5 @@ StructureName:
   $ref: '../modules/structures/schemas/name.yml'
 StructureIdentifier:
   $ref: '../modules/structures/schemas/identifier.yml'
+Category:
+  $ref: '../modules/categories/schemas/category.yml'

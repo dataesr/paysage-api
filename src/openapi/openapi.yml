@@ -19,10 +19,10 @@ servers:
 
 paths:
   ### CATEGORIES ##
-  # '/categories':
-  #   $ref: './modules/categories/path/categories.yml'
-  # '/categories/{categoryId}':
-  #   $ref: './modules/categories/path/category.yml'
+  '/categories':
+    $ref: './modules/categories/path/categories.yml'
+  '/categories/{categoryId}':
+    $ref: './modules/categories/path/category.yml'
 
   ### OFFICIAL DOCUMENTS ##
   # '/official-documents':
