@@ -22,4 +22,4 @@ jobs:
           sudo rm -rf !(docs)
           git config --global user.name 'folland87'
           git config --global user.email 'folland87@users.noreply.github.com'
-          git push origin docs
+          git push
