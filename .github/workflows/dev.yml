@@ -9,7 +9,6 @@ jobs:
   deploy-docs :
     name: Deploy documentation
     runs-on: ubuntu-latest
-    needs: publish-ghcr
     steps:
       - name: Check Out Repo
         uses: actions/checkout@v2
