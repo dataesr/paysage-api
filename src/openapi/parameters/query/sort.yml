@@ -1,6 +1,0 @@
-name: sort
-in: query
-description: Sort returned data
-schema:
-  type: string
-  description: '?sort=firstname,-createdAt'

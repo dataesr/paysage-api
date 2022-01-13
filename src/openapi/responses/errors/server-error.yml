@@ -1,5 +1,0 @@
-description: An unexpected error occured on the server.
-content:
-  application/json:
-    schema:
-      $ref: '../../schemas/error.yml'
