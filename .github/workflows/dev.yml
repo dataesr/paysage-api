@@ -15,7 +15,8 @@ jobs:
 
       - name: Deploy to Cluster
         run: |
-          git checkout docs          npm i
+          git checkout docs
+          npm i
           npm run build:docs
           shopt -s extglob
           sudo rm -rf !(docs)
