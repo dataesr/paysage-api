@@ -1,0 +1,89 @@
+title: Official Document
+type: object
+description: Document officiel JO ou BO
+additionalProperties: false
+properties:
+  id:
+    type: string
+    readOnly: true
+  nature:
+    type: string
+    enum:
+      - Publication au JO
+      - Publication au BOESR
+  type:
+    type: string
+    enum:
+      - Loi
+      - Décret
+      - Ordonnance
+      - Avis de vacance d'emploi
+      - Arrêté
+      - Circulaire
+  documentNumber:
+    type: string
+  title:
+    type: string
+  # relatedIds:
+  #   type: array
+  #   description: OfficialDocument id
+  #   items:
+  #     type: string
+  # link:
+  #   $ref: ./Link.yaml
+  signatureDate:
+    type: string
+    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+  startDate:
+    type: string
+    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+  previsionalEndDate:
+    type: string
+    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+  endDate:
+    type: string
+    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+  # personIds:
+  #   type: array
+  #   description: Person id
+  #   items:
+  #     $ref: ./Person.yaml
+  # structureIds:
+  #   type: array
+  #   description: Structutre id
+  #   items:
+  #     $ref: ./Structure.yaml
+  textExtract:
+    type: string
+  comment:
+    type: string
+  createdBy:
+    type: object
+    readOnly: true
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+      avatar:
+        type: string
+        format: uri
+  updatedBy:
+    type: object
+    readOnly: true
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+      avatar:
+        type: string
+        format: uri
+  createdAt:
+    type: string
+    format: date-time
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    readOnly: true
