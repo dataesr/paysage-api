@@ -8,6 +8,7 @@ export default class BaseRepo {
       throw new Error("Parameter 'collection' must be a string");
     }
     if (!Array.isArray(pipeline)) { throw new Error("Parameter 'pipeline' must be an array"); }
+    this._collectionName = collection;
     this._collection = db.collection(collection);
     this._pipeline = pipeline;
   }

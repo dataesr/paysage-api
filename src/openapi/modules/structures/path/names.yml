@@ -40,6 +40,13 @@ post:
   tags:
     - Structure
   summary: Create a structure name
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
   requestBody:
     content:
       application/json:

@@ -11,6 +11,7 @@ export default {
     const data = { id, ...req.body, __status: { status: 'draft' } };
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.insert(data, { session });
+      const nextState = await structuresRepo.getRowModel(id, { session });
       await eventsRepo.insert({
         userId: req.currentUser.id,
         timestamp: new Date(),
@@ -20,7 +21,7 @@ export default {
         subresourceId: null,
         subresourceType: null,
         prevState: null,
-        nextState: data,
+        nextState,
       }, { session });
     }).catch(async () => session.endSession());
     session.endSession();
@@ -40,16 +41,18 @@ export default {
     const session = client.startSession();
     const { structureId } = req.params;
     const data = req.body;
+    const prevState = await structuresRepo.getRowModel(structureId);
     const { result } = await session.withTransaction(async () => {
-      await structuresRepo.update(structureId, data);
+      await structuresRepo.updateById(structureId, data);
+      const nextState = await structuresRepo.getRowModel(structureId, { session });
       await eventsRepo.insert({
         userId: req.currentUser.id,
         timestamp: new Date(),
-        action: 'update',
+        operationType: 'update',
         resourceId: structureId,
         resourceType: 'structures',
-        prevState: null,
-        nextState: data,
+        prevState,
+        nextState,
       }, { session });
     }).catch(async () => session.endSession());
     session.endSession();
@@ -58,15 +61,9 @@ export default {
     res.status(200).json(resource);
   },
 
-  // delete: async (req, res) => {
-  //   const { structureId } = req.params;
-  //   await structuresRepo.delete(structureId);
-  //   res.status(204).end();
-  // },
-
-  // list: async (req, res) => {
-  //   const { filters, ...options } = req.query;
-  //   const { data, totalCount } = await structuresRepo.list(filters, options);
-  //   res.status(200).json({ data, totalCount });
-  // },
+  list: async (req, res) => {
+    const { filters, ...options } = req.query;
+    const { data, totalCount } = await structuresRepo.find(filters, options);
+    res.status(200).json({ data, totalCount });
+  },
 };

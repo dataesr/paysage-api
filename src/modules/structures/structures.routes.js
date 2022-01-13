@@ -7,11 +7,11 @@ import { addInsertMetaToPayload, addUpdateMetaToPayload } from '../commons/middl
 
 const router = new express.Router();
 // router.use(requireActiveUser);
-// router.get('/structures', structuresControllers.list);
+router.get('/structures', structuresControllers.list);
 router.post('/structures', addInsertMetaToPayload, structuresControllers.create);
 // router.delete('/structures/:structureId', structuresControllers.delete);
 router.get('/structures/:structureId', structuresControllers.read);
-// router.patch('/structures/:structureId', addUpdateMetaToPayload, structuresControllers.update);
+router.patch('/structures/:structureId', addUpdateMetaToPayload, structuresControllers.update);
 
 // router.get('/structures/:structureId/identifiers', identifiersControllers.list);
 // router.post('/structures/:structureId/identifiers', addInsertMetaToPayload, identifiersControllers.create);
@@ -24,7 +24,7 @@ router.get('/structures/:structureId', structuresControllers.read);
 // );
 
 // router.get('/structures/:structureId/names', namesControllers.list);
-// router.post('/structures/:structureId/names', addInsertMetaToPayload, namesControllers.create);
+router.post('/structures/:structureId/names', addInsertMetaToPayload, namesControllers.create);
 // router.delete('/structures/:structureId/names/:nameId', namesControllers.delete);
 // router.get('/structures/:structureId/names/:nameId', namesControllers.read);
 // router.patch(

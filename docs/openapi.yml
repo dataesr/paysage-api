@@ -1,0 +1,605 @@
+openapi: 3.0.1
+info:
+  title: Paysage-api.
+  description: Documentation for the Paysage rest API routes.
+  contact:
+    email: frederic.olland@enseignementsup.gouv.fr
+  license:
+    name: MIT
+    url: 'https://github.com/dataesr/paysage-api/LICENCE.md'
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3000/'
+paths:
+  /structures:
+    get:
+      tags:
+        - Structure
+      summary: List structures
+      parameters:
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Structure'
+                  totalCount:
+                    type: number
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Structure
+      summary: Create a Structure
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateStructure
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/Structure'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Structure'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}':
+    get:
+      tags:
+        - Structure
+      summary: Get a structure
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Structure'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Structure
+      summary: Delete a structure
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Structure
+      summary: Update a structure
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: UpdateStructure
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/Structure'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Structure'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/_status':
+    put:
+      tags:
+        - Structure
+      summary: Update structure internal status
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: UpdateInternalStatusPayload
+              type: object
+              allOf:
+                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1_status/put/responses/200/content/application~1json/schema'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: StructureInternalStatus
+                description: Structure Internal Status
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - deleted
+                      - draft
+                      - redirected
+                      - valid
+                  targetId:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/names':
+    get:
+      tags:
+        - Structure
+      summary: List structure names
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1structures~1%7BstructureId%7D~1names/post/responses/201/content/application~1json/schema'
+                  totalCount:
+                    type: number
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Structure
+      summary: Create a structure name
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateStructureName
+              type: object
+              required:
+                - usualName
+                - main
+              allOf:
+                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1names/post/responses/201/content/application~1json/schema'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: Structure Names
+                description: Différentes dénominations d'une structure
+                type: object
+                additionalProperties: false
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  officialName:
+                    type: string
+                  usualName:
+                    type: string
+                  shortName:
+                    type: string
+                  brandName:
+                    type: string
+                  nameEn:
+                    type: string
+                  acronymFr:
+                    type: string
+                  acronymEn:
+                    type: string
+                  otherName:
+                    type: array
+                    items:
+                      type: string
+                  main:
+                    type: boolean
+                  startDate:
+                    type: string
+                    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+                  endDate:
+                    type: string
+                    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+                  comment:
+                    type: string
+                  article:
+                    type: string
+                    enum:
+                      - à l'
+                      - à
+                      - à la
+                      - dans le
+                      - dans les
+                      - aux
+                      - au
+                  createdBy:
+                    type: object
+                    readOnly: true
+                    properties:
+                      id:
+                        type: string
+                      username:
+                        type: string
+                      avatar:
+                        type: string
+                        format: uri
+                  updatedBy:
+                    type: object
+                    readOnly: true
+                    properties:
+                      id:
+                        type: string
+                      username:
+                        type: string
+                      avatar:
+                        type: string
+                        format: uri
+                  createdAt:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    readOnly: true
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/names/{nameId}':
+    get:
+      tags:
+        - Structure
+      summary: Get a structure name
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+        - name: nameId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Unique name id
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1structures~1%7BstructureId%7D~1names/post/responses/201/content/application~1json/schema'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Structure
+      summary: Delete a structure name
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+        - name: nameId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Unique name id
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Structure
+      summary: Update a structure name
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+        - name: nameId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Unique name id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: UpdateStructureName
+              type: object
+              allOf:
+                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1names/post/responses/201/content/application~1json/schema'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1structures~1%7BstructureId%7D~1names/post/responses/201/content/application~1json/schema'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  parameters:
+    filter:
+      name: filters
+      in: query
+      description: A filtering object
+      style: deepObject
+      schema:
+        type: object
+        description: '?filters[lastName][$eq]=Dupond&filters[lastName][$neq]=Dupont'
+    skip:
+      name: skip
+      in: query
+      description: number of items to skip
+      schema:
+        type: integer
+        format: int32
+        default: 0
+    limit:
+      name: limit
+      in: query
+      description: max records to return
+      schema:
+        type: integer
+        format: int32
+        default: 20
+    sort:
+      name: sort
+      in: query
+      description: Sort returned data
+      schema:
+        type: string
+        description: '?sort=firstname,-createdAt'
+  responses:
+    BadRequest:
+      description: Illegal input for operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentification needed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Permission denied.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServerError:
+      description: An unexpected error occured on the server.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Redirected:
+      description: Ressource has been redirected to another id
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Redirected'
+  schemas:
+    Error:
+      title: Error
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              path:
+                type: string
+              errorCode:
+                type: string
+    Redirected:
+      title: Redirected
+      type: object
+      required:
+        - message
+        - location
+      additionalProperties: false
+      properties:
+        message:
+          type: string
+        location:
+          type: string
+          format: uri
+    Structure:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          readOnly: true
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - forthcomming
+        createdBy:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: string
+            username:
+              type: string
+            avatar:
+              type: string
+              format: uri
+        updatedBy:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: string
+            username:
+              type: string
+            avatar:
+              type: string
+              format: uri
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true

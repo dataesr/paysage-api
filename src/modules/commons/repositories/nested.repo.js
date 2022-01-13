@@ -12,10 +12,11 @@ export default class NestedRepo {
     this._pipeline = pipeline;
   }
 
-  async _getUniqueId() {
-    const currentId = await this._collection.aggregate(
-      [{ $project: { id: { $max: `$${this._field}.id` } } }],
-    ).toArray();
+  async _getUniqueId(resourceId) {
+    const currentId = await this._collection.aggregate([
+      { $match: { id: resourceId } },
+      { $project: { id: { $max: `$${this._field}.id` } } },
+    ]).toArray();
     if (currentId[0].id) { return currentId[0].id + 1; }
     return 1;
   }
@@ -54,10 +55,10 @@ export default class NestedRepo {
 
   async insert(resourceId, data) {
     if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
-    const id = await this._getUniqueId();
+    const id = await this._getUniqueId(resourceId);
     const _data = { ...data, id, createdAt: new Date(), updatedAt: new Date() };
     const { modifiedCount } = await this._collection.updateOne(
-      { id: resourceId, [this._field]: { $not: { $elemMatch: { id: _data.id } } } },
+      { id: resourceId, [this._field]: { $not: { $elemMatch: { id } } } },
       { $push: { [this._field]: _data } },
     );
     return modifiedCount ? id : 0;
