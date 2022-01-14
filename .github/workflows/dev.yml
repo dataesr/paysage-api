@@ -20,6 +20,7 @@ jobs:
           npm run build:docs
           shopt -s extglob
           sudo rm -rf !(docs)
+          sudo rm –rf *
           ls
           git config --global user.name 'folland87'
           git config --global user.email 'folland87@users.noreply.github.com'
