@@ -19,6 +19,6 @@ jobs:
           npm run build:docs
           cd docs
           ls
-          npx @stoplight/cli@5 push --ci-token ec27b70f-44ce-44e6-93a9-44fbbee1146f --url https://dataesr.stoplight.io/
+          npx @stoplight/cli@5 push --ci-token ${{ secrets.STOPLIGHT_TOKEN }} --url https://dataesr.stoplight.io/
 
 
