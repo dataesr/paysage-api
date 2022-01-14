@@ -15,16 +15,8 @@ jobs:
 
       - name: Deploy to Cluster
         run: |
-          git checkout docs
-          npm i
+          npm i swagger-cli
           npm run build:docs
-          shopt -s extglob
-          sudo rm -rf !(docs)
-          sudo rm –rf .*
-          ls
-          git config --global user.name 'folland87'
-          git config --global user.email 'folland87@users.noreply.github.com'
-          git add .
-          git commit -m 'deploy docs'
-          git push origin --force HEAD:docs
+          cd docs
+          npx @stoplight/cli@5 push --ci-token ec27b70f-44ce-44e6-93a9-44fbbee1146f --url https://dataesr.stoplight.io/
 
