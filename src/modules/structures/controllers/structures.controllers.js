@@ -1,21 +1,25 @@
 import { client } from '../../commons/services/database.service';
 import { NotFoundError, ServerError } from '../../commons/errors';
-import { getUniqueId } from '../../commons/services/ids.service';
 import structuresRepo from '../structures.repo';
 import eventsRepo from '../../commons/repositories/events.repo';
+import catalogueRepo from '../../commons/repositories/catalogue.repo';
 
 export default {
   create: async (req, res) => {
     const session = client.startSession();
-    const id = await getUniqueId();
-    const data = { id, ...req.body, __status: { status: 'draft' } };
+    const id = await catalogueRepo.getUniqueId('structures');
+    const { structureStatus } = req.body;
+    const expiresAt = new Date(new Date().setDate(new Date().getDate() + 2));
+    const { id: userId } = req.currentUser;
+    const data = { id, structureStatus, status: 'draft', redirection: null, expiresAt, createdBy: userId };
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.insert(data, { session });
-      const nextState = await structuresRepo.getRowModel(id, { session });
+      const nextState = await structuresRepo.findById(id, { fields: ['structureStatus'], session });
       await eventsRepo.insert({
-        userId: req.currentUser.id,
+        userId,
+        resourceUri: `${req.path}/${id}`,
         timestamp: new Date(),
-        action: 'insert',
+        action: 'create',
         resourceId: id,
         resourceType: 'structures',
         subresourceId: null,
@@ -41,12 +45,14 @@ export default {
     const session = client.startSession();
     const { structureId } = req.params;
     const data = req.body;
-    const prevState = await structuresRepo.getRowModel(structureId);
+    const { id: userId } = req.currentUser;
+    const prevState = await structuresRepo.findById(structureId, { fields: ['structureStatus'], session });
     const { result } = await session.withTransaction(async () => {
-      await structuresRepo.updateById(structureId, data);
-      const nextState = await structuresRepo.getRowModel(structureId, { session });
+      await structuresRepo.updateById(structureId, { ...data, updatedByBy: userId });
+      const nextState = await structuresRepo.findById(structureId, { fields: ['structureStatus'], session });
       await eventsRepo.insert({
-        userId: req.currentUser.id,
+        userId,
+        resourceUri: req.path,
         timestamp: new Date(),
         operationType: 'update',
         resourceId: structureId,
@@ -63,7 +69,7 @@ export default {
 
   list: async (req, res) => {
     const { filters, ...options } = req.query;
-    const { data, totalCount } = await structuresRepo.find(filters, options);
-    res.status(200).json({ data, totalCount });
+    const { data, totalCount } = await structuresRepo.find({ ...filters }, options);
+    res.status(200).json({ data, totalCount: totalCount || 0 });
   },
 };

@@ -1,10 +1,11 @@
 import BaseRepo from './base.repo';
 
 class EventRepository extends BaseRepo {
-  static async cancel(id) {
-    console.log(`Attempt to cancel event ${id}`);
-    throw new Error('Not Implemented');
-  }
+  // async insert(data, { session = null } = {}) {
+  //   const {}
+  //   await this._collection.insertOne(data, { session });
+  //   return data.id;
+  // }
 }
 
 export default new EventRepository({ collection: 'events', pipeline: [] });

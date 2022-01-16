@@ -1,6 +1,6 @@
 get:
   tags:
-    - Structure
+    - Structures
   summary: List structures
   parameters:
     - $ref: '../../../parameters/query/filters.yml'
@@ -18,7 +18,10 @@ get:
               data:
                 type: array
                 items:
-                  $ref: '../schemas/structure.yml'
+                  type: object
+                  allOf:
+                    - $ref: '../schemas/structure.yml'
+                    - $ref: '../../../schemas/metas.yml'
               totalCount:
                 type: number
     '400':
@@ -32,7 +35,7 @@ get:
 
 post:
   tags:
-    - Structure
+    - Structures
   summary: Create a Structure
   requestBody:
     content:
@@ -40,15 +43,24 @@ post:
         schema:
           title: CreateStructure
           type: object
-          allOf:
-            - $ref: '../schemas/structure.yml'
+          properties:
+            structureStatus:
+              type: string
+              enum:
+                - active
+                - inactive
+                - forthcomming
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            $ref: '../schemas/structure.yml'
+            title: StructureNameResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/structure.yml'
+              - $ref: '../../../schemas/metas.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

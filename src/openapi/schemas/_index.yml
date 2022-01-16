@@ -1,5 +1,7 @@
 Error:
   $ref: './error.yml'
+Metas:
+  $ref: './metas.yml'
 Redirected:
   $ref: './redirected.yml'
 Structure:

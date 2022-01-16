@@ -12,13 +12,13 @@ jobs:
     steps:
       - name: Check Out Repo
         uses: actions/checkout@v2
-
-      - name: Deploy to Cluster
+      - name: Build docs
         run: |
           npm i swagger-cli
           npm run build:docs
+      - name: Push to stoplight
+        run: |
           cd docs
-          ls
           npx @stoplight/cli@5 push --ci-token ${{ secrets.STOPLIGHT_TOKEN }} --url https://dataesr.stoplight.io/
 
 

@@ -39,19 +39,17 @@ jobs:
   deploy-docs :
     name: Deploy documentation
     runs-on: ubuntu-latest
-    needs: publish-ghcr
     steps:
       - name: Check Out Repo
         uses: actions/checkout@v2
-
-      - name: Deploy to Cluster
+      - name: Build docs
         run: |
-          git checkout docs
+          npm i swagger-cli
           npm run build:docs
-          rm -rf !(docs)
-          git config --global user.name 'folland87'
-          git config --global user.email 'folland87@users.noreply.github.com'
-          git push origin docs
+      - name: Push to stoplight
+        run: |
+          cd docs
+          npx @stoplight/cli@5 push --ci-token ${{ secrets.STOPLIGHT_TOKEN }} --url https://dataesr.stoplight.io/
 
   deploy:
     name: Update staging deployment

@@ -1,6 +1,6 @@
 get:
   tags:
-    - Structure
+    - Structures
   summary: List structure identifiers
   parameters:
     - name: structureId
@@ -38,7 +38,7 @@ get:
 
 post:
   tags:
-    - Structure
+    - Structures
   summary: Create a structure indentifier
   requestBody:
     content:

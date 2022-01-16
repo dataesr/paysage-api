@@ -1,7 +1,7 @@
 put:
   tags:
-    - Structure
-  summary: Update structure internal status
+    - Structures
+  summary: Change the structure status
   parameters:
   - name: structureId
     in: path
@@ -11,19 +11,16 @@ put:
     description: Unique structure id
   requestBody:
     content:
-      application/json:
-        schema:
-          title: UpdateInternalStatusPayload
-          type: object
-          allOf:
-            - $ref: '../schemas/_status.yml'
+        application/json:
+          schema:
+            $ref: '../schemas/status.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../schemas/_status.yml'
+            $ref: '../schemas/structure.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
@@ -34,4 +31,3 @@ put:
       $ref: '../../../responses/errors/not-found.yml'
     '500':
       $ref: '../../../responses/errors/server-error.yml'
-      

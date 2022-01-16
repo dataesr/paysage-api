@@ -38,13 +38,25 @@ export default class BaseRepo {
     return data ? data[0] : null;
   }
 
+  // async getState(id, { omit = {}, session = null } = {}) {
+  //   const { data } = await this._collection.findOne(
+  //     { id },
+  //     { projection: { _id: 0, createdBy: 0, updatedBy: 0 }, session },
+  //   );
+  //   return data ? data[0] : null;
+  // }
+
   async insert(data, { session = null } = {}) {
-    await this._collection.insertOne(data, { session });
+    await this._collection.insertOne({ ...data, createdAt: new Date() }, { session });
     return data.id;
   }
 
   async updateById(id, data, { session = null } = {}) {
-    const { modifiedCount } = await this._collection.updateOne({ id }, { $set: data }, { session });
+    const { modifiedCount } = await this._collection.updateOne(
+      { id },
+      { $set: { ...data, updatedAt: new Date() } },
+      { session },
+    );
     return { ok: !!modifiedCount };
   }
 
@@ -54,6 +66,6 @@ export default class BaseRepo {
   }
 
   async exists(id, { session = null } = {}) {
-    return { ok: !!await this._collection.findOne({ id }, { session }) };
+    return !!await this._collection.findOne({ id }, { session });
   }
 }

@@ -1,6 +1,6 @@
 get:
   tags:
-    - Structure
+    - Structures
   summary: Get a structure name
   parameters:
     - name: structureId
@@ -21,7 +21,11 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../schemas/name.yml'
+            title: StructureNameResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/name.yml'
+              - $ref: '../../../schemas/metas.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -33,7 +37,7 @@ get:
 
 delete:
   tags:
-    - Structure
+    - Structures
   summary: Delete a structure name
   parameters:
     - name: structureId
@@ -62,7 +66,7 @@ delete:
 
 patch:
   tags:
-    - Structure
+    - Structures
   summary: Update a structure name
   parameters:
     - name: structureId
@@ -81,7 +85,7 @@ patch:
     content:
       application/json:
         schema:
-          title: UpdateStructureName
+          title: UpdateStructureNamePayload
           type: object
           allOf:
             - $ref: '../schemas/name.yml'
@@ -91,7 +95,11 @@ patch:
       content:
         application/json:
           schema:
-            $ref: '../schemas/name.yml'
+            title: StructureNameResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/name.yml'
+              - $ref: '../../../schemas/metas.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

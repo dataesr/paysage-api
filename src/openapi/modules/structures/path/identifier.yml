@@ -1,6 +1,6 @@
 get:
   tags:
-    - Structure
+    - Structures
   summary: Get a structure identifier
   parameters:
     - name: structureId
@@ -33,7 +33,7 @@ get:
 
 delete:
   tags:
-    - Structure
+    - Structures
   summary: Delete a structure identifier
   parameters:
     - name: structureId
@@ -62,7 +62,7 @@ delete:
 
 patch:
   tags:
-    - Structure
+    - Structures
   summary: Update a structure identifier
   parameters:
     - name: structureId

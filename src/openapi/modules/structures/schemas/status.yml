@@ -8,7 +8,7 @@ properties:
       - deleted
       - draft
       - redirected
-      - valid
-  targetId: 
+      - published
+  redirection: 
     type: string
     

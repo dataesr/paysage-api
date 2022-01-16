@@ -1,6 +1,6 @@
 get:
   tags:
-    - Structure
+    - Structures
   summary: List structure names
   parameters:
     - name: structureId
@@ -24,7 +24,10 @@ get:
               data:
                 type: array
                 items:
-                  $ref: '../schemas/name.yml'
+                  type: object
+                  allOf:
+                    - $ref: '../schemas/name.yml'
+                    - $ref: '../../../schemas/metas.yml'
               totalCount:
                 type: number
     '400':
@@ -38,7 +41,7 @@ get:
 
 post:
   tags:
-    - Structure
+    - Structures
   summary: Create a structure name
   parameters:
     - name: structureId
@@ -64,7 +67,11 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../schemas/name.yml'
+            title: StructureNameResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/name.yml'
+              - $ref: '../../../schemas/metas.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

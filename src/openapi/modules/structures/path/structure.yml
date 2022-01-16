@@ -1,6 +1,6 @@
 get:
   tags:
-    - Structure
+    - Structures
   summary: Get a structure
   parameters:
     - name: structureId
@@ -15,7 +15,13 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../schemas/structure.yml'
+            title: StructureNameResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/structure.yml'
+              - $ref: '../../../schemas/metas.yml'
+    '301':
+      description: No content
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -27,7 +33,7 @@ get:
 
 delete:
   tags:
-    - Structure
+    - Structures
   summary: Delete a structure
   parameters:
     - name: structureId
@@ -50,7 +56,7 @@ delete:
 
 patch:
   tags:
-    - Structure
+    - Structures
   summary: Update a structure
   parameters:
     - name: structureId
@@ -63,17 +69,26 @@ patch:
     content:
       application/json:
         schema:
-          title: UpdateStructure
+          title: CreateStructurePayload
           type: object
-          allOf:
-            - $ref: '../schemas/structure.yml'
+          properties:
+            structureStatus:
+              type: string
+              enum:
+                - active
+                - inactive
+                - forthcomming
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../schemas/structure.yml'
+            title: StructureNameResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/structure.yml'
+              - $ref: '../../../schemas/metas.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

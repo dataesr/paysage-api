@@ -4,6 +4,7 @@ import UnauthorizedError from './unauthorized.error';
 import ForbiddenError from './forbidden.error';
 import NotFoundError from './not-found.error';
 import ServerError from './server.error';
+import GoneError from './gone.error';
 
 export {
   CustomError,
@@ -12,4 +13,5 @@ export {
   ForbiddenError,
   NotFoundError,
   ServerError,
+  GoneError,
 };

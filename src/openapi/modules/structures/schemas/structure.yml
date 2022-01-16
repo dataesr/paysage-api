@@ -4,39 +4,33 @@ properties:
   id:
     type: string
     readOnly: true
-  status:
+  structureStatus:
     type: string
     enum:
       - active
       - inactive
       - forthcomming
-  createdBy:
-    type: object
+  alternativePaysageIds:
+    type: array
     readOnly: true
-    properties:
-      id:
-        type: string
-      username:
-        type: string
-      avatar:
-        type: string
-        format: uri
-  updatedBy:
-    type: object
+    items:
+      type: string
+  status:
+    type: string
     readOnly: true
-    properties:
-      id:
-        type: string
-      username:
-        type: string
-      avatar:
-        type: string
-        format: uri
-  createdAt:
+    enum:
+      - draft
+      - published
+      - redirected
+      - deleted
+  redirection:
+    type: string
+    readOnly: true
+    nullable: true
+  currentName:
+    $ref: './name.yml'
+  expiresAt:
     type: string
     format: date-time
     readOnly: true
-  updatedAt:
-    type: string
-    format: date-time
-    readOnly: true
+    nullable: true

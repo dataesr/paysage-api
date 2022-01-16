@@ -16,13 +16,18 @@ servers:
   - url: 'https://api.paysage.dataesr.ovh/'
     description: Production server
 
+tags:
+  - name: Structures
+    description: Operation for the Structure object.
+  - name: Categories
+    description: Operation for the Category object.
 
 paths:
   ### CATEGORIES ##
-  '/categories':
-    $ref: './modules/categories/path/categories.yml'
-  '/categories/{categoryId}':
-    $ref: './modules/categories/path/category.yml'
+  # '/categories':
+  #   $ref: './modules/categories/path/categories.yml'
+  # '/categories/{categoryId}':
+  #   $ref: './modules/categories/path/category.yml'
 
   ### OFFICIAL DOCUMENTS ##
   # '/official-documents':
@@ -35,8 +40,8 @@ paths:
     $ref: './modules/structures/path/structures.yml'
   '/structures/{structureId}':
     $ref: './modules/structures/path/structure.yml'
-  '/structures/{structureId}/_status':
-    $ref: './modules/structures/path/_status.yml'
+  '/structures/{structureId}/status':
+    $ref: './modules/structures/path/status.yml'
   # '/structures/{structureId}/identifiers':
   #   $ref: './modules/structures/path/identifiers.yml'
   # '/structures/{structureId}/identifiers/{identifierId}':

@@ -11,7 +11,7 @@ function generateId() {
 }
 
 class CatalogueRepo {
-  static async getUniqueId() {
+  static async getUniqueId(objectCollection) {
     let id;
     for (let retries = 0; retries < 100; retries += 1) {
       id = generateId();
@@ -21,11 +21,11 @@ class CatalogueRepo {
     }
 
     const { result } = await db.collection('catalogue')
-      .insertOne({ id })
+      .insertOne({ id, objectCollection })
       .catch((e) => { throw new Error(e); });
     if (result.ok) { return id; }
     throw new Error('Too many retries ...');
   }
 }
 
-export default new CatalogueRepo();
+export default CatalogueRepo;
