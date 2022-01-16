@@ -21,150 +21,6 @@ tags:
   - name: Categories
     description: Operation for the Category object.
 paths:
-  /categories:
-    get:
-      tags:
-        - Categories
-      summary: List categories
-      parameters:
-        - $ref: '#/components/parameters/filter'
-        - $ref: '#/components/parameters/skip'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/sort'
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Category'
-                  totalCount:
-                    type: number
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '500':
-          $ref: '#/components/responses/ServerError'
-    post:
-      tags:
-        - Categories
-      summary: Create a category
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: CreateCategory
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/Category'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '500':
-          $ref: '#/components/responses/ServerError'
-  '/categories/{categoryId}':
-    get:
-      tags:
-        - Categories
-      summary: Get a category
-      parameters:
-        - name: categoryId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique category id
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/ServerError'
-    delete:
-      tags:
-        - Categories
-      summary: Delete a category
-      parameters:
-        - name: categoryId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique category id
-      responses:
-        '204':
-          description: No content
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/ServerError'
-    patch:
-      tags:
-        - Categories
-      summary: Update a category
-      parameters:
-        - name: categoryId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique category id
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: UpdateCategory
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/Category'
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/ServerError'
   /structures:
     get:
       tags:
@@ -255,7 +111,6 @@ paths:
             application/json:
               schema:
                 title: StructureNameResponse
-                type: object
                 allOf:
                   - $ref: '#/components/schemas/Structure'
                   - $ref: '#/components/schemas/Metas'
@@ -682,6 +537,7 @@ components:
             avatar:
               type: string
               format: uri
+              nullable: true
         updatedBy:
           type: object
           readOnly: true
@@ -693,6 +549,7 @@ components:
             avatar:
               type: string
               format: uri
+              nullable: true
         createdAt:
           type: string
           format: date-time
