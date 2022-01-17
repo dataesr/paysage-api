@@ -34,17 +34,17 @@ export default class BaseRepo {
   }
 
   async findById(id, { fields = null, session = null } = {}) {
-    const { data } = await this.find({ id }, { limit: 1, fields }, { session });
+    const { data } = await this.find({ id }, { limit: 1, fields, session });
     return data ? data[0] : null;
   }
 
-  // async getState(id, { omit = {}, session = null } = {}) {
-  //   const { data } = await this._collection.findOne(
-  //     { id },
-  //     { projection: { _id: 0, createdBy: 0, updatedBy: 0 }, session },
-  //   );
-  //   return data ? data[0] : null;
-  // }
+  async getStateById(id, { session = null } = {}) {
+    const { data } = await this._collection.findOne(
+      { id },
+      { projection: { _id: 0, id: 0, createdBy: 0, updatedBy: 0, updatedAt: 0, createdAt: 0 }, session },
+    );
+    return data ? data[0] : null;
+  }
 
   async insert(data, { session = null } = {}) {
     await this._collection.insertOne({ ...data, createdAt: new Date() }, { session });

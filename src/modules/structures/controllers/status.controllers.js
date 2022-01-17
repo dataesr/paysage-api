@@ -8,6 +8,7 @@ export default {
     const session = client.startSession();
     const { structureId } = req.params;
     const { redirection, status } = req.body;
+    const { id: userId } = req.currentUser;
     const structure = await structuresRepo.findById(structureId);
     if (!structure) throw new NotFoundError();
     if (redirection && status !== 'redirected') throw new BadRequestError();
@@ -19,12 +20,15 @@ export default {
       );
     }
     if (!await structuresRepo.exists(structureId)) throw new NotFoundError();
+    const now = new Date();
     // delete expiresAt when status is not draft
     const { result } = await session.withTransaction(async () => {
-      await structuresRepo.updateById(structureId, { redirection, status }, { session });
-      const prevState = await structuresRepo.findById(structureId, { projection: { redirection, status }, session });
+      await structuresRepo.updateById(
+        structureId, { redirection, status, updatedAt: now, updatedBy: userId }, { session },
+      );
+      const prevState = await structuresRepo.findById(structureId, { fields: ['redirection', 'status'], session });
       await eventsRepo.insert({
-        userId: req.currentUser.id,
+        userId,
         resourceUri: req.path,
         timestamp: new Date(),
         operationType: 'update',
