@@ -19,8 +19,11 @@ servers:
 tags:
   - name: Structures
     description: Operation for the Structure object.
+  - name: Events
+    description: Access event logs  of object changes.
   - name: Categories
     description: Operation for the Category object.
+
 security:
   - Authentication: []
 

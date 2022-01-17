@@ -30,7 +30,7 @@ app.use(OAV.middleware({
   ignorePaths: /(.*\/docs\/?|.*\/health\/?|\/specs\.yml\/?)/,
 }));
 
-app.all('/heatlthz', (req, res) => ({ ok: 1 }));
+app.all('/health', (req, res) => ({ ok: 1 }));
 
 // Authenticate currentUser
 app.use(authenticate);
