@@ -1,7 +1,5 @@
-title: Structure Names
-description: Différentes dénominations d'une structure
 type: object
-additionalProperties: false
+description: Différentes dénominations d'une structure
 properties:
   id:
     type: integer
@@ -44,33 +42,3 @@ properties:
       - dans les
       - aux
       - au
-  createdBy:
-    type: object
-    readOnly: true
-    properties:
-      id:
-        type: string
-      username:
-        type: string
-      avatar:
-        type: string
-        format: uri
-  updatedBy:
-    type: object
-    readOnly: true
-    properties:
-      id:
-        type: string
-      username:
-        type: string
-      avatar:
-        type: string
-        format: uri
-  createdAt:
-    type: string
-    format: date-time
-    readOnly: true
-  updatedAt:
-    type: string
-    format: date-time
-    readOnly: true

@@ -1,6 +1,6 @@
 get:
   tags:
-    - Structure
+    - Structures
   summary: Get a structure identifier
   parameters:
     - name: structureId
@@ -23,17 +23,17 @@ get:
           schema:
             $ref: '../schemas/identifier.yml'
     '401':
-      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+      $ref: '../../../responses/errors/unauthorized.yml'
     '403':
-      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+      $ref: '../../../responses/errors/forbidden.yml'
     '404':
-      $ref: '../../../../openapi/responses/errors/not-found.yml'
+      $ref: '../../../responses/errors/not-found.yml'
     '500':
-      $ref: '../../../../openapi/responses/errors/server-error.yml'
+      $ref: '../../../responses/errors/server-error.yml'
 
 delete:
   tags:
-    - Structure
+    - Structures
   summary: Delete a structure identifier
   parameters:
     - name: structureId
@@ -52,17 +52,17 @@ delete:
     '204':
       description: No content
     '401':
-      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+      $ref: '../../../responses/errors/unauthorized.yml'
     '403':
-      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+      $ref: '../../../responses/errors/forbidden.yml'
     '404':
-      $ref: '../../../../openapi/responses/errors/not-found.yml'
+      $ref: '../../../responses/errors/not-found.yml'
     '500':
-      $ref: '../../../../openapi/responses/errors/server-error.yml'
+      $ref: '../../../responses/errors/server-error.yml'
 
 patch:
   tags:
-    - Structure
+    - Structures
   summary: Update a structure identifier
   parameters:
     - name: structureId
@@ -93,12 +93,12 @@ patch:
           schema:
             $ref: '../schemas/identifier.yml'
     '400':
-      $ref: '../../../../openapi/responses/errors/bad-request.yml'
+      $ref: '../../../responses/errors/bad-request.yml'
     '401':
-      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+      $ref: '../../../responses/errors/unauthorized.yml'
     '403':
-      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+      $ref: '../../../responses/errors/forbidden.yml'
     '404':
-      $ref: '../../../../openapi/responses/errors/not-found.yml'
+      $ref: '../../../responses/errors/not-found.yml'
     '500':
-      $ref: '../../../../openapi/responses/errors/server-error.yml'
+      $ref: '../../../responses/errors/server-error.yml'

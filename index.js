@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 async function createServer() {
   await setupDatabase();
-  app.listen(PORT, () => logger.info(`Server started on port ${PORT}`));
+  app.listen(PORT, () => logger.info(`Server started! docs at http://localhost:${PORT}/docs/api`));
 }
 
 createServer();
