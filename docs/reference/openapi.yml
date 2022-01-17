@@ -23,6 +23,39 @@ tags:
 security:
   - Authentication: []
 paths:
+  /events:
+    get:
+      tags:
+        - Events
+      summary: List event logs
+      parameters:
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Events'
+                  totalCount:
+                    type: number
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /structures:
     get:
       tags:
@@ -777,6 +810,49 @@ components:
           type: string
           format: date-time
           readOnly: true
+    Events:
+      type: object
+      properties:
+        user:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: string
+            username:
+              type: string
+            avatar:
+              type: string
+              format: uri
+              nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        resourceUri:
+          type: string
+          nullable: true
+        action:
+          type: string
+          nullable: true
+        resourceId:
+          type: string
+          nullable: true
+        resourceType:
+          type: string
+          nullable: true
+        subResourceId:
+          type: integer
+          nullable: true
+        subResourceType:
+          type: string
+          nullable: true
+        prevState:
+          type: object
+          nullable: true
+        nextState:
+          type: object
+          nullable: true
   securitySchemes:
     Authentication:
       type: http

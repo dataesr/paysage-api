@@ -18,12 +18,11 @@ export default {
       await eventsRepo.insert({
         userId,
         resourceUri: `${req.path}/${id}`,
-        timestamp: new Date(),
         action: 'create',
         resourceId: id,
         resourceType: 'structures',
-        subresourceId: null,
-        subresourceType: null,
+        subResourceId: null,
+        subResourceType: null,
         prevState: null,
         nextState,
       }, { session });
@@ -52,7 +51,6 @@ export default {
       await eventsRepo.insert({
         userId,
         resourceUri: req.path,
-        timestamp: new Date(),
         operationType: 'delete',
         resourceId: structureId,
         resourceType: 'structures',
@@ -77,7 +75,6 @@ export default {
       await eventsRepo.insert({
         userId,
         resourceUri: req.path,
-        timestamp: new Date(),
         operationType: 'update',
         resourceId: structureId,
         resourceType: 'structures',
@@ -93,7 +90,6 @@ export default {
 
   list: async (req, res) => {
     const { filters, ...options } = req.query;
-    console.log(filters, options);
     const { data, totalCount } = await structuresRepo.find({ ...filters }, options);
     res.status(200).json({ data, totalCount: totalCount || 0 });
   },
