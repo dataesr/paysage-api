@@ -6,12 +6,12 @@ import catalogueRepo from '../../commons/repositories/catalogue.repo';
 
 export default {
   create: async (req, res) => {
-    const session = client.startSession();
     const id = await catalogueRepo.getUniqueId('structures');
     const { structureStatus } = req.body;
-    const expiresAt = new Date(new Date().setDate(new Date().getDate() + 2));
     const { id: userId } = req.currentUser;
+    const expiresAt = new Date(new Date().setDate(new Date().getDate() + 2));
     const data = { id, structureStatus, status: 'draft', redirection: null, expiresAt, createdBy: userId };
+    const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.insert(data, { session });
       const nextState = await structuresRepo.findById(id, { fields: ['structureStatus'], session });
@@ -27,7 +27,7 @@ export default {
         prevState: null,
         nextState,
       }, { session });
-    }).catch(async () => session.endSession());
+    }).catch(() => session.endSession());
     session.endSession();
     if (!result.ok) throw new ServerError();
     const resource = await structuresRepo.findById(id);
@@ -41,12 +41,36 @@ export default {
     res.status(200).json(structure);
   },
 
-  update: async (req, res) => {
+  delete: async (req, res) => {
+    const { structureId } = req.params;
+    const { id: userId } = req.currentUser;
+    const prevState = await structuresRepo.findById(structureId, { fields: ['structureStatus'] });
+    if (!prevState) throw new NotFoundError();
     const session = client.startSession();
+    const { result } = await session.withTransaction(async () => {
+      await structuresRepo.deleteById(structureId);
+      await eventsRepo.insert({
+        userId,
+        resourceUri: req.path,
+        timestamp: new Date(),
+        operationType: 'delete',
+        resourceId: structureId,
+        resourceType: 'structures',
+        prevState,
+        nextState: null,
+      }, { session });
+    }).catch(() => session.endSession());
+    session.endSession();
+    if (!result.ok) throw new ServerError();
+    res.status(200).json({});
+  },
+
+  update: async (req, res) => {
     const { structureId } = req.params;
     const data = req.body;
     const { id: userId } = req.currentUser;
-    const prevState = await structuresRepo.findById(structureId, { fields: ['structureStatus'], session });
+    const prevState = await structuresRepo.findById(structureId, { fields: ['structureStatus'] });
+    const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.updateById(structureId, { ...data, updatedByBy: userId });
       const nextState = await structuresRepo.findById(structureId, { fields: ['structureStatus'], session });
@@ -60,7 +84,7 @@ export default {
         prevState,
         nextState,
       }, { session });
-    }).catch(async () => session.endSession());
+    }).catch(() => session.endSession());
     session.endSession();
     if (!result.ok) throw new ServerError();
     const resource = await structuresRepo.findById(structureId);
