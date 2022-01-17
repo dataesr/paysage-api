@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "type": "divider",
+      "title": "OVERVIEW"
+    },
+    {
+      "type": "item",
+      "title": "Bienvenue sur la documentation de Paysage.",
+      "uri": "articles/intro.md"
+    },
+    {
+      "type": "divider",
+      "title": "REFERENCES"
+    },
+    {
+      "type": "item",
+      "title": "Paysage API",
+      "uri": "reference/openapi.yml"
+    }
+  ]
+}

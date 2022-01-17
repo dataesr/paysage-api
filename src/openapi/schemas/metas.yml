@@ -1,7 +1,6 @@
 title: Metas
 type: object
 description: Object metadatas
-additionalProperties: false
 properties:
   createdBy:
     type: object

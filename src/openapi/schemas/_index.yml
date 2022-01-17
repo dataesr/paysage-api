@@ -2,8 +2,6 @@ Error:
   $ref: './error.yml'
 Metas:
   $ref: './metas.yml'
-Redirected:
-  $ref: './redirected.yml'
 Structure:
   $ref: '../modules/structures/schemas/structure.yml'
 StructureName:

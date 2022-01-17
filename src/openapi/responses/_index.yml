@@ -8,5 +8,3 @@ Forbidden:
   $ref: './errors/forbidden.yml'
 ServerError:
   $ref: './errors/server-error.yml'
-Redirected:
-  $ref: './redirected.yml'

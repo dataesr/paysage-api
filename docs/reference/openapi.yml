@@ -494,12 +494,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Redirected:
-      description: Ressource has been redirected to another id
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Redirected'
   schemas:
     Error:
       title: Error
@@ -524,7 +518,6 @@ components:
       title: Metas
       type: object
       description: Object metadatas
-      additionalProperties: false
       properties:
         createdBy:
           type: object
@@ -558,19 +551,6 @@ components:
           type: string
           format: date-time
           readOnly: true
-    Redirected:
-      title: Redirected
-      type: object
-      required:
-        - message
-        - location
-      additionalProperties: false
-      properties:
-        message:
-          type: string
-        location:
-          type: string
-          format: uri
     Structure:
       type: object
       properties:
