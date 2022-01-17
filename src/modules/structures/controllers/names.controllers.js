@@ -32,40 +32,42 @@ export default {
 
   read: async (req, res) => {
     const { structureId, nameId } = req.params;
-    const resource = await structuresRepo.names.findById(structureId, nameId);
+    const resource = await structuresRepo.names.findById(structureId, parseInt(nameId, 10));
     if (!resource) throw new NotFoundError();
     res.status(200).json(resource);
   },
 
   delete: async (req, res) => {
     const { structureId, nameId } = req.params;
-    const resource = await structuresRepo.names.findById(structureId, nameId);
+    const resource = await structuresRepo.names.findById(structureId, parseInt(nameId, 10));
     if (!resource) throw new NotFoundError();
-    await structuresRepo.names.deleteById(structureId, nameId);
-    res.status(200).json({});
+    await structuresRepo.names.deleteById(structureId, parseInt(nameId, 10));
+    res.status(204).json();
   },
 
   update: async (req, res) => {
     const session = client.startSession();
     const { structureId, nameId } = req.params;
     const data = req.body;
-    const prevState = await structuresRepo.names.findById(structureId, nameId);
+    const prevState = await structuresRepo.names.findById(structureId, parseInt(nameId, 10));
     const { result } = await session.withTransaction(async () => {
-      await structuresRepo.names.updateById(structureId, nameId, data);
-      const nextState = await structuresRepo.getRowModel(structureId, { session });
+      await structuresRepo.names.updateById(structureId, parseInt(nameId, 10), data, { session });
+      const nextState = await structuresRepo.names.findById(structureId, parseInt(nameId, 10), { session });
       await eventsRepo.insert({
         userId: req.currentUser.id,
         timestamp: new Date(),
         operationType: 'update',
         resourceId: structureId,
         resourceType: 'structures',
+        subResourceId: parseInt(nameId, 10),
+        subResourceType: 'names',
         prevState,
         nextState,
       }, { session });
-    }).catch(async () => session.endSession());
+    }).catch(() => { session.endSession(); });
     session.endSession();
     if (!result.ok) throw new ServerError();
-    const resource = await structuresRepo.findById(structureId);
+    const resource = await structuresRepo.names.findById(structureId, parseInt(nameId, 10));
     res.status(200).json(resource);
   },
 

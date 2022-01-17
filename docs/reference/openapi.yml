@@ -335,6 +335,7 @@ paths:
           in: path
           schema:
             type: integer
+            format: int32
           required: true
           description: Unique name id
       responses:
@@ -551,6 +552,7 @@ components:
           type: string
           format: date-time
           readOnly: true
+          nullable: true
     Structure:
       type: object
       properties:

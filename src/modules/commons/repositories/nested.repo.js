@@ -21,7 +21,9 @@ export default class NestedRepo {
     return 1;
   }
 
-  async find(resourceId, filters = {}, { skip = 0, limit = 20, sort = null, fields = null } = {}) {
+  async find(resourceId, filters = {}, {
+    skip = 0, limit = 20, sort = null, fields = null, session = null,
+  } = {}) {
     if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const _pipeline = [
       { $match: { id: resourceId } },
@@ -43,28 +45,29 @@ export default class NestedRepo {
       { $facet: { data: queryPipeline, total: countPipeline } },
       { $project: { data: 1, total: { $arrayElemAt: ['$total', 0] } } },
       { $project: { data: 1, totalCount: '$total.totalCount' } },
-    ]).toArray();
+    ], { session }).toArray();
     return data[0];
   }
 
-  async findById(resourceId, id, { fields = null } = {}) {
+  async findById(resourceId, id, { fields = null, session = null } = {}) {
     if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
-    const { data } = await this.find(resourceId, { id }, { limit: 1, fields });
+    const { data } = await this.find(resourceId, { id }, { limit: 1, fields, session });
     return data ? data[0] : null;
   }
 
-  async insert(resourceId, data) {
+  async insert(resourceId, data, { session = null } = {}) {
     if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const id = await this._getUniqueId(resourceId);
     const _data = { ...data, id, createdAt: new Date() };
     const { modifiedCount } = await this._collection.updateOne(
       { id: resourceId, [this._field]: { $not: { $elemMatch: { id } } } },
       { $push: { [this._field]: _data } },
+      { session },
     );
     return modifiedCount ? id : 0;
   }
 
-  async updateById(resourceId, id, data) {
+  async updateById(resourceId, id, data, { session = null } = {}) {
     if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const pipe = [
       { $match: { id: resourceId } },
@@ -73,19 +76,20 @@ export default class NestedRepo {
       { $replaceRoot: { newRoot: `$${this._field}` } },
       { $match: { id } },
     ];
-    const currentData = await this._collection.aggregate(pipe).toArray();
+    const currentData = await this._collection.aggregate(pipe, { session }).toArray();
     const _data = { ...currentData[0], ...data, updatedAt: new Date() };
     const { modifiedCount } = await this._collection.updateOne(
       { id: resourceId, [`${this._field}.id`]: id },
       { $set: { [`${this._field}.$`]: _data } },
+      { session },
     );
     return { ok: !!modifiedCount };
   }
 
-  async deleteById(resourceId, id) {
+  async deleteById(resourceId, id, { session = null } = {}) {
     if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const { modifiedCount } = await this._collection.updateOne(
-      { id: resourceId }, { $pull: { [this._field]: { id } } },
+      { id: resourceId }, { $pull: { [this._field]: { id } } }, { session },
     );
     return { ok: !!modifiedCount };
   }

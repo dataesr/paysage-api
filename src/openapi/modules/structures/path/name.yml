@@ -13,6 +13,7 @@ get:
       in: path
       schema:
         type: integer
+        format: int32
       required: true
       description: Unique name id
   responses:
