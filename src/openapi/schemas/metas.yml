@@ -2,18 +2,6 @@ title: Metas
 type: object
 description: Object metadatas
 properties:
-<<<<<<< HEAD:src/modules/structures/swagger/schemas/structure.yml
-  id:
-    type: string
-    readOnly: true
-  status:
-    type: string
-    enum:
-      - active
-      - inactive
-      - forthcomming
-=======
->>>>>>> dev:src/openapi/schemas/metas.yml
   createdBy:
     type: object
     readOnly: true
