@@ -25,6 +25,12 @@ security:
   - Authentication: []
 
 paths:
+  ### EVENTS ##
+  '/events':
+    $ref: './modules/events/path/events.yml'
+  # '/categories/{categoryId}':
+  #   $ref: './modules/categories/path/category.yml'
+
   ### CATEGORIES ##
   # '/categories':
   #   $ref: './modules/categories/path/categories.yml'

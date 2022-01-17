@@ -19,13 +19,12 @@ export default {
       const nextState = await structuresRepo.names.getStateById(structureId, nameId, { session });
       await eventsRepo.insert({
         userId,
-        timestamp: now,
         resourceUri: `${req.path}/${nameId}`,
         action: 'create',
         resourceId: structureId,
         resourceType: 'structures',
-        subresourceId: 'names',
-        subresourceType: nameId,
+        subResourceId: 'names',
+        subResourceType: nameId,
         prevState: null,
         nextState,
       }, { session });
@@ -45,7 +44,6 @@ export default {
 
   delete: async (req, res) => {
     const { structureId, nameId } = req.params;
-    const now = new Date();
     const { id: userId } = req.currentUser;
     const prevState = await structuresRepo.names.getStateById(structureId, parseInt(nameId, 10));
     if (!prevState) throw new NotFoundError();
@@ -54,7 +52,6 @@ export default {
       await structuresRepo.names.deleteById(structureId, parseInt(nameId, 10));
       await eventsRepo.insert({
         userId,
-        timestamp: now,
         resourceUri: `${req.path}/${nameId}`,
         operationType: 'delete',
         resourceId: structureId,
@@ -83,7 +80,6 @@ export default {
       const nextState = await structuresRepo.names.getStateById(structureId, parseInt(nameId, 10), { session });
       await eventsRepo.insert({
         userId,
-        timestamp: now,
         resourceUri: `${req.path}/${nameId}`,
         operationType: 'update',
         resourceId: structureId,

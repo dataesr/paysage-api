@@ -1,10 +1,10 @@
 import express from 'express';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
-import changelogsControllers from './changelogs.controllers';
+import changelogsControllers from './events.controllers';
 
 const router = new express.Router();
-router.use(requireActiveUser);
+// router.use(requireActiveUser);
 
-router.get('/structures', changelogsControllers.list);
+router.get('/events', changelogsControllers.list);
 
 export default router;

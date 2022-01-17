@@ -7,6 +7,7 @@ import YAML from 'yamljs';
 import { handleErrors } from './modules/commons/middlewares/handle-errors.middlewares';
 import { authenticate } from './modules/commons/middlewares/authenticate.middlewares';
 import structuresRoutes from './modules/structures/structures.routes';
+import eventsRoutes from './modules/events/events.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/openapi.yml');
@@ -29,11 +30,14 @@ app.use(OAV.middleware({
   ignorePaths: /(.*\/docs\/?|.*\/health\/?|\/specs\.yml\/?)/,
 }));
 
+app.all('/heatlthz', (req, res) => ({ ok: 1 }));
+
 // Authenticate currentUser
 app.use(authenticate);
 
 // Register routes
 app.use(structuresRoutes);
+app.use(eventsRoutes);
 
 // Erreurs personnalisées
 app.use(handleErrors);

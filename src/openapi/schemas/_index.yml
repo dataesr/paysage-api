@@ -10,3 +10,5 @@ StructureIdentifier:
   $ref: '../modules/structures/schemas/identifier.yml'
 Category:
   $ref: '../modules/categories/schemas/category.yml'
+Events:
+  $ref: '../modules/events/schemas/events.yml'

@@ -30,7 +30,6 @@ export default {
       await eventsRepo.insert({
         userId,
         resourceUri: req.path,
-        timestamp: new Date(),
         operationType: 'update',
         resourceId: structureId,
         resourceType: 'structures',
