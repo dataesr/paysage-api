@@ -11,7 +11,7 @@ import categoriesRoutes from './modules/categories/categories.routes';
 import officialDocumentsRoutes from './modules/official-documents/official-documents.routes';
 
 // Load API specifications
-const apiSpec = path.join(path.resolve(), 'docs/openapi.yml');
+const apiSpec = path.join(path.resolve(), 'docs/reference/openapi.yml');
 const swaggerDocument = YAML.load(apiSpec);
 
 // Application setup

@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Paysage-api.
+  title: Paysage API.
   description: Documentation for the Paysage rest API routes.
   contact:
     email: frederic.olland@enseignementsup.gouv.fr
@@ -38,7 +38,6 @@ paths:
             application/json:
               schema:
                 type: object
-                additionalProperties: false
                 properties:
                   data:
                     type: array
@@ -80,7 +79,6 @@ paths:
             application/json:
               schema:
                 title: StructureNameResponse
-                additionalProperties: false
                 allOf:
                   - $ref: '#/components/schemas/Structure'
                   - $ref: '#/components/schemas/Metas'
@@ -111,7 +109,6 @@ paths:
             application/json:
               schema:
                 title: StructureResponse
-                additionalProperties: false
                 required:
                   - id
                 allOf:
@@ -180,7 +177,6 @@ paths:
             application/json:
               schema:
                 title: StructureResponse
-                additionalProperties: false
                 required:
                   - id
                 allOf:
@@ -577,7 +573,6 @@ components:
           format: uri
     Structure:
       type: object
-      additionalProperties: false
       properties:
         id:
           type: string
