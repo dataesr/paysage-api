@@ -9,7 +9,7 @@ env:
   # Must match k8s deployment name
   DEPLOYMENT: paysage-api
   DEPLOYMENT_NAMESPACE: paysage
-  DEPLOYMENT_URL: https://api.paysage.staging.dataesr.ovh/docs/api
+  DEPLOYMENT_URL: https://docs.paysage.dataesr.ovh/docs/paysage-api-1
   SLACK_NOTIFICATION_CHANNEL: '#paysage-bot'
 
 jobs:
@@ -35,6 +35,21 @@ jobs:
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
           docker tag ${{ github.repository }} $IMAGE_ID:${{ steps.version.outputs.tag }}
           docker push $IMAGE_ID:${{ steps.version.outputs.tag }}
+
+  deploy-docs :
+    name: Deploy documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repo
+        uses: actions/checkout@v2
+      - name: Build docs
+        run: |
+          npm i swagger-cli
+          npm run build:docs
+      - name: Push to stoplight
+        run: |
+          cd docs
+          npx @stoplight/cli@5 push --ci-token ${{ secrets.STOPLIGHT_TOKEN }} --url https://dataesr.stoplight.io/
 
   deploy:
     name: Update staging deployment

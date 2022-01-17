@@ -8,6 +8,7 @@ const production = {
   logger: {
     logLevel: 'error',
   },
+  hostname: 'https://api.paysage.dataesr.ovh',
 };
 
 const staging = {
@@ -23,6 +24,7 @@ const testing = {
   logger: {
     logLevel: 'debug',
   },
+  hostname: 'https://api.paysage.staging.dataesr.ovh',
 };
 const development = {
   ...production,
@@ -34,6 +36,7 @@ const development = {
   logger: {
     logLevel: 'debug',
   },
+  hostname: 'http://localhost:3000',
 };
 
 const configs = {

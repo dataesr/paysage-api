@@ -66,6 +66,21 @@ jobs:
           release_name: ${{ steps.version.outputs.version }}
           body: "${{ steps.changelog.outputs.changes }}"
 
+  deploy-docs :
+    name: Deploy documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repo
+        uses: actions/checkout@v2
+      - name: Build docs
+        run: |
+          npm i swagger-cli
+          npm run build:docs
+      - name: Push to stoplight
+        run: |
+          cd docs
+          npx @stoplight/cli@5 push --ci-token ${{ secrets.STOPLIGHT_TOKEN }} --url https://dataesr.stoplight.io/
+
   deploy:
     name: Update deployment
     runs-on: ubuntu-latest

@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Paysage-api.
+  title: Paysage API.
   description: Documentation for the Paysage rest API routes.
   contact:
     email: frederic.olland@enseignementsup.gouv.fr
@@ -10,34 +10,46 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:3000/'
+    description: Development server
+  - url: 'https://api.paysage.staging.dataesr.ovh/'
+    description: Staging server
+  - url: 'https://api.paysage.dataesr.ovh/'
+    description: Production server
 
+tags:
+  - name: Structures
+    description: Operation for the Structure object.
+  - name: Categories
+    description: Operation for the Category object.
 
 paths:
   ### CATEGORIES ##
   # '/categories':
-  #   $ref: '../modules/categories/swagger/path/categories.yml'
+  #   $ref: './modules/categories/path/categories.yml'
   # '/categories/{categoryId}':
-  #   $ref: '../modules/categories/swagger/path/category.yml'
+  #   $ref: './modules/categories/path/category.yml'
 
-  # ### OFFICIAL DOCUMENTS ##
+  ### OFFICIAL DOCUMENTS ##
   # '/official-documents':
-  #   $ref: '../modules/official-documents/swagger/path/official-documents.yml'
+  #   $ref: './modules/official-documents/path/official-documents.yml'
   # '/official-documents/{officialDocumentId}':
-  #   $ref: '../modules/official-documents/swagger/path/official-document.yml'
+  #   $ref: './modules/official-documents/path/official-document.yml'
 
   ### STRUCTURE ###
   '/structures':
-    $ref: '../modules/structures/swagger/path/structures.yml'
+    $ref: './modules/structures/path/structures.yml'
   '/structures/{structureId}':
-    $ref: '../modules/structures/swagger/path/structure.yml'
+    $ref: './modules/structures/path/structure.yml'
+  '/structures/{structureId}/status':
+    $ref: './modules/structures/path/status.yml'
   # '/structures/{structureId}/identifiers':
-  #   $ref: '../modules/structures/swagger/path/identifiers.yml'
+  #   $ref: './modules/structures/path/identifiers.yml'
   # '/structures/{structureId}/identifiers/{identifierId}':
-  #   $ref: '../modules/structures/swagger/path/identifier.yml'
-  # '/structures/{structureId}/names':
-  #   $ref: '../modules/structures/swagger/path/names.yml'
-  # '/structures/{structureId}/names/{nameId}':
-  #   $ref: '../modules/structures/swagger/path/name.yml'
+  #   $ref: './modules/structures/path/identifier.yml'
+  '/structures/{structureId}/names':
+    $ref: './modules/structures/path/names.yml'
+  '/structures/{structureId}/names/{nameId}':
+    $ref: './modules/structures/path/name.yml'
 
 components:
   parameters:
@@ -47,5 +59,4 @@ components:
     $ref: './responses/_index.yml'
 
   schemas:
-    Error:
-      $ref: './schemas/error.yml'
+    $ref: './schemas/_index.yml'

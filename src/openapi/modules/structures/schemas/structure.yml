@@ -1,0 +1,35 @@
+type: object
+properties:
+  id:
+    type: string
+    readOnly: true
+  structureStatus:
+    type: string
+    enum:
+      - active
+      - inactive
+      - forthcomming
+  alternativePaysageIds:
+    type: array
+    readOnly: true
+    items:
+      type: string
+  status:
+    type: string
+    readOnly: true
+    enum:
+      - draft
+      - published
+      - redirected
+      - deleted
+  redirection:
+    type: string
+    readOnly: true
+    nullable: true
+  currentName:
+    $ref: './name.yml'
+  expiresAt:
+    type: string
+    format: date-time
+    readOnly: true
+    nullable: true

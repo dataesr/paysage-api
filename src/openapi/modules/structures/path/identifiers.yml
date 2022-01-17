@@ -1,6 +1,6 @@
 get:
   tags:
-    - Structure
+    - Structures
   summary: List structure identifiers
   parameters:
     - name: structureId
@@ -9,10 +9,10 @@ get:
         type: string
       required: true
       description: Unique structure id
-    - $ref: '../../../../openapi/parameters/query/filters.yml'
-    - $ref: '../../../../openapi/parameters/query/skip.yml'
-    - $ref: '../../../../openapi/parameters/query/limit.yml'
-    - $ref: '../../../../openapi/parameters/query/sort.yml'
+    - $ref: '../../../parameters/query/filters.yml'
+    - $ref: '../../../parameters/query/skip.yml'
+    - $ref: '../../../parameters/query/limit.yml'
+    - $ref: '../../../parameters/query/sort.yml'
   responses:
     '200':
       description: Success
@@ -28,17 +28,17 @@ get:
               totalCount:
                 type: number
     '400':
-      $ref: '../../../../openapi/responses/errors/bad-request.yml'
+      $ref: '../../../responses/errors/bad-request.yml'
     '401':
-      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+      $ref: '../../../responses/errors/unauthorized.yml'
     '403':
-      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+      $ref: '../../../responses/errors/forbidden.yml'
     '500':
-      $ref: '../../../../openapi/responses/errors/server-error.yml'
+      $ref: '../../../responses/errors/server-error.yml'
 
 post:
   tags:
-    - Structure
+    - Structures
   summary: Create a structure indentifier
   requestBody:
     content:
@@ -60,10 +60,10 @@ post:
           schema:
             $ref: '../schemas/identifier.yml'
     '400':
-      $ref: '../../../../openapi/responses/errors/bad-request.yml'
+      $ref: '../../../responses/errors/bad-request.yml'
     '401':
-      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+      $ref: '../../../responses/errors/unauthorized.yml'
     '403':
-      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+      $ref: '../../../responses/errors/forbidden.yml'
     '500':
-      $ref: '../../../../openapi/responses/errors/server-error.yml'
+      $ref: '../../../responses/errors/server-error.yml'

@@ -1,15 +1,7 @@
+title: Metas
 type: object
-additionalProperties: false
+description: Object metadatas
 properties:
-  id:
-    type: string
-    readOnly: true
-  status:
-    type: string
-    enum:
-      - active
-      - inactive
-      - forthcomming
   createdBy:
     type: object
     readOnly: true
@@ -21,6 +13,7 @@ properties:
       avatar:
         type: string
         format: uri
+        nullable: true
   updatedBy:
     type: object
     readOnly: true
@@ -32,6 +25,7 @@ properties:
       avatar:
         type: string
         format: uri
+        nullable: true
   createdAt:
     type: string
     format: date-time
@@ -40,3 +34,4 @@ properties:
     type: string
     format: date-time
     readOnly: true
+    nullable: true

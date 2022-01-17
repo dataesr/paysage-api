@@ -1,6 +1,6 @@
 get:
   tags:
-    - Structure
+    - Structures
   summary: Get a structure name
   parameters:
     - name: structureId
@@ -13,6 +13,7 @@ get:
       in: path
       schema:
         type: integer
+        format: int32
       required: true
       description: Unique name id
   responses:
@@ -21,19 +22,23 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../schemas/name.yml'
+            title: StructureNameResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/name.yml'
+              - $ref: '../../../schemas/metas.yml'
     '401':
-      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+      $ref: '../../../responses/errors/unauthorized.yml'
     '403':
-      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+      $ref: '../../../responses/errors/forbidden.yml'
     '404':
-      $ref: '../../../../openapi/responses/errors/not-found.yml'
+      $ref: '../../../responses/errors/not-found.yml'
     '500':
-      $ref: '../../../../openapi/responses/errors/server-error.yml'
+      $ref: '../../../responses/errors/server-error.yml'
 
 delete:
   tags:
-    - Structure
+    - Structures
   summary: Delete a structure name
   parameters:
     - name: structureId
@@ -52,17 +57,17 @@ delete:
     '204':
       description: No content
     '401':
-      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+      $ref: '../../../responses/errors/unauthorized.yml'
     '403':
-      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+      $ref: '../../../responses/errors/forbidden.yml'
     '404':
-      $ref: '../../../../openapi/responses/errors/not-found.yml'
+      $ref: '../../../responses/errors/not-found.yml'
     '500':
-      $ref: '../../../../openapi/responses/errors/server-error.yml'
+      $ref: '../../../responses/errors/server-error.yml'
 
 patch:
   tags:
-    - Structure
+    - Structures
   summary: Update a structure name
   parameters:
     - name: structureId
@@ -81,7 +86,7 @@ patch:
     content:
       application/json:
         schema:
-          title: UpdateStructureName
+          title: UpdateStructureNamePayload
           type: object
           allOf:
             - $ref: '../schemas/name.yml'
@@ -91,14 +96,18 @@ patch:
       content:
         application/json:
           schema:
-            $ref: '../schemas/name.yml'
+            title: StructureNameResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/name.yml'
+              - $ref: '../../../schemas/metas.yml'
     '400':
-      $ref: '../../../../openapi/responses/errors/bad-request.yml'
+      $ref: '../../../responses/errors/bad-request.yml'
     '401':
-      $ref: '../../../../openapi/responses/errors/unauthorized.yml'
+      $ref: '../../../responses/errors/unauthorized.yml'
     '403':
-      $ref: '../../../../openapi/responses/errors/forbidden.yml'
+      $ref: '../../../responses/errors/forbidden.yml'
     '404':
-      $ref: '../../../../openapi/responses/errors/not-found.yml'
+      $ref: '../../../responses/errors/not-found.yml'
     '500':
-      $ref: '../../../../openapi/responses/errors/server-error.yml'
+      $ref: '../../../responses/errors/server-error.yml'
