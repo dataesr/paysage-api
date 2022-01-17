@@ -93,6 +93,7 @@ export default {
 
   list: async (req, res) => {
     const { filters, ...options } = req.query;
+    console.log(filters, options);
     const { data, totalCount } = await structuresRepo.find({ ...filters }, options);
     res.status(200).json({ data, totalCount: totalCount || 0 });
   },

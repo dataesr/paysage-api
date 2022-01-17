@@ -49,6 +49,19 @@ export default class NestedRepo {
     return data[0];
   }
 
+  async getStateById(resourceId, id, { session = null } = {}) {
+    if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
+    const data = await this._collection.aggregate([
+      { $match: { id: resourceId } },
+      { $unwind: { path: `$${this._field}` } },
+      { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
+      { $replaceRoot: { newRoot: `$${this._field}` } },
+      { $match: { id } },
+      { $project: { _id: 0, id: 0, createdBy: 0, updatedBy: 0, createdAt: 0, updatedAt: 0 }},
+    ], { session }).toArray();
+    return data.length ? data[0] : null;
+  }
+
   async findById(resourceId, id, { fields = null, session = null } = {}) {
     if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const { data } = await this.find(resourceId, { id }, { limit: 1, fields, session });

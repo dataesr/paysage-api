@@ -9,18 +9,20 @@ info:
     url: 'https://github.com/dataesr/paysage-api/LICENCE.md'
   version: 1.0.0
 servers:
-  - url: 'http://localhost:3000/'
-    description: Development server
   - url: 'https://api.paysage.staging.dataesr.ovh/'
     description: Staging server
   - url: 'https://api.paysage.dataesr.ovh/'
     description: Production server
+  - url: 'http://localhost:3000/'
+    description: Development server
 
 tags:
   - name: Structures
     description: Operation for the Structure object.
   - name: Categories
     description: Operation for the Category object.
+security:
+  - Authentication: []
 
 paths:
   ### CATEGORIES ##
@@ -60,3 +62,9 @@ components:
 
   schemas:
     $ref: './schemas/_index.yml'
+    
+  securitySchemes:
+    Authentication:
+      type: http
+      scheme: bearer
+      description: Authentication with a Bearer token.
