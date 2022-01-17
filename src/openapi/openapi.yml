@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Paysage-api.
+  title: Paysage API.
   description: Documentation for the Paysage rest API routes.
   contact:
     email: frederic.olland@enseignementsup.gouv.fr
