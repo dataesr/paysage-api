@@ -9,7 +9,7 @@ env:
   # Must match k8s deployment name
   DEPLOYMENT: paysage-api
   DEPLOYMENT_NAMESPACE: paysage
-  DEPLOYMENT_URL: https://api.paysage.staging.dataesr.ovh/docs/api
+  DEPLOYMENT_URL: https://docs.paysage.dataesr.ovh/docs/paysage-api-1
   SLACK_NOTIFICATION_CHANNEL: '#paysage-bot'
 
 jobs:

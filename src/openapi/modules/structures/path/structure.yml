@@ -16,7 +16,6 @@ get:
         application/json:
           schema:
             title: StructureResponse
-            additionalProperties: false
             required:
               - id
             allOf:
@@ -87,7 +86,6 @@ patch:
         application/json:
           schema:
             title: StructureResponse
-            additionalProperties: false
             required:
               - id
             allOf:

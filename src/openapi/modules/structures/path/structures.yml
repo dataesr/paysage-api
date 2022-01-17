@@ -14,7 +14,6 @@ get:
         application/json:
           schema:
             type: object
-            additionalProperties: false
             properties:
               data:
                 type: array
@@ -57,7 +56,6 @@ post:
         application/json:
           schema:
             title: StructureNameResponse
-            additionalProperties: false
             allOf:
               - $ref: '../schemas/structure.yml'
               - $ref: '../../../schemas/metas.yml'
