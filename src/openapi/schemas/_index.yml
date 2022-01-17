@@ -1,0 +1,12 @@
+Error:
+  $ref: './error.yml'
+Metas:
+  $ref: './metas.yml'
+Structure:
+  $ref: '../modules/structures/schemas/structure.yml'
+StructureName:
+  $ref: '../modules/structures/schemas/name.yml'
+StructureIdentifier:
+  $ref: '../modules/structures/schemas/identifier.yml'
+Category:
+  $ref: '../modules/categories/schemas/category.yml'

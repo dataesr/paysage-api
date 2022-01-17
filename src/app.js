@@ -9,7 +9,7 @@ import { authenticate } from './modules/commons/middlewares/authenticate.middlew
 import structuresRoutes from './modules/structures/structures.routes';
 
 // Load API specifications
-const apiSpec = path.join(path.resolve(), 'docs/openapi.yml');
+const apiSpec = path.join(path.resolve(), 'docs/reference/openapi.yml');
 const swaggerDocument = YAML.load(apiSpec);
 
 // Application setup
@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Expose swagger API documentation
 app.use('/docs/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.get('docs/api/specs.yml', (req, res) => { res.send(swaggerDocument); });
+app.get('/docs/specs.yml', (req, res) => { res.send(swaggerDocument); });
 
 // express-openapi-validator setup to validate requests
 app.use(OAV.middleware({
