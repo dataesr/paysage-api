@@ -38,11 +38,11 @@ paths:
             application/json:
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   data:
                     type: array
                     items:
-                      type: object
                       allOf:
                         - $ref: '#/components/schemas/Structure'
                         - $ref: '#/components/schemas/Metas'
@@ -80,7 +80,7 @@ paths:
             application/json:
               schema:
                 title: StructureNameResponse
-                type: object
+                additionalProperties: false
                 allOf:
                   - $ref: '#/components/schemas/Structure'
                   - $ref: '#/components/schemas/Metas'
@@ -110,7 +110,10 @@ paths:
           content:
             application/json:
               schema:
-                title: StructureNameResponse
+                title: StructureResponse
+                additionalProperties: false
+                required:
+                  - id
                 allOf:
                   - $ref: '#/components/schemas/Structure'
                   - $ref: '#/components/schemas/Metas'
@@ -176,8 +179,10 @@ paths:
           content:
             application/json:
               schema:
-                title: StructureNameResponse
-                type: object
+                title: StructureResponse
+                additionalProperties: false
+                required:
+                  - id
                 allOf:
                   - $ref: '#/components/schemas/Structure'
                   - $ref: '#/components/schemas/Metas'
@@ -207,9 +212,8 @@ paths:
         content:
           application/json:
             schema:
-              title: StructureInternalStatus
-              description: Structure Internal Status
               type: object
+              description: Structure Internal Status
               properties:
                 status:
                   type: string
@@ -609,10 +613,8 @@ components:
           readOnly: true
           nullable: true
     StructureName:
-      title: Structure Names
-      description: Différentes dénominations d'une structure
       type: object
-      additionalProperties: false
+      description: Différentes dénominations d'une structure
       properties:
         id:
           type: integer
@@ -659,7 +661,6 @@ components:
       title: Identifier
       description: 'Identifiant WikiData, IdRef...'
       type: object
-      additionalProperties: false
       properties:
         id:
           type: integer

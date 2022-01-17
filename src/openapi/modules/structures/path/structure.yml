@@ -15,7 +15,10 @@ get:
       content:
         application/json:
           schema:
-            # title: StructureNameResponse
+            title: StructureResponse
+            additionalProperties: false
+            required:
+              - id
             allOf:
               - $ref: '../schemas/structure.yml'
               - $ref: '../../../schemas/metas.yml'
@@ -83,7 +86,10 @@ patch:
       content:
         application/json:
           schema:
-            title: StructureNameResponse
+            title: StructureResponse
+            additionalProperties: false
+            required:
+              - id
             allOf:
               - $ref: '../schemas/structure.yml'
               - $ref: '../../../schemas/metas.yml'

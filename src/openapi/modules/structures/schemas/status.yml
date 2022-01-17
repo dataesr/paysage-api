@@ -1,6 +1,5 @@
-title: StructureInternalStatus
-description: Structure Internal Status
 type: object
+description: Structure Internal Status
 properties:
   status:
     type: string
