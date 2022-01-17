@@ -7,7 +7,7 @@ import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 const router = new express.Router();
 
 // GLOBAL MIDDELWARES
-// router.use(requireActiveUser);
+router.use(requireActiveUser);
 
 // STUCTURES
 router.get('/structures', structuresControllers.list);
