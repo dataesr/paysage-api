@@ -15,7 +15,7 @@ get:
       content:
         application/json:
           schema:
-            title: StructureNameResponse
+            # title: StructureNameResponse
             allOf:
               - $ref: '../schemas/structure.yml'
               - $ref: '../../../schemas/metas.yml'
@@ -84,7 +84,6 @@ patch:
         application/json:
           schema:
             title: StructureNameResponse
-            type: object
             allOf:
               - $ref: '../schemas/structure.yml'
               - $ref: '../../../schemas/metas.yml'

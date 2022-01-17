@@ -18,7 +18,6 @@ get:
               data:
                 type: array
                 items:
-                  type: object
                   allOf:
                     - $ref: '../schemas/structure.yml'
                     - $ref: '../../../schemas/metas.yml'
@@ -57,7 +56,6 @@ post:
         application/json:
           schema:
             title: StructureNameResponse
-            type: object
             allOf:
               - $ref: '../schemas/structure.yml'
               - $ref: '../../../schemas/metas.yml'
