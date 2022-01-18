@@ -55,6 +55,14 @@ class StructuresRepository extends BaseRepo {
       pipeline: [...metasPipeline, { $project: { _id: 0 } }],
     });
   }
+
+  get localisations() {
+    return new NestedRepo({
+      collection: this._collectionName,
+      field: 'localisations',
+      pipeline: [...metasPipeline, { $project: { _id: 0 } }],
+    });
+  }
 }
 
 export default new StructuresRepository({
