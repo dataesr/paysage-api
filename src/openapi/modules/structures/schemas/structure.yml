@@ -5,6 +5,7 @@ properties:
     readOnly: true
   structureStatus:
     type: string
+    nullable: true
     enum:
       - active
       - inactive
