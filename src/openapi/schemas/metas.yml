@@ -8,8 +8,10 @@ properties:
     properties:
       id:
         type: string
+        nullable: true
       username:
         type: string
+        nullable: true
       avatar:
         type: string
         format: uri
@@ -20,8 +22,10 @@ properties:
     properties:
       id:
         type: string
+        nullable: true
       username:
         type: string
+        nullable: true
       avatar:
         type: string
         format: uri

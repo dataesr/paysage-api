@@ -1,0 +1,66 @@
+get:
+  tags:
+    - Official Documents
+  summary: List official documents
+  parameters:
+    - $ref: '../../../parameters/query/filters.yml'
+    - $ref: '../../../parameters/query/skip.yml'
+    - $ref: '../../../parameters/query/limit.yml'
+    - $ref: '../../../parameters/query/sort.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '../schemas/official-document.yml'
+                    - $ref: '../../../schemas/metas.yml'
+              totalCount:
+                type: number
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+post:
+  tags:
+    - Official Documents
+  summary: Create an official document
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: CreateOfficialDocumentPayload
+          type: object
+          allOf:
+              - $ref: '../schemas/official-document.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            title: OfficialDocumentResponse
+            required:
+              - id
+            allOf:
+              - $ref: '../schemas/official-document.yml'
+              - $ref: '../../../schemas/metas.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

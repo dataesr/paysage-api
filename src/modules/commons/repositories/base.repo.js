@@ -39,11 +39,11 @@ export default class BaseRepo {
   }
 
   async getStateById(id, { session = null } = {}) {
-    const { data } = await this._collection.findOne(
+    const data = await this._collection.findOne(
       { id },
       { projection: { _id: 0, id: 0, createdBy: 0, updatedBy: 0, updatedAt: 0, createdAt: 0 }, session },
     );
-    return data ? data[0] : null;
+    return data || null;
   }
 
   async insert(data, { session = null } = {}) {
