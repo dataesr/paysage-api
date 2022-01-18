@@ -23,6 +23,8 @@ tags:
     description: Access event logs  of object changes.
   - name: Categories
     description: Operation for the Category object.
+  - name: Official Documents
+    description: Operation for the OfficialDocuments object.
 
 security:
   - Authentication: []
@@ -40,11 +42,11 @@ paths:
   # '/categories/{categoryId}':
   #   $ref: './modules/categories/path/category.yml'
 
-  ### OFFICIAL DOCUMENTS ##
-  # '/official-documents':
-  #   $ref: './modules/official-documents/path/official-documents.yml'
-  # '/official-documents/{officialDocumentId}':
-  #   $ref: './modules/official-documents/path/official-document.yml'
+  ## OFFICIAL DOCUMENTS ##
+  '/official-documents':
+    $ref: './modules/official-documents/path/official-documents.yml'
+  '/official-documents/{officialDocumentId}':
+    $ref: './modules/official-documents/path/official-document.yml'
 
   ### STRUCTURE ###
   '/structures':

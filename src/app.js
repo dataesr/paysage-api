@@ -8,6 +8,7 @@ import { handleErrors } from './modules/commons/middlewares/handle-errors.middle
 import { authenticate } from './modules/commons/middlewares/authenticate.middlewares';
 import structuresRoutes from './modules/structures/structures.routes';
 import eventsRoutes from './modules/events/events.routes';
+import officialDocumentsRoutes from './modules/official-documents/official-documents.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/openapi.yml');
@@ -36,6 +37,7 @@ app.all('/health', (req, res) => ({ ok: 1 }));
 app.use(authenticate);
 
 // Register routes
+app.use(officialDocumentsRoutes);
 app.use(structuresRoutes);
 app.use(eventsRoutes);
 

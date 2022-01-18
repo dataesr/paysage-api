@@ -22,6 +22,8 @@ tags:
     description: Access event logs  of object changes.
   - name: Categories
     description: Operation for the Category object.
+  - name: Official Documents
+    description: Operation for the OfficialDocuments object.
 security:
   - Authentication: []
 paths:
@@ -56,6 +58,212 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /official-documents:
+    get:
+      tags:
+        - Official Documents
+      summary: List official documents
+      parameters:
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/paths/~1official-documents/post/requestBody/content/application~1json/schema/allOf/0'
+                        - $ref: '#/components/schemas/Metas'
+                  totalCount:
+                    type: number
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Official Documents
+      summary: Create an official document
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateOfficialDocumentPayload
+              type: object
+              allOf:
+                - title: Official Document
+                  description: Document officiel JO ou BO
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      readOnly: true
+                    nature:
+                      type: string
+                      enum:
+                        - Publication au JO
+                        - Publication au BOESR
+                    type:
+                      type: string
+                      enum:
+                        - Loi
+                        - Décret
+                        - Ordonnance
+                        - Avis de vacance d'emploi
+                        - Arrêté
+                        - Circulaire
+                    documentNumber:
+                      type: string
+                    title:
+                      type: string
+                    pageUrl:
+                      type: string
+                      format: uri
+                    signatureDate:
+                      type: string
+                      pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+                    startDate:
+                      type: string
+                      pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+                    previsionalEndDate:
+                      type: string
+                      pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+                    endDate:
+                      type: string
+                      pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+                    textExtract:
+                      type: string
+                    comment:
+                      type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: OfficialDocumentResponse
+                required:
+                  - id
+                allOf:
+                  - $ref: '#/paths/~1official-documents/post/requestBody/content/application~1json/schema/allOf/0'
+                  - $ref: '#/components/schemas/Metas'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/official-documents/{officialDocumentId}':
+    get:
+      tags:
+        - Official Documents
+      summary: Get an official document
+      parameters:
+        - name: officialDocumentId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique official document id
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: OfficialDocumentResponse
+                required:
+                  - id
+                allOf:
+                  - $ref: '#/paths/~1official-documents/post/requestBody/content/application~1json/schema/allOf/0'
+                  - $ref: '#/components/schemas/Metas'
+        '301':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Official Documents
+      summary: Delete an official document
+      parameters:
+        - name: officialDocumentId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique official document id
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Official Documents
+      summary: Update an official document
+      parameters:
+        - name: officialDocumentId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique official document id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: UpdateOfficialDocumentPayload
+              type: object
+              allOf:
+                - $ref: '#/paths/~1official-documents/post/requestBody/content/application~1json/schema/allOf/0'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: OfficialDocumentResponse
+                required:
+                  - id
+                allOf:
+                  - $ref: '#/paths/~1official-documents/post/requestBody/content/application~1json/schema/allOf/0'
+                  - $ref: '#/components/schemas/Metas'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
   /structures:
@@ -949,8 +1157,10 @@ components:
           properties:
             id:
               type: string
+              nullable: true
             username:
               type: string
+              nullable: true
             avatar:
               type: string
               format: uri
@@ -961,8 +1171,10 @@ components:
           properties:
             id:
               type: string
+              nullable: true
             username:
               type: string
+              nullable: true
             avatar:
               type: string
               format: uri

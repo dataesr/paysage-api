@@ -13,7 +13,17 @@ const metasPipeline = [
     },
   },
   { $set: { user: { $arrayElemAt: ['$user', 0] } } },
-  { $set: { createdBy: { id: '$user.id', username: '$user.username', avatar: { $ifNull: ['$user.avatar', null] } } } },
+  {
+    $set: {
+      createdBy:
+      {
+        id:
+          { $ifNull: ['$user.id', null] },
+        username: { $ifNull: ['$user.username', null] },
+        avatar: { $ifNull: ['$user.avatar', null] },
+      },
+    },
+  },
   {
     $lookup: {
       from: 'users',
@@ -23,7 +33,17 @@ const metasPipeline = [
     },
   },
   { $set: { user: { $arrayElemAt: ['$user', 0] } } },
-  { $set: { updatedBy: { id: '$user.id', username: '$user.username', avatar: { $ifNull: ['$user.avatar', null] } } } },
+  {
+    $set: {
+      updatedBy:
+      {
+        id:
+          { $ifNull: ['$user.id', null] },
+        username: { $ifNull: ['$user.username', null] },
+        avatar: { $ifNull: ['$user.avatar', null] },
+      },
+    },
+  },
   { $project: { user: 0 } },
 ];
 

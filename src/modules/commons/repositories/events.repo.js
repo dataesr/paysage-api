@@ -10,7 +10,17 @@ const userPipeline = [
     },
   },
   { $set: { user: { $arrayElemAt: ['$user', 0] } } },
-  { $set: { user: { id: '$user.id', username: '$user.username', avatar: '$user.avatar' } } },
+  {
+    $set: {
+      user:
+      {
+        id:
+          { $ifNull: ['$user.id', null] },
+        username: { $ifNull: ['$user.username', null] },
+        avatar: { $ifNull: ['$user.avatar', null] },
+      },
+    },
+  },
   { $project: { userId: 0, _id: 0 } },
 ];
 
