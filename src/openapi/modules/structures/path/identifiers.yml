@@ -24,7 +24,10 @@ get:
               data:
                 type: array
                 items:
-                  $ref: '../schemas/identifier.yml'
+                  type: object
+                  allOf:
+                    - $ref: '../schemas/identifier.yml'
+                    - $ref: '../../../schemas/metas.yml'
               totalCount:
                 type: number
     '400':
@@ -40,6 +43,13 @@ post:
   tags:
     - Structures
   summary: Create a structure indentifier
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
   requestBody:
     content:
       application/json:
@@ -58,7 +68,11 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../schemas/identifier.yml'
+            title: StructureIdentifierResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/identifier.yml'
+              - $ref: '../../../schemas/metas.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

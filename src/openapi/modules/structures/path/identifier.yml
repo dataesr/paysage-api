@@ -21,7 +21,11 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../schemas/identifier.yml'
+            title: StructureIdentifierResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/identifier.yml'
+              - $ref: '../../../schemas/metas.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -81,7 +85,7 @@ patch:
     content:
       application/json:
         schema:
-          title: UpdateStructureIdentifier
+          title: UpdateStructureIdentifierPayload
           type: object
           allOf:
             - $ref: '../schemas/identifier.yml'
@@ -91,7 +95,11 @@ patch:
       content:
         application/json:
           schema:
-            $ref: '../schemas/identifier.yml'
+            title: StructureIdentifierResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/identifier.yml'
+              - $ref: '../../../schemas/metas.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

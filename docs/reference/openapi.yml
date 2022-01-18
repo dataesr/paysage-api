@@ -18,6 +18,8 @@ servers:
 tags:
   - name: Structures
     description: Operation for the Structure object.
+  - name: Events
+    description: Access event logs  of object changes.
   - name: Categories
     description: Operation for the Category object.
 security:
@@ -262,6 +264,200 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Structure'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/identifiers':
+    get:
+      tags:
+        - Structures
+      summary: List structure identifiers
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      allOf:
+                        - $ref: '#/components/schemas/StructureIdentifier'
+                        - $ref: '#/components/schemas/Metas'
+                  totalCount:
+                    type: number
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Structures
+      summary: Create a structure indentifier
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateStructureIdentifier
+              type: object
+              required:
+                - type
+                - value
+                - active
+              allOf:
+                - $ref: '#/components/schemas/StructureIdentifier'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: StructureIdentifierResponse
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/StructureIdentifier'
+                  - $ref: '#/components/schemas/Metas'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/identifiers/{identifierId}':
+    get:
+      tags:
+        - Structures
+      summary: Get a structure identifier
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+        - name: identifierId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Unique identifier id
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: StructureIdentifierResponse
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/StructureIdentifier'
+                  - $ref: '#/components/schemas/Metas'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Structures
+      summary: Delete a structure identifier
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+        - name: identifierId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Unique identifier id
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Structures
+      summary: Update a structure identifier
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+        - name: identifierId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Unique identifier id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: UpdateStructureIdentifierPayload
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/StructureIdentifier'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: StructureIdentifierResponse
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/StructureIdentifier'
+                  - $ref: '#/components/schemas/Metas'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':

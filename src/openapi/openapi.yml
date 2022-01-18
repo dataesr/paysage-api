@@ -53,10 +53,10 @@ paths:
     $ref: './modules/structures/path/structure.yml'
   '/structures/{structureId}/status':
     $ref: './modules/structures/path/status.yml'
-  # '/structures/{structureId}/identifiers':
-  #   $ref: './modules/structures/path/identifiers.yml'
-  # '/structures/{structureId}/identifiers/{identifierId}':
-  #   $ref: './modules/structures/path/identifier.yml'
+  '/structures/{structureId}/identifiers':
+    $ref: './modules/structures/path/identifiers.yml'
+  '/structures/{structureId}/identifiers/{identifierId}':
+    $ref: './modules/structures/path/identifier.yml'
   '/structures/{structureId}/names':
     $ref: './modules/structures/path/names.yml'
   '/structures/{structureId}/names/{nameId}':
