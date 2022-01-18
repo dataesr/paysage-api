@@ -8,6 +8,8 @@ StructureName:
   $ref: '../modules/structures/schemas/name.yml'
 StructureIdentifier:
   $ref: '../modules/structures/schemas/identifier.yml'
+StructureLocalisation:
+  $ref: '../modules/structures/schemas/localisation.yml'
 Category:
   $ref: '../modules/categories/schemas/category.yml'
 Events:
