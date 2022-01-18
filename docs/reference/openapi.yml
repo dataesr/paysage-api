@@ -465,6 +465,7 @@ paths:
                     - published
                 redirection:
                   type: string
+                  nullable: true
       responses:
         '200':
           description: Success
@@ -1196,10 +1197,12 @@ components:
           readOnly: true
         structureStatus:
           type: string
+          nullable: true
           enum:
             - active
             - inactive
             - forthcomming
+            - null
         alternativePaysageIds:
           type: array
           readOnly: true
@@ -1233,34 +1236,47 @@ components:
           readOnly: true
         officialName:
           type: string
+          nullable: true
         usualName:
           type: string
+          nullable: true
         shortName:
           type: string
+          nullable: true
         brandName:
           type: string
+          nullable: true
         nameEn:
           type: string
+          nullable: true
         acronymFr:
           type: string
+          nullable: true
         acronymEn:
           type: string
+          nullable: true
         otherName:
           type: array
+          nullable: true
           items:
             type: string
         main:
           type: boolean
+          nullable: true
         startDate:
           type: string
+          nullable: true
           pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
+          nullable: true
           pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         comment:
           type: string
+          nullable: true
         article:
           type: string
+          nullable: true
           enum:
             - à l'
             - à
@@ -1313,9 +1329,11 @@ components:
           type: boolean
         startDate:
           type: string
+          nullable: true
           pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
+          nullable: true
           pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
     StructureLocalisation:
       title: Localisation
@@ -1325,22 +1343,31 @@ components:
           type: string
         cityFrId:
           type: string
+          nullable: true
         inseeId:
           type: string
+          nullable: true
         cityForeignId:
           type: string
+          nullable: true
         distributionStatement:
           type: string
+          nullable: true
         address:
           type: string
+          nullable: true
         postbox:
           type: string
+          nullable: true
         zipcode:
           type: string
+          nullable: true
         city:
           type: string
+          nullable: true
         geometry:
           type: object
+          nullable: true
           properties:
             type:
               type: string
@@ -1352,9 +1379,11 @@ components:
                 type: number
         startDate:
           type: string
+          nullable: true
           pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
+          nullable: true
           pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
     Category:
       title: Category

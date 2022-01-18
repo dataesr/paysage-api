@@ -65,16 +65,7 @@ properties:
     writeOnly: true
   # officialDocument:
   #   $ref: ./RelatedElement.yaml
-  # identifierIds:
-  #   type: array
-  #   description: Identifier id
-  #   items:
-  #     type: string
-  # relatedElements:
-  #   type: array
-  #   description: Identifier id
-  #   items:
-  #     $ref: ./RelatedElement.yaml
+
   # webVisibility:
   #   type: array
   #   items:

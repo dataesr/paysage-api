@@ -94,7 +94,7 @@ export default new StructuresRepository({
     { $project: {
       _id: 0,
       id: 1,
-      structureStatus: { $ifNull: ['$structureStatus', 'null'] },
+      structureStatus: { $ifNull: ['$structureStatus', null] },
       status: 1,
       alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
       currentName: { $ifNull: ['$currentName', {}] },
