@@ -10,4 +10,5 @@ properties:
       - published
   redirection: 
     type: string
+    nullable: true
     

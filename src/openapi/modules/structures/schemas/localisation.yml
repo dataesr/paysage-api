@@ -5,22 +5,31 @@ properties:
     type: string
   cityFrId:
     type: string
+    nullable: true
   inseeId:
     type: string
+    nullable: true
   cityForeignId:
     type: string
+    nullable: true
   distributionStatement:
     type: string
+    nullable: true
   address:
     type: string
+    nullable: true
   postbox:
     type: string
+    nullable: true
   zipcode:
     type: string
+    nullable: true
   city:
     type: string
+    nullable: true
   geometry:
     type: object
+    nullable: true
     properties:
       type:
         type: string
@@ -32,7 +41,9 @@ properties:
           type: number
   startDate:
     type: string
+    nullable: true
     pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
   endDate:
     type: string
+    nullable: true
     pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'

@@ -10,6 +10,7 @@ properties:
       - active
       - inactive
       - forthcomming
+      - null
   alternativePaysageIds:
     type: array
     readOnly: true
