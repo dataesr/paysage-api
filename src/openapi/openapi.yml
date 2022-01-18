@@ -61,6 +61,10 @@ paths:
     $ref: './modules/structures/path/names.yml'
   '/structures/{structureId}/names/{nameId}':
     $ref: './modules/structures/path/name.yml'
+  '/structures/{structureId}/localisations':
+    $ref: './modules/structures/path/localisations.yml'
+  '/structures/{structureId}/localisations/{localisationId}':
+    $ref: './modules/structures/path/localisation.yml'
 
 components:
   parameters:

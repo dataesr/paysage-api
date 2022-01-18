@@ -1,0 +1,81 @@
+get:
+  tags:
+    - Structures
+  summary: List structure localisations
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
+    - $ref: '../../../parameters/query/filters.yml'
+    - $ref: '../../../parameters/query/skip.yml'
+    - $ref: '../../../parameters/query/limit.yml'
+    - $ref: '../../../parameters/query/sort.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '../schemas/localisation.yml'
+                    - $ref: '../../../schemas/metas.yml'
+              totalCount:
+                type: number
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+post:
+  tags:
+    - Structures
+  summary: Create a structure localisation
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique structure id
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: CreateStructureLocalisation
+          type: object
+          required:
+            - address
+          allOf:
+            - $ref: '../schemas/localisation.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            title: StructureLocalisationResponse
+            type: object
+            allOf:
+              - $ref: '../schemas/localisation.yml'
+              - $ref: '../../../schemas/metas.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
