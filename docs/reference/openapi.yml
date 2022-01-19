@@ -409,6 +409,9 @@ paths:
               title: CreateStructurePayload
               type: object
               properties:
+                currentNameId:
+                  type: integer
+                  nullable: true
                 structureStatus:
                   type: string
                   enum:
@@ -737,7 +740,6 @@ paths:
               type: object
               required:
                 - usualName
-                - main
               allOf:
                 - $ref: '#/components/schemas/StructureName'
       responses:
@@ -817,6 +819,8 @@ paths:
       responses:
         '204':
           description: No content
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1260,9 +1264,6 @@ components:
           nullable: true
           items:
             type: string
-        main:
-          type: boolean
-          nullable: true
         startDate:
           type: string
           nullable: true

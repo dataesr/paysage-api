@@ -56,6 +56,8 @@ delete:
   responses:
     '204':
       description: No content
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
