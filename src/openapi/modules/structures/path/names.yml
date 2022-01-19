@@ -58,7 +58,6 @@ post:
           type: object
           required:
             - usualName
-            - main
           allOf:
             - $ref: '../schemas/name.yml'
   responses:

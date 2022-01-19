@@ -37,8 +37,8 @@ app.all('/health', (req, res) => ({ ok: 1 }));
 app.use(authenticate);
 
 // Register routes
-app.use(officialDocumentsRoutes);
 app.use(structuresRoutes);
+app.use(officialDocumentsRoutes);
 app.use(eventsRoutes);
 
 // Erreurs personnalisées

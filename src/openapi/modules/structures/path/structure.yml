@@ -73,6 +73,9 @@ patch:
           title: CreateStructurePayload
           type: object
           properties:
+            currentNameId:
+              type: integer
+              nullable: true
             structureStatus:
               type: string
               enum:

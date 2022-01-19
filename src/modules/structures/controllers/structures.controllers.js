@@ -1,5 +1,5 @@
 import { client } from '../../commons/services/database.service';
-import { NotFoundError, ServerError } from '../../commons/errors';
+import { BadRequestError, NotFoundError, ServerError } from '../../commons/errors';
 import structuresRepo from '../structures.repo';
 import eventsRepo from '../../commons/repositories/events.repo';
 import catalogueRepo from '../../commons/repositories/catalogue.repo';
@@ -10,11 +10,19 @@ export default {
     const { structureStatus } = req.body;
     const { id: userId } = req.currentUser;
     const expiresAt = new Date(new Date().setDate(new Date().getDate() + 2));
-    const data = { id, structureStatus, status: 'draft', redirection: null, expiresAt, createdBy: userId };
+    const data = {
+      id,
+      structureStatus,
+      currentNameId: null,
+      status: 'draft',
+      redirection: null,
+      expiresAt,
+      createdBy: userId,
+    };
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.insert(data, { session });
-      const nextState = await structuresRepo.findById(id, { fields: ['structureStatus'], session });
+      const nextState = await structuresRepo.findById(id, { fields: ['structureStatus', 'currentNameId'], session });
       await eventsRepo.insert({
         userId,
         resourceUri: `${req.path}/${id}`,
@@ -43,7 +51,7 @@ export default {
   delete: async (req, res) => {
     const { structureId } = req.params;
     const { id: userId } = req.currentUser;
-    const prevState = await structuresRepo.findById(structureId, { fields: ['structureStatus'] });
+    const prevState = await structuresRepo.findById(structureId, { fields: ['structureStatus', 'currentNameId'] });
     if (!prevState) throw new NotFoundError();
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
@@ -66,12 +74,20 @@ export default {
   update: async (req, res) => {
     const { structureId } = req.params;
     const data = req.body;
+    const { currentNameId } = req.body;
+    if (currentNameId && !await structuresRepo.names.findById(structureId, currentNameId)) {
+      throw new BadRequestError(
+        null, [{ path: '.body.currentNameId', message: `name ${currentNameId} does not exists` }],
+      );
+    }
     const { id: userId } = req.currentUser;
-    const prevState = await structuresRepo.findById(structureId, { fields: ['structureStatus'] });
+    const prevState = await structuresRepo.findById(structureId, { fields: ['structureStatus', 'currentNameId'] });
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.updateById(structureId, { ...data, updatedBy: userId });
-      const nextState = await structuresRepo.findById(structureId, { fields: ['structureStatus'], session });
+      const nextState = await structuresRepo.findById(
+        structureId, { fields: ['structureStatus', 'currentNameId'], session },
+      );
       await eventsRepo.insert({
         userId,
         resourceUri: req.path,

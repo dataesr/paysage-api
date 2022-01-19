@@ -1,7 +1,20 @@
 import BaseRepo from '../commons/repositories/base.repo';
 import NestedRepo from '../commons/repositories/nested.repo';
 
-const currentNamePipeline = [];
+const currentNamePipeline = [
+  {
+    $set: {
+      currentName: {
+        $filter: {
+          input: '$names',
+          as: 'name',
+          cond: { $eq: ['$$name.id', '$currentNameId'] },
+        },
+      },
+    },
+  },
+  { $set: { currentName: { $arrayElemAt: ['$currentName', 0] } } },
+];
 const alternativePaysageIdPipeline = [];
 const metasPipeline = [
   {
@@ -17,8 +30,7 @@ const metasPipeline = [
     $set: {
       createdBy:
       {
-        id:
-          { $ifNull: ['$user.id', null] },
+        id: { $ifNull: ['$user.id', null] },
         username: { $ifNull: ['$user.username', null] },
         avatar: { $ifNull: ['$user.avatar', null] },
       },
@@ -37,8 +49,7 @@ const metasPipeline = [
     $set: {
       updatedBy:
       {
-        id:
-          { $ifNull: ['$user.id', null] },
+        id: { $ifNull: ['$user.id', null] },
         username: { $ifNull: ['$user.username', null] },
         avatar: { $ifNull: ['$user.avatar', null] },
       },

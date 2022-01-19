@@ -1,5 +1,5 @@
 import { client } from '../../commons/services/database.service';
-import { NotFoundError, ServerError } from '../../commons/errors';
+import { BadRequestError, NotFoundError, ServerError } from '../../commons/errors';
 import structuresRepo from '../structures.repo';
 import eventsRepo from '../../commons/repositories/events.repo';
 
@@ -44,6 +44,14 @@ export default {
 
   delete: async (req, res) => {
     const { structureId, nameId } = req.params;
+    const structure = await structuresRepo.findById(structureId);
+    if (structure.currentName.id === parseInt(nameId, 10)) {
+      throw new BadRequestError(
+        null,
+        [{ path: '.',
+          message: 'Cannot delete this name as it is defined as current. Set another current name to delete' }],
+      );
+    }
     const { id: userId } = req.currentUser;
     const prevState = await structuresRepo.names.getStateById(structureId, parseInt(nameId, 10));
     if (!prevState) throw new NotFoundError();

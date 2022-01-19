@@ -30,9 +30,6 @@ properties:
     nullable: true
     items:
       type: string
-  main:
-    type: boolean
-    nullable: true
   startDate:
     type: string
     nullable: true
