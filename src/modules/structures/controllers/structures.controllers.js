@@ -13,7 +13,7 @@ export default {
     const data = {
       id,
       structureStatus,
-      currentNameId: null,
+      currentNameId: 1,
       status: 'draft',
       redirection: null,
       expiresAt,
