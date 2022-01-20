@@ -4,12 +4,8 @@ import statusesControllers from './controllers/status.controllers';
 import namesControllers from './controllers/names.controllers';
 import identifiersControllers from './controllers/identifiers.controllers';
 import localisationsControllers from './controllers/localisations.controllers';
-import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 
 const router = new express.Router();
-
-// GLOBAL MIDDELWARES
-// router.use(requireActiveUser);
 
 // STUCTURES
 router.get('/structures', structuresControllers.list);

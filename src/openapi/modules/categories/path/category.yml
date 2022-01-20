@@ -15,7 +15,12 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../schemas/category.yml'
+            title: CategoryResponse
+            required:
+              - id
+            allOf:
+              - $ref: '../schemas/category.yml'
+              - $ref: '../../../schemas/metas.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':

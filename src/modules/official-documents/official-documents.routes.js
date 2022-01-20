@@ -1,11 +1,7 @@
 import express from 'express';
 import officialDocumentsControllers from './official-documents.controllers';
-import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 
 const router = new express.Router();
-
-// GLOBAL MIDDELWARES
-router.use(requireActiveUser);
 
 // OFFICIAL DOCUMENTS
 router.get('/official-documents', officialDocumentsControllers.list);
