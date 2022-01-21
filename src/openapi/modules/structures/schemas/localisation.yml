@@ -3,6 +3,9 @@ type: object
 properties:
   id:
     type: string
+  structureId:
+    type: string
+    readOnly: true
   cityFrId:
     type: string
     nullable: true
