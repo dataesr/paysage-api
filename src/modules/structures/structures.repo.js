@@ -79,7 +79,7 @@ class StructuresRepository extends BaseRepo {
     });
   }
 
-  get indetifiers() {
+  get identifiers() {
     return new NestedRepo({
       collection: this._collectionName,
       field: 'identifiers',

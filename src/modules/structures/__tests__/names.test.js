@@ -3,7 +3,6 @@ let rid;
 let id;
 const structureName = {
   officialName: 'string',
-  structureId: 'string',
   usualName: 'string',
   shortName: 'string',
   brandName: 'string',
@@ -13,7 +12,6 @@ const structureName = {
   otherName: [
     'string',
   ],
-  main: true,
   startDate: '2012-01-01',
   endDate: '2014-12-31',
   comment: 'string',
@@ -25,9 +23,7 @@ beforeAll(async () => {
     .post('/structures')
     .set('Authorization', authorization)
     .send({
-      descriptionFr: 'descriptionFr',
-      descriptionEn: 'descriptionEn',
-      status: 'active',
+      structureStatus: 'active',
     }).expect(201);
   rid = response.body.id;
 });
@@ -41,9 +37,8 @@ describe('API > structures > names > create', () => {
     expect(response.body.id).toBeTruthy();
     expect(response.body.officialName).toBe('string');
     expect(response.body.usualName).toBe('string');
-    expect(response.body.main).toBe(true);
     expect(response.body.createdBy.username).toBe('user');
-    id = response.body.id;
+    id = parseInt(response.body.id, 10);
   });
   it('throws with required field missing', async () => {
     const { usualName, ...rest } = structureName;
@@ -96,7 +91,6 @@ describe('API > structures > names > read', () => {
     expect(response.body.id).toBeTruthy();
     expect(response.body.officialName).toBe('string');
     expect(response.body.usualName).toBe('string');
-    expect(response.body.main).toBe(true);
     expect(response.body.createdBy.username).toBe('user');
     expect(response.body.otherName).toHaveLength(2);
     expect(response.body.otherName).toContain('string2');
@@ -128,20 +122,16 @@ describe('API > structures > names > delete', () => {
       .set('Authorization', authorization)
       .expect(404);
   });
-  it('can delete structure successfully', async () => {
+  it('throws when trying to delete currentName', async () => {
     await global.superapp
       .delete(`/structures/${rid}/names/${id}`)
       .set('Authorization', authorization)
-      .expect(204);
+      .expect(400);
   });
 });
 
 describe('API > structures > names > list', () => {
   beforeAll(async () => {
-    await global.superapp
-      .post(`/structures/${rid}/names/`)
-      .set('Authorization', authorization)
-      .send(structureName).expect(201);
     await global.superapp
       .post(`/structures/${rid}/names/`)
       .set('Authorization', authorization)

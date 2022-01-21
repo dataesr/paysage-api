@@ -10,13 +10,9 @@ describe('API > structures > structures > create', () => {
       .post('/structures')
       .set('Authorization', authorization)
       .send({
-        descriptionFr: 'descriptionFr',
-        descriptionEn: 'descriptionEn',
-        status: 'active',
+        structureStatus: 'active',
       }).expect(201);
     expect(response.body.id).toBeTruthy();
-    expect(response.body.descriptionFr).toBe('descriptionFr');
-    expect(response.body.descriptionEn).toBe('descriptionEn');
     expect(response.body.createdBy.username).toBe('user');
     id = response.body.id;
   });
@@ -28,16 +24,16 @@ describe('API > structures > structures > update', () => {
       .patch('/structures/45frK')
       .set('Authorization', authorization)
       .send({
-        descriptionFr: 'test',
+        structureStatus: 'inactive',
       }).expect(404);
   });
   it('can update successfully', async () => {
     const { body } = await global.superapp
       .patch(`/structures/${id}`)
       .set('Authorization', authorization)
-      .send({ descriptionFr: 'test' })
+      .send({ structureStatus: 'inactive' })
       .expect(200);
-    expect(body.descriptionFr).toBe('test');
+    expect(body.structureStatus).toBe('inactive');
   });
   it('throws with wrong data', async () => {
     await global.superapp
@@ -54,9 +50,7 @@ describe('API > structures > structures > read', () => {
       .get(`/structures/${id}`)
       .set('Authorization', authorization)
       .expect(200);
-    expect(response.body.descriptionFr).toBe('test');
-    expect(response.body.descriptionEn).toBe('descriptionEn');
-    expect(response.body.status).toBe('active');
+    expect(response.body.structureStatus).toBe('inactive');
     expect(response.body.id).toBe(id);
     expect(response.body.createdBy.username).toBe('user');
   });
@@ -89,25 +83,19 @@ describe('API > structures > structures > list', () => {
       .post('/structures')
       .set('Authorization', authorization)
       .send({
-        descriptionFr: 'descriptionFr',
-        descriptionEn: 'descriptionEn',
-        status: 'active',
+        structureStatus: 'active',
       }).expect(201);
     await global.superapp
       .post('/structures')
       .set('Authorization', authorization)
       .send({
-        descriptionFr: 'descriptionFr2',
-        descriptionEn: 'descriptionEn2',
-        status: 'active',
+        structureStatus: 'inactive',
       }).expect(201);
     await global.superapp
       .post('/structures')
       .set('Authorization', authorization)
       .send({
-        descriptionFr: 'descriptionFr3',
-        descriptionEn: 'descriptionEn3',
-        status: 'active',
+        structureStatus: 'forthcoming',
       }).expect(201);
   });
   it('can list successfully', async () => {
@@ -115,19 +103,19 @@ describe('API > structures > structures > list', () => {
       .get('/structures')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.descriptionFr);
-    expect(docs).toContain('descriptionFr');
-    expect(docs).toContain('descriptionFr2');
-    expect(docs).toContain('descriptionFr3');
+    const docs = body.data.map((doc) => doc.structureStatus);
+    expect(docs).toContain('forthcoming');
+    expect(docs).toContain('active');
+    expect(docs).toContain('inactive');
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
       .get('/structures?skip=1')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.descriptionFr);
-    expect(docs).toContain('descriptionFr2');
-    expect(docs).toContain('descriptionFr3');
+    const docs = body.data.map((doc) => doc.structureStatus);
+    expect(docs).toContain('inactive');
+    expect(docs).toContain('forthcoming');
     expect(body.totalCount).toBe(3);
   });
   it('can limit successfully', async () => {
@@ -135,35 +123,35 @@ describe('API > structures > structures > list', () => {
       .get('/structures?limit=1')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.descriptionFr);
-    expect(docs).toContain('descriptionFr');
+    const docs = body.data.map((doc) => doc.structureStatus);
+    expect(docs).toContain('active');
     expect(body.totalCount).toBe(3);
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/structures?sort=descriptionFr')
+      .get('/structures?sort=structureStatus')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.descriptionFr);
-    expect(docs[0]).toBe('descriptionFr');
+    const docs = body.data.map((doc) => doc.structureStatus);
+    expect(docs[0]).toBe('active');
     expect(body.totalCount).toBe(3);
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/structures?sort=-descriptionFr')
+      .get('/structures?sort=-structureStatus')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.descriptionFr);
-    expect(docs[0]).toBe('descriptionFr3');
+    const docs = body.data.map((doc) => doc.structureStatus);
+    expect(docs[0]).toBe('inactive');
     expect(body.totalCount).toBe(3);
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get('/structures?filters[descriptionFr]=descriptionFr2&filters[descriptionEn]=descriptionEn2')
+      .get('/structures?filters[structureStatus]=active')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.descriptionFr);
-    expect(docs).toContain('descriptionFr2');
+    const docs = body.data.map((doc) => doc.structureStatus);
+    expect(docs).toContain('active');
     expect(body.totalCount).toBe(1);
   });
 });

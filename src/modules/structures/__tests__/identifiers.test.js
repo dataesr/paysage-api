@@ -7,9 +7,7 @@ beforeAll(async () => {
     .post('/structures')
     .set('Authorization', authorization)
     .send({
-      descriptionFr: 'descriptionFr',
-      descriptionEn: 'descriptionEn',
-      status: 'active',
+      structureStatus: 'active',
     }).expect(201);
   rid = response.body.id;
 });
@@ -31,7 +29,7 @@ describe('API > structures > identifiers > create', () => {
     expect(response.body.value).toBe('12345678912345');
     expect(response.body.active).toBe(true);
     expect(response.body.createdBy.username).toBe('user');
-    id = response.body.id;
+    id = parseInt(response.body.id, 10);
   });
   it('throws with required field missing', async () => {
     await global.superapp

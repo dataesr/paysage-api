@@ -1,8 +1,49 @@
 import NestedRepo from '../nested.repo';
 import BaseRepo from '../base.repo';
 
+const metasPipeline = [
+  {
+    $lookup: {
+      from: 'users',
+      localField: 'createdBy',
+      foreignField: 'id',
+      as: 'user',
+    },
+  },
+  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
+  {
+    $set: {
+      createdBy:
+      {
+        id: { $ifNull: ['$user.id', null] },
+        username: { $ifNull: ['$user.username', null] },
+        avatar: { $ifNull: ['$user.avatar', null] },
+      },
+    },
+  },
+  {
+    $lookup: {
+      from: 'users',
+      localField: 'updatedBy',
+      foreignField: 'id',
+      as: 'user',
+    },
+  },
+  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
+  {
+    $set: {
+      updatedBy:
+      {
+        id: { $ifNull: ['$user.id', null] },
+        username: { $ifNull: ['$user.username', null] },
+        avatar: { $ifNull: ['$user.avatar', null] },
+      },
+    },
+  },
+  { $project: { user: 0 } },
+];
 const baseRepository = new BaseRepo({ collection: 'test' });
-const testRepository = new NestedRepo({ collection: 'test', field: 'test' });
+const testRepository = new NestedRepo({ collection: 'test', field: 'test', pipeline: metasPipeline });
 
 const user = {
   id: Math.random().toString().substr(2, 8),
@@ -95,8 +136,8 @@ it('can find one with id sucessfully', async () => {
   expect(result.number).toBe(88);
 });
 it('can find one and project sucessfully', async () => {
-  const result = await testRepository.findById(rid, id, { returnFields: ['id', 'name', 'createdBy'] });
-  expect(result.id).toBeFalsy();
+  const result = await testRepository.findById(rid, id, { fields: ['id', 'name', 'createdBy'] });
+  expect(result.id).toBeTruthy();
   expect(result.name).toBe('test11');
   expect(result.createdBy.username).toBe('tester');
   expect(result.createdBy.avatar).toBe('http://avatars.com/tester');
