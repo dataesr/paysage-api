@@ -82,6 +82,7 @@ export default {
     }
     const { id: userId } = req.currentUser;
     const prevState = await structuresRepo.findById(structureId, { fields: ['structureStatus', 'currentNameId'] });
+    if (!prevState) throw new NotFoundError();
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.updateById(structureId, { ...data, updatedBy: userId });

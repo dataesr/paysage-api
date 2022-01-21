@@ -9,7 +9,7 @@ properties:
     enum:
       - active
       - inactive
-      - forthcomming
+      - forthcoming
       - null
   alternativePaysageIds:
     type: array

@@ -585,7 +585,7 @@ paths:
                   enum:
                     - active
                     - inactive
-                    - forthcomming
+                    - forthcoming
       responses:
         '201':
           description: Created
@@ -675,8 +675,9 @@ paths:
         content:
           application/json:
             schema:
-              title: CreateStructurePayload
+              title: UpdateStructurePayload
               type: object
+              additionalProperties: false
               properties:
                 currentNameId:
                   type: integer
@@ -686,7 +687,7 @@ paths:
                   enum:
                     - active
                     - inactive
-                    - forthcomming
+                    - forthcoming
       responses:
         '200':
           description: Success
@@ -1474,7 +1475,7 @@ components:
           enum:
             - active
             - inactive
-            - forthcomming
+            - forthcoming
             - null
         alternativePaysageIds:
           type: array

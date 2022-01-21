@@ -79,6 +79,7 @@ export default {
   update: async (req, res) => {
     const { structureId, nameId } = req.params;
     const prevState = await structuresRepo.names.getStateById(structureId, parseInt(nameId, 10));
+    if (!prevState) throw new NotFoundError();
     const { id: userId } = req.currentUser;
     const now = new Date();
     const data = { ...req.body, updatedBy: userId, updatedAt: now };

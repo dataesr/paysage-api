@@ -70,8 +70,9 @@ patch:
     content:
       application/json:
         schema:
-          title: CreateStructurePayload
+          title: UpdateStructurePayload
           type: object
+          additionalProperties: false
           properties:
             currentNameId:
               type: integer
@@ -81,7 +82,7 @@ patch:
               enum:
                 - active
                 - inactive
-                - forthcomming
+                - forthcoming
   responses:
     '200':
       description: Success

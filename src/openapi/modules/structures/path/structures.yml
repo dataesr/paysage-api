@@ -48,7 +48,7 @@ post:
               enum:
                 - active
                 - inactive
-                - forthcomming
+                - forthcoming
   responses:
     '201':
       description: Created
