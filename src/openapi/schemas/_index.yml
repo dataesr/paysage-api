@@ -12,5 +12,7 @@ StructureLocalisation:
   $ref: '../modules/structures/schemas/localisation.yml'
 Category:
   $ref: '../modules/categories/schemas/category.yml'
+OfficialDocument:
+  $ref: '../modules/official-documents/schemas/official-document.yml'
 Events:
   $ref: '../modules/events/schemas/events.yml'

@@ -33,14 +33,12 @@ paths:
   ### EVENTS ##
   '/events':
     $ref: './modules/events/path/events.yml'
-  # '/categories/{categoryId}':
-  #   $ref: './modules/categories/path/category.yml'
 
   ### CATEGORIES ##
-  # '/categories':
-  #   $ref: './modules/categories/path/categories.yml'
-  # '/categories/{categoryId}':
-  #   $ref: './modules/categories/path/category.yml'
+  '/categories':
+    $ref: './modules/categories/path/categories.yml'
+  '/categories/{categoryId}':
+    $ref: './modules/categories/path/category.yml'
 
   ## OFFICIAL DOCUMENTS ##
   '/official-documents':
