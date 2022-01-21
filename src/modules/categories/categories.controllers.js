@@ -1,6 +1,7 @@
 import { client } from '../commons/services/database.service';
-import { NotFoundError, ServerError } from '../commons/errors';
+import { BadRequestError, NotFoundError, ServerError } from '../commons/errors';
 import categoriesRepo from './categories.repo';
+import officialDocumentsRepo from '../official-documents/official-documents.repo';
 import eventsRepo from '../commons/repositories/events.repo';
 import catalogueRepo from '../commons/repositories/catalogue.repo';
 
@@ -9,6 +10,12 @@ export default {
     const id = await catalogueRepo.getUniqueId('categories');
     const { id: userId } = req.currentUser;
     const data = { id, ...req.body, createdBy: userId };
+    const { officialDocumentId } = req.body;
+    if (officialDocumentId && !await officialDocumentsRepo.exists(officialDocumentId)) {
+      throw new BadRequestError(
+        null, [{ path: '.body.officialDocumentId', message: 'Official document does not esxists' }],
+      );
+    }
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
       await categoriesRepo.insert(data, { session });
@@ -65,6 +72,12 @@ export default {
     const { categoryId } = req.params;
     const data = req.body;
     const { id: userId } = req.currentUser;
+    const { officialDocumentId } = req.body;
+    if (officialDocumentId && !await officialDocumentsRepo.exists(officialDocumentId)) {
+      throw new BadRequestError(
+        null, [{ path: '.body.officialDocumentId', message: 'Official document does not esxists' }],
+      );
+    }
     const prevState = await categoriesRepo.findById(categoryId);
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
