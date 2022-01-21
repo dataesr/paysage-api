@@ -14,7 +14,7 @@ export default {
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
       identifierId = await structuresRepo.identifiers.insert(
-        structureId, { ...data, createdBy: userId, createdAt: now }, { session },
+        structureId, { ...data, createdBy: userId, createdAt: now, structureId }, { session },
       );
       const nextState = await structuresRepo.identifiers.getStateById(structureId, identifierId, { session });
       await eventsRepo.insert({

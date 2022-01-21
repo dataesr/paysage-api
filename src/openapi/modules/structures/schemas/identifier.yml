@@ -5,6 +5,9 @@ properties:
   id:
     type: integer
     readOnly: true
+  structureId:
+    type: string
+    readOnly: true
   type:
     type: string
     enum:

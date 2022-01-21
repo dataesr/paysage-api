@@ -19,32 +19,40 @@ servers:
 tags:
   - name: Structures
     description: Operation for the Structure object.
-  - name: Events
-    description: Access event logs  of object changes.
+  - name: Persons
+    description: Operation for the Peron object.
   - name: Categories
     description: Operation for the Category object.
   - name: Official Documents
     description: Operation for the OfficialDocuments object.
+  - name: Events
+    description: Access event logs  of object changes.
 
 security:
   - Authentication: []
 
 paths:
-  ### EVENTS ##
+  ### EVENTS ###
   '/events':
     $ref: './modules/events/path/events.yml'
 
-  ### CATEGORIES ##
+  ### CATEGORIES ###
   '/categories':
     $ref: './modules/categories/path/categories.yml'
   '/categories/{categoryId}':
     $ref: './modules/categories/path/category.yml'
 
-  ## OFFICIAL DOCUMENTS ##
+  ### OFFICIAL DOCUMENTS ###
   '/official-documents':
     $ref: './modules/official-documents/path/official-documents.yml'
   '/official-documents/{officialDocumentId}':
     $ref: './modules/official-documents/path/official-document.yml'
+
+  ### PERSONS ###
+  '/persons':
+    $ref: './modules/persons/path/persons.yml'
+  '/persons/{personId}':
+    $ref: './modules/persons/path/person.yml'
 
   ### STRUCTURE ###
   '/structures':
