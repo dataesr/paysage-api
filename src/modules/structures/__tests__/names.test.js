@@ -3,6 +3,7 @@ let rid;
 let id;
 const structureName = {
   officialName: 'string',
+  structureId: 'string',
   usualName: 'string',
   shortName: 'string',
   brandName: 'string',
