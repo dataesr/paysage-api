@@ -4,6 +4,9 @@ properties:
   id:
     type: integer
     readOnly: true
+  structureId:
+    type: string
+    readOnly: true
   officialName:
     type: string
     nullable: true
