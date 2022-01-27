@@ -1,26 +1,30 @@
 get:
   tags:
-    - Structures
-  summary: Get a structure
+    - Legal Categories
+  summary: Get a legal category
   parameters:
-    - name: structureId
+    - name: legalCategoryId
       in: path
       schema:
         type: string
       required: true
-      description: Unique structure id
+      description: Unique legal category id
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            title: StructureResponse
+            title: LegalCategoryResponse
             required:
               - id
             allOf:
-              - $ref: '../schemas/structure.yml'
+              - $ref: '../schemas/legal-category.yml'
               - $ref: '../../../schemas/metas.yml'
+              - type: object
+                properties:
+                  officialDocument:
+                    $ref: '../../official-documents/schemas/official-document.yml'
     '301':
       description: No content
     '401':
@@ -34,17 +38,17 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: Delete a structure
+    - Legal Categories
+  summary: Delete a legal category
   security:
   - BearerAuth: []
   parameters:
-    - name: structureId
+    - name: legalCategoryId
       in: path
       schema:
         type: string
       required: true
-      description: Unique structure id
+      description: Unique legal category id
   responses:
     '204':
       description: No content
@@ -59,46 +63,42 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: Update a structure
+    - Legal Categories
+  summary: Update a legal category
   security:
   - BearerAuth: []
   parameters:
-    - name: structureId
+    - name: legalCategoryId
       in: path
       schema:
         type: string
       required: true
-      description: Unique structure id
+      description: Unique legal category id
   requestBody:
     content:
       application/json:
         schema:
-          title: UpdateStructurePayload
+          title: UpdateLegalCategoryPayload
           type: object
-          additionalProperties: false
-          properties:
-            currentNameId:
-              type: integer
-              nullable: true
-            structureStatus:
-              type: string
-              enum:
-                - active
-                - inactive
-                - forthcoming
+          allOf:
+            - $ref: '../schemas/legal-category.yml'
+
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            title: StructureResponse
+            title: LegalCategoryResponse
             required:
               - id
             allOf:
-              - $ref: '../schemas/structure.yml'
+              - $ref: '../schemas/legal-category.yml'
               - $ref: '../../../schemas/metas.yml'
+              - type: object
+                properties:
+                  officialDocument:
+                    $ref: '../../official-documents/schemas/official-document.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

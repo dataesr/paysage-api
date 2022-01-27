@@ -13,9 +13,7 @@ export default class BaseRepo {
     this._pipeline = pipeline;
   }
 
-  async find(filters = {}, {
-    skip = 0, limit = 20, sort = null, fields = null, session = null,
-  } = {}) {
+  async find(filters = {}, { skip = 0, limit = 20, sort = null, fields = null, session = null } = {}) {
     const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
     const queryPipeline = [
       { $match: filters },

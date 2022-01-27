@@ -39,6 +39,8 @@ delete:
   tags:
     - Structures
   summary: Delete a structure localisation
+  security:
+  - BearerAuth: []
   parameters:
     - name: structureId
       in: path
@@ -68,6 +70,8 @@ patch:
   tags:
     - Structures
   summary: Update a structure localisation
+  security:
+  - BearerAuth: []
   parameters:
     - name: structureId
       in: path

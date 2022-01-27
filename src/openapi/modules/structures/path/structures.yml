@@ -55,7 +55,7 @@ post:
       content:
         application/json:
           schema:
-            title: StructureNameResponse
+            title: StructureResponse
             allOf:
               - $ref: '../schemas/structure.yml'
               - $ref: '../../../schemas/metas.yml'

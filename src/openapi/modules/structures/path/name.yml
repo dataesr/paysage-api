@@ -40,6 +40,8 @@ delete:
   tags:
     - Structures
   summary: Delete a structure name
+  security:
+  - BearerAuth: []
   parameters:
     - name: structureId
       in: path
@@ -71,6 +73,8 @@ patch:
   tags:
     - Structures
   summary: Update a structure name
+  security:
+  - BearerAuth: []
   parameters:
     - name: structureId
       in: path

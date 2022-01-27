@@ -24,10 +24,10 @@ tags:
     description: Operation for the Category object.
   - name: Official Documents
     description: Operation for the OfficialDocuments object.
+  - name: Legal Categories
+    description: Operation for the LegalCategories object.
   - name: Events
     description: Access event logs  of object changes.
-security:
-  - Authentication: []
 paths:
   /events:
     get:
@@ -83,7 +83,13 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Category'
+                      allOf:
+                        - $ref: '#/components/schemas/Category'
+                        - $ref: '#/components/schemas/Metas'
+                        - type: object
+                          properties:
+                            officialDocument:
+                              $ref: '#/components/schemas/OfficialDocument'
                   totalCount:
                     type: number
         '400':
@@ -98,6 +104,8 @@ paths:
       tags:
         - Categories
       summary: Create a category
+      security:
+        - BearerAuth: []
       requestBody:
         content:
           application/json:
@@ -112,7 +120,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
+                title: CategoryResponse
+                required:
+                  - id
+                allOf:
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Metas'
+                  - type: object
+                    properties:
+                      officialDocument:
+                        $ref: '#/components/schemas/OfficialDocument'
+                      parents:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Category'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -145,6 +166,14 @@ paths:
                 allOf:
                   - $ref: '#/components/schemas/Category'
                   - $ref: '#/components/schemas/Metas'
+                  - type: object
+                    properties:
+                      officialDocument:
+                        $ref: '#/components/schemas/OfficialDocument'
+                      parents:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Category'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -157,6 +186,8 @@ paths:
       tags:
         - Categories
       summary: Delete a category
+      security:
+        - BearerAuth: []
       parameters:
         - name: categoryId
           in: path
@@ -179,6 +210,8 @@ paths:
       tags:
         - Categories
       summary: Update a category
+      security:
+        - BearerAuth: []
       parameters:
         - name: categoryId
           in: path
@@ -200,7 +233,234 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
+                title: CategoryResponse
+                required:
+                  - id
+                allOf:
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Metas'
+                  - type: object
+                    properties:
+                      officialDocument:
+                        $ref: '#/components/schemas/OfficialDocument'
+                      parents:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /prices:
+    get:
+      tags:
+        - Prices
+      summary: List prices
+      parameters:
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalCount:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1prices/post/responses/201/content/application~1json/schema'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Prices
+      summary: Create a price
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: PriceWriteSchema
+              description: Object décrivant un prix scientifique
+              type: object
+              properties:
+                nameFr:
+                  type: string
+                nameEn:
+                  type: string
+                descriptionFr:
+                  type: string
+                descriptionEn:
+                  type: string
+                parentIds:
+                  type: array
+                  description: Identifiants des prix parents
+                  items:
+                    type: string
+                    pattern: '^[a-zA-Z0-9]{5}$'
+                startDate:
+                  type: string
+                  nullable: true
+                  pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+                endDate:
+                  type: string
+                  nullable: true
+                  pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: PriceReadSchema
+                description: Object décrivant un prix scientifique
+                required:
+                  - id
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: integer
+                        pattern: '^[a-zA-Z0-9]{5}$'
+                        readOnly: true
+                      nameFr:
+                        type: string
+                      nameEn:
+                        type: string
+                      descriptionFr:
+                        type: string
+                      descriptionEn:
+                        type: string
+                      parents:
+                        type: array
+                        description: Identifiants des prix parents
+                        items:
+                          title: Price
+                          description: Object décrivant un prix scientifique
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              pattern: '^[a-zA-Z0-9]{5}$'
+                              readOnly: true
+                            nameFr:
+                              type: string
+                            nameEn:
+                              type: string
+                      startDate:
+                        type: string
+                        nullable: true
+                        pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+                      endDate:
+                        type: string
+                        nullable: true
+                        pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+                  - $ref: '#/components/schemas/Metas'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/prices/{priceId}':
+    get:
+      tags:
+        - Prices
+      summary: Get a price
+      parameters:
+        - name: priceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique price id
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1prices/post/responses/201/content/application~1json/schema'
+        '301':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Prices
+      summary: Delete a price
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: priceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique price id
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Prices
+      summary: Update a price
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: priceId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique price id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1prices/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1prices/post/responses/201/content/application~1json/schema'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -249,6 +509,8 @@ paths:
       tags:
         - Official Documents
       summary: Create an official document
+      security:
+        - BearerAuth: []
       requestBody:
         content:
           application/json:
@@ -315,6 +577,8 @@ paths:
       tags:
         - Official Documents
       summary: Delete an official document
+      security:
+        - BearerAuth: []
       parameters:
         - name: officialDocumentId
           in: path
@@ -337,6 +601,8 @@ paths:
       tags:
         - Official Documents
       summary: Update an official document
+      security:
+        - BearerAuth: []
       parameters:
         - name: officialDocumentId
           in: path
@@ -364,6 +630,189 @@ paths:
                 allOf:
                   - $ref: '#/components/schemas/OfficialDocument'
                   - $ref: '#/components/schemas/Metas'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /legal-categories:
+    get:
+      tags:
+        - Legal Categories
+      summary: List legal categories
+      parameters:
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/LegalCategory'
+                        - $ref: '#/components/schemas/Metas'
+                        - type: object
+                          properties:
+                            officialDocument:
+                              $ref: '#/components/schemas/OfficialDocument'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Legal Categories
+      summary: Create a legal category
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateLegalCategoryPayload
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/LegalCategory'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: LegalCategoryResponse
+                required:
+                  - id
+                allOf:
+                  - $ref: '#/components/schemas/LegalCategory'
+                  - $ref: '#/components/schemas/Metas'
+                  - type: object
+                    properties:
+                      officialDocument:
+                        $ref: '#/components/schemas/OfficialDocument'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/legal-categories/{legalCategoryId}':
+    get:
+      tags:
+        - Legal Categories
+      summary: Get a legal category
+      parameters:
+        - name: legalCategoryId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique legal category id
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: LegalCategoryResponse
+                required:
+                  - id
+                allOf:
+                  - $ref: '#/components/schemas/LegalCategory'
+                  - $ref: '#/components/schemas/Metas'
+                  - type: object
+                    properties:
+                      officialDocument:
+                        $ref: '#/components/schemas/OfficialDocument'
+        '301':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Legal Categories
+      summary: Delete a legal category
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: legalCategoryId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique legal category id
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Legal Categories
+      summary: Update a legal category
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: legalCategoryId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique legal category id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: UpdateLegalCategoryPayload
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/LegalCategory'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: LegalCategoryResponse
+                required:
+                  - id
+                allOf:
+                  - $ref: '#/components/schemas/LegalCategory'
+                  - $ref: '#/components/schemas/Metas'
+                  - type: object
+                    properties:
+                      officialDocument:
+                        $ref: '#/components/schemas/OfficialDocument'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -412,6 +861,8 @@ paths:
       tags:
         - Persons
       summary: Create a person
+      security:
+        - BearerAuth: []
       requestBody:
         content:
           application/json:
@@ -477,6 +928,8 @@ paths:
       tags:
         - Persons
       summary: Delete a person
+      security:
+        - BearerAuth: []
       parameters:
         - name: personId
           in: path
@@ -499,6 +952,8 @@ paths:
       tags:
         - Persons
       summary: Update a person
+      security:
+        - BearerAuth: []
       parameters:
         - name: personId
           in: path
@@ -592,7 +1047,7 @@ paths:
           content:
             application/json:
               schema:
-                title: StructureNameResponse
+                title: StructureResponse
                 allOf:
                   - $ref: '#/components/schemas/Structure'
                   - $ref: '#/components/schemas/Metas'
@@ -642,6 +1097,8 @@ paths:
       tags:
         - Structures
       summary: Delete a structure
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -664,6 +1121,8 @@ paths:
       tags:
         - Structures
       summary: Update a structure
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -715,6 +1174,8 @@ paths:
       tags:
         - Structures
       summary: Change the structure status
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -801,6 +1262,8 @@ paths:
       tags:
         - Structures
       summary: Create a structure indentifier
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -880,6 +1343,8 @@ paths:
       tags:
         - Structures
       summary: Delete a structure identifier
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -908,6 +1373,8 @@ paths:
       tags:
         - Structures
       summary: Update a structure identifier
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -995,6 +1462,8 @@ paths:
       tags:
         - Structures
       summary: Create a structure name
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -1073,6 +1542,8 @@ paths:
       tags:
         - Structures
       summary: Delete a structure name
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -1103,6 +1574,8 @@ paths:
       tags:
         - Structures
       summary: Update a structure name
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -1190,6 +1663,8 @@ paths:
       tags:
         - Structures
       summary: Create a structure localisation
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -1267,6 +1742,8 @@ paths:
       tags:
         - Structures
       summary: Delete a structure localisation
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -1295,6 +1772,8 @@ paths:
       tags:
         - Structures
       summary: Update a structure localisation
+      security:
+        - BearerAuth: []
       parameters:
         - name: structureId
           in: path
@@ -1468,6 +1947,7 @@ components:
       properties:
         id:
           type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
           readOnly: true
         structureStatus:
           type: string
@@ -1496,17 +1976,13 @@ components:
           nullable: true
         currentName:
           $ref: '#/components/schemas/StructureName'
-        expiresAt:
-          type: string
-          format: date-time
-          readOnly: true
-          nullable: true
     StructureName:
       type: object
       description: Différentes dénominations d'une structure
       properties:
         id:
           type: integer
+          pattern: '^[a-zA-Z0-9]{5}$'
           readOnly: true
         structureId:
           type: string
@@ -1566,6 +2042,7 @@ components:
       properties:
         id:
           type: integer
+          pattern: '^[a-zA-Z0-9]{5}$'
           readOnly: true
         structureId:
           type: string
@@ -1618,6 +2095,7 @@ components:
       properties:
         id:
           type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
         structureId:
           type: string
           readOnly: true
@@ -1668,10 +2146,10 @@ components:
     Category:
       title: Category
       type: object
-      additionalProperties: false
       properties:
         id:
           type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
           description: Unique identifier.
           minLength: 1
           readOnly: true
@@ -1728,36 +2206,12 @@ components:
         officialDocumentId:
           type: string
           writeOnly: true
-        createdBy:
-          type: object
-          readOnly: true
-          properties:
-            id:
-              type: string
-            username:
-              type: string
-            avatar:
-              type: string
-              format: uri
-        updatedBy:
-          type: object
-          readOnly: true
-          properties:
-            id:
-              type: string
-            username:
-              type: string
-            avatar:
-              type: string
-              format: uri
-        createdAt:
-          type: string
-          format: date-time
-          readOnly: true
-        updatedAt:
-          type: string
-          format: date-time
-          readOnly: true
+        parentIds:
+          type: array
+          writeOnly: true
+          description: Liste d'identifiant de catégories parente
+          items:
+            type: string
     OfficialDocument:
       title: Official Document
       description: Document officiel JO ou BO
@@ -1765,6 +2219,7 @@ components:
       properties:
         id:
           type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
           readOnly: true
         nature:
           type: string
@@ -1800,6 +2255,62 @@ components:
           type: string
           pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         textExtract:
+          type: string
+        comment:
+          type: string
+    LegalCategory:
+      title: Legal Category
+      description: Catégory juridique
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+          readOnly: true
+        inseeCode:
+          type: string
+        longNameFr:
+          type: string
+        shortNameFr:
+          type: string
+        acronymeFr:
+          type: string
+        pluralNameFr:
+          type: string
+        descriptionFr:
+          type: string
+        longNameEn:
+          type: string
+        shortNameEn:
+          type: string
+        otherNames:
+          type: array
+          items:
+            type: string
+        sector:
+          type: string
+          enum:
+            - public
+            - privé
+            - sans objet
+        officialDocumentId:
+          type: string
+          writeOnly: true
+        legalPersonality:
+          type: string
+          enum:
+            - personne morale de droit public
+            - personne morale de droit privé
+            - organisation internationale
+            - autre forme juridique étrangère
+            - sans personalité juridique
+        inPublicResearch:
+          type: boolean
+        wikidataId:
+          type: string
+        websiteFr:
+          type: string
+        websiteEn:
           type: string
         comment:
           type: string
@@ -1851,6 +2362,7 @@ components:
       properties:
         id:
           type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
           readOnly: true
         firstName:
           type: string
@@ -1884,7 +2396,7 @@ components:
           type: string
           nullable: true
   securitySchemes:
-    Authentication:
+    BearerAuth:
       type: http
       scheme: bearer
       description: Authentication with a Bearer token.

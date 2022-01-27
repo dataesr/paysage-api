@@ -36,6 +36,8 @@ delete:
   tags:
     - Official Documents
   summary: Delete an official document
+  security:
+  - BearerAuth: []
   parameters:
     - name: officialDocumentId
       in: path
@@ -59,6 +61,8 @@ patch:
   tags:
     - Official Documents
   summary: Update an official document
+  security:
+  - BearerAuth: []
   parameters:
     - name: officialDocumentId
       in: path

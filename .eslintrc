@@ -2,6 +2,9 @@
   "extends": [
     "airbnb-base"
   ],
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
   "plugins": [
     "jest"
   ],
@@ -16,7 +19,7 @@
       "error", {
         "ObjectPattern": {
           "multiline": true,
-          "minProperties": 5
+          "minProperties": 6
         }
       }
     ]

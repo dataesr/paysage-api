@@ -43,6 +43,8 @@ post:
   tags:
     - Structures
   summary: Create a structure localisation
+  security:
+  - BearerAuth: []
   parameters:
     - name: structureId
       in: path

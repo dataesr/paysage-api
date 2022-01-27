@@ -2,6 +2,7 @@ type: object
 properties:
   id:
     type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
     readOnly: true
   structureStatus:
     type: string
@@ -30,8 +31,3 @@ properties:
     nullable: true
   currentName:
     $ref: './name.yml'
-  expiresAt:
-    type: string
-    format: date-time
-    readOnly: true
-    nullable: true

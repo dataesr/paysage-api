@@ -25,11 +25,12 @@ tags:
     description: Operation for the Category object.
   - name: Official Documents
     description: Operation for the OfficialDocuments object.
+  - name: Legal Categories
+    description: Operation for the LegalCategories object.
   - name: Events
     description: Access event logs  of object changes.
 
-security:
-  - Authentication: []
+
 
 paths:
   ### EVENTS ###
@@ -43,10 +44,22 @@ paths:
     $ref: './modules/categories/path/category.yml'
 
   ### OFFICIAL DOCUMENTS ###
+  '/prices':
+    $ref: './modules/prices/path/prices.yml'
+  '/prices/{priceId}':
+    $ref: './modules/prices/path/price.yml'
+
+  ### OFFICIAL DOCUMENTS ###
   '/official-documents':
     $ref: './modules/official-documents/path/official-documents.yml'
   '/official-documents/{officialDocumentId}':
     $ref: './modules/official-documents/path/official-document.yml'
+
+  ### LEGAL CATEGORIES ###
+  '/legal-categories':
+    $ref: './modules/legal-categories/path/legal-categories.yml'
+  '/legal-categories/{legalCategoryId}':
+    $ref: './modules/legal-categories/path/legal-category.yml'
 
   ### PERSONS ###
   '/persons':
@@ -85,7 +98,7 @@ components:
     $ref: './schemas/_index.yml'
     
   securitySchemes:
-    Authentication:
+    BearerAuth:
       type: http
       scheme: bearer
       description: Authentication with a Bearer token.

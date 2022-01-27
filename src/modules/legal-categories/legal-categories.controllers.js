@@ -1,13 +1,13 @@
 import { client } from '../commons/services/database.service';
 import { BadRequestError, NotFoundError, ServerError } from '../commons/errors';
-import categoriesRepo from './categories.repo';
+import legalCategoriesRepo from './legal-categories.repo';
 import officialDocumentsRepo from '../official-documents/official-documents.repo';
 import eventsRepo from '../commons/repositories/events.repo';
 import catalogueRepo from '../commons/repositories/catalogue.repo';
 
 export default {
   create: async (req, res) => {
-    const id = await catalogueRepo.getUniqueId('categories');
+    const id = await catalogueRepo.getUniqueId('legal-categories');
     const { id: userId } = req.currentUser;
     const data = { id, ...req.body, createdBy: userId };
     const { officialDocumentId } = req.body;
@@ -18,14 +18,14 @@ export default {
     }
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
-      await categoriesRepo.insert(data, { session });
-      const nextState = await categoriesRepo.getStateById(id, { session });
+      await legalCategoriesRepo.insert(data, { session });
+      const nextState = await legalCategoriesRepo.getStateById(id, { session });
       await eventsRepo.insert({
         userId,
         resourceUri: `${req.path}/${id}`,
         action: 'create',
         resourceId: id,
-        resourceType: 'categories',
+        resourceType: 'legal-categories',
         subResourceId: null,
         subResourceType: null,
         prevState: null,
@@ -34,31 +34,31 @@ export default {
     }).catch(() => session.endSession());
     session.endSession();
     if (!result.ok) throw new ServerError();
-    const resource = await categoriesRepo.findById(id);
+    const resource = await legalCategoriesRepo.findById(id);
     res.status(201).json(resource);
   },
 
   read: async (req, res) => {
-    const { categoryId } = req.params;
-    const category = await categoriesRepo.findById(categoryId);
-    if (!category) throw new NotFoundError();
-    res.status(200).json(category);
+    const { legalCategoryId } = req.params;
+    const resource = await legalCategoriesRepo.findById(legalCategoryId);
+    if (!resource) throw new NotFoundError();
+    res.status(200).json(resource);
   },
 
   delete: async (req, res) => {
-    const { categoryId } = req.params;
+    const { legalCategoryId } = req.params;
     const { id: userId } = req.currentUser;
-    const prevState = await categoriesRepo.getStateById(categoryId);
+    const prevState = await legalCategoriesRepo.getStateById(legalCategoryId);
     if (!prevState) throw new NotFoundError();
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
-      await categoriesRepo.deleteById(categoryId);
+      await legalCategoriesRepo.deleteById(legalCategoryId);
       await eventsRepo.insert({
         userId,
         resourceUri: req.path,
         operationType: 'delete',
-        resourceId: categoryId,
-        resourceType: 'categories',
+        resourceId: legalCategoryId,
+        resourceType: 'legal-categories',
         prevState,
         nextState: null,
       }, { session });
@@ -69,7 +69,7 @@ export default {
   },
 
   update: async (req, res) => {
-    const { categoryId } = req.params;
+    const { legalCategoryId } = req.params;
     const data = req.body;
     const { id: userId } = req.currentUser;
     const { officialDocumentId } = req.body;
@@ -78,30 +78,30 @@ export default {
         null, [{ path: '.body.officialDocumentId', message: 'Official document does not esxists' }],
       );
     }
-    const prevState = await categoriesRepo.findById(categoryId);
+    const prevState = await legalCategoriesRepo.findById(legalCategoryId);
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
-      await categoriesRepo.updateById(categoryId, { ...data, updatedBy: userId });
-      const nextState = await categoriesRepo.getStateById(categoryId, { session });
+      await legalCategoriesRepo.updateById(legalCategoryId, { ...data, updatedBy: userId });
+      const nextState = await legalCategoriesRepo.getStateById(legalCategoryId, { session });
       await eventsRepo.insert({
         userId,
         resourceUri: req.path,
         operationType: 'update',
-        resourceId: categoryId,
-        resourceType: 'categories',
+        resourceId: legalCategoryId,
+        resourceType: 'legal-categories',
         prevState,
         nextState,
       }, { session });
     }).catch(() => session.endSession());
     session.endSession();
     if (!result.ok) throw new ServerError();
-    const resource = await categoriesRepo.findById(categoryId);
+    const resource = await legalCategoriesRepo.findById(legalCategoryId);
     res.status(200).json(resource);
   },
 
   list: async (req, res) => {
     const { filters, ...options } = req.query;
-    const { data, totalCount } = await categoriesRepo.find({ ...filters }, options);
+    const { data, totalCount } = await legalCategoriesRepo.find({ ...filters }, options);
     res.status(200).json({ data, totalCount: totalCount || 0 });
   },
 };

@@ -3,6 +3,7 @@ description: Différentes dénominations d'une structure
 properties:
   id:
     type: integer
+    pattern: '^[a-zA-Z0-9]{5}$'
     readOnly: true
   structureId:
     type: string

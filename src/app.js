@@ -12,6 +12,8 @@ import structuresRoutes from './modules/structures/structures.routes';
 import eventsRoutes from './modules/events/events.routes';
 import officialDocumentsRoutes from './modules/official-documents/official-documents.routes';
 import categoriesRoutes from './modules/categories/categories.routes';
+import legalCategoriesRoutes from './modules/legal-categories/legal-categories.routes';
+import pricesRoutes from './modules/prices/prices.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/openapi.yml');
@@ -40,14 +42,13 @@ app.use(OAV.middleware({
 // Authenticate currentUser
 app.use(authenticate);
 
-// Require active user
-// router.use(requireActiveUser);
-
 // Register routes
 app.use(structuresRoutes);
 app.use(officialDocumentsRoutes);
 app.use(categoriesRoutes);
 app.use(eventsRoutes);
+app.use(legalCategoriesRoutes);
+app.use(pricesRoutes);
 
 // Erreurs personnalisées
 app.use(handleErrors);

@@ -1,9 +1,9 @@
 title: Category
 type: object
-additionalProperties: false
 properties:
   id:
     type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
     description: Unique identifier.
     minLength: 1
     readOnly: true
@@ -57,14 +57,15 @@ properties:
     type: string
     description: Description en français
     minLength: 1
-  # legalCategory:
-  #   type: boolean
-  #   description: Description en français
   officialDocumentId:
     type: string
     writeOnly: true
-  # officialDocument:
-  #   $ref: ./RelatedElement.yaml
+  parentIds:
+    type: array
+    writeOnly: true
+    description: Liste d'identifiant de catégories parente
+    items:
+      type: string
 
   # webVisibility:
   #   type: array
@@ -80,33 +81,3 @@ properties:
   #   description: Category id
   #   items:
   #     type: string
-  createdBy:
-    type: object
-    readOnly: true
-    properties:
-      id:
-        type: string
-      username:
-        type: string
-      avatar:
-        type: string
-        format: uri
-  updatedBy:
-    type: object
-    readOnly: true
-    properties:
-      id:
-        type: string
-      username:
-        type: string
-      avatar:
-        type: string
-        format: uri
-  createdAt:
-    type: string
-    format: date-time
-    readOnly: true
-  updatedAt:
-    type: string
-    format: date-time
-    readOnly: true

@@ -1,6 +1,8 @@
 import metasPipeline from '../commons/pipelines/metas';
 import BaseRepo from '../commons/repositories/base.repo';
 
+class LegalCategoriesRepository extends BaseRepo { }
+
 const officialDocumentPipeline = [
   {
     $lookup: {
@@ -14,26 +16,11 @@ const officialDocumentPipeline = [
   { $project: { officialDocument: { _id: 0, createdAt: 0, createdBy: 0, updatedAt: 0, updatedBy: 0 } } },
 ];
 
-const parentCategoriesPipeline = [
-  {
-    $lookup: {
-      from: 'categories',
-      localField: 'parentIds',
-      foreignField: 'id',
-      as: 'parents',
-    },
-  },
-  { $project: { parents: { _id: 0, createdAt: 0, createdBy: 0, updatedAt: 0, updatedBy: 0, officialDocumentId: 0 } } },
-];
-
-class CategoriesRepository extends BaseRepo { }
-
-export default new CategoriesRepository({
-  collection: 'categories',
+export default new LegalCategoriesRepository({
+  collection: 'legal-categories',
   pipeline: [
     ...metasPipeline,
     ...officialDocumentPipeline,
-    ...parentCategoriesPipeline,
-    { $project: { _id: 0, officialDocumentId: 0, parentIds: 0 } },
+    { $project: { _id: 0, officialDocumentId: 0 } },
   ],
 });
