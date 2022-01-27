@@ -51,7 +51,14 @@ export default class MongoRepository {
   }
 
   async patch(id, data) {
-    const { modifiedCount } = await this._collection.updateOne({ id }, { $set: data });
+    const unset = Object.keys(data).reduce((arr, field) => (data[field] === null ? ([...arr, field]) : arr), []);
+    const set = Object.keys(data).reduce(
+      (doc, field) => (data[field] !== null ? ({ ...doc, [field]: data[field] }) : doc),
+      {},
+    );
+    console.log(set, unset);
+    const updatePipeline = (Object.keys(unset).length > 0) ? [{ $set: set }, { $unset: unset }] : [{ $set: set }];
+    const { modifiedCount } = await this._collection.updateOne({ id }, updatePipeline);
     return { ok: !!modifiedCount };
   }
 
