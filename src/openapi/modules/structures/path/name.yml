@@ -53,7 +53,25 @@ delete:
         type: integer
       required: true
       description: Unique name id
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: UpdateListStructureNamePayload
+          type: object
+          allOf:
+            - $ref: '../schemas/nameList.yml'
   responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            title: UpdateListStructureNamePayload
+            type: object
+            allOf:
+              - $ref: '../schemas/name.yml'
+              - $ref: '../../../schemas/metas.yml'
     '204':
       description: No content
     '400':

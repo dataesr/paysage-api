@@ -1,0 +1,6 @@
+type: object
+description: Différents nom d'une dénomination d'une structure
+additionalProperties: false
+properties:
+  otherName:
+    type: string
