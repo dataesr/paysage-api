@@ -51,7 +51,7 @@ export default {
     if (!prevState) throw new NotFoundError();
     const session = client.startSession();
 
-    if (req.body) {
+    if (Object.keys(req.body).length > 0) {
       const resource = await structuresRepo.names.findById(structureId, clNameId);
       const key = Object.keys(req.body)[0];
       const newArray = resource[key].filter((item) => (item !== req.body[key]));

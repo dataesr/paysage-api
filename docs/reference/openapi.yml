@@ -1087,6 +1087,7 @@ paths:
           required: true
           description: Unique name id
       requestBody:
+        required: false
         content:
           application/json:
             schema:
