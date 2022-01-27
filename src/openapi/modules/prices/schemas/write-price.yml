@@ -1,6 +1,7 @@
 title: PriceWriteSchema
 description: 'Object décrivant un prix scientifique'
 type: object
+additionalProperties: false
 properties:
   nameFr:
     type: string

@@ -302,6 +302,7 @@ paths:
               title: PriceWriteSchema
               description: Object décrivant un prix scientifique
               type: object
+              additionalProperties: false
               properties:
                 nameFr:
                   type: string
@@ -339,7 +340,7 @@ paths:
                   - type: object
                     properties:
                       id:
-                        type: integer
+                        type: string
                         pattern: '^[a-zA-Z0-9]{5}$'
                         readOnly: true
                       nameFr:
@@ -359,7 +360,7 @@ paths:
                           type: object
                           properties:
                             id:
-                              type: integer
+                              type: string
                               pattern: '^[a-zA-Z0-9]{5}$'
                               readOnly: true
                             nameFr:
