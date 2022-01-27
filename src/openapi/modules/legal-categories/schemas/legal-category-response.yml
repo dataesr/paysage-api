@@ -1,0 +1,10 @@
+title: LegalCategoryResponse
+required:
+  - id
+allOf:
+  - $ref: '../schemas/legal-category.yml'
+  - $ref: '../../../schemas/metas.yml'
+  - type: object
+    properties:
+      officialDocument:
+        $ref: '../../official-documents/schemas/official-document.yml'

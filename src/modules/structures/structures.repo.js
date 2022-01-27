@@ -1,3 +1,4 @@
+import metasPipeline from '../commons/pipelines/metas';
 import BaseRepo from '../commons/repositories/base.repo';
 import NestedRepo from '../commons/repositories/nested.repo';
 
@@ -16,47 +17,6 @@ const currentNamePipeline = [
   { $set: { currentName: { $arrayElemAt: ['$currentName', 0] } } },
 ];
 const alternativePaysageIdPipeline = [];
-const metasPipeline = [
-  {
-    $lookup: {
-      from: 'users',
-      localField: 'createdBy',
-      foreignField: 'id',
-      as: 'user',
-    },
-  },
-  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
-  {
-    $set: {
-      createdBy:
-      {
-        id: { $ifNull: ['$user.id', null] },
-        username: { $ifNull: ['$user.username', null] },
-        avatar: { $ifNull: ['$user.avatar', null] },
-      },
-    },
-  },
-  {
-    $lookup: {
-      from: 'users',
-      localField: 'updatedBy',
-      foreignField: 'id',
-      as: 'user',
-    },
-  },
-  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
-  {
-    $set: {
-      updatedBy:
-      {
-        id: { $ifNull: ['$user.id', null] },
-        username: { $ifNull: ['$user.username', null] },
-        avatar: { $ifNull: ['$user.avatar', null] },
-      },
-    },
-  },
-  { $project: { user: 0 } },
-];
 
 class StructuresRepository extends BaseRepo {
   async getStatus(id) {
@@ -110,7 +70,6 @@ export default new StructuresRepository({
       alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
       currentName: { $ifNull: ['$currentName', {}] },
       redirection: 1,
-      expiresAt: 1,
       createdBy: 1,
       createdAt: 1,
       updatedBy: 1,

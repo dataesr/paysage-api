@@ -18,7 +18,13 @@ get:
               data:
                 type: array
                 items:
-                  $ref: '../schemas/category.yml'
+                  allOf:
+                    - $ref: '../schemas/category.yml'
+                    - $ref: '../../../schemas/metas.yml'
+                    - type: object
+                      properties:
+                        officialDocument:
+                          $ref: '../../official-documents/schemas/official-document.yml'
               totalCount:
                 type: number
     '400':
@@ -34,6 +40,8 @@ post:
   tags:
     - Categories
   summary: Create a category
+  security:
+  - BearerAuth: []
   requestBody:
     content:
       application/json:
@@ -48,7 +56,20 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../schemas/category.yml'
+            title: CategoryResponse
+            required:
+              - id
+            allOf:
+              - $ref: '../schemas/category.yml'
+              - $ref: '../../../schemas/metas.yml'
+              - type: object
+                properties:
+                  officialDocument:
+                    $ref: '../../official-documents/schemas/official-document.yml'
+                  parents:
+                    type: array
+                    items:
+                      $ref: '../schemas/category.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

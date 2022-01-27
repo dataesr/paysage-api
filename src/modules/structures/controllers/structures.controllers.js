@@ -9,14 +9,12 @@ export default {
     const id = await catalogueRepo.getUniqueId('structures');
     const { structureStatus } = req.body;
     const { id: userId } = req.currentUser;
-    const expiresAt = new Date(new Date().setDate(new Date().getDate() + 2));
     const data = {
       id,
       structureStatus,
       currentNameId: 1,
       status: 'draft',
       redirection: null,
-      expiresAt,
       createdBy: userId,
     };
     const session = client.startSession();

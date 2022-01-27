@@ -4,6 +4,7 @@ type: object
 properties:
   id:
     type: integer
+    pattern: '^[a-zA-Z0-9]{5}$'
     readOnly: true
   structureId:
     type: string

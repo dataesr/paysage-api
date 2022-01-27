@@ -4,6 +4,7 @@ type: object
 properties:
   id:
     type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
     readOnly: true
   nature:
     type: string

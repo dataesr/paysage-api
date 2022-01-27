@@ -2,6 +2,8 @@ put:
   tags:
     - Structures
   summary: Change the structure status
+  security:
+  - BearerAuth: []
   parameters:
   - name: structureId
     in: path

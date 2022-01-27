@@ -1,7 +1,7 @@
 get:
   tags:
-    - Official Documents
-  summary: List official documents
+    - Legal Categories
+  summary: List legal categories
   parameters:
     - $ref: '../../../parameters/query/filters.yml'
     - $ref: '../../../parameters/query/skip.yml'
@@ -19,10 +19,12 @@ get:
                 type: array
                 items:
                   allOf:
-                    - $ref: '../schemas/official-document.yml'
+                    - $ref: '../schemas/legal-category.yml'
                     - $ref: '../../../schemas/metas.yml'
-              totalCount:
-                type: number
+                    - type: object
+                      properties:
+                        officialDocument:
+                          $ref: '../../official-documents/schemas/official-document.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
@@ -34,30 +36,34 @@ get:
 
 post:
   tags:
-    - Official Documents
-  summary: Create an official document
+    - Legal Categories
+  summary: Create a legal category
   security:
   - BearerAuth: []
   requestBody:
     content:
       application/json:
         schema:
-          title: CreateOfficialDocumentPayload
+          title: CreateLegalCategoryPayload
           type: object
           allOf:
-              - $ref: '../schemas/official-document.yml'
+              - $ref: '../schemas/legal-category.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            title: OfficialDocumentResponse
+            title: LegalCategoryResponse
             required:
               - id
             allOf:
-              - $ref: '../schemas/official-document.yml'
+              - $ref: '../schemas/legal-category.yml'
               - $ref: '../../../schemas/metas.yml'
+              - type: object
+                properties:
+                  officialDocument:
+                    $ref: '../../official-documents/schemas/official-document.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

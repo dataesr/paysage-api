@@ -14,6 +14,8 @@ Category:
   $ref: '../modules/categories/schemas/category.yml'
 OfficialDocument:
   $ref: '../modules/official-documents/schemas/official-document.yml'
+LegalCategory:
+  $ref: '../modules/legal-categories/schemas/legal-category.yml'
 Events:
   $ref: '../modules/events/schemas/events.yml'
 Person:
