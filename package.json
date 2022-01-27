@@ -32,10 +32,10 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "eslint": "^7.27.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-plugin-import": "^2.23.3",
-    "eslint-plugin-jest": "^24.4.0",
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.0.0",
     "jest": "^27.0.6",
     "nodemon": "^2.0.7",
     "supertest": "^6.1.4",

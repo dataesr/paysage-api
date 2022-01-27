@@ -41,7 +41,6 @@ export default {
     const { officialDocumentId } = req.params;
     const { id: userId } = req.currentUser;
     const prevState = await officialDocumentsRepo.getStateById(officialDocumentId);
-    console.log(prevState);
     if (!prevState) throw new NotFoundError();
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
