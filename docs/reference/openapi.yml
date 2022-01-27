@@ -1086,7 +1086,30 @@ paths:
             type: integer
           required: true
           description: Unique name id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: UpdateListStructureNamePayload
+              type: object
+              allOf:
+                - type: object
+                  description: Différents nom d'une dénomination d'une structure
+                  additionalProperties: false
+                  properties:
+                    otherName:
+                      type: string
       responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: UpdateListStructureNamePayload
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/StructureName'
+                  - $ref: '#/components/schemas/Metas'
         '204':
           description: No content
         '400':
