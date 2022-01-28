@@ -11,17 +11,21 @@ allOf:
         readOnly: true
       nameFr:
         type: string
+        nullable: true
       nameEn:
         type: string
+        nullable: true
       descriptionFr:
         type: string
+        nullable: true
       descriptionEn:
         type: string
+        nullable: true
       parents:
         type: array
         description: Identifiants des prix parents
         items:
-          $ref: ./reference-price.yml
+          $ref: ./light-price.yml
       startDate:
         type: string
         nullable: true

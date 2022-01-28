@@ -11,21 +11,27 @@ const readModel = [
       as: 'parents',
     },
   },
+  { $project: { parentIds: 0, 'parents._id': 0 } },
   { $project: {
     _id: 0,
-    parentIds: 0,
     parents: {
-      _id: 0,
-      startDate: 0,
-      createdBy: 0,
-      updatedBy: 0,
-      createdAt: 0,
-      updatedAt: 0,
-      endDate: 0,
-      descriptionFr: 0,
-      descriptionEn: 0,
+      nameFr: 1,
+      nameEn: 1,
+      id: 1,
     },
-  } }];
+    id: 1,
+    createdBy: 1,
+    updatedBy: 1,
+    createdAt: 1,
+    updatedAt: 1,
+    nameFr: { $ifNull: ['$nameFr', null] },
+    nameEn: { $ifNull: ['$nameEn', null] },
+    descriptionFr: { $ifNull: ['$descriptionFr', null] },
+    descriptionEn: { $ifNull: ['$descriptionEn', null] },
+    startDate: { $ifNull: ['$startDate', null] },
+    endDate: { $ifNull: ['$endDate', null] },
+  } },
+];
 const writeModel = [{
   $project: {
     _id: 0,
@@ -38,7 +44,7 @@ const writeModel = [{
     endDate: 1,
   },
 }];
-const referenceModel = [{
+const lightModel = [{
   $project: {
     _id: 0,
     id: 1,
@@ -46,5 +52,14 @@ const referenceModel = [{
     nameEn: 1,
   },
 }];
+const checkModel = [{
+  $project: {
+    _id: 0,
+    id: 1,
+  },
+}];
 
-export default new MongoRepository({ collection: 'prices', models: { readModel, writeModel, referenceModel } });
+export default new MongoRepository({
+  collection: 'prices',
+  models: { readModel, writeModel, lightModel, checkModel },
+});

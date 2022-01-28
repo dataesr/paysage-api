@@ -22,7 +22,7 @@ export default class MongoRepository {
     this._models = models;
   }
 
-  find = async ({ filters = {}, skip = 0, limit = 20, sort = null, useModel = 'readModel' } = {}) => {
+  find = async ({ filters = {}, skip = 0, limit = 20, sort = null, useModel } = {}) => {
     const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
     const modelPipeline = this._models[useModel] || [];
     const queryPipeline = [
@@ -40,7 +40,7 @@ export default class MongoRepository {
     return data[0];
   };
 
-  async get(id, { useModel = 'readModel' } = {}) {
+  async get(id, { useModel } = {}) {
     const { data } = await this.find({ filters: { id }, limit: 1, useModel });
     return data ? data[0] : null;
   }
@@ -56,7 +56,6 @@ export default class MongoRepository {
       (doc, field) => (data[field] !== null ? ({ ...doc, [field]: data[field] }) : doc),
       {},
     );
-    console.log(set, unset);
     const updatePipeline = (Object.keys(unset).length > 0) ? [{ $set: set }, { $unset: unset }] : [{ $set: set }];
     const { modifiedCount } = await this._collection.updateOne({ id }, updatePipeline);
     return { ok: !!modifiedCount };

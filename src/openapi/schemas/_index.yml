@@ -20,3 +20,9 @@ Events:
   $ref: '../modules/events/schemas/events.yml'
 Person:
   $ref: '../modules/persons/schemas/person.yml'
+Price:
+  $ref: '../modules/prices/schemas/read-price.yml'
+PricePayload:
+  $ref: '../modules/prices/schemas/write-price.yml'
+PriceLight:
+  $ref: '../modules/prices/schemas/light-price.yml'
