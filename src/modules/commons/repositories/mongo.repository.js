@@ -23,8 +23,9 @@ export default class MongoRepository {
   }
 
   find = async ({ filters = {}, skip = 0, limit = 20, sort = null, useModel } = {}) => {
-    const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
     const modelPipeline = this._models[useModel] || [];
+    if (useModel && !modelPipeline.length) throw new Error(`${useModel} is not defined`);
+    const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
     const queryPipeline = [
       { $match: filters },
       { $skip: skip },
