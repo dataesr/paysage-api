@@ -280,7 +280,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1prices/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/Price'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -299,83 +299,14 @@ paths:
         content:
           application/json:
             schema:
-              title: PriceWriteSchema
-              description: Object décrivant un prix scientifique
-              type: object
-              additionalProperties: false
-              properties:
-                nameFr:
-                  type: string
-                nameEn:
-                  type: string
-                descriptionFr:
-                  type: string
-                descriptionEn:
-                  type: string
-                parentIds:
-                  type: array
-                  description: Identifiants des prix parents
-                  items:
-                    type: string
-                    pattern: '^[a-zA-Z0-9]{5}$'
-                startDate:
-                  type: string
-                  nullable: true
-                  pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-                endDate:
-                  type: string
-                  nullable: true
-                  pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+              $ref: '#/components/schemas/PricePayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: PriceReadSchema
-                description: Object décrivant un prix scientifique
-                required:
-                  - id
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                        readOnly: true
-                      nameFr:
-                        type: string
-                      nameEn:
-                        type: string
-                      descriptionFr:
-                        type: string
-                      descriptionEn:
-                        type: string
-                      parents:
-                        type: array
-                        description: Identifiants des prix parents
-                        items:
-                          title: Price
-                          description: Object décrivant un prix scientifique
-                          type: object
-                          properties:
-                            id:
-                              type: string
-                              pattern: '^[a-zA-Z0-9]{5}$'
-                              readOnly: true
-                            nameFr:
-                              type: string
-                            nameEn:
-                              type: string
-                      startDate:
-                        type: string
-                        nullable: true
-                        pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-                      endDate:
-                        type: string
-                        nullable: true
-                        pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Price'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -402,7 +333,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1prices/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Price'
         '301':
           description: No content
         '401':
@@ -454,14 +385,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/paths/~1prices/post/requestBody/content/application~1json/schema'
+              $ref: '#/components/schemas/PricePayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1prices/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Price'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2396,6 +2327,89 @@ components:
         comment:
           type: string
           nullable: true
+    Price:
+      title: PriceReadSchema
+      description: Object décrivant un prix scientifique
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              pattern: '^[a-zA-Z0-9]{5}$'
+              readOnly: true
+            nameFr:
+              type: string
+              nullable: true
+            nameEn:
+              type: string
+              nullable: true
+            descriptionFr:
+              type: string
+              nullable: true
+            descriptionEn:
+              type: string
+              nullable: true
+            parents:
+              type: array
+              description: Identifiants des prix parents
+              items:
+                $ref: '#/components/schemas/PriceLight'
+            startDate:
+              type: string
+              nullable: true
+              pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+            endDate:
+              type: string
+              nullable: true
+              pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        - $ref: '#/components/schemas/Metas'
+    PricePayload:
+      title: PriceWriteSchema
+      description: Object décrivant un prix scientifique
+      additionalProperties: false
+      type: object
+      properties:
+        nameFr:
+          type: string
+          nullable: true
+        nameEn:
+          type: string
+          nullable: true
+        descriptionFr:
+          type: string
+          nullable: true
+        descriptionEn:
+          type: string
+          nullable: true
+        parentIds:
+          type: array
+          description: Identifiants des prix parents
+          items:
+            type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
+        startDate:
+          type: string
+          nullable: true
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        endDate:
+          type: string
+          nullable: true
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    PriceLight:
+      title: Price
+      description: Object décrivant un prix scientifique
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+          readOnly: true
+        nameFr:
+          type: string
+        nameEn:
+          type: string
   securitySchemes:
     BearerAuth:
       type: http

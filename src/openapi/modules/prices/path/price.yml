@@ -70,7 +70,6 @@ patch:
       application/json:
         schema:
           $ref: '../schemas/write-price.yml'
-
   responses:
     '200':
       description: Success

@@ -24,7 +24,7 @@ export default class BaseController {
       const nextState = await this.#repository.get(insertedId, { useModel: 'writeModel' });
       events.create({ userId: ctx.user, resource: `${req.path}/${id}`, action: 'create', nextState });
     }
-    const resource = await this.#repository.get(id);
+    const resource = await this.#repository.get(id, { useModel: 'readModel' });
     if (!resource) throw new ServerError();
     res.status(201).json(resource);
   };
@@ -34,12 +34,13 @@ export default class BaseController {
     const { id, ...rest } = req.params;
     const data = this.#storeContext ? { ...rest, ...req.body, ...ctx } : { ...rest, ...req.body };
     const prevState = await this.#repository.get(id, { useModel: 'writeModel' });
+    if (!prevState) throw new NotFoundError();
     const { ok } = await this.#repository.patch(id, data);
     if (ok && this.#storeEvent) {
       const nextState = await this.#repository.get(id, { useModel: 'writeModel' });
       events.create({ userId: ctx.user, resource: `${req.path}/${id}`, action: 'patch', prevState, nextState });
     }
-    const resource = await this.#repository.get(id);
+    const resource = await this.#repository.get(id, { useModel: 'readModel' });
     if (!resource) throw new ServerError();
     res.status(200).json(resource);
   };
@@ -48,6 +49,7 @@ export default class BaseController {
     const ctx = req.ctx || {};
     const { id } = req.params;
     const prevState = await this.#repository.get(id, { useModel: 'writeModel' });
+    if (!prevState) throw new NotFoundError();
     const { ok } = await this.#repository.remove(id);
     if (ok && this.#storeEvent) {
       events.create({ userId: ctx.user, resource: `${req.path}/${id}`, action: 'delete', prevState });
@@ -57,14 +59,14 @@ export default class BaseController {
 
   read = async (req, res) => {
     const { id } = req.params;
-    const resource = await this.#repository.get(id);
+    const resource = await this.#repository.get(id, { useModel: 'readModel' });
     if (!resource) throw new NotFoundError();
     res.status(200).json(resource);
   };
 
   list = async (req, res) => {
     const params = req.query;
-    const { data, totalCount } = await this.#repository.find(params);
+    const { data, totalCount } = await this.#repository.find({ ...params, useModel: 'readModel' });
     res.status(200).json({ data, totalCount: totalCount || 0 });
   };
 }

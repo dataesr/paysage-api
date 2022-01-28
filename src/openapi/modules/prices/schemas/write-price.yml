@@ -1,16 +1,20 @@
 title: PriceWriteSchema
 description: 'Object décrivant un prix scientifique'
-type: object
 additionalProperties: false
+type: object
 properties:
   nameFr:
     type: string
+    nullable: true
   nameEn:
     type: string
+    nullable: true
   descriptionFr:
     type: string
+    nullable: true
   descriptionEn:
     type: string
+    nullable: true
   parentIds:
     type: array
     description: Identifiants des prix parents
