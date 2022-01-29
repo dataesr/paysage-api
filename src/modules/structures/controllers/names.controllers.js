@@ -142,6 +142,42 @@ export default {
     res.status(200).json(resource);
   },
 
+  put: async (req, res) => {
+    const { structureId, nameId } = req.params;
+    const key = Object.keys(req.body)[0];
+    const clNameId = parseInt(nameId, 10);
+    const { id: userId } = req.currentUser;
+    const prevState = await structuresRepo.names.getStateById(structureId, clNameId);
+    if (!prevState) throw new NotFoundError();
+
+    const session = client.startSession();
+    const resource = await structuresRepo.names.findById(structureId, clNameId);
+    const newObj = { [key]: [...resource[key], req.body[key]] };
+    const newData = { ...resource, ...newObj };
+
+    const { result } = await session.withTransaction(async () => {
+      await structuresRepo.names.updateById(structureId, clNameId, newData, { session });
+      const nextState = await structuresRepo.names.getStateById(structureId, clNameId, { session });
+      await eventsRepo.insert({
+        userId,
+        resourceUri: `${req.path}/${nameId}`,
+        operationType: 'update',
+        resourceId: structureId,
+        resourceType: 'structures',
+        subResourceId: clNameId,
+        subResourceType: 'names',
+        prevState,
+        nextState,
+      }, { session });
+    }).catch(() => {
+      session.endSession();
+    });
+    session.endSession();
+    if (!result.ok) throw new ServerError();
+    const newResource = await structuresRepo.names.findById(structureId, clNameId);
+    res.status(200).json(newResource);
+  },
+
   list: async (req, res) => {
     const { structureId } = req.params;
     const { filters, ...options } = req.query;
