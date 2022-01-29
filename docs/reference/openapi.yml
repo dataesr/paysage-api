@@ -1069,6 +1069,57 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Structures
+      summary: Add a value to structure name subResource
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+        - name: nameId
+          in: path
+          schema:
+            type: integer
+            format: int32
+          required: true
+          description: Unique name id
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              title: UpdateListStructureNamePayload
+              type: object
+              allOf:
+                - type: object
+                  description: Différents nom d'une dénomination d'une structure
+                  additionalProperties: false
+                  properties:
+                    otherName:
+                      type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                title: StructureNameResponse
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/StructureName'
+                  - $ref: '#/components/schemas/Metas'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
     delete:
       tags:
         - Structures
@@ -1094,12 +1145,7 @@ paths:
               title: UpdateListStructureNamePayload
               type: object
               allOf:
-                - type: object
-                  description: Différents nom d'une dénomination d'une structure
-                  additionalProperties: false
-                  properties:
-                    otherName:
-                      type: string
+                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1names~1%7BnameId%7D/put/requestBody/content/application~1json/schema/allOf/0'
       responses:
         '200':
           description: Success
