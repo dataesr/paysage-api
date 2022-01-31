@@ -4,15 +4,15 @@ import 'express-async-errors';
 import * as OAV from 'express-openapi-validator';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import health from '@cloudnative/health-connect';
 import { handleErrors } from './modules/commons/middlewares/handle-errors.middlewares';
 import { authenticate } from './modules/commons/middlewares/authenticate.middlewares';
-// import { requireActiveUser } from './modules/commons/middlewares/rbac.middlewares';
 
 import structuresRoutes from './modules/structures/structures.routes';
 import eventsRoutes from './modules/events/events.routes';
-import officialDocumentsRoutes from './modules/official-documents/official-documents.routes';
+import officialDocumentsRoutes from './modules/official-documents/od.routes';
 import categoriesRoutes from './modules/categories/categories.routes';
-import legalCategoriesRoutes from './modules/legal-categories/legal-categories.routes';
+import legalCategoriesRoutes from './modules/legal-categories/lc.routes';
 import pricesRoutes from './modules/prices/prices.routes';
 
 // Load API specifications
@@ -25,8 +25,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Health checker
-app.all('/health', (req, res) => res.status(200).json({ ok: 1 }));
-
+const healthcheck = new health.HealthChecker();
+const isReady = async (expressApp) => {
+  if (!expressApp.isReady) { throw new Error('App in not running yet.'); }
+  return 'Listening to requests';
+};
+const liveCheck = new health.LivenessCheck('LivenessCheck', () => isReady(app));
+const readyCheck = new health.ReadinessCheck('ReadinessCheck', () => isReady(app));
+healthcheck.registerLivenessCheck(liveCheck);
+healthcheck.registerReadinessCheck(readyCheck);
+app.use('/livez', health.LivenessEndpoint(healthcheck));
+app.use('/readyz', health.ReadinessEndpoint(healthcheck));
 // Expose swagger API documentation
 app.use('/docs/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/docs/specs.yml', (req, res) => { res.send(swaggerDocument); });
@@ -36,7 +45,7 @@ app.use(OAV.middleware({
   apiSpec,
   validateRequests: true,
   validateResponses: true,
-  ignorePaths: /(.*\/docs\/?|.*\/health\/?|\/specs\.yml\/?)/,
+  ignorePaths: /(.*\/docs\/?|.*\/readyz\/?|.*\/livez\/?|\/specs\.yml\/?)/,
 }));
 
 // Authenticate currentUser

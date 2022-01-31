@@ -24,7 +24,7 @@ get:
                     - type: object
                       properties:
                         officialDocument:
-                          $ref: '../../official-documents/schemas/official-document.yml'
+                          $ref: '../../official-documents/schemas/light-official-document.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
@@ -63,7 +63,7 @@ post:
               - type: object
                 properties:
                   officialDocument:
-                    $ref: '../../official-documents/schemas/official-document.yml'
+                    $ref: '../../official-documents/schemas/light-official-document.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

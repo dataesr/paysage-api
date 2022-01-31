@@ -89,7 +89,7 @@ paths:
                         - type: object
                           properties:
                             officialDocument:
-                              $ref: '#/components/schemas/OfficialDocument'
+                              $ref: '#/components/schemas/OfficialDocumentLight'
                   totalCount:
                     type: number
         '400':
@@ -129,7 +129,7 @@ paths:
                   - type: object
                     properties:
                       officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                        $ref: '#/components/schemas/OfficialDocumentLight'
                       parents:
                         type: array
                         items:
@@ -169,7 +169,7 @@ paths:
                   - type: object
                     properties:
                       officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                        $ref: '#/components/schemas/OfficialDocumentLight'
                       parents:
                         type: array
                         items:
@@ -242,7 +242,7 @@ paths:
                   - type: object
                     properties:
                       officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                        $ref: '#/components/schemas/OfficialDocumentLight'
                       parents:
                         type: array
                         items:
@@ -424,9 +424,7 @@ paths:
                   data:
                     type: array
                     items:
-                      allOf:
-                        - $ref: '#/components/schemas/OfficialDocument'
-                        - $ref: '#/components/schemas/Metas'
+                      $ref: '#/components/schemas/OfficialDocument'
                   totalCount:
                     type: number
         '400':
@@ -447,22 +445,22 @@ paths:
         content:
           application/json:
             schema:
-              title: CreateOfficialDocumentPayload
               type: object
+              required:
+                - nature
+                - type
+                - title
+                - documentNumber
+                - pageUrl
               allOf:
-                - $ref: '#/components/schemas/OfficialDocument'
+                - $ref: '#/components/schemas/OfficialDocumentPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: OfficialDocumentResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/OfficialDocument'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/OfficialDocument'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -489,12 +487,7 @@ paths:
           content:
             application/json:
               schema:
-                title: OfficialDocumentResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/OfficialDocument'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/OfficialDocument'
         '301':
           description: No content
         '401':
@@ -546,22 +539,14 @@ paths:
         content:
           application/json:
             schema:
-              title: UpdateOfficialDocumentPayload
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/OfficialDocument'
+              $ref: '#/components/schemas/OfficialDocumentPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                title: OfficialDocumentResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/OfficialDocument'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/OfficialDocument'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -599,7 +584,7 @@ paths:
                         - type: object
                           properties:
                             officialDocument:
-                              $ref: '#/components/schemas/OfficialDocument'
+                              $ref: '#/components/schemas/OfficialDocumentLight'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -637,7 +622,7 @@ paths:
                   - type: object
                     properties:
                       officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                        $ref: '#/components/schemas/OfficialDocumentLight'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -673,7 +658,7 @@ paths:
                   - type: object
                     properties:
                       officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                        $ref: '#/components/schemas/OfficialDocumentLight'
         '301':
           description: No content
         '401':
@@ -744,7 +729,7 @@ paths:
                   - type: object
                     properties:
                       officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                        $ref: '#/components/schemas/OfficialDocumentLight'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2145,14 +2130,25 @@ components:
           items:
             type: string
     OfficialDocument:
+      title: OfficialDocumentReadSchema
+      description: Object décrivant un document officiel
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              pattern: '^[a-zA-Z0-9]{5}$'
+              readOnly: true
+        - $ref: '#/components/schemas/OfficialDocumentPayload'
+        - $ref: '#/components/schemas/Metas'
+    OfficialDocumentPayload:
       title: Official Document
       description: Document officiel JO ou BO
+      additionalProperties: false
       type: object
       properties:
-        id:
-          type: string
-          pattern: '^[a-zA-Z0-9]{5}$'
-          readOnly: true
         nature:
           type: string
           enum:
@@ -2190,6 +2186,36 @@ components:
           type: string
         comment:
           type: string
+    OfficialDocumentLight:
+      title: Official Document
+      description: Document officiel JO ou BO
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+          readOnly: true
+        nature:
+          type: string
+          enum:
+            - Publication au JO
+            - Publication au BOESR
+        type:
+          type: string
+          enum:
+            - Loi
+            - Décret
+            - Ordonnance
+            - Avis de vacance d'emploi
+            - Arrêté
+            - Circulaire
+        documentNumber:
+          type: string
+        title:
+          type: string
+        pageUrl:
+          type: string
+          format: uri
     LegalCategory:
       title: Legal Category
       description: Catégory juridique

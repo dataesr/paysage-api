@@ -1,4 +1,4 @@
-import { client } from '../../commons/services/database.service';
+import { client } from '../../../services/mongo.service';
 import { NotFoundError, ServerError } from '../../commons/errors';
 import structuresRepo from '../structures.repo';
 import eventsRepo from '../../commons/repositories/events.repo';
@@ -14,7 +14,9 @@ export default {
     const session = client.startSession();
     const { result } = await session.withTransaction(async () => {
       identifierId = await structuresRepo.identifiers.insert(
-        structureId, { ...data, createdBy: userId, createdAt: now, structureId }, { session },
+        structureId,
+        { ...data, createdBy: userId, createdAt: now, structureId },
+        { session },
       );
       const nextState = await structuresRepo.identifiers.getStateById(structureId, identifierId, { session });
       await eventsRepo.insert({
@@ -79,7 +81,9 @@ export default {
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.identifiers.updateById(structureId, parseInt(identifierId, 10), data, { session });
       const nextState = await structuresRepo.identifiers.getStateById(
-        structureId, parseInt(identifierId, 10), { session },
+        structureId,
+        parseInt(identifierId, 10),
+        { session },
       );
       await eventsRepo.insert({
         userId,

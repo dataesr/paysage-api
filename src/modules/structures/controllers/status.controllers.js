@@ -1,4 +1,4 @@
-import { client } from '../../commons/services/database.service';
+import { client } from '../../../services/mongo.service';
 import { BadRequestError, NotFoundError, ServerError } from '../../commons/errors';
 import structuresRepo from '../structures.repo';
 import eventsRepo from '../../commons/repositories/events.repo';
@@ -24,7 +24,9 @@ export default {
     // delete expiresAt when status is not draft
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.updateById(
-        structureId, { redirection, status, updatedAt: now, updatedBy: userId }, { session },
+        structureId,
+        { redirection, status, updatedAt: now, updatedBy: userId },
+        { session },
       );
       const prevState = await structuresRepo.findById(structureId, { fields: ['redirection', 'status'], session });
       await eventsRepo.insert({

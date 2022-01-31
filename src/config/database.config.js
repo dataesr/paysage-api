@@ -1,4 +1,4 @@
-import db from '../modules/commons/services/database.service';
+import db from '../services/mongo.service';
 
 export default async function setupDatabase() {
   await db.collection('structures').createIndex({ id: 1 }, { unique: true });

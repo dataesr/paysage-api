@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import request from 'supertest';
 import app from '../src/app';
-import db from '../src/modules/commons/services/database.service';
+import db from '../src/services/mongo.service';
 import setupDatabase from '../src/config/database.config';
 import Utils from './utils';
 

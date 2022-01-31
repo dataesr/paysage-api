@@ -15,12 +15,7 @@ get:
       content:
         application/json:
           schema:
-            title: OfficialDocumentResponse
-            required:
-              - id
-            allOf:
-              - $ref: '../schemas/official-document.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-official-document.yml'
     '301':
       description: No content
     '401':
@@ -74,10 +69,7 @@ patch:
     content:
       application/json:
         schema:
-          title: UpdateOfficialDocumentPayload
-          type: object
-          allOf:
-              - $ref: '../schemas/official-document.yml'
+          $ref: '../schemas/write-official-document.yml'
 
   responses:
     '200':
@@ -85,12 +77,7 @@ patch:
       content:
         application/json:
           schema:
-            title: OfficialDocumentResponse
-            required:
-              - id
-            allOf:
-              - $ref: '../schemas/official-document.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-official-document.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

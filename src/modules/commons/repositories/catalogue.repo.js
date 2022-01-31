@@ -1,4 +1,4 @@
-import db from '../services/database.service';
+import db from '../../../services/mongo.service';
 
 function generateId() {
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

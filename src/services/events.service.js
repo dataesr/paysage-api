@@ -1,4 +1,4 @@
-import MongoRepository from '../repositories/mongo.repository';
+import MongoRepository from '../modules/commons/repositories/mongo.repository';
 
 const pipeline = [
   {

@@ -13,7 +13,11 @@ StructureLocalisation:
 Category:
   $ref: '../modules/categories/schemas/category.yml'
 OfficialDocument:
-  $ref: '../modules/official-documents/schemas/official-document.yml'
+  $ref: '../modules/official-documents/schemas/read-official-document.yml'
+OfficialDocumentPayload:
+  $ref: '../modules/official-documents/schemas/write-official-document.yml'
+OfficialDocumentLight:
+  $ref: '../modules/official-documents/schemas/light-official-document.yml'
 LegalCategory:
   $ref: '../modules/legal-categories/schemas/legal-category.yml'
 Events:
