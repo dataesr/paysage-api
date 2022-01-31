@@ -1,4 +1,4 @@
-import db from '../services/database.service';
+import db from '../../../services/mongo.service';
 import { parseSortParams, parseReturnFieldsParams } from '../helpers/parseParams';
 
 export default class NestedRepo {
@@ -21,9 +21,7 @@ export default class NestedRepo {
     return 1;
   }
 
-  async find(resourceId, filters = {}, {
-    skip = 0, limit = 20, sort = null, fields = null, session = null,
-  } = {}) {
+  async find(resourceId, filters = {}, { skip = 0, limit = 20, sort = null, fields = null, session = null } = {}) {
     if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const _pipeline = [
       { $match: { id: resourceId } },
@@ -57,7 +55,7 @@ export default class NestedRepo {
       { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
       { $replaceRoot: { newRoot: `$${this._field}` } },
       { $match: { id } },
-      { $project: { _id: 0, id: 0, createdBy: 0, updatedBy: 0, createdAt: 0, updatedAt: 0 }},
+      { $project: { _id: 0, id: 0, createdBy: 0, updatedBy: 0, createdAt: 0, updatedAt: 0 } },
     ], { session }).toArray();
     return data.length ? data[0] : null;
   }
@@ -102,7 +100,9 @@ export default class NestedRepo {
   async deleteById(resourceId, id, { session = null } = {}) {
     if (!resourceId) { throw new Error("Parameter 'resourceId' must be specified"); }
     const { modifiedCount } = await this._collection.updateOne(
-      { id: resourceId }, { $pull: { [this._field]: { id } } }, { session },
+      { id: resourceId },
+      { $pull: { [this._field]: { id } } },
+      { session },
     );
     return { ok: !!modifiedCount };
   }

@@ -1,4 +1,4 @@
-import { client } from '../../commons/services/database.service';
+import { client } from '../../../services/mongo.service';
 import { NotFoundError, ServerError } from '../../commons/errors';
 import personsRepo from '../persons.repo';
 import eventsRepo from '../../commons/repositories/events.repo';

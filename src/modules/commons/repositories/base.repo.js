@@ -1,4 +1,4 @@
-import db from '../services/database.service';
+import db from '../../../services/mongo.service';
 import { parseSortParams, parseReturnFieldsParams } from '../helpers/parseParams';
 
 export default class BaseRepo {

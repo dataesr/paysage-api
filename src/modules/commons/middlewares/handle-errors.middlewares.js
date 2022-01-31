@@ -1,7 +1,7 @@
 import { error as OAVError } from 'express-openapi-validator';
 import mongodb from 'mongodb';
 import { CustomError } from '../errors';
-import logger from '../services/logger.service';
+import logger from '../../../services/logger.service';
 
 export function handleErrors(err, req, res, next) {
   logger.error(err.message);

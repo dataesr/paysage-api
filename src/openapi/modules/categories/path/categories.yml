@@ -24,7 +24,7 @@ get:
                     - type: object
                       properties:
                         officialDocument:
-                          $ref: '../../official-documents/schemas/official-document.yml'
+                          $ref: '../../official-documents/schemas/light-official-document.yml'
               totalCount:
                 type: number
     '400':
@@ -65,7 +65,7 @@ post:
               - type: object
                 properties:
                   officialDocument:
-                    $ref: '../../official-documents/schemas/official-document.yml'
+                    $ref: '../../official-documents/schemas/light-official-document.yml'
                   parents:
                     type: array
                     items:

@@ -1,4 +1,4 @@
-import { client } from '../../commons/services/database.service';
+import { client } from '../../../services/mongo.service';
 import { BadRequestError, NotFoundError, ServerError } from '../../commons/errors';
 import structuresRepo from '../structures.repo';
 import eventsRepo from '../../commons/repositories/events.repo';
@@ -75,7 +75,8 @@ export default {
     const { currentNameId } = req.body;
     if (currentNameId && !await structuresRepo.names.findById(structureId, currentNameId)) {
       throw new BadRequestError(
-        null, [{ path: '.body.currentNameId', message: `name ${currentNameId} does not exists` }],
+        null,
+        [{ path: '.body.currentNameId', message: `name ${currentNameId} does not exists` }],
       );
     }
     const { id: userId } = req.currentUser;
@@ -85,7 +86,8 @@ export default {
     const { result } = await session.withTransaction(async () => {
       await structuresRepo.updateById(structureId, { ...data, updatedBy: userId });
       const nextState = await structuresRepo.findById(
-        structureId, { fields: ['structureStatus', 'currentNameId'], session },
+        structureId,
+        { fields: ['structureStatus', 'currentNameId'], session },
       );
       await eventsRepo.insert({
         userId,

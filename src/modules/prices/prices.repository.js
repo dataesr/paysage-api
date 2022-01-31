@@ -1,6 +1,18 @@
 import MongoRepository from '../commons/repositories/mongo.repository';
 import metas from '../commons/pipelines/metas';
 
+const lightFields = {
+  nameFr: { $ifNull: ['$nameFr', null] },
+  nameEn: { $ifNull: ['$nameEn', null] },
+};
+
+const fields = {
+  ...lightFields,
+  descriptionFr: { $ifNull: ['$descriptionFr', null] },
+  descriptionEn: { $ifNull: ['$descriptionEn', null] },
+  startDate: { $ifNull: ['$startDate', null] },
+  endDate: { $ifNull: ['$endDate', null] },
+};
 const readModel = [
   ...metas,
   {
@@ -24,41 +36,12 @@ const readModel = [
     updatedBy: 1,
     createdAt: 1,
     updatedAt: 1,
-    nameFr: { $ifNull: ['$nameFr', null] },
-    nameEn: { $ifNull: ['$nameEn', null] },
-    descriptionFr: { $ifNull: ['$descriptionFr', null] },
-    descriptionEn: { $ifNull: ['$descriptionEn', null] },
-    startDate: { $ifNull: ['$startDate', null] },
-    endDate: { $ifNull: ['$endDate', null] },
+    ...fields,
   } },
 ];
-const writeModel = [{
-  $project: {
-    _id: 0,
-    nameFr: 1,
-    nameEn: 1,
-    descriptionFr: 1,
-    descriptionEn: 1,
-    parentIds: 1,
-    startDate: 1,
-    endDate: 1,
-  },
-}];
-const lightModel = [{
-  $project: {
-    _id: 0,
-    id: 1,
-    nameFr: 1,
-    nameEn: 1,
-  },
-}];
-const checkModel = [{
-  $project: {
-    _id: 0,
-    id: 1,
-  },
-}];
-
+const writeModel = [{ $project: { _id: 0, parentIds: { $ifNull: ['$parentIds', []] }, ...fields } }];
+const lightModel = [{ $project: { _id: 0, id: 1, ...lightFields } }];
+const checkModel = [{ $project: { _id: 0, id: 1 } }];
 export default new MongoRepository({
   collection: 'prices',
   models: { readModel, writeModel, lightModel, checkModel },

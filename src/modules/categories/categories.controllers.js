@@ -1,7 +1,7 @@
-import { client } from '../commons/services/database.service';
+import { client } from '../../services/mongo.service';
 import { BadRequestError, NotFoundError, ServerError } from '../commons/errors';
 import categoriesRepo from './categories.repo';
-import officialDocumentsRepo from '../official-documents/official-documents.repo';
+import officialDocumentsRepo from '../official-documents/od.repository';
 import eventsRepo from '../commons/repositories/events.repo';
 import catalogueRepo from '../commons/repositories/catalogue.repo';
 
@@ -13,7 +13,8 @@ export default {
     const { officialDocumentId } = req.body;
     if (officialDocumentId && !await officialDocumentsRepo.exists(officialDocumentId)) {
       throw new BadRequestError(
-        null, [{ path: '.body.officialDocumentId', message: 'Official document does not exists' }],
+        null,
+        [{ path: '.body.officialDocumentId', message: 'Official document does not exists' }],
       );
     }
     const session = client.startSession();
@@ -75,7 +76,8 @@ export default {
     const { officialDocumentId } = req.body;
     if (officialDocumentId && !await officialDocumentsRepo.exists(officialDocumentId)) {
       throw new BadRequestError(
-        null, [{ path: '.body.officialDocumentId', message: 'Official document does not esxists' }],
+        null,
+        [{ path: '.body.officialDocumentId', message: 'Official document does not esxists' }],
       );
     }
     const prevState = await categoriesRepo.findById(categoryId);

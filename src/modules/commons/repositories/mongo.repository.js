@@ -1,4 +1,4 @@
-import db from '../services/database.service';
+import db from '../../../services/mongo.service';
 
 export const parseSortParams = (sort) => {
   try {
@@ -12,22 +12,19 @@ export const parseSortParams = (sort) => {
 };
 
 export default class MongoRepository {
-  #models;
-
-  #collection;
-
   constructor({ collection, models = {} }) {
     if (!collection) { throw new Error("Parameter 'collection' must be specified"); }
     if (!(typeof collection === 'string' && Object.prototype.toString.call(collection) === '[object String]')) {
       throw new Error("Parameter 'collection' must be a string");
     }
     this.collectionName = collection;
-    this.#collection = db.collection(collection);
-    this.#models = models;
+    this._collection = db.collection(collection);
+    this._models = models;
   }
 
   find = async ({ filters = {}, skip = 0, limit = 20, sort = null, useModel } = {}) => {
-    const modelPipeline = this.#models[useModel] || [];
+    const modelPipeline = this._models[useModel] || [];
+    // console.log('PIPELINE', modelPipeline);
     if (useModel && !modelPipeline.length) throw new Error(`${useModel} is not defined`);
     const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
     const queryPipeline = [
@@ -37,7 +34,7 @@ export default class MongoRepository {
       ...modelPipeline,
     ];
     if (sort) { queryPipeline.push({ $sort: parseSortParams(sort) }); }
-    const data = await this.#collection.aggregate([
+    const data = await this._collection.aggregate([
       { $facet: { data: queryPipeline, total: countPipeline } },
       { $project: { data: 1, total: { $arrayElemAt: ['$total', 0] } } },
       { $project: { data: 1, totalCount: '$total.totalCount' } },
@@ -51,7 +48,7 @@ export default class MongoRepository {
   }
 
   async create(data) {
-    await this.#collection.insertOne(data);
+    await this._collection.insertOne(data);
     return data.id;
   }
 
@@ -62,16 +59,16 @@ export default class MongoRepository {
       {},
     );
     const updatePipeline = (Object.keys(unset).length > 0) ? [{ $set: set }, { $unset: unset }] : [{ $set: set }];
-    const { modifiedCount } = await this.#collection.updateOne({ id }, updatePipeline);
+    const { modifiedCount } = await this._collection.updateOne({ id }, updatePipeline);
     return { ok: !!modifiedCount };
   }
 
   async remove(id) {
-    const { deletedCount } = await this.#collection.deleteOne({ id });
+    const { deletedCount } = await this._collection.deleteOne({ id });
     return { ok: !!deletedCount };
   }
 
   async exists(id) {
-    return !!await this.#collection.findOne({ id });
+    return !!await this._collection.findOne({ id });
   }
 }
