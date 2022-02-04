@@ -26,7 +26,7 @@ export function requireRoles(roles) {
       throw new ForbiddenError('Utilisateur inactif');
     }
     if (!roles.includes(req.currentUser.role)) {
-      throw new ForbiddenError('You must be logged in');
+      throw new ForbiddenError('Droits utilisateurs insuffisants');
     }
     return next();
   };

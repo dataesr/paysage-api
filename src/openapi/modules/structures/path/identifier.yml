@@ -7,12 +7,14 @@ get:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: identifierId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique identifier id
   responses:
@@ -46,12 +48,14 @@ delete:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: identifierId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique identifier id
   responses:
@@ -77,12 +81,14 @@ patch:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: identifierId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique identifier id
   requestBody:

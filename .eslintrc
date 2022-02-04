@@ -13,6 +13,7 @@
   },
   "rules": {
     "import/prefer-default-export": 0,
+    "no-constructor-return": 0,
     "max-len": ["error", {"code": 120}],
     "no-underscore-dangle": 0,
     "object-curly-newline": [

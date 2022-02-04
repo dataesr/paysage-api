@@ -1,5 +1,5 @@
 import { error as OAVError } from 'express-openapi-validator';
-import mongodb from 'mongodb';
+import MonsterError from '../../../libs/monster/errors/monster.error';
 import { CustomError } from '../errors';
 import logger from '../../../services/logger.service';
 
@@ -10,14 +10,10 @@ export function handleErrors(err, req, res, next) {
     const { statusCode, ...error } = err.extract();
     return res.status(statusCode).json(error);
   }
-  if (err instanceof mongodb.MongoError) {
-    const duplicated = err.message.split('index:')[1].split('dup key')[0].split('_')[0].trim();
-    if (!duplicated) {
-      return res.status(500).json({ error: 'Server error', details: [] });
-    }
-    return res.status(400).json({
-      error: 'Bad request',
-      details: [{ path: `.body.${duplicated}`, message: `${duplicated} already exists.` }],
+  if (err instanceof MonsterError) {
+    return res.status(err.statusCode).json({
+      error: err.message,
+      details: err.errors,
     });
   }
   if (err instanceof OAVError.BadRequest) {

@@ -1144,6 +1144,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - $ref: '#/components/parameters/filter'
@@ -1186,6 +1187,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
       requestBody:
@@ -1229,12 +1231,14 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: identifierId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique identifier id
       responses:
@@ -1267,12 +1271,14 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: identifierId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique identifier id
       responses:
@@ -1297,12 +1303,14 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: identifierId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique identifier id
       requestBody:
@@ -1344,6 +1352,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - $ref: '#/components/parameters/filter'
@@ -1386,6 +1395,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
       requestBody:
@@ -1427,13 +1437,14 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: nameId
           in: path
           schema:
-            type: integer
-            format: int32
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique name id
       responses:
@@ -1466,12 +1477,14 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: nameId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique name id
       responses:
@@ -1498,12 +1511,14 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: nameId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique name id
       requestBody:
@@ -1898,8 +1913,8 @@ components:
       description: Différentes dénominations d'une structure
       properties:
         id:
-          type: integer
-          pattern: '^[a-zA-Z0-9]{5}$'
+          type: string
+          pattern: '^[a-zA-Z0-9]{8}$'
           readOnly: true
         structureId:
           type: string
@@ -1958,8 +1973,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          pattern: '^[a-zA-Z0-9]{5}$'
+          type: string
+          pattern: '^[a-zA-Z0-9]{8}$'
           readOnly: true
         structureId:
           type: string
