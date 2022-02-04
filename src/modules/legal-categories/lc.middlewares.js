@@ -7,13 +7,13 @@ export async function validatePayload(req, res, next) {
   if (!officialDocumentId) return next();
   const exists = await officialDocumentRepository.get(
     officialDocumentId,
-    { useModel: 'checkModel' },
+    { useQuery: 'checkQuery' },
   );
   if (!exists) {
     throw new BadRequestError(
       'Referencing unknown resource',
       [{
-        path: `.body.officialDocumentId[${i}]`,
+        path: '.body.officialDocumentId',
         message: `official document '${officialDocumentId}' does not exist`,
       }],
     );

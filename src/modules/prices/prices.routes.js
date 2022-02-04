@@ -1,35 +1,32 @@
 import express from 'express';
-import Controllers from '../commons/controllers/base.controllers';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
-import pricesRepository from './prices.repository';
+import prices from './prices.resource';
 import { validatePayload } from './prices.middlewares';
-
-const pricesControllers = new Controllers(pricesRepository);
 
 const router = new express.Router();
 
 router.route('/prices')
-  .get(pricesControllers.list)
+  .get(prices.controllers.list)
   .post([
     requireActiveUser,
     createCtx,
     validatePayload,
-    pricesControllers.create,
+    prices.controllers.create,
   ]);
 
 router.route('/prices/:id')
-  .get(pricesControllers.read)
+  .get(prices.controllers.read)
   .patch([
     requireActiveUser,
     patchCtx,
     validatePayload,
-    pricesControllers.patch,
+    prices.controllers.patch,
   ])
   .delete([
     requireActiveUser,
     patchCtx,
-    pricesControllers.delete,
+    prices.controllers.delete,
   ]);
 
 export default router;

@@ -2,8 +2,8 @@ type: object
 description: Différentes dénominations d'une structure
 properties:
   id:
-    type: integer
-    pattern: '^[a-zA-Z0-9]{5}$'
+    type: string
+    pattern: '^[a-zA-Z0-9]{8}$'
     readOnly: true
   structureId:
     type: string

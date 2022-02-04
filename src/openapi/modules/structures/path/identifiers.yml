@@ -7,6 +7,7 @@ get:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - $ref: '../../../parameters/query/filters.yml'
@@ -50,6 +51,7 @@ post:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
   requestBody:

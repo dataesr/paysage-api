@@ -29,7 +29,7 @@ describe('API > structures > identifiers > create', () => {
     expect(response.body.value).toBe('12345678912345');
     expect(response.body.active).toBe(true);
     expect(response.body.createdBy.username).toBe('user');
-    id = parseInt(response.body.id, 10);
+    id = response.body.id;
   });
   it('throws with required field missing', async () => {
     await global.superapp
@@ -62,7 +62,7 @@ describe('API > structures > identifiers > update', () => {
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/structures/${rid}/identifiers/45`)
+      .patch(`/structures/${rid}/identifiers/45dlrt5d`)
       .set('Authorization', authorization)
       .send({ type: 'Wikidata' })
       .expect(404);
@@ -95,7 +95,7 @@ describe('API > structures > identifiers > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/structures/${rid}/identifiers/265`)
+      .get(`/structures/${rid}/identifiers/265gtr5d`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -110,11 +110,11 @@ describe('API > structures > identifiers > delete', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/structures/${rid}/identifiers/775`)
+      .delete(`/structures/${rid}/identifiers/775glrs5`)
       .set('Authorization', authorization)
       .expect(404);
   });
-  it('can delete structure successfully', async () => {
+  it('can delete identifier successfully', async () => {
     await global.superapp
       .delete(`/structures/${rid}/identifiers/${id}`)
       .set('Authorization', authorization)
@@ -158,8 +158,7 @@ describe('API > structures > identifiers > list', () => {
   it('can list successfully', async () => {
     const { body } = await global.superapp
       .get(`/structures/${rid}/identifiers`)
-      .set('Authorization', authorization)
-      .expect(200);
+      .set('Authorization', authorization);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toContain('Siret');
     expect(docs).toContain('Wikidata');

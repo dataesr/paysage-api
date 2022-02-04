@@ -9,10 +9,8 @@ import { handleErrors } from './modules/commons/middlewares/handle-errors.middle
 import { authenticate } from './modules/commons/middlewares/authenticate.middlewares';
 
 import structuresRoutes from './modules/structures/structures.routes';
-import eventsRoutes from './modules/events/events.routes';
-import officialDocumentsRoutes from './modules/official-documents/od.routes';
-import categoriesRoutes from './modules/categories/categories.routes';
-import legalCategoriesRoutes from './modules/legal-categories/lc.routes';
+// import officialDocumentsRoutes from './modules/official-documents/od.routes';
+// import legalCategoriesRoutes from './modules/legal-categories/lc.routes';
 import pricesRoutes from './modules/prices/prices.routes';
 
 // Load API specifications
@@ -53,10 +51,8 @@ app.use(authenticate);
 
 // Register routes
 app.use(structuresRoutes);
-app.use(officialDocumentsRoutes);
-app.use(categoriesRoutes);
-app.use(eventsRoutes);
-app.use(legalCategoriesRoutes);
+// app.use(officialDocumentsRoutes);
+// app.use(legalCategoriesRoutes);
 app.use(pricesRoutes);
 
 // Erreurs personnalisées
