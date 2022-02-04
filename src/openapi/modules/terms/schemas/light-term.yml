@@ -1,0 +1,16 @@
+title: Term
+description: 'Object décrivant un terme'
+type: object
+properties:
+  id:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
+    readOnly: true
+  usualNameFr:
+    type: string
+    description: Nom usuel en francais
+    nullable: true
+  usualNameEn:
+    type: string
+    description: Nom usuel en anglais
+    nullable: true
