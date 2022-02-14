@@ -1,7 +1,7 @@
 get:
   tags:
     - Structures
-  summary: List structure localisations
+  summary: Localisations - List structure localisations
   parameters:
     - name: structureId
       in: path
@@ -42,7 +42,7 @@ get:
 post:
   tags:
     - Structures
-  summary: Create a structure localisation
+  summary: Localisations - Create a structure localisation
   security:
   - BearerAuth: []
   parameters:

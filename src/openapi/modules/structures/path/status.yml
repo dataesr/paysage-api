@@ -1,7 +1,7 @@
 put:
   tags:
     - Structures
-  summary: Change the structure status
+  summary: Status - Change the structure status
   security:
   - BearerAuth: []
   parameters:
