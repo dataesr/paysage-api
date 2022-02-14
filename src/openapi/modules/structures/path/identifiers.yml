@@ -1,7 +1,7 @@
 get:
   tags:
     - Structures
-  summary: List structure identifiers
+  summary: Identifiers - List structure identifiers
   parameters:
     - name: structureId
       in: path
@@ -42,7 +42,7 @@ get:
 post:
   tags:
     - Structures
-  summary: Create a structure indentifier
+  summary: Identifiers - Create a structure indentifier
   security:
   - BearerAuth: []
   parameters:

@@ -1,7 +1,7 @@
 get:
   tags:
     - Terms
-  summary: List terms
+  summary: Terms - List terms
   parameters:
     - $ref: '../../../parameters/query/filters.yml'
     - $ref: '../../../parameters/query/skip.yml'
@@ -33,7 +33,7 @@ get:
 post:
   tags:
     - Terms
-  summary: Create a term
+  summary: Terms - Create a term
   security:
   - BearerAuth: []
   requestBody:

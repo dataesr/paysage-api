@@ -1,7 +1,7 @@
 get:
   tags:
     - Prices
-  summary: Get a price
+  summary: Price - Get a price
   parameters:
     - name: priceId
       in: path
@@ -30,7 +30,7 @@ get:
 delete:
   tags:
     - Prices
-  summary: Delete a price
+  summary: Price - Delete a price
   security:
   - BearerAuth: []
   parameters:
@@ -55,7 +55,7 @@ delete:
 patch:
   tags:
     - Prices
-  summary: Update a price
+  summary: Price - Update a price
   security:
   - BearerAuth: []
   parameters:

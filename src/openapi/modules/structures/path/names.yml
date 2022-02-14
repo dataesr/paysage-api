@@ -1,7 +1,7 @@
 get:
   tags:
     - Structures
-  summary: List structure names
+  summary: Names- List structure names
   parameters:
     - name: structureId
       in: path
@@ -42,7 +42,7 @@ get:
 post:
   tags:
     - Structures
-  summary: Create a structure name
+  summary: Names- Create a structure name
   security:
   - BearerAuth: []
   parameters:

@@ -1,7 +1,7 @@
 get:
   tags:
     - Structures
-  summary: List structures
+  summary: Structures - List structures
   parameters:
     - $ref: '../../../parameters/query/filters.yml'
     - $ref: '../../../parameters/query/skip.yml'
@@ -35,7 +35,7 @@ get:
 post:
   tags:
     - Structures
-  summary: Create a Structure
+  summary: Structures - Create a Structure
   requestBody:
     content:
       application/json:
