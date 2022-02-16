@@ -1,0 +1,197 @@
+let authorization;
+let rid;
+let id;
+const payload = {
+  cityFrId: 'string',
+  inseeId: 'string',
+  cityForeignId: 'string',
+  distributionStatement: 'string',
+  address: 'string',
+  postbox: 'string',
+  zipcode: 'string',
+  city: 'string',
+  geometry: {
+    type: 'Point',
+    coordinates: [0, 0],
+  },
+  startDate: '2015',
+  endDate: '2013',
+};
+beforeAll(async () => {
+  authorization = await global.utils.createUser('user');
+  const response = await global.superapp
+    .post('/structures')
+    .set('Authorization', authorization)
+    .send({
+      structureStatus: 'active',
+    }).expect(201);
+  rid = response.body.id;
+});
+
+describe('API > structures > localisations > create', () => {
+  it('can create successfully', async () => {
+    const { body } = await global.superapp
+      .post(`/structures/${rid}/localisations`)
+      .set('Authorization', authorization)
+      .send(payload).expect(201);
+    Object.entries(payload).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
+    expect(body.id).toBeTruthy();
+    expect(body.createdBy.username).toBe('user');
+    id = body.id;
+  });
+  it('throws with required field missing', async () => {
+    const { address, ...rest } = payload;
+    await global.superapp
+      .post(`/structures/${rid}/localisations`)
+      .set('Authorization', authorization)
+      .send(rest).expect(400);
+  });
+});
+
+describe('API > structures > localisations > update', () => {
+  it('can update successfully', async () => {
+    const { body } = await global.superapp
+      .patch(`/structures/${rid}/localisations/${id}`)
+      .set('Authorization', authorization)
+      .send({ city: 'Strasbourg' })
+      .expect(200);
+    expect(body.city).toBe('Strasbourg');
+  });
+  it('throws bad request with wrong id', async () => {
+    await global.superapp
+      .patch(`/structures/${rid}/localisations/45frK`)
+      .set('Authorization', authorization)
+      .send({ city: 'Strasbourg' })
+      .expect(400);
+  });
+  it('throws not found with wrong id', async () => {
+    await global.superapp
+      .patch(`/structures/${rid}/localisations/45skrc65`)
+      .set('Authorization', authorization)
+      .send({ city: 'Strasbourg' })
+      .expect(404);
+  });
+  it('throws with wrong data', async () => {
+    await global.superapp
+      .patch(`/structures/${rid}/localisations/${id}`)
+      .set('Authorization', authorization)
+      .send({ startDate: 'string' })
+      .expect(400);
+  });
+});
+
+describe('API > structures > localisations > read', () => {
+  it('can read successfully', async () => {
+    const { body } = await global.superapp
+      .get(`/structures/${rid}/localisations/${id}`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.id).toBeTruthy();
+    expect(body.city).toBe('Strasbourg');
+    const { city, ...rest } = payload;
+    Object.entries(rest).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
+  });
+  it('throws bad request with wrong id', async () => {
+    await global.superapp
+      .get(`/structures/${rid}/localisations/265vty`)
+      .set('Authorization', authorization)
+      .expect(400);
+  });
+  it('throws not found with unknown id', async () => {
+    await global.superapp
+      .get(`/structures/${rid}/localisations/265fkrld`)
+      .set('Authorization', authorization)
+      .expect(404);
+  });
+});
+
+describe('API > structures > localisations > delete', () => {
+  it('throws bad request with wrong id', async () => {
+    await global.superapp
+      .delete(`/structures/${rid}/localisations/vgy775`)
+      .set('Authorization', authorization)
+      .expect(400);
+  });
+  it('throws not found with unknown id', async () => {
+    await global.superapp
+      .delete(`/structures/${rid}/localisations/775flrks`)
+      .set('Authorization', authorization)
+      .expect(404);
+  });
+});
+
+describe('API > structures > localisations > list', () => {
+  beforeAll(async () => {
+    await global.superapp
+      .post(`/structures/${rid}/localisations/`)
+      .set('Authorization', authorization)
+      .send({ ...payload, city: 'Colmar' })
+      .expect(201);
+    await global.superapp
+      .post(`/structures/${rid}/localisations/`)
+      .set('Authorization', authorization)
+      .send({ ...payload, city: 'Mulhouse' })
+      .expect(201);
+  });
+  it('can list successfully', async () => {
+    const { body } = await global.superapp
+      .get(`/structures/${rid}/localisations`)
+      .set('Authorization', authorization)
+      .expect(200);
+    const docs = body.data.map((doc) => doc.city);
+    expect(docs).toContain('Strasbourg');
+    expect(docs).toContain('Colmar');
+    expect(docs).toContain('Mulhouse');
+  });
+  it('can skip successfully', async () => {
+    const { body } = await global.superapp
+      .get(`/structures/${rid}/localisations?skip=1`)
+      .set('Authorization', authorization)
+      .expect(200);
+    const docs = body.data.map((doc) => doc.city);
+    expect(docs).toContain('Colmar');
+    expect(docs).toContain('Mulhouse');
+    expect(docs).toHaveLength(2);
+    expect(body.totalCount).toBe(3);
+  });
+  it('can limit successfully', async () => {
+    const { body } = await global.superapp
+      .get(`/structures/${rid}/localisations?limit=1`)
+      .set('Authorization', authorization)
+      .expect(200);
+    const docs = body.data.map((doc) => doc.city);
+    expect(docs).toContain('Strasbourg');
+    expect(docs).toHaveLength(1);
+    expect(body.totalCount).toBe(3);
+  });
+  it('can sort successfully', async () => {
+    const { body } = await global.superapp
+      .get(`/structures/${rid}/localisations?sort=city`)
+      .set('Authorization', authorization)
+      .expect(200);
+    const docs = body.data.map((doc) => doc.city);
+    expect(docs[0]).toBe('Colmar');
+    expect(docs).toHaveLength(3);
+    expect(body.totalCount).toBe(3);
+  });
+  it('can reversely sort successfully', async () => {
+    const { body } = await global.superapp
+      .get(`/structures/${rid}/localisations?sort=-city`)
+      .set('Authorization', authorization)
+      .expect(200);
+    const docs = body.data.map((doc) => doc.city);
+    expect(docs[0]).toBe('Strasbourg');
+    expect(docs).toHaveLength(3);
+    expect(body.totalCount).toBe(3);
+  });
+  it('can filter successfully', async () => {
+    const { body } = await global.superapp
+      .get(`/structures/${rid}/localisations?filters[city]=Strasbourg`)
+      .set('Authorization', authorization)
+      .expect(200);
+    const docs = body.data.map((doc) => doc.city);
+    expect(docs).toContain('Strasbourg');
+    expect(docs).toHaveLength(1);
+    expect(body.totalCount).toBe(1);
+  });
+});

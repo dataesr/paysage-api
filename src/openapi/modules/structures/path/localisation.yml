@@ -7,12 +7,14 @@ get:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: localisationId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique localisation id
   responses:
@@ -21,11 +23,7 @@ get:
       content:
         application/json:
           schema:
-            title: StructureLocalisationResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/localisation.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-localisation.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -46,12 +44,14 @@ delete:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: localisationId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique localisation id
   responses:
@@ -77,33 +77,28 @@ patch:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: localisationId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique localisation id
   requestBody:
     content:
-      application/json:
-        schema:
-          title: UpdateStructureLocalisationPayload
-          type: object
-          allOf:
-            - $ref: '../schemas/localisation.yml'
+        application/json:
+          schema:
+            $ref: '../schemas/write-localisation.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            title: StructureLocalisationResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/localisation.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-localisation.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

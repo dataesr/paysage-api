@@ -4,15 +4,19 @@ const currentNamePipeline = [
   {
     $set: {
       currentName: {
-        $filter: {
+        $reduce: {
           input: '$names',
-          as: 'name',
-          cond: { $eq: ['$$name.id', '$currentNameId'] },
+          initialValue: null,
+          in: {
+            $cond: [
+              { $gte: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value',
+            ],
+          },
         },
       },
     },
   },
-  { $set: { currentName: { $arrayElemAt: ['$currentName', 0] } } },
+  { $project: { currentName: { createdAt: 0, updatedAt: 0, updateBy: 0, createdBy: 0 } } },
 ];
 const readQuery = [
   ...metas,
@@ -33,7 +37,7 @@ const readQuery = [
     },
   },
 ];
-const writeQuery = [{ $project: { _id: 0, id: 1, structureStatus: 1, currentNameId: 1 } }];
+const writeQuery = [{ $project: { _id: 0, id: 1, structureStatus: 1 } }];
 const lightQuery = [...currentNamePipeline, { $project: { _id: 0, id: 1, structureStatus: 1, currentName: 1 } }];
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 

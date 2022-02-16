@@ -13,7 +13,6 @@ const structureName = {
     'string',
   ],
   startDate: '2012-01-01',
-  endDate: '2014-12-31',
   comment: 'string',
   article: "à l'",
 };
@@ -122,12 +121,6 @@ describe('API > structures > names > delete', () => {
       .set('Authorization', authorization)
       .expect(404);
   });
-  // it('throws when trying to delete currentName', async () => {
-  //   await global.superapp
-  //     .delete(`/structures/${rid}/names/${id}`)
-  //     .set('Authorization', authorization)
-  //     .expect(400);
-  // });
 });
 
 describe('API > structures > names > list', () => {
@@ -135,12 +128,12 @@ describe('API > structures > names > list', () => {
     await global.superapp
       .post(`/structures/${rid}/names/`)
       .set('Authorization', authorization)
-      .send({ ...structureName, usualName: 'string2' })
+      .send({ ...structureName, usualName: 'string2', startDate: null })
       .expect(201);
     await global.superapp
       .post(`/structures/${rid}/names/`)
       .set('Authorization', authorization)
-      .send({ ...structureName, usualName: 'string3' })
+      .send({ ...structureName, usualName: 'string3', startDate: '2017-01-01' })
       .expect(201);
   });
   it('can list successfully', async () => {
@@ -203,5 +196,12 @@ describe('API > structures > names > list', () => {
     expect(docs).toContain('string2');
     expect(docs).toHaveLength(1);
     expect(body.totalCount).toBe(1);
+  });
+  it('returns currentName successfully', async () => {
+    const { body } = await global.superapp
+      .get(`/structures/${rid}`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.currentName.startDate).toBe('2017-01-01');
   });
 });

@@ -1,21 +1,22 @@
 let authorization;
 let id;
 const payload = {
-  nameFr: 'Prix A',
-  nameEn: 'Price A',
-  startDate: '2020',
-  endDate: '2021',
+  longNameFr: 'longNameFr',
+  inseeCode: 'inseeCode',
+  acronymeFr: 'acronymeFr',
+  sector: 'public',
+  legalPersonality: 'personne morale de droit public',
 };
-const updatePayLoad = { nameFr: 'Prix C', nameEn: null };
+const updatePayLoad = { sector: 'privé', longNameFr: 'test', inseeCode: null };
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
 });
 
-describe('API > prices > create', () => {
+describe('API > legal categories > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
-      .post('/prices')
+      .post('/legal-categories')
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
@@ -24,73 +25,63 @@ describe('API > prices > create', () => {
     expect(body.createdBy.username).toBe('user');
     id = body.id;
   });
-  it('can create successfully with parent', async () => {
-    const { body } = await global.superapp
-      .post('/prices')
-      .set('Authorization', authorization)
-      .send({ ...payload, parentIds: [id] })
-      .expect(201);
-    Object.entries(payload).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
-    expect(body.id).toBeTruthy();
-    expect(body.parents).toHaveLength(1);
-    expect(body.parents[0].nameFr).toBe('Prix A');
-    expect(body.createdBy.username).toBe('user');
-  });
-  it('throws with unknown parent', async () => {
-    await global.superapp
-      .post('/prices')
-      .set('Authorization', authorization)
-      .send({ ...payload, parentIds: ['frYh5'] })
-      .expect(400);
-  });
   it('ignore additionalProperties', async () => {
-    const { body } = await global.superapp
-      .post('/prices')
+    await global.superapp
+      .post('/legal-categories')
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
-    expect(body.arbitrary).toBeFalsy();
+    const dbData = await global.db.collection('legal-categories').findOne({ id });
+    expect(dbData.arbitrary).toBe(undefined);
   });
 });
 
-describe('API > prices > update', () => {
+describe('API > legal categories > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch('/prices/45frK')
+      .patch('/legal-categories/45frK')
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(404);
   });
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/prices/${id}`)
+      .patch(`/legal-categories/${id}`)
       .set('Authorization', authorization)
-      .send(updatePayLoad);
+      .send(updatePayLoad)
+      .expect(200);
     const updated = { ...payload, ...updatePayLoad };
     Object.entries(updated).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBeTruthy();
     expect(body.createdBy.username).toBe('user');
   });
-  it('throws with wrong data', async () => {
+  it('ignore additionalProperties', async () => {
     await global.superapp
-      .patch(`/prices/${id}`)
+      .patch(`/legal-categories/${id}`)
       .set('Authorization', authorization)
       .send({ arbitrary: 'test' })
       .expect(400);
   });
   it('throws with no data', async () => {
     await global.superapp
-      .patch(`/prices/${id}`)
+      .patch(`/legal-categories/${id}`)
       .set('Authorization', authorization)
       .send({})
       .expect(400);
   });
+  it('throws when nullifying required', async () => {
+    await global.superapp
+      .patch(`/legal-categories/${id}`)
+      .set('Authorization', authorization)
+      .send({ nature: null })
+      .expect(400);
+  });
 });
 
-describe('API > prices > read', () => {
+describe('API > legal categories > read', () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
-      .get(`/prices/${id}`)
+      .get(`/legal-categories/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     const expected = { ...payload, ...updatePayLoad };
@@ -100,100 +91,100 @@ describe('API > prices > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get('/prices/45frK')
+      .get('/legal-categories/45frK')
       .set('Authorization', authorization)
       .expect(404);
   });
 });
 
-describe('API > prices > delete', () => {
+describe('API > legal categories > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete('/prices/45frK')
+      .delete('/legal-categories/45frK')
       .set('Authorization', authorization)
       .expect(404);
   });
   it('can delete successfully', async () => {
     await global.superapp
-      .delete(`/prices/${id}`)
+      .delete(`/legal-categories/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
 });
 
-describe('API > structures > structures > list', () => {
+describe('API > legal categories > list', () => {
   beforeAll(async () => {
-    await global.utils.db.collection('prices').deleteMany({});
+    await global.utils.db.collection('legal-categories').deleteMany({});
     await global.superapp
-      .post('/prices')
+      .post('/legal-categories')
       .set('Authorization', authorization)
-      .send(payload)
+      .send({ ...payload, longNameFr: 'od1' })
       .expect(201);
     await global.superapp
-      .post('/prices')
+      .post('/legal-categories')
       .set('Authorization', authorization)
-      .send({ ...payload, nameFr: 'Prix B' })
+      .send({ ...payload, longNameFr: 'od2' })
       .expect(201);
     await global.superapp
-      .post('/prices')
+      .post('/legal-categories')
       .set('Authorization', authorization)
-      .send({ ...payload, nameFr: 'Prix C' })
+      .send({ ...payload, longNameFr: 'od3' })
       .expect(201);
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices')
+      .get('/legal-categories')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs).toContain('Prix A');
-    expect(docs).toContain('Prix B');
-    expect(docs).toContain('Prix C');
+    const docs = body.data.map((doc) => doc.longNameFr);
+    expect(docs).toContain('od1');
+    expect(docs).toContain('od2');
+    expect(docs).toContain('od3');
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?skip=1')
+      .get('/legal-categories?skip=1')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs).toContain('Prix B');
-    expect(docs).toContain('Prix C');
+    const docs = body.data.map((doc) => doc.longNameFr);
+    expect(docs).toContain('od2');
+    expect(docs).toContain('od3');
     expect(body.totalCount).toBe(3);
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?limit=1')
+      .get('/legal-categories?limit=1')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs).toContain('Prix A');
+    const docs = body.data.map((doc) => doc.longNameFr);
+    expect(docs).toContain('od1');
     expect(body.totalCount).toBe(3);
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?sort=nameFr')
+      .get('/legal-categories?sort=longNameFr')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs[0]).toBe('Prix A');
+    const docs = body.data.map((doc) => doc.longNameFr);
+    expect(docs[0]).toBe('od1');
     expect(body.totalCount).toBe(3);
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?sort=-nameFr')
+      .get('/legal-categories?sort=-longNameFr')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs[0]).toBe('Prix C');
+    const docs = body.data.map((doc) => doc.longNameFr);
+    expect(docs[0]).toBe('od3');
     expect(body.totalCount).toBe(3);
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?filters[nameFr]=Prix A')
+      .get('/legal-categories?filters[longNameFr]=od1')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs).toContain('Prix A');
+    const docs = body.data.map((doc) => doc.longNameFr);
+    expect(docs).toContain('od1');
     expect(body.totalCount).toBe(1);
   });
 });

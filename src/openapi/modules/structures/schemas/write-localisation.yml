@@ -1,12 +1,6 @@
 title: Localisation
 type: object
 properties:
-  id:
-    type: string
-    pattern: '^[a-zA-Z0-9]{5}$'
-  structureId:
-    type: string
-    readOnly: true
   cityFrId:
     type: string
     nullable: true
@@ -21,7 +15,6 @@ properties:
     nullable: true
   address:
     type: string
-    nullable: true
   postbox:
     type: string
     nullable: true

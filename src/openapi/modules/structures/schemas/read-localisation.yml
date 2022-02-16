@@ -1,0 +1,17 @@
+title: StructureReadSchema
+description: Representation d'une localisation de structure
+required:
+  - id
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{8}$'
+      rid:
+        type: string
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{5}$'
+  - $ref: './write-localisation.yml'
+  - $ref: '../../../schemas/metas.yml'

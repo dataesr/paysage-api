@@ -25,6 +25,7 @@ export default class NestedMongoRepository {
       { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
       { $replaceRoot: { newRoot: `$${this._field}` } },
       { $match: filters },
+      { $set: { rid } },
     ];
     const model = this._queries[useQuery] ?? [];
     const queryPipeline = [

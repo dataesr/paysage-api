@@ -18,13 +18,9 @@ get:
               data:
                 type: array
                 items:
-                  allOf:
-                    - $ref: '../schemas/legal-category.yml'
-                    - $ref: '../../../schemas/metas.yml'
-                    - type: object
-                      properties:
-                        officialDocument:
-                          $ref: '../../official-documents/schemas/light-official-document.yml'
+                  $ref: '../schemas/read-legal-category.yml'
+              totalCount:
+                type: integer
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
@@ -44,10 +40,10 @@ post:
     content:
       application/json:
         schema:
-          title: CreateLegalCategoryPayload
-          type: object
+          required:
+            - longNameFr
           allOf:
-              - $ref: '../schemas/legal-category.yml'
+              - $ref: '../schemas/write-legal-category.yml'
   responses:
     '201':
       description: Created
@@ -58,12 +54,7 @@ post:
             required:
               - id
             allOf:
-              - $ref: '../schemas/legal-category.yml'
-              - $ref: '../../../schemas/metas.yml'
-              - type: object
-                properties:
-                  officialDocument:
-                    $ref: '../../official-documents/schemas/light-official-document.yml'
+              - $ref: '../schemas/read-legal-category.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

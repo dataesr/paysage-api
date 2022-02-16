@@ -1,19 +1,11 @@
 type: object
 description: Différentes dénominations d'une structure
 properties:
-  id:
-    type: string
-    pattern: '^[a-zA-Z0-9]{8}$'
-    readOnly: true
-  structureId:
-    type: string
-    readOnly: true
   officialName:
     type: string
     nullable: true
   usualName:
     type: string
-    nullable: true
   shortName:
     type: string
     nullable: true

@@ -7,6 +7,7 @@ get:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique person id
   responses:
@@ -15,12 +16,7 @@ get:
       content:
         application/json:
           schema:
-            title: PersonResponse
-            required:
-              - id
-            allOf:
-              - $ref: '../schemas/person.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-person.yml'
     '301':
       description: No content
     '401':
@@ -43,6 +39,7 @@ delete:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique person id
   responses:
@@ -68,27 +65,21 @@ patch:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique person id
   requestBody:
     content:
       application/json:
         schema:
-          title: UpdatePersonPayload
-          allOf:
-            - $ref: '../schemas/person.yml'
+          $ref: '../schemas/write-person.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            title: PersonResponse
-            required:
-              - id
-            allOf:
-              - $ref: '../schemas/person.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-person.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

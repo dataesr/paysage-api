@@ -1,12 +1,12 @@
 import metas from '../commons/pipelines/metas';
 
-const lightFields = {
+const lightModel = {
   nameFr: { $ifNull: ['$nameFr', null] },
   nameEn: { $ifNull: ['$nameEn', null] },
 };
 
-const fields = {
-  ...lightFields,
+const model = {
+  ...lightModel,
   descriptionFr: { $ifNull: ['$descriptionFr', null] },
   descriptionEn: { $ifNull: ['$descriptionEn', null] },
   startDate: { $ifNull: ['$startDate', null] },
@@ -36,12 +36,12 @@ const readQuery = [
       updatedBy: 1,
       createdAt: 1,
       updatedAt: 1,
-      ...fields,
+      ...model,
     },
   },
 ];
-const writeQuery = [{ $project: { _id: 0, parentIds: { $ifNull: ['$parentIds', []] }, ...fields } }];
-const lightQuery = [{ $project: { _id: 0, id: 1, ...lightFields } }];
+const writeQuery = [{ $project: { _id: 0, parentIds: { $ifNull: ['$parentIds', []] }, ...model } }];
+const lightQuery = [{ $project: { _id: 0, id: 1, ...lightModel } }];
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 
 export default { readQuery, writeQuery, lightQuery, checkQuery };

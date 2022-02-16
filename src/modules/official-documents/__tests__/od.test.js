@@ -1,21 +1,25 @@
 let authorization;
 let id;
 const payload = {
-  nameFr: 'Prix A',
-  nameEn: 'Price A',
-  startDate: '2020',
-  endDate: '2021',
+  nature: 'Publication au JO',
+  type: 'Loi',
+  documentNumber: 'string',
+  title: 'string',
+  pageUrl: 'http://string.fr',
+  signatureDate: '2020',
+  endDate: '2020',
+  textExtract: 'string',
 };
-const updatePayLoad = { nameFr: 'Prix C', nameEn: null };
+const updatePayLoad = { nature: 'Publication au BOESR', type: 'Décret' };
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
 });
 
-describe('API > prices > create', () => {
+describe('API > official documents > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
-      .post('/prices')
+      .post('/official-documents')
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
@@ -24,73 +28,63 @@ describe('API > prices > create', () => {
     expect(body.createdBy.username).toBe('user');
     id = body.id;
   });
-  it('can create successfully with parent', async () => {
-    const { body } = await global.superapp
-      .post('/prices')
-      .set('Authorization', authorization)
-      .send({ ...payload, parentIds: [id] })
-      .expect(201);
-    Object.entries(payload).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
-    expect(body.id).toBeTruthy();
-    expect(body.parents).toHaveLength(1);
-    expect(body.parents[0].nameFr).toBe('Prix A');
-    expect(body.createdBy.username).toBe('user');
-  });
-  it('throws with unknown parent', async () => {
-    await global.superapp
-      .post('/prices')
-      .set('Authorization', authorization)
-      .send({ ...payload, parentIds: ['frYh5'] })
-      .expect(400);
-  });
   it('ignore additionalProperties', async () => {
-    const { body } = await global.superapp
-      .post('/prices')
+    await global.superapp
+      .post('/official-documents')
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
-    expect(body.arbitrary).toBeFalsy();
+    const dbData = await global.db.collection('official-documents').findOne({ id });
+    expect(dbData.arbitrary).toBe(undefined);
   });
 });
 
-describe('API > prices > update', () => {
+describe('API > official documents > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch('/prices/45frK')
+      .patch('/official-documents/45frK')
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(404);
   });
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/prices/${id}`)
+      .patch(`/official-documents/${id}`)
       .set('Authorization', authorization)
-      .send(updatePayLoad);
+      .send(updatePayLoad)
+      .expect(200);
     const updated = { ...payload, ...updatePayLoad };
     Object.entries(updated).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBeTruthy();
     expect(body.createdBy.username).toBe('user');
   });
-  it('throws with wrong data', async () => {
+  it('ignore additionalProperties', async () => {
     await global.superapp
-      .patch(`/prices/${id}`)
+      .patch(`/official-documents/${id}`)
       .set('Authorization', authorization)
       .send({ arbitrary: 'test' })
       .expect(400);
   });
   it('throws with no data', async () => {
     await global.superapp
-      .patch(`/prices/${id}`)
+      .patch(`/official-documents/${id}`)
       .set('Authorization', authorization)
       .send({})
       .expect(400);
   });
+  it('throws when nullifying required', async () => {
+    await global.superapp
+      .patch(`/official-documents/${id}`)
+      .set('Authorization', authorization)
+      .send({ nature: null })
+      .expect(400);
+  });
 });
 
-describe('API > prices > read', () => {
+describe('API > official documents > read', () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
-      .get(`/prices/${id}`)
+      .get(`/official-documents/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     const expected = { ...payload, ...updatePayLoad };
@@ -100,100 +94,100 @@ describe('API > prices > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get('/prices/45frK')
+      .get('/official-documents/45frK')
       .set('Authorization', authorization)
       .expect(404);
   });
 });
 
-describe('API > prices > delete', () => {
+describe('API > official documents > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete('/prices/45frK')
+      .delete('/official-documents/45frK')
       .set('Authorization', authorization)
       .expect(404);
   });
   it('can delete successfully', async () => {
     await global.superapp
-      .delete(`/prices/${id}`)
+      .delete(`/official-documents/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
 });
 
-describe('API > structures > structures > list', () => {
+describe('API > official documents > list', () => {
   beforeAll(async () => {
-    await global.utils.db.collection('prices').deleteMany({});
+    await global.utils.db.collection('official-documents').deleteMany({});
     await global.superapp
-      .post('/prices')
+      .post('/official-documents')
       .set('Authorization', authorization)
-      .send(payload)
+      .send({ ...payload, title: 'od1' })
       .expect(201);
     await global.superapp
-      .post('/prices')
+      .post('/official-documents')
       .set('Authorization', authorization)
-      .send({ ...payload, nameFr: 'Prix B' })
+      .send({ ...payload, title: 'od2' })
       .expect(201);
     await global.superapp
-      .post('/prices')
+      .post('/official-documents')
       .set('Authorization', authorization)
-      .send({ ...payload, nameFr: 'Prix C' })
+      .send({ ...payload, title: 'od3' })
       .expect(201);
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices')
+      .get('/official-documents')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs).toContain('Prix A');
-    expect(docs).toContain('Prix B');
-    expect(docs).toContain('Prix C');
+    const docs = body.data.map((doc) => doc.title);
+    expect(docs).toContain('od1');
+    expect(docs).toContain('od2');
+    expect(docs).toContain('od3');
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?skip=1')
+      .get('/official-documents?skip=1')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs).toContain('Prix B');
-    expect(docs).toContain('Prix C');
+    const docs = body.data.map((doc) => doc.title);
+    expect(docs).toContain('od2');
+    expect(docs).toContain('od3');
     expect(body.totalCount).toBe(3);
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?limit=1')
+      .get('/official-documents?limit=1')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs).toContain('Prix A');
+    const docs = body.data.map((doc) => doc.title);
+    expect(docs).toContain('od1');
     expect(body.totalCount).toBe(3);
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?sort=nameFr')
+      .get('/official-documents?sort=title')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs[0]).toBe('Prix A');
+    const docs = body.data.map((doc) => doc.title);
+    expect(docs[0]).toBe('od1');
     expect(body.totalCount).toBe(3);
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?sort=-nameFr')
+      .get('/official-documents?sort=-title')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs[0]).toBe('Prix C');
+    const docs = body.data.map((doc) => doc.title);
+    expect(docs[0]).toBe('od3');
     expect(body.totalCount).toBe(3);
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get('/prices?filters[nameFr]=Prix A')
+      .get('/official-documents?filters[title]=od1')
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.nameFr);
-    expect(docs).toContain('Prix A');
+    const docs = body.data.map((doc) => doc.title);
+    expect(docs).toContain('od1');
     expect(body.totalCount).toBe(1);
   });
 });
