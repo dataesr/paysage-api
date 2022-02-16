@@ -1,4 +1,4 @@
-import { BadRequestError } from '../commons/errors';
+import { BadRequestError } from '../../libs/monster/errors';
 import prices from './prices.resource';
 
 export async function validatePayload(req, res, next) {

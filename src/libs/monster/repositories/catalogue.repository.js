@@ -40,6 +40,12 @@ class Catalogue {
     if (result.ok) { return _id; }
     throw new Error('Too many retries ...');
   };
+
+  setUniqueId = async (id, objectCollection) => {
+    const { result } = await this._collection.insertOne({ _id: id, objectCollection });
+    if (result.ok) { return id; }
+    throw new Error(`Cannot insert ID ${id}`);
+  };
 }
 
 export default Catalogue;

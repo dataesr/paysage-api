@@ -35,7 +35,7 @@ describe('API > structures > structures > update', () => {
       .expect(200);
     expect(body.structureStatus).toBe('inactive');
   });
-  it('throws with wrong data', async () => {
+  it('ignore additional properties', async () => {
     await global.superapp
       .patch(`/structures/${id}`)
       .set('Authorization', authorization)
@@ -49,9 +49,8 @@ describe('API > structures > status > update', () => {
     await global.superapp
       .put('/structures/45frK/status')
       .set('Authorization', authorization)
-      .send({
-        structureStatus: 'inactive',
-      }).expect(404);
+      .send({ status: 'published' })
+      .expect(404);
   });
   it('can set status to published successfully', async () => {
     const { body } = await global.superapp
@@ -209,5 +208,20 @@ describe('API > structures > structures > list', () => {
     const docs = body.data.map((doc) => doc.structureStatus);
     expect(docs).toContain('active');
     expect(body.totalCount).toBe(1);
+  });
+});
+
+describe('API > structures > structures > upsert', () => {
+  it('can upsert with id successfully', async () => {
+    const { body } = await global.superapp
+      .put('/structures/iw59y')
+      .set('Authorization', authorization)
+      .send({
+        structureStatus: 'active',
+      }).expect(201);
+    expect(body.id).toBeTruthy();
+    expect(body.createdBy.username).toBe('user');
+    const catalogue = await global.db.collection('_catalogue').findOne({ _id: body.id });
+    expect(catalogue._id).toBe(body.id);
   });
 });

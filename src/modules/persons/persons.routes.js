@@ -1,29 +1,29 @@
 import express from 'express';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
-import officialDocuments from './od.resource';
+import persons from './persons.resource';
 
 const router = new express.Router();
 
-router.route('/official-documents')
-  .get(officialDocuments.controllers.list)
+router.route('/persons')
+  .get(persons.controllers.list)
   .post([
     requireActiveUser,
     createCtx,
-    officialDocuments.controllers.create,
+    persons.controllers.create,
   ]);
 
-router.route('/official-documents/:id')
-  .get(officialDocuments.controllers.read)
+router.route('/persons/:id')
+  .get(persons.controllers.read)
   .patch([
     requireActiveUser,
     patchCtx,
-    officialDocuments.controllers.patch,
+    persons.controllers.patch,
   ])
   .delete([
     requireActiveUser,
     patchCtx,
-    officialDocuments.controllers.delete,
+    persons.controllers.delete,
   ]);
 
 export default router;

@@ -9,8 +9,10 @@ import { handleErrors } from './modules/commons/middlewares/handle-errors.middle
 import { authenticate } from './modules/commons/middlewares/authenticate.middlewares';
 
 import structuresRoutes from './modules/structures/structures.routes';
+import personsRoutes from './modules/persons/persons.routes';
+import officialDocumentsRoutes from './modules/official-documents/od.routes';
 // import officialDocumentsRoutes from './modules/official-documents/od.routes';
-// import legalCategoriesRoutes from './modules/legal-categories/lc.routes';
+import legalCategoriesRoutes from './modules/legal-categories/lc.routes';
 import pricesRoutes from './modules/prices/prices.routes';
 
 // Load API specifications
@@ -41,7 +43,9 @@ app.get('/docs/specs.yml', (req, res) => { res.send(swaggerDocument); });
 // express-openapi-validator setup to validate requests
 app.use(OAV.middleware({
   apiSpec,
-  validateRequests: true,
+  validateRequests: {
+    removeAdditional: 'all',
+  },
   validateResponses: true,
   ignorePaths: /(.*\/docs\/?|.*\/readyz\/?|.*\/livez\/?|\/specs\.yml\/?)/,
 }));
@@ -51,8 +55,9 @@ app.use(authenticate);
 
 // Register routes
 app.use(structuresRoutes);
-// app.use(officialDocumentsRoutes);
-// app.use(legalCategoriesRoutes);
+app.use(personsRoutes);
+app.use(officialDocumentsRoutes);
+app.use(legalCategoriesRoutes);
 app.use(pricesRoutes);
 
 // Erreurs personnalisées

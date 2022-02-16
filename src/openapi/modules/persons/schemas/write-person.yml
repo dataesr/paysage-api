@@ -1,15 +1,11 @@
+title: PersonWriteSchema
 type: object
 properties:
-  id:
-    type: string
-    pattern: '^[a-zA-Z0-9]{5}$'
-    readOnly: true
   firstName:
     type: string
     nullable: true
   lastName:
     type: string
-    nullable: true
   otherName:
     type: array
     items:
@@ -21,6 +17,7 @@ properties:
       - Homme
       - Femme
       - Autre
+      - null
   birthDate:
     type: string
     nullable: true

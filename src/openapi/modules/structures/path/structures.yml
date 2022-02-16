@@ -18,11 +18,9 @@ get:
               data:
                 type: array
                 items:
-                  allOf:
-                    - $ref: '../schemas/structure.yml'
-                    - $ref: '../../../schemas/metas.yml'
+                  $ref: '../schemas/read-structure.yml'
               totalCount:
-                type: number
+                type: integer
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
@@ -38,27 +36,16 @@ post:
   summary: Create a Structure
   requestBody:
     content:
-      application/json:
-        schema:
-          title: CreateStructure
-          type: object
-          properties:
-            structureStatus:
-              type: string
-              enum:
-                - active
-                - inactive
-                - forthcoming
+        application/json:
+          schema:
+            $ref: '../schemas/write-structure.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            title: StructureResponse
-            allOf:
-              - $ref: '../schemas/structure.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-structure.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

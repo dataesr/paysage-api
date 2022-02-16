@@ -5,7 +5,9 @@ import structures from './root/root.resource';
 import status from './status/status.resource';
 import names from './names/names.resource';
 import identifiers from './identifiers/identifiers.resource';
+import localisations from './localisations/localisations.resource';
 import { validateStatusPayload } from './status/status.middlewares';
+import { setCreationDefaultValues, setPutIdInContext } from './root/root.middlewares';
 
 const router = new express.Router();
 // const namesControllers = new Controllers(namesRepository);
@@ -13,12 +15,13 @@ const router = new express.Router();
 // STUCTURES
 router.route('/structures')
   .get(structures.controllers.list)
-  .post(requireActiveUser, createCtx, structures.controllers.create);
+  .post(requireActiveUser, createCtx, setCreationDefaultValues, structures.controllers.create);
 
 router.route('/structures/:id')
   .get(structures.controllers.read)
   .patch(requireActiveUser, patchCtx, structures.controllers.patch)
-  .delete(requireActiveUser, patchCtx, structures.controllers.delete);
+  .delete(requireActiveUser, patchCtx, structures.controllers.delete)
+  .put(requireActiveUser, createCtx, setPutIdInContext, setCreationDefaultValues, structures.controllers.create);
 
 // STATUSES
 router.route('/structures/:id/status')
@@ -42,13 +45,13 @@ router.route('/structures/:rid/identifiers/:id')
   .get(identifiers.controllers.read)
   .patch(requireActiveUser, patchCtx, identifiers.controllers.patch);
 
-// // LOCALISATIONS
-// router.route('/structures/:structureId/localisations')
-//   .get(localisationsControllers.list)
-//   .post(localisationsControllers.create);
-// router.route('/structures/:structureId/localisations/:localisationId')
-//   .delete(localisationsControllers.delete)
-//   .get(localisationsControllers.read)
-//   .patch(localisationsControllers.patch);
+// LOCALISATIONS
+router.route('/structures/:rid/localisations')
+  .get(localisations.controllers.list)
+  .post(requireActiveUser, createCtx, localisations.controllers.create);
+router.route('/structures/:rid/localisations/:id')
+  .delete(requireActiveUser, patchCtx, localisations.controllers.delete)
+  .get(localisations.controllers.read)
+  .patch(requireActiveUser, patchCtx, localisations.controllers.patch);
 
 export default router;

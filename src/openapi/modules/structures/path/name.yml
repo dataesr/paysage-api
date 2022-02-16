@@ -23,11 +23,7 @@ get:
       content:
         application/json:
           schema:
-            title: StructureNameResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/name.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-name.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -95,23 +91,16 @@ patch:
       description: Unique name id
   requestBody:
     content:
-      application/json:
-        schema:
-          title: UpdateStructureNamePayload
-          type: object
-          allOf:
-            - $ref: '../schemas/name.yml'
+        application/json:
+          schema:
+            $ref: '../schemas/write-name.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            title: StructureNameResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/name.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-name.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

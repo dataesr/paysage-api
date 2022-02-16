@@ -21,6 +21,7 @@ const readQuery = [
     $project: {
       _id: 0,
       id: 1,
+      rid: 1,
       ...fields,
       createdBy: 1,
       createdAt: 1,

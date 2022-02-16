@@ -2,13 +2,6 @@ title: Identifier
 description: 'Identifiant WikiData, IdRef...'
 type: object
 properties:
-  id:
-    type: string
-    pattern: '^[a-zA-Z0-9]{8}$'
-    readOnly: true
-  structureId:
-    type: string
-    readOnly: true
   type:
     type: string
     enum:

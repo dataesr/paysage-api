@@ -25,12 +25,9 @@ get:
               data:
                 type: array
                 items:
-                  type: object
-                  allOf:
-                    - $ref: '../schemas/identifier.yml'
-                    - $ref: '../../../schemas/metas.yml'
+                  $ref: '../schemas/read-identifier.yml'
               totalCount:
-                type: number
+                type: integer
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
@@ -58,25 +55,21 @@ post:
     content:
       application/json:
         schema:
-          title: CreateStructureIdentifier
+          title: StructureIdentifierPayLoad
           type: object
           required:
             - type
             - value
             - active
           allOf:
-            - $ref: '../schemas/identifier.yml'
+            - $ref: '../schemas/write-identifier.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            title: StructureIdentifierResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/identifier.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-identifier.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

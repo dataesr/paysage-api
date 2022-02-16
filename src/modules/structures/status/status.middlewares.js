@@ -1,4 +1,4 @@
-import { BadRequestError } from '../../commons/errors';
+import { BadRequestError } from '../../../libs/monster/errors';
 import structures from '../root/root.resource';
 
 export const validateStatusPayload = async (req, res, next) => {
