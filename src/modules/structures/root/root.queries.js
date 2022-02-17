@@ -6,10 +6,10 @@ const currentNamePipeline = [
       currentName: {
         $reduce: {
           input: '$names',
-          initialValue: null,
+          initialValue: {},
           in: {
             $cond: [
-              { $gte: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value',
+              { $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value',
             ],
           },
         },
