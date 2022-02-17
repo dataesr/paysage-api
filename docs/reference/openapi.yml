@@ -261,7 +261,7 @@ paths:
     get:
       tags:
         - Prices
-      summary: List prices
+      summary: Prices - List prices
       parameters:
         - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/skip'
@@ -292,7 +292,7 @@ paths:
     post:
       tags:
         - Prices
-      summary: Create a price
+      summary: Prices - Create a price
       security:
         - BearerAuth: []
       requestBody:
@@ -319,12 +319,13 @@ paths:
     get:
       tags:
         - Prices
-      summary: Get a price
+      summary: Price - Get a price
       parameters:
         - name: priceId
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique price id
       responses:
@@ -347,7 +348,7 @@ paths:
     delete:
       tags:
         - Prices
-      summary: Delete a price
+      summary: Price - Delete a price
       security:
         - BearerAuth: []
       parameters:
@@ -355,6 +356,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique price id
       responses:
@@ -371,7 +373,7 @@ paths:
     patch:
       tags:
         - Prices
-      summary: Update a price
+      summary: Price - Update a price
       security:
         - BearerAuth: []
       parameters:
@@ -379,6 +381,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique price id
       requestBody:
@@ -407,7 +410,7 @@ paths:
     get:
       tags:
         - Terms
-      summary: List terms
+      summary: Terms - List terms
       parameters:
         - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/skip'
@@ -426,7 +429,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1terms/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/Term'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -438,139 +441,21 @@ paths:
     post:
       tags:
         - Terms
-      summary: Create a term
+      summary: Terms - Create a term
       security:
         - BearerAuth: []
       requestBody:
         content:
           application/json:
             schema:
-              title: TermWriteSchema
-              description: Object décrivant l'ajout d'un terme
-              additionalProperties: false
-              type: object
-              properties:
-                usualNameFr:
-                  type: string
-                  description: Nom usuel en francais
-                  nullable: true
-                usualNameEn:
-                  type: string
-                  description: Nom usuel en anglais
-                  nullable: true
-                pluralNameFr:
-                  type: string
-                  description: Forme du nom usuel français au pluriel
-                  nullable: true
-                pluralNameEn:
-                  type: string
-                  description: Forme du nom usuel anglais au pluriel
-                  nullable: true
-                shortNameFr:
-                  type: string
-                  description: Nom court en français
-                  nullable: true
-                shortNameEn:
-                  type: string
-                  description: Nom court en anglais
-                  nullable: true
-                acronymFr:
-                  type: string
-                  description: Sigle en français
-                  nullable: true
-                acronymEn:
-                  type: string
-                  description: Sigle en anglais
-                  nullable: true
-                descriptionFr:
-                  type: string
-                  nullable: true
-                descriptionEn:
-                  type: string
-                  nullable: true
-                otherName:
-                  type: array
-                  description: Autres intitulés
-                  nullable: true
-                  items:
-                    type: string
-                identifierIds:
-                  type: array
-                  description: Liste d'identifiants
-                  nullable: true
-                  items:
-                    type: string
-                    pattern: '^[a-zA-Z0-9]{5}$'
+              $ref: '#/components/schemas/TermPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: TermReadSchema
-                description: Object décrivant un terme
-                required:
-                  - id
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                        readOnly: true
-                      usualNameFr:
-                        type: string
-                        description: Nom usuel en francais
-                        nullable: true
-                      usualNameEn:
-                        type: string
-                        description: Nom usuel en anglais
-                        nullable: true
-                      pluralNameFr:
-                        type: string
-                        description: Forme du nom usuel français au pluriel
-                        nullable: true
-                      pluralNameEn:
-                        type: string
-                        description: Forme du nom usuel anglais au pluriel
-                        nullable: true
-                      shortNameFr:
-                        type: string
-                        description: Nom court en français
-                        nullable: true
-                      shortNameEn:
-                        type: string
-                        description: Nom court en anglais
-                        nullable: true
-                      acronymFr:
-                        type: string
-                        description: Sigle en français
-                        nullable: true
-                      acronymEn:
-                        type: string
-                        description: Sigle en anglais
-                        nullable: true
-                      descriptionFr:
-                        type: string
-                        nullable: true
-                      descriptionEn:
-                        type: string
-                        nullable: true
-                      otherName:
-                        type: array
-                        description: Autres intitulés
-                        nullable: true
-                        items:
-                          type: string
-                      identifierIds:
-                        type: array
-                        description: Liste d'identifiants
-                        nullable: true
-                        items:
-                          type: string
-                          pattern: '^[a-zA-Z0-9]{5}$'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Term'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -583,12 +468,13 @@ paths:
     get:
       tags:
         - Terms
-      summary: Get a term
+      summary: Term - Get a term
       parameters:
         - name: termId
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique term id
       responses:
@@ -597,7 +483,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1terms/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Term'
         '301':
           description: No content
         '401':
@@ -611,7 +497,7 @@ paths:
     delete:
       tags:
         - Terms
-      summary: Delete a term
+      summary: Term - Delete a term
       security:
         - BearerAuth: []
       parameters:
@@ -619,6 +505,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique term id
       responses:
@@ -635,7 +522,7 @@ paths:
     patch:
       tags:
         - Terms
-      summary: Update a term
+      summary: Term - Update a term
       security:
         - BearerAuth: []
       parameters:
@@ -643,20 +530,21 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique term id
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/paths/~1terms/post/requestBody/content/application~1json/schema'
+              $ref: '#/components/schemas/TermPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1terms/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Term'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1130,7 +1018,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: List structures
+      summary: Structures - List structures
       parameters:
         - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/skip'
@@ -1161,7 +1049,7 @@ paths:
     post:
       tags:
         - Structures
-      summary: Create a Structure
+      summary: Structures - Create a Structure
       requestBody:
         content:
           application/json:
@@ -1186,7 +1074,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: Get a structure
+      summary: Structure - Get a structure
       parameters:
         - name: structureId
           in: path
@@ -1214,7 +1102,7 @@ paths:
     delete:
       tags:
         - Structures
-      summary: Delete a structure
+      summary: Structure - Delete a structure
       security:
         - BearerAuth: []
       parameters:
@@ -1238,7 +1126,7 @@ paths:
     patch:
       tags:
         - Structures
-      summary: Update a structure
+      summary: Structure - Update a structure
       security:
         - BearerAuth: []
       parameters:
@@ -1273,7 +1161,7 @@ paths:
     put:
       tags:
         - Structures
-      summary: Create a structure with ID.
+      summary: Structure - Create a structure with ID.
       security:
         - BearerAuth: []
       parameters:
@@ -1307,7 +1195,7 @@ paths:
     put:
       tags:
         - Structures
-      summary: Change the structure status
+      summary: Status - Change the structure status
       security:
         - BearerAuth: []
       parameters:
@@ -1343,7 +1231,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: List structure identifiers
+      summary: Identifiers - List structure identifiers
       parameters:
         - name: structureId
           in: path
@@ -1381,7 +1269,7 @@ paths:
     post:
       tags:
         - Structures
-      summary: Create a structure indentifier
+      summary: Identifiers - Create a structure indentifier
       security:
         - BearerAuth: []
       parameters:
@@ -1423,7 +1311,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: Get a structure identifier
+      summary: Identifier - Get a structure identifier
       parameters:
         - name: structureId
           in: path
@@ -1457,7 +1345,7 @@ paths:
     delete:
       tags:
         - Structures
-      summary: Delete a structure identifier
+      summary: Identifier - Delete a structure identifier
       security:
         - BearerAuth: []
       parameters:
@@ -1489,7 +1377,7 @@ paths:
     patch:
       tags:
         - Structures
-      summary: Update a structure identifier
+      summary: Identifier - Update a structure identifier
       security:
         - BearerAuth: []
       parameters:
@@ -1533,7 +1421,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: List structure names
+      summary: Names- List structure names
       parameters:
         - name: structureId
           in: path
@@ -1571,7 +1459,7 @@ paths:
     post:
       tags:
         - Structures
-      summary: Create a structure name
+      summary: Names- Create a structure name
       security:
         - BearerAuth: []
       parameters:
@@ -1611,7 +1499,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: Get a structure name
+      summary: Name - Get a structure name
       parameters:
         - name: structureId
           in: path
@@ -1645,7 +1533,7 @@ paths:
     delete:
       tags:
         - Structures
-      summary: Delete a structure name
+      summary: Name - Delete a structure name
       security:
         - BearerAuth: []
       parameters:
@@ -1679,7 +1567,7 @@ paths:
     patch:
       tags:
         - Structures
-      summary: Update a structure name
+      summary: Name - Update a structure name
       security:
         - BearerAuth: []
       parameters:
@@ -1723,7 +1611,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: List structure localisations
+      summary: Localisations - List structure localisations
       parameters:
         - name: structureId
           in: path
@@ -1761,7 +1649,7 @@ paths:
     post:
       tags:
         - Structures
-      summary: Create a structure localisation
+      summary: Localisations - Create a structure localisation
       security:
         - BearerAuth: []
       parameters:
@@ -1801,7 +1689,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: Get a structure localisation
+      summary: Localisation - Get a structure localisation
       parameters:
         - name: structureId
           in: path
@@ -1835,7 +1723,7 @@ paths:
     delete:
       tags:
         - Structures
-      summary: Delete a structure localisation
+      summary: Localisation - Delete a structure localisation
       security:
         - BearerAuth: []
       parameters:
@@ -1867,7 +1755,7 @@ paths:
     patch:
       tags:
         - Structures
-      summary: Update a structure localisation
+      summary: Localisation - Update a structure localisation
       security:
         - BearerAuth: []
       parameters:
@@ -2365,7 +2253,7 @@ components:
         - $ref: '#/components/schemas/OfficialDocumentPayload'
         - $ref: '#/components/schemas/Metas'
     OfficialDocumentPayload:
-      title: Official Document
+      title: OfficialDocumentWriteSchema
       description: Document officiel JO ou BO
       type: object
       properties:
@@ -2526,6 +2414,78 @@ components:
         comment:
           type: string
           nullable: true
+    Term:
+      title: TermReadSchema
+      description: Object décrivant un terme
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+              readOnly: true
+        - $ref: '#/components/schemas/TermPayload'
+        - $ref: '#/components/schemas/Metas'
+    TermPayload:
+      title: TermWriteSchema
+      description: Object décrivant l'ajout d'un terme
+      type: object
+      properties:
+        usualNameFr:
+          type: string
+          description: Nom usuel en francais
+          nullable: true
+        usualNameEn:
+          type: string
+          description: Nom usuel en anglais
+          nullable: true
+        pluralNameFr:
+          type: string
+          description: Forme du nom usuel français au pluriel
+          nullable: true
+        pluralNameEn:
+          type: string
+          description: Forme du nom usuel anglais au pluriel
+          nullable: true
+        shortNameFr:
+          type: string
+          description: Nom court en français
+          nullable: true
+        shortNameEn:
+          type: string
+          description: Nom court en anglais
+          nullable: true
+        acronymFr:
+          type: string
+          description: Sigle en français
+          nullable: true
+        acronymEn:
+          type: string
+          description: Sigle en anglais
+          nullable: true
+        descriptionFr:
+          type: string
+          nullable: true
+        descriptionEn:
+          type: string
+          nullable: true
+        otherName:
+          type: array
+          description: Autres intitulés
+          nullable: true
+          items:
+            type: string
+        parentIds:
+          type: array
+          description: Liste de reference à des termes parents
+          nullable: true
+          writeOnly: true
+          items:
+            type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
     Events:
       type: object
       properties:
@@ -2558,7 +2518,7 @@ components:
           type: string
           nullable: true
         subResourceId:
-          type: integer
+          type: string
           nullable: true
         subResourceType:
           type: string

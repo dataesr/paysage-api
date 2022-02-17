@@ -1,4 +1,4 @@
-title: Official Document
+title: OfficialDocumentWriteSchema
 description: Document officiel JO ou BO
 type: object
 properties:

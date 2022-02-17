@@ -1,12 +1,13 @@
 get:
   tags:
     - Terms
-  summary: Get a term
+  summary: Term - Get a term
   parameters:
     - name: termId
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique term id
   responses:
@@ -30,7 +31,7 @@ get:
 delete:
   tags:
     - Terms
-  summary: Delete a term
+  summary: Term - Delete a term
   security:
   - BearerAuth: []
   parameters:
@@ -38,6 +39,7 @@ delete:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique term id
   responses:
@@ -55,7 +57,7 @@ delete:
 patch:
   tags:
     - Terms
-  summary: Update a term
+  summary: Term - Update a term
   security:
   - BearerAuth: []
   parameters:
@@ -63,6 +65,7 @@ patch:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique term id
   requestBody:

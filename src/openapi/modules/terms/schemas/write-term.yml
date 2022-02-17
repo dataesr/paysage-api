@@ -1,11 +1,7 @@
 title: TermWriteSchema
 description: Object décrivant l'ajout d'un terme
-additionalProperties: false
 type: object
 properties:
-  # id:
-  #   type: string
-  #   description: Unique identifier
   usualNameFr:
     type: string
     description: Nom usuel en francais
@@ -50,10 +46,11 @@ properties:
     nullable: true
     items:
       type: string
-  identifierIds:
+  parentIds:
     type: array
-    description: Liste d'identifiants
+    description: Liste de reference à des termes parents
     nullable: true
+    writeOnly: true
     items:
       type: string
       pattern: '^[a-zA-Z0-9]{5}$'

@@ -1,5 +1,5 @@
 title: TermReadSchema
-description: 'Object décrivant un terme'
+description: Object décrivant un terme
 required:
   - id
 allOf: 
@@ -10,55 +10,5 @@ allOf:
         description: Unique identifier
         pattern: '^[a-zA-Z0-9]{5}$'
         readOnly: true
-      usualNameFr:
-        type: string
-        description: Nom usuel en francais
-        nullable: true
-      usualNameEn:
-        type: string
-        description: Nom usuel en anglais
-        nullable: true
-      pluralNameFr:
-        type: string
-        description: Forme du nom usuel français au pluriel
-        nullable: true
-      pluralNameEn:
-        type: string
-        description: Forme du nom usuel anglais au pluriel
-        nullable: true
-      shortNameFr:
-        type: string
-        description: Nom court en français
-        nullable: true
-      shortNameEn:
-        type: string
-        description: Nom court en anglais
-        nullable: true
-      acronymFr:
-        type: string
-        description: Sigle en français
-        nullable: true
-      acronymEn:
-        type: string
-        description: Sigle en anglais
-        nullable: true
-      descriptionFr:
-        type: string
-        nullable: true
-      descriptionEn:
-        type: string
-        nullable: true
-      otherName:
-        type: array
-        description: Autres intitulés
-        nullable: true
-        items:
-          type: string
-      identifierIds:
-        type: array
-        description: Liste d'identifiants
-        nullable: true
-        items:
-          type: string
-          pattern: '^[a-zA-Z0-9]{5}$'
+  - $ref: './write-term.yml'
   - $ref: '../../../schemas/metas.yml'
