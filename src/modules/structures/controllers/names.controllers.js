@@ -44,36 +44,73 @@ export default {
 
   delete: async (req, res) => {
     const { structureId, nameId } = req.params;
+    const clNameId = parseInt(nameId, 10);
     const structure = await structuresRepo.findById(structureId);
-    if (structure.currentName.id === parseInt(nameId, 10)) {
-      throw new BadRequestError(
-        null,
-        [{ path: '.',
-          message: 'Cannot delete this name as it is defined as current. Set another current name to delete' }],
-      );
-    }
     const { id: userId } = req.currentUser;
-    const prevState = await structuresRepo.names.getStateById(structureId, parseInt(nameId, 10));
+    const prevState = await structuresRepo.names.getStateById(structureId, clNameId);
     if (!prevState) throw new NotFoundError();
     const session = client.startSession();
-    const { result } = await session.withTransaction(async () => {
-      await structuresRepo.names.deleteById(structureId, parseInt(nameId, 10));
-      await eventsRepo.insert({
-        userId,
-        resourceUri: `${req.path}/${nameId}`,
-        operationType: 'delete',
-        resourceId: structureId,
-        resourceType: 'structures',
-        subResourceId: parseInt(nameId, 10),
-        subResourceType: 'names',
-        prevState,
-        nextState: null,
-      }, { session });
-    }).catch(() => { session.endSession(); });
-    session.endSession();
-    if (!result.ok) throw new ServerError();
-    await structuresRepo.names.deleteById(structureId, parseInt(nameId, 10));
-    res.status(204).json();
+
+    if (Object.keys(req.body).length > 0) {
+      const resource = await structuresRepo.names.findById(structureId, clNameId);
+      const key = Object.keys(req.body)[0];
+      const newArray = resource[key].filter((item) => (item !== req.body[key]));
+      const newData = { ...resource, ...{ [key]: newArray } };
+
+      const { result } = await session.withTransaction(async () => {
+        await structuresRepo.names.updateById(structureId, clNameId, newData, { session });
+        const nextState = await structuresRepo.names.getStateById(structureId, clNameId, { session });
+        await eventsRepo.insert({
+          userId,
+          resourceUri: `${req.path}/${nameId}`,
+          operationType: 'update',
+          resourceId: structureId,
+          resourceType: 'structures',
+          subResourceId: clNameId,
+          subResourceType: 'names',
+          prevState,
+          nextState,
+        }, { session });
+      }).catch(() => {
+        session.endSession();
+      });
+      session.endSession();
+      if (!result.ok) throw new ServerError();
+      const newResource = await structuresRepo.names.findById(structureId, clNameId);
+      res.status(200).json(newResource);
+    } else {
+      if (structure.currentName.id === clNameId) {
+        throw new BadRequestError(
+          null,
+          [{
+            path: '.',
+            message: 'Cannot delete this name as it is defined as current. Set another current name to delete',
+          }],
+        );
+      }
+
+      const { result } = await session.withTransaction(async () => {
+        await structuresRepo.names.deleteById(structureId, clNameId);
+        await eventsRepo.insert({
+          userId,
+          resourceUri: `${req.path}/${nameId}`,
+          operationType: 'delete',
+          resourceId: structureId,
+          resourceType: 'structures',
+          subResourceId: clNameId,
+          subResourceType: 'names',
+          prevState,
+          nextState: null,
+        }, { session });
+      }).catch(() => {
+        session.endSession();
+      });
+
+      session.endSession();
+      if (!result.ok) throw new ServerError();
+      await structuresRepo.names.deleteById(structureId, clNameId);
+      res.status(204).json();
+    }
   },
 
   update: async (req, res) => {
@@ -103,6 +140,42 @@ export default {
     if (!result.ok) throw new ServerError();
     const resource = await structuresRepo.names.findById(structureId, parseInt(nameId, 10));
     res.status(200).json(resource);
+  },
+
+  put: async (req, res) => {
+    const { structureId, nameId } = req.params;
+    const key = Object.keys(req.body)[0];
+    const clNameId = parseInt(nameId, 10);
+    const { id: userId } = req.currentUser;
+    const prevState = await structuresRepo.names.getStateById(structureId, clNameId);
+    if (!prevState) throw new NotFoundError();
+
+    const session = client.startSession();
+    const resource = await structuresRepo.names.findById(structureId, clNameId);
+    const newObj = { [key]: [...resource[key], req.body[key]] };
+    const newData = { ...resource, ...newObj };
+
+    const { result } = await session.withTransaction(async () => {
+      await structuresRepo.names.updateById(structureId, clNameId, newData, { session });
+      const nextState = await structuresRepo.names.getStateById(structureId, clNameId, { session });
+      await eventsRepo.insert({
+        userId,
+        resourceUri: `${req.path}/${nameId}`,
+        operationType: 'update',
+        resourceId: structureId,
+        resourceType: 'structures',
+        subResourceId: clNameId,
+        subResourceType: 'names',
+        prevState,
+        nextState,
+      }, { session });
+    }).catch(() => {
+      session.endSession();
+    });
+    session.endSession();
+    if (!result.ok) throw new ServerError();
+    const newResource = await structuresRepo.names.findById(structureId, clNameId);
+    res.status(200).json(newResource);
   },
 
   list: async (req, res) => {
