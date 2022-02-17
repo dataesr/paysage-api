@@ -32,6 +32,10 @@ LegalCategory:
   $ref: '../modules/legal-categories/schemas/read-legal-category.yml'
 LegalCategoryPayload:
   $ref: '../modules/legal-categories/schemas/write-legal-category.yml'
+Term:
+  $ref: '../modules/terms/schemas/read-term.yml'
+TermPayload:
+  $ref: '../modules/terms/schemas/write-term.yml'
 Events:
   $ref: '../modules/events/schemas/events.yml'
 Person:

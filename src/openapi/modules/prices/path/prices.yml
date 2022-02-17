@@ -1,7 +1,7 @@
 get:
   tags:
     - Prices
-  summary: List prices
+  summary: Prices - List prices
   parameters:
     - $ref: '../../../parameters/query/filters.yml'
     - $ref: '../../../parameters/query/skip.yml'
@@ -33,7 +33,7 @@ get:
 post:
   tags:
     - Prices
-  summary: Create a price
+  summary: Prices - Create a price
   security:
   - BearerAuth: []
   requestBody:

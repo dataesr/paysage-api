@@ -11,9 +11,9 @@ import { authenticate } from './modules/commons/middlewares/authenticate.middlew
 import structuresRoutes from './modules/structures/structures.routes';
 import personsRoutes from './modules/persons/persons.routes';
 import officialDocumentsRoutes from './modules/official-documents/od.routes';
-// import officialDocumentsRoutes from './modules/official-documents/od.routes';
 import legalCategoriesRoutes from './modules/legal-categories/lc.routes';
 import pricesRoutes from './modules/prices/prices.routes';
+import termsRoutes from './modules/terms/terms.route';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/openapi.yml');
@@ -59,6 +59,7 @@ app.use(personsRoutes);
 app.use(officialDocumentsRoutes);
 app.use(legalCategoriesRoutes);
 app.use(pricesRoutes);
+app.use(termsRoutes);
 
 // Erreurs personnalisées
 app.use(handleErrors);

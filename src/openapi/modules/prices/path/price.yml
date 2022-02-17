@@ -1,12 +1,13 @@
 get:
   tags:
     - Prices
-  summary: Get a price
+  summary: Price - Get a price
   parameters:
     - name: priceId
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique price id
   responses:
@@ -30,7 +31,7 @@ get:
 delete:
   tags:
     - Prices
-  summary: Delete a price
+  summary: Price - Delete a price
   security:
   - BearerAuth: []
   parameters:
@@ -38,6 +39,7 @@ delete:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique price id
   responses:
@@ -55,7 +57,7 @@ delete:
 patch:
   tags:
     - Prices
-  summary: Update a price
+  summary: Price - Update a price
   security:
   - BearerAuth: []
   parameters:
@@ -63,6 +65,7 @@ patch:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique price id
   requestBody:

@@ -1,7 +1,7 @@
 get:
   tags:
     - Structures
-  summary: Get a structure identifier
+  summary: Identifier - Get a structure identifier
   parameters:
     - name: structureId
       in: path
@@ -36,7 +36,7 @@ get:
 delete:
   tags:
     - Structures
-  summary: Delete a structure identifier
+  summary: Identifier - Delete a structure identifier
   security:
   - BearerAuth: []
   parameters:
@@ -69,7 +69,7 @@ delete:
 patch:
   tags:
     - Structures
-  summary: Update a structure identifier
+  summary: Identifier - Update a structure identifier
   security:
   - BearerAuth: []
   parameters:
