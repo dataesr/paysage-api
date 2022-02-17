@@ -68,10 +68,6 @@ router.route('/structures/:rid/names/:id')
   ])
   .get(names.controllers.read)
   .patch([
-    (req, res, next) => {
-      console.log(req.body);
-      return next();
-    },
     requireActiveUser,
     patchCtx,
     names.controllers.patch,
