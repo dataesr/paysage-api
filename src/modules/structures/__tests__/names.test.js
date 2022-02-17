@@ -53,7 +53,7 @@ describe('API > structures > names > update', () => {
     const { body } = await global.superapp
       .patch(`/structures/${rid}/names/${id}`)
       .set('Authorization', authorization)
-      .send({ otherName: ['string', 'string2'] })
+      .send({ otherName: ['string', 'string2'], article: null })
       .expect(200);
     expect(body.otherName).toHaveLength(2);
     expect(body.otherName).toContain('string2');
