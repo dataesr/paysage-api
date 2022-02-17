@@ -15,16 +15,7 @@ get:
       content:
         application/json:
           schema:
-            title: LegalCategoryResponse
-            required:
-              - id
-            allOf:
-              - $ref: '../schemas/legal-category.yml'
-              - $ref: '../../../schemas/metas.yml'
-              - type: object
-                properties:
-                  officialDocument:
-                    $ref: '../../official-documents/schemas/official-document.yml'
+            $ref: '../schemas/read-legal-category.yml'
     '301':
       description: No content
     '401':
@@ -78,10 +69,7 @@ patch:
     content:
       application/json:
         schema:
-          title: UpdateLegalCategoryPayload
-          type: object
-          allOf:
-            - $ref: '../schemas/legal-category.yml'
+          $ref: '../schemas/write-legal-category.yml'
 
   responses:
     '200':
@@ -89,16 +77,7 @@ patch:
       content:
         application/json:
           schema:
-            title: LegalCategoryResponse
-            required:
-              - id
-            allOf:
-              - $ref: '../schemas/legal-category.yml'
-              - $ref: '../../../schemas/metas.yml'
-              - type: object
-                properties:
-                  officialDocument:
-                    $ref: '../../official-documents/schemas/official-document.yml'
+            $ref: '../schemas/read-legal-category.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

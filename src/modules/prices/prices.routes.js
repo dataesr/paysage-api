@@ -1,19 +1,32 @@
 import express from 'express';
-import BaseControllers from '../commons/controllers/base.controllers';
-import pricesRepository from './prices.repository';
+import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
+import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
+import prices from './prices.resource';
+import { validatePayload } from './prices.middlewares';
 
-class PriceControllers extends BaseControllers {}
-const pricesControllers = new PriceControllers(pricesRepository);
-pricesControllers.create.bind(this);
-console.log('ROUTES', pricesControllers.create);
 const router = new express.Router();
-router.get('/prices', pricesControllers.list);
-router.post('/prices', (req, res, next) => {
-  console.log('ROUTE', pricesControllers._repository);
-  next();
-}, pricesControllers.create);
-router.delete('/prices/:id', pricesControllers.delete);
-router.get('/prices/:id', pricesControllers.read);
-router.patch('/prices/:id', pricesControllers.patch);
+
+router.route('/prices')
+  .get(prices.controllers.list)
+  .post([
+    requireActiveUser,
+    createCtx,
+    validatePayload,
+    prices.controllers.create,
+  ]);
+
+router.route('/prices/:id')
+  .get(prices.controllers.read)
+  .patch([
+    requireActiveUser,
+    patchCtx,
+    validatePayload,
+    prices.controllers.patch,
+  ])
+  .delete([
+    requireActiveUser,
+    patchCtx,
+    prices.controllers.delete,
+  ]);
 
 export default router;

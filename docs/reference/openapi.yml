@@ -89,7 +89,7 @@ paths:
                         - type: object
                           properties:
                             officialDocument:
-                              $ref: '#/components/schemas/OfficialDocument'
+                              $ref: '#/components/schemas/OfficialDocumentLight'
                   totalCount:
                     type: number
         '400':
@@ -129,7 +129,7 @@ paths:
                   - type: object
                     properties:
                       officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                        $ref: '#/components/schemas/OfficialDocumentLight'
                       parents:
                         type: array
                         items:
@@ -169,7 +169,7 @@ paths:
                   - type: object
                     properties:
                       officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                        $ref: '#/components/schemas/OfficialDocumentLight'
                       parents:
                         type: array
                         items:
@@ -242,7 +242,7 @@ paths:
                   - type: object
                     properties:
                       officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                        $ref: '#/components/schemas/OfficialDocumentLight'
                       parents:
                         type: array
                         items:
@@ -261,7 +261,7 @@ paths:
     get:
       tags:
         - Prices
-      summary: List prices
+      summary: Prices - List prices
       parameters:
         - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/skip'
@@ -280,7 +280,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1prices/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/Price'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -292,89 +292,21 @@ paths:
     post:
       tags:
         - Prices
-      summary: Create a price
+      summary: Prices - Create a price
       security:
         - BearerAuth: []
       requestBody:
         content:
           application/json:
             schema:
-              title: PriceWriteSchema
-              description: Object décrivant un prix scientifique
-              type: object
-              properties:
-                nameFr:
-                  type: string
-                nameEn:
-                  type: string
-                descriptionFr:
-                  type: string
-                descriptionEn:
-                  type: string
-                parentIds:
-                  type: array
-                  description: Identifiants des prix parents
-                  items:
-                    type: string
-                    pattern: '^[a-zA-Z0-9]{5}$'
-                startDate:
-                  type: string
-                  nullable: true
-                  pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-                endDate:
-                  type: string
-                  nullable: true
-                  pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+              $ref: '#/components/schemas/PricePayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: PriceReadSchema
-                description: Object décrivant un prix scientifique
-                required:
-                  - id
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: integer
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                        readOnly: true
-                      nameFr:
-                        type: string
-                      nameEn:
-                        type: string
-                      descriptionFr:
-                        type: string
-                      descriptionEn:
-                        type: string
-                      parents:
-                        type: array
-                        description: Identifiants des prix parents
-                        items:
-                          title: Price
-                          description: Object décrivant un prix scientifique
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                              pattern: '^[a-zA-Z0-9]{5}$'
-                              readOnly: true
-                            nameFr:
-                              type: string
-                            nameEn:
-                              type: string
-                      startDate:
-                        type: string
-                        nullable: true
-                        pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-                      endDate:
-                        type: string
-                        nullable: true
-                        pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Price'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -387,12 +319,13 @@ paths:
     get:
       tags:
         - Prices
-      summary: Get a price
+      summary: Price - Get a price
       parameters:
         - name: priceId
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique price id
       responses:
@@ -401,7 +334,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1prices/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Price'
         '301':
           description: No content
         '401':
@@ -415,7 +348,7 @@ paths:
     delete:
       tags:
         - Prices
-      summary: Delete a price
+      summary: Price - Delete a price
       security:
         - BearerAuth: []
       parameters:
@@ -423,6 +356,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique price id
       responses:
@@ -439,7 +373,7 @@ paths:
     patch:
       tags:
         - Prices
-      summary: Update a price
+      summary: Price - Update a price
       security:
         - BearerAuth: []
       parameters:
@@ -447,20 +381,170 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique price id
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/paths/~1prices/post/requestBody/content/application~1json/schema'
+              $ref: '#/components/schemas/PricePayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1prices/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Price'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /terms:
+    get:
+      tags:
+        - Terms
+      summary: Terms - List terms
+      parameters:
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalCount:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Term'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Terms
+      summary: Terms - Create a term
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TermPayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Term'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/terms/{termId}':
+    get:
+      tags:
+        - Terms
+      summary: Term - Get a term
+      parameters:
+        - name: termId
+          in: path
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
+          required: true
+          description: Unique term id
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Term'
+        '301':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Terms
+      summary: Term - Delete a term
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: termId
+          in: path
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
+          required: true
+          description: Unique term id
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Terms
+      summary: Term - Update a term
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: termId
+          in: path
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
+          required: true
+          description: Unique term id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TermPayload'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Term'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -492,9 +576,7 @@ paths:
                   data:
                     type: array
                     items:
-                      allOf:
-                        - $ref: '#/components/schemas/OfficialDocument'
-                        - $ref: '#/components/schemas/Metas'
+                      $ref: '#/components/schemas/OfficialDocument'
                   totalCount:
                     type: number
         '400':
@@ -515,22 +597,22 @@ paths:
         content:
           application/json:
             schema:
-              title: CreateOfficialDocumentPayload
               type: object
+              required:
+                - nature
+                - type
+                - title
+                - documentNumber
+                - pageUrl
               allOf:
-                - $ref: '#/components/schemas/OfficialDocument'
+                - $ref: '#/components/schemas/OfficialDocumentPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: OfficialDocumentResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/OfficialDocument'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/OfficialDocument'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -557,12 +639,7 @@ paths:
           content:
             application/json:
               schema:
-                title: OfficialDocumentResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/OfficialDocument'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/OfficialDocument'
         '301':
           description: No content
         '401':
@@ -614,22 +691,14 @@ paths:
         content:
           application/json:
             schema:
-              title: UpdateOfficialDocumentPayload
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/OfficialDocument'
+              $ref: '#/components/schemas/OfficialDocumentPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                title: OfficialDocumentResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/OfficialDocument'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/OfficialDocument'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -661,13 +730,9 @@ paths:
                   data:
                     type: array
                     items:
-                      allOf:
-                        - $ref: '#/components/schemas/LegalCategory'
-                        - $ref: '#/components/schemas/Metas'
-                        - type: object
-                          properties:
-                            officialDocument:
-                              $ref: '#/components/schemas/OfficialDocument'
+                      $ref: '#/components/schemas/LegalCategory'
+                  totalCount:
+                    type: integer
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -686,10 +751,10 @@ paths:
         content:
           application/json:
             schema:
-              title: CreateLegalCategoryPayload
-              type: object
+              required:
+                - longNameFr
               allOf:
-                - $ref: '#/components/schemas/LegalCategory'
+                - $ref: '#/components/schemas/LegalCategoryPayload'
       responses:
         '201':
           description: Created
@@ -701,11 +766,6 @@ paths:
                   - id
                 allOf:
                   - $ref: '#/components/schemas/LegalCategory'
-                  - $ref: '#/components/schemas/Metas'
-                  - type: object
-                    properties:
-                      officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -732,16 +792,7 @@ paths:
           content:
             application/json:
               schema:
-                title: LegalCategoryResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/LegalCategory'
-                  - $ref: '#/components/schemas/Metas'
-                  - type: object
-                    properties:
-                      officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                $ref: '#/components/schemas/LegalCategory'
         '301':
           description: No content
         '401':
@@ -793,26 +844,14 @@ paths:
         content:
           application/json:
             schema:
-              title: UpdateLegalCategoryPayload
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/LegalCategory'
+              $ref: '#/components/schemas/LegalCategoryPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                title: LegalCategoryResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/LegalCategory'
-                  - $ref: '#/components/schemas/Metas'
-                  - type: object
-                    properties:
-                      officialDocument:
-                        $ref: '#/components/schemas/OfficialDocument'
+                $ref: '#/components/schemas/LegalCategory'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -844,9 +883,7 @@ paths:
                   data:
                     type: array
                     items:
-                      allOf:
-                        - $ref: '#/components/schemas/Person'
-                        - $ref: '#/components/schemas/Metas'
+                      $ref: '#/components/schemas/Person'
                   totalCount:
                     type: number
         '400':
@@ -867,21 +904,17 @@ paths:
         content:
           application/json:
             schema:
-              title: UpdatePersonPayload
               required:
                 - lastName
               allOf:
-                - $ref: '#/components/schemas/Person'
+                - $ref: '#/components/schemas/PersonPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: StructureNameResponse
-                allOf:
-                  - $ref: '#/components/schemas/Person'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Person'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -900,6 +933,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique person id
       responses:
@@ -908,12 +942,7 @@ paths:
           content:
             application/json:
               schema:
-                title: PersonResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/Person'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Person'
         '301':
           description: No content
         '401':
@@ -935,6 +964,7 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique person id
       responses:
@@ -959,27 +989,21 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique person id
       requestBody:
         content:
           application/json:
             schema:
-              title: UpdatePersonPayload
-              allOf:
-                - $ref: '#/components/schemas/Person'
+              $ref: '#/components/schemas/PersonPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                title: PersonResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/Person'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Person'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -994,7 +1018,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: List structures
+      summary: Structures - List structures
       parameters:
         - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/skip'
@@ -1011,11 +1035,9 @@ paths:
                   data:
                     type: array
                     items:
-                      allOf:
-                        - $ref: '#/components/schemas/Structure'
-                        - $ref: '#/components/schemas/Metas'
+                      $ref: '#/components/schemas/Structure'
                   totalCount:
-                    type: number
+                    type: integer
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1027,30 +1049,19 @@ paths:
     post:
       tags:
         - Structures
-      summary: Create a Structure
+      summary: Structures - Create a Structure
       requestBody:
         content:
           application/json:
             schema:
-              title: CreateStructure
-              type: object
-              properties:
-                structureStatus:
-                  type: string
-                  enum:
-                    - active
-                    - inactive
-                    - forthcoming
+              $ref: '#/components/schemas/StructurePayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: StructureResponse
-                allOf:
-                  - $ref: '#/components/schemas/Structure'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Structure'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1063,7 +1074,7 @@ paths:
     get:
       tags:
         - Structures
-      summary: Get a structure
+      summary: Structure - Get a structure
       parameters:
         - name: structureId
           in: path
@@ -1077,12 +1088,7 @@ paths:
           content:
             application/json:
               schema:
-                title: StructureResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/Structure'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Structure'
         '301':
           description: No content
         '401':
@@ -1096,7 +1102,7 @@ paths:
     delete:
       tags:
         - Structures
-      summary: Delete a structure
+      summary: Structure - Delete a structure
       security:
         - BearerAuth: []
       parameters:
@@ -1120,7 +1126,7 @@ paths:
     patch:
       tags:
         - Structures
-      summary: Update a structure
+      summary: Structure - Update a structure
       security:
         - BearerAuth: []
       parameters:
@@ -1134,31 +1140,14 @@ paths:
         content:
           application/json:
             schema:
-              title: UpdateStructurePayload
-              type: object
-              additionalProperties: false
-              properties:
-                currentNameId:
-                  type: integer
-                  nullable: true
-                structureStatus:
-                  type: string
-                  enum:
-                    - active
-                    - inactive
-                    - forthcoming
+              $ref: '#/components/schemas/StructurePayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                title: StructureResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/Structure'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Structure'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1169,11 +1158,10 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
-  '/structures/{structureId}/status':
     put:
       tags:
         - Structures
-      summary: Change the structure status
+      summary: Structure - Create a structure with ID.
       security:
         - BearerAuth: []
       parameters:
@@ -1187,19 +1175,41 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              description: Structure Internal Status
-              properties:
-                status:
-                  type: string
-                  enum:
-                    - deleted
-                    - draft
-                    - redirected
-                    - published
-                redirection:
-                  type: string
-                  nullable: true
+              $ref: '#/components/schemas/StructurePayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Structure'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/status':
+    put:
+      tags:
+        - Structures
+      summary: Status - Change the structure status
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique structure id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StructureStatusPayload'
       responses:
         '200':
           description: Success
@@ -1221,12 +1231,13 @@ paths:
     get:
       tags:
         - Structures
-      summary: List structure identifiers
+      summary: Identifiers - List structure identifiers
       parameters:
         - name: structureId
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - $ref: '#/components/parameters/filter'
@@ -1244,12 +1255,9 @@ paths:
                   data:
                     type: array
                     items:
-                      type: object
-                      allOf:
-                        - $ref: '#/components/schemas/StructureIdentifier'
-                        - $ref: '#/components/schemas/Metas'
+                      $ref: '#/components/schemas/StructureIdentifier'
                   totalCount:
-                    type: number
+                    type: integer
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1261,7 +1269,7 @@ paths:
     post:
       tags:
         - Structures
-      summary: Create a structure indentifier
+      summary: Identifiers - Create a structure indentifier
       security:
         - BearerAuth: []
       parameters:
@@ -1269,31 +1277,28 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
       requestBody:
         content:
           application/json:
             schema:
-              title: CreateStructureIdentifier
+              title: StructureIdentifierPayLoad
               type: object
               required:
                 - type
                 - value
                 - active
               allOf:
-                - $ref: '#/components/schemas/StructureIdentifier'
+                - $ref: '#/components/schemas/StructureIdentifierPayLoad'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: StructureIdentifierResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureIdentifier'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureIdentifier'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1306,18 +1311,20 @@ paths:
     get:
       tags:
         - Structures
-      summary: Get a structure identifier
+      summary: Identifier - Get a structure identifier
       parameters:
         - name: structureId
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: identifierId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique identifier id
       responses:
@@ -1326,11 +1333,7 @@ paths:
           content:
             application/json:
               schema:
-                title: StructureIdentifierResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureIdentifier'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureIdentifier'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1342,7 +1345,7 @@ paths:
     delete:
       tags:
         - Structures
-      summary: Delete a structure identifier
+      summary: Identifier - Delete a structure identifier
       security:
         - BearerAuth: []
       parameters:
@@ -1350,12 +1353,14 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: identifierId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique identifier id
       responses:
@@ -1372,7 +1377,7 @@ paths:
     patch:
       tags:
         - Structures
-      summary: Update a structure identifier
+      summary: Identifier - Update a structure identifier
       security:
         - BearerAuth: []
       parameters:
@@ -1380,33 +1385,28 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: identifierId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique identifier id
       requestBody:
         content:
           application/json:
             schema:
-              title: UpdateStructureIdentifierPayload
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/StructureIdentifier'
+              $ref: '#/components/schemas/StructureIdentifierPayLoad'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                title: StructureIdentifierResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureIdentifier'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureIdentifier'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1421,12 +1421,13 @@ paths:
     get:
       tags:
         - Structures
-      summary: List structure names
+      summary: Names- List structure names
       parameters:
         - name: structureId
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - $ref: '#/components/parameters/filter'
@@ -1444,12 +1445,9 @@ paths:
                   data:
                     type: array
                     items:
-                      type: object
-                      allOf:
-                        - $ref: '#/components/schemas/StructureName'
-                        - $ref: '#/components/schemas/Metas'
+                      $ref: '#/components/schemas/StructureName'
                   totalCount:
-                    type: number
+                    type: integer
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1461,7 +1459,7 @@ paths:
     post:
       tags:
         - Structures
-      summary: Create a structure name
+      summary: Names- Create a structure name
       security:
         - BearerAuth: []
       parameters:
@@ -1469,29 +1467,26 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
       requestBody:
         content:
           application/json:
             schema:
-              title: CreateStructureName
+              title: StructureNamePayload
               type: object
               required:
                 - usualName
               allOf:
-                - $ref: '#/components/schemas/StructureName'
+                - $ref: '#/components/schemas/StructureNamePayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: StructureNameResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureName'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureName'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1504,19 +1499,20 @@ paths:
     get:
       tags:
         - Structures
-      summary: Get a structure name
+      summary: Name - Get a structure name
       parameters:
         - name: structureId
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: nameId
           in: path
           schema:
-            type: integer
-            format: int32
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique name id
       responses:
@@ -1525,62 +1521,7 @@ paths:
           content:
             application/json:
               schema:
-                title: StructureNameResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureName'
-                  - $ref: '#/components/schemas/Metas'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/ServerError'
-    put:
-      tags:
-        - Structures
-      summary: Add a value to structure name subResource
-      parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique structure id
-        - name: nameId
-          in: path
-          schema:
-            type: integer
-            format: int32
-          required: true
-          description: Unique name id
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              title: UpdateListStructureNamePayload
-              type: object
-              allOf:
-                - type: object
-                  description: Différents nom d'une dénomination d'une structure
-                  additionalProperties: false
-                  properties:
-                    otherName:
-                      type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                title: StructureNameResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureName'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureName'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1592,7 +1533,7 @@ paths:
     delete:
       tags:
         - Structures
-      summary: Delete a structure name
+      summary: Name - Delete a structure name
       security:
         - BearerAuth: []
       parameters:
@@ -1600,38 +1541,19 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: nameId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique name id
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              title: UpdateListStructureNamePayload
-              type: object
-              allOf:
-                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1names~1%7BnameId%7D/put/requestBody/content/application~1json/schema/allOf/0'
       responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                title: UpdateListStructureNamePayload
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureName'
-                  - $ref: '#/components/schemas/Metas'
         '204':
           description: No content
-        '400':
-          $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1643,7 +1565,7 @@ paths:
     patch:
       tags:
         - Structures
-      summary: Update a structure name
+      summary: Name - Update a structure name
       security:
         - BearerAuth: []
       parameters:
@@ -1651,33 +1573,28 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: nameId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique name id
       requestBody:
         content:
           application/json:
             schema:
-              title: UpdateStructureNamePayload
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/StructureName'
+              $ref: '#/components/schemas/StructureNamePayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                title: StructureNameResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureName'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureName'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1692,12 +1609,13 @@ paths:
     get:
       tags:
         - Structures
-      summary: List structure localisations
+      summary: Localisations - List structure localisations
       parameters:
         - name: structureId
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - $ref: '#/components/parameters/filter'
@@ -1715,10 +1633,7 @@ paths:
                   data:
                     type: array
                     items:
-                      type: object
-                      allOf:
-                        - $ref: '#/components/schemas/StructureLocalisation'
-                        - $ref: '#/components/schemas/Metas'
+                      $ref: '#/components/schemas/StructureLocalisation'
                   totalCount:
                     type: number
         '400':
@@ -1732,7 +1647,7 @@ paths:
     post:
       tags:
         - Structures
-      summary: Create a structure localisation
+      summary: Localisations - Create a structure localisation
       security:
         - BearerAuth: []
       parameters:
@@ -1740,29 +1655,26 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
       requestBody:
         content:
           application/json:
             schema:
-              title: CreateStructureLocalisation
+              title: StructureLocalisationPayload
               type: object
               required:
                 - address
               allOf:
-                - $ref: '#/components/schemas/StructureLocalisation'
+                - $ref: '#/components/schemas/StructureLocalisationPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: StructureLocalisationResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureLocalisation'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureLocalisation'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1775,18 +1687,20 @@ paths:
     get:
       tags:
         - Structures
-      summary: Get a structure localisation
+      summary: Localisation - Get a structure localisation
       parameters:
         - name: structureId
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: localisationId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique localisation id
       responses:
@@ -1795,11 +1709,7 @@ paths:
           content:
             application/json:
               schema:
-                title: StructureLocalisationResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureLocalisation'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureLocalisation'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1811,7 +1721,7 @@ paths:
     delete:
       tags:
         - Structures
-      summary: Delete a structure localisation
+      summary: Localisation - Delete a structure localisation
       security:
         - BearerAuth: []
       parameters:
@@ -1819,12 +1729,14 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: localisationId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique localisation id
       responses:
@@ -1841,7 +1753,7 @@ paths:
     patch:
       tags:
         - Structures
-      summary: Update a structure localisation
+      summary: Localisation - Update a structure localisation
       security:
         - BearerAuth: []
       parameters:
@@ -1849,33 +1761,28 @@ paths:
           in: path
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
           required: true
           description: Unique structure id
         - name: localisationId
           in: path
           schema:
-            type: integer
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
           required: true
           description: Unique localisation id
       requestBody:
         content:
           application/json:
             schema:
-              title: UpdateStructureLocalisationPayload
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/StructureLocalisation'
+              $ref: '#/components/schemas/StructureLocalisationPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                title: StructureLocalisationResponse
-                type: object
-                allOf:
-                  - $ref: '#/components/schemas/StructureLocalisation'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureLocalisation'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2012,13 +1919,9 @@ components:
           format: date-time
           readOnly: true
           nullable: true
-    Structure:
+    StructurePayload:
       type: object
       properties:
-        id:
-          type: string
-          pattern: '^[a-zA-Z0-9]{5}$'
-          readOnly: true
         structureStatus:
           type: string
           nullable: true
@@ -2027,42 +1930,71 @@ components:
             - inactive
             - forthcoming
             - null
-        alternativePaysageIds:
-          type: array
-          readOnly: true
-          items:
-            type: string
+    Structure:
+      title: StructureReadSchema
+      description: Representation d'une structure
+      required:
+        - id
+        - status
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+            currentName:
+              description: current name is computed using the most recent startDate.
+              $ref: '#/components/schemas/StructureNamePayload'
+            alternativePaysageIds:
+              description: Aggregates all structure ids redirected to the current structure
+              type: array
+              items:
+                type: string
+        - $ref: '#/components/schemas/StructurePayload'
+        - $ref: '#/components/schemas/StructureStatusPayload'
+        - $ref: '#/components/schemas/Metas'
+    StructureStatusPayload:
+      type: object
+      description: Structure Internal Status
+      properties:
         status:
           type: string
-          readOnly: true
           enum:
-            - draft
-            - published
-            - redirected
             - deleted
+            - draft
+            - redirected
+            - published
         redirection:
           type: string
-          readOnly: true
           nullable: true
-        currentName:
-          $ref: '#/components/schemas/StructureName'
     StructureName:
+      title: StructureReadSchema
+      description: Representation d'une structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureNamePayload'
+        - $ref: '#/components/schemas/Metas'
+    StructureNamePayload:
       type: object
       description: Différentes dénominations d'une structure
       properties:
-        id:
-          type: integer
-          pattern: '^[a-zA-Z0-9]{5}$'
-          readOnly: true
-        structureId:
-          type: string
-          readOnly: true
         officialName:
           type: string
           nullable: true
         usualName:
           type: string
-          nullable: true
         shortName:
           type: string
           nullable: true
@@ -2086,12 +2018,11 @@ components:
         startDate:
           type: string
           nullable: true
-          minLength: 0
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
           nullable: true
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         comment:
           type: string
           nullable: true
@@ -2106,18 +2037,11 @@ components:
             - dans les
             - aux
             - au
-    StructureIdentifier:
+    StructureIdentifierPayLoad:
       title: Identifier
       description: 'Identifiant WikiData, IdRef...'
       type: object
       properties:
-        id:
-          type: integer
-          pattern: '^[a-zA-Z0-9]{5}$'
-          readOnly: true
-        structureId:
-          type: string
-          readOnly: true
         type:
           type: string
           enum:
@@ -2155,21 +2079,33 @@ components:
         startDate:
           type: string
           nullable: true
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
           nullable: true
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-    StructureLocalisation:
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    StructureIdentifier:
+      title: StructureReadSchema
+      description: Representation d'une localisation de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureIdentifierPayLoad'
+        - $ref: '#/components/schemas/Metas'
+    StructureLocalisationPayload:
       title: Localisation
       type: object
       properties:
-        id:
-          type: string
-          pattern: '^[a-zA-Z0-9]{5}$'
-        structureId:
-          type: string
-          readOnly: true
         cityFrId:
           type: string
           nullable: true
@@ -2184,7 +2120,6 @@ components:
           nullable: true
         address:
           type: string
-          nullable: true
         postbox:
           type: string
           nullable: true
@@ -2209,11 +2144,29 @@ components:
         startDate:
           type: string
           nullable: true
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
           nullable: true
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    StructureLocalisation:
+      title: StructureReadSchema
+      description: Representation d'une localisation de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureLocalisationPayload'
+        - $ref: '#/components/schemas/Metas'
     Category:
       title: Category
       type: object
@@ -2284,6 +2237,68 @@ components:
           items:
             type: string
     OfficialDocument:
+      title: OfficialDocumentReadSchema
+      description: Object décrivant un document officiel
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              pattern: '^[a-zA-Z0-9]{5}$'
+              readOnly: true
+        - $ref: '#/components/schemas/OfficialDocumentPayload'
+        - $ref: '#/components/schemas/Metas'
+    OfficialDocumentPayload:
+      title: OfficialDocumentWriteSchema
+      description: Document officiel JO ou BO
+      type: object
+      properties:
+        nature:
+          type: string
+          enum:
+            - Publication au JO
+            - Publication au BOESR
+        type:
+          type: string
+          enum:
+            - Loi
+            - Décret
+            - Ordonnance
+            - Avis de vacance d'emploi
+            - Arrêté
+            - Circulaire
+        documentNumber:
+          type: string
+        title:
+          type: string
+        pageUrl:
+          type: string
+          format: uri
+        signatureDate:
+          nullable: true
+          type: string
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        startDate:
+          nullable: true
+          type: string
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        previsionalEndDate:
+          nullable: true
+          type: string
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        endDate:
+          nullable: true
+          type: string
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        textExtract:
+          nullable: true
+          type: string
+        comment:
+          nullable: true
+          type: string
+    OfficialDocumentLight:
       title: Official Document
       description: Document officiel JO ou BO
       type: object
@@ -2313,78 +2328,162 @@ components:
         pageUrl:
           type: string
           format: uri
-        signatureDate:
-          type: string
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-        startDate:
-          type: string
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-        previsionalEndDate:
-          type: string
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-        endDate:
-          type: string
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
-        textExtract:
-          type: string
-        comment:
-          type: string
     LegalCategory:
-      title: Legal Category
+      title: ReadLegalCategory
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            officialDocument:
+              $ref: '#/components/schemas/OfficialDocumentLight'
+            id:
+              type: string
+              pattern: '^[a-zA-Z0-9]{5}$'
+              readOnly: true
+        - $ref: '#/components/schemas/LegalCategoryPayload'
+        - $ref: '#/components/schemas/Metas'
+    LegalCategoryPayload:
+      title: WriteLegalCategory
       description: Catégory juridique
       type: object
       properties:
-        id:
-          type: string
-          pattern: '^[a-zA-Z0-9]{5}$'
-          readOnly: true
         inseeCode:
           type: string
+          nullable: true
         longNameFr:
           type: string
         shortNameFr:
           type: string
+          nullable: true
         acronymeFr:
           type: string
+          nullable: true
         pluralNameFr:
           type: string
+          nullable: true
         descriptionFr:
           type: string
+          nullable: true
         longNameEn:
           type: string
+          nullable: true
         shortNameEn:
           type: string
+          nullable: true
         otherNames:
           type: array
           items:
             type: string
         sector:
           type: string
+          nullable: true
           enum:
             - public
             - privé
             - sans objet
+            - null
         officialDocumentId:
           type: string
+          nullable: true
           writeOnly: true
         legalPersonality:
           type: string
+          nullable: true
           enum:
             - personne morale de droit public
             - personne morale de droit privé
             - organisation internationale
             - autre forme juridique étrangère
             - sans personalité juridique
+            - null
         inPublicResearch:
           type: boolean
+          nullable: true
         wikidataId:
           type: string
+          nullable: true
         websiteFr:
           type: string
+          nullable: true
         websiteEn:
           type: string
+          nullable: true
         comment:
           type: string
+          nullable: true
+    Term:
+      title: TermReadSchema
+      description: Object décrivant un terme
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+              readOnly: true
+        - $ref: '#/components/schemas/TermPayload'
+        - $ref: '#/components/schemas/Metas'
+    TermPayload:
+      title: TermWriteSchema
+      description: Object décrivant l'ajout d'un terme
+      type: object
+      properties:
+        usualNameFr:
+          type: string
+          description: Nom usuel en francais
+          nullable: true
+        usualNameEn:
+          type: string
+          description: Nom usuel en anglais
+          nullable: true
+        pluralNameFr:
+          type: string
+          description: Forme du nom usuel français au pluriel
+          nullable: true
+        pluralNameEn:
+          type: string
+          description: Forme du nom usuel anglais au pluriel
+          nullable: true
+        shortNameFr:
+          type: string
+          description: Nom court en français
+          nullable: true
+        shortNameEn:
+          type: string
+          description: Nom court en anglais
+          nullable: true
+        acronymFr:
+          type: string
+          description: Sigle en français
+          nullable: true
+        acronymEn:
+          type: string
+          description: Sigle en anglais
+          nullable: true
+        descriptionFr:
+          type: string
+          nullable: true
+        descriptionEn:
+          type: string
+          nullable: true
+        otherName:
+          type: array
+          description: Autres intitulés
+          nullable: true
+          items:
+            type: string
+        parentIds:
+          type: array
+          description: Liste de reference à des termes parents
+          nullable: true
+          writeOnly: true
+          items:
+            type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
     Events:
       type: object
       properties:
@@ -2417,7 +2516,7 @@ components:
           type: string
           nullable: true
         subResourceId:
-          type: integer
+          type: string
           nullable: true
         subResourceType:
           type: string
@@ -2429,18 +2528,31 @@ components:
           type: object
           nullable: true
     Person:
+      title: PersonReadSchema
+      description: Object décrivant une personne
+      additionalProperties: true
+      required:
+        - id
+        - lastName
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+              readOnly: true
+        - $ref: '#/components/schemas/PersonPayload'
+        - $ref: '#/components/schemas/Metas'
+    PersonPayload:
+      title: PersonWriteSchema
       type: object
       properties:
-        id:
-          type: string
-          pattern: '^[a-zA-Z0-9]{5}$'
-          readOnly: true
         firstName:
           type: string
           nullable: true
         lastName:
           type: string
-          nullable: true
         otherName:
           type: array
           items:
@@ -2452,20 +2564,104 @@ components:
             - Homme
             - Femme
             - Autre
+            - null
         birthDate:
           type: string
           nullable: true
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         deathDate:
           type: string
           nullable: true
-          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         activity:
           type: string
           nullable: true
         comment:
           type: string
           nullable: true
+    Price:
+      title: PriceReadSchema
+      description: Object décrivant un prix scientifique
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              pattern: '^[a-zA-Z0-9]{5}$'
+              readOnly: true
+            nameFr:
+              type: string
+              nullable: true
+            nameEn:
+              type: string
+              nullable: true
+            descriptionFr:
+              type: string
+              nullable: true
+            descriptionEn:
+              type: string
+              nullable: true
+            parents:
+              type: array
+              description: Identifiants des prix parents
+              items:
+                $ref: '#/components/schemas/PriceLight'
+            startDate:
+              type: string
+              nullable: true
+              pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+            endDate:
+              type: string
+              nullable: true
+              pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        - $ref: '#/components/schemas/Metas'
+    PricePayload:
+      title: PriceWriteSchema
+      description: Object décrivant un prix scientifique
+      additionalProperties: false
+      type: object
+      properties:
+        nameFr:
+          type: string
+          nullable: true
+        nameEn:
+          type: string
+          nullable: true
+        descriptionFr:
+          type: string
+          nullable: true
+        descriptionEn:
+          type: string
+          nullable: true
+        parentIds:
+          type: array
+          description: Identifiants des prix parents
+          items:
+            type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
+        startDate:
+          type: string
+          nullable: true
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        endDate:
+          type: string
+          nullable: true
+          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    PriceLight:
+      title: Price
+      description: Object décrivant un prix scientifique
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+          readOnly: true
+        nameFr:
+          type: string
+        nameEn:
+          type: string
   securitySchemes:
     BearerAuth:
       type: http

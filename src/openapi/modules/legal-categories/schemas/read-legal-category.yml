@@ -1,0 +1,14 @@
+title: ReadLegalCategory
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      officialDocument:
+        $ref: '../../official-documents/schemas/light-official-document.yml'
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+        readOnly: true
+  - $ref: '../schemas/write-legal-category.yml'
+  - $ref: '../../../schemas/metas.yml'

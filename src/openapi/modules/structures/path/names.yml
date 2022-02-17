@@ -1,12 +1,13 @@
 get:
   tags:
     - Structures
-  summary: List structure names
+  summary: Names- List structure names
   parameters:
     - name: structureId
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - $ref: '../../../parameters/query/filters.yml'
@@ -24,12 +25,9 @@ get:
               data:
                 type: array
                 items:
-                  type: object
-                  allOf:
-                    - $ref: '../schemas/name.yml'
-                    - $ref: '../../../schemas/metas.yml'
+                  $ref: '../schemas/read-name.yml'
               totalCount:
-                type: number
+                type: integer
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
@@ -42,7 +40,7 @@ get:
 post:
   tags:
     - Structures
-  summary: Create a structure name
+  summary: Names- Create a structure name
   security:
   - BearerAuth: []
   parameters:
@@ -50,29 +48,26 @@ post:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
   requestBody:
     content:
       application/json:
         schema:
-          title: CreateStructureName
+          title: StructureNamePayload
           type: object
           required:
             - usualName
           allOf:
-            - $ref: '../schemas/name.yml'
+            - $ref: '../schemas/write-name.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            title: StructureNameResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/name.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-name.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

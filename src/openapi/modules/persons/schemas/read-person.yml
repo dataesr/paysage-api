@@ -1,0 +1,16 @@
+title: PersonReadSchema
+description: Object décrivant une personne
+additionalProperties: true
+required:
+  - id
+  - lastName
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{5}$'
+        readOnly: true
+  - $ref: './write-person.yml'
+  - $ref: '../../../schemas/metas.yml'

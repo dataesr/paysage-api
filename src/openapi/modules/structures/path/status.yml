@@ -1,7 +1,7 @@
 put:
   tags:
     - Structures
-  summary: Change the structure status
+  summary: Status - Change the structure status
   security:
   - BearerAuth: []
   parameters:
@@ -15,14 +15,14 @@ put:
     content:
         application/json:
           schema:
-            $ref: '../schemas/status.yml'
+            $ref: '../schemas/write-status.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../schemas/structure.yml'
+            $ref: '../schemas/read-structure.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

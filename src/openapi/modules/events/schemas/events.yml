@@ -29,7 +29,7 @@ properties:
     type: string
     nullable: true
   subResourceId:
-    type: integer
+    type: string
     nullable: true
   subResourceType:
     type: string

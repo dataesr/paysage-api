@@ -1,19 +1,20 @@
 get:
   tags:
     - Structures
-  summary: Get a structure name
+  summary: Name - Get a structure name
   parameters:
     - name: structureId
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: nameId
       in: path
       schema:
-        type: integer
-        format: int32
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique name id
   responses:
@@ -22,11 +23,7 @@ get:
       content:
         application/json:
           schema:
-            title: StructureNameResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/name.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-name.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -36,57 +33,11 @@ get:
     '500':
       $ref: '../../../responses/errors/server-error.yml'
 
-put:
-  tags:
-    - Structures
-  summary: Add a value to structure name subResource
-  parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-      required: true
-      description: Unique structure id
-    - name: nameId
-      in: path
-      schema:
-        type: integer
-        format: int32
-      required: true
-      description: Unique name id
-  requestBody:
-    required: false
-    content:
-      application/json:
-        schema:
-          title: UpdateListStructureNamePayload
-          type: object
-          allOf:
-            - $ref: '../schemas/nameList.yml'
-  responses:
-    '200':
-      description: Success
-      content:
-        application/json:
-          schema:
-            title: StructureNameResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/name.yml'
-              - $ref: '../../../schemas/metas.yml'
-    '401':
-      $ref: '../../../responses/errors/unauthorized.yml'
-    '403':
-      $ref: '../../../responses/errors/forbidden.yml'
-    '404':
-      $ref: '../../../responses/errors/not-found.yml'
-    '500':
-      $ref: '../../../responses/errors/server-error.yml'
 
 delete:
   tags:
     - Structures
-  summary: Delete a structure name
+  summary: Name - Delete a structure name
   security:
   - BearerAuth: []
   parameters:
@@ -94,38 +45,19 @@ delete:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: nameId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique name id
-  requestBody:
-    required: false
-    content:
-      application/json:
-        schema:
-          title: UpdateListStructureNamePayload
-          type: object
-          allOf:
-            - $ref: '../schemas/nameList.yml'
   responses:
-    '200':
-      description: Success
-      content:
-        application/json:
-          schema:
-            title: UpdateListStructureNamePayload
-            type: object
-            allOf:
-              - $ref: '../schemas/name.yml'
-              - $ref: '../../../schemas/metas.yml'
     '204':
       description: No content
-    '400':
-      $ref: '../../../responses/errors/bad-request.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -138,7 +70,7 @@ delete:
 patch:
   tags:
     - Structures
-  summary: Update a structure name
+  summary: Name - Update a structure name
   security:
   - BearerAuth: []
   parameters:
@@ -146,33 +78,28 @@ patch:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: nameId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique name id
   requestBody:
     content:
       application/json:
         schema:
-          title: UpdateStructureNamePayload
-          type: object
-          allOf:
-            - $ref: '../schemas/name.yml'
+          $ref: '../schemas/write-name.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            title: StructureNameResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/name.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-name.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

@@ -1,42 +1,124 @@
 import express from 'express';
-import structuresControllers from './controllers/structures.controllers';
-import statusesControllers from './controllers/status.controllers';
-import namesControllers from './controllers/names.controllers';
-import identifiersControllers from './controllers/identifiers.controllers';
-import localisationsControllers from './controllers/localisations.controllers';
+import { createCtx, patchCtx } from '../commons/middlewares/context.middleware';
+import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
+import structures from './root/root.resource';
+import status from './status/status.resource';
+import names from './names/names.resource';
+import identifiers from './identifiers/identifiers.resource';
+import localisations from './localisations/localisations.resource';
+import { validateStatusPayload } from './status/status.middlewares';
+import { setCreationDefaultValues, setPutIdInContext } from './root/root.middlewares';
 
 const router = new express.Router();
+// const namesControllers = new Controllers(namesRepository);
 
 // STUCTURES
-router.get('/structures', structuresControllers.list);
-router.post('/structures', structuresControllers.create);
-router.get('/structures/:structureId', structuresControllers.read);
-router.patch('/structures/:structureId', structuresControllers.update);
-router.delete('/structures/:structureId', structuresControllers.delete);
+router.route('/structures')
+  .get(structures.controllers.list)
+  .post([
+    requireActiveUser,
+    createCtx,
+    setCreationDefaultValues,
+    structures.controllers.create,
+  ]);
+
+router.route('/structures/:id')
+  .get(structures.controllers.read)
+  .patch([
+    requireActiveUser,
+    patchCtx,
+    structures.controllers.patch,
+  ])
+  .delete([
+    requireActiveUser,
+    patchCtx,
+    structures.controllers.delete,
+  ])
+  .put([
+    requireActiveUser,
+    createCtx,
+    setPutIdInContext,
+    setCreationDefaultValues,
+    structures.controllers.create,
+  ]);
 
 // STATUSES
-router.put('/structures/:structureId/status', statusesControllers.update);
+router.route('/structures/:id/status')
+  .put([
+    requireActiveUser,
+    patchCtx,
+    validateStatusPayload,
+    status.controllers.patch,
+  ]);
 
 // NAMES
-router.get('/structures/:structureId/names', namesControllers.list);
-router.post('/structures/:structureId/names', namesControllers.create);
-router.delete('/structures/:structureId/names/:nameId', namesControllers.delete);
-router.put('/structures/:structureId/names/:nameId', namesControllers.put);
-router.get('/structures/:structureId/names/:nameId', namesControllers.read);
-router.patch('/structures/:structureId/names/:nameId', namesControllers.update);
+router.route('/structures/:rid/names')
+  .get(names.controllers.list)
+  .post([
+    requireActiveUser,
+    createCtx,
+    names.controllers.create,
+  ]);
 
-// Identifiers
-router.get('/structures/:structureId/identifiers', identifiersControllers.list);
-router.post('/structures/:structureId/identifiers', identifiersControllers.create);
-router.delete('/structures/:structureId/identifiers/:identifierId', identifiersControllers.delete);
-router.get('/structures/:structureId/identifiers/:identifierId', identifiersControllers.read);
-router.patch('/structures/:structureId/identifiers/:identifierId', identifiersControllers.update);
+router.route('/structures/:rid/names/:id')
+  .delete([
+    requireActiveUser,
+    patchCtx,
+    names.controllers.delete,
+  ])
+  .get(names.controllers.read)
+  .patch([
+    (req, res, next) => {
+      console.log(req.body);
+      return next();
+    },
+    requireActiveUser,
+    patchCtx,
+    names.controllers.patch,
+  ]);
 
-// Localisations
-router.get('/structures/:structureId/localisations', localisationsControllers.list);
-router.post('/structures/:structureId/localisations', localisationsControllers.create);
-router.delete('/structures/:structureId/localisations/:localisationId', localisationsControllers.delete);
-router.get('/structures/:structureId/localisations/:localisationId', localisationsControllers.read);
-router.patch('/structures/:structureId/localisations/:localisationId', localisationsControllers.update);
+// IDENTIFIERS
+router.route('/structures/:rid/identifiers')
+  .get(identifiers.controllers.list)
+  .post([
+    requireActiveUser,
+    createCtx,
+    identifiers.controllers.create,
+  ]);
+
+router.route('/structures/:rid/identifiers/:id')
+  .delete([
+    requireActiveUser,
+    patchCtx,
+    identifiers.controllers.delete,
+  ])
+  .get(identifiers.controllers.read)
+  .patch([
+    requireActiveUser,
+    patchCtx,
+    identifiers.controllers.patch,
+  ]);
+
+// LOCALISATIONS
+router.route('/structures/:rid/localisations')
+  .get(localisations.controllers.list)
+  .post([
+    requireActiveUser,
+    createCtx,
+    localisations.controllers.create,
+  ]);
+
+router.route('/structures/:rid/localisations/:id')
+  .delete([
+    requireActiveUser,
+    patchCtx,
+    localisations.controllers.delete,
+  ])
+  .get(localisations.controllers.read)
+  .patch([
+    requireActiveUser,
+    patchCtx,
+    localisations.controllers.patch,
+  ]);
 
 export default router;

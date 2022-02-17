@@ -6,15 +6,15 @@ beforeAll(async () => {
 
 describe('API > structures > structures > create', () => {
   it('can create successfully', async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .post('/structures')
       .set('Authorization', authorization)
       .send({
         structureStatus: 'active',
       }).expect(201);
-    expect(response.body.id).toBeTruthy();
-    expect(response.body.createdBy.username).toBe('user');
-    id = response.body.id;
+    expect(body.id).toBeTruthy();
+    expect(body.createdBy.username).toBe('user');
+    id = body.id;
   });
 });
 
@@ -35,12 +35,66 @@ describe('API > structures > structures > update', () => {
       .expect(200);
     expect(body.structureStatus).toBe('inactive');
   });
-  it('throws with wrong data', async () => {
+  it('ignore additional properties', async () => {
     await global.superapp
       .patch(`/structures/${id}`)
       .set('Authorization', authorization)
       .send({ status: 'test' })
       .expect(400);
+  });
+});
+
+describe('API > structures > status > update', () => {
+  it('throws not found with wrong id', async () => {
+    await global.superapp
+      .put('/structures/45frK/status')
+      .set('Authorization', authorization)
+      .send({ status: 'published' })
+      .expect(404);
+  });
+  it('can set status to published successfully', async () => {
+    const { body } = await global.superapp
+      .put(`/structures/${id}/status`)
+      .set('Authorization', authorization)
+      .send({ status: 'published' })
+      .expect(200);
+    expect(body.status).toBe('published');
+  });
+  it('throws with unknown redirection', async () => {
+    await global.superapp
+      .put(`/structures/${id}/status`)
+      .set('Authorization', authorization)
+      .send({ status: 'redirected', redirection: '45frK' })
+      .expect(400);
+  });
+  it('throws if redirected status is not set along redirection', async () => {
+    await global.superapp
+      .put(`/structures/${id}/status`)
+      .set('Authorization', authorization)
+      .send({ redirection: '45frK' })
+      .expect(400);
+  });
+  it('throws with unset redirection', async () => {
+    await global.superapp
+      .put(`/structures/${id}/status`)
+      .set('Authorization', authorization)
+      .send({ status: 'redirected' })
+      .expect(400);
+  });
+  it('can set redirection', async () => {
+    const { body } = await global.superapp
+      .post('/structures')
+      .set('Authorization', authorization)
+      .send({
+        structureStatus: 'active',
+      }).expect(201);
+    const res = await global.superapp
+      .put(`/structures/${id}/status`)
+      .set('Authorization', authorization)
+      .send({ status: 'redirected', redirection: body.id })
+      .expect(200);
+    expect(res.body.status).toBe('redirected');
+    expect(res.body.redirection).toBe(body.id);
   });
 });
 
@@ -79,6 +133,7 @@ describe('API > structures > structures > delete', () => {
 
 describe('API > structures > structures > list', () => {
   beforeAll(async () => {
+    await global.utils.db.collection('structures').deleteMany({});
     await global.superapp
       .post('/structures')
       .set('Authorization', authorization)
@@ -153,5 +208,20 @@ describe('API > structures > structures > list', () => {
     const docs = body.data.map((doc) => doc.structureStatus);
     expect(docs).toContain('active');
     expect(body.totalCount).toBe(1);
+  });
+});
+
+describe('API > structures > structures > upsert', () => {
+  it('can upsert with id successfully', async () => {
+    const { body } = await global.superapp
+      .put('/structures/iw59y')
+      .set('Authorization', authorization)
+      .send({
+        structureStatus: 'active',
+      }).expect(201);
+    expect(body.id).toBeTruthy();
+    expect(body.createdBy.username).toBe('user');
+    const catalogue = await global.db.collection('_catalogue').findOne({ _id: body.id });
+    expect(catalogue._id).toBe(body.id);
   });
 });

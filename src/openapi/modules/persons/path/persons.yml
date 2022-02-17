@@ -18,9 +18,7 @@ get:
               data:
                 type: array
                 items:
-                  allOf:
-                    - $ref: '../schemas/person.yml'
-                    - $ref: '../../../schemas/metas.yml'
+                  $ref: '../schemas/read-person.yml'
               totalCount:
                 type: number
     '400':
@@ -42,21 +40,17 @@ post:
     content:
       application/json:
         schema:
-          title: UpdatePersonPayload
           required:
             - lastName
           allOf:
-            - $ref: '../schemas/person.yml'
+            - $ref: '../schemas/write-person.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            title: StructureNameResponse
-            allOf:
-              - $ref: '../schemas/person.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-person.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
