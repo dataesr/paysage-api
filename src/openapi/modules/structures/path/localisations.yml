@@ -1,12 +1,13 @@
 get:
   tags:
     - Structures
-  summary: List structure localisations
+  summary: Localisations - List structure localisations
   parameters:
     - name: structureId
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - $ref: '../../../parameters/query/filters.yml'
@@ -24,10 +25,7 @@ get:
               data:
                 type: array
                 items:
-                  type: object
-                  allOf:
-                    - $ref: '../schemas/localisation.yml'
-                    - $ref: '../../../schemas/metas.yml'
+                  $ref: '../schemas/read-localisation.yml'
               totalCount:
                 type: number
     '400':
@@ -42,7 +40,7 @@ get:
 post:
   tags:
     - Structures
-  summary: Create a structure localisation
+  summary: Localisations - Create a structure localisation
   security:
   - BearerAuth: []
   parameters:
@@ -50,29 +48,26 @@ post:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
   requestBody:
     content:
       application/json:
         schema:
-          title: CreateStructureLocalisation
+          title: StructureLocalisationPayload
           type: object
           required:
             - address
           allOf:
-            - $ref: '../schemas/localisation.yml'
+            - $ref: '../schemas/write-localisation.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            title: StructureLocalisationResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/localisation.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-localisation.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

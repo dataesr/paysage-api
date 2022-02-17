@@ -43,11 +43,17 @@ paths:
   '/categories/{categoryId}':
     $ref: './modules/categories/path/category.yml'
 
-  ### OFFICIAL DOCUMENTS ###
+  ### PRICES ###
   '/prices':
     $ref: './modules/prices/path/prices.yml'
   '/prices/{priceId}':
     $ref: './modules/prices/path/price.yml'
+
+  ### TERMS ###
+  '/terms':
+    $ref: './modules/terms/path/terms.yml'
+  '/terms/{termId}':
+    $ref: './modules/terms/path/term.yml'
 
   ### OFFICIAL DOCUMENTS ###
   '/official-documents':

@@ -2,21 +2,49 @@ Error:
   $ref: './error.yml'
 Metas:
   $ref: './metas.yml'
+StructurePayload:
+  $ref: '../modules/structures/schemas/write-structure.yml'
 Structure:
-  $ref: '../modules/structures/schemas/structure.yml'
+  $ref: '../modules/structures/schemas/read-structure.yml'
+StructureStatusPayload:
+  $ref: '../modules/structures/schemas/write-status.yml'
 StructureName:
-  $ref: '../modules/structures/schemas/name.yml'
+  $ref: '../modules/structures/schemas/read-name.yml'
+StructureNamePayload:
+  $ref: '../modules/structures/schemas/write-name.yml'
+StructureIdentifierPayLoad:
+  $ref: '../modules/structures/schemas/write-identifier.yml'
 StructureIdentifier:
-  $ref: '../modules/structures/schemas/identifier.yml'
+  $ref: '../modules/structures/schemas/read-identifier.yml'
+StructureLocalisationPayload:
+  $ref: '../modules/structures/schemas/write-localisation.yml'
 StructureLocalisation:
-  $ref: '../modules/structures/schemas/localisation.yml'
+  $ref: '../modules/structures/schemas/read-localisation.yml'
 Category:
   $ref: '../modules/categories/schemas/category.yml'
 OfficialDocument:
-  $ref: '../modules/official-documents/schemas/official-document.yml'
+  $ref: '../modules/official-documents/schemas/read-official-document.yml'
+OfficialDocumentPayload:
+  $ref: '../modules/official-documents/schemas/write-official-document.yml'
+OfficialDocumentLight:
+  $ref: '../modules/official-documents/schemas/light-official-document.yml'
 LegalCategory:
-  $ref: '../modules/legal-categories/schemas/legal-category.yml'
+  $ref: '../modules/legal-categories/schemas/read-legal-category.yml'
+LegalCategoryPayload:
+  $ref: '../modules/legal-categories/schemas/write-legal-category.yml'
+Term:
+  $ref: '../modules/terms/schemas/read-term.yml'
+TermPayload:
+  $ref: '../modules/terms/schemas/write-term.yml'
 Events:
   $ref: '../modules/events/schemas/events.yml'
 Person:
-  $ref: '../modules/persons/schemas/person.yml'
+  $ref: '../modules/persons/schemas/read-person.yml'
+PersonPayload:
+  $ref: '../modules/persons/schemas/write-person.yml'
+Price:
+  $ref: '../modules/prices/schemas/read-price.yml'
+PricePayload:
+  $ref: '../modules/prices/schemas/write-price.yml'
+PriceLight:
+  $ref: '../modules/prices/schemas/light-price.yml'

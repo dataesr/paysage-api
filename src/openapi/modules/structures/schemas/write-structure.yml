@@ -1,0 +1,10 @@
+type: object
+properties:
+  structureStatus:
+    type: string
+    nullable: true
+    enum:
+      - active
+      - inactive
+      - forthcoming
+      - null

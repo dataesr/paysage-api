@@ -1,0 +1,92 @@
+get:
+  tags:
+    - Terms
+  summary: Term - Get a term
+  parameters:
+    - name: termId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique term id
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/read-term.yml'
+    '301':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+delete:
+  tags:
+    - Terms
+  summary: Term - Delete a term
+  security:
+  - BearerAuth: []
+  parameters:
+    - name: termId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique term id
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+patch:
+  tags:
+    - Terms
+  summary: Term - Update a term
+  security:
+  - BearerAuth: []
+  parameters:
+    - name: termId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique term id
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/write-term.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/read-term.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

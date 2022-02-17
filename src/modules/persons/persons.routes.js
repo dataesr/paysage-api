@@ -1,11 +1,29 @@
 import express from 'express';
-import personsControllers from './controllers/persons.controllers';
+import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
+import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
+import persons from './persons.resource';
 
 const router = new express.Router();
-router.get('/persons', personsControllers.list);
-router.post('/persons', personsControllers.create);
-router.delete('/persons/:personId', personsControllers.delete);
-router.get('/persons/:personId', personsControllers.read);
-router.patch('/persons/:personId', personsControllers.update);
+
+router.route('/persons')
+  .get(persons.controllers.list)
+  .post([
+    requireActiveUser,
+    createCtx,
+    persons.controllers.create,
+  ]);
+
+router.route('/persons/:id')
+  .get(persons.controllers.read)
+  .patch([
+    requireActiveUser,
+    patchCtx,
+    persons.controllers.patch,
+  ])
+  .delete([
+    requireActiveUser,
+    patchCtx,
+    persons.controllers.delete,
+  ]);
 
 export default router;

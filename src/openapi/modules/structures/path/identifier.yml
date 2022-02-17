@@ -1,18 +1,20 @@
 get:
   tags:
     - Structures
-  summary: Get a structure identifier
+  summary: Identifier - Get a structure identifier
   parameters:
     - name: structureId
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: identifierId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique identifier id
   responses:
@@ -21,11 +23,7 @@ get:
       content:
         application/json:
           schema:
-            title: StructureIdentifierResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/identifier.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-identifier.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -38,7 +36,7 @@ get:
 delete:
   tags:
     - Structures
-  summary: Delete a structure identifier
+  summary: Identifier - Delete a structure identifier
   security:
   - BearerAuth: []
   parameters:
@@ -46,12 +44,14 @@ delete:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: identifierId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique identifier id
   responses:
@@ -69,7 +69,7 @@ delete:
 patch:
   tags:
     - Structures
-  summary: Update a structure identifier
+  summary: Identifier - Update a structure identifier
   security:
   - BearerAuth: []
   parameters:
@@ -77,33 +77,28 @@ patch:
       in: path
       schema:
         type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       required: true
       description: Unique structure id
     - name: identifierId
       in: path
       schema:
-        type: integer
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique identifier id
   requestBody:
     content:
       application/json:
         schema:
-          title: UpdateStructureIdentifierPayload
-          type: object
-          allOf:
-            - $ref: '../schemas/identifier.yml'
+          $ref: '../schemas/write-identifier.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            title: StructureIdentifierResponse
-            type: object
-            allOf:
-              - $ref: '../schemas/identifier.yml'
-              - $ref: '../../../schemas/metas.yml'
+            $ref: '../schemas/read-identifier.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
