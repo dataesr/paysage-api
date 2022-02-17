@@ -21,6 +21,7 @@ router.put('/structures/:structureId/status', statusesControllers.update);
 router.get('/structures/:structureId/names', namesControllers.list);
 router.post('/structures/:structureId/names', namesControllers.create);
 router.delete('/structures/:structureId/names/:nameId', namesControllers.delete);
+router.put('/structures/:structureId/names/:nameId', namesControllers.put);
 router.get('/structures/:structureId/names/:nameId', namesControllers.read);
 router.patch('/structures/:structureId/names/:nameId', namesControllers.update);
 
