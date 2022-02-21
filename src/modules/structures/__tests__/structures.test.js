@@ -221,7 +221,7 @@ describe('API > structures > structures > upsert', () => {
       }).expect(201);
     expect(body.id).toBeTruthy();
     expect(body.createdBy.username).toBe('user');
-    const catalogue = await global.db.collection('_catalogue').findOne({ _id: body.id });
+    const catalogue = await global.db.collection('_objects').findOne({ _id: body.id });
     expect(catalogue._id).toBe(body.id);
   });
 });

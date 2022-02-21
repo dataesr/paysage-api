@@ -81,4 +81,9 @@ export default class NestedMongoRepository {
     );
     return { ok: !!modifiedCount };
   };
+
+  checkResource = async (rid) => {
+    const resource = await this._collection.findOne({ id: rid });
+    return resource;
+  };
 }

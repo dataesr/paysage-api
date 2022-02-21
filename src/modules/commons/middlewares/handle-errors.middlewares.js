@@ -5,6 +5,7 @@ import logger from '../../../services/logger.service';
 
 export function handleErrors(err, req, res, next) {
   logger.error(err.message);
+  logger.error(err);
 
   if (err instanceof CustomError) {
     const { statusCode, ...error } = err.extract();

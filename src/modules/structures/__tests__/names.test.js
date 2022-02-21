@@ -46,6 +46,12 @@ describe('API > structures > names > create', () => {
       .set('Authorization', authorization)
       .send(rest).expect(400);
   });
+  it('throws with unknown resource', async () => {
+    await global.superapp
+      .post('/structures/re98D/names')
+      .set('Authorization', authorization)
+      .send(structureName).expect(404);
+  });
 });
 
 describe('API > structures > names > update', () => {
