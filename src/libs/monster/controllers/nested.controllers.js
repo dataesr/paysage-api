@@ -1,5 +1,5 @@
 import mongodb from 'mongodb';
-import { NotFoundError, ServerError } from '../errors';
+import { BadRequestError, NotFoundError, ServerError } from '../errors';
 
 export default class NestedControllers {
   constructor(repository, { storeContext, eventStore, catalogue } = {}) {
@@ -87,4 +87,32 @@ export default class NestedControllers {
     const { data, totalCount } = await this._repository.find({ rid, ...query, useQuery: 'readQuery' });
     res.status(200).json({ data, totalCount: totalCount || 0 });
   };
+
+  deleteList = async (req, res) => {
+    const ctx = req.ctx || {};
+    const { rid, id } = req.params;
+
+    const prevState = await this._repository.get(rid, id, { useQuery: 'readQuery' });
+
+    if (!prevState) throw new NotFoundError();
+    if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
+
+      const { ok } = await this._repository.deleteList(rid, id, req.body);
+
+      if (ok && this._eventStore) {
+        const nextState = await this._repository.get(rid, id, { useQuery: 'writeQuery' });
+        this._eventStore.create({
+          userId: ctx.updatedAt,
+          resource: req.path,
+          pathParams: [rid, id],
+          action: 'deleteList',
+          prevState,
+          nextState
+        });
+    }
+
+    const resource = await this._repository.get(rid, id, { useQuery: 'readQuery' });
+    if (!resource) throw new ServerError();
+    res.status(200).json(resource);
+  }
 }

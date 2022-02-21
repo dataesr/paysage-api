@@ -26,19 +26,19 @@ properties:
   signatureDate:
     nullable: true
     type: string
-    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
   startDate:
     nullable: true
     type: string
-    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
   previsionalEndDate:
     nullable: true
     type: string
-    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
   endDate:
     nullable: true
     type: string
-    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
   textExtract:
     nullable: true
     type: string

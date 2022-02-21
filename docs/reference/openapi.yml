@@ -1605,6 +1605,66 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/names/{nameId}/otherNames':
+    delete:
+      tags:
+        - Structures
+      summary: OtherNames - Delete a structure name otherNames
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: structureId
+          in: path
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]{5}$'
+          required: true
+          description: Unique structure id
+        - name: nameId
+          in: path
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]{8}$'
+          required: true
+          description: Unique name id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: UpdateListStructureNamePayload
+              type: object
+              allOf:
+                - type: object
+                  description: Différents noms d'une dénomination d'une structure
+                  additionalProperties: false
+                  properties:
+                    otherNames:
+                      type: array
+                      nullable: true
+                      items:
+                        type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1structures~1%7BstructureId%7D~1names~1%7BnameId%7D~1otherNames/delete/requestBody/content/application~1json/schema/allOf/0'
+                  totalCount:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
   '/structures/{structureId}/localisations':
     get:
       tags:
@@ -1995,6 +2055,7 @@ components:
           nullable: true
         usualName:
           type: string
+          nullable: true
         shortName:
           type: string
           nullable: true
@@ -2010,7 +2071,7 @@ components:
         acronymEn:
           type: string
           nullable: true
-        otherName:
+        otherNames:
           type: array
           nullable: true
           items:
@@ -2018,11 +2079,11 @@ components:
         startDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         comment:
           type: string
           nullable: true
@@ -2080,11 +2141,11 @@ components:
         startDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
     StructureIdentifier:
       title: StructureReadSchema
       description: Representation d'une localisation de structure
@@ -2147,11 +2208,11 @@ components:
         startDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
     StructureLocalisation:
       title: StructureReadSchema
       description: Representation d'une localisation de structure
@@ -2282,19 +2343,19 @@ components:
         signatureDate:
           nullable: true
           type: string
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         startDate:
           nullable: true
           type: string
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         previsionalEndDate:
           nullable: true
           type: string
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           nullable: true
           type: string
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         textExtract:
           nullable: true
           type: string
@@ -2473,7 +2534,7 @@ components:
         descriptionEn:
           type: string
           nullable: true
-        otherName:
+        otherNames:
           type: array
           description: Autres intitulés
           nullable: true
@@ -2556,7 +2617,7 @@ components:
           nullable: true
         lastName:
           type: string
-        otherName:
+        otherNames:
           type: array
           items:
             type: string
@@ -2571,11 +2632,11 @@ components:
         birthDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         deathDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         activity:
           type: string
           nullable: true
@@ -2614,11 +2675,11 @@ components:
             startDate:
               type: string
               nullable: true
-              pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+              pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
             endDate:
               type: string
               nullable: true
-              pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+              pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         - $ref: '#/components/schemas/Metas'
     PricePayload:
       title: PriceWriteSchema
@@ -2647,11 +2708,11 @@ components:
         startDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
         endDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
     PriceLight:
       title: Price
       description: Object décrivant un prix scientifique

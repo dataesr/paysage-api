@@ -1,5 +1,5 @@
 import express from 'express';
-import { createCtx, patchCtx } from '../commons/middlewares/context.middleware';
+import { createCtx, patchCtx, putCtx } from '../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import structures from './root/root.resource';
 import status from './status/status.resource';
@@ -8,6 +8,7 @@ import identifiers from './identifiers/identifiers.resource';
 import localisations from './localisations/localisations.resource';
 import { validateStatusPayload } from './status/status.middlewares';
 import { setCreationDefaultValues, setPutIdInContext } from './root/root.middlewares';
+import otherNames from './names/otherNames/otherNames.resource';
 
 const router = new express.Router();
 // const namesControllers = new Controllers(namesRepository);
@@ -71,6 +72,14 @@ router.route('/structures/:rid/names/:id')
     requireActiveUser,
     patchCtx,
     names.controllers.patch,
+  ]);
+
+// OTHERNAMES
+router.route('/structures/:rid/names/:id/otherNames')
+  .delete([
+    requireActiveUser,
+    putCtx,
+    otherNames.controllers.deleteList,
   ]);
 
 // IDENTIFIERS

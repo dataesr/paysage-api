@@ -74,6 +74,26 @@ export default class NestedMongoRepository {
     return { ok: !!modifiedCount };
   };
 
+  deleteList = async (rid, id, object) => {
+    const key = Object.keys(object)[0];
+    const pipe = [
+      { $match: { id: rid } },
+      { $unwind: { path: `$${this._field}` } },
+      { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
+      { $replaceRoot: { newRoot: `$${this._field}` } },
+      { $match: { id } },
+    ];
+
+    const currentData = await this._collection.aggregate(pipe).toArray();
+    const _data = { ...currentData[0], [key]: currentData[0][key].filter((d)=> object[key].indexOf(d) < 0)  };
+
+    const { modifiedCount } = await this._collection.updateOne(
+        { id: rid, [`${this._field}.id`]: id },
+        { $set: { [`${this._field}.$`]: _data } },
+    );
+    return { ok: !!modifiedCount };
+  };
+
   remove = async (rid, id) => {
     const { modifiedCount } = await this._collection.updateOne(
       { id: rid },

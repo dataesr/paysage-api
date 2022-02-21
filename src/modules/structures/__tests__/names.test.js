@@ -9,7 +9,7 @@ const structureName = {
   nameEn: 'string',
   acronymFr: 'string',
   acronymEn: 'string',
-  otherName: [
+  otherNames: [
     'string',
   ],
   startDate: '2012-01-01',
@@ -53,23 +53,23 @@ describe('API > structures > names > update', () => {
     const { body } = await global.superapp
       .patch(`/structures/${rid}/names/${id}`)
       .set('Authorization', authorization)
-      .send({ otherName: ['string', 'string2'], article: null })
+      .send({ otherNames: ['string', 'string2'], article: null })
       .expect(200);
-    expect(body.otherName).toHaveLength(2);
-    expect(body.otherName).toContain('string2');
+    expect(body.otherNames).toHaveLength(2);
+    expect(body.otherNames).toContain('string2');
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
       .patch(`/structures/${rid}/names/45frK`)
       .set('Authorization', authorization)
-      .send({ otherName: ['string', 'string2'] })
+      .send({ otherNames: ['string', 'string2'] })
       .expect(400);
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
       .patch(`/structures/${rid}/names/45skrc65`)
       .set('Authorization', authorization)
-      .send({ otherName: ['string', 'string2'] })
+      .send({ otherNames: ['string', 'string2'] })
       .expect(404);
   });
   it('throws with wrong data', async () => {
@@ -91,8 +91,8 @@ describe('API > structures > names > read', () => {
     expect(response.body.officialName).toBe('string');
     expect(response.body.usualName).toBe('string');
     expect(response.body.createdBy.username).toBe('user');
-    expect(response.body.otherName).toHaveLength(2);
-    expect(response.body.otherName).toContain('string2');
+    expect(response.body.otherNames).toHaveLength(2);
+    expect(response.body.otherNames).toContain('string2');
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp

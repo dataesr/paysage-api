@@ -2,7 +2,7 @@ title: PriceReadSchema
 description: 'Object décrivant un prix scientifique'
 required:
   - id
-allOf: 
+allOf:
   - type: object
     properties:
       id:
@@ -29,9 +29,9 @@ allOf:
       startDate:
         type: string
         nullable: true
-        pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
       endDate:
         type: string
         nullable: true
-        pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+        pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
   - $ref: '../../../schemas/metas.yml'

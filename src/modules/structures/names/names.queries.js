@@ -8,7 +8,7 @@ const fields = {
   nameEn: { $ifNull: ['$nameEn', null] },
   acronymFr: { $ifNull: ['$acronymFr', null] },
   acronymEn: { $ifNull: ['$acronymEn', null] },
-  otherName: { $ifNull: ['$otherName', []] },
+  otherNames: { $ifNull: ['$otherNames', []] },
   startDate: { $ifNull: ['$startDate', null] },
   endDate: { $ifNull: ['$endDate', null] },
   comment: { $ifNull: ['$comment', null] },

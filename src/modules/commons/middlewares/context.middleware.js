@@ -7,3 +7,8 @@ export async function createCtx(req, res, next) {
   req.ctx = { createdBy: req.currentUser.id, createdAt: new Date() };
   return next();
 }
+
+export async function putCtx(req, res, next) {
+  req.ctx = { createdBy: req.currentUser.id, createdAt: new Date() };
+  return next();
+}

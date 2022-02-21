@@ -6,7 +6,7 @@ properties:
     nullable: true
   lastName:
     type: string
-  otherName:
+  otherNames:
     type: array
     items:
       type: string
@@ -21,11 +21,11 @@ properties:
   birthDate:
     type: string
     nullable: true
-    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
   deathDate:
     type: string
     nullable: true
-    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    pattern: '^(\s*)|^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
   activity:
     type: string
     nullable: true

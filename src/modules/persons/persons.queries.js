@@ -3,7 +3,7 @@ import metas from '../commons/pipelines/metas';
 const model = {
   lastName: 1,
   firstName: { $ifNull: ['$firstName', null] },
-  otherName: { $ifNull: ['$otherName', []] },
+  otherNames: { $ifNull: ['$otherNames', []] },
   gender: { $ifNull: ['$gender', null] },
   birthDate: { $ifNull: ['$birthDate', null] },
   deathDate: { $ifNull: ['$deathDate', null] },

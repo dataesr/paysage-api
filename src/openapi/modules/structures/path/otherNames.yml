@@ -1,0 +1,52 @@
+delete:
+  tags:
+    - Structures
+  summary: OtherNames - Delete a structure name otherNames
+  security:
+    - BearerAuth: []
+  parameters:
+    - name: structureId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique structure id
+    - name: nameId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
+      required: true
+      description: Unique name id
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: UpdateListStructureNamePayload
+          type: object
+          allOf:
+            - $ref: '../schemas/write-otherNames.yml'
+
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '../schemas/write-otherNames.yml'
+              totalCount:
+                type: integer
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
