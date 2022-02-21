@@ -148,12 +148,7 @@ paths:
         - Categories
       summary: Get a category
       parameters:
-        - name: categoryId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique category id
+        - $ref: '#/components/parameters/categoryId'
       responses:
         '200':
           description: Success
@@ -189,12 +184,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: categoryId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique category id
+        - $ref: '#/components/parameters/categoryId'
       responses:
         '204':
           description: No content
@@ -213,12 +203,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: categoryId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique category id
+        - $ref: '#/components/parameters/categoryId'
       requestBody:
         content:
           application/json:
@@ -321,13 +306,7 @@ paths:
         - Prices
       summary: Price - Get a price
       parameters:
-        - name: priceId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique price id
+        - $ref: '#/components/parameters/priceId'
       responses:
         '200':
           description: Success
@@ -352,13 +331,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: priceId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique price id
+        - $ref: '#/components/parameters/priceId'
       responses:
         '204':
           description: No content
@@ -377,13 +350,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: priceId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique price id
+        - $ref: '#/components/parameters/priceId'
       requestBody:
         content:
           application/json:
@@ -470,13 +437,7 @@ paths:
         - Terms
       summary: Term - Get a term
       parameters:
-        - name: termId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique term id
+        - $ref: '#/components/parameters/termId'
       responses:
         '200':
           description: Success
@@ -501,13 +462,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: termId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique term id
+        - $ref: '#/components/parameters/termId'
       responses:
         '204':
           description: No content
@@ -526,13 +481,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: termId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique term id
+        - $ref: '#/components/parameters/termId'
       requestBody:
         content:
           application/json:
@@ -627,12 +576,7 @@ paths:
         - Official Documents
       summary: Get an official document
       parameters:
-        - name: officialDocumentId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique official document id
+        - $ref: '#/components/parameters/officialDocumentId'
       responses:
         '200':
           description: Success
@@ -657,12 +601,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: officialDocumentId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique official document id
+        - $ref: '#/components/parameters/officialDocumentId'
       responses:
         '204':
           description: No content
@@ -681,12 +620,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: officialDocumentId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique official document id
+        - $ref: '#/components/parameters/officialDocumentId'
       requestBody:
         content:
           application/json:
@@ -780,12 +714,7 @@ paths:
         - Legal Categories
       summary: Get a legal category
       parameters:
-        - name: legalCategoryId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique legal category id
+        - $ref: '#/components/parameters/legalCategoryId'
       responses:
         '200':
           description: Success
@@ -810,12 +739,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: legalCategoryId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique legal category id
+        - $ref: '#/components/parameters/legalCategoryId'
       responses:
         '204':
           description: No content
@@ -834,12 +758,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: legalCategoryId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique legal category id
+        - $ref: '#/components/parameters/legalCategoryId'
       requestBody:
         content:
           application/json:
@@ -929,13 +848,7 @@ paths:
         - Persons
       summary: Get a person
       parameters:
-        - name: personId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique person id
+        - $ref: '#/components/parameters/personId'
       responses:
         '200':
           description: Success
@@ -960,13 +873,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: personId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique person id
+        - $ref: '#/components/parameters/personId'
       responses:
         '204':
           description: No content
@@ -985,13 +892,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: personId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique person id
+        - $ref: '#/components/parameters/personId'
       requestBody:
         content:
           application/json:
@@ -1004,6 +905,140 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Person'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /documents:
+    get:
+      tags:
+        - Documents
+      summary: List Documents
+      parameters:
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Document'
+                  totalCount:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Documents
+      summary: Create a document
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - title
+              allOf:
+                - $ref: '#/components/schemas/DocumentPayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/documents/{documentId}':
+    get:
+      tags:
+        - Documents
+      summary: Get a document
+      parameters:
+        - $ref: '#/components/parameters/documentId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '301':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Documents
+      summary: Delete a document
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/documentId'
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Documents
+      summary: Update a document
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/documentId'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DocumentPayload'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1076,12 +1111,7 @@ paths:
         - Structures
       summary: Structure - Get a structure
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
       responses:
         '200':
           description: Success
@@ -1106,12 +1136,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
       responses:
         '204':
           description: No content
@@ -1130,12 +1155,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
       requestBody:
         content:
           application/json:
@@ -1165,12 +1185,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
       requestBody:
         content:
           application/json:
@@ -1199,12 +1214,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
       requestBody:
         content:
           application/json:
@@ -1233,13 +1243,7 @@ paths:
         - Structures
       summary: Identifiers - List structure identifiers
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
         - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/skip'
         - $ref: '#/components/parameters/limit'
@@ -1264,6 +1268,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
     post:
@@ -1273,13 +1279,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
       requestBody:
         content:
           application/json:
@@ -1305,6 +1305,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
   '/structures/{structureId}/identifiers/{identifierId}':
@@ -1313,20 +1315,8 @@ paths:
         - Structures
       summary: Identifier - Get a structure identifier
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
-        - name: identifierId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{8}$'
-          required: true
-          description: Unique identifier id
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/identifierId'
       responses:
         '200':
           description: Success
@@ -1349,20 +1339,8 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
-        - name: identifierId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{8}$'
-          required: true
-          description: Unique identifier id
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/identifierId'
       responses:
         '204':
           description: No content
@@ -1381,20 +1359,8 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
-        - name: identifierId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{8}$'
-          required: true
-          description: Unique identifier id
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/identifierId'
       requestBody:
         content:
           application/json:
@@ -1423,13 +1389,7 @@ paths:
         - Structures
       summary: Names- List structure names
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
         - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/skip'
         - $ref: '#/components/parameters/limit'
@@ -1454,6 +1414,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
     post:
@@ -1463,13 +1425,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
       requestBody:
         content:
           application/json:
@@ -1493,6 +1449,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
   '/structures/{structureId}/names/{nameId}':
@@ -1501,20 +1459,8 @@ paths:
         - Structures
       summary: Name - Get a structure name
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
-        - name: nameId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{8}$'
-          required: true
-          description: Unique name id
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/nameId'
       responses:
         '200':
           description: Success
@@ -1537,20 +1483,8 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
-        - name: nameId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{8}$'
-          required: true
-          description: Unique name id
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/nameId'
       responses:
         '204':
           description: No content
@@ -1569,20 +1503,8 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
-        - name: nameId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{8}$'
-          required: true
-          description: Unique name id
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/nameId'
       requestBody:
         content:
           application/json:
@@ -1611,13 +1533,7 @@ paths:
         - Structures
       summary: Localisations - List structure localisations
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
         - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/skip'
         - $ref: '#/components/parameters/limit'
@@ -1642,6 +1558,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
     post:
@@ -1651,13 +1569,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
+        - $ref: '#/components/parameters/structureId'
       requestBody:
         content:
           application/json:
@@ -1681,6 +1593,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
   '/structures/{structureId}/localisations/{localisationId}':
@@ -1689,20 +1603,8 @@ paths:
         - Structures
       summary: Localisation - Get a structure localisation
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
-        - name: localisationId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{8}$'
-          required: true
-          description: Unique localisation id
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/localisationId'
       responses:
         '200':
           description: Success
@@ -1725,20 +1627,8 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
-        - name: localisationId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{8}$'
-          required: true
-          description: Unique localisation id
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/localisationId'
       responses:
         '204':
           description: No content
@@ -1757,20 +1647,8 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - name: structureId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{5}$'
-          required: true
-          description: Unique structure id
-        - name: localisationId
-          in: path
-          schema:
-            type: string
-            pattern: '^[a-zA-Z0-9]{8}$'
-          required: true
-          description: Unique localisation id
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/localisationId'
       requestBody:
         content:
           application/json:
@@ -1826,6 +1704,94 @@ components:
       schema:
         type: string
         description: '?sort=firstname,-createdAt'
+    documentId:
+      name: documentId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique resource identifier
+    structureId:
+      name: structureId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique structure id
+    nameId:
+      name: nameId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
+      required: true
+      description: Unique name id
+    identifierId:
+      name: identifierId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
+      required: true
+      description: Unique identifier id
+    localisationId:
+      name: localisationId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
+      required: true
+      description: Unique localisation id
+    termId:
+      name: termId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique term id
+    categoryId:
+      name: categoryId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique category id
+    legalCategoryId:
+      name: legalCategoryId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique legal category id
+    priceId:
+      name: priceId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique price id
+    personId:
+      name: personId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique person id
+    officialDocumentId:
+      name: officialDocumentId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      required: true
+      description: Unique official document id
   responses:
     BadRequest:
       description: Illegal input for operation.
@@ -2665,6 +2631,48 @@ components:
           type: string
         nameEn:
           type: string
+    Document:
+      title: Document
+      description: Document
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              pattern: '^[a-zA-Z0-9]{5}$'
+            fileInfo:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                mimetype:
+                  type: string
+                id:
+                  type: string
+                originalName:
+                  type: string
+        - $ref: '#/components/schemas/DocumentPayload'
+        - $ref: '#/components/schemas/Metas'
+    DocumentPayload:
+      title: DocumentPayload
+      description: Document
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        file:
+          writeOnly: true
+          type: string
+          format: binary
   securitySchemes:
     BearerAuth:
       type: http
