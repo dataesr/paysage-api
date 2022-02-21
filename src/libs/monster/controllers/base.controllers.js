@@ -9,7 +9,7 @@ export default class BaseController {
     this._catalogue = catalogue;
   }
 
-  create = async (req, res) => {
+  create = async (req, res, next) => {
     const ctx = req.ctx || {};
     if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
     let id;
@@ -38,9 +38,10 @@ export default class BaseController {
     const resource = await this._repository.get(id, { useQuery: 'readQuery' });
     if (!resource) throw new ServerError();
     res.status(201).json(resource);
+    return next();
   };
 
-  patch = async (req, res) => {
+  patch = async (req, res, next) => {
     const ctx = req.ctx || {};
     if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
     const { id } = req.params;
@@ -62,9 +63,10 @@ export default class BaseController {
     const resource = await this._repository.get(id, { useQuery: 'readQuery' });
     if (!resource) throw new ServerError();
     res.status(200).json(resource);
+    return next();
   };
 
-  delete = async (req, res) => {
+  delete = async (req, res, next) => {
     const ctx = req.ctx || {};
     const { id } = req.params;
     const prevState = await this._repository.get(id, { useQuery: 'writeQuery' });
@@ -80,22 +82,25 @@ export default class BaseController {
       });
     }
     res.status(204).json();
+    return next();
   };
 
-  read = async (req, res) => {
+  read = async (req, res, next) => {
     const { id } = req.params;
     const resource = await this._repository.get(id, { useQuery: 'readQuery' });
     if (!resource) throw new NotFoundError();
     res.status(200).json(resource);
+    return next();
   };
 
-  list = async (req, res) => {
+  list = async (req, res, next) => {
     const { query } = req;
     const { data, totalCount } = await this._repository.find({ ...query, useQuery: 'readQuery' });
     res.status(200).json({ data, totalCount: totalCount || 0 });
+    return next();
   };
 
-  events = async (req, res) => {
+  events = async (req, res, next) => {
     const { query } = req;
     const { id } = req.params;
     const { filters, ...options } = query;
@@ -105,5 +110,6 @@ export default class BaseController {
       filters: { ...filters, id },
     });
     res.status(200).json({ data, totalCount: totalCount || 0 });
+    return next();
   };
 }

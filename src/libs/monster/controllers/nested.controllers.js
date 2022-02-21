@@ -9,12 +9,13 @@ export default class NestedControllers {
     this._catalogue = catalogue;
   }
 
-  create = async (req, res) => {
+  create = async (req, res, next) => {
+    const { rid } = req.params;
+    if (!await this._repository.checkResource(rid)) throw new NotFoundError(`Resource ${rid} does not exist`);
     const ctx = req.ctx || {};
     const id = (this._catalogue)
       ? await this._catalogue.getUniqueId(this._repository.collectionName)
       : mongodb.ObjectId();
-    const { rid } = req.params;
     const payload = { id, ...req.body };
     const data = this._storeContext ? { ...payload, ...ctx } : payload;
     const insertedId = await this._repository.create(rid, data);
@@ -31,11 +32,13 @@ export default class NestedControllers {
     const resource = await this._repository.get(rid, id, { useQuery: 'readQuery' });
     if (!resource) throw new ServerError();
     res.status(201).json(resource);
+    return next();
   };
 
-  patch = async (req, res) => {
-    const ctx = req.ctx || {};
+  patch = async (req, res, next) => {
     const { rid, id } = req.params;
+    if (!await this._repository.checkResource(rid)) throw new NotFoundError(`Resource ${rid} does not exist`);
+    const ctx = req.ctx || {};
     const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
     const prevState = await this._repository.get(rid, id, { useQuery: 'writeQuery' });
     if (!prevState) throw new NotFoundError();
@@ -54,11 +57,13 @@ export default class NestedControllers {
     const resource = await this._repository.get(rid, id, { useQuery: 'readQuery' });
     if (!resource) throw new ServerError();
     res.status(200).json(resource);
+    return next();
   };
 
-  delete = async (req, res) => {
-    const ctx = req.ctx || {};
+  delete = async (req, res, next) => {
     const { rid, id } = req.params;
+    if (!await this._repository.checkResource(rid)) throw new NotFoundError(`Resource ${rid} does not exist`);
+    const ctx = req.ctx || {};
     const prevState = await this._repository.get(rid, id, { useQuery: 'writeQuery' });
     if (!prevState) throw new NotFoundError();
     const { ok } = await this._repository.remove(rid, id);
@@ -72,19 +77,24 @@ export default class NestedControllers {
       });
     }
     res.status(204).json();
+    return next();
   };
 
-  read = async (req, res) => {
+  read = async (req, res, next) => {
     const { rid, id } = req.params;
+    if (!await this._repository.checkResource(rid)) throw new NotFoundError(`Resource ${rid} does not exist`);
     const resource = await this._repository.get(rid, id, { useQuery: 'readQuery' });
     if (!resource) throw new NotFoundError();
     res.status(200).json(resource);
+    return next();
   };
 
-  list = async (req, res) => {
+  list = async (req, res, next) => {
     const { rid } = req.params;
+    if (!await this._repository.checkResource(rid)) throw new NotFoundError(`Resource ${rid} does not exist`);
     const { query } = req;
     const { data, totalCount } = await this._repository.find({ rid, ...query, useQuery: 'readQuery' });
     res.status(200).json({ data, totalCount: totalCount || 0 });
+    return next();
   };
 }
