@@ -5,6 +5,17 @@ const production = {
     mongoUri: process.env.MONGO_URI,
     mongoDbName: 'paysage',
   },
+  objectStorage: {
+    creds: {
+      authUrl: process.env.OVH_AUTH_URL,
+      username: process.env.OVH_USERNAME,
+      password: process.env.OVH_PASSWORD,
+      tenantId: process.env.OVH_TENANT_ID,
+      region: process.env.OVH_REGION,
+    },
+    container: 'paysage',
+    url: 'https://storage.sbg.cloud.ovh.net/v1/AUTH_32c5d10cb0fe4519b957064a111717e3',
+  },
   logger: {
     logLevel: 'error',
   },
@@ -13,6 +24,10 @@ const production = {
 
 const staging = {
   ...production,
+  objectStorage: {
+    ...production.objectStorage,
+    container: 'paysage-staging',
+  },
 };
 const testing = {
   ...production,
@@ -20,6 +35,10 @@ const testing = {
   database: {
     ...production.database,
     mongoDbName: 'paysage-test1',
+  },
+  objectStorage: {
+    ...production.objectStorage,
+    container: 'paysage-test',
   },
   logger: {
     logLevel: 'debug',
@@ -32,6 +51,10 @@ const development = {
   database: {
     ...production.database,
     mongoDbName: 'paysage-dev',
+  },
+  objectStorage: {
+    ...production.objectStorage,
+    container: 'paysage-dev',
   },
   logger: {
     logLevel: 'debug',
