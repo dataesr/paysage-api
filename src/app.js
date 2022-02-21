@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import 'express-async-errors';
+import multer from 'multer';
 import * as OAV from 'express-openapi-validator';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
@@ -13,7 +14,8 @@ import personsRoutes from './modules/persons/persons.routes';
 import officialDocumentsRoutes from './modules/official-documents/od.routes';
 import legalCategoriesRoutes from './modules/legal-categories/lc.routes';
 import pricesRoutes from './modules/prices/prices.routes';
-import termsRoutes from './modules/terms/terms.route';
+import termsRoutes from './modules/terms/terms.routes';
+import documentsRoutes from './modules/documents/documents.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/openapi.yml');
@@ -47,6 +49,7 @@ app.use(OAV.middleware({
     removeAdditional: 'all',
   },
   validateResponses: true,
+  fileUploader: { storage: multer.memoryStorage() },
   ignorePaths: /(.*\/docs\/?|.*\/readyz\/?|.*\/livez\/?|\/specs\.yml\/?)/,
 }));
 
@@ -60,6 +63,7 @@ app.use(officialDocumentsRoutes);
 app.use(legalCategoriesRoutes);
 app.use(pricesRoutes);
 app.use(termsRoutes);
+app.use(documentsRoutes);
 
 // Erreurs personnalisées
 app.use(handleErrors);
