@@ -3,13 +3,7 @@ get:
     - Terms
   summary: Term - Get a term
   parameters:
-    - name: termId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
-      required: true
-      description: Unique term id
+    - $ref: '../parameters/term-id.yml'
   responses:
     '200':
       description: Success
@@ -35,13 +29,7 @@ delete:
   security:
   - BearerAuth: []
   parameters:
-    - name: termId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
-      required: true
-      description: Unique term id
+    - $ref: '../parameters/term-id.yml'
   responses:
     '204':
       description: No content
@@ -61,13 +49,7 @@ patch:
   security:
   - BearerAuth: []
   parameters:
-    - name: termId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
-      required: true
-      description: Unique term id
+    - $ref: '../parameters/term-id.yml'
   requestBody:
     content:
       application/json:

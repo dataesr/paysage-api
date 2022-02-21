@@ -1,0 +1,24 @@
+title: Document
+description: Document
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      fileInfo:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          mimetype:
+            type: string
+          id:
+            type: string
+          originalName:
+            type: string
+  - $ref: '../schemas/write-document.yml'
+  - $ref: '../../../schemas/metas.yml'

@@ -3,13 +3,7 @@ get:
     - Structures
   summary: Localisations - List structure localisations
   parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
-      required: true
-      description: Unique structure id
+    - $ref: '../parameters/structure-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
     - $ref: '../../../parameters/query/skip.yml'
     - $ref: '../../../parameters/query/limit.yml'
@@ -34,6 +28,8 @@ get:
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
       $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
     '500':
       $ref: '../../../responses/errors/server-error.yml'
 
@@ -44,13 +40,7 @@ post:
   security:
   - BearerAuth: []
   parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
-      required: true
-      description: Unique structure id
+    - $ref: '../parameters/structure-id.yml'
   requestBody:
     content:
       application/json:
@@ -74,5 +64,7 @@ post:
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
       $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
     '500':
       $ref: '../../../responses/errors/server-error.yml'

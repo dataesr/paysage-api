@@ -5,12 +5,7 @@ put:
   security:
   - BearerAuth: []
   parameters:
-  - name: structureId
-    in: path
-    schema:
-      type: string
-    required: true
-    description: Unique structure id
+  - $ref: '../parameters/structure-id.yml'
   requestBody:
     content:
         application/json:

@@ -48,3 +48,7 @@ PricePayload:
   $ref: '../modules/prices/schemas/write-price.yml'
 PriceLight:
   $ref: '../modules/prices/schemas/light-price.yml'
+Document:
+  $ref: '../modules/documents/schemas/read-document.yml'
+DocumentPayload:
+  $ref: '../modules/documents/schemas/write-document.yml'

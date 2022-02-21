@@ -1,0 +1,16 @@
+title: DocumentPayload
+description: Document
+type: object
+properties:
+  name:
+    type: string
+    nullable: true
+  title:
+    type: string
+  description:
+    type: string
+    nullable: true
+  file:
+    writeOnly: true
+    type: string
+    format: binary
