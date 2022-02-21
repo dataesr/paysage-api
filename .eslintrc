@@ -1,7 +1,7 @@
 {
   "extends": ["airbnb-base"],
   "parserOptions": {
-    "ecmaVersion": 12
+    "ecmaVersion": 13
   },
   "plugins": ["jest"],
   "env": {
