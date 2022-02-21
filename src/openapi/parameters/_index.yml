@@ -7,3 +7,25 @@ limit:
   $ref: './query/limit.yml'
 sort:
   $ref: './query/sort.yml'
+documentId:
+  $ref: '../modules/documents/parameters/document-id.yml'
+structureId:
+  $ref: '../modules/structures/parameters/structure-id.yml'
+nameId:
+  $ref: '../modules/structures/parameters/name-id.yml'
+identifierId:
+  $ref: '../modules/structures/parameters/identifier-id.yml'
+localisationId:
+  $ref: '../modules/structures/parameters/localisation-id.yml'
+termId:
+  $ref: '../modules/terms/parameters/term-id.yml'
+categoryId:
+  $ref: '../modules/categories/parameters/category-id.yml'
+legalCategoryId:
+  $ref: '../modules/legal-categories/parameters/legal-category-id.yml'
+priceId:
+  $ref: '../modules/prices/parameters/price-id.yml'
+personId:
+  $ref: '../modules/persons/parameters/person-id.yml'
+officialDocumentId:
+  $ref: '../modules/official-documents/parameters/official-document-id.yml'

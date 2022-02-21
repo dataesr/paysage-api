@@ -3,20 +3,8 @@ get:
     - Structures
   summary: Name - Get a structure name
   parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
-      required: true
-      description: Unique structure id
-    - name: nameId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{8}$'
-      required: true
-      description: Unique name id
+    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/name-id.yml'
   responses:
     '200':
       description: Success
@@ -41,20 +29,8 @@ delete:
   security:
   - BearerAuth: []
   parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
-      required: true
-      description: Unique structure id
-    - name: nameId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{8}$'
-      required: true
-      description: Unique name id
+    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/name-id.yml'
   responses:
     '204':
       description: No content
@@ -74,20 +50,8 @@ patch:
   security:
   - BearerAuth: []
   parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
-      required: true
-      description: Unique structure id
-    - name: nameId
-      in: path
-      schema:
-        type: string
-        pattern: '^[a-zA-Z0-9]{8}$'
-      required: true
-      description: Unique name id
+    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/name-id.yml'
   requestBody:
     content:
       application/json:

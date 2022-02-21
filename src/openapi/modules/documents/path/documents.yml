@@ -1,9 +1,8 @@
 get:
   tags:
-    - Structures
-  summary: Names- List structure names
+    - Documents
+  summary: List Documents
   parameters:
-    - $ref: '../parameters/structure-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
     - $ref: '../../../parameters/query/skip.yml'
     - $ref: '../../../parameters/query/limit.yml'
@@ -19,7 +18,7 @@ get:
               data:
                 type: array
                 items:
-                  $ref: '../schemas/read-name.yml'
+                  $ref: '../schemas/read-document.yml'
               totalCount:
                 type: integer
     '400':
@@ -28,43 +27,35 @@ get:
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
       $ref: '../../../responses/errors/forbidden.yml'
-    '404':
-      $ref: '../../../responses/errors/not-found.yml'
     '500':
       $ref: '../../../responses/errors/server-error.yml'
 
 post:
   tags:
-    - Structures
-  summary: Names- Create a structure name
+    - Documents
+  summary: Create a document
   security:
   - BearerAuth: []
-  parameters:
-    - $ref: '../parameters/structure-id.yml'
   requestBody:
     content:
-      application/json:
+      multipart/form-data:
         schema:
-          title: StructureNamePayload
-          type: object
           required:
-            - usualName
+            - title
           allOf:
-            - $ref: '../schemas/write-name.yml'
+              - $ref: '../schemas/write-document.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            $ref: '../schemas/read-name.yml'
+            $ref: '../schemas/read-document.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
       $ref: '../../../responses/errors/forbidden.yml'
-    '404':
-      $ref: '../../../responses/errors/not-found.yml'
     '500':
       $ref: '../../../responses/errors/server-error.yml'

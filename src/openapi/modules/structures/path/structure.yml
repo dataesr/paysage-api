@@ -3,12 +3,7 @@ get:
     - Structures
   summary: Structure - Get a structure
   parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-      required: true
-      description: Unique structure id
+    - $ref: '../parameters/structure-id.yml'
   responses:
     '200':
       description: Success
@@ -34,12 +29,7 @@ delete:
   security:
   - BearerAuth: []
   parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-      required: true
-      description: Unique structure id
+    - $ref: '../parameters/structure-id.yml'
   responses:
     '204':
       description: No content
@@ -59,12 +49,7 @@ patch:
   security:
   - BearerAuth: []
   parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-      required: true
-      description: Unique structure id
+    - $ref: '../parameters/structure-id.yml'
   requestBody:
     content:
         application/json:
@@ -95,12 +80,7 @@ put:
   security:
   - BearerAuth: []
   parameters:
-    - name: structureId
-      in: path
-      schema:
-        type: string
-      required: true
-      description: Unique structure id
+    - $ref: '../parameters/structure-id.yml'
   requestBody:
     content:
         application/json:

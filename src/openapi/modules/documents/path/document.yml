@@ -1,17 +1,18 @@
 get:
   tags:
-    - Structures
-  summary: Identifier - Get a structure identifier
+    - Documents
+  summary: Get a document
   parameters:
-    - $ref: '../parameters/structure-id.yml'
-    - $ref: '../parameters/identifier-id.yml'
+    - $ref: '../parameters/document-id.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../schemas/read-identifier.yml'
+            $ref: '../schemas/read-document.yml'
+    '301':
+      description: No content
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -23,13 +24,12 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: Identifier - Delete a structure identifier
+    - Documents
+  summary: Delete a document
   security:
   - BearerAuth: []
   parameters:
-    - $ref: '../parameters/structure-id.yml'
-    - $ref: '../parameters/identifier-id.yml'
+    - $ref: '../parameters/document-id.yml'
   responses:
     '204':
       description: No content
@@ -44,25 +44,25 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: Identifier - Update a structure identifier
+    - Documents
+  summary: Update a document
   security:
   - BearerAuth: []
   parameters:
-    - $ref: '../parameters/structure-id.yml'
-    - $ref: '../parameters/identifier-id.yml'
+    - $ref: '../parameters/document-id.yml'
   requestBody:
     content:
-      application/json:
+      multipart/form-data:
         schema:
-          $ref: '../schemas/write-identifier.yml'
+          $ref: '../schemas/write-document.yml'
+
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../schemas/read-identifier.yml'
+            $ref: '../schemas/read-document.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

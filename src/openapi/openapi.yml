@@ -73,6 +73,12 @@ paths:
   '/persons/{personId}':
     $ref: './modules/persons/path/person.yml'
 
+  ### DOCUMENTS ###
+  '/documents':
+    $ref: './modules/documents/path/documents.yml'
+  '/documents/{documentId}':
+    $ref: './modules/documents/path/document.yml'
+
   ### STRUCTURE ###
   '/structures':
     $ref: './modules/structures/path/structures.yml'
