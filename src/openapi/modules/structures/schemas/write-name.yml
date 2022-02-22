@@ -6,6 +6,7 @@ properties:
     nullable: true
   usualName:
     type: string
+    nullable: true
   shortName:
     type: string
     nullable: true
@@ -21,7 +22,10 @@ properties:
   acronymEn:
     type: string
     nullable: true
-  otherName:
+  acronymLocal:
+    type: string
+    nullable: true
+  otherNames:
     type: array
     nullable: true
     items:
@@ -29,11 +33,11 @@ properties:
   startDate:
     type: string
     nullable: true
-    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
   endDate:
     type: string
     nullable: true
-    pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+    pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
   comment:
     type: string
     nullable: true
@@ -48,5 +52,6 @@ properties:
       - dans les
       - aux
       - au
+      - ''
       - null
 

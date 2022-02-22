@@ -67,9 +67,13 @@ export default class NestedMongoRepository {
     ];
     const currentData = await this._collection.aggregate(pipe).toArray();
     const _data = { ...currentData[0], ...data };
+    const __data = Object.keys(_data).reduce(
+      (doc, field) => ([null, ''].includes(_data[field]) ? doc : ({ ...doc, [field]: _data[field] })),
+      {},
+    );
     const { modifiedCount } = await this._collection.updateOne(
       { id: rid, [`${this._field}.id`]: id },
-      { $set: { [`${this._field}.$`]: _data } },
+      { $set: { [`${this._field}.$`]: __data } },
     );
     return { ok: !!modifiedCount };
   };

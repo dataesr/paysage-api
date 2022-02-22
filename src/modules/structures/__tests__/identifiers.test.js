@@ -74,6 +74,13 @@ describe('API > structures > identifiers > update', () => {
       .send({ startDate: 'Wikidata' })
       .expect(400);
   });
+  it('can empty dates', async () => {
+    await global.superapp
+      .patch(`/structures/${rid}/identifiers/${id}`)
+      .set('Authorization', authorization)
+      .send({ startDate: '' })
+      .expect(200);
+  });
 });
 
 describe('API > structures > identifiers > read', () => {
