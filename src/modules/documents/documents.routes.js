@@ -2,7 +2,7 @@ import express from 'express';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
 import documents from './documents.resource';
-import { createFileInfo, updateFileInfo, saveFile, deleteFile } from './documents.middlewares';
+import { createDocumentId, setFileInfo, saveFile, deleteFile, getFile } from './documents.middlewares';
 
 const router = new express.Router();
 
@@ -11,7 +11,8 @@ router.route('/documents')
   .post([
     requireActiveUser,
     createCtx,
-    createFileInfo,
+    createDocumentId,
+    setFileInfo,
     saveFile,
     documents.controllers.create,
   ]);
@@ -21,7 +22,7 @@ router.route('/documents/:id')
   .patch([
     requireActiveUser,
     patchCtx,
-    updateFileInfo,
+    setFileInfo,
     saveFile,
     documents.controllers.patch,
   ])
@@ -31,5 +32,8 @@ router.route('/documents/:id')
     deleteFile,
     documents.controllers.delete,
   ]);
+
+router.route('/medias/documents/:filename')
+  .get([requireActiveUser, getFile]);
 
 export default router;

@@ -20,8 +20,12 @@ StructureLocalisationPayload:
   $ref: '../modules/structures/schemas/write-localisation.yml'
 StructureLocalisation:
   $ref: '../modules/structures/schemas/read-localisation.yml'
+CategoryLight:
+  $ref: '../modules/categories/schemas/light-category.yml'
+CategoryPayload:
+  $ref: '../modules/categories/schemas/write-category.yml'
 Category:
-  $ref: '../modules/categories/schemas/category.yml'
+  $ref: '../modules/categories/schemas/read-category.yml'
 OfficialDocument:
   $ref: '../modules/official-documents/schemas/read-official-document.yml'
 OfficialDocumentPayload:

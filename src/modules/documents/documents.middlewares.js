@@ -1,65 +1,63 @@
-import Context from 'swift/context';
 import storage from 'swift/storage';
 import config from '../../config/app.config';
-import { BadRequestError, ServerError } from '../../libs/monster/errors';
-import { fileCatalogue } from '../commons/monster';
+import swift from '../../services/storage.service';
+import { ServerError } from '../../libs/monster/errors';
+import { objectCatalogue } from '../commons/monster';
 import documents from './documents.resource';
 
-const { creds, container, url } = config.objectStorage;
+const { container } = config.objectStorage;
 
-async function createFileInfo(req, res, next) {
-  if (!req.files || !req.files.length) throw new BadRequestError('Cannot upload file.');
-  [req.file] = req.files;
-  const id = await fileCatalogue.getUniqueId('documents');
-  const extension = req.file.mimetype.substring(req.file.mimetype.indexOf('/') + 1);
-  const path = `documents/${id}.${extension}`;
-  req.ctx = { ...req.ctx,
-    fileInfo: {
-      url: `${url}/${container}/${path}`,
-      mimetype: req.file.mimetype,
-      id,
-      path,
-      originalName: req.file.originalname,
-    } };
+async function createDocumentId(req, res, next) {
+  const id = await objectCatalogue.getUniqueId('documents');
+  req.ctx = { ...req.ctx, id };
   return next();
 }
-
-async function updateFileInfo(req, res, next) {
+async function setFileInfo(req, res, next) {
   if (!req.files || !req.files.length) { return next(); }
-  const { fileInfo } = documents.repository.get(req.params.id);
   [req.file] = req.files;
-  const extension = req.file.mimetype.substring(req.file.mimetype.indexOf('/') + 1);
-  const path = `documents/${fileInfo.id}.${extension}`;
-  req.ctx = { ...req.ctx,
+  const id = req.ctx.id ?? req.params.id;
+  const extension = req.file.originalname.substring(req.file.originalname.lastIndexOf('.') + 1);
+  const path = `medias/documents/${id}.${extension}`;
+  req.ctx = {
+    ...req.ctx,
     fileInfo: {
-      url: `${url}/${container}/${path}`,
-      mimetype: req.file.mimetype,
-      id: fileInfo.id,
+      url: `${req.protocol}://${req.headers.host}/${path}`,
       path,
+      mimetype: req.file.mimetype,
       originalName: req.file.originalname,
-    } };
+    },
+  };
   return next();
 }
 
 async function saveFile(req, res, next) {
   if (!req.file) { return next(); }
-  const swift = await Context.build(creds);
-  await storage.putStream(swift, req.file.buffer, container, req.ctx.fileInfo.filePath)
+  const { path } = req.ctx.fileInfo;
+  storage.putStream(swift, req.file.buffer, container, path)
     .catch(() => { throw new ServerError('Error saving file'); });
   return next();
 }
 
 async function deleteFile(req, res, next) {
-  const swift = await Context.build(creds);
-  const { fileInfo } = documents.repository.get(req.params.id);
-  await storage.deleteFile(swift, container, fileInfo.path)
+  const { fileInfo } = await documents.repository.get(req.params.id);
+  storage.deleteFile(swift, container, fileInfo.path)
     .catch(() => { throw new ServerError('Error deleting file'); });
   return next();
 }
 
+async function getFile(req, res) {
+  const file = await storage.download(swift, container, req.url.slice(1));
+  res.setHeader('Content-Type', file.headers['content-type']);
+  res.setHeader('Content-Length', file.headers['content-length']);
+  file.pipe(res);
+  file.on('end', () => res.end());
+  file.on('error', () => { throw new ServerError(); });
+}
+
 export {
-  createFileInfo,
-  updateFileInfo,
+  createDocumentId,
+  setFileInfo,
   saveFile,
   deleteFile,
+  getFile,
 };

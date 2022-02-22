@@ -1,0 +1,13 @@
+title: LightCategory
+type: object
+properties:
+  usualNameFr:
+    type: string
+  usualNameEn:
+    type: string
+  descriptionFr:
+    type: string
+    description: Description en français
+  descriptionEn:
+    type: string
+    description: Description en anglais

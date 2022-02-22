@@ -12,12 +12,8 @@ export default class BaseController {
   create = async (req, res, next) => {
     const ctx = req.ctx || {};
     if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
-    let id;
-    if (ctx.id) {
-      id = (this._catalogue)
-        ? await this._catalogue.setUniqueId(ctx.id, this._repository.collectionName)
-        : ctx.id;
-    } else {
+    let { id } = req.ctx;
+    if (!id) {
       id = (this._catalogue)
         ? await this._catalogue.getUniqueId(this._repository.collectionName)
         : mongodb.ObjectId();

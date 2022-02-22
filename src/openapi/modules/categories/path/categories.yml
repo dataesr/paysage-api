@@ -18,13 +18,7 @@ get:
               data:
                 type: array
                 items:
-                  allOf:
-                    - $ref: '../schemas/category.yml'
-                    - $ref: '../../../schemas/metas.yml'
-                    - type: object
-                      properties:
-                        officialDocument:
-                          $ref: '../../official-documents/schemas/light-official-document.yml'
+                  $ref: '../schemas/read-category.yml'
               totalCount:
                 type: number
     '400':
@@ -48,28 +42,17 @@ post:
         schema:
           title: CreateCategory
           type: object
+          required:
+            - usualNameFr
           allOf:
-            - $ref: '../schemas/category.yml'
+            - $ref: '../schemas/write-category.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            title: CategoryResponse
-            required:
-              - id
-            allOf:
-              - $ref: '../schemas/category.yml'
-              - $ref: '../../../schemas/metas.yml'
-              - type: object
-                properties:
-                  officialDocument:
-                    $ref: '../../official-documents/schemas/light-official-document.yml'
-                  parents:
-                    type: array
-                    items:
-                      $ref: '../schemas/category.yml'
+            $ref: '../schemas/read-category.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

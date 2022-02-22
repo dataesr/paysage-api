@@ -1,12 +1,6 @@
-title: Category
+title: WriteCategory
 type: object
 properties:
-  id:
-    type: string
-    pattern: '^[a-zA-Z0-9]{5}$'
-    description: Unique identifier.
-    minLength: 1
-    readOnly: true
   usualNameFr:
     type: string
   usualNameEn:
@@ -14,49 +8,40 @@ properties:
   longNameEn:
     type: string
     description: Nom long en anglais
-    minLength: 1
   longNameFr:
     type: string
     description: Nom usuel en francais
-    minLength: 1
   shortNameEn:
     type: string
     description: Nom court en anglais
-    minLength: 1
   shortNameFr:
     type: string
     description: Nom court en français
-    minLength: 1
   acronymFr:
     type: string
     description: Sigle en français
-    minLength: 1
   pluralNamelFr:
     type: string
     description: Forme du nom usuel français au pluriel
-    minLength: 1
   femNameFr:
     type: string
     description: Forme du nom usuel français au pluriel
-    minLength: 1
   otherNamesFr:
     type: array
-    description: Forme du nom usuel français au pluriel
+    description: Autres intitulés français
     items:
       type: string
   otherNamesEn:
     type: array
-    description: Autres intitulés
+    description: Autres intitulés anglais
     items:
       type: string
   descriptionFr:
     type: string
     description: Description en français
-    minLength: 1
   descriptionEn:
     type: string
     description: Description en français
-    minLength: 1
   officialDocumentId:
     type: string
     writeOnly: true
@@ -66,18 +51,3 @@ properties:
     description: Liste d'identifiant de catégories parente
     items:
       type: string
-
-  # webVisibility:
-  #   type: array
-  #   items:
-  #     $ref: ./Link.yaml
-  # parentCategoryIds:
-  #   type: array
-  #   description: Catgegory id
-  #   items:
-  #     type: string
-  # childrenCategoryIds:
-  #   type: array
-  #   description: Category id
-  #   items:
-  #     type: string

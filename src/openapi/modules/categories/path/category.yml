@@ -10,20 +10,7 @@ get:
       content:
         application/json:
           schema:
-            title: CategoryResponse
-            required:
-              - id
-            allOf:
-              - $ref: '../schemas/category.yml'
-              - $ref: '../../../schemas/metas.yml'
-              - type: object
-                properties:
-                  officialDocument:
-                    $ref: '../../official-documents/schemas/light-official-document.yml'
-                  parents:
-                    type: array
-                    items:
-                      $ref: '../schemas/category.yml'
+            $ref: '../schemas/read-category.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -65,30 +52,14 @@ patch:
     content:
       application/json:
         schema:
-          title: UpdateCategory
-          type: object
-          allOf:
-            - $ref: '../schemas/category.yml'
+            $ref: '../schemas/write-category.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            title: CategoryResponse
-            required:
-              - id
-            allOf:
-              - $ref: '../schemas/category.yml'
-              - $ref: '../../../schemas/metas.yml'
-              - type: object
-                properties:
-                  officialDocument:
-                    $ref: '../../official-documents/schemas/light-official-document.yml'
-                  parents:
-                    type: array
-                    items:
-                      $ref: '../schemas/category.yml'
+            $ref: '../schemas/read-category.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':
