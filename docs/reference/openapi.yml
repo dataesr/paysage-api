@@ -83,13 +83,7 @@ paths:
                   data:
                     type: array
                     items:
-                      allOf:
-                        - $ref: '#/components/schemas/Category'
-                        - $ref: '#/components/schemas/Metas'
-                        - type: object
-                          properties:
-                            officialDocument:
-                              $ref: '#/components/schemas/OfficialDocumentLight'
+                      $ref: '#/components/schemas/Category'
                   totalCount:
                     type: number
         '400':
@@ -112,28 +106,17 @@ paths:
             schema:
               title: CreateCategory
               type: object
+              required:
+                - usualNameFr
               allOf:
-                - $ref: '#/components/schemas/Category'
+                - $ref: '#/components/schemas/CategoryPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                title: CategoryResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Metas'
-                  - type: object
-                    properties:
-                      officialDocument:
-                        $ref: '#/components/schemas/OfficialDocumentLight'
-                      parents:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/Category'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -155,20 +138,7 @@ paths:
           content:
             application/json:
               schema:
-                title: CategoryResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Metas'
-                  - type: object
-                    properties:
-                      officialDocument:
-                        $ref: '#/components/schemas/OfficialDocumentLight'
-                      parents:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/Category'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -208,30 +178,14 @@ paths:
         content:
           application/json:
             schema:
-              title: UpdateCategory
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/Category'
+              $ref: '#/components/schemas/CategoryPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                title: CategoryResponse
-                required:
-                  - id
-                allOf:
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Metas'
-                  - type: object
-                    properties:
-                      officialDocument:
-                        $ref: '#/components/schemas/OfficialDocumentLight'
-                      parents:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/Category'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2046,11 +2000,11 @@ components:
         startDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         endDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
     StructureIdentifier:
       title: StructureReadSchema
       description: Representation d'une localisation de structure
@@ -2113,11 +2067,11 @@ components:
         startDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         endDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
     StructureLocalisation:
       title: StructureReadSchema
       description: Representation d'une localisation de structure
@@ -2136,16 +2090,24 @@ components:
               pattern: '^[a-zA-Z0-9]{5}$'
         - $ref: '#/components/schemas/StructureLocalisationPayload'
         - $ref: '#/components/schemas/Metas'
-    Category:
-      title: Category
+    CategoryLight:
+      title: LightCategory
       type: object
       properties:
-        id:
+        usualNameFr:
           type: string
-          pattern: '^[a-zA-Z0-9]{5}$'
-          description: Unique identifier.
-          minLength: 1
-          readOnly: true
+        usualNameEn:
+          type: string
+        descriptionFr:
+          type: string
+          description: Description en français
+        descriptionEn:
+          type: string
+          description: Description en anglais
+    CategoryPayload:
+      title: WriteCategory
+      type: object
+      properties:
         usualNameFr:
           type: string
         usualNameEn:
@@ -2153,49 +2115,40 @@ components:
         longNameEn:
           type: string
           description: Nom long en anglais
-          minLength: 1
         longNameFr:
           type: string
           description: Nom usuel en francais
-          minLength: 1
         shortNameEn:
           type: string
           description: Nom court en anglais
-          minLength: 1
         shortNameFr:
           type: string
           description: Nom court en français
-          minLength: 1
         acronymFr:
           type: string
           description: Sigle en français
-          minLength: 1
         pluralNamelFr:
           type: string
           description: Forme du nom usuel français au pluriel
-          minLength: 1
         femNameFr:
           type: string
           description: Forme du nom usuel français au pluriel
-          minLength: 1
         otherNamesFr:
           type: array
-          description: Forme du nom usuel français au pluriel
+          description: Autres intitulés français
           items:
             type: string
         otherNamesEn:
           type: array
-          description: Autres intitulés
+          description: Autres intitulés anglais
           items:
             type: string
         descriptionFr:
           type: string
           description: Description en français
-          minLength: 1
         descriptionEn:
           type: string
           description: Description en français
-          minLength: 1
         officialDocumentId:
           type: string
           writeOnly: true
@@ -2205,6 +2158,29 @@ components:
           description: Liste d'identifiant de catégories parente
           items:
             type: string
+    Category:
+      title: ReadCategory
+      type: object
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              pattern: '^[a-zA-Z0-9]{5}$'
+            parents:
+              type: array
+              items:
+                $ref: '#/components/schemas/CategoryLight'
+            childs:
+              type: array
+              items:
+                $ref: '#/components/schemas/CategoryLight'
+            officialDocument:
+              $ref: '#/components/schemas/OfficialDocumentLight'
+        - $ref: '#/components/schemas/CategoryPayload'
+        - $ref: '#/components/schemas/Metas'
     OfficialDocument:
       title: OfficialDocumentReadSchema
       description: Object décrivant un document officiel
@@ -2248,19 +2224,19 @@ components:
         signatureDate:
           nullable: true
           type: string
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         startDate:
           nullable: true
           type: string
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         previsionalEndDate:
           nullable: true
           type: string
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         endDate:
           nullable: true
           type: string
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         textExtract:
           nullable: true
           type: string
@@ -2537,11 +2513,11 @@ components:
         birthDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         deathDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         activity:
           type: string
           nullable: true
@@ -2580,11 +2556,11 @@ components:
             startDate:
               type: string
               nullable: true
-              pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+              pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
             endDate:
               type: string
               nullable: true
-              pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+              pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         - $ref: '#/components/schemas/Metas'
     PricePayload:
       title: PriceWriteSchema
@@ -2613,11 +2589,11 @@ components:
         startDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
         endDate:
           type: string
           nullable: true
-          pattern: '^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$'
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
     PriceLight:
       title: Price
       description: Object décrivant un prix scientifique

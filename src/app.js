@@ -50,7 +50,7 @@ app.use(OAV.middleware({
   },
   validateResponses: true,
   fileUploader: { storage: multer.memoryStorage() },
-  ignorePaths: /(.*\/docs\/?|.*\/readyz\/?|.*\/livez\/?|\/specs\.yml\/?)/,
+  ignorePaths: /(.*\/media\/?|.*\/docs\/?|.*\/readyz\/?|.*\/livez\/?|\/specs\.yml\/?)/,
 }));
 
 // Authenticate currentUser

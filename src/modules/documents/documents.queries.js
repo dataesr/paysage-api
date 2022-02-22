@@ -6,7 +6,7 @@ const model = {
     url: 1,
     mimetype: 1,
     originalName: 1,
-    id: 1,
+    path: 1,
   },
   name: { $ifNull: ['$name', null] },
   description: { $ifNull: ['$description', null] },

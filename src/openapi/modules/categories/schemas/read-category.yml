@@ -1,0 +1,22 @@
+title: ReadCategory
+type: object
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      parents:
+        type: array
+        items:
+          $ref: './light-category.yml'
+      childs:
+        type: array
+        items:
+          $ref: './light-category.yml'
+      officialDocument:
+        $ref: '../../official-documents/schemas/light-official-document.yml'
+  - $ref: '../schemas/write-category.yml'
+  - $ref: '../../../schemas/metas.yml'
