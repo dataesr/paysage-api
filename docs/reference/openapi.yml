@@ -2625,15 +2625,20 @@ components:
       title: LightCategory
       type: object
       properties:
+        id:
+          type: string
         usualNameFr:
           type: string
         usualNameEn:
           type: string
+          nullable: true
         descriptionFr:
           type: string
+          nullable: true
           description: Description en français
         descriptionEn:
           type: string
+          nullable: true
           description: Description en anglais
     CategoryPayload:
       title: WriteCategory
@@ -2643,48 +2648,62 @@ components:
           type: string
         usualNameEn:
           type: string
+          nullable: true
         longNameEn:
           type: string
+          nullable: true
           description: Nom long en anglais
         longNameFr:
           type: string
+          nullable: true
           description: Nom usuel en francais
         shortNameEn:
           type: string
+          nullable: true
           description: Nom court en anglais
         shortNameFr:
           type: string
+          nullable: true
           description: Nom court en français
         acronymFr:
           type: string
+          nullable: true
           description: Sigle en français
         pluralNamelFr:
           type: string
+          nullable: true
           description: Forme du nom usuel français au pluriel
         femNameFr:
           type: string
+          nullable: true
           description: Forme du nom usuel français au pluriel
         otherNamesFr:
           type: array
+          nullable: true
           description: Autres intitulés français
           items:
             type: string
         otherNamesEn:
           type: array
+          nullable: true
           description: Autres intitulés anglais
           items:
             type: string
         descriptionFr:
           type: string
+          nullable: true
           description: Description en français
         descriptionEn:
           type: string
+          nullable: true
           description: Description en français
         officialDocumentId:
           type: string
+          nullable: true
           writeOnly: true
         parentIds:
           type: array
+          nullable: true
           writeOnly: true
           description: Liste d'identifiant de catégories parente
           items:

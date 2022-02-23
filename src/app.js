@@ -16,6 +16,7 @@ import legalCategoriesRoutes from './modules/legal-categories/lc.routes';
 import pricesRoutes from './modules/prices/prices.routes';
 import termsRoutes from './modules/terms/terms.routes';
 import documentsRoutes from './modules/documents/documents.routes';
+import categoriesRoutes from './modules/categories/categories.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/openapi.yml');
@@ -64,6 +65,7 @@ app.use(legalCategoriesRoutes);
 app.use(pricesRoutes);
 app.use(termsRoutes);
 app.use(documentsRoutes);
+app.use(categoriesRoutes);
 
 // Erreurs personnalisées
 app.use(handleErrors);
