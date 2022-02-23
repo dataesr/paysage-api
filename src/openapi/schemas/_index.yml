@@ -12,6 +12,14 @@ StructureName:
   $ref: '../modules/structures/schemas/read-name.yml'
 StructureNamePayload:
   $ref: '../modules/structures/schemas/write-name.yml'
+StructureWeblink:
+  $ref: '../modules/structures/schemas/read-weblink.yml'
+StructureWeblinkPayload:
+  $ref: '../modules/structures/schemas/write-weblink.yml'
+StructureSocialMedia:
+  $ref: '../modules/structures/schemas/read-socialmedia.yml'
+StructureSocialMediaPayload:
+  $ref: '../modules/structures/schemas/write-socialmedia.yml'
 StructureIdentifierPayLoad:
   $ref: '../modules/structures/schemas/write-identifier.yml'
 StructureIdentifier:

@@ -6,6 +6,8 @@ import status from './status/status.resource';
 import names from './names/names.resource';
 import identifiers from './identifiers/identifiers.resource';
 import localisations from './localisations/localisations.resource';
+import weblinks from './weblinks/weblinks.resource';
+import socialmedias from './socialmedias/socialmedias.resource';
 import { validateStatusPayload } from './status/status.middlewares';
 import { setCreationDefaultValues, setPutIdInContext } from './root/root.middlewares';
 
@@ -115,6 +117,50 @@ router.route('/structures/:rid/localisations/:id')
     requireActiveUser,
     patchCtx,
     localisations.controllers.patch,
+  ]);
+
+// WEBLINKS
+router.route('/structures/:rid/weblinks')
+  .get(weblinks.controllers.list)
+  .post([
+    requireActiveUser,
+    createCtx,
+    weblinks.controllers.create,
+  ]);
+
+router.route('/structures/:rid/weblinks/:id')
+  .delete([
+    requireActiveUser,
+    patchCtx,
+    weblinks.controllers.delete,
+  ])
+  .get(weblinks.controllers.read)
+  .patch([
+    requireActiveUser,
+    patchCtx,
+    weblinks.controllers.patch,
+  ]);
+
+// SOCIALMEDIAS
+router.route('/structures/:rid/social-medias')
+  .get(socialmedias.controllers.list)
+  .post([
+    requireActiveUser,
+    createCtx,
+    socialmedias.controllers.create,
+  ]);
+
+router.route('/structures/:rid/social-medias/:id')
+  .delete([
+    requireActiveUser,
+    patchCtx,
+    socialmedias.controllers.delete,
+  ])
+  .get(socialmedias.controllers.read)
+  .patch([
+    requireActiveUser,
+    patchCtx,
+    socialmedias.controllers.patch,
   ]);
 
 export default router;

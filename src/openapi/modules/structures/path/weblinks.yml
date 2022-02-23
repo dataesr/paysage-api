@@ -1,0 +1,71 @@
+get:
+  tags:
+    - Structures
+  summary: Weblinks - List structure weblinks
+  parameters:
+    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../../../parameters/query/filters.yml'
+    - $ref: '../../../parameters/query/skip.yml'
+    - $ref: '../../../parameters/query/limit.yml'
+    - $ref: '../../../parameters/query/sort.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '../schemas/read-weblink.yml'
+              totalCount:
+                type: integer
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+post:
+  tags:
+    - Structures
+  summary: Weblinks - Create a structure weblink
+  security:
+  - BearerAuth: []
+  parameters:
+    - $ref: '../parameters/structure-id.yml'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: StructureWeblinkPayLoad
+          type: object
+          required:
+            - type
+            - url
+          allOf:
+            - $ref: '../schemas/write-weblink.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/read-weblink.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

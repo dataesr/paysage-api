@@ -1,0 +1,10 @@
+type: object
+description: Différentes sites web concernant une structure
+properties:
+  type:
+    type: string
+  url:
+    type: string
+  language:
+    type: string
+    nullable: true
