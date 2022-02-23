@@ -1,4 +1,3 @@
-title: PriceReadSchema
 description: 'Object décrivant un prix scientifique'
 required:
   - id

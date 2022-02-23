@@ -1,4 +1,3 @@
-title: OfficialDocumentReadSchema
 description: 'Object décrivant un document officiel'
 required:
   - id

@@ -1,4 +1,3 @@
-title: PersonWriteSchema
 type: object
 properties:
   firstName:

@@ -1,4 +1,3 @@
-title: TermWriteSchema
 description: Object décrivant l'ajout d'un terme
 type: object
 properties:

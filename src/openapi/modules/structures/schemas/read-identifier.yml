@@ -1,4 +1,3 @@
-title: StructureIdentifierReadSchema
 description: Representation d'un identifiant de structure
 required:
   - id

@@ -1,4 +1,3 @@
-title: ReadLegalCategory
 required:
   - id
 allOf:
