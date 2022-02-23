@@ -1,32 +1,39 @@
 title: Localisation
 type: object
 properties:
-  cityFrId:
+  cityId:
     type: string
     nullable: true
-  inseeId:
-    type: string
-    nullable: true
-  cityForeignId:
-    type: string
-    nullable: true
+    description: Code d'identification de la commune (code insee pour la france)
+    example: 67482
   distributionStatement:
     type: string
     nullable: true
   address:
     type: string
-  postbox:
+  postOfficeBoxNumber:
     type: string
     nullable: true
-  zipcode:
+  postalCode:
     type: string
     nullable: true
-  city:
+  locality:
+    type: string
+    nullable: true
+    example: La Défense
+  place:
+    type: string
+    nullable: true
+    description: Lieu-dit
+  country:
+    type: string
+  telephone:
     type: string
     nullable: true
   geometry:
     type: object
     nullable: true
+    description: Coordonées en format geoJSON
     properties:
       type:
         type: string
