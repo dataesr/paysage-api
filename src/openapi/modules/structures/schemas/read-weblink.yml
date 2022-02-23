@@ -1,5 +1,5 @@
-title: StructureIdentifierReadSchema
-description: Representation d'un identifiant de structure
+title: StructureWeblinkReadSchema
+description: Representation d'un weblink de structure
 required:
   - id
 allOf: 
@@ -11,7 +11,7 @@ allOf:
         pattern: '^[a-zA-Z0-9]{8}$'
       rid:
         type: string
-        description: Unique resource identifier
+        description: Unique identifier
         pattern: '^[a-zA-Z0-9]{5}$'
-  - $ref: './write-identifier.yml'
+  - $ref: './write-weblink.yml'
   - $ref: '../../../schemas/metas.yml'

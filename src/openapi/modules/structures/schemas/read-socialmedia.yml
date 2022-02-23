@@ -1,5 +1,5 @@
-title: StructureIdentifierReadSchema
-description: Representation d'un identifiant de structure
+title: StructureSocialMediaReadSchema
+description: Representation d'un media social de structure
 required:
   - id
 allOf: 
@@ -13,5 +13,5 @@ allOf:
         type: string
         description: Unique resource identifier
         pattern: '^[a-zA-Z0-9]{5}$'
-  - $ref: './write-identifier.yml'
+  - $ref: './write-socialmedia.yml'
   - $ref: '../../../schemas/metas.yml'

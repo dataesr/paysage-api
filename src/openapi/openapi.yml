@@ -98,6 +98,14 @@ paths:
     $ref: './modules/structures/path/localisations.yml'
   '/structures/{structureId}/localisations/{localisationId}':
     $ref: './modules/structures/path/localisation.yml'
+  '/structures/{structureId}/weblinks':
+    $ref: './modules/structures/path/weblinks.yml'
+  '/structures/{structureId}/weblinks/{weblinkId}':
+    $ref: './modules/structures/path/weblink.yml'
+  '/structures/{structureId}/social-medias':
+    $ref: './modules/structures/path/socialmedias.yml'
+  '/structures/{structureId}/social-medias/{socialmediaId}':
+    $ref: './modules/structures/path/socialmedia.yml'
 
 components:
   parameters:
