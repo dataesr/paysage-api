@@ -1531,7 +1531,7 @@ paths:
               title: StructureLocalisationPayload
               type: object
               required:
-                - address
+                - country
               allOf:
                 - $ref: '#/components/schemas/StructureLocalisationPayload'
       responses:
@@ -2528,6 +2528,7 @@ components:
           nullable: true
         address:
           type: string
+          nullable: true
         postOfficeBoxNumber:
           type: string
           nullable: true

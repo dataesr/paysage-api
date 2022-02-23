@@ -48,7 +48,7 @@ post:
           title: StructureLocalisationPayload
           type: object
           required:
-            - address
+            - country
           allOf:
             - $ref: '../schemas/write-localisation.yml'
   responses:

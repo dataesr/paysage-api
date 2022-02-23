@@ -1,34 +1,24 @@
-function generateId(length = 5) {
-  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let id = '';
-  for (let i = 0; i < length; i += 1) {
-    id += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  if (id.startsWith(0) || id.match(/^\d*$/)) return generateId();
-  return id;
-}
-
 class Catalogue {
-  constructor({ db, collection }, length = 5) {
+  constructor({ db, collection }, length) {
     this._db = db;
     this._collection = db.collection(collection);
     this._idLength = length;
   }
 
-  static generateId = (length = 5) => {
+  static generateId = (length) => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let id = '';
     for (let i = 0; i < length; i += 1) {
       id += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    if (id.startsWith(0) || id.match(/^\d*$/)) return generateId();
+    if (id.startsWith(0) || id.match(/^\d*$/)) return Catalogue.generateId(length);
     return id;
   };
 
   getUniqueId = async (objectCollection) => {
     let _id;
     for (let retries = 0; retries < 100; retries += 1) {
-      _id = generateId(this._idLength);
+      _id = Catalogue.generateId(this._idLength);
       // eslint-disable-next-line no-await-in-loop
       const exists = await this._collection.findOne({ _id });
       if (!exists) { break; }
