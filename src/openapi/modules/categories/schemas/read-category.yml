@@ -1,4 +1,3 @@
-title: ReadCategory
 type: object
 required:
   - id

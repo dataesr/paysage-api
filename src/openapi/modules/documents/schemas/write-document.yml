@@ -1,4 +1,3 @@
-title: DocumentPayload
 description: Document
 type: object
 properties:

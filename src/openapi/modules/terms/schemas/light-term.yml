@@ -1,4 +1,3 @@
-title: Term
 description: 'Object décrivant un terme'
 type: object
 properties:

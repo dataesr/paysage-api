@@ -1,4 +1,3 @@
-title: PersonReadSchema
 description: Object décrivant une personne
 additionalProperties: true
 required:

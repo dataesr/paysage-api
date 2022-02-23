@@ -1,4 +1,3 @@
-title: TermReadSchema
 description: Object décrivant un terme
 required:
   - id

@@ -1,4 +1,3 @@
-title: Identifier
 description: 'Identifiant WikiData, IdRef...'
 type: object
 properties:

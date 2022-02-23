@@ -1,4 +1,3 @@
-title: StructureWeblinkReadSchema
 description: Representation d'un weblink de structure
 required:
   - id

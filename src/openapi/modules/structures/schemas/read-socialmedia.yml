@@ -1,4 +1,3 @@
-title: StructureSocialMediaReadSchema
 description: Representation d'un media social de structure
 required:
   - id

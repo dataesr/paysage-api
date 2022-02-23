@@ -1,4 +1,3 @@
-title: PriceWriteSchema
 description: 'Object décrivant un prix scientifique'
 additionalProperties: false
 type: object
