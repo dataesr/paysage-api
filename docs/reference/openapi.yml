@@ -1024,7 +1024,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1structures/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/Structure'
                   totalCount:
                     type: integer
         '400':
@@ -1043,44 +1043,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                structureStatus:
-                  type: string
-                  nullable: true
-                  enum:
-                    - active
-                    - inactive
-                    - forthcoming
-                    - null
+              $ref: '#/components/schemas/StructurePayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                description: Representation d'une structure
-                required:
-                  - id
-                  - status
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                      currentName:
-                        description: current name is computed using the most recent startDate.
-                        $ref: '#/paths/~1structures~1%7BstructureId%7D~1names~1%7BnameId%7D/patch/requestBody/content/application~1json/schema'
-                      alternativePaysageIds:
-                        description: Aggregates all structure ids redirected to the current structure
-                        type: array
-                        items:
-                          type: string
-                  - $ref: '#/paths/~1structures/post/requestBody/content/application~1json/schema'
-                  - $ref: '#/paths/~1structures~1%7BstructureId%7D~1status/put/requestBody/content/application~1json/schema'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/Structure'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1102,7 +1072,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Structure'
         '301':
           description: No content
         '401':
@@ -1144,14 +1114,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/paths/~1structures/post/requestBody/content/application~1json/schema'
+              $ref: '#/components/schemas/StructurePayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Structure'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1174,14 +1144,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/paths/~1structures/post/requestBody/content/application~1json/schema'
+              $ref: '#/components/schemas/StructurePayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Structure'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1203,26 +1173,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              description: Structure Internal Status
-              properties:
-                status:
-                  type: string
-                  enum:
-                    - deleted
-                    - draft
-                    - redirected
-                    - published
-                redirection:
-                  type: string
-                  nullable: true
+              $ref: '#/components/schemas/StructureStatusPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/Structure'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1255,7 +1213,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1structures~1%7BstructureId%7D~1identifiers/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/StructureIdentifier'
                   totalCount:
                     type: integer
         '400':
@@ -1287,29 +1245,14 @@ paths:
                 - value
                 - active
               allOf:
-                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1identifiers~1%7BidentifierId%7D/patch/requestBody/content/application~1json/schema'
+                - $ref: '#/components/schemas/StructureIdentifierPayLoad'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                description: Representation d'un identifiant de structure
-                required:
-                  - id
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{8}$'
-                      rid:
-                        type: string
-                        description: Unique resource identifier
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                  - $ref: '#/paths/~1structures~1%7BstructureId%7D~1identifiers~1%7BidentifierId%7D/patch/requestBody/content/application~1json/schema'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureIdentifier'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1334,7 +1277,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1identifiers/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureIdentifier'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1376,30 +1319,14 @@ paths:
         content:
           application/json:
             schema:
-              description: 'Identifiant WikiData, IdRef...'
-              type: object
-              properties:
-                type:
-                  type: string
-                value:
-                  type: string
-                active:
-                  type: boolean
-                startDate:
-                  type: string
-                  nullable: true
-                  pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
-                endDate:
-                  type: string
-                  nullable: true
-                  pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+              $ref: '#/components/schemas/StructureIdentifierPayLoad'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1identifiers/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureIdentifier'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1432,7 +1359,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1structures~1%7BstructureId%7D~1names/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/StructureName'
                   totalCount:
                     type: integer
         '400':
@@ -1462,29 +1389,14 @@ paths:
               required:
                 - usualName
               allOf:
-                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1names~1%7BnameId%7D/patch/requestBody/content/application~1json/schema'
+                - $ref: '#/components/schemas/StructureNamePayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                description: Representation d'une structure
-                required:
-                  - id
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{8}$'
-                      rid:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                  - $ref: '#/paths/~1structures~1%7BstructureId%7D~1names~1%7BnameId%7D/patch/requestBody/content/application~1json/schema'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureName'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1509,7 +1421,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1names/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureName'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1551,69 +1463,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              description: Différentes dénominations d'une structure
-              properties:
-                officialName:
-                  type: string
-                  nullable: true
-                usualName:
-                  type: string
-                  nullable: true
-                shortName:
-                  type: string
-                  nullable: true
-                brandName:
-                  type: string
-                  nullable: true
-                nameEn:
-                  type: string
-                  nullable: true
-                acronymFr:
-                  type: string
-                  nullable: true
-                acronymEn:
-                  type: string
-                  nullable: true
-                acronymLocal:
-                  type: string
-                  nullable: true
-                otherNames:
-                  type: array
-                  nullable: true
-                  items:
-                    type: string
-                startDate:
-                  type: string
-                  nullable: true
-                  pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
-                endDate:
-                  type: string
-                  nullable: true
-                  pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
-                comment:
-                  type: string
-                  nullable: true
-                article:
-                  type: string
-                  nullable: true
-                  enum:
-                    - à l'
-                    - à
-                    - à la
-                    - dans le
-                    - dans les
-                    - aux
-                    - au
-                    - ''
-                    - null
+              $ref: '#/components/schemas/StructureNamePayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1names/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureName'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1646,7 +1503,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1structures~1%7BstructureId%7D~1localisations/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/StructureLocalisation'
                   totalCount:
                     type: number
         '400':
@@ -1676,29 +1533,14 @@ paths:
               required:
                 - country
               allOf:
-                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1localisations~1%7BlocalisationId%7D/patch/requestBody/content/application~1json/schema'
+                - $ref: '#/components/schemas/StructureLocalisationPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                description: Representation d'une localisation de structure
-                required:
-                  - id
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{8}$'
-                      rid:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                  - $ref: '#/paths/~1structures~1%7BstructureId%7D~1localisations~1%7BlocalisationId%7D/patch/requestBody/content/application~1json/schema'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureLocalisation'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1723,7 +1565,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1localisations/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureLocalisation'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1765,68 +1607,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                cityId:
-                  type: string
-                  nullable: true
-                  description: Code d'identification de la commune (code insee pour la france)
-                  example: 67482
-                distributionStatement:
-                  type: string
-                  nullable: true
-                address:
-                  type: string
-                  nullable: true
-                postOfficeBoxNumber:
-                  type: string
-                  nullable: true
-                postalCode:
-                  type: string
-                  nullable: true
-                locality:
-                  type: string
-                  nullable: true
-                  example: La Défense
-                place:
-                  type: string
-                  nullable: true
-                  description: Lieu-dit
-                country:
-                  type: string
-                telephone:
-                  type: string
-                  nullable: true
-                geometry:
-                  type: object
-                  nullable: true
-                  description: Coordonées en format geoJSON
-                  properties:
-                    type:
-                      type: string
-                      enum:
-                        - Point
-                    coordinates:
-                      type: array
-                      maxItems: 2
-                      minItems: 2
-                      items:
-                        type: number
-                startDate:
-                  type: string
-                  nullable: true
-                  pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
-                endDate:
-                  type: string
-                  nullable: true
-                  pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+              $ref: '#/components/schemas/StructureLocalisationPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1localisations/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureLocalisation'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1859,7 +1647,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1structures~1%7BstructureId%7D~1weblinks/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/StructureWeblink'
                   totalCount:
                     type: integer
         '400':
@@ -1890,29 +1678,14 @@ paths:
                 - type
                 - url
               allOf:
-                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1weblinks~1%7BweblinkId%7D/patch/requestBody/content/application~1json/schema'
+                - $ref: '#/components/schemas/StructureWeblinkPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                description: Representation d'un weblink de structure
-                required:
-                  - id
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{8}$'
-                      rid:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                  - $ref: '#/paths/~1structures~1%7BstructureId%7D~1weblinks~1%7BweblinkId%7D/patch/requestBody/content/application~1json/schema'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureWeblink'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1937,7 +1710,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1weblinks/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureWeblink'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1979,23 +1752,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              description: Différentes sites web concernant une structure
-              properties:
-                type:
-                  type: string
-                url:
-                  type: string
-                language:
-                  type: string
-                  nullable: true
+              $ref: '#/components/schemas/StructureWeblinkPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1weblinks/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureWeblink'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2028,7 +1792,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1structures~1%7BstructureId%7D~1social-medias/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/StructureSocialMedia'
                   totalCount:
                     type: integer
         '400':
@@ -2059,29 +1823,14 @@ paths:
                 - type
                 - account
               allOf:
-                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1social-medias~1%7BsocialmediaId%7D/patch/requestBody/content/application~1json/schema'
+                - $ref: '#/components/schemas/StructureSocialMediaPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                description: Representation d'un media social de structure
-                required:
-                  - id
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{8}$'
-                      rid:
-                        type: string
-                        description: Unique resource identifier
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                  - $ref: '#/paths/~1structures~1%7BstructureId%7D~1social-medias~1%7BsocialmediaId%7D/patch/requestBody/content/application~1json/schema'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureSocialMedia'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2106,7 +1855,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1social-medias/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureSocialMedia'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -2148,20 +1897,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              description: Différentes media sociaux d'une structure
-              properties:
-                type:
-                  type: string
-                account:
-                  type: string
+              $ref: '#/components/schemas/StructureSocialMediaPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1social-medias/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureSocialMedia'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2194,7 +1937,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/paths/~1structures~1%7BstructureId%7D~1rankings/post/responses/201/content/application~1json/schema'
+                      $ref: '#/components/schemas/StructureRanking'
                   totalCount:
                     type: integer
         '400':
@@ -2225,29 +1968,14 @@ paths:
                 - type
                 - url
               allOf:
-                - $ref: '#/paths/~1structures~1%7BstructureId%7D~1rankings~1%7BrankingId%7D/patch/requestBody/content/application~1json/schema'
+                - $ref: '#/components/schemas/StructureRankingPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                description: Representation d'un media social de structure
-                required:
-                  - id
-                allOf:
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        description: Unique identifier
-                        pattern: '^[a-zA-Z0-9]{8}$'
-                      rid:
-                        type: string
-                        description: Unique resource identifier
-                        pattern: '^[a-zA-Z0-9]{5}$'
-                  - $ref: '#/paths/~1structures~1%7BstructureId%7D~1rankings~1%7BrankingId%7D/patch/requestBody/content/application~1json/schema'
-                  - $ref: '#/components/schemas/Metas'
+                $ref: '#/components/schemas/StructureRanking'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2272,7 +2000,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1rankings/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureRanking'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -2314,27 +2042,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              description: Différentes ranking d'une structure
-              properties:
-                rankingId:
-                  type: string
-                url:
-                  type: string
-                  nullable: true
-                rank:
-                  type: string
-                year:
-                  type: string
-                  nullable: true
-                  pattern: '((^&)|(^\d{4}$))'
+              $ref: '#/components/schemas/StructureRankingPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1structures~1%7BstructureId%7D~1rankings/post/responses/201/content/application~1json/schema'
+                $ref: '#/components/schemas/StructureRanking'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2584,50 +2299,322 @@ components:
           readOnly: true
           nullable: true
     StructurePayload:
-      tags: Structures
-      $ref: '#/paths/~1structures/post/requestBody/content/application~1json/schema'
+      type: object
+      properties:
+        structureStatus:
+          type: string
+          nullable: true
+          enum:
+            - active
+            - inactive
+            - forthcoming
+            - null
     Structure:
-      tags: Structures
-      $ref: '#/paths/~1structures/post/responses/201/content/application~1json/schema'
+      description: Representation d'une structure
+      tags:
+        - Structures
+      required:
+        - id
+        - status
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+            currentName:
+              description: current name is computed using the most recent startDate.
+              $ref: '#/components/schemas/StructureNamePayload'
+            alternativePaysageIds:
+              description: Aggregates all structure ids redirected to the current structure
+              type: array
+              items:
+                type: string
+        - $ref: '#/components/schemas/StructurePayload'
+        - $ref: '#/components/schemas/StructureStatusPayload'
+        - $ref: '#/components/schemas/Metas'
     StructureStatusPayload:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1status/put/requestBody/content/application~1json/schema'
+      type: object
+      description: Structure Internal Status
+      properties:
+        status:
+          type: string
+          enum:
+            - deleted
+            - draft
+            - redirected
+            - published
+        redirection:
+          type: string
+          nullable: true
     StructureName:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1names/post/responses/201/content/application~1json/schema'
+      description: Representation d'une structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureNamePayload'
+        - $ref: '#/components/schemas/Metas'
     StructureNamePayload:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1names~1%7BnameId%7D/patch/requestBody/content/application~1json/schema'
+      type: object
+      description: Différentes dénominations d'une structure
+      properties:
+        officialName:
+          type: string
+          nullable: true
+        usualName:
+          type: string
+          nullable: true
+        shortName:
+          type: string
+          nullable: true
+        brandName:
+          type: string
+          nullable: true
+        nameEn:
+          type: string
+          nullable: true
+        acronymFr:
+          type: string
+          nullable: true
+        acronymEn:
+          type: string
+          nullable: true
+        acronymLocal:
+          type: string
+          nullable: true
+        otherNames:
+          type: array
+          nullable: true
+          items:
+            type: string
+        startDate:
+          type: string
+          nullable: true
+          pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+        endDate:
+          type: string
+          nullable: true
+          pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+        comment:
+          type: string
+          nullable: true
+        article:
+          type: string
+          nullable: true
+          enum:
+            - à l'
+            - à
+            - à la
+            - dans le
+            - dans les
+            - aux
+            - au
+            - ''
+            - null
     StructureWeblink:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1weblinks/post/responses/201/content/application~1json/schema'
+      description: Representation d'un weblink de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureWeblinkPayload'
+        - $ref: '#/components/schemas/Metas'
     StructureWeblinkPayload:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1weblinks~1%7BweblinkId%7D/patch/requestBody/content/application~1json/schema'
+      type: object
+      description: Différentes sites web concernant une structure
+      properties:
+        type:
+          type: string
+        url:
+          type: string
+        language:
+          type: string
+          nullable: true
     StructureSocialMedia:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1social-medias/post/responses/201/content/application~1json/schema'
+      description: Representation d'un media social de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique resource identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureSocialMediaPayload'
+        - $ref: '#/components/schemas/Metas'
     StructureSocialMediaPayload:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1social-medias~1%7BsocialmediaId%7D/patch/requestBody/content/application~1json/schema'
+      type: object
+      description: Différentes media sociaux d'une structure
+      properties:
+        type:
+          type: string
+        account:
+          type: string
     StructureIdentifierPayLoad:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1identifiers~1%7BidentifierId%7D/patch/requestBody/content/application~1json/schema'
+      description: 'Identifiant WikiData, IdRef...'
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+        active:
+          type: boolean
+        startDate:
+          type: string
+          nullable: true
+          pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+        endDate:
+          type: string
+          nullable: true
+          pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
     StructureIdentifier:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1identifiers/post/responses/201/content/application~1json/schema'
+      description: Representation d'un identifiant de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique resource identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureIdentifierPayLoad'
+        - $ref: '#/components/schemas/Metas'
     StructureLocalisationPayload:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1localisations~1%7BlocalisationId%7D/patch/requestBody/content/application~1json/schema'
+      type: object
+      properties:
+        cityId:
+          type: string
+          nullable: true
+          description: Code d'identification de la commune (code insee pour la france)
+          example: 67482
+        distributionStatement:
+          type: string
+          nullable: true
+        address:
+          type: string
+          nullable: true
+        postOfficeBoxNumber:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+        locality:
+          type: string
+          nullable: true
+          example: La Défense
+        place:
+          type: string
+          nullable: true
+          description: Lieu-dit
+        country:
+          type: string
+        telephone:
+          type: string
+          nullable: true
+        geometry:
+          type: object
+          nullable: true
+          description: Coordonées en format geoJSON
+          properties:
+            type:
+              type: string
+              enum:
+                - Point
+            coordinates:
+              type: array
+              maxItems: 2
+              minItems: 2
+              items:
+                type: number
+        startDate:
+          type: string
+          nullable: true
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+        endDate:
+          type: string
+          nullable: true
+          pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
     StructureLocalisation:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1localisations/post/responses/201/content/application~1json/schema'
+      description: Representation d'une localisation de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureLocalisationPayload'
+        - $ref: '#/components/schemas/Metas'
     StructureRankingPayload:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1rankings~1%7BrankingId%7D/patch/requestBody/content/application~1json/schema'
+      type: object
+      description: Différentes ranking d'une structure
+      properties:
+        rankingId:
+          type: string
+        url:
+          type: string
+          nullable: true
+        rank:
+          type: string
+        year:
+          type: string
+          nullable: true
+          pattern: '((^&)|(^\d{4}$))'
     StructureRanking:
-      tags: Structures
-      $ref: '#/paths/~1structures~1%7BstructureId%7D~1rankings/post/responses/201/content/application~1json/schema'
+      description: Representation d'un media social de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique resource identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureRankingPayload'
+        - $ref: '#/components/schemas/Metas'
     CategoryLight:
       type: object
       properties:
