@@ -3,49 +3,34 @@ Error:
 Metas:
   $ref: './metas.yml'
 StructurePayload:
-  tags: Structures
   $ref: '../modules/structures/schemas/write-structure.yml'
 Structure:
-  tags: Structures
   $ref: '../modules/structures/schemas/read-structure.yml'
 StructureStatusPayload:
-  tags: Structures
   $ref: '../modules/structures/schemas/write-status.yml'
 StructureName:
-  tags: Structures
   $ref: '../modules/structures/schemas/read-name.yml'
 StructureNamePayload:
-  tags: Structures
   $ref: '../modules/structures/schemas/write-name.yml'
 StructureWeblink:
-  tags: Structures
   $ref: '../modules/structures/schemas/read-weblink.yml'
 StructureWeblinkPayload:
-  tags: Structures
   $ref: '../modules/structures/schemas/write-weblink.yml'
 StructureSocialMedia:
-  tags: Structures
   $ref: '../modules/structures/schemas/read-socialmedia.yml'
 StructureSocialMediaPayload:
-  tags: Structures
   $ref: '../modules/structures/schemas/write-socialmedia.yml'
 StructureIdentifierPayLoad:
-  tags: Structures
   $ref: '../modules/structures/schemas/write-identifier.yml'
 StructureIdentifier:
-  tags: Structures
   $ref: '../modules/structures/schemas/read-identifier.yml'
 StructureLocalisationPayload:
-  tags: Structures
   $ref: '../modules/structures/schemas/write-localisation.yml'
 StructureLocalisation:
-  tags: Structures
   $ref: '../modules/structures/schemas/read-localisation.yml'
 StructureRankingPayload:
-  tags: Structures
   $ref: '../modules/structures/schemas/write-ranking.yml'
 StructureRanking:
-  tags: Structures
   $ref: '../modules/structures/schemas/read-ranking.yml'
 CategoryLight:
   $ref: '../modules/categories/schemas/light-category.yml'
