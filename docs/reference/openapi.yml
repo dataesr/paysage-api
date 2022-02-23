@@ -1625,6 +1625,441 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/weblinks':
+    get:
+      tags:
+        - Structures
+      summary: Weblinks - List structure weblinks
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StructureWeblink'
+                  totalCount:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Structures
+      summary: Weblinks - Create a structure weblink
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: StructureWeblinkPayLoad
+              type: object
+              required:
+                - type
+                - url
+              allOf:
+                - $ref: '#/components/schemas/StructureWeblinkPayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureWeblink'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/weblinks/{weblinkId}':
+    get:
+      tags:
+        - Structures
+      summary: Weblink - Get a structure weblink
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/weblinkId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureWeblink'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Structures
+      summary: Weblink - Delete a structure weblink
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/weblinkId'
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Structures
+      summary: Weblink - Update a structure weblink
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/weblinkId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StructureWeblinkPayload'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureWeblink'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/social-medias':
+    get:
+      tags:
+        - Structures
+      summary: SocialMedias - List structure social medias
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StructureSocialMedia'
+                  totalCount:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Structures
+      summary: SocialMedias - Create a structure social media
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: StructureSocialMediaPayLoad
+              type: object
+              required:
+                - type
+                - account
+              allOf:
+                - $ref: '#/components/schemas/StructureSocialMediaPayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSocialMedia'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/social-medias/{socialmediaId}':
+    get:
+      tags:
+        - Structures
+      summary: SocialMedia - Get a structure social media
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/socialmediaId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSocialMedia'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Structures
+      summary: SocialMedia - Delete a structure social media
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/socialmediaId'
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Structures
+      summary: SocialMedia - Update a structure social media
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/socialmediaId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StructureSocialMediaPayload'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSocialMedia'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/rankings':
+    get:
+      tags:
+        - Structures
+      summary: Rankings - List structure rankings
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StructureRanking'
+                  totalCount:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Structures
+      summary: Rankings - Create a structure ranking
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: StructureRankingPayLoad
+              type: object
+              required:
+                - type
+                - url
+              allOf:
+                - $ref: '#/components/schemas/StructureRankingPayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureRanking'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/structures/{structureId}/rankings/{rankingId}':
+    get:
+      tags:
+        - Structures
+      summary: Ranking - Get a structure ranking
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/rankingId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureRanking'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Structures
+      summary: Ranking - Delete a structure ranking
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/rankingId'
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Structures
+      summary: Ranking - Update a structure ranking
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/structureId'
+        - $ref: '#/components/parameters/rankingId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StructureRankingPayload'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureRanking'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
 components:
   parameters:
     filter:
@@ -1698,6 +2133,30 @@ components:
         pattern: '^[a-zA-Z0-9]{8}$'
       required: true
       description: Unique localisation id
+    rankingId:
+      name: internationalRankingId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
+      required: true
+      description: Unique identifier id
+    weblinkId:
+      name: weblinkId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
+      required: true
+      description: Unique weblink id
+    socialmediaId:
+      name: socialmediaId
+      in: path
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{8}$'
+      required: true
+      description: Unique social media id
     termId:
       name: termId
       in: path
@@ -1963,6 +2422,61 @@ components:
             - au
             - ''
             - null
+    StructureWeblink:
+      title: StructureWeblinkReadSchema
+      description: Representation d'un weblink de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureWeblinkPayload'
+        - $ref: '#/components/schemas/Metas'
+    StructureWeblinkPayload:
+      type: object
+      description: Différentes sites web concernant une structure
+      properties:
+        type:
+          type: string
+        url:
+          type: string
+        language:
+          type: string
+          nullable: true
+    StructureSocialMedia:
+      title: StructureSocialMediaReadSchema
+      description: Representation d'un media social de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique resource identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureSocialMediaPayload'
+        - $ref: '#/components/schemas/Metas'
+    StructureSocialMediaPayload:
+      type: object
+      description: Différentes media sociaux d'une structure
+      properties:
+        type:
+          type: string
+        account:
+          type: string
     StructureIdentifierPayLoad:
       title: Identifier
       description: 'Identifiant WikiData, IdRef...'
@@ -1983,8 +2497,8 @@ components:
           nullable: true
           pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
     StructureIdentifier:
-      title: StructureReadSchema
-      description: Representation d'une localisation de structure
+      title: StructureIdentifierReadSchema
+      description: Representation d'un identifiant de structure
       required:
         - id
       allOf:
@@ -1996,7 +2510,7 @@ components:
               pattern: '^[a-zA-Z0-9]{8}$'
             rid:
               type: string
-              description: Unique identifier
+              description: Unique resource identifier
               pattern: '^[a-zA-Z0-9]{5}$'
         - $ref: '#/components/schemas/StructureIdentifierPayLoad'
         - $ref: '#/components/schemas/Metas'
@@ -2004,32 +2518,39 @@ components:
       title: Localisation
       type: object
       properties:
-        cityFrId:
+        cityId:
           type: string
           nullable: true
-        inseeId:
-          type: string
-          nullable: true
-        cityForeignId:
-          type: string
-          nullable: true
+          description: Code d'identification de la commune (code insee pour la france)
+          example: 67482
         distributionStatement:
           type: string
           nullable: true
         address:
           type: string
-        postbox:
+        postOfficeBoxNumber:
           type: string
           nullable: true
-        zipcode:
+        postalCode:
           type: string
           nullable: true
-        city:
+        locality:
+          type: string
+          nullable: true
+          example: La Défense
+        place:
+          type: string
+          nullable: true
+          description: Lieu-dit
+        country:
+          type: string
+        telephone:
           type: string
           nullable: true
         geometry:
           type: object
           nullable: true
+          description: Coordonées en format geoJSON
           properties:
             type:
               type: string
@@ -2066,6 +2587,39 @@ components:
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{5}$'
         - $ref: '#/components/schemas/StructureLocalisationPayload'
+        - $ref: '#/components/schemas/Metas'
+    StructureRankingPayload:
+      type: object
+      description: Différentes ranking d'une structure
+      properties:
+        rankingId:
+          type: string
+        url:
+          type: string
+          nullable: true
+        rank:
+          type: string
+        year:
+          type: string
+          nullable: true
+          pattern: '((^&)|(^\d{4}$))'
+    StructureRanking:
+      title: StructureRankingReadSchema
+      description: Representation d'un media social de structure
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier
+              pattern: '^[a-zA-Z0-9]{8}$'
+            rid:
+              type: string
+              description: Unique resource identifier
+              pattern: '^[a-zA-Z0-9]{5}$'
+        - $ref: '#/components/schemas/StructureRankingPayload'
         - $ref: '#/components/schemas/Metas'
     CategoryLight:
       title: LightCategory

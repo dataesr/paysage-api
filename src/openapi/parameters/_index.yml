@@ -17,6 +17,8 @@ identifierId:
   $ref: '../modules/structures/parameters/identifier-id.yml'
 localisationId:
   $ref: '../modules/structures/parameters/localisation-id.yml'
+rankingId:
+  $ref: '../modules/structures/parameters/ranking-id.yml'
 weblinkId:
   $ref: '../modules/structures/parameters/weblink-id.yml'
 socialmediaId:

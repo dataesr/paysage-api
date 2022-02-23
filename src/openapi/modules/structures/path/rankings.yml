@@ -1,0 +1,71 @@
+get:
+  tags:
+    - Structures
+  summary: Rankings - List structure rankings
+  parameters:
+    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../../../parameters/query/filters.yml'
+    - $ref: '../../../parameters/query/skip.yml'
+    - $ref: '../../../parameters/query/limit.yml'
+    - $ref: '../../../parameters/query/sort.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '../schemas/read-ranking.yml'
+              totalCount:
+                type: integer
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+post:
+  tags:
+    - Structures
+  summary: Rankings - Create a structure ranking
+  security:
+  - BearerAuth: []
+  parameters:
+    - $ref: '../parameters/structure-id.yml'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          title: StructureRankingPayLoad
+          type: object
+          required:
+            - type
+            - url
+          allOf:
+            - $ref: '../schemas/write-ranking.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/read-ranking.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

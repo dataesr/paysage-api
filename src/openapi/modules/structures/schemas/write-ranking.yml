@@ -1,0 +1,14 @@
+type: object
+description: Différentes ranking d'une structure
+properties:
+  rankingId:
+    type: string
+  url:
+    type: string
+    nullable: true
+  rank:
+    type: string
+  year:
+    type: string
+    nullable: true
+    pattern: '((^&)|(^\d{4}$))'
