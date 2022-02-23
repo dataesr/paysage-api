@@ -7,6 +7,7 @@ const payload = {
   address: 'string',
   postalCode: 'string',
   locality: 'string',
+  country: 'France',
   geometry: {
     type: 'Point',
     coordinates: [0, 0],
@@ -27,19 +28,17 @@ beforeAll(async () => {
 
 describe('API > structures > localisations > create', () => {
   it('can create successfully', async () => {
-    console.log(payload);
     const { body } = await global.superapp
       .post(`/structures/${rid}/localisations`)
       .set('Authorization', authorization)
       .send(payload).expect(201);
-    console.log(body);
     Object.entries(payload).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
     expect(body.id).toBeTruthy();
     expect(body.createdBy.username).toBe('user');
     id = body.id;
   });
   it('throws with required field missing', async () => {
-    const { address, ...rest } = payload;
+    const { country, ...rest } = payload;
     await global.superapp
       .post(`/structures/${rid}/localisations`)
       .set('Authorization', authorization)

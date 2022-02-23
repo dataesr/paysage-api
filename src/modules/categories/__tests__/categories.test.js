@@ -65,6 +65,8 @@ it('can read category successfully', async () => {
     .set('Authorization', authorization)
     .expect(200);
   expect(res.body.officialDocument.type).toBe('Loi');
+  expect(res.body.parents).toHaveLength(2);
+  expect(res.body.parents[0].usualNameFr).toBeTruthy();
 });
 it('throws not found with wrong id', async () => {
   await global.superapp
