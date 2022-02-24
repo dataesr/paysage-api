@@ -4,14 +4,14 @@ get:
   summary: SocialMedia - Get a structure social media
   parameters:
     - $ref: '../parameters/structure-id.yml'
-    - $ref: '../parameters/socialmedia-id.yml'
+    - $ref: '../../commons/socialmedias/parameters/socialmedia-id.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../schemas/read-socialmedia.yml'
+            $ref: '../../commons/socialmedias/schemas/read-socialmedia.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -29,7 +29,7 @@ delete:
   - BearerAuth: []
   parameters:
     - $ref: '../parameters/structure-id.yml'
-    - $ref: '../parameters/socialmedia-id.yml'
+    - $ref: '../../commons/socialmedias/parameters/socialmedia-id.yml'
   responses:
     '204':
       description: No content
@@ -50,19 +50,19 @@ patch:
   - BearerAuth: []
   parameters:
     - $ref: '../parameters/structure-id.yml'
-    - $ref: '../parameters/socialmedia-id.yml'
+    - $ref: '../../commons/socialmedias/parameters/socialmedia-id.yml'
   requestBody:
     content:
       application/json:
         schema:
-          $ref: '../schemas/write-socialmedia.yml'
+          $ref: '../../commons/socialmedias/schemas/write-socialmedia.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../schemas/read-socialmedia.yml'
+            $ref: '../../commons/socialmedias/schemas/read-socialmedia.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

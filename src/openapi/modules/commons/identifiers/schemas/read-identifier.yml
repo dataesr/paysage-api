@@ -13,4 +13,4 @@ allOf:
         description: Unique resource identifier
         pattern: '^[a-zA-Z0-9]{5}$'
   - $ref: './write-identifier.yml'
-  - $ref: '../../../schemas/metas.yml'
+  - $ref: '../../../../schemas/metas.yml'

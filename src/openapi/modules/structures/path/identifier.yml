@@ -4,14 +4,14 @@ get:
   summary: Identifier - Get a structure identifier
   parameters:
     - $ref: '../parameters/structure-id.yml'
-    - $ref: '../parameters/identifier-id.yml'
+    - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../schemas/read-identifier.yml'
+            $ref: '../../commons/identifiers/schemas/read-identifier.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -29,7 +29,7 @@ delete:
   - BearerAuth: []
   parameters:
     - $ref: '../parameters/structure-id.yml'
-    - $ref: '../parameters/identifier-id.yml'
+    - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
   responses:
     '204':
       description: No content
@@ -50,19 +50,19 @@ patch:
   - BearerAuth: []
   parameters:
     - $ref: '../parameters/structure-id.yml'
-    - $ref: '../parameters/identifier-id.yml'
+    - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
   requestBody:
     content:
       application/json:
         schema:
-          $ref: '../schemas/write-identifier.yml'
+          $ref: '../../commons/identifiers/schemas/write-identifier.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../schemas/read-identifier.yml'
+            $ref: '../../commons/identifiers/schemas/read-identifier.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

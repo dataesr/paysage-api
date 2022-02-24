@@ -198,7 +198,7 @@ paths:
           $ref: '#/components/responses/ServerError'
     put:
       tags:
-        - Category
+        - Categories
       summary: Category - Create a category with ID.
       security:
         - BearerAuth: []
@@ -222,6 +222,297 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/categories/{categoryId}/identifiers':
+    get:
+      tags:
+        - Categories
+      summary: Identifiers - List identifiers
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Identifier'
+                  totalCount:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Categories
+      summary: Identifiers - Create an indentifier
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: StructureIdentifierPayLoad
+              type: object
+              required:
+                - type
+                - value
+                - active
+              allOf:
+                - $ref: '#/components/schemas/IdentifierPayLoad'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Identifier'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/categories/{categoryId}/identifiers/{identifierId}':
+    get:
+      tags:
+        - Categories
+      summary: Identifier - Get an identifier
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+        - $ref: '#/components/parameters/identifierId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Identifier'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Categories
+      summary: Identifier - Delete an identifier
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+        - $ref: '#/components/parameters/identifierId'
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Categories
+      summary: Identifier - Update an identifier
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+        - $ref: '#/components/parameters/identifierId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentifierPayLoad'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Identifier'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/categories/{categoryId}/weblinks':
+    get:
+      tags:
+        - Categories
+      summary: Weblinks - List structure weblinks
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Weblink'
+                  totalCount:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Categories
+      summary: Weblinks - Create a structure weblink
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: StructureWeblinkPayLoad
+              type: object
+              required:
+                - type
+                - url
+              allOf:
+                - $ref: '#/components/schemas/WeblinkPayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Weblink'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/categories/{categoryId}/weblinks/{weblinkId}':
+    get:
+      tags:
+        - Categories
+      summary: Weblink - Get a weblink
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+        - $ref: '#/components/parameters/weblinkId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Weblink'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Categories
+      summary: Weblink - Delete a weblink
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+        - $ref: '#/components/parameters/weblinkId'
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Categories
+      summary: Weblink - Update a weblink
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+        - $ref: '#/components/parameters/weblinkId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeblinkPayload'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Weblink'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
   /prices:
@@ -1241,7 +1532,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/StructureIdentifier'
+                      $ref: '#/components/schemas/Identifier'
                   totalCount:
                     type: integer
         '400':
@@ -1273,14 +1564,14 @@ paths:
                 - value
                 - active
               allOf:
-                - $ref: '#/components/schemas/StructureIdentifierPayLoad'
+                - $ref: '#/components/schemas/IdentifierPayLoad'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StructureIdentifier'
+                $ref: '#/components/schemas/Identifier'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1305,7 +1596,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StructureIdentifier'
+                $ref: '#/components/schemas/Identifier'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1347,14 +1638,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StructureIdentifierPayLoad'
+              $ref: '#/components/schemas/IdentifierPayLoad'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StructureIdentifier'
+                $ref: '#/components/schemas/Identifier'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1675,7 +1966,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/StructureWeblink'
+                      $ref: '#/components/schemas/Weblink'
                   totalCount:
                     type: integer
         '400':
@@ -1706,14 +1997,14 @@ paths:
                 - type
                 - url
               allOf:
-                - $ref: '#/components/schemas/StructureWeblinkPayload'
+                - $ref: '#/components/schemas/WeblinkPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StructureWeblink'
+                $ref: '#/components/schemas/Weblink'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1738,7 +2029,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StructureWeblink'
+                $ref: '#/components/schemas/Weblink'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1780,14 +2071,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StructureWeblinkPayload'
+              $ref: '#/components/schemas/WeblinkPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StructureWeblink'
+                $ref: '#/components/schemas/Weblink'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1820,7 +2111,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/StructureSocialMedia'
+                      $ref: '#/components/schemas/SocialMedia'
                   totalCount:
                     type: integer
         '400':
@@ -1851,14 +2142,14 @@ paths:
                 - type
                 - account
               allOf:
-                - $ref: '#/components/schemas/StructureSocialMediaPayload'
+                - $ref: '#/components/schemas/SocialMediaPayload'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StructureSocialMedia'
+                $ref: '#/components/schemas/SocialMedia'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1883,7 +2174,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StructureSocialMedia'
+                $ref: '#/components/schemas/SocialMedia'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1925,14 +2216,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StructureSocialMediaPayload'
+              $ref: '#/components/schemas/SocialMediaPayload'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StructureSocialMedia'
+                $ref: '#/components/schemas/SocialMedia'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2448,7 +2739,7 @@ components:
             - au
             - ''
             - null
-    StructureWeblink:
+    Weblink:
       description: Representation d'un weblink de structure
       required:
         - id
@@ -2463,9 +2754,9 @@ components:
               type: string
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{5}$'
-        - $ref: '#/components/schemas/StructureWeblinkPayload'
+        - $ref: '#/components/schemas/WeblinkPayload'
         - $ref: '#/components/schemas/Metas'
-    StructureWeblinkPayload:
+    WeblinkPayload:
       type: object
       description: Différentes sites web concernant une structure
       properties:
@@ -2476,8 +2767,8 @@ components:
         language:
           type: string
           nullable: true
-    StructureSocialMedia:
-      description: Representation d'un media social de structure
+    SocialMedia:
+      description: Representation d'un media social
       required:
         - id
       allOf:
@@ -2491,9 +2782,9 @@ components:
               type: string
               description: Unique resource identifier
               pattern: '^[a-zA-Z0-9]{5}$'
-        - $ref: '#/components/schemas/StructureSocialMediaPayload'
+        - $ref: '#/components/schemas/SocialMediaPayload'
         - $ref: '#/components/schemas/Metas'
-    StructureSocialMediaPayload:
+    SocialMediaPayload:
       type: object
       description: Différentes media sociaux d'une structure
       properties:
@@ -2501,7 +2792,7 @@ components:
           type: string
         account:
           type: string
-    StructureIdentifierPayLoad:
+    IdentifierPayLoad:
       description: 'Identifiant WikiData, IdRef...'
       type: object
       properties:
@@ -2519,7 +2810,7 @@ components:
           type: string
           nullable: true
           pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
-    StructureIdentifier:
+    Identifier:
       description: Representation d'un identifiant de structure
       required:
         - id
@@ -2534,7 +2825,7 @@ components:
               type: string
               description: Unique resource identifier
               pattern: '^[a-zA-Z0-9]{5}$'
-        - $ref: '#/components/schemas/StructureIdentifierPayLoad'
+        - $ref: '#/components/schemas/IdentifierPayLoad'
         - $ref: '#/components/schemas/Metas'
     StructureLocalisationPayload:
       type: object
