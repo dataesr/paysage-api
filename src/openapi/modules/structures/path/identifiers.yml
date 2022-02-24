@@ -19,7 +19,7 @@ get:
               data:
                 type: array
                 items:
-                  $ref: '../schemas/read-identifier.yml'
+                  $ref: '../../commons/identifiers/schemas/read-identifier.yml'
               totalCount:
                 type: integer
     '400':
@@ -52,14 +52,14 @@ post:
             - value
             - active
           allOf:
-            - $ref: '../schemas/write-identifier.yml'
+            - $ref: '../../commons/identifiers/schemas/write-identifier.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            $ref: '../schemas/read-identifier.yml'
+            $ref: '../../commons/identifiers/schemas/read-identifier.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

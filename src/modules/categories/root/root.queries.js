@@ -1,4 +1,4 @@
-import metas from '../commons/pipelines/metas';
+import metas from '../../commons/pipelines/metas';
 
 const model = {
   usualNameFr: 1,

@@ -1,4 +1,4 @@
-description: Representation d'un weblink de structure
+description: Representation d'un media social
 required:
   - id
 allOf: 
@@ -10,7 +10,7 @@ allOf:
         pattern: '^[a-zA-Z0-9]{8}$'
       rid:
         type: string
-        description: Unique identifier
+        description: Unique resource identifier
         pattern: '^[a-zA-Z0-9]{5}$'
-  - $ref: './write-weblink.yml'
-  - $ref: '../../../schemas/metas.yml'
+  - $ref: './write-socialmedia.yml'
+  - $ref: '../../../../schemas/metas.yml'

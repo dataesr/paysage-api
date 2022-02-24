@@ -73,7 +73,7 @@ patch:
 
 put:
   tags:
-    - Category
+    - Categories
   summary: Category - Create a category with ID.
   security:
   - BearerAuth: []

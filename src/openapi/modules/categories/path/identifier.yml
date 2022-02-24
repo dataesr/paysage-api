@@ -1,17 +1,17 @@
 get:
   tags:
-    - Structures
-  summary: Weblink - Get a structure weblink
+    - Categories
+  summary: Identifier - Get an identifier
   parameters:
-    - $ref: '../parameters/structure-id.yml'
-    - $ref: '../../commons/weblinks/parameters/weblink-id.yml'
+    - $ref: '../parameters/category-id.yml'
+    - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../../commons/weblinks/schemas/read-weblink.yml'
+            $ref: '../../commons/identifiers/schemas/read-identifier.yml'
     '401':
       $ref: '../../../responses/errors/unauthorized.yml'
     '403':
@@ -23,13 +23,13 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: Weblink - Delete a structure weblink
+    - Categories
+  summary: Identifier - Delete an identifier
   security:
   - BearerAuth: []
   parameters:
-    - $ref: '../parameters/structure-id.yml'
-    - $ref: '../../commons/weblinks/parameters/weblink-id.yml'
+    - $ref: '../parameters/category-id.yml'
+    - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
   responses:
     '204':
       description: No content
@@ -44,25 +44,25 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: Weblink - Update a structure weblink
+    - Categories
+  summary: Identifier - Update an identifier
   security:
   - BearerAuth: []
   parameters:
-    - $ref: '../parameters/structure-id.yml'
-    - $ref: '../../commons/weblinks/parameters/weblink-id.yml'
+    - $ref: '../parameters/category-id.yml'
+    - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
   requestBody:
     content:
       application/json:
         schema:
-          $ref: '../../commons/weblinks/schemas/write-weblink.yml'
+          $ref: '../../commons/identifiers/schemas/write-identifier.yml'
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '../../commons/weblinks/schemas/read-weblink.yml'
+            $ref: '../../commons/identifiers/schemas/read-identifier.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

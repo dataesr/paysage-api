@@ -1,7 +1,7 @@
-import { BadRequestError } from '../../libs/monster/errors';
-import { objectCatalogue } from '../commons/monster';
-import officialDocument from '../official-documents/od.resource';
-import categories from './categories.resource';
+import { BadRequestError } from '../../../libs/monster/errors';
+import { objectCatalogue } from '../../commons/monster';
+import officialDocument from '../../official-documents/od.resource';
+import categories from './root.resource';
 
 export async function validatePayload(req, res, next) {
   if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');

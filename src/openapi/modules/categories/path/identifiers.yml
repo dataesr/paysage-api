@@ -1,9 +1,9 @@
 get:
   tags:
-    - Structures
-  summary: Weblinks - List structure weblinks
+    - Categories
+  summary: Identifiers - List identifiers
   parameters:
-    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/category-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
     - $ref: '../../../parameters/query/skip.yml'
     - $ref: '../../../parameters/query/limit.yml'
@@ -19,7 +19,7 @@ get:
               data:
                 type: array
                 items:
-                  $ref: '../../commons/weblinks/schemas/read-weblink.yml'
+                  $ref: '../../commons/identifiers/schemas/read-identifier.yml'
               totalCount:
                 type: integer
     '400':
@@ -35,30 +35,31 @@ get:
 
 post:
   tags:
-    - Structures
-  summary: Weblinks - Create a structure weblink
+    - Categories
+  summary: Identifiers - Create an indentifier
   security:
   - BearerAuth: []
   parameters:
-    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/category-id.yml'
   requestBody:
     content:
       application/json:
         schema:
-          title: StructureWeblinkPayLoad
+          title: StructureIdentifierPayLoad
           type: object
           required:
             - type
-            - url
+            - value
+            - active
           allOf:
-            - $ref: '../../commons/weblinks/schemas/write-weblink.yml'
+            - $ref: '../../commons/identifiers/schemas/write-identifier.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            $ref: '../../commons/weblinks/schemas/read-weblink.yml'
+            $ref: '../../commons/identifiers/schemas/read-identifier.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

@@ -1,9 +1,9 @@
 get:
   tags:
-    - Structures
-  summary: Weblink - Get a structure weblink
+    - Categories
+  summary: Weblink - Get a weblink
   parameters:
-    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/category-id.yml'
     - $ref: '../../commons/weblinks/parameters/weblink-id.yml'
   responses:
     '200':
@@ -23,12 +23,12 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: Weblink - Delete a structure weblink
+    - Categories
+  summary: Weblink - Delete a weblink
   security:
   - BearerAuth: []
   parameters:
-    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/category-id.yml'
     - $ref: '../../commons/weblinks/parameters/weblink-id.yml'
   responses:
     '204':
@@ -44,12 +44,12 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: Weblink - Update a structure weblink
+    - Categories
+  summary: Weblink - Update a weblink
   security:
   - BearerAuth: []
   parameters:
-    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/category-id.yml'
     - $ref: '../../commons/weblinks/parameters/weblink-id.yml'
   requestBody:
     content:

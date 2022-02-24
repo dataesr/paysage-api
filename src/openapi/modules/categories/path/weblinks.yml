@@ -1,9 +1,9 @@
 get:
   tags:
-    - Structures
+    - Categories
   summary: Weblinks - List structure weblinks
   parameters:
-    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/category-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
     - $ref: '../../../parameters/query/skip.yml'
     - $ref: '../../../parameters/query/limit.yml'
@@ -35,12 +35,12 @@ get:
 
 post:
   tags:
-    - Structures
+    - Categories
   summary: Weblinks - Create a structure weblink
   security:
   - BearerAuth: []
   parameters:
-    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/category-id.yml'
   requestBody:
     content:
       application/json:

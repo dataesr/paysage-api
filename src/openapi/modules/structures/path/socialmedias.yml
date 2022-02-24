@@ -19,7 +19,7 @@ get:
               data:
                 type: array
                 items:
-                  $ref: '../schemas/read-socialmedia.yml'
+                  $ref: '../../commons/socialmedias/schemas/read-socialmedia.yml'
               totalCount:
                 type: integer
     '400':
@@ -51,14 +51,14 @@ post:
             - type
             - account
           allOf:
-            - $ref: '../schemas/write-socialmedia.yml'
+            - $ref: '../../commons/socialmedias/schemas/write-socialmedia.yml'
   responses:
     '201':
       description: Created
       content:
         application/json:
           schema:
-            $ref: '../schemas/read-socialmedia.yml'
+            $ref: '../../commons/socialmedias/schemas/read-socialmedia.yml'
     '400':
       $ref: '../../../responses/errors/bad-request.yml'
     '401':

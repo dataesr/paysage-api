@@ -42,6 +42,14 @@ paths:
     $ref: './modules/categories/path/categories.yml'
   '/categories/{categoryId}':
     $ref: './modules/categories/path/category.yml'
+  '/categories/{categoryId}/identifiers':
+    $ref: './modules/categories/path/identifiers.yml'
+  '/categories/{categoryId}/identifiers/{identifierId}':
+    $ref: './modules/categories/path/identifier.yml'
+  '/categories/{categoryId}/weblinks':
+    $ref: './modules/categories/path/weblinks.yml'
+  '/categories/{categoryId}/weblinks/{weblinkId}':
+    $ref: './modules/categories/path/weblink.yml'
 
   ### PRICES ###
   '/prices':
