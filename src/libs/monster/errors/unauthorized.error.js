@@ -1,4 +1,4 @@
-import CustomError from './custom.error';
+import CustomError from './monster.error';
 
 class UnauthorizedError extends CustomError {
   constructor(message, errors = []) {

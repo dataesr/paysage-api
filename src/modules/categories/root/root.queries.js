@@ -6,7 +6,7 @@ const model = {
   shortNameEn: { $ifNull: ['$shortNameEn', null] },
   shortNameFr: { $ifNull: ['$shortNameFr', null] },
   acronymFr: { $ifNull: ['$acronymFr', null] },
-  pluralNameFr: { $ifNull: ['$pluralNamelFr', null] },
+  pluralNameFr: { $ifNull: ['$pluralNameFr', null] },
   otherNamesFr: { $ifNull: ['$otherNamesFr', []] },
   otherNamesEn: { $ifNull: ['$otherNamesEn', []] },
   descriptionFr: { $ifNull: ['$descriptionFr', null] },

@@ -1,15 +1,10 @@
 import { error as OAVError } from 'express-openapi-validator';
 import MonsterError from '../../../libs/monster/errors/monster.error';
-import { CustomError } from '../errors';
 import logger from '../../../services/logger.service';
 
 export function handleErrors(err, req, res, next) {
   logger.error(`${req.method} ${req.url}: ${err.message}`);
 
-  if (err instanceof CustomError) {
-    const { statusCode, ...error } = err.extract();
-    return res.status(statusCode).json(error);
-  }
   if (err instanceof MonsterError) {
     return res.status(err.statusCode).json({
       error: err.message,
