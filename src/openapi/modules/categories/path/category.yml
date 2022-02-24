@@ -1,7 +1,7 @@
 get:
   tags:
     - Categories
-  summary: Get a category
+  summary: Category - Get a category
   parameters:
     - $ref: '../parameters/category-id.yml'
   responses:
@@ -23,7 +23,7 @@ get:
 delete:
   tags:
     - Categories
-  summary: Delete a category
+  summary: Category - Delete a category
   security:
   - BearerAuth: []
   parameters:
@@ -43,7 +43,7 @@ delete:
 patch:
   tags:
     - Categories
-  summary: Update a category
+  summary: Category - Update a category
   security:
   - BearerAuth: []
   parameters:
@@ -68,5 +68,34 @@ patch:
       $ref: '../../../responses/errors/forbidden.yml'
     '404':
       $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+put:
+  tags:
+    - Category
+  summary: Category - Create a category with ID.
+  security:
+  - BearerAuth: []
+  parameters:
+    - $ref: '../parameters/category-id.yml'
+  requestBody:
+    content:
+        application/json:
+          schema:
+            $ref: '../schemas/write-category.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/read-category.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
     '500':
       $ref: '../../../responses/errors/server-error.yml'

@@ -1,5 +1,5 @@
+const id = 'fG45t';
 let authorization;
-let id;
 beforeAll(async () => {
   authorization = await global.utils.createUser();
   const { body } = await global.superapp
@@ -19,7 +19,6 @@ beforeAll(async () => {
     .post('/categories')
     .set('Authorization', authorization)
     .send({
-      longNameFr: 'tests',
       usualNameFr: 'tests',
       descriptionFr: 'tests',
       officialDocumentId: body.id,
@@ -29,17 +28,15 @@ beforeAll(async () => {
     .post('/categories')
     .set('Authorization', authorization)
     .send({
-      longNameFr: 'tests1',
       usualNameFr: 'tests1',
       descriptionFr: 'tests1',
       officialDocumentId: body.id,
     })
     .expect(201);
   const cat2 = await global.superapp
-    .post('/categories')
+    .put(`/categories/${id}`)
     .set('Authorization', authorization)
     .send({
-      longNameFr: 'tests2',
       usualNameFr: 'tests2',
       descriptionFr: 'tests2',
       officialDocumentId: body.id,
@@ -50,14 +47,12 @@ beforeAll(async () => {
     .post('/categories')
     .set('Authorization', authorization)
     .send({
-      longNameFr: 'tests3',
       usualNameFr: 'tests3',
       descriptionFr: 'tests3',
       officialDocumentId: body.id,
       parentIds: [cat2.body.id],
     })
     .expect(201);
-  id = cat2.body.id;
 });
 it('can read category successfully', async () => {
   const res = await global.superapp

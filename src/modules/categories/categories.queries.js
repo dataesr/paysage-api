@@ -3,17 +3,19 @@ import metas from '../commons/pipelines/metas';
 const model = {
   usualNameFr: 1,
   usualNameEn: { $ifNull: ['$usualNameEn', null] },
-  longNameEn: { $ifNull: ['$longNameEn', null] },
-  longNameFr: { $ifNull: ['$longNameFr', null] },
   shortNameEn: { $ifNull: ['$shortNameEn', null] },
   shortNameFr: { $ifNull: ['$shortNameFr', null] },
   acronymFr: { $ifNull: ['$acronymFr', null] },
-  pluralNamelFr: { $ifNull: ['$pluralNamelFr', null] },
-  femNameFr: { $ifNull: ['$femNameFr', null] },
+  pluralNameFr: { $ifNull: ['$pluralNamelFr', null] },
   otherNamesFr: { $ifNull: ['$otherNamesFr', []] },
   otherNamesEn: { $ifNull: ['$otherNamesEn', []] },
   descriptionFr: { $ifNull: ['$descriptionFr', null] },
   descriptionEn: { $ifNull: ['$descriptionEn', null] },
+  inseeCode: { $ifNull: ['$inseeCode', null] },
+  sector: { $ifNull: ['$sector', null] },
+  inPublicResearch: { $ifNull: ['$inPublicResearch', null] },
+  comment: { $ifNull: ['$comment', null] },
+  isLegalCategory: { $ifNull: ['$isLegalCategory', null] },
 };
 
 const lightModel = {

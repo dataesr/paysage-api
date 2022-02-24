@@ -129,7 +129,7 @@ paths:
     get:
       tags:
         - Categories
-      summary: Get a category
+      summary: Category - Get a category
       parameters:
         - $ref: '#/components/parameters/categoryId'
       responses:
@@ -150,7 +150,7 @@ paths:
     delete:
       tags:
         - Categories
-      summary: Delete a category
+      summary: Category - Delete a category
       security:
         - BearerAuth: []
       parameters:
@@ -169,7 +169,7 @@ paths:
     patch:
       tags:
         - Categories
-      summary: Update a category
+      summary: Category - Update a category
       security:
         - BearerAuth: []
       parameters:
@@ -194,6 +194,34 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Category
+      summary: Category - Create a category with ID.
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/categoryId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryPayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/ServerError'
   /prices:
@@ -2311,8 +2339,6 @@ components:
             - null
     Structure:
       description: Representation d'une structure
-      tags:
-        - Structures
       required:
         - id
         - status
@@ -2641,14 +2667,6 @@ components:
         usualNameEn:
           type: string
           nullable: true
-        longNameEn:
-          type: string
-          nullable: true
-          description: Nom long en anglais
-        longNameFr:
-          type: string
-          nullable: true
-          description: Nom usuel en francais
         shortNameEn:
           type: string
           nullable: true
@@ -2661,11 +2679,7 @@ components:
           type: string
           nullable: true
           description: Sigle en français
-        pluralNamelFr:
-          type: string
-          nullable: true
-          description: Forme du nom usuel français au pluriel
-        femNameFr:
+        pluralNameFr:
           type: string
           nullable: true
           description: Forme du nom usuel français au pluriel
@@ -2689,6 +2703,21 @@ components:
           type: string
           nullable: true
           description: Description en français
+        inseeCode:
+          type: string
+          nullable: true
+        sector:
+          type: string
+          nullable: true
+        inPublicResearch:
+          type: boolean
+          nullable: true
+        comment:
+          type: string
+          nullable: true
+        isLegalCategory:
+          type: boolean
+          nullable: true
         officialDocumentId:
           type: string
           nullable: true

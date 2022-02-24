@@ -5,14 +5,6 @@ properties:
   usualNameEn:
     type: string
     nullable: true
-  longNameEn:
-    type: string
-    nullable: true
-    description: Nom long en anglais
-  longNameFr:
-    type: string
-    nullable: true
-    description: Nom usuel en francais
   shortNameEn:
     type: string
     nullable: true
@@ -25,11 +17,7 @@ properties:
     type: string
     nullable: true
     description: Sigle en français
-  pluralNamelFr:
-    type: string
-    nullable: true
-    description: Forme du nom usuel français au pluriel
-  femNameFr:
+  pluralNameFr:
     type: string
     nullable: true
     description: Forme du nom usuel français au pluriel
@@ -53,6 +41,21 @@ properties:
     type: string
     nullable: true
     description: Description en français
+  inseeCode:
+    type: string
+    nullable: true
+  sector:
+    type: string
+    nullable: true
+  inPublicResearch:
+    type: boolean
+    nullable: true
+  comment:
+    type: string
+    nullable: true
+  isLegalCategory:
+    type: boolean
+    nullable: true
   officialDocumentId:
     type: string
     nullable: true

@@ -2,7 +2,7 @@ import express from 'express';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
 import categories from './categories.resource';
-import { validatePayload } from './categories.middlewares';
+import { validatePayload, setPutIdInContext } from './categories.middlewares';
 
 const router = new express.Router();
 
@@ -27,6 +27,12 @@ router.route('/categories/:id')
     requireActiveUser,
     patchCtx,
     categories.controllers.delete,
+  ])
+  .put([
+    requireActiveUser,
+    createCtx,
+    setPutIdInContext,
+    categories.controllers.create,
   ]);
 
 export default router;

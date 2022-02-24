@@ -1,4 +1,5 @@
 import { BadRequestError } from '../../libs/monster/errors';
+import { objectCatalogue } from '../commons/monster';
 import officialDocument from '../official-documents/od.resource';
 import categories from './categories.resource';
 
@@ -34,5 +35,11 @@ export async function validatePayload(req, res, next) {
       );
     }
   }
+  return next();
+}
+
+export async function setPutIdInContext(req, res, next) {
+  const id = await objectCatalogue.setUniqueId(req.params.id, 'structures');
+  req.ctx = { ...req.ctx, id };
   return next();
 }
