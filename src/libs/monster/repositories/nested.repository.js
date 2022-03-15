@@ -6,6 +6,8 @@ export default class NestedMongoRepository {
     if (!(typeof field === 'string' && Object.prototype.toString.call(field) === '[object String]')) {
       throw new Error("Parameter 'field' must be a string");
     }
+    this.collectionName = collection;
+    this.fieldName = field;
     this._collection = db.collection(collection);
     this._field = field;
     this._queries = queries;

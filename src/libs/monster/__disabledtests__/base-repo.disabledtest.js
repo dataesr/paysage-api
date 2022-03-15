@@ -1,5 +1,3 @@
-import BaseRepo from '../../../modules/commons/repositories/base.repo';
-
 const testRepository = new BaseRepo({ collection: 'test' });
 
 const user = {

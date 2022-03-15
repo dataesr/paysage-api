@@ -6,17 +6,19 @@ import * as OAV from 'express-openapi-validator';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import health from '@cloudnative/health-connect';
-import { handleErrors } from './modules/commons/middlewares/handle-errors.middlewares';
-import { authenticate } from './modules/commons/middlewares/authenticate.middlewares';
+import { handleErrors } from './api/commons/middlewares/handle-errors.middlewares';
+import { authenticate } from './api/commons/middlewares/authenticate.middlewares';
 
-import structuresRoutes from './modules/structures/structures.routes';
-import personsRoutes from './modules/persons/persons.routes';
-import officialDocumentsRoutes from './modules/official-documents/od.routes';
-import legalCategoriesRoutes from './modules/legal-categories/lc.routes';
-import pricesRoutes from './modules/prices/prices.routes';
-import termsRoutes from './modules/terms/terms.routes';
-import documentsRoutes from './modules/documents/documents.routes';
-import categoriesRoutes from './modules/categories/categories.routes';
+import structuresRoutes from './api/structures/structures.routes';
+import personsRoutes from './api/persons/persons.routes';
+import officialDocumentsRoutes from './api/official-documents/od.routes';
+import legalCategoriesRoutes from './api/legal-categories/lc.routes';
+import pricesRoutes from './api/prices/prices.routes';
+import termsRoutes from './api/terms/terms.routes';
+import documentsRoutes from './api/documents/documents.routes';
+import categoriesRoutes from './api/categories/categories.routes';
+
+import assetsRoutes from './api/assets/assets.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/openapi.yml');
@@ -51,13 +53,13 @@ app.use(OAV.middleware({
   },
   validateResponses: true,
   fileUploader: { storage: multer.memoryStorage() },
-  ignorePaths: /(.*\/media\/?|.*\/docs\/?|.*\/readyz\/?|.*\/livez\/?|\/specs\.yml\/?)/,
+  ignoreUndocumented: true,
 }));
 
 // Authenticate currentUser
 app.use(authenticate);
 
-// Register routes
+// Register api routes
 app.use(structuresRoutes);
 app.use(personsRoutes);
 app.use(officialDocumentsRoutes);
@@ -67,7 +69,10 @@ app.use(termsRoutes);
 app.use(documentsRoutes);
 app.use(categoriesRoutes);
 
-// Erreurs personnalisées
+// Assets
+app.use(assetsRoutes);
+
+// Error handler
 app.use(handleErrors);
 
 export default app;

@@ -6,10 +6,9 @@
   "type": "module",
   "scripts": {
     "build:docs": "swagger-cli bundle src/openapi/openapi.yml --outfile docs/reference/openapi.yml --type yaml",
-    "start": "npm run build:docs && NODE_ENV=development nodemon --experimental-specifier-resolution=node index.js",
-    "start:production": "npm run build:docs && NODE_ENV=production node --experimental-specifier-resolution=node index.js",
-    "start:staging": "npm run build:docs && NODE_ENV=staging node --experimental-specifier-resolution=node index.js",
-    "test": "npm run build:docs && NODE_ENV=testing node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --watchAll --runInBand"
+    "test": "npm run build:docs && NODE_ENV=testing node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --watchAll --runInBand",
+    "dev": "npm run build:docs && NODE_ENV=development ENTRYPOINT=${npm_config_entrypoint} PORT=${npm_config_port} nodemon --experimental-specifier-resolution=node index.js",
+    "start": "npm run build:docs && NODE_ENV=${npm_config_env} ENTRYPOINT=${npm_config_entrypoint} PORT=${npm_config_port} node --experimental-specifier-resolution=node index.js"
   },
   "keywords": [
     "paysage"
@@ -18,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@cloudnative/health-connect": "^2.1.0",
+    "@elastic/elasticsearch": "7.12.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",

@@ -1,5 +1,5 @@
 import mongodb from 'mongodb';
-import { NotFoundError, ServerError, BadRequestError } from '../errors';
+import { NotFoundError, ServerError, BadRequestError } from '../../http-errors';
 
 export default class BaseController {
   constructor(repository, { storeContext, eventStore, catalogue } = {}) {
@@ -24,9 +24,10 @@ export default class BaseController {
     if (this._eventStore) {
       const nextState = await this._repository.get(insertedId, { useQuery: 'writeQuery' });
       this._eventStore.create({
-        userId: ctx.user,
-        resource: `${req.path}/${id}`,
-        pathParams: [...Object.values(req.params), id],
+        actor: ctx.user,
+        id,
+        collection: this._repository.collectionName,
+        resource: req.path,
         action: 'create',
         nextState,
       });
@@ -48,9 +49,10 @@ export default class BaseController {
     if (ok && this._eventStore) {
       const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
       this._eventStore.create({
-        userId: ctx.user,
-        path: req.path,
-        pathParams: Object.values(req.params),
+        actor: ctx.user,
+        id,
+        collection: this._repository.collectionName,
+        resource: req.path,
         action: 'patch',
         prevState,
         nextState,
@@ -70,9 +72,10 @@ export default class BaseController {
     const { ok } = await this._repository.remove(id);
     if (ok && this._eventStore) {
       this._eventStore.create({
-        userId: ctx.user,
+        actor: ctx.user,
+        id,
+        collection: this._repository.collectionName,
         resource: req.path,
-        pathParams: Object.values(req.params),
         action: 'delete',
         prevState,
       });

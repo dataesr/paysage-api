@@ -5,6 +5,12 @@ const production = {
     mongoUri: process.env.MONGO_URI,
     mongoDbName: 'paysage',
   },
+  elastic: {
+    node: process.env.ES_NODE,
+    username: process.env.ES_USERNAME,
+    password: process.env.ES_PASSWORD,
+    index: 'paysage-prod',
+  },
   objectStorage: {
     creds: {
       authUrl: process.env.OVH_AUTH_URL,
@@ -28,6 +34,10 @@ const staging = {
     ...production.objectStorage,
     container: 'paysage-staging',
   },
+  elastic: {
+    ...production.elastic,
+    index: 'paysage-staging',
+  },
 };
 const testing = {
   ...production,
@@ -35,6 +45,10 @@ const testing = {
   database: {
     ...production.database,
     mongoDbName: 'paysage-test1',
+  },
+  elastic: {
+    ...production.elastic,
+    index: 'paysage-test',
   },
   objectStorage: {
     ...production.objectStorage,
@@ -51,6 +65,10 @@ const development = {
   database: {
     ...production.database,
     mongoDbName: 'paysage-dev',
+  },
+  elastic: {
+    ...production.elastic,
+    index: 'paysage-dev',
   },
   objectStorage: {
     ...production.objectStorage,

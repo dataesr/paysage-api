@@ -110,9 +110,9 @@ paths:
     $ref: './modules/structures/path/weblinks.yml'
   '/structures/{structureId}/weblinks/{weblinkId}':
     $ref: './modules/structures/path/weblink.yml'
-  '/structures/{structureId}/social-medias':
+  '/structures/{structureId}/socials':
     $ref: './modules/structures/path/socialmedias.yml'
-  '/structures/{structureId}/social-medias/{socialmediaId}':
+  '/structures/{structureId}/socials/{socialmediaId}':
     $ref: './modules/structures/path/socialmedia.yml'
   '/structures/{structureId}/rankings':
     $ref: './modules/structures/path/rankings.yml'
