@@ -10,7 +10,7 @@ allOf:
         description: Unique identifier
         pattern: '^[a-zA-Z0-9]{5}$'
       currentName:
-        description: current name is computed using the most recent startDate.
+        description: currentName is computed using the most recent startDate. If startDate is never present, it returns the name with the most recent createdAt value.
         $ref: './write-name.yml'
       alternativePaysageIds:
         description: Aggregates all structure ids redirected to the current structure

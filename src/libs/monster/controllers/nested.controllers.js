@@ -1,5 +1,5 @@
 import mongodb from 'mongodb';
-import { NotFoundError, ServerError } from '../errors';
+import { NotFoundError, ServerError } from '../../http-errors';
 
 export default class NestedControllers {
   constructor(repository, { storeContext, eventStore, catalogue } = {}) {
@@ -22,9 +22,12 @@ export default class NestedControllers {
     if (this._eventStore) {
       const nextState = await this._repository.get(rid, insertedId, { useQuery: 'writeQuery' });
       this._eventStore.create({
-        userId: ctx.createdAt,
-        resource: `${req.path}/${insertedId}`,
-        pathParams: [rid, insertedId],
+        actor: ctx.user,
+        id: rid,
+        collection: this._repository.collectionName,
+        field: this._repository.fieldName,
+        fieldId: id,
+        resource: req.path,
         action: 'create',
         nextState,
       });
@@ -46,9 +49,12 @@ export default class NestedControllers {
     if (ok && this._eventStore) {
       const nextState = await this._repository.get(rid, id, { useQuery: 'writeQuery' });
       this._eventStore.create({
-        userId: ctx.updatedAt,
-        path: req.path,
-        pathParams: [rid, id],
+        actor: ctx.user,
+        id: rid,
+        collection: this._repository.collectionName,
+        field: this._repository.fieldName,
+        fieldId: id,
+        resource: req.path,
         action: 'patch',
         prevState,
         nextState,
@@ -69,9 +75,12 @@ export default class NestedControllers {
     const { ok } = await this._repository.remove(rid, id);
     if (ok && this._eventStore) {
       this._eventStore.create({
-        userId: ctx.updatedAt,
+        actor: ctx.user,
+        id: rid,
+        collection: this._repository.collectionName,
+        field: this._repository.fieldName,
+        fieldId: id,
         resource: req.path,
-        pathParams: [rid, id],
         action: 'delete',
         prevState,
       });

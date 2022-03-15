@@ -1,6 +1,3 @@
-import NestedRepo from '../../../modules/commons/repositories/nested.repo';
-import BaseRepo from '../../../modules/commons/repositories/base.repo';
-
 const metasPipeline = [
   {
     $lookup: {

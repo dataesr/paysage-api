@@ -30,21 +30,29 @@ properties:
   telephone:
     type: string
     nullable: true
-  geometry:
+  # geometry:
+  #   type: object
+  #   nullable: true
+  #   description: Coordonées en format geoJSON
+  #   properties:
+  #     type:
+  #       type: string
+  #       enum:
+  #         - Point
+  #     coordinates:
+  #       type: array
+  #       maxItems: 2
+  #       minItems: 2
+  #       items:
+  #         type: number
+  coordinates:
     type: object
     nullable: true
-    description: Coordonées en format geoJSON
     properties:
-      type:
-        type: string
-        enum:
-          - Point
-      coordinates:
-        type: array
-        maxItems: 2
-        minItems: 2
-        items:
-          type: number
+      lat:
+        type: number
+      lng:
+        type: number
   startDate:
     type: string
     nullable: true
