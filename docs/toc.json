@@ -10,13 +10,28 @@
       "uri": "docs/intro.md"
     },
     {
+      "type": "item",
+      "title": "Sécurité",
+      "uri": "docs/intro.md"
+    },
+    {
+      "type": "item",
+      "title": "Erreurs",
+      "uri": "docs/errors.md"
+    },
+    {
       "type": "divider",
       "title": "REFERENCES"
     },
     {
       "type": "item",
+      "title": "Authentication",
+      "uri": "reference/auth.yml"
+    },
+    {
+      "type": "item",
       "title": "Paysage API",
-      "uri": "reference/openapi.yml"
+      "uri": "reference/api.yml"
     }
   ]
 }
