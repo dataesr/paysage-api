@@ -13,12 +13,12 @@ structureId:
   $ref: '../modules/structures/parameters/structure-id.yml'
 nameId:
   $ref: '../modules/structures/parameters/name-id.yml'
+logoId:
+  $ref: '../modules/structures/parameters/logo-id.yml'
 identifierId:
   $ref: '../modules/commons/identifiers/parameters/identifier-id.yml'
 localisationId:
   $ref: '../modules/structures/parameters/localisation-id.yml'
-rankingId:
-  $ref: '../modules/structures/parameters/ranking-id.yml'
 weblinkId:
   $ref: '../modules/commons/weblinks/parameters/weblink-id.yml'
 socialmediaId:

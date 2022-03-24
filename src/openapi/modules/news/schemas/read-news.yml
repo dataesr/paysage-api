@@ -1,0 +1,11 @@
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+        readOnly: true
+  - $ref: '../schemas/write-news.yml'
+  - $ref: '../../../schemas/metas.yml'

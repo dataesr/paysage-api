@@ -1,0 +1,75 @@
+get:
+  tags:
+    - Persons
+  summary: Identifier - Get an identifier
+  parameters:
+    - $ref: '../parameters/person-id.yml'
+    - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../../commons/identifiers/schemas/read-identifier.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+delete:
+  tags:
+    - Persons
+  summary: Identifier - Delete an identifier
+  security:
+  - BearerAuth: []
+  parameters:
+    - $ref: '../parameters/person-id.yml'
+    - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+patch:
+  tags:
+    - Persons
+  summary: Identifier - Update an identifier
+  security:
+  - BearerAuth: []
+  parameters:
+    - $ref: '../parameters/person-id.yml'
+    - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../commons/identifiers/schemas/write-identifier.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../../commons/identifiers/schemas/read-identifier.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

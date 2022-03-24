@@ -1,0 +1,46 @@
+type: object
+additionalProperties: false
+properties:
+  id:
+    type: string
+    readOnly: true
+    description: User id
+  username:
+    type: string
+    pattern: ^[A-Za-z0-9]{3,15}$
+  firstName:
+    type: string
+    nullable: true
+  lastName:
+    type: string
+    nullable: true
+  email:
+    type: string
+  active:
+    type: boolean
+  confirmed:
+    type: boolean
+  avatar:
+    type: string
+    nullable: true
+    readOnly: true
+  role:
+    type: string
+    description: User role
+    enum:
+      - user
+      - admin
+  createdAt:
+    type: string
+    format: date-time
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    readOnly: true
+  createdBy:
+    type: string
+    readOnly: true
+  updatedBy:
+    type: string
+    readOnly: true

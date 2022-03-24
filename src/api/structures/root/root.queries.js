@@ -35,6 +35,18 @@ const currentNamePipeline = [
   },
   { $project: { currentName: { createdAt: 0, updatedAt: 0, updateBy: 0, createdBy: 0 } } },
 ];
+
+const model = {
+  structureStatus: { $ifNull: ['$structureStatus', null] },
+  creationDate: { $ifNull: ['$creationDate', null] },
+  creationOfficialDocumentId: { $ifNull: ['$creationOfficialDocumentId', null] },
+  closureDate: { $ifNull: ['$closureDate', null] },
+  closureOfficialDocumentId: { $ifNull: ['$closureOfficialDocumentId', null] },
+  creationReason: { $ifNull: ['$creationReason', null] },
+  descriptionFr: { $ifNull: ['$descriptionFr', null] },
+  descriptionEn: { $ifNull: ['$descriptionEn', null] },
+};
+
 const readQuery = [
   ...metas,
   ...currentNamePipeline,
@@ -42,7 +54,7 @@ const readQuery = [
     $project: {
       _id: 0,
       id: 1,
-      structureStatus: { $ifNull: ['$structureStatus', null] },
+      ...model,
       status: 1,
       alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
       currentName: { $ifNull: ['$currentName', {}] },

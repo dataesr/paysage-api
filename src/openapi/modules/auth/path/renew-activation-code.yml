@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Authentication
+  summary: Renew account activation code
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

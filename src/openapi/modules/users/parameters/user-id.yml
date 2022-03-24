@@ -1,0 +1,6 @@
+name: userId
+in: path
+schema:
+  type: string
+required: true
+description: Unique user identifier

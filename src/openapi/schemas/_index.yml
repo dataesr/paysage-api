@@ -28,10 +28,6 @@ StructureLocalisationPayload:
   $ref: '../modules/structures/schemas/write-localisation.yml'
 StructureLocalisation:
   $ref: '../modules/structures/schemas/read-localisation.yml'
-StructureRankingPayload:
-  $ref: '../modules/structures/schemas/write-ranking.yml'
-StructureRanking:
-  $ref: '../modules/structures/schemas/read-ranking.yml'
 CategoryLight:
   $ref: '../modules/categories/schemas/light-category.yml'
 CategoryPayload:

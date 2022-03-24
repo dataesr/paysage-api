@@ -17,6 +17,12 @@ allOf:
         type: array
         items:
           type: string
+      creationOfficialDocument:
+        description: Reference the official document that accounts for the structure creation
+        '$ref': '../../official-documents/schemas/light-official-document.yml'
+      closureOfficialDocument:
+        description: Reference the official document that accounts for the structure closure
+        '$ref': '../../official-documents/schemas/light-official-document.yml'
   - $ref: './write-structure.yml'
   - $ref: './write-status.yml'
   - $ref: '../../../schemas/metas.yml'

@@ -1,0 +1,76 @@
+get:
+  tags:
+    - Structures
+  summary: Logo - Get a logo
+  parameters:
+    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/logo-id.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/read-logo.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+
+delete:
+  tags:
+    - Structures
+  summary: Logo - Delete a logo
+  security:
+  - BearerAuth: []
+  parameters:
+    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/logo-id.yml'
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+patch:
+  tags:
+    - Structures
+  summary: Logo - Update a logo
+  security:
+  - BearerAuth: []
+  parameters:
+    - $ref: '../parameters/structure-id.yml'
+    - $ref: '../parameters/logo-id.yml'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/write-logo.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '../schemas/read-logo.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

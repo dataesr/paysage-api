@@ -2,14 +2,11 @@ import metas from '../commons/pipelines/metas';
 
 const model = {
   title: 1,
-  fileInfo: {
-    url: 1,
-    mimetype: 1,
-    originalName: 1,
-    path: 1,
-  },
-  name: { $ifNull: ['$name', null] },
   description: { $ifNull: ['$description', null] },
+  url: 1,
+  mimetype: 1,
+  originalName: 1,
+  path: 1,
 };
 
 const readQuery = [

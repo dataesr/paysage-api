@@ -2,7 +2,7 @@ import express from 'express';
 import { createCtx, patchCtx, setPutIdInContext } from '../../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
 import structures from './root.resource';
-import { setDefaultValues } from './root.middlewares';
+import { setDefaultStatus } from './root.middlewares';
 
 const router = new express.Router();
 
@@ -10,9 +10,9 @@ const router = new express.Router();
 router.route('/structures')
   .get(structures.controllers.list)
   .post([
-    // requireActiveUser,
+    requireActiveUser,
     createCtx,
-    setDefaultValues,
+    setDefaultStatus('draft'),
     structures.controllers.create,
   ]);
 
@@ -32,7 +32,7 @@ router.route('/structures/:id')
     requireActiveUser,
     createCtx,
     setPutIdInContext('structures'),
-    setDefaultValues,
+    setDefaultStatus('published'),
     structures.controllers.create,
   ]);
 

@@ -1,8 +1,7 @@
 import 'dotenv/config';
 import request from 'supertest';
-import app from '../src/app';
+import app from '../src/api/app';
 import db from '../src/services/mongo.service';
-import setupDatabase from '../src/config/database.config';
 import Utils from './utils';
 
 beforeAll(async () => {
@@ -10,5 +9,4 @@ beforeAll(async () => {
   global.utils = new Utils(db);
   global.db = db;
   await global.utils.clearDB();
-  await setupDatabase();
 });

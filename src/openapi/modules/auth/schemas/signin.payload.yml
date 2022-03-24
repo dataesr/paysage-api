@@ -1,0 +1,12 @@
+type: object
+required:
+  - password
+  - account
+properties:
+  password:
+    type: string
+    pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+    example: Azertyui!87
+    description: Minimum eight characters, at least one letter, one number and one special character
+  account:
+    type: string

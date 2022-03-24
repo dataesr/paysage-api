@@ -11,6 +11,7 @@ describe('API > structures > structures > create', () => {
       .set('Authorization', authorization)
       .send({
         structureStatus: 'active',
+        creationDate: '2021-02',
       }).expect(201);
     expect(body.id).toBeTruthy();
     expect(body.createdBy.username).toBe('user');

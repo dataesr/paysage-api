@@ -7,17 +7,14 @@ allOf:
       id:
         type: string
         pattern: '^[a-zA-Z0-9]{5}$'
-      fileInfo:
-        type: object
-        properties:
-          url:
-            type: string
-            format: uri
-          mimetype:
-            type: string
-          id:
-            type: string
-          originalName:
-            type: string
+      url:
+        type: string
+        format: uri
+      mimetype:
+        type: string
+      originalName:
+        type: string
+      path:
+        type: string 
   - $ref: '../schemas/write-document.yml'
   - $ref: '../../../schemas/metas.yml'
