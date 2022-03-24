@@ -1,0 +1,48 @@
+get:
+  tags:
+    - Me
+  summary: Get current user data
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/me.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+patch:
+  tags:
+    - Me
+  summary: Update current user data
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/me.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/me.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+delete:
+  tags:
+    - Me
+  summary: Delete current user data
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

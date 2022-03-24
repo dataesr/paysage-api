@@ -1,0 +1,154 @@
+openapi: 3.0.1
+info:
+  title: API
+  description: Documentation for the Paysage rest API routes.
+  contact:
+    email: frederic.olland@enseignementsup.gouv.fr
+  license:
+    name: MIT
+    url: 'https://github.com/dataesr/paysage-api/LICENCE.md'
+  version: 1.0.0
+servers:
+  - url: 'https://api.paysage.staging.dataesr.ovh/'
+    description: Staging server
+  - url: 'https://api.paysage.dataesr.ovh/'
+    description: Production server
+  - url: 'http://localhost:3000/'
+    description: Development server
+
+tags:
+  - name: Structures
+    description: Operation for the Structure object.
+  - name: Persons
+    description: Operation for the Peron object.
+  - name: Categories
+    description: Operation for the Category object.
+  - name: Terms
+    description: Operation for the Term object.
+  - name: Official Documents
+    description: Operation for the OfficialDocument object.
+  - name: Legal Categories
+    description: Operation for the LegalCategorie object.
+  - name: Prices
+    description: Operation for the Price object.
+  - name: Project
+    description: Operation for the Project object.
+  - name: Events
+    description: Access event logs of object changes.
+
+
+
+paths:
+  ### EVENTS ###
+  '/events':
+    $ref: './modules/events/path/events.yml'
+
+  ### CATEGORIES ###
+  '/categories':
+    $ref: './modules/categories/path/categories.yml'
+  '/categories/{categoryId}':
+    $ref: './modules/categories/path/category.yml'
+  '/categories/{categoryId}/identifiers':
+    $ref: './modules/categories/path/identifiers.yml'
+  '/categories/{categoryId}/identifiers/{identifierId}':
+    $ref: './modules/categories/path/identifier.yml'
+  '/categories/{categoryId}/weblinks':
+    $ref: './modules/categories/path/weblinks.yml'
+  '/categories/{categoryId}/weblinks/{weblinkId}':
+    $ref: './modules/categories/path/weblink.yml'
+
+  ### PRICES ###
+  '/prices':
+    $ref: './modules/prices/path/prices.yml'
+  '/prices/{priceId}':
+    $ref: './modules/prices/path/price.yml'
+
+  ### TERMS ###
+  '/terms':
+    $ref: './modules/terms/path/terms.yml'
+  '/terms/{termId}':
+    $ref: './modules/terms/path/term.yml'
+
+  ### OFFICIAL DOCUMENTS ###
+  '/officialdocuments':
+    $ref: './modules/official-documents/path/official-documents.yml'
+  '/officialdocuments/{officialDocumentId}':
+    $ref: './modules/official-documents/path/official-document.yml'
+
+  ### LEGAL CATEGORIES ###
+  '/legalcategories':
+    $ref: './modules/legal-categories/path/legal-categories.yml'
+  '/legalcategories/{legalCategoryId}':
+    $ref: './modules/legal-categories/path/legal-category.yml'
+
+  ### PERSONS ###
+  '/persons':
+    $ref: './modules/persons/path/persons.yml'
+  '/persons/{personId}':
+    $ref: './modules/persons/path/person.yml'
+  '/persons/{personId}/identifiers':
+    $ref: './modules/persons/path/identifiers.yml'
+  '/persons/{personId}/identifiers/{identifierId}':
+    $ref: './modules/persons/path/identifier.yml'
+  '/persons/{personId}/weblinks':
+    $ref: './modules/persons/path/weblinks.yml'
+  '/persons/{personId}/weblinks/{weblinkId}':
+    $ref: './modules/persons/path/weblink.yml'
+  '/persons/{personId}/socials':
+    $ref: './modules/persons/path/socialmedias.yml'
+  '/persons/{personId}/socials/{socialmediaId}':
+    $ref: './modules/persons/path/socialmedia.yml'
+
+  ### DOCUMENTS ###
+  '/documents':
+    $ref: './modules/documents/path/documents.yml'
+  '/documents/{documentId}':
+    $ref: './modules/documents/path/document.yml'
+
+  ### STRUCTURE ###
+  '/structures':
+    $ref: './modules/structures/path/structures.yml'
+  '/structures/{structureId}':
+    $ref: './modules/structures/path/structure.yml'
+  '/structures/{structureId}/status':
+    $ref: './modules/structures/path/status.yml'
+  '/structures/{structureId}/identifiers':
+    $ref: './modules/structures/path/identifiers.yml'
+  '/structures/{structureId}/identifiers/{identifierId}':
+    $ref: './modules/structures/path/identifier.yml'
+  '/structures/{structureId}/names':
+    $ref: './modules/structures/path/names.yml'
+  '/structures/{structureId}/names/{nameId}':
+    $ref: './modules/structures/path/name.yml'
+  '/structures/{structureId}/localisations':
+    $ref: './modules/structures/path/localisations.yml'
+  '/structures/{structureId}/localisations/{localisationId}':
+    $ref: './modules/structures/path/localisation.yml'
+  '/structures/{structureId}/weblinks':
+    $ref: './modules/structures/path/weblinks.yml'
+  '/structures/{structureId}/weblinks/{weblinkId}':
+    $ref: './modules/structures/path/weblink.yml'
+  '/structures/{structureId}/socials':
+    $ref: './modules/structures/path/socialmedias.yml'
+  '/structures/{structureId}/socials/{socialmediaId}':
+    $ref: './modules/structures/path/socialmedia.yml'
+  '/structures/{structureId}/logos':
+    $ref: './modules/structures/path/logos.yml'
+  '/structures/{structureId}/logos/{logoId}':
+    $ref: './modules/structures/path/logo.yml'
+
+components:
+  parameters:
+    $ref: './parameters/_index.yml'
+
+  responses:
+    $ref: './responses/_index.yml'
+
+  schemas:
+    $ref: './schemas/_index.yml'
+    
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Authentication with a Bearer token.

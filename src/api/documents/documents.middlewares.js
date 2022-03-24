@@ -10,7 +10,7 @@ async function setFileInfo(req, res, next) {
   if (!req.files || !req.files.length) { return next(); }
   [req.file] = req.files;
   const id = req.ctx.id ?? req.params.id;
-  const path = `/assets/public/documents/${id}/${file.orininalname.toLowerCase().replace('//s+/g', '-')}`;
+  const path = `assets/documents/${id}`;
   req.ctx = {
     ...req.ctx,
     url: `${req.protocol}://${req.headers.host}/${path}`,
@@ -23,15 +23,15 @@ async function setFileInfo(req, res, next) {
 
 async function saveFile(req, res, next) {
   if (!req.file) { return next(); }
-  const { path } = req.ctx.fileInfo;
-  storage.putStream(swift, req.file.buffer, container, path)
+  const { path, mimetype } = req.ctx;
+  await storage.putStream(swift, req.file.buffer, container, path, { 'Content-Type': mimetype })
     .catch(() => { throw new ServerError('Error saving file'); });
   return next();
 }
 
 async function deleteFile(req, res, next) {
   const { path } = await documents.repository.get(req.params.id);
-  storage.deleteFile(swift, container, path)
+  await storage.deleteFile(swift, container, path)
     .catch(() => { throw new ServerError('Error deleting file'); });
   return next();
 }

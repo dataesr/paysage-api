@@ -3,7 +3,7 @@ let authorization;
 beforeAll(async () => {
   authorization = await global.utils.createUser();
   const { body } = await global.superapp
-    .post('/official-documents')
+    .post('/officialdocuments')
     .set('Authorization', authorization)
     .send({
       nature: 'Publication au JO',

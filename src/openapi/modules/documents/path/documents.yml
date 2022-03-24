@@ -42,6 +42,7 @@ post:
         schema:
           required:
             - title
+            - file
           allOf:
               - $ref: '../schemas/write-document.yml'
   responses:

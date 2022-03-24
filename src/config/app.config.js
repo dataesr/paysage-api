@@ -20,7 +20,6 @@ const production = {
       region: process.env.OVH_REGION,
     },
     container: 'paysage',
-    url: 'https://storage.sbg.cloud.ovh.net/v1/AUTH_32c5d10cb0fe4519b957064a111717e3',
   },
   logger: {
     logLevel: 'error',
@@ -38,6 +37,7 @@ const staging = {
     ...production.elastic,
     index: 'paysage-staging',
   },
+  hostname: 'https://api.paysage.staging.dataesr.ovh',
 };
 const testing = {
   ...production,
@@ -55,9 +55,8 @@ const testing = {
     container: 'paysage-test',
   },
   logger: {
-    logLevel: 'debug',
+    logLevel: 'error',
   },
-  hostname: 'https://api.paysage.staging.dataesr.ovh',
 };
 const development = {
   ...production,

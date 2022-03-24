@@ -3,9 +3,9 @@ import { HTTPError } from '../../../libs/http-errors';
 import logger from '../../../services/logger.service';
 
 export function handleErrors(err, req, res, next) {
-  logger.error(`${req.method} ${req.url}: ${err.message}`);
-
+  logger.info(err);
   if (err instanceof HTTPError) {
+    if (err.statusCode === 500) { logger.error(err); }
     return res.status(err.statusCode).json({
       error: err.message,
       details: err.errors,
@@ -24,12 +24,14 @@ export function handleErrors(err, req, res, next) {
     });
   }
   if (err instanceof OAVError.InternalServerError) {
+    logger.error(err);
     return res.status(500).json({
       error: 'Something went wrong',
       details: err.errors,
     });
   }
   if (err) {
+    logger.error(err);
     return res.status(err.status || 500).json({
       message: 'Something went wrong', details: [],
     });

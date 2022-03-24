@@ -1,25 +1,24 @@
 import winston from 'winston';
 import config from '../config/app.config';
 
+const { combine, printf, colorize, timestamp, errors } = winston.format;
+const { Console } = winston.transports;
+
 const { logLevel } = config.logger;
 
-const alignColorsAndTime = winston.format.combine(
-  winston.format.colorize({
-    all: true,
+const format = combine(
+  colorize({ all: true }),
+  timestamp({ format: 'YY-MM-DD HH:MM:SS' }),
+  printf((info) => {
+    const { level, message, timestamp: ts, service, stack } = info;
+    if (stack) { return ` [${ts}][${service}][${level}]: ${message}\n${stack}`; }
+    return ` [${ts}][${service}][${level}]: ${message}`;
   }),
-  winston.format.timestamp({
-    format: 'YY-MM-DD HH:MM:SS',
-  }),
-  winston.format.printf(
-    (info) => ` [${info.timestamp}][${info.level}]: ${info.message}`,
-  ),
 );
 
 export default winston.createLogger({
   level: logLevel,
-  transports: [
-    new (winston.transports.Console)({
-      format: winston.format.combine(winston.format.colorize(), alignColorsAndTime),
-    }),
-  ],
+  format: errors({ stack: true }),
+  transports: [new Console({ format })],
+  defaultMeta: { service: process.env.ENTRYPOINT.toUpperCase() },
 });

@@ -1,0 +1,699 @@
+openapi: 3.0.1
+info:
+  title: Authentication.
+  description: Authentication and UserManagment api.
+  contact:
+    email: frederic.olland@enseignementsup.gouv.fr
+  license:
+    name: MIT
+    url: 'https://github.com/dataesr/paysage-api/LICENCE.md'
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3000/'
+  - url: 'https://api.paysage.staging.dataesr.ovh/'
+  - url: 'https://api.paysage.dataesr.ovh/'
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - Authentication
+      summary: Sign a user up
+      description: Create a user account
+      requestBody:
+        description: Required user info for account creation
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+                - email
+                - username
+              properties:
+                password:
+                  type: string
+                  pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+                  example: Azertyui!87
+                  description: 'Minimum eight characters, at least one letter, one number and one special character'
+                email:
+                  type: string
+                  format: email
+                  example: folland@dataesr.ovh
+                username:
+                  type: string
+                  example: folland87
+                firstName:
+                  type: string
+                  example: Frédéric
+                lastName:
+                  type: string
+                  example: Olland
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /auth/signin:
+    post:
+      tags:
+        - Authentication
+      summary: Sign a user in
+      requestBody:
+        description: Required user info for signin
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+                - account
+              properties:
+                password:
+                  type: string
+                  pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+                  example: Azertyui!87
+                  description: 'Minimum eight characters, at least one letter, one number and one special character'
+                account:
+                  type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1auth~1signup/post/responses/201/content/application~1json/schema'
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /auth/signout:
+    post:
+      tags:
+        - Authentication
+      summary: Sign a user out
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /auth/activate-account:
+    post:
+      tags:
+        - Authentication
+      summary: Activate user account
+      requestBody:
+        description: Information for account activation
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - activationCode
+              properties:
+                activationCode:
+                  type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /auth/refresh-access-token:
+    post:
+      tags:
+        - Authentication
+      summary: Use refresh token to regenerate access token
+      requestBody:
+        description: Required user info for authentication
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1auth~1signup/post/responses/201/content/application~1json/schema'
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /auth/renew-activation-code:
+    get:
+      tags:
+        - Authentication
+      summary: Renew account activation code
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /auth/send-password-renewal-code:
+    post:
+      tags:
+        - Authentication
+      summary: Send an email with a code to change password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account
+              properties:
+                account:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /auth/reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: Resets user password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account
+                - password
+                - code
+              properties:
+                account:
+                  type: string
+                password:
+                  type: string
+                  pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+                code:
+                  type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  '/users/{userId}':
+    get:
+      tags:
+        - Users
+      summary: Get a user by id
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Unique user identifier
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1users~1%7BuserId%7D/patch/requestBody/content/application~1json/schema'
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/post/responses/403'
+        '404':
+          description: Resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1me/get/responses/401/content/application~1json/schema'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/post/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+    patch:
+      tags:
+        - Users
+      summary: Update a user
+      requestBody:
+        description: User info for account creation
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  type: string
+                  readOnly: true
+                  description: User id
+                username:
+                  type: string
+                  pattern: '^[A-Za-z0-9]{3,15}$'
+                firstName:
+                  type: string
+                  nullable: true
+                lastName:
+                  type: string
+                  nullable: true
+                email:
+                  type: string
+                active:
+                  type: boolean
+                confirmed:
+                  type: boolean
+                avatar:
+                  type: string
+                  nullable: true
+                  readOnly: true
+                role:
+                  type: string
+                  description: User role
+                  enum:
+                    - user
+                    - admin
+                createdAt:
+                  type: string
+                  format: date-time
+                  readOnly: true
+                updatedAt:
+                  type: string
+                  format: date-time
+                  readOnly: true
+                createdBy:
+                  type: string
+                  readOnly: true
+                updatedBy:
+                  type: string
+                  readOnly: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1users~1%7BuserId%7D/patch/requestBody/content/application~1json/schema'
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/post/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Get current user data
+      parameters:
+        - name: filters
+          in: query
+          description: A filtering object
+          style: deepObject
+          schema:
+            type: object
+            description: '?filters[lastName][$eq]=Dupond&filters[lastName][$neq]=Dupont'
+        - name: skip
+          in: query
+          description: number of items to skip
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: limit
+          in: query
+          description: max records to return
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        - name: sort
+          in: query
+          description: Sort returned data
+          schema:
+            type: string
+            description: '?sort=firstname,-createdAt'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1users~1%7BuserId%7D/patch/requestBody/content/application~1json/schema'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+    post:
+      tags:
+        - Users
+      summary: create user
+      requestBody:
+        description: Required user info for account creation
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                  pattern: '^[A-Za-z0-9]{3,15}$'
+                  description: User unique identifier.
+                firstName:
+                  type: string
+                  nullable: true
+                lastName:
+                  type: string
+                  nullable: true
+                email:
+                  type: string
+                password:
+                  type: string
+                active:
+                  type: boolean
+                  default: true
+                confirmed:
+                  type: boolean
+                  default: true
+                role:
+                  type: string
+                  default: user
+                  description: User role
+                  enum:
+                    - user
+                    - admin
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1users~1%7BuserId%7D/patch/requestBody/content/application~1json/schema'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '403':
+          description: Permission denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1me/get/responses/401/content/application~1json/schema'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /me:
+    get:
+      tags:
+        - Me
+      summary: Get current user data
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1me/patch/requestBody/content/application~1json/schema'
+        '401':
+          description: Authentification needed.
+          content:
+            application/json:
+              schema:
+                title: Error
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                  details:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                        path:
+                          type: string
+                        errorCode:
+                          type: string
+        '500':
+          description: An unexpected error occured on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1me/get/responses/401/content/application~1json/schema'
+    patch:
+      tags:
+        - Me
+      summary: Update current user data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                id:
+                  type: string
+                  readOnly: true
+                  description: User's internal id
+                username:
+                  type: string
+                  readOnly: true
+                  pattern: '^[A-Za-z0-9]{3,15}$'
+                  description: User unique identifier.
+                firstName:
+                  type: string
+                  nullable: true
+                lastName:
+                  type: string
+                  nullable: true
+                email:
+                  type: string
+                active:
+                  type: boolean
+                  readOnly: true
+                confirmed:
+                  type: boolean
+                  readOnly: true
+                avatar:
+                  type: string
+                  nullable: true
+                  readOnly: true
+                role:
+                  type: string
+                  description: User role
+                  readOnly: true
+                  enum:
+                    - user
+                    - admin
+                createdAt:
+                  type: string
+                  format: date-time
+                  readOnly: true
+                updatedAt:
+                  type: string
+                  format: date-time
+                  readOnly: true
+                createdBy:
+                  type: string
+                  readOnly: true
+                updatedBy:
+                  type: string
+                  readOnly: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1me/patch/requestBody/content/application~1json/schema'
+        '400':
+          description: Illegal input for operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1me/get/responses/401/content/application~1json/schema'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+    delete:
+      tags:
+        - Me
+      summary: Delete current user data
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /me/password:
+    put:
+      tags:
+        - Me
+      summary: Change user password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - newPassword
+                - currentPassword
+              properties:
+                newPassword:
+                  type: string
+                  pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+                currentPassword:
+                  type: string
+                  pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1me/patch/requestBody/content/application~1json/schema'
+        '400':
+          $ref: '#/paths/~1me/patch/responses/400'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+  /me/avatar:
+    put:
+      tags:
+        - Me
+      summary: Change user avatar
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1me/patch/requestBody/content/application~1json/schema'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'
+    delete:
+      tags:
+        - Me
+      summary: Delete user avatar
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1me/patch/requestBody/content/application~1json/schema'
+        '401':
+          $ref: '#/paths/~1me/get/responses/401'
+        '500':
+          $ref: '#/paths/~1me/get/responses/500'

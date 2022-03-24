@@ -1,0 +1,75 @@
+get:
+  tags:
+    - News
+  summary: Get a news
+  parameters:
+    - $ref: '../parameters/news-id.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/read-news.yml'
+    '301':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+delete:
+  tags:
+    - News
+  summary: Delete a news
+  security:
+  - BearerAuth: []
+  parameters:
+    - $ref: '../parameters/news-id.yml'
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+patch:
+  tags:
+    - News
+  summary: Update a news
+  security:
+  - BearerAuth: []
+  parameters:
+    - $ref: '../parameters/news-id.yml'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/write-news.yml'
+
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/read-news.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

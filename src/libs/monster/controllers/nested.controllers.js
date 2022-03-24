@@ -13,9 +13,12 @@ export default class NestedControllers {
     const { rid } = req.params;
     if (!await this._repository.checkResource(rid)) throw new NotFoundError(`Resource ${rid} does not exist`);
     const ctx = req.ctx || {};
-    const id = (this._catalogue)
-      ? await this._catalogue.getUniqueId(this._repository.collectionName)
-      : mongodb.ObjectId();
+    let { id } = req.ctx;
+    if (!id) {
+      id = (this._catalogue)
+        ? await this._catalogue.getUniqueId(this._repository.collectionName)
+        : mongodb.ObjectId();
+    }
     const payload = { id, ...req.body };
     const data = this._storeContext ? { ...payload, ...ctx } : payload;
     const insertedId = await this._repository.create(rid, data);

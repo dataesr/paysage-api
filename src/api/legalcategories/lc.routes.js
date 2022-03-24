@@ -1,0 +1,32 @@
+import express from 'express';
+import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
+import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
+import lc from './lc.resource';
+import { validatePayload } from './lc.middlewares';
+
+const router = new express.Router();
+
+router.route('/legalcategories')
+  .get(lc.controllers.list)
+  .post([
+    requireActiveUser,
+    createCtx,
+    validatePayload,
+    lc.controllers.create,
+  ]);
+
+router.route('/legalcategories/:id')
+  .get(lc.controllers.read)
+  .patch([
+    requireActiveUser,
+    patchCtx,
+    validatePayload,
+    lc.controllers.patch,
+  ])
+  .delete([
+    requireActiveUser,
+    patchCtx,
+    lc.controllers.delete,
+  ]);
+
+export default router;

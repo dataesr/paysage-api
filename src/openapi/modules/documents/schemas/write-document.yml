@@ -1,9 +1,6 @@
 description: Document
 type: object
 properties:
-  name:
-    type: string
-    nullable: true
   title:
     type: string
   description:

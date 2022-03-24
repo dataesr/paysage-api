@@ -1,0 +1,27 @@
+post:
+  tags:
+    - Authentication
+  summary: Use refresh token to regenerate access token
+  requestBody:
+    description: Required user info for authentication
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - refreshToken
+          properties:
+            refreshToken:
+              type: string
+    required: true
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/sign.response.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

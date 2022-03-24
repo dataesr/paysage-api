@@ -1,0 +1,71 @@
+get:
+  tags:
+    - Users
+  summary: Get a user by id
+  parameters:
+    - $ref: '../parameters/user-id.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/user.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+delete:
+  tags:
+    - Users
+  summary: Delete a user
+  # parameters:
+  #   - $ref: '../parameters/user-id.yml'
+  responses:
+    '204':
+      description: No content
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'
+
+patch:
+  tags:
+    - Users
+  summary: Update a user
+  # parameters:
+  #   - $ref: '../parameters/user-id.yml'
+  requestBody:
+    description: User info for account creation
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/user.yml'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/user.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '401':
+      $ref: '../../../responses/errors/unauthorized.yml'
+    '403':
+      $ref: '../../../responses/errors/forbidden.yml'
+    '404':
+      $ref: '../../../responses/errors/not-found.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

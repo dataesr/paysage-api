@@ -1,5 +1,5 @@
 import { BadRequestError } from '../../../libs/http-errors';
-import officialDocument from '../../official-documents/od.resource';
+import officialDocument from '../../officialdocuments/od.resource';
 import categories from './root.resource';
 
 export async function validatePayload(req, res, next) {

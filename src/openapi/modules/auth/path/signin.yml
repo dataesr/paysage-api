@@ -1,0 +1,22 @@
+post:
+  tags:
+    - Authentication
+  summary: Sign a user in
+  requestBody:
+    description: Required user info for signin
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/signin.payload.yml'
+    required: true
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/sign.response.yml'
+    '400':
+      $ref: '../../../responses/errors/bad-request.yml'
+    '500':
+      $ref: '../../../responses/errors/server-error.yml'

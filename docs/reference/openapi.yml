@@ -2089,7 +2089,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
-  '/structures/{structureId}/social-medias':
+  '/structures/{structureId}/socials':
     get:
       tags:
         - Structures
@@ -2160,7 +2160,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
-  '/structures/{structureId}/social-medias/{socialmediaId}':
+  '/structures/{structureId}/socials/{socialmediaId}':
     get:
       tags:
         - Structures

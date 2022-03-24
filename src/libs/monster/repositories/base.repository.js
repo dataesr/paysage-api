@@ -51,6 +51,11 @@ export default class MongoRepository {
     return { ok: !!modifiedCount };
   }
 
+  async put(id, data) {
+    const { modifiedCount } = await this._collection.updateOne({ id }, data);
+    return { ok: !!modifiedCount };
+  }
+
   async remove(id) {
     const { deletedCount } = await this._collection.deleteOne({ id });
     return { ok: !!deletedCount };

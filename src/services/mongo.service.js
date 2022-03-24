@@ -18,5 +18,14 @@ client.connect().catch((e) => {
 const db = client.db(mongoDbName);
 logger.info(`Connected to mongo database... ${mongoDbName}`);
 
-export { client };
+const mongoUtils = {
+  async clear(exclude) {
+    const collections = await db.listCollections().toArray();
+    const collectionsToDelete = collections.filter((collection) => (!(exclude.includes(collection.name))));
+    await Promise.all(collectionsToDelete.map(async (collection) => {
+      await db.collection(collection.name).drop();
+    }));
+  },
+};
+export { client, mongoUtils };
 export default db;

@@ -80,6 +80,18 @@ export default class NestedMongoRepository {
     return { ok: !!modifiedCount };
   };
 
+  put = async (rid, id, data) => {
+    const _data = Object.keys(data).reduce(
+      (doc, field) => ([null, ''].includes(data[field]) ? doc : ({ ...doc, [field]: data[field] })),
+      {},
+    );
+    const { modifiedCount } = await this._collection.updateOne(
+      { id: rid, [`${this._field}.id`]: id },
+      { $set: { [`${this._field}.$`]: _data } },
+    );
+    return { ok: !!modifiedCount };
+  };
+
   remove = async (rid, id) => {
     const { modifiedCount } = await this._collection.updateOne(
       { id: rid },
