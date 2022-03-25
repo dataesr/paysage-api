@@ -6,12 +6,63 @@ tags: [OVERVIEW]
 
 ## Schémas
 
-L'accès API se fait uniquement à l'adresse paysage.staging.dataesr.ovh. Les requètes et les réponses se font au format JSON.
-Les champs vides ne sont pas omis et renvoyé null, ou vide. Les dates du système applicatif sont au format `YYYY-MM-DDTHH:MM:SSZ` alors que beaucoup de dates dans les modèles sont au format `YYYY-MM-DD`. Les valeurs du mois et du jour peuvent être omises. Par exemple `2022-03` ou `2022` sont des dates valides. `2022-` ne l'est pas.
+### Content-Type
+L'accès API se fait uniquement à l'adresse `paysage.staging.dataesr.ovh`. Les requètes et les réponses se font toutes au format JSON.
+
+### Champs
+Les champs vides ne sont pas omis et renvoyés `null` si le type du champs n'est pas ni un tableau, ni un objet.
+Un tableau vide `[]` est renvoyé dans le cas d'un tableau. Un objet vide `{}` est renvoyé dans le cas d'un objet.
+```json
+{
+  "id": "G9uJm",
+  "usualNameFr": "Structure à Dresde (Allemagne)",
+  "createdBy": {
+    "id": "666340OY",
+    "username": "init",
+    "avatar": null
+  },
+  "createdAt": "2022-02-25T12:24:34.011Z",
+  "updatedBy": {},
+  "parents": [],
+  "childs": [],
+  "usualNameEn": null,
+  "shortNameEn": null,
+  "shortNameFr": null,
+  "acronymFr": null,
+  "pluralNameFr": "Les structures à Dresde (Allemagne)",
+  "otherNamesFr": [
+    "Dresde (Allemagne)"
+  ],
+  "otherNamesEn": [],
+  "descriptionFr": null,
+  "descriptionEn": null,
+  "comment": null,
+}
+```
+
+### Dates
+#### Dates système
+Les dates du système applicatif sont au format `YYYY-MM-DDTHH:MM:SSZ`. Par exemple, les dates de création et de modification des objets:
+```json
+{ 
+  ...,
+  "createdAt": "2022-02-25T12:24:34.011Z",
+  "updatedAt": "2022-02-25T12:24:34.011Z"
+}
+```
+
+#### Dates approximatives
+Beaucoup de dates dans les modèles sont au format `YYYY-MM-DD`. 
+Lorsque la date est approximative, les valeurs du mois et du jour peuvent être omises.
+Par exemple une structure peut avoir une date d'ouverture pour laquelle:
+  - l'année, le mois et le jour sont connus: `2022-03-25` est une date valide.
+  - l'année et le mois sont connus, le jour est inconnu. `2022-03` est une date valide.
+  - seule l'année est connue. `2022` est une date valide.
+`2022-` ou `2022-03-` ne l'est pas.
 
 ## Securité
+Pour accéder à une route protégée, ajoutez au `HEADERS` de la requète `{ "Authorization": "Bearer <token>" }`.
 
-Pour accéder à une route protégée, ajoutez un `HEADER` { "Authorization": "Bearer <token>" }
 Pour obtenir ce token, reportez vous à la section Authentification.
 
 
@@ -47,3 +98,39 @@ Dans ce tableau la clé path indique ou se situe l'erreur elle commence généra
   - .params pour une erreur dans les paramètres
   - .response lorsque le modèle renvoyé n'est pas valide.
 La clé `message` donne une indication plus précise de l'erreur repérée à l'endroit indiqué.
+
+## Authentification
+
+Afin d'obtenir un token d'accès à l'API, et accéder au routes protégées, il est nécessaire de se connecter avec un compte utilisateur.
+```sh
+$ curl -X POST -H "Content-Type: application/json" -d { "username": "<username>", "password": "<user-password>"} https://api.paysage.dataesr.ovh/auth/signin
+
+> {
+  "accessToken": "123",
+  "refreshToken": "123",
+}
+```
+
+Vous obtiendrez en réponse un token d'accès, `accessToken` et un token de rafraichissement `refreshToken`
+
+### Token d'accès
+
+Le token d'accès permet d'authentifier l'utilisateur à chaque requète api.
+Ajoutez simplement au `HEADERS` de la requète `{ "Authorization": "Bearer <accessToken>" }`. 
+Ce token n'est valable que pour un temps limité.
+Dans le cas ou le token expire et/ou le token n'est pas passé dans les `HEADERS`, l'api répondra par le code 401.
+```json
+{ "message": "Vous devez être connecté" }
+```
+
+### Raffraichir le token d'accès
+
+Si le token d'acces de l'utilisateur est expiré, celui-ci peut être renouvellé grâce au `refreshToken`.
+```sh
+$ curl -X POST -H "Content-Type: application/json" -d { "refreshToken": "<refreshToken>" } https://api.paysage.dataesr.ovh/auth/refresh-access-token
+
+> {
+  "accessToken": "123",
+  "refreshToken": "123",
+}
+```
