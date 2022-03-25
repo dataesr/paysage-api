@@ -1,6 +1,7 @@
 let authorization;
 let rid;
 let id;
+let tid;
 const payload = {
   cityId: 'string',
   distributionStatement: 'string',
@@ -44,6 +45,14 @@ describe('API > structures > localisations > create', () => {
       .post(`/structures/${rid}/localisations`)
       .set('Authorization', authorization)
       .send(rest).expect(400);
+  });
+  it('can create with missing coordinates', async () => {
+    const { coordinates, ...rest } = payload;
+    const { body } = await global.superapp
+      .post(`/structures/${rid}/localisations`)
+      .set('Authorization', authorization)
+      .send(rest);
+    tid = body.id;
   });
 });
 
@@ -124,6 +133,12 @@ describe('API > structures > localisations > read', () => {
 });
 
 describe('API > structures > localisations > delete', () => {
+  it('can delete', async () => {
+    await global.superapp
+      .delete(`/structures/${rid}/localisations/${tid}`)
+      .set('Authorization', authorization)
+      .expect(204);
+  });
   it('throws bad request with wrong id', async () => {
     await global.superapp
       .delete(`/structures/${rid}/localisations/vgy775`)
