@@ -20,8 +20,14 @@ const readQuery = [
   {
     $set: {
       coordinates: {
-        lat: { $last: '$geometry.coordinates' },
-        lng: { $first: '$geometry.coordinates' },
+        $cond: [
+          { $or: [
+            { $eq: [{ $ifNull: ['$geometry.coordinates.lat', null] }, null] },
+            { $eq: [{ $ifNull: ['$geometry.coordinates.lng', null] }, null] },
+          ] },
+          null,
+          { lat: { $last: '$geometry.coordinates' }, lng: { $first: '$geometry.coordinates' } },
+        ],
       },
     },
   },
