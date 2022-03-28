@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: Names- List structure names
+    - Structures - Names
+  summary: List all structure's names
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
@@ -35,8 +35,8 @@ get:
 
 post:
   tags:
-    - Structures
-  summary: Names- Create a structure name
+    - Structures - Names
+  summary: Add a new name to a structure
   security:
   - BearerAuth: []
   parameters:

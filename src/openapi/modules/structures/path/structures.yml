@@ -1,7 +1,7 @@
 get:
   tags:
     - Structures
-  summary: Structures - List structures
+  summary: List all structures
   parameters:
     - $ref: '../../../parameters/query/filters.yml'
     - $ref: '../../../parameters/query/skip.yml'
@@ -9,7 +9,7 @@ get:
     - $ref: '../../../parameters/query/sort.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:
@@ -33,7 +33,7 @@ get:
 post:
   tags:
     - Structures
-  summary: Structures - Create a Structure
+  summary: Create a new structure
   requestBody:
     content:
         application/json:

@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: SocialMedias - List structure social medias
+    - Structures - Social medias
+  summary: List all structure's social medias
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
@@ -10,7 +10,7 @@ get:
     - $ref: '../../../parameters/query/sort.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:
@@ -35,8 +35,8 @@ get:
 
 post:
   tags:
-    - Structures
-  summary: SocialMedias - Create a structure social media
+    - Structures - Social medias
+  summary: Add a social media to a structure
   security:
   - BearerAuth: []
   parameters:

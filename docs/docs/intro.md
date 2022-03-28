@@ -46,7 +46,7 @@ Les objets paysage ont la plupart du temps deux représentations.
   ```sh
   $ curl -X GET -H "Content-Type: application/json" -H "Authorization: <accessToken> https://api.paysage.dataesr.ovh/categories/G9uJm"
   ```
-  - La deuxième, simplifiée est utilisé dans des requètes de listes et/ou lorsque les données d'un objets sont rappatriées dans la représentation d'un autre. Par exemple:
+  - La deuxième, simplifiée peut être utilisé dans des requètes de search et/ou lorsque les données d'un objets sont rappatriées dans la représentation d'un autre. Par exemple:
   ```sh
   $ curl -X GET -H "Content-Type: application/json" -H "Authorization: <accessToken> https://api.paysage.dataesr.ovh/categories/"
   ```
@@ -80,6 +80,20 @@ Par exemple une structure peut avoir une date d'ouverture pour laquelle:
 Pour accéder à une route protégée, ajoutez au `HEADERS` de la requète `{ "Authorization": "Bearer <token>" }`.
 
 Pour obtenir ce token, reportez-vous à la section [Authentification](#authentification).
+
+## Codes HTTP
+---
+
+| Code | Description  | Détails
+| ---  | ---          | ---
+| 200	 | OK	          | La requète a réussi et la réponse contient des données.
+| 201	 | Created	    | La requète a réussi, une resource à été créee et la réponse contient des données.
+| 204	 | No Content	  | La requète a réussi mais la réponse ne contient pas de données.
+| 400	 | Bad Request  | La requète comporte des erreurs.
+| 401	 | Unauthorized | L'utilisateur n'est pas connecté.
+| 403	 | Forbidden    | L'utilisateur n'a pas les droits nécessaires.
+| 404	 | Not Found	  | La resource n'existe pas.
+| 500	 | Server Error | La requète a échoué de façcon innatendue.
 
 
 ## Erreurs
