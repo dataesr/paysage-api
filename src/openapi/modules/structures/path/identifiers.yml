@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: Identifiers - List structure identifiers
+    - Structures - Identifiers
+  summary: List all structure's identifiers
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
@@ -35,8 +35,8 @@ get:
 
 post:
   tags:
-    - Structures
-  summary: Identifiers - Create a structure indentifier
+    - Structures - Identifiers
+  summary: Add a new identifier to a structure
   security:
   - BearerAuth: []
   parameters:

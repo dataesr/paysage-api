@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: Logo - Get a logo
+    - Structures - Logos
+  summary: Get a structure logo
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../parameters/logo-id.yml'
@@ -24,8 +24,8 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: Logo - Delete a logo
+    - Structures - Logos
+  summary: Remove a structure logo
   security:
   - BearerAuth: []
   parameters:
@@ -45,8 +45,8 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: Logo - Update a logo
+    - Structures - Logos
+  summary: Update a structure logo
   security:
   - BearerAuth: []
   parameters:

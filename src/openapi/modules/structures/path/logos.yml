@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: Logos- List logos
+    - Structures - Logos
+  summary: List all structures's logos
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
@@ -10,7 +10,7 @@ get:
     - $ref: '../../../parameters/query/sort.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:
@@ -35,8 +35,8 @@ get:
 
 post:
   tags:
-    - Structures
-  summary: Logos- Add a logo
+    - Structures - Logos
+  summary: Add a new logo to structure
   security:
   - BearerAuth: []
   parameters:
