@@ -17,11 +17,33 @@ servers:
     description: Development server
 tags:
   - name: Structures
-    description: Operation for the Structure object.
+    description: Operations on structures.
+  - name: Structures - Names
+    description: Operations on structure's names.
+  - name: Structures - Identifiers
+    description: Operations on structure's identifiers.
+  - name: Structures - Weblinks
+    description: Operations on structure's weblinks.
+  - name: Structures - SocialMedias
+    description: Operations on structure's social medias.
+  - name: Structures - Localisations
+    description: Operations on structure's localisations.
+  - name: Structures - Logos
+    description: Operations on structure's logos.
   - name: Persons
-    description: Operation for the Peron object.
+    description: Operations on persons.
+  - name: Persons - Identifiers
+    description: Operations on person's identifiers.
+  - name: Persons - SocialMedias
+    description: Operations on person's social medias.
+  - name: Persons - Weblinks
+    description: Operations on person's weblinks.
   - name: Categories
-    description: Operation for the Category object.
+    description: Operations on Categories.
+  - name: Categories - Identifiers
+    description: Operations on Categories' identifiers.
+  - name: Categories - Weblinks
+    description: Operations on Categories' weblinks.
   - name: Terms
     description: Operation for the Term object.
   - name: Official Documents

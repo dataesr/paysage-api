@@ -1,13 +1,13 @@
 get:
   tags:
-    - Structures
-  summary: Weblink - Get a structure weblink
+    - Structures - Web links
+  summary: Get a structure web link
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../../commons/weblinks/parameters/weblink-id.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:
@@ -23,8 +23,8 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: Weblink - Delete a structure weblink
+    - Structures - Web links
+  summary: Remove a structure web link
   security:
   - BearerAuth: []
   parameters:
@@ -44,8 +44,8 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: Weblink - Update a structure weblink
+    - Structures - Web links
+  summary: Update a structure web link
   security:
   - BearerAuth: []
   parameters:
@@ -58,7 +58,7 @@ patch:
           $ref: '../../commons/weblinks/schemas/write-weblink.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:

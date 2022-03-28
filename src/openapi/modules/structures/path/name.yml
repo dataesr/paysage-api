@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: Name - Get a structure name
+    - Structures - Names
+  summary: Get a structure name
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../parameters/name-id.yml'
@@ -24,8 +24,8 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: Name - Delete a structure name
+    - Structures - Names
+  summary: Remove a structure name
   security:
   - BearerAuth: []
   parameters:
@@ -45,8 +45,8 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: Name - Update a structure name
+    - Structures - Names
+  summary: Update a structure name
   security:
   - BearerAuth: []
   parameters:

@@ -1,7 +1,7 @@
 put:
   tags:
-    - Structures
-  summary: Status - Change the structure status
+    - Structures - Status
+  summary: Change the status of a structure
   security:
   - BearerAuth: []
   parameters:
@@ -13,7 +13,7 @@ put:
             $ref: '../schemas/write-status.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:

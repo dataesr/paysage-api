@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: Weblinks - List structure weblinks
+    - Structures - Web links
+  summary: List all structure's web links
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
@@ -10,7 +10,7 @@ get:
     - $ref: '../../../parameters/query/sort.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:
@@ -36,7 +36,7 @@ get:
 post:
   tags:
     - Structures
-  summary: Weblinks - Create a structure weblink
+  summary: Add a new weblink to a structure
   security:
   - BearerAuth: []
   parameters:

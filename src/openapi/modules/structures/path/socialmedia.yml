@@ -1,13 +1,13 @@
 get:
   tags:
-    - Structures
-  summary: SocialMedia - Get a structure social media
+    - Structures - Social medias
+  summary: Get a structure social media
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../../commons/socialmedias/parameters/socialmedia-id.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:
@@ -23,8 +23,8 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: SocialMedia - Delete a structure social media
+    - Structures - Social medias
+  summary: Remove a structure social media
   security:
   - BearerAuth: []
   parameters:
@@ -44,8 +44,8 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: SocialMedia - Update a structure social media
+    - Structures - Social medias
+  summary: Update a structure social media
   security:
   - BearerAuth: []
   parameters:
@@ -58,7 +58,7 @@ patch:
           $ref: '../../commons/socialmedias/schemas/write-socialmedia.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:
