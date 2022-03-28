@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: Localisations - List structure localisations
+    - Structures - Localisations
+  summary: List all structure's localisations
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../../../parameters/query/filters.yml'
@@ -10,7 +10,7 @@ get:
     - $ref: '../../../parameters/query/sort.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:
@@ -35,8 +35,8 @@ get:
 
 post:
   tags:
-    - Structures
-  summary: Localisations - Create a structure localisation
+    - Structures - Localisations
+  summary: Add a new localisation to a structure
   security:
   - BearerAuth: []
   parameters:

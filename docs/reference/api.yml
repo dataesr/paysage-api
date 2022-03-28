@@ -1956,8 +1956,8 @@ paths:
   '/structures/{structureId}/identifiers':
     get:
       tags:
-        - Structures
-      summary: Identifiers - List structure identifiers
+        - Structures - Identifiers
+      summary: List all structure's identifiers
       parameters:
         - $ref: '#/components/parameters/structureId'
         - $ref: '#/components/parameters/filter'
@@ -1990,8 +1990,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     post:
       tags:
-        - Structures
-      summary: Identifiers - Create a structure indentifier
+        - Structures - Identifiers
+      summary: Add a new identifier to a structure
       security:
         - BearerAuth: []
       parameters:
@@ -2028,8 +2028,8 @@ paths:
   '/structures/{structureId}/identifiers/{identifierId}':
     get:
       tags:
-        - Structures
-      summary: Identifier - Get a structure identifier
+        - Structures - Identifiers
+      summary: Get a structure identifier
       parameters:
         - $ref: '#/components/parameters/structureId'
         - $ref: '#/components/parameters/identifierId'
@@ -2050,8 +2050,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     delete:
       tags:
-        - Structures
-      summary: Identifier - Delete a structure identifier
+        - Structures - Identifiers
+      summary: Remove a structure identifier
       security:
         - BearerAuth: []
       parameters:
@@ -2070,8 +2070,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     patch:
       tags:
-        - Structures
-      summary: Identifier - Update a structure identifier
+        - Structures - Identifiers
+      summary: Update a structure identifier
       security:
         - BearerAuth: []
       parameters:
@@ -2246,8 +2246,8 @@ paths:
   '/structures/{structureId}/localisations':
     get:
       tags:
-        - Structures
-      summary: Localisations - List structure localisations
+        - Structures - Localisations
+      summary: List all structure's localisations
       parameters:
         - $ref: '#/components/parameters/structureId'
         - $ref: '#/components/parameters/filter'
@@ -2256,7 +2256,7 @@ paths:
         - $ref: '#/components/parameters/sort'
       responses:
         '200':
-          description: Success
+          description: OK
           content:
             application/json:
               schema:
@@ -2280,8 +2280,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     post:
       tags:
-        - Structures
-      summary: Localisations - Create a structure localisation
+        - Structures - Localisations
+      summary: Add a new localisation to a structure
       security:
         - BearerAuth: []
       parameters:
@@ -2316,8 +2316,8 @@ paths:
   '/structures/{structureId}/localisations/{localisationId}':
     get:
       tags:
-        - Structures
-      summary: Localisation - Get a structure localisation
+        - Structures - Localisations
+      summary: Get a structure localisation
       parameters:
         - $ref: '#/components/parameters/structureId'
         - $ref: '#/components/parameters/localisationId'
@@ -2338,8 +2338,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     delete:
       tags:
-        - Structures
-      summary: Localisation - Delete a structure localisation
+        - Structures - Localisations
+      summary: Remove a structure localisation
       security:
         - BearerAuth: []
       parameters:
@@ -2358,8 +2358,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     patch:
       tags:
-        - Structures
-      summary: Localisation - Update a structure localisation
+        - Structures - Localisations
+      summary: Update a structure localisation
       security:
         - BearerAuth: []
       parameters:
@@ -2372,7 +2372,7 @@ paths:
               $ref: '#/components/schemas/StructureLocalisationPayload'
       responses:
         '200':
-          description: Success
+          description: OK
           content:
             application/json:
               schema:
@@ -2680,8 +2680,8 @@ paths:
   '/structures/{structureId}/logos':
     get:
       tags:
-        - Structures
-      summary: Logos- List logos
+        - Structures - Logos
+      summary: List all structures's logos
       parameters:
         - $ref: '#/components/parameters/structureId'
         - $ref: '#/components/parameters/filter'
@@ -2690,7 +2690,7 @@ paths:
         - $ref: '#/components/parameters/sort'
       responses:
         '200':
-          description: Success
+          description: OK
           content:
             application/json:
               schema:
@@ -2714,8 +2714,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     post:
       tags:
-        - Structures
-      summary: Logos- Add a logo
+        - Structures - Logos
+      summary: Add a new logo to structure
       security:
         - BearerAuth: []
       parameters:
@@ -2777,8 +2777,8 @@ paths:
   '/structures/{structureId}/logos/{logoId}':
     get:
       tags:
-        - Structures
-      summary: Logo - Get a logo
+        - Structures - Logos
+      summary: Get a structure logo
       parameters:
         - $ref: '#/components/parameters/structureId'
         - $ref: '#/components/parameters/logoId'
@@ -2799,8 +2799,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     delete:
       tags:
-        - Structures
-      summary: Logo - Delete a logo
+        - Structures - Logos
+      summary: Remove a structure logo
       security:
         - BearerAuth: []
       parameters:
@@ -2819,8 +2819,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     patch:
       tags:
-        - Structures
-      summary: Logo - Update a logo
+        - Structures - Logos
+      summary: Update a structure logo
       security:
         - BearerAuth: []
       parameters:

@@ -5,9 +5,10 @@ tags: [OVERVIEW]
 # Bienvenue sur la documentation de l'API Paysage.
 
 ## Schémas
+---
 
 ### Content-Type
-L'accès API se fait uniquement à l'adresse `paysage.staging.dataesr.ovh`. Les requètes et les réponses se font toutes au format JSON.
+L'accès API se fait uniquement à l'adresse `[hostname]`. Les requètes et les réponses se font toutes au format JSON.
 
 ### Champs
 Les champs vides ne sont pas omis et renvoyés `null` si le type du champs n'est pas ni un tableau, ni un objet.
@@ -39,8 +40,21 @@ Un tableau vide `[]` est renvoyé dans le cas d'un tableau. Un objet vide `{}` e
   "comment": null,
 }
 ```
+### Représentations détaillées et représentations simplifiés.
+Les objets paysage ont la plupart du temps deux représentations.
+  - La première, détaillée est accessible à l'url propre de la resource. Par exemple:
+  ```sh
+  $ curl -X GET -H "Content-Type: application/json" -H "Authorization: <accessToken> https://api.paysage.dataesr.ovh/categories/G9uJm"
+  ```
+  - La deuxième, simplifiée est utilisé dans des requètes de listes et/ou lorsque les données d'un objets sont rappatriées dans la représentation d'un autre. Par exemple:
+  ```sh
+  $ curl -X GET -H "Content-Type: application/json" -H "Authorization: <accessToken> https://api.paysage.dataesr.ovh/categories/"
+  ```
+
+  Les détails sur l'auteur et la date de creation/modification n'est disponible que dans l'objet détaillé.
 
 ### Dates
+
 #### Dates système
 Les dates du système applicatif sont au format `YYYY-MM-DDTHH:MM:SSZ`. Par exemple, les dates de création et de modification des objets:
 ```json
@@ -58,15 +72,18 @@ Par exemple une structure peut avoir une date d'ouverture pour laquelle:
   - l'année, le mois et le jour sont connus: `2022-03-25` est une date valide.
   - l'année et le mois sont connus, le jour est inconnu. `2022-03` est une date valide.
   - seule l'année est connue. `2022` est une date valide.
-`2022-` ou `2022-03-` ne l'est pas.
+`2022-` ou `2022-03-` ne sont pas valides.
 
 ## Securité
+---
+
 Pour accéder à une route protégée, ajoutez au `HEADERS` de la requète `{ "Authorization": "Bearer <token>" }`.
 
-Pour obtenir ce token, reportez vous à la section Authentification.
+Pour obtenir ce token, reportez-vous à la section [Authentification](#authentification).
 
 
 ## Erreurs
+---
 
 Erreurs renvoyées par l'api:
   - 400: Bad request - La requète ne peut être traitée par le serveur.
@@ -134,3 +151,5 @@ $ curl -X POST -H "Content-Type: application/json" -d { "refreshToken": "<refres
   "refreshToken": "123",
 }
 ```
+
+[hostname]: api.paysage.staging.dataesr.ovh

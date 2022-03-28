@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: Localisation - Get a structure localisation
+    - Structures - Localisations
+  summary: Get a structure localisation
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../parameters/localisation-id.yml'
@@ -23,8 +23,8 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: Localisation - Delete a structure localisation
+    - Structures - Localisations
+  summary: Remove a structure localisation
   security:
   - BearerAuth: []
   parameters:
@@ -44,8 +44,8 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: Localisation - Update a structure localisation
+    - Structures - Localisations
+  summary: Update a structure localisation
   security:
   - BearerAuth: []
   parameters:
@@ -58,7 +58,7 @@ patch:
             $ref: '../schemas/write-localisation.yml'
   responses:
     '200':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:

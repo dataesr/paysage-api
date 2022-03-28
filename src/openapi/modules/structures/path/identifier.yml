@@ -1,7 +1,7 @@
 get:
   tags:
-    - Structures
-  summary: Identifier - Get a structure identifier
+    - Structures - Identifiers
+  summary: Get a structure identifier
   parameters:
     - $ref: '../parameters/structure-id.yml'
     - $ref: '../../commons/identifiers/parameters/identifier-id.yml'
@@ -23,8 +23,8 @@ get:
 
 delete:
   tags:
-    - Structures
-  summary: Identifier - Delete a structure identifier
+    - Structures - Identifiers
+  summary: Remove a structure identifier
   security:
   - BearerAuth: []
   parameters:
@@ -44,8 +44,8 @@ delete:
 
 patch:
   tags:
-    - Structures
-  summary: Identifier - Update a structure identifier
+    - Structures - Identifiers
+  summary: Update a structure identifier
   security:
   - BearerAuth: []
   parameters:
