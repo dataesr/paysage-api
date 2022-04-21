@@ -1,7 +1,7 @@
 module.exports = {
   types: [
-    { types: ['feat', 'feature'], label: '🎉 Nouvelle fonctionalités' },
-    { types: ['fix', 'bugfix'], label: '🐛 Réparation de Bug' },
+    { types: ['feat', 'feature'], label: '🎉 Nouvelle fonctionalité' },
+    { types: ['fix', 'bugfix'], label: '🐛 Réparation de bug' },
     { types: ['improvements', 'enhancement'], label: '🔨 Amélioration' },
     { types: ['build', 'ci'], label: '🏗️ Déploiement' },
     { types: ['refactor'], label: '🪚 Réamenagement de code' },
@@ -10,7 +10,7 @@ module.exports = {
     { types: ['test', 'tests'], label: '🔍 Tests' },
     { types: ['style'], label: '💅 Style de code' },
     { types: ['chore'], label: '🧹 Nettoyage' },
-    { types: ['other'], label: 'Autres changement' },
+    { types: ['other'], label: 'Autres changements' },
   ],
 
   excludeTypes: ['other', 'perf', 'test', 'tests', 'style', 'chore', 'doc', 'docs'],
