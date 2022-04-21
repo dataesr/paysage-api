@@ -2190,7 +2190,8 @@ paths:
                 - title
                 - documentNumber
                 - pageUrl
-              $ref: '#/components/schemas/OfficialDocumentPayload'
+              allOf:
+                - $ref: '#/components/schemas/OfficialDocumentPayload'
       responses:
         '201':
           description: Created
