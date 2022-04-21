@@ -49,6 +49,14 @@ Role:
   $ref: './roles/role.yml'
 RoleLight:
   $ref: './roles/role-light.yml'
+Term:
+  $ref: './terms/term.yml'
+TermLight:
+  $ref: './terms/term-light.yml'
+LegalCategory:
+  $ref: './legalcategories/legalcategory.yml'
+LegalCategoryLight:
+  $ref: './legalcategories/legalcategory-light.yml'
 
 
 ### PAYLOADS ###
@@ -76,6 +84,12 @@ PersonIdentifierPayload:
 
 PricePayload:
   $ref: './prices/price-payload.yml'
+
+TermPayload:
+  $ref: './terms/term-payload.yml'
+
+LegalCategoryPayload:
+  $ref: './legalcategories/legalcategory-payload.yml'
 
 DocumentPayload:
   $ref: './documents/document-payload.yml'
