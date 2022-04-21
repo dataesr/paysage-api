@@ -7,6 +7,7 @@ import identifiers from './identifiers/identifiers.routes';
 import localisations from './localisations/localisations.routes';
 import weblinks from './weblinks/weblinks.routes';
 import socialmedias from './socialmedias/socialmedias.routes';
+import categories from './categories/categories.routes';
 
 const router = new express.Router();
 
@@ -18,5 +19,6 @@ router.use(localisations);
 router.use(socialmedias);
 router.use(weblinks);
 router.use(logos);
+router.use(categories);
 
 export default router;

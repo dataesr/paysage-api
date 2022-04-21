@@ -1,0 +1,34 @@
+title: Role
+description: Représentation d'un rôle.
+allOf:
+  - type: object
+    properties:
+      generic:
+        type: boolean
+      longNameFr:
+        type: string
+      shortNameFr:
+        type: string
+      acronymFr:
+        type: string
+      pluralNameFr:
+        type: string
+      femNameFr:
+        type: string
+      otherNameFr:
+        type: string
+      descriptionFr:
+        type: string
+      longNameEn:
+        type: string
+      shortNameEn:
+        type: string
+      otherNameEn:
+        type: string
+      descriptionEn:
+        type: string
+      nameFr:
+        type: string
+      nameEn:
+        type: string
+  - $ref: '../../api.yml#/components/schemas/Metas'

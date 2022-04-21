@@ -1,0 +1,14 @@
+title: Role
+description: Représentation simplifiée d'un rôle.
+type: object
+properties:
+  generic:
+    type: boolean
+  descriptionFr:
+    type: string
+  nameFr:
+    type: string
+  nameEn:
+    type: string
+  femNameFr:
+    type: string

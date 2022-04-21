@@ -1,0 +1,11 @@
+description: Représentation simplifiée d'un prix scientifique
+type: object
+properties:
+  id:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
+    readOnly: true
+  nameFr:
+    type: string
+  nameEn:
+    type: string

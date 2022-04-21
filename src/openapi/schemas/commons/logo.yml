@@ -1,0 +1,64 @@
+title: Logo
+description: Représentation d'un logo
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{8}$'
+        readOnly: true
+      rid:
+        type: string
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{5}$'
+        readOnly: true
+      url:
+        type: string
+        nullable: true
+        readOnly: true
+      path:
+        type: string
+        nullable: true
+        readOnly: true
+      mimetype:
+        type: string
+        nullable: true
+        readOnly: true
+      originalName:
+        type: string
+        nullable: true
+        readOnly: true
+      legend:
+        type: string
+        nullable: true
+      credits:
+        type: string
+        nullable: true
+      license:
+        type: string
+        enum:
+          - CC BY
+          - CC BY-SA
+          - CC BY-ND
+          - CC BY-NC
+          - CC BY-NC-SA
+          - CC BY-NC-ND
+          - null
+        nullable: true
+      startDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+      endDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+      comment:
+        type: string
+        nullable: true
+      file:
+        writeOnly: true
+        type: string
+        format: binary
+  - $ref: '../../api.yml#/components/schemas/Metas'

@@ -2,168 +2,45 @@
 tags: [OVERVIEW]
 ---
 
-# Bienvenue sur la documentation de l'API Paysage.
+# Bienvenue sur la documentation Paysage.
 
-## Schémas
----
+Paysage est une application de gestion des données de suivi des acteurs de l'enseignement supérieur de la recherche et de l'innovation. 
+Les agents de la Direction générale de l'enseignement supérieur et de l'insertion professionnelle (DGESIP) et de la Direction générale de la recherche et de l'innovation (DGRI) sont résponsables de maintenir les données à jour. 
 
-### Content-Type
-L'accès API se fait uniquement à l'adresse `[hostname]`. Les requètes et les réponses se font toutes au format JSON.
+Des remontés d'information de terrain seront intégrés grace à un interfacage avec Dialogue, une autre application produite par le Ministère de l'enseignement supérieur, de la recherche et de l'innovation.
 
-### Champs
-Les champs vides ne sont pas omis et renvoyés `null` si le type du champs n'est pas ni un tableau, ni un objet.
-Un tableau vide `[]` est renvoyé dans le cas d'un tableau. Un objet vide `{}` est renvoyé dans le cas d'un objet.
-```json
-{
-  "id": "G9uJm",
-  "usualNameFr": "Structure à Dresde (Allemagne)",
-  "createdBy": {
-    "id": "666340OY",
-    "username": "init",
-    "avatar": null
-  },
-  "createdAt": "2022-02-25T12:24:34.011Z",
-  "updatedBy": {},
-  "parents": [],
-  "childs": [],
-  "usualNameEn": null,
-  "shortNameEn": null,
-  "shortNameFr": null,
-  "acronymFr": null,
-  "pluralNameFr": "Les structures à Dresde (Allemagne)",
-  "otherNamesFr": [
-    "Dresde (Allemagne)"
-  ],
-  "otherNamesEn": [],
-  "descriptionFr": null,
-  "descriptionEn": null,
-  "comment": null,
-}
-```
-### Représentations détaillées et représentations simplifiés.
-Les objets paysage ont la plupart du temps deux représentations.
-  - La première, détaillée est accessible à l'url propre de la resource. Par exemple:
-  ```sh
-  $ curl -X GET -H "Content-Type: application/json" -H "Authorization: <accessToken> https://api.paysage.dataesr.ovh/categories/G9uJm"
-  ```
-  - La deuxième, simplifiée peut être utilisé dans des requètes de search et/ou lorsque les données d'un objets sont rappatriées dans la représentation d'un autre. Par exemple:
-  ```sh
-  $ curl -X GET -H "Content-Type: application/json" -H "Authorization: <accessToken> https://api.paysage.dataesr.ovh/categories/"
-  ```
+Paysage, se décompose en deux briques applicatives.
+  - Un site internet de consultation et de modification manuelle des données.
+  - Une API d'interaction avec la base de donnée. Le présent document se propose de documenter l'utilisation de cette API.
 
-  Les détails sur l'auteur et la date de creation/modification n'est disponible que dans l'objet détaillé.
+## Objets paysage
 
-### Dates
+Paysage décrit et permet l'interaction avec plusieurs type d'objets.
 
-#### Dates système
-Les dates du système applicatif sont au format `YYYY-MM-DDTHH:MM:SSZ`. Par exemple, les dates de création et de modification des objets:
-```json
-{ 
-  ...,
-  "createdAt": "2022-02-25T12:24:34.011Z",
-  "updatedAt": "2022-02-25T12:24:34.011Z"
-}
-```
+### Structures
+### Personnes
+### Projets
+### Prix scientifiques
 
-#### Dates approximatives
-Beaucoup de dates dans les modèles sont au format `YYYY-MM-DD`. 
-Lorsque la date est approximative, les valeurs du mois et du jour peuvent être omises.
-Par exemple une structure peut avoir une date d'ouverture pour laquelle:
-  - l'année, le mois et le jour sont connus: `2022-03-25` est une date valide.
-  - l'année et le mois sont connus, le jour est inconnu. `2022-03` est une date valide.
-  - seule l'année est connue. `2022` est une date valide.
-`2022-` ou `2022-03-` ne sont pas valides.
+Décrit un prix scientifique.
+Les prix ont des relations avec les personnes à travers les lauréats.
+Cette relation peut être enrichie par l'identifiant de la structure dans laquelle se trouvait la personne au moment du prix.
 
-## Securité
----
+### Catégories
 
-Pour accéder à une route protégée, ajoutez au `HEADERS` de la requète `{ "Authorization": "Bearer <token>" }`.
+Les catégories servent à tagger un ensemble de resources (diverses - tous les autres objets paysage peuvent se voir associer des termes) afin de les associer à un ensemble logique. Ces ensembles divers et variés peuvent être crées à la discression de l'utilisateur. Par exemple pour regrouper les universités, il faudra créer une catégorie "Université" et associer les structures à cette catégorie. 
 
-Pour obtenir ce token, reportez-vous à la section [Authentification](#authentification).
+### Termes
 
-## Codes HTTP
----
+Les termes servent à tagger un ensemble de resources (diverses - tous les autres objets paysage peuvent se voir associer des termes) afin de les associer à un concept (ou terme) particulier. Ces concepts divers et variés peuvent être crées à la discression de l'utilisateur.
 
-| Code | Description  | Détails
-| ---  | ---          | ---
-| 200	 | OK	          | La requète a réussi et la réponse contient des données.
-| 201	 | Created	    | La requète a réussi, une resource à été créee et la réponse contient des données.
-| 204	 | No Content	  | La requète a réussi mais la réponse ne contient pas de données.
-| 400	 | Bad Request  | La requète comporte des erreurs.
-| 401	 | Unauthorized | L'utilisateur n'est pas connecté.
-| 403	 | Forbidden    | L'utilisateur n'a pas les droits nécessaires.
-| 404	 | Not Found	  | La resource n'existe pas.
-| 500	 | Server Error | La requète a échoué de façcon innatendue.
+### Rôles
 
+Les rôles servent à décrire une relation entre une personne et une structure.
+Comme les autres resources, ces roles peuvent être ajoutés et modifiés. Il s'agit d'une resource à part entière, afin que l'utilisateur puisse ajouter des rôles de manière dynamique et les gérer.
 
-## Erreurs
----
+###### Notes !
 
-Erreurs renvoyées par l'api:
-  - 400: Bad request - La requète ne peut être traitée par le serveur.
-  - 401: Unauthorized - L'utilisateur n'est pas connecté.
-  - 403: Forbidden - Les droits utilisateur ne sont pas suffisants.
-  - 404: Not Found - La resource n'existe pas
-  - 500: Serveur Error - Erreur coté serveur
+Catégorie 'université' => Liste de Structures => Voir les personnes qui ont un rôle dans les structures de la catégorie Université.
 
-Le format d'erreur est composé d'une clé `message`, décrivant l'erreur et d'une liste `errors` permettant de préciser la ou les raisons de l'erreur:
-
-```json
-{
-  'message': 'string'
-  'errors': [
-    {
-      'message': 'string',
-      'path': 'string',
-      'code': 'string'
-    }
-  ]
-}
-```
-
-### Erreurs de validation.
-
-Les erreurs de validations sont décrites dans le tableau `errors`.
-Dans ce tableau la clé path indique ou se situe l'erreur elle commence généralement par
-  - .body pour une erreur dans le payload de la requète
-  - .params pour une erreur dans les paramètres
-  - .response lorsque le modèle renvoyé n'est pas valide.
-La clé `message` donne une indication plus précise de l'erreur repérée à l'endroit indiqué.
-
-## Authentification
-
-Afin d'obtenir un token d'accès à l'API, et accéder au routes protégées, il est nécessaire de se connecter avec un compte utilisateur.
-```sh
-$ curl -X POST -H "Content-Type: application/json" -d { "username": "<username>", "password": "<user-password>"} https://api.paysage.dataesr.ovh/auth/signin
-
-> {
-  "accessToken": "123",
-  "refreshToken": "123",
-}
-```
-
-Vous obtiendrez en réponse un token d'accès, `accessToken` et un token de rafraichissement `refreshToken`
-
-### Token d'accès
-
-Le token d'accès permet d'authentifier l'utilisateur à chaque requète api.
-Ajoutez simplement au `HEADERS` de la requète `{ "Authorization": "Bearer <accessToken>" }`. 
-Ce token n'est valable que pour un temps limité.
-Dans le cas ou le token expire et/ou le token n'est pas passé dans les `HEADERS`, l'api répondra par le code 401.
-```json
-{ "message": "Vous devez être connecté" }
-```
-
-### Raffraichir le token d'accès
-
-Si le token d'acces de l'utilisateur est expiré, celui-ci peut être renouvellé grâce au `refreshToken`.
-```sh
-$ curl -X POST -H "Content-Type: application/json" -d { "refreshToken": "<refreshToken>" } https://api.paysage.dataesr.ovh/auth/refresh-access-token
-
-> {
-  "accessToken": "123",
-  "refreshToken": "123",
-}
-```
-
-[hostname]: api.paysage.staging.dataesr.ovh
+search: catégories avec filtres catégories ! attention , les catégories en filtre sont des catégories associées, pas des parentes (potentiellement mettre catégories parentes en filtre!

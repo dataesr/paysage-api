@@ -1,0 +1,69 @@
+title: StructureName
+description: Representation d'un nom de structure
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{8}$'
+      rid:
+        type: string
+        readOnly: true
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{5}$'
+      officialName:
+        type: string
+        nullable: true
+      usualName:
+        type: string
+        nullable: true
+      shortName:
+        type: string
+        nullable: true
+      brandName:
+        type: string
+        nullable: true
+      nameEn:
+        type: string
+        nullable: true
+      acronymFr:
+        type: string
+        nullable: true
+      acronymEn:
+        type: string
+        nullable: true
+      acronymLocal:
+        type: string
+        nullable: true
+      otherNames:
+        type: array
+        nullable: true
+        items:
+          type: string
+      startDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+      endDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+      comment:
+        type: string
+        nullable: true
+      article:
+        type: string
+        nullable: true
+        enum:
+          - à l'
+          - à
+          - à la
+          - dans le
+          - dans les
+          - aux
+          - au
+          - ''
+          - null
+  - $ref: '../../api.yml#/components/schemas/Metas'

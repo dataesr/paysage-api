@@ -1,0 +1,20 @@
+title: SocialMedia
+description: Representation d'un média social
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{8}$'
+      rid:
+        type: string
+        readOnly: true
+        description: Unique parent resource identifier
+        pattern: '^[a-zA-Z0-9]{5}$'
+      type:
+        type: string
+      account:
+        type: string
+  - $ref: '../../api.yml#/components/schemas/Metas'

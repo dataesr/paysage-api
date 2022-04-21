@@ -1,0 +1,8 @@
+type: string
+enum:
+  - Loi
+  - Décret
+  - Ordonnance
+  - Avis de vacance d'emploi
+  - Arrêté
+  - Circulaire

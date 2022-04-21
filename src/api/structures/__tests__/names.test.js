@@ -23,6 +23,8 @@ beforeAll(async () => {
     .set('Authorization', authorization)
     .send({
       structureStatus: 'active',
+      creationDate: '2021-02',
+      usualName: 'Université',
     }).expect(201);
   rid = response.body.id;
 });
@@ -168,8 +170,8 @@ describe('API > structures > names > list', () => {
     const docs = body.data.map((doc) => doc.usualName);
     expect(docs).toContain('string2');
     expect(docs).toContain('string3');
-    expect(docs).toHaveLength(2);
-    expect(body.totalCount).toBe(3);
+    expect(docs).toHaveLength(3);
+    expect(body.totalCount).toBe(4);
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
@@ -177,9 +179,9 @@ describe('API > structures > names > list', () => {
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
-    expect(docs).toContain('string');
+    expect(docs).toContain('Université');
     expect(docs).toHaveLength(1);
-    expect(body.totalCount).toBe(3);
+    expect(body.totalCount).toBe(4);
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
@@ -187,9 +189,9 @@ describe('API > structures > names > list', () => {
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
-    expect(docs[0]).toBe('string');
-    expect(docs).toHaveLength(3);
-    expect(body.totalCount).toBe(3);
+    expect(docs[0]).toBe('Université');
+    expect(docs).toHaveLength(4);
+    expect(body.totalCount).toBe(4);
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
@@ -198,8 +200,8 @@ describe('API > structures > names > list', () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
     expect(docs[0]).toBe('string3');
-    expect(docs).toHaveLength(3);
-    expect(body.totalCount).toBe(3);
+    expect(docs).toHaveLength(4);
+    expect(body.totalCount).toBe(4);
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
@@ -228,6 +230,8 @@ describe('API > structures > names > currentName', () => {
       .set('Authorization', authorization)
       .send({
         structureStatus: 'active',
+        creationDate: '2021-02',
+        usualName: 'Université',
       }).expect(201);
     rid = response.body.id;
     await global.superapp

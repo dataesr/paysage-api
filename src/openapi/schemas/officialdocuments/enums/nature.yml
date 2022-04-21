@@ -1,0 +1,4 @@
+type: string
+enum:
+  - Publication au JO
+  - Publication au BOESR

@@ -1,5 +1,5 @@
 # query
-filter:
+filters:
   $ref: './query/filters.yml'
 skip:
   $ref: './query/skip.yml'
@@ -8,30 +8,36 @@ limit:
 sort:
   $ref: './query/sort.yml'
 documentId:
-  $ref: '../modules/documents/parameters/document-id.yml'
+  $ref: './ids/document-id.yml'
 structureId:
-  $ref: '../modules/structures/parameters/structure-id.yml'
+  $ref: './ids/structure-id.yml'
 nameId:
-  $ref: '../modules/structures/parameters/name-id.yml'
+  $ref: './ids/name-id.yml'
 logoId:
-  $ref: '../modules/structures/parameters/logo-id.yml'
+  $ref: './ids/logo-id.yml'
 identifierId:
-  $ref: '../modules/commons/identifiers/parameters/identifier-id.yml'
+  $ref: './ids/identifier-id.yml'
 localisationId:
-  $ref: '../modules/structures/parameters/localisation-id.yml'
+  $ref: './ids/localisation-id.yml'
 weblinkId:
-  $ref: '../modules/commons/weblinks/parameters/weblink-id.yml'
+  $ref: './ids/weblink-id.yml'
 socialmediaId:
-  $ref: '../modules/commons/socialmedias/parameters/socialmedia-id.yml'
+  $ref: './ids/socialmedia-id.yml'
 termId:
-  $ref: '../modules/terms/parameters/term-id.yml'
+  $ref: './ids/term-id.yml'
 categoryId:
-  $ref: '../modules/categories/parameters/category-id.yml'
+  $ref: './ids/category-id.yml'
+relatedCategoryId:
+  $ref: './ids/related-category-id.yml'
 legalCategoryId:
-  $ref: '../modules/legal-categories/parameters/legal-category-id.yml'
+  $ref: './ids/legal-category-id.yml'
 priceId:
-  $ref: '../modules/prices/parameters/price-id.yml'
+  $ref: './ids/price-id.yml'
 personId:
-  $ref: '../modules/persons/parameters/person-id.yml'
+  $ref: './ids/person-id.yml'
 officialDocumentId:
-  $ref: '../modules/official-documents/parameters/official-document-id.yml'
+  $ref: './ids/officialdocument-id.yml'
+newsId:
+  $ref: './ids/news-id.yml'
+roleId:
+  $ref: './ids/role-id.yml'

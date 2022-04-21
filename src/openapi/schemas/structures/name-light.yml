@@ -1,0 +1,37 @@
+title: StructureNameLight
+description: Representation simplifiée d'un nom de structure
+type: object
+properties:
+  id:
+    type: string
+    description: Unique identifier
+    pattern: '^[a-zA-Z0-9]{8}$'
+  rid:
+    type: string
+    description: Unique identifier
+    pattern: '^[a-zA-Z0-9]{5}$'
+  usualName:
+    type: string
+    nullable: true
+  nameEn:
+    type: string
+    nullable: true
+  acronymFr:
+    type: string
+    nullable: true
+  acronymEn:
+    type: string
+    nullable: true
+  article:
+    type: string
+    nullable: true
+    enum:
+      - à l'
+      - à
+      - à la
+      - dans le
+      - dans les
+      - aux
+      - au
+      - ''
+      - null

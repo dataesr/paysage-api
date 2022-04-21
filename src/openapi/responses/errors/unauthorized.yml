@@ -2,4 +2,4 @@ description: Authentification needed.
 content:
   application/json:
     schema:
-      $ref: '../../schemas/error.yml'
+      $ref: '../../schemas/commons/error.yml'

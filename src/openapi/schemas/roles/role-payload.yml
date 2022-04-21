@@ -1,0 +1,32 @@
+title: RolePayload
+description: Ajout et modification d'un rôle
+type: object
+properties:
+  generic:
+    type: boolean
+  longNameFr:
+    type: string
+  shortNameFr:
+    type: string
+  acronymFr:
+    type: string
+  pluralNameFr:
+    type: string
+  femNameFr:
+    type: string
+  otherNameFr:
+    type: string
+  descriptionFr:
+    type: string
+  longNameEn:
+    type: string
+  shortNameEn:
+    type: string
+  otherNameEn:
+    type: string
+  descriptionEn:
+    type: string
+  nameFr:
+    type: string
+  nameEn:
+    type: string

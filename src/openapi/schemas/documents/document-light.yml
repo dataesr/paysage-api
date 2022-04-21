@@ -1,0 +1,19 @@
+title: DocumentLight
+description: Représentation simplifié d'un document
+properties:
+  id:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
+    readOnly: true
+  url:
+    type: string
+    format: uri
+    readOnly: true
+  mimetype:
+    type: string
+    readOnly: true
+  title:
+    type: string
+  description:
+    type: string
+    nullable: true

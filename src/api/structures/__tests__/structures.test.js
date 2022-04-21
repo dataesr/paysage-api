@@ -6,15 +6,18 @@ beforeAll(async () => {
 
 describe('API > structures > structures > create', () => {
   it('can create successfully', async () => {
-    const { body } = await global.superapp
+    const response = await global.superapp
       .post('/structures')
       .set('Authorization', authorization)
       .send({
         structureStatus: 'active',
         creationDate: '2021-02',
+        usualName: 'Université',
       }).expect(201);
+    const { body } = response;
     expect(body.id).toBeTruthy();
     expect(body.createdBy.username).toBe('user');
+    expect(body.currentName.usualName).toBe('Université');
     id = body.id;
   });
 });
@@ -42,60 +45,6 @@ describe('API > structures > structures > update', () => {
       .set('Authorization', authorization)
       .send({ status: 'test' })
       .expect(400);
-  });
-});
-
-describe('API > structures > status > update', () => {
-  it('throws not found with wrong id', async () => {
-    await global.superapp
-      .put('/structures/45frK/status')
-      .set('Authorization', authorization)
-      .send({ status: 'published' })
-      .expect(404);
-  });
-  it('can set status to published successfully', async () => {
-    const { body } = await global.superapp
-      .put(`/structures/${id}/status`)
-      .set('Authorization', authorization)
-      .send({ status: 'published' })
-      .expect(200);
-    expect(body.status).toBe('published');
-  });
-  it('throws with unknown redirection', async () => {
-    await global.superapp
-      .put(`/structures/${id}/status`)
-      .set('Authorization', authorization)
-      .send({ status: 'redirected', redirection: '45frK' })
-      .expect(400);
-  });
-  it('throws if redirected status is not set along redirection', async () => {
-    await global.superapp
-      .put(`/structures/${id}/status`)
-      .set('Authorization', authorization)
-      .send({ redirection: '45frK' })
-      .expect(400);
-  });
-  it('throws with unset redirection', async () => {
-    await global.superapp
-      .put(`/structures/${id}/status`)
-      .set('Authorization', authorization)
-      .send({ status: 'redirected' })
-      .expect(400);
-  });
-  it('can set redirection', async () => {
-    const { body } = await global.superapp
-      .post('/structures')
-      .set('Authorization', authorization)
-      .send({
-        structureStatus: 'active',
-      }).expect(201);
-    const res = await global.superapp
-      .put(`/structures/${id}/status`)
-      .set('Authorization', authorization)
-      .send({ status: 'redirected', redirection: body.id })
-      .expect(200);
-    expect(res.body.status).toBe('redirected');
-    expect(res.body.redirection).toBe(body.id);
   });
 });
 
@@ -140,18 +89,24 @@ describe('API > structures > structures > list', () => {
       .set('Authorization', authorization)
       .send({
         structureStatus: 'active',
+        creationDate: '2021-02',
+        usualName: 'Université',
       }).expect(201);
     await global.superapp
       .post('/structures')
       .set('Authorization', authorization)
       .send({
         structureStatus: 'inactive',
+        creationDate: '2021-02',
+        usualName: 'Université',
       }).expect(201);
     await global.superapp
       .post('/structures')
       .set('Authorization', authorization)
       .send({
         structureStatus: 'forthcoming',
+        creationDate: '2021-02',
+        usualName: 'Université',
       }).expect(201);
   });
   it('can list successfully', async () => {
@@ -212,17 +167,17 @@ describe('API > structures > structures > list', () => {
   });
 });
 
-describe('API > structures > structures > upsert', () => {
-  it('can upsert with id successfully', async () => {
-    const { body } = await global.superapp
-      .put('/structures/iw59y')
-      .set('Authorization', authorization)
-      .send({
-        structureStatus: 'active',
-      }).expect(201);
-    expect(body.id).toBeTruthy();
-    expect(body.createdBy.username).toBe('user');
-    const catalogue = await global.db.collection('_catalogue').findOne({ _id: body.id });
-    expect(catalogue._id).toBe(body.id);
-  });
-});
+// describe('API > structures > structures > upsert', () => {
+//   it('can upsert with id successfully', async () => {
+//     const { body } = await global.superapp
+//       .put('/structures/iw59y')
+//       .set('Authorization', authorization)
+//       .send({
+//         structureStatus: 'active',
+//       }).expect(201);
+//     expect(body.id).toBeTruthy();
+//     expect(body.createdBy.username).toBe('user');
+//     const catalogue = await global.db.collection('_catalogue').findOne({ _id: body.id });
+//     expect(catalogue._id).toBe(body.id);
+//   });
+// });

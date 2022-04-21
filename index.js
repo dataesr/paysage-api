@@ -1,18 +1,20 @@
 import 'dotenv/config';
 import logger from './src/services/logger.service';
-import createAPIServer from './src/api';
-import createIndexers from './src/indexers';
+// import createAPIServer from './src/api';
+// import createIndexers from './src/indexers';
 
-const { ENTRYPOINT: entrypoint } = process.env;
+const { ENTRYPOINT: entrypoint, PORT: port } = process.env;
 
 logger.info(`"Starting with entrypoint ${entrypoint}`);
 
 switch (entrypoint) {
   case 'api':
-    createAPIServer(process.env.PORT || 3000);
+    import('./src/api')
+      .then(({ default: createAPIServer }) => createAPIServer(port || 3000));
     break;
   case 'indexers':
-    createIndexers();
+    import('./src/api')
+      .then(({ default: createIndexers }) => createIndexers());
     break;
   default:
     logger.info("'entrypoint' must be one of ['api', 'indexer']");

@@ -1,0 +1,37 @@
+title: OfficialDocumentPayload
+description: Modèle de création et d'update d'un document officiel
+type: object
+properties:
+  nature:
+    $ref: ../../api.yml#/components/schemas/OfficialDocumentNaturesEnum
+  type:
+    $ref: ../../api.yml#/components/schemas/OfficialDocumentTypesEnum
+  documentNumber:
+    type: string
+  title:
+    type: string
+  pageUrl:
+    type: string
+    format: uri
+  signatureDate:
+    nullable: true
+    type: string
+    pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+  startDate:
+    nullable: true
+    type: string
+    pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+  previsionalEndDate:
+    nullable: true
+    type: string
+    pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+  endDate:
+    nullable: true
+    type: string
+    pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+  textExtract:
+    nullable: true
+    type: string
+  comment:
+    nullable: true
+    type: string

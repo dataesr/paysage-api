@@ -1,0 +1,146 @@
+title: StructureBulkInsertPayload
+description: Liste 
+additionalProperties: false
+required:
+  - usualName
+type: object
+properties:
+  officialName:
+    type: string
+    nullable: true
+  usualName:
+    type: string
+    nullable: true
+  shortName:
+    type: string
+    nullable: true
+  brandName:
+    type: string
+    nullable: true
+  nameEn:
+    type: string
+    nullable: true
+  acronymFr:
+    type: string
+    nullable: true
+  acronymEn:
+    type: string
+    nullable: true
+  acronymLocal:
+    type: string
+    nullable: true
+  otherNames:
+    type: array
+    nullable: true
+    items:
+      type: string
+  article:
+    type: string
+    nullable: true
+    enum:
+      - à l'
+      - à
+      - à la
+      - dans le
+      - dans les
+      - aux
+      - au
+      - ''
+      - null
+  structureStatus:
+    type: string
+    nullable: true
+    enum:
+      - active
+      - inactive
+      - forthcoming
+      - null
+  creationDate:
+    type: string
+    pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+    nullable: true
+  closureDate:
+    type: string
+    pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+    nullable: true
+  categories:
+    type: array
+    items:
+      type: string
+  legelCategory:
+    type: string
+  cityId:
+    type: string
+    nullable: true
+    description: Code d'identification de la commune (code insee pour la france)
+    example: 67482
+  distributionStatement:
+    type: string
+    nullable: true
+  address:
+    type: string
+    nullable: true
+  postOfficeBoxNumber:
+    type: string
+    nullable: true
+  postalCode:
+    type: string
+    nullable: true
+  locality:
+    type: string
+    nullable: true
+    example: La Défense
+  place:
+    type: string
+    nullable: true
+    description: Lieu-dit
+  country:
+    type: string
+  telephone:
+    type: string
+    nullable: true
+  coordinates:
+    type: object
+    nullable: true
+    properties:
+      lat:
+        type: number
+      lng:
+        type: number
+  idref:
+    type: string
+    nullable: true
+  wikidata:
+    type: string
+    nullable: true
+  ror:
+    type: string
+    nullable: true
+  uai:
+    type: string
+    nullable: true
+  siret:
+    type: string
+    nullable: true
+  rnsr:
+    type: string
+    nullable: true
+  ed:
+    type: string
+    nullable: true
+  websiteEn:
+    type: string
+    nullable: true
+  websiteFr:
+    type: string
+    nullable: true
+  twitter:
+    type: string
+    nullable: true
+  linkedIn:
+    type: string
+    nullable: true
+  parents:
+    type: array
+    items:
+      type: string

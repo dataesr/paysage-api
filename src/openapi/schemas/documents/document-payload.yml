@@ -1,0 +1,13 @@
+title: DocumentPayload
+description: Modèle de creation et d'update d'un document
+type: object
+properties:
+  title:
+    type: string
+  description:
+    type: string
+    nullable: true
+  file:
+    writeOnly: true
+    type: string
+    format: binary

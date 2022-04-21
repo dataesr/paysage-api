@@ -1,0 +1,34 @@
+title: StructureLocalisationLight
+description: Représentation simplifiée d'une localisation de structure
+type: object
+properties:
+  id:
+    type: string
+    readOnly: true
+    description: Unique identifier
+    pattern: '^[a-zA-Z0-9]{8}$'
+  rid:
+    type: string
+    readOnly: true
+    description: Unique identifier
+    pattern: '^[a-zA-Z0-9]{5}$'
+  address:
+    type: string
+    nullable: true
+  postalCode:
+    type: string
+    nullable: true
+  locality:
+    type: string
+    nullable: true
+    example: La Défense
+  country:
+    type: string
+  coordinates:
+    type: object
+    nullable: true
+    properties:
+      lat:
+        type: number
+      lng:
+        type: number

@@ -1,0 +1,159 @@
+/persons:
+  get:
+    tags:
+      - Personnes
+    summary: Lister les personnes
+    parameters:
+        - $ref: '../../api.yml#/components/parameters/filters'
+        - $ref: '../../api.yml#/components/parameters/skip'
+        - $ref: '../../api.yml#/components/parameters/limit'
+        - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/Person'
+                totalCount:
+                  type: number
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Personnes
+    summary: Créer une personne
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: CreatePerson
+            type: object
+            required:
+              - lastName
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/PersonPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Person'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+/persons/{personId}:
+  get:
+    tags:
+      - Personnes
+    summary: Obtenir le détail d'une personne
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/personId'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Person'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Personnes
+    summary: Supprimer une personne
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/personId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  patch:
+    tags:
+      - Personnes
+    summary: Modifier une personne
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/personId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+              $ref: '../../api.yml#/components/schemas/PersonPayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Person'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  put:
+    tags:
+      - Personnes
+    summary: Créer une personne avec un identifiant.
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/personId'
+    requestBody:
+      content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/PersonPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Person'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

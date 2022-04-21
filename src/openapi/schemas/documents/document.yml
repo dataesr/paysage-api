@@ -1,0 +1,32 @@
+title: Document
+description: Représentation d'un document
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+        readOnly: true
+      url:
+        type: string
+        format: uri
+        readOnly: true
+      mimetype:
+        type: string
+        readOnly: true
+      originalName:
+        type: string
+        readOnly: true
+      path:
+        type: string 
+        readOnly: true
+      title:
+        type: string
+      description:
+        type: string
+        nullable: true
+      file:
+        writeOnly: true
+        type: string
+        format: binary
+  - $ref: '../../api.yml#/components/schemas/Metas'

@@ -18,148 +18,124 @@ servers:
 
 tags:
   - name: Structures
-    description: Operations on structures.
-  - name: Structures - Status
-    description: Operations on structure's status.
-  - name: Structures - Names
-    description: Operations on structure's names.
-  - name: Structures - Identifiers
-    description: Operations on structure's identifiers.
-  - name: Structures - Web links
-    description: Operations on structure's weblinks.
-  - name: Structures - Social medias
-    description: Operations on structure's social medias.
+  - name: Structures - Noms
+  - name: Structures - Identifiants
   - name: Structures - Localisations
-    description: Operations on structure's localisations.
+  - name: Structures - Liens web
+  - name: Structures - Médias sociaux
   - name: Structures - Logos
-    description: Operations on structure's logos.
-  - name: Persons
-    description: Operations on persons.
-  - name: Persons - Identifiers
-    description: Operations on person's identifiers.
-  - name: Persons - SocialMedias
-    description: Operations on person's social medias.
-  - name: Persons - Weblinks
-    description: Operations on person's weblinks.
-  - name: Categories
-    description: Operations on Categories.
-  - name: Categories - Identifiers
-    description: Operations on Categories' identifiers.
-  - name: Categories - Weblinks
-    description: Operations on Categories' weblinks.
-  - name: Terms
-    description: Operation for the Term object.
-  - name: Official Documents
-    description: Operation for the OfficialDocument object.
-  - name: Legal Categories
-    description: Operation for the LegalCategorie object.
-  - name: Prices
-    description: Operation for the Price object.
-  - name: Project
-    description: Operation for the Project object.
-  - name: Events
-    description: Access event logs of object changes.
+  # - name: Structures - Agenda
+  # - name: Structures - Documents
+  - name: Structures - Catégories
+  # - name: Structures - Gouvernance
+  # - name: Structures - Référents MESRI
+  # - name: Structures - Tutelles
+  # - name: Structures - Parents
+  # - name: Structures - Enfants
+  - name: Personnes
+  - name: Personnes - Identifiants
+  - name: Personnes - Médias sociaux
+  - name: Personnes - Liens web
+  # - name: Personnes - Rôles
+  # - name: Personnes - Prix
+  - name: Catégories
+  - name: Catégories - Identifiants
+  - name: Catégories - Liens web
+  # - name: Termes
+  - name: Documents officiels
+  - name: Documents
+  # - name: Catégories juridiques
+  - name: Prix scientifiques
+  # - name: Projects
+  # - name: Events
 
-
+security:
+  - BearerAuth: []
 
 paths:
-  ### EVENTS ###
-  '/events':
-    $ref: './modules/events/path/events.yml'
+  ### STRUCTURE ###
+  '/structures':
+    $ref: './paths/structures/structures.yml#/~1structures'
+  '/structures/{structureId}':
+    $ref: './paths/structures/structures.yml#/~1structures~1{structureId}'
+  '/structures/{structureId}/identifiers':
+    $ref: './paths/structures/identifiers.yml#/~1structures~1{structureId}~1identifiers'
+  '/structures/{structureId}/identifiers/{identifierId}':
+    $ref: './paths/structures/identifiers.yml#/~1structures~1{structureId}~1identifiers~1{identifierId}'
+  '/structures/{structureId}/localisations':
+    $ref: './paths/structures/localisations.yml#/~1structures~1{structureId}~1localisations'
+  '/structures/{structureId}/localisations/{localisationId}':
+    $ref: './paths/structures/localisations.yml#/~1structures~1{structureId}~1localisations~1{localisationId}'
+  '/structures/{structureId}/logos':
+    $ref: './paths/structures/logos.yml#/~1structures~1{structureId}~1logos'
+  '/structures/{structureId}/logos/{logoId}':
+    $ref: './paths/structures/logos.yml#/~1structures~1{structureId}~1logos~1{logoId}'
+  '/structures/{structureId}/names':
+    $ref: './paths/structures/names.yml#/~1structures~1{structureId}~1names'
+  '/structures/{structureId}/names/{nameId}':
+    $ref: './paths/structures/names.yml#/~1structures~1{structureId}~1names~1{nameId}'
+  '/structures/{structureId}/weblinks':
+    $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks'
+  '/structures/{structureId}/weblinks/{weblinkId}':
+    $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks~1{weblinkId}'
+  '/structures/{structureId}/socialmedias':
+    $ref: './paths/structures/socialmedias.yml#/~1structures~1{structureId}~1socialmedias'
+  '/structures/{structureId}/socialmedias/{socialmediaId}':
+    $ref: './paths/structures/socialmedias.yml#/~1structures~1{structureId}~1socialmedias~1{socialmediaId}'
+  '/structures/{structureId}/categories':
+    $ref: './paths/structures/categories.yml#/~1structures~1{structureId}~1categories'
+  '/structures/{structureId}/categories/{relatedCategoryId}':
+    $ref: './paths/structures/categories.yml#/~1structures~1{structureId}~1categories~1{relatedCategoryId}'
+  
+  ### PERSONNES ###
+  '/persons':
+    $ref: './paths/persons/persons.yml#/~1persons'
+  '/persons/{personId}':
+    $ref: './paths/persons/persons.yml#/~1persons~1{personId}'
+  '/persons/{personId}/identifiers':
+    $ref: './paths/persons/identifiers.yml#/~1persons~1{personId}~1identifiers'
+  '/persons/{personId}/identifiers/{identifierId}':
+    $ref: './paths/persons/identifiers.yml#/~1persons~1{personId}~1identifiers~1{identifierId}'
+  '/persons/{personId}/weblinks':
+    $ref: './paths/persons/weblinks.yml#/~1persons~1{personId}~1weblinks'
+  '/persons/{personId}/weblinks/{weblinkId}':
+    $ref: './paths/persons/weblinks.yml#/~1persons~1{personId}~1weblinks~1{weblinkId}'
+  '/persons/{personId}/socialmedias':
+    $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias'
+  '/persons/{personId}/socialmedias/{socialmediaId}':
+    $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias~1{socialmediaId}'
 
   ### CATEGORIES ###
   '/categories':
-    $ref: './modules/categories/path/categories.yml'
+    $ref: './paths/categories/categories.yml#/~1categories'
   '/categories/{categoryId}':
-    $ref: './modules/categories/path/category.yml'
+    $ref: './paths/categories/categories.yml#/~1categories~1{categoryId}'
   '/categories/{categoryId}/identifiers':
-    $ref: './modules/categories/path/identifiers.yml'
+    $ref: './paths/categories/identifiers.yml#/~1categories~1{categoryId}~1identifiers'
   '/categories/{categoryId}/identifiers/{identifierId}':
-    $ref: './modules/categories/path/identifier.yml'
+    $ref: './paths/categories/identifiers.yml#/~1categories~1{categoryId}~1identifiers~1{identifierId}'
   '/categories/{categoryId}/weblinks':
-    $ref: './modules/categories/path/weblinks.yml'
+    $ref: './paths/categories/weblinks.yml#/~1categories~1{categoryId}~1weblinks'
   '/categories/{categoryId}/weblinks/{weblinkId}':
-    $ref: './modules/categories/path/weblink.yml'
-
-  ### PRICES ###
-  '/prices':
-    $ref: './modules/prices/path/prices.yml'
-  '/prices/{priceId}':
-    $ref: './modules/prices/path/price.yml'
-
-  ### TERMS ###
-  '/terms':
-    $ref: './modules/terms/path/terms.yml'
-  '/terms/{termId}':
-    $ref: './modules/terms/path/term.yml'
+    $ref: './paths/categories/weblinks.yml#/~1categories~1{categoryId}~1weblinks~1{weblinkId}'
 
   ### OFFICIAL DOCUMENTS ###
   '/officialdocuments':
-    $ref: './modules/official-documents/path/official-documents.yml'
+    $ref: './paths/officialdocuments/officialdocuments.yml#/~1officialdocuments'
   '/officialdocuments/{officialDocumentId}':
-    $ref: './modules/official-documents/path/official-document.yml'
-
-  ### LEGAL CATEGORIES ###
-  '/legalcategories':
-    $ref: './modules/legal-categories/path/legal-categories.yml'
-  '/legalcategories/{legalCategoryId}':
-    $ref: './modules/legal-categories/path/legal-category.yml'
-
-  ### PERSONS ###
-  '/persons':
-    $ref: './modules/persons/path/persons.yml'
-  '/persons/{personId}':
-    $ref: './modules/persons/path/person.yml'
-  '/persons/{personId}/identifiers':
-    $ref: './modules/persons/path/identifiers.yml'
-  '/persons/{personId}/identifiers/{identifierId}':
-    $ref: './modules/persons/path/identifier.yml'
-  '/persons/{personId}/weblinks':
-    $ref: './modules/persons/path/weblinks.yml'
-  '/persons/{personId}/weblinks/{weblinkId}':
-    $ref: './modules/persons/path/weblink.yml'
-  '/persons/{personId}/socials':
-    $ref: './modules/persons/path/socialmedias.yml'
-  '/persons/{personId}/socials/{socialmediaId}':
-    $ref: './modules/persons/path/socialmedia.yml'
+    $ref: './paths/officialdocuments/officialdocuments.yml#/~1officialdocuments~1{officialDocumentId}'
 
   ### DOCUMENTS ###
   '/documents':
-    $ref: './modules/documents/path/documents.yml'
+    $ref: './paths/documents/documents.yml#/~1documents'
   '/documents/{documentId}':
-    $ref: './modules/documents/path/document.yml'
+    $ref: './paths/documents/documents.yml#/~1documents~1{documentId}'
 
-  ### STRUCTURE ###
-  '/structures':
-    $ref: './modules/structures/path/structures.yml'
-  '/structures/{structureId}':
-    $ref: './modules/structures/path/structure.yml'
-  '/structures/{structureId}/status':
-    $ref: './modules/structures/path/status.yml'
-  '/structures/{structureId}/identifiers':
-    $ref: './modules/structures/path/identifiers.yml'
-  '/structures/{structureId}/identifiers/{identifierId}':
-    $ref: './modules/structures/path/identifier.yml'
-  '/structures/{structureId}/names':
-    $ref: './modules/structures/path/names.yml'
-  '/structures/{structureId}/names/{nameId}':
-    $ref: './modules/structures/path/name.yml'
-  '/structures/{structureId}/localisations':
-    $ref: './modules/structures/path/localisations.yml'
-  '/structures/{structureId}/localisations/{localisationId}':
-    $ref: './modules/structures/path/localisation.yml'
-  '/structures/{structureId}/weblinks':
-    $ref: './modules/structures/path/weblinks.yml'
-  '/structures/{structureId}/weblinks/{weblinkId}':
-    $ref: './modules/structures/path/weblink.yml'
-  '/structures/{structureId}/socials':
-    $ref: './modules/structures/path/socialmedias.yml'
-  '/structures/{structureId}/socials/{socialmediaId}':
-    $ref: './modules/structures/path/socialmedia.yml'
-  '/structures/{structureId}/logos':
-    $ref: './modules/structures/path/logos.yml'
-  '/structures/{structureId}/logos/{logoId}':
-    $ref: './modules/structures/path/logo.yml'
+  ### PRIX SCIENTIFIQUES ###
+  '/prices':
+    $ref: './paths/prices/prices.yml#/~1prices'
+  '/prices/{priceId}':
+    $ref: './paths/prices/prices.yml#/~1prices~1{priceId}'
 
 components:
   parameters:
@@ -170,7 +146,7 @@ components:
 
   schemas:
     $ref: './schemas/_index.yml'
-    
+
   securitySchemes:
     BearerAuth:
       type: http

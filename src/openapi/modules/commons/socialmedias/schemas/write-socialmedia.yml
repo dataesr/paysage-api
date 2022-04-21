@@ -1,7 +1,0 @@
-type: object
-description: Différentes media sociaux d'une structure
-properties:
-  type:
-    type: string
-  account:
-    type: string

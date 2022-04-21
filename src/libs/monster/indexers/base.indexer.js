@@ -1,28 +1,29 @@
-import db from '../../../services/mongo.service';
-import elastic from '../../../services/elastic.service';
-import logger from '../../../services/logger.service';
 import config from '../../../config/app.config';
+import logger from '../../../services/logger.service';
+import elastic from '../../../services/elastic.service';
 
 const { index } = config.elastic;
 
-export default class Indexer {
-  constructor({ repository, pipeline }) {
-    this._pipeline = pipeline;
-    this._repository = repository;
-    this._changeStream = null;
+class Indexer {
+  constructor(resource) {
+    this._repository = resource.repository;
   }
 
-  start = async () => {
-    this._changeStream = db.collection('_events').watch(this._pipeline);
-    this._changeStream.on('change', async (next) => {
-      const doc = this._repository.get(next.id, { useQuery: 'indexQuery' });
-      await elastic.update({ index, id: doc.id, body: { doc, doc_as_upsert: true } }).catch((error) => {
-        logger.error(error);
-      });
-    });
-  };
-
-  stop = async () => {
-    this._changeStream.close();
+  index = async (id) => {
+    const op = !await this._repository.get(id) ? 'index' : 'remove';
+    const doc = await this._repository.get(id, { useQuery: 'indexQuery' });
+    switch (op) {
+      case 'index':
+        elastic.update({ index, id, body: { doc, doc_as_upsert: true } })
+          .catch((e) => { logger.error(`IndexingError: ${e}`); });
+        break;
+      case 'remove':
+        elastic.delete({ index, id })
+          .catch((e) => { logger.error(`IndexingError: ${e}`); });
+        break;
+      default:
+        logger.error('IndexingError: Unknown operation');
+        break;
+    }
   };
 }

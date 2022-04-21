@@ -1,0 +1,142 @@
+/structures:
+  get:
+    tags:
+      - Structures
+    summary: Lister les structures
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/Structure'
+                totalCount:
+                  type: integer
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Structures
+    summary: Créer une nouvelle structure
+    requestBody:
+      content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/StructureCreatePayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Structure'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+/structures/{structureId}:
+  get:
+    tags:
+      - Structures
+    summary: Obtenir le détail d'une structure
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/structureId'
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Structure'
+      '301':
+        description: No content
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  patch:
+    tags:
+      - Structures
+    summary: Modifier une structure
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/structureId'
+    requestBody:
+      content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/StructureUpdatePayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Structure'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  put:
+    tags:
+      - Structures
+    summary: Ajouter une structure avec son identifiant
+    description: Permet de créer une structure avec un identifiant.
+                 L'identifiant doit respecter le format des identifiants Paysage.
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/structureId'
+    requestBody:
+      content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/StructureCreatePayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Structure'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

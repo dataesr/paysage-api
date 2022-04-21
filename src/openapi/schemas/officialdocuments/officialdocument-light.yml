@@ -1,0 +1,21 @@
+title: OfficialDocumentLight
+description: Représentation simplifiée d'un document officiel
+type: object
+required:
+  - id
+properties:
+  id:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
+    readOnly: true
+  nature:
+    $ref: ../../api.yml#/components/schemas/OfficialDocumentNaturesEnum
+  type:
+    $ref: ../../api.yml#/components/schemas/OfficialDocumentTypesEnum
+  documentNumber:
+    type: string
+  title:
+    type: string
+  pageUrl:
+    type: string
+    format: uri

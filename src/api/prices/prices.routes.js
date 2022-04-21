@@ -9,9 +9,9 @@ const router = new express.Router();
 router.route('/prices')
   .get(prices.controllers.list)
   .post([
-    requireActiveUser,
-    createCtx,
+    // requireActiveUser,
     validatePayload,
+    createCtx,
     prices.controllers.create,
   ]);
 
