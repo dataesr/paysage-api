@@ -9,7 +9,7 @@ class Resource {
     { db, collection, field = null, queries = {} },
     { storeContext = true, eventStore = null, catalogue = null } = {},
   ) {
-    this.calalogue = catalogue;
+    this.catalogue = catalogue;
     this.eventStore = eventStore;
     this.repository = (field)
       ? new NestedRepository({ db, collection, field, queries })
