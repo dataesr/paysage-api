@@ -1,4 +1,5 @@
-description: Object décrivant l'ajout d'un terme
+description: Schema de création et de modification d'une représentation d'un terme
+additionalProperties: false
 type: object
 properties:
   usualNameFr:
@@ -45,11 +46,3 @@ properties:
     nullable: true
     items:
       type: string
-  parentIds:
-    type: array
-    description: Liste de reference à des termes parents
-    nullable: true
-    writeOnly: true
-    items:
-      type: string
-      pattern: '^[a-zA-Z0-9]{5}$'

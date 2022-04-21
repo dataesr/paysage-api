@@ -31,8 +31,10 @@ tags:
   - name: Catégories
   - name: Catégories - Identifiants
   - name: Catégories - Liens web
+  - name: Termes
   - name: Documents officiels
   - name: Documents
+  - name: Catégories juridiques
   - name: Prix scientifiques
 security:
   - BearerAuth: []
@@ -1706,6 +1708,314 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /terms:
+    get:
+      tags:
+        - Termes
+      summary: Lister les termes
+      parameters:
+        - $ref: '#/components/parameters/filters'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Term'
+                  totalCount:
+                    type: number
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Termes
+      summary: Créer un terme
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateTerm
+              type: object
+              required:
+                - usualNameFr
+              allOf:
+                - $ref: '#/components/schemas/TermPayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Term'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/terms/{termId}':
+    get:
+      tags:
+        - Termes
+      summary: Obtenir le détail d'un terme
+      parameters:
+        - $ref: '#/components/parameters/termId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Term'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Termes
+      summary: Supprimer un terme
+      parameters:
+        - $ref: '#/components/parameters/termId'
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Termes
+      summary: Modifier un terme
+      parameters:
+        - $ref: '#/components/parameters/termId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TermPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Term'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Termes
+      summary: Créer un terme avec un identifiant.
+      parameters:
+        - $ref: '#/components/parameters/termId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Term'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Term'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /legalcategories:
+    get:
+      tags:
+        - Catégories juridiques
+      summary: Lister les catégorie juridique
+      parameters:
+        - $ref: '#/components/parameters/filters'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LegalCategory'
+                  totalCount:
+                    type: number
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Catégories juridiques
+      summary: Créer un catégorie juridique
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateLegalCategory
+              type: object
+              required:
+                - longNameFr
+              allOf:
+                - $ref: '#/components/schemas/LegalCategoryPayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegalCategory'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/legalcategories/{legalCategoryId}':
+    get:
+      tags:
+        - Catégories juridiques
+      summary: Obtenir le détail d'une catégorie juridique
+      parameters:
+        - $ref: '#/components/parameters/legalCategoryId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegalCategory'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Catégories juridiques
+      summary: Supprimer une catégorie juridique
+      parameters:
+        - $ref: '#/components/parameters/legalCategoryId'
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Catégories juridiques
+      summary: Modifier une catégorie juridique
+      parameters:
+        - $ref: '#/components/parameters/legalCategoryId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LegalCategoryPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegalCategory'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags:
+        - Catégories juridiques
+      summary: Créer une catégorie juridique avec un identifiant.
+      parameters:
+        - $ref: '#/components/parameters/legalCategoryId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LegalCategory'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegalCategory'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/ServerError'
   /categories:
@@ -3630,6 +3940,180 @@ components:
           type: string
         femNameFr:
           type: string
+    Term:
+      description: Représentation détaillée d'un terme
+      readOnly: true
+      allOf:
+        - type: object
+          properties:
+            usualNameFr:
+              type: string
+              description: Nom usuel en francais
+              nullable: true
+            usualNameEn:
+              type: string
+              description: Nom usuel en anglais
+              nullable: true
+            pluralNameFr:
+              type: string
+              description: Forme du nom usuel français au pluriel
+              nullable: true
+            pluralNameEn:
+              type: string
+              description: Forme du nom usuel anglais au pluriel
+              nullable: true
+            shortNameFr:
+              type: string
+              description: Nom court en français
+              nullable: true
+            shortNameEn:
+              type: string
+              description: Nom court en anglais
+              nullable: true
+            acronymFr:
+              type: string
+              description: Sigle en français
+              nullable: true
+            acronymEn:
+              type: string
+              description: Sigle en anglais
+              nullable: true
+            descriptionFr:
+              type: string
+              nullable: true
+            descriptionEn:
+              type: string
+              nullable: true
+            otherName:
+              type: array
+              description: Autres intitulés
+              nullable: true
+              items:
+                type: string
+        - $ref: '#/components/schemas/Metas'
+    TermLight:
+      description: Représentation simplifiée d'un terme
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+          readOnly: true
+        usualNameFr:
+          type: string
+        usualNameEn:
+          type: string
+    LegalCategory:
+      type: object
+      required:
+        - id
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              pattern: '^[a-zA-Z0-9]{5}$'
+            inseeCode:
+              type: string
+              nullable: true
+            longNameFr:
+              type: string
+            shortNameFr:
+              type: string
+              nullable: true
+            acronymeFr:
+              type: string
+              nullable: true
+            pluralNameFr:
+              type: string
+              nullable: true
+            descriptionFr:
+              type: string
+              nullable: true
+            longNameEn:
+              type: string
+              nullable: true
+            shortNameEn:
+              type: string
+              nullable: true
+            otherNames:
+              type: array
+              items:
+                type: string
+            sector:
+              type: string
+              nullable: true
+              enum:
+                - public
+                - privé
+                - sans objet
+                - null
+            officialDocument:
+              $ref: '#/components/schemas/OfficialDocument'
+            legalPersonality:
+              type: string
+              nullable: true
+              enum:
+                - personne morale de droit public
+                - personne morale de droit privé
+                - organisation internationale
+                - autre forme juridique étrangère
+                - sans personalité juridique
+                - null
+            inPublicResearch:
+              type: boolean
+              nullable: true
+            wikidataId:
+              type: string
+              nullable: true
+            websiteFr:
+              type: string
+              nullable: true
+            websiteEn:
+              type: string
+              nullable: true
+            comment:
+              type: string
+              nullable: true
+        - $ref: '#/components/schemas/Metas'
+    LegalCategoryLight:
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+        inseeCode:
+          type: string
+          nullable: true
+        longNameFr:
+          type: string
+        descriptionFr:
+          type: string
+          nullable: true
+        sector:
+          type: string
+          nullable: true
+          enum:
+            - public
+            - privé
+            - sans objet
+            - null
+        legalPersonality:
+          type: string
+          nullable: true
+          enum:
+            - personne morale de droit public
+            - personne morale de droit privé
+            - organisation internationale
+            - autre forme juridique étrangère
+            - sans personalité juridique
+            - null
+        inPublicResearch:
+          type: boolean
+          nullable: true
+        comment:
+          type: string
+          nullable: true
     StructureCreatePayload:
       title: StructureBulkInsertPayload
       description: Liste
@@ -4147,6 +4631,125 @@ components:
           type: string
           nullable: true
           pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+    TermPayload:
+      description: Schema de création et de modification d'une représentation d'un terme
+      additionalProperties: false
+      type: object
+      properties:
+        usualNameFr:
+          type: string
+          description: Nom usuel en francais
+          nullable: true
+        usualNameEn:
+          type: string
+          description: Nom usuel en anglais
+          nullable: true
+        pluralNameFr:
+          type: string
+          description: Forme du nom usuel français au pluriel
+          nullable: true
+        pluralNameEn:
+          type: string
+          description: Forme du nom usuel anglais au pluriel
+          nullable: true
+        shortNameFr:
+          type: string
+          description: Nom court en français
+          nullable: true
+        shortNameEn:
+          type: string
+          description: Nom court en anglais
+          nullable: true
+        acronymFr:
+          type: string
+          description: Sigle en français
+          nullable: true
+        acronymEn:
+          type: string
+          description: Sigle en anglais
+          nullable: true
+        descriptionFr:
+          type: string
+          nullable: true
+        descriptionEn:
+          type: string
+          nullable: true
+        otherName:
+          type: array
+          description: Autres intitulés
+          nullable: true
+          items:
+            type: string
+    LegalCategoryPayload:
+      title: LegalCategoryPayload
+      description: Modèle de création et d'update d'une catégorie juridique
+      additionalProperties: false
+      type: object
+      properties:
+        inseeCode:
+          type: string
+          nullable: true
+        longNameFr:
+          type: string
+        shortNameFr:
+          type: string
+          nullable: true
+        acronymeFr:
+          type: string
+          nullable: true
+        pluralNameFr:
+          type: string
+          nullable: true
+        descriptionFr:
+          type: string
+          nullable: true
+        longNameEn:
+          type: string
+          nullable: true
+        shortNameEn:
+          type: string
+          nullable: true
+        otherNames:
+          type: array
+          items:
+            type: string
+        sector:
+          type: string
+          nullable: true
+          enum:
+            - public
+            - privé
+            - sans objet
+            - null
+        officialDocumentId:
+          type: string
+          nullable: true
+          writeOnly: true
+        legalPersonality:
+          type: string
+          nullable: true
+          enum:
+            - personne morale de droit public
+            - personne morale de droit privé
+            - organisation internationale
+            - autre forme juridique étrangère
+            - sans personalité juridique
+            - null
+        inPublicResearch:
+          type: boolean
+          nullable: true
+        wikidataId:
+          type: string
+          nullable: true
+        websiteFr:
+          type: string
+          nullable: true
+        websiteEn:
+          type: string
+          nullable: true
+        comment:
+          type: string
+          nullable: true
     DocumentPayload:
       title: DocumentPayload
       description: Modèle de creation et d'update d'un document

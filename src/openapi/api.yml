@@ -41,10 +41,10 @@ tags:
   - name: Catégories
   - name: Catégories - Identifiants
   - name: Catégories - Liens web
-  # - name: Termes
+  - name: Termes
   - name: Documents officiels
   - name: Documents
-  # - name: Catégories juridiques
+  - name: Catégories juridiques
   - name: Prix scientifiques
   # - name: Projects
   # - name: Events
@@ -104,6 +104,18 @@ paths:
     $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias'
   '/persons/{personId}/socialmedias/{socialmediaId}':
     $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias~1{socialmediaId}'
+
+  ### TERMES ###
+  '/terms':
+    $ref: './paths/terms/terms.yml#/~1terms'
+  '/terms/{termId}':
+    $ref: './paths/terms/terms.yml#/~1terms~1{termId}'
+
+  ### CATEGORIES JURIDIQUES ###
+  '/legalcategories':
+    $ref: './paths/legalcategories/legalcategories.yml#/~1legalcategories'
+  '/legalcategories/{legalCategoryId}':
+    $ref: './paths/legalcategories/legalcategories.yml#/~1legalcategories~1{legalCategoryId}'
 
   ### CATEGORIES ###
   '/categories':
