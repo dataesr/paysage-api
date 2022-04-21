@@ -1,7 +1,10 @@
 # Paysage API.
 
 ## Developpement
-### Lancement du serveur
-npm start
+### Install
+`npm install`
 
+### Start the app
+`npm run start:dev`
 
+## Route
