@@ -1,0 +1,37 @@
+type: object
+properties:
+  id:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
+  inseeCode:
+    type: string
+    nullable: true
+  longNameFr:
+    type: string
+  descriptionFr:
+    type: string
+    nullable: true
+  sector:
+    type: string
+    nullable: true
+    enum:
+      - public
+      - privé
+      - sans objet
+      - null
+  legalPersonality:
+    type: string
+    nullable: true
+    enum:
+      - personne morale de droit public
+      - personne morale de droit privé
+      - organisation internationale
+      - autre forme juridique étrangère
+      - sans personalité juridique
+      - null
+  inPublicResearch:
+    type: boolean
+    nullable: true
+  comment:
+    type: string
+    nullable: true

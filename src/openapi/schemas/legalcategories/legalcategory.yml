@@ -1,0 +1,72 @@
+type: object
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      inseeCode:
+        type: string
+        nullable: true
+      longNameFr:
+        type: string
+      shortNameFr:
+        type: string
+        nullable: true
+      acronymeFr:
+        type: string
+        nullable: true
+      pluralNameFr:
+        type: string
+        nullable: true
+      descriptionFr:
+        type: string
+        nullable: true
+      longNameEn:
+        type: string
+        nullable: true
+      shortNameEn:
+        type: string
+        nullable: true
+      otherNames:
+        type: array
+        items:
+          type: string
+      sector:
+        type: string
+        nullable: true
+        enum:
+          - public
+          - privé
+          - sans objet
+          - null
+      officialDocument:
+        $ref: '../../api.yml#/components/schemas/OfficialDocument'
+      legalPersonality:
+        type: string
+        nullable: true
+        enum:
+          - personne morale de droit public
+          - personne morale de droit privé
+          - organisation internationale
+          - autre forme juridique étrangère
+          - sans personalité juridique
+          - null
+      inPublicResearch:
+        type: boolean
+        nullable: true
+      wikidataId:
+        type: string
+        nullable: true
+      websiteFr:
+        type: string
+        nullable: true
+      websiteEn:
+        type: string
+        nullable: true
+      comment:
+        type: string
+        nullable: true
+  - $ref: '../../api.yml#/components/schemas/Metas'

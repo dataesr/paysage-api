@@ -1,0 +1,11 @@
+description: Représentation simplifiée d'un terme
+type: object
+properties:
+  id:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
+    readOnly: true
+  usualNameFr:
+    type: string
+  usualNameEn:
+    type: string
