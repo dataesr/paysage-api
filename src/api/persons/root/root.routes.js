@@ -9,7 +9,6 @@ router.route('/persons')
   .get(persons.controllers.list)
   .post([
     (req, res, next) => {
-      console.log('OK');
       return next();
     },
     requireActiveUser,

@@ -4164,6 +4164,7 @@ components:
     OfficialDocumentPayload:
       title: OfficialDocumentPayload
       description: Modèle de création et d'update d'un document officiel
+      additionalProperties: false
       type: object
       properties:
         nature:
