@@ -8,6 +8,10 @@ const router = new express.Router();
 router.route('/persons')
   .get(persons.controllers.list)
   .post([
+    (req, res, next) => {
+      console.log('OK');
+      return next();
+    },
     requireActiveUser,
     createCtx,
     persons.controllers.create,

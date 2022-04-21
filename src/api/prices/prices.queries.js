@@ -43,5 +43,6 @@ const readQuery = [
 const writeQuery = [{ $project: { _id: 0, parentIds: { $ifNull: ['$parentIds', []] }, ...model } }];
 const lightQuery = [{ $project: { _id: 0, id: 1, ...lightModel } }];
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
+const indexQuery = [{ $project: model }];
 
-export default { readQuery, writeQuery, lightQuery, checkQuery };
+export default { readQuery, writeQuery, lightQuery, checkQuery, indexQuery };

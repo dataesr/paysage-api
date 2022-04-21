@@ -1,0 +1,87 @@
+type: object
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      parents:
+        type: array
+        items:
+          $ref: './category-light.yml'
+      childs:
+        type: array
+        items:
+          $ref: '../../api.yml#/components/schemas/CategoryLight'
+      officialDocument:
+        $ref: '../../api.yml#/components/schemas/OfficialDocument'
+      usualNameFr:
+        type: string
+      usualNameEn:
+        type: string
+        nullable: true
+      shortNameEn:
+        type: string
+        nullable: true
+        description: Nom court en anglais
+      shortNameFr:
+        type: string
+        nullable: true
+        description: Nom court en français
+      acronymFr:
+        type: string
+        nullable: true
+        description: Sigle en français
+      pluralNameFr:
+        type: string
+        nullable: true
+        description: Forme du nom usuel français au pluriel
+      otherNamesFr:
+        type: array
+        nullable: true
+        description: Autres intitulés français
+        items:
+          type: string
+      otherNamesEn:
+        type: array
+        nullable: true
+        description: Autres intitulés anglais
+        items:
+          type: string
+      descriptionFr:
+        type: string
+        nullable: true
+        description: Description en français
+      descriptionEn:
+        type: string
+        nullable: true
+        description: Description en français
+      inseeCode:
+        type: string
+        nullable: true
+      sector:
+        type: string
+        nullable: true
+      inPublicResearch:
+        type: boolean
+        nullable: true
+      comment:
+        type: string
+        nullable: true
+      isLegalCategory:
+        type: boolean
+        nullable: true
+      officialDocumentId:
+        type: string
+        nullable: true
+        writeOnly: true
+      parentIds:
+        type: array
+        nullable: true
+        writeOnly: true
+        description: Liste d'identifiant de catégories parente
+        items:
+          type: string
+  - $ref: '../../api.yml#/components/schemas/Metas'

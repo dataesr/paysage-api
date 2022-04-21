@@ -1,0 +1,35 @@
+title: LogoPayload
+description: Modèle de création et d'update d'un logo
+type: object
+properties:
+  legend:
+    type: string
+    nullable: true
+  credits:
+    type: string
+    nullable: true
+  license:
+    type: string
+    enum:
+      - CC BY
+      - CC BY-SA
+      - CC BY-ND
+      - CC BY-NC
+      - CC BY-NC-SA
+      - CC BY-NC-ND
+      - null
+    nullable: true
+  startDate:
+    type: string
+    nullable: true
+    pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+  endDate:
+    type: string
+    nullable: true
+    pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+  comment:
+    type: string
+    nullable: true
+  file:
+    type: string
+    format: binary

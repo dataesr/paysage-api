@@ -1,0 +1,42 @@
+title: Person
+description: Object décrivant une personne
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{5}$'
+        readOnly: true
+      firstName:
+        type: string
+        nullable: true
+      lastName:
+        type: string
+      otherNames:
+        type: array
+        items:
+          type: string
+      gender:
+        type: string
+        nullable: true
+        enum:
+          - Homme
+          - Femme
+          - Autre
+          - null
+      birthDate:
+        type: string
+        nullable: true
+        pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+      deathDate:
+        type: string
+        nullable: true
+        pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+      activity:
+        type: string
+        nullable: true
+      comment:
+        type: string
+        nullable: true
+  - $ref: '../../api.yml#/components/schemas/Metas'

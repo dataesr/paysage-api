@@ -1,0 +1,35 @@
+description: Représentation détaillée d'un prix scientifique
+readOnly: true
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      nameFr:
+        type: string
+        nullable: true
+      nameEn:
+        type: string
+        nullable: true
+      descriptionFr:
+        type: string
+        nullable: true
+      descriptionEn:
+        type: string
+        nullable: true
+      parents:
+        type: array
+        readOnly: true
+        description: Représentation simplifiée des parents du prix scientifique
+        items:
+          $ref: ../../api.yml#/components/schemas/PriceLight
+      startDate:
+        type: string
+        nullable: true
+        pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+      endDate:
+        type: string
+        nullable: true
+        pattern: '((^&)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+  - $ref: '../../api.yml#/components/schemas/Metas'

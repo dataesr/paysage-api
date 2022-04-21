@@ -1,36 +1,32 @@
 import express from 'express';
-import { createCtx } from '../../commons/middlewares/context.middleware';
+import { createCtx, patchCtx } from '../../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
-import relations from './categories.resource';
+import { validatePayload } from './categories.middlewares';
+import categories from './categories.resource';
 
 const router = new express.Router();
 
-router.route('/:parentCollection/:parentId/:childCollection')
-  .get(relations.controllers.list)
-
-router.route('/:childCollection/:childId/:parentCollection')
-  .get(relations.controllers.list)
-
-router.route('/:parentCollection/:parentId/:childCollection/:childId')
-  .get([
-    requireActiveUser,
-    createCtx,
-    relations.controllers.get,
-  ])
+router.route('/structures/:rid/categories')
+  .get(categories.controllers.list)
   .post([
     requireActiveUser,
+    validatePayload,
     createCtx,
-    relations.controllers.post,
-  ])
+    categories.controllers.create,
+  ]);
+
+router.route('/structures/:rid/categories/:id')
   .delete([
     requireActiveUser,
-    createCtx,
-    relations.controllers.delete,
+    patchCtx,
+    categories.controllers.delete,
   ])
+  .get(categories.controllers.read)
   .patch([
     requireActiveUser,
-    createCtx,
-    relations.controllers.patch,
-  ])
+    validatePayload,
+    patchCtx,
+    categories.controllers.patch,
+  ]);
 
 export default router;

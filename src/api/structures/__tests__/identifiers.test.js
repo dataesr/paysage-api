@@ -8,6 +8,8 @@ beforeAll(async () => {
     .set('Authorization', authorization)
     .send({
       structureStatus: 'active',
+      creationDate: '2021-02',
+      usualName: 'Université',
     }).expect(201);
   rid = response.body.id;
 });

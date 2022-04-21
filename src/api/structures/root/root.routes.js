@@ -1,8 +1,8 @@
 import express from 'express';
 import { createCtx, patchCtx, setPutIdInContext } from '../../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { fromPayloadToStructure, validateStructureCreatePayload } from './root.middlewares';
 import structures from './root.resource';
-import { setDefaultStatus } from './root.middlewares';
 
 const router = new express.Router();
 
@@ -10,9 +10,10 @@ const router = new express.Router();
 router.route('/structures')
   .get(structures.controllers.list)
   .post([
-    requireActiveUser,
+    // requireActiveUser,
     createCtx,
-    setDefaultStatus('draft'),
+    validateStructureCreatePayload,
+    fromPayloadToStructure,
     structures.controllers.create,
   ]);
 
@@ -32,7 +33,6 @@ router.route('/structures/:id')
     requireActiveUser,
     createCtx,
     setPutIdInContext('structures'),
-    setDefaultStatus('published'),
     structures.controllers.create,
   ]);
 

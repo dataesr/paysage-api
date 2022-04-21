@@ -6,21 +6,31 @@
     },
     {
       "type": "item",
-      "title": "Documentation API",
+      "title": "Introduction",
       "uri": "docs/intro.md"
     },
     {
-      "type": "divider",
-      "title": "REFERENCES"
+      "type": "item",
+      "title": "Resource API",
+      "uri": "docs/resources.md"
     },
     {
       "type": "item",
-      "title": "Authentication",
+      "title": "Authentification",
+      "uri": "docs/authentication.md"
+    },
+    {
+      "type": "divider",
+      "title": "APIS"
+    },
+    {
+      "type": "item",
+      "title": "Authentification",
       "uri": "reference/auth.yml"
     },
     {
       "type": "item",
-      "title": "Paysage API",
+      "title": "Paysage",
       "uri": "reference/api.yml"
     }
   ]

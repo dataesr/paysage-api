@@ -1,66 +1,114 @@
-Error:
-  $ref: './error.yml'
-Metas:
-  $ref: './metas.yml'
-StructurePayload:
-  $ref: '../modules/structures/schemas/write-structure.yml'
+### MODELS ###
 Structure:
-  $ref: '../modules/structures/schemas/read-structure.yml'
-StructureStatusPayload:
-  $ref: '../modules/structures/schemas/write-status.yml'
+  $ref: './structures/structure.yml'
+StructureLight:
+  $ref: './structures/structure-light.yml'
 StructureName:
-  $ref: '../modules/structures/schemas/read-name.yml'
-StructureNamePayload:
-  $ref: '../modules/structures/schemas/write-name.yml'
-Weblink:
-  $ref: '../modules/commons/weblinks/schemas/read-weblink.yml'
-WeblinkPayload:
-  $ref: '../modules/commons/weblinks/schemas/write-weblink.yml'
-SocialMedia:
-  $ref: '../modules/commons/socialmedias/schemas/read-socialmedia.yml'
-SocialMediaPayload:
-  $ref: '../modules/commons/socialmedias/schemas/write-socialmedia.yml'
-IdentifierPayLoad:
-  $ref: '../modules/commons/identifiers/schemas/write-identifier.yml'
-Identifier:
-  $ref: '../modules/commons/identifiers/schemas/read-identifier.yml'
-StructureLocalisationPayload:
-  $ref: '../modules/structures/schemas/write-localisation.yml'
+  $ref: './structures/name.yml'
+StructureNameLight:
+  $ref: './structures/name-light.yml'
+StructureCategory:
+  $ref: './structures/category.yml'
+StructureIdentifier:
+  $ref: './structures/identifier.yml'
 StructureLocalisation:
-  $ref: '../modules/structures/schemas/read-localisation.yml'
-CategoryLight:
-  $ref: '../modules/categories/schemas/light-category.yml'
-CategoryPayload:
-  $ref: '../modules/categories/schemas/write-category.yml'
-Category:
-  $ref: '../modules/categories/schemas/read-category.yml'
+  $ref: './structures/localisation.yml'
+StructureLocalisationLight:
+  $ref: './structures/localisation-light.yml'
+Weblink:
+  $ref: './commons/weblink.yml'
+Logo:
+  $ref: './commons/logo.yml'
+SocialMedia:
+  $ref: './commons/socialmedia.yml'
 OfficialDocument:
-  $ref: '../modules/official-documents/schemas/read-official-document.yml'
-OfficialDocumentPayload:
-  $ref: '../modules/official-documents/schemas/write-official-document.yml'
+  $ref: './officialdocuments/officialdocument.yml'
 OfficialDocumentLight:
-  $ref: '../modules/official-documents/schemas/light-official-document.yml'
-LegalCategory:
-  $ref: '../modules/legal-categories/schemas/read-legal-category.yml'
-LegalCategoryPayload:
-  $ref: '../modules/legal-categories/schemas/write-legal-category.yml'
-Term:
-  $ref: '../modules/terms/schemas/read-term.yml'
-TermPayload:
-  $ref: '../modules/terms/schemas/write-term.yml'
-Events:
-  $ref: '../modules/events/schemas/events.yml'
-Person:
-  $ref: '../modules/persons/schemas/read-person.yml'
-PersonPayload:
-  $ref: '../modules/persons/schemas/write-person.yml'
-Price:
-  $ref: '../modules/prices/schemas/read-price.yml'
-PricePayload:
-  $ref: '../modules/prices/schemas/write-price.yml'
-PriceLight:
-  $ref: '../modules/prices/schemas/light-price.yml'
+  $ref: './officialdocuments/officialdocument-light.yml'
 Document:
-  $ref: '../modules/documents/schemas/read-document.yml'
+  $ref: './documents/document.yml'
+DocumentLight:
+  $ref: './documents/document-light.yml'
+Category:
+  $ref: './categories/category.yml'
+CategoryLight:
+  $ref: './categories/category-light.yml'
+CategoryIdentifier:
+  $ref: './categories/identifier.yml'
+Price:
+  $ref: './prices/price.yml'
+PriceLight:
+  $ref: './prices/price-light.yml'
+Person:
+  $ref: './persons/person.yml'
+PersonLight:
+  $ref: './persons/person-light.yml'
+PersonIdentifier:
+  $ref: './persons/identifier.yml'
+Role:
+  $ref: './roles/role.yml'
+RoleLight:
+  $ref: './roles/role-light.yml'
+
+
+### PAYLOADS ###
+StructureCreatePayload:
+  $ref: './structures/structure-create-payload.yml'
+StructureUpdatePayload:
+  $ref: './structures/structure-update-payload.yml'
+StructureCategoryPayload:
+  $ref: './structures/category-payload.yml'
+StructureIdentifierPayload:
+  $ref: './structures/identifier-payload.yml'
+StructureNamePayload:
+  $ref: './structures/name-payload.yml'
+StructureLocalisationPayload:
+  $ref: './structures/localisation-payload.yml'
+CategoryPayload:
+  $ref: './categories/category-payload.yml'
+CategoryIdentifierPayload:
+  $ref: './categories/identifier-payload.yml'
+
+PersonPayload:
+  $ref: './persons/person-payload.yml'
+PersonIdentifierPayload:
+  $ref: './persons/identifier-payload.yml'
+
+PricePayload:
+  $ref: './prices/price-payload.yml'
+
 DocumentPayload:
-  $ref: '../modules/documents/schemas/write-document.yml'
+  $ref: './documents/document-payload.yml'
+
+OfficialDocumentPayload:
+  $ref: './officialdocuments/officialdocument-payload.yml'
+
+LogoPayload:
+  $ref: './commons/logo-payload.yml'
+WeblinkPayload:
+  $ref: './commons/weblink-payload.yml'
+SocialMediaPayload:
+  $ref: './commons/socialmedia-payload.yml'
+
+RolePayload:
+  $ref: './roles/role-payload.yml'
+
+
+### ENUMS ###
+StructureIdentifierTypesEnum:
+  $ref: './structures/enums/identifier-types.yml'
+PersonIdentifierTypesEnum:
+  $ref: './persons/enums/identifier-types.yml'
+CategoryIdentifierTypesEnum:
+  $ref: './categories/enums/identifier-types.yml'
+OfficialDocumentTypesEnum:
+  $ref: './officialdocuments/enums/type.yml'
+OfficialDocumentNaturesEnum:
+  $ref: './officialdocuments/enums/nature.yml'
+
+
+### COMMON MODELS ###
+Error:
+  $ref: './commons/error.yml'
+Metas:
+  $ref: './commons/metas.yml'

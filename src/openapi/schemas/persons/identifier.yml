@@ -1,0 +1,30 @@
+title: PersonIdentifier
+description: Representation d'un identifiant de catégorie
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{8}$'
+      rid:
+        type: string
+        readOnly: true
+        description: Unique resource identifier
+        pattern: '^[a-zA-Z0-9]{5}$'
+      type:
+        $ref: ../../api.yml#/components/schemas/PersonIdentifierTypesEnum
+      value:
+        type: string
+      active:
+        type: boolean
+      startDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+      endDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+  - $ref: '../../api.yml#/components/schemas/Metas'

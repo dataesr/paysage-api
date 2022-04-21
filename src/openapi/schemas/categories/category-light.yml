@@ -1,0 +1,18 @@
+type: object
+properties:
+  id:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
+  usualNameFr:
+    type: string
+  usualNameEn:
+    type: string
+    nullable: true
+  descriptionFr:
+    type: string
+    nullable: true
+    description: Description en français
+  descriptionEn:
+    type: string
+    nullable: true
+    description: Description en français

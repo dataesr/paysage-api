@@ -15,34 +15,39 @@ servers:
 
 
 paths:
+  /test:
+    post:
+      responses:
+        '200':
+          description: OK
   ### AUTH ###
-  '/auth/signup':
-    $ref: './modules/auth/path/signup.yml'
-  '/auth/signin':
-    $ref: './modules/auth/path/signin.yml' 
-  '/auth/signout':
-    $ref: './modules/auth/path/signout.yml'
-  '/auth/activate-account':
-    $ref: './modules/auth/path/activate-account.yml'
-  '/auth/refresh-access-token':
-    $ref: './modules/auth/path/refresh-access-token.yml'
-  '/auth/renew-activation-code':
-    $ref: './modules/auth/path/renew-activation-code.yml'
-  '/auth/send-password-renewal-code':
-    $ref: './modules/auth/path/send-password-renewal-code.yml'
-  '/auth/reset-password':
-    $ref: './modules/auth/path/reset-password.yml'
+  # '/auth/signup':
+  #   $ref: './modules/auth/path/signup.yml'
+  # '/auth/signin':
+  #   $ref: './modules/auth/path/signin.yml' 
+  # '/auth/signout':
+  #   $ref: './modules/auth/path/signout.yml'
+  # '/auth/activate-account':
+  #   $ref: './modules/auth/path/activate-account.yml'
+  # '/auth/refresh-access-token':
+  #   $ref: './modules/auth/path/refresh-access-token.yml'
+  # '/auth/renew-activation-code':
+  #   $ref: './modules/auth/path/renew-activation-code.yml'
+  # '/auth/send-password-renewal-code':
+  #   $ref: './modules/auth/path/send-password-renewal-code.yml'
+  # '/auth/reset-password':
+  #   $ref: './modules/auth/path/reset-password.yml'
 
-  ### USERS ###
-  '/users/{userId}':
-    $ref: './modules/users/path/user.yml'
-  '/users':
-    $ref: './modules/users/path/users.yml'
+  # ### USERS ###
+  # '/users/{userId}':
+  #   $ref: './modules/users/path/user.yml'
+  # '/users':
+  #   $ref: './modules/users/path/users.yml'
 
-  ### CURRENT USER ###
-  '/me':
-    $ref: './modules/me/path/me.yml'
-  '/me/password':
-    $ref: './modules/me/path/me-password.yml'
-  '/me/avatar':
-    $ref: './modules/me/path/me-avatar.yml'
+  # ### CURRENT USER ###
+  # '/me':
+  #   $ref: './modules/me/path/me.yml'
+  # '/me/password':
+  #   $ref: './modules/me/path/me-password.yml'
+  # '/me/avatar':
+  #   $ref: './modules/me/path/me-avatar.yml'

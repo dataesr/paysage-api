@@ -36,6 +36,42 @@ const currentNamePipeline = [
   { $project: { currentName: { createdAt: 0, updatedAt: 0, updateBy: 0, createdBy: 0 } } },
 ];
 
+const currentLocalisationPipeline = [
+  {
+    $set: {
+      currentLocalisation: {
+        $reduce: {
+          input: '$localisations',
+          initialValue: null,
+          in: {
+            $cond: [
+              { $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value',
+            ],
+          },
+        },
+      },
+    },
+  },
+  {
+    $set: {
+      currentLocalisation: {
+        $ifNull: ['$currentLocalisation', {
+          $reduce: {
+            input: '$localisation',
+            initialValue: null,
+            in: {
+              $cond: [
+                { $gt: ['$$this.createdAt', '$$value.createdAt'] }, '$$this', '$$value',
+              ],
+            },
+          },
+        }],
+      },
+    },
+  },
+  { $project: { currentLocalisation: { createdAt: 0, updatedAt: 0, updateBy: 0, createdBy: 0 } } },
+];
+
 const model = {
   structureStatus: { $ifNull: ['$structureStatus', null] },
   creationDate: { $ifNull: ['$creationDate', null] },
@@ -50,6 +86,7 @@ const model = {
 const readQuery = [
   ...metas,
   ...currentNamePipeline,
+  ...currentLocalisationPipeline,
   {
     $project: {
       _id: 0,
@@ -58,6 +95,7 @@ const readQuery = [
       status: 1,
       alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
       currentName: { $ifNull: ['$currentName', {}] },
+      currentLocalisation: { $ifNull: ['$currentLocalisation', {}] },
       redirection: { $ifNull: ['$redirection', null] },
       createdBy: 1,
       createdAt: 1,
