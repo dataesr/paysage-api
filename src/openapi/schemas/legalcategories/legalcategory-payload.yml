@@ -1,4 +1,6 @@
-description: Catégory juridique
+title: LegalCategoryPayload
+description: Modèle de création et d'update d'une catégorie juridique
+additionalProperties: false
 type: object
 properties:
   inseeCode:
@@ -65,6 +67,3 @@ properties:
   comment:
     type: string
     nullable: true
-
-
-  

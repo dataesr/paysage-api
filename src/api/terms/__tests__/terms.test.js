@@ -22,25 +22,6 @@ describe('API > terms > create', () => {
     expect(body.createdBy.username).toBe('user');
     id = body.id;
   });
-  it('can create successfully with parent', async () => {
-    const { body } = await global.superapp
-      .post('/terms')
-      .set('Authorization', authorization)
-      .send({ ...payload, parentIds: [id] })
-      .expect(201);
-    Object.entries(payload).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
-    expect(body.id).toBeTruthy();
-    expect(body.parents).toHaveLength(1);
-    expect(body.parents[0].usualNameFr).toBe('Term A');
-    expect(body.createdBy.username).toBe('user');
-  });
-  it('throws with unknown parent', async () => {
-    await global.superapp
-      .post('/terms')
-      .set('Authorization', authorization)
-      .send({ ...payload, parentIds: ['frYh5'] })
-      .expect(400);
-  });
   it('ignore additionalProperties', async () => {
     const { body } = await global.superapp
       .post('/terms')
