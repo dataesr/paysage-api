@@ -1,0 +1,123 @@
+Me:
+  get:
+    tags:
+      - Me
+    summary: Get current user data
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../../auth.yml#/components/schemas/Me
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'
+  patch:
+    tags:
+      - Me
+    summary: Update current user data
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: ../../auth.yml#/components/schemas/Me
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../../auth.yml#/components/schemas/Me
+      '400':
+        $ref: '../../auth.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'
+  delete:
+    tags:
+      - Me
+    summary: Delete current user data
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'
+Avatar:
+  put:
+    tags:
+      - Me
+    summary: Change user avatar
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../../auth.yml#/components/schemas/Me
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Me
+    summary: Delete user avatar
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../../auth.yml#/components/schemas/Me
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'
+Password:
+  put:
+    tags:
+      - Me
+    summary: Change user password
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - newPassword
+              - currentPassword
+            properties:
+              newPassword:
+                type: string
+                pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+              currentPassword:
+                type: string
+                pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../../auth.yml#/components/schemas/Me
+      '400':
+        $ref: '../../auth.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'

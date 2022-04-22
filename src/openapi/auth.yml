@@ -15,39 +15,77 @@ servers:
 
 
 paths:
-  /test:
-    post:
-      responses:
-        '200':
-          description: OK
   ### AUTH ###
-  # '/auth/signup':
-  #   $ref: './modules/auth/path/signup.yml'
-  # '/auth/signin':
-  #   $ref: './modules/auth/path/signin.yml' 
-  # '/auth/signout':
-  #   $ref: './modules/auth/path/signout.yml'
-  # '/auth/activate-account':
-  #   $ref: './modules/auth/path/activate-account.yml'
-  # '/auth/refresh-access-token':
-  #   $ref: './modules/auth/path/refresh-access-token.yml'
-  # '/auth/renew-activation-code':
-  #   $ref: './modules/auth/path/renew-activation-code.yml'
-  # '/auth/send-password-renewal-code':
-  #   $ref: './modules/auth/path/send-password-renewal-code.yml'
-  # '/auth/reset-password':
-  #   $ref: './modules/auth/path/reset-password.yml'
+  '/auth/signup':
+    $ref: ./paths/auth/signup.yml
+  '/auth/signin':
+    $ref: ./paths/auth/signin.yml
+  '/auth/signout':
+    $ref: ./paths/auth/signout.yml
+  '/auth/activate-account':
+    $ref: ./paths/auth/activate-account.yml
+  '/auth/refresh-access-token':
+    $ref: ./paths/auth/refresh-access-token.yml
+  '/auth/renew-activation-code':
+    $ref: ./paths/auth/renew-activation-code.yml
+  '/auth/send-password-renewal-code':
+    $ref: ./paths/auth/send-password-renewal-code.yml
+  '/auth/reset-password':
+    $ref: ./paths/auth/reset-password.yml
 
-  # ### USERS ###
-  # '/users/{userId}':
-  #   $ref: './modules/users/path/user.yml'
-  # '/users':
-  #   $ref: './modules/users/path/users.yml'
+  ### USERS ###
+  '/users/{userId}':
+    $ref: ./paths/users/users.yml#/User
+  '/users':
+    $ref: ./paths/users/users.yml#/Users
 
-  # ### CURRENT USER ###
-  # '/me':
-  #   $ref: './modules/me/path/me.yml'
-  # '/me/password':
-  #   $ref: './modules/me/path/me-password.yml'
-  # '/me/avatar':
-  #   $ref: './modules/me/path/me-avatar.yml'
+  ### CURRENT USER ###
+  '/me':
+    $ref: ./paths/users/me.yml#/Me
+  '/me/password':
+    $ref: ./paths/users/me.yml#/Password
+  '/me/avatar':
+    $ref: ./paths/users/me.yml#/Avatar
+
+components:
+  parameters:
+    userId:
+      $ref: ./parameters/ids/user-id.yml
+    filters:
+      $ref: ./parameters/query/filters.yml
+    skip:
+      $ref: ./parameters/query/skip.yml
+    limit:
+      $ref: ./parameters/query/limit.yml
+    sort:
+      $ref: ./parameters/query/sort.yml
+
+  responses:
+    BadRequest:
+      $ref: './responses/errors/bad-request.yml'
+    NotFound:
+      $ref: './responses/errors/not-found.yml'
+    Forbidden:
+      $ref: './responses/errors/forbidden.yml'
+    Unauthorized:
+      $ref: './responses/errors/unauthorized.yml'
+    ServerError:
+      $ref: './responses/errors/server-error.yml'
+
+  schemas:
+    User:
+      $ref: ./schemas/users/user.yml
+    Me:
+      $ref: ./schemas/users/me.yml
+    SignInPayload:
+      $ref: ./schemas/auth/signin-payload.yml
+    SignUpPayload:
+      $ref: ./schemas/auth/signup-payload.yml
+    Tokens:
+      $ref: ./schemas/auth/tokens.yml
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Authentication with a Bearer token.
