@@ -151,13 +151,190 @@ paths:
 
 components:
   parameters:
-    $ref: './parameters/_index.yml'
+    filters:
+      $ref: ./parameters/query/filters.yml
+    skip:
+      $ref: ./parameters/query/skip.yml
+    limit:
+      $ref: ./parameters/query/limit.yml
+    sort:
+      $ref: ./parameters/query/sort.yml
+    documentId:
+      $ref: ./parameters/ids/document-id.yml
+    structureId:
+      $ref: ./parameters/ids/structure-id.yml
+    nameId:
+      $ref: ./parameters/ids/name-id.yml
+    logoId:
+      $ref: ./parameters/ids/logo-id.yml
+    identifierId:
+      $ref: ./parameters/ids/identifier-id.yml
+    localisationId:
+      $ref: ./parameters/ids/localisation-id.yml
+    weblinkId:
+      $ref: ./parameters/ids/weblink-id.yml
+    socialmediaId:
+      $ref: ./parameters/ids/socialmedia-id.yml
+    termId:
+      $ref: ./parameters/ids/term-id.yml
+    categoryId:
+      $ref: ./parameters/ids/category-id.yml
+    relatedCategoryId:
+      $ref: ./parameters/ids/related-category-id.yml
+    legalCategoryId:
+      $ref: ./parameters/ids/legal-category-id.yml
+    priceId:
+      $ref: ./parameters/ids/price-id.yml
+    personId:
+      $ref: ./parameters/ids/person-id.yml
+    officialDocumentId:
+      $ref: ./parameters/ids/officialdocument-id.yml
+    newsId:
+      $ref: ./parameters/ids/news-id.yml
+    roleId:
+      $ref: ./parameters/ids/role-id.yml
 
   responses:
-    $ref: './responses/_index.yml'
+    BadRequest:
+      $ref: './responses/errors/bad-request.yml'
+    NotFound:
+      $ref: './responses/errors/not-found.yml'
+    Forbidden:
+      $ref: './responses/errors/forbidden.yml'
+    Unauthorized:
+      $ref: './responses/errors/unauthorized.yml'
+    ServerError:
+      $ref: './responses/errors/server-error.yml'
 
   schemas:
-    $ref: './schemas/_index.yml'
+    ### MODELS ###
+    Structure:
+      $ref: './schemas/structures/structure.yml'
+    StructureLight:
+      $ref: './schemas/structures/structure-light.yml'
+    StructureName:
+      $ref: './schemas/structures/name.yml'
+    StructureNameLight:
+      $ref: './schemas/structures/name-light.yml'
+    StructureCategory:
+      $ref: './schemas/structures/category.yml'
+    StructureIdentifier:
+      $ref: './schemas/structures/identifier.yml'
+    StructureLocalisation:
+      $ref: './schemas/structures/localisation.yml'
+    StructureLocalisationLight:
+      $ref: './schemas/structures/localisation-light.yml'
+    Weblink:
+      $ref: './schemas/commons/weblink.yml'
+    Logo:
+      $ref: './schemas/commons/logo.yml'
+    SocialMedia:
+      $ref: './schemas/commons/socialmedia.yml'
+    OfficialDocument:
+      $ref: './schemas/officialdocuments/officialdocument.yml'
+    OfficialDocumentLight:
+      $ref: './schemas/officialdocuments/officialdocument-light.yml'
+    Document:
+      $ref: './schemas/documents/document.yml'
+    DocumentLight:
+      $ref: './schemas/documents/document-light.yml'
+    Category:
+      $ref: './schemas/categories/category.yml'
+    CategoryLight:
+      $ref: './schemas/categories/category-light.yml'
+    CategoryIdentifier:
+      $ref: './schemas/categories/identifier.yml'
+    Price:
+      $ref: './schemas/prices/price.yml'
+    PriceLight:
+      $ref: './schemas/prices/price-light.yml'
+    Person:
+      $ref: './schemas/persons/person.yml'
+    PersonLight:
+      $ref: './schemas/persons/person-light.yml'
+    PersonIdentifier:
+      $ref: './schemas/persons/identifier.yml'
+    Role:
+      $ref: './schemas/roles/role.yml'
+    RoleLight:
+      $ref: './schemas/roles/role-light.yml'
+    Term:
+      $ref: './schemas/terms/term.yml'
+    TermLight:
+      $ref: './schemas/terms/term-light.yml'
+    LegalCategory:
+      $ref: './schemas/legalcategories/legalcategory.yml'
+    LegalCategoryLight:
+      $ref: './schemas/legalcategories/legalcategory-light.yml'
+
+
+    ### PAYLOADS ###
+    StructureCreatePayload:
+      $ref: './schemas/structures/structure-create-payload.yml'
+    StructureUpdatePayload:
+      $ref: './schemas/structures/structure-update-payload.yml'
+    StructureCategoryPayload:
+      $ref: './schemas/structures/category-payload.yml'
+    StructureIdentifierPayload:
+      $ref: './schemas/structures/identifier-payload.yml'
+    StructureNamePayload:
+      $ref: './schemas/structures/name-payload.yml'
+    StructureLocalisationPayload:
+      $ref: './schemas/structures/localisation-payload.yml'
+    CategoryPayload:
+      $ref: './schemas/categories/category-payload.yml'
+    CategoryIdentifierPayload:
+      $ref: './schemas/categories/identifier-payload.yml'
+
+    PersonPayload:
+      $ref: './schemas/persons/person-payload.yml'
+    PersonIdentifierPayload:
+      $ref: './schemas/persons/identifier-payload.yml'
+
+    PricePayload:
+      $ref: './schemas/prices/price-payload.yml'
+
+    TermPayload:
+      $ref: './schemas/terms/term-payload.yml'
+
+    LegalCategoryPayload:
+      $ref: './schemas/legalcategories/legalcategory-payload.yml'
+
+    DocumentPayload:
+      $ref: './schemas/documents/document-payload.yml'
+
+    OfficialDocumentPayload:
+      $ref: './schemas/officialdocuments/officialdocument-payload.yml'
+
+    LogoPayload:
+      $ref: './schemas/commons/logo-payload.yml'
+    WeblinkPayload:
+      $ref: './schemas/commons/weblink-payload.yml'
+    SocialMediaPayload:
+      $ref: './schemas/commons/socialmedia-payload.yml'
+
+    RolePayload:
+      $ref: './schemas/roles/role-payload.yml'
+
+
+    ### ENUMS ###
+    StructureIdentifierTypesEnum:
+      $ref: './schemas/structures/enums/identifier-types.yml'
+    PersonIdentifierTypesEnum:
+      $ref: './schemas/persons/enums/identifier-types.yml'
+    CategoryIdentifierTypesEnum:
+      $ref: './schemas/categories/enums/identifier-types.yml'
+    OfficialDocumentTypesEnum:
+      $ref: './schemas/officialdocuments/enums/type.yml'
+    OfficialDocumentNaturesEnum:
+      $ref: './schemas/officialdocuments/enums/nature.yml'
+
+
+    ### COMMON MODELS ###
+    Error:
+      $ref: './schemas/commons/error.yml'
+    Metas:
+      $ref: './schemas/commons/metas.yml'
 
   securitySchemes:
     BearerAuth:

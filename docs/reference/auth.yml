@@ -13,8 +13,668 @@ servers:
   - url: 'https://api.paysage.staging.dataesr.ovh/'
   - url: 'https://api.paysage.dataesr.ovh/'
 paths:
-  /test:
+  /auth/signup:
     post:
+      tags:
+        - Authentication
+      summary: Sign a user up
+      description: Create a user account
+      requestBody:
+        description: Required user info for account creation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tokens'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /auth/signin:
+    post:
+      tags:
+        - Authentication
+      summary: Sign a user in
+      requestBody:
+        description: Required user info for signin
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInPayload'
+        required: true
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tokens'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /auth/signout:
+    post:
+      tags:
+        - Authentication
+      summary: Sign a user out
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /auth/activate-account:
+    post:
+      tags:
+        - Authentication
+      summary: Activate user account
+      requestBody:
+        description: Information for account activation
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - activationCode
+              properties:
+                activationCode:
+                  type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /auth/refresh-access-token:
+    post:
+      tags:
+        - Authentication
+      summary: Use refresh token to regenerate access token
+      requestBody:
+        description: Required user info for authentication
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tokens'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /auth/renew-activation-code:
+    get:
+      tags:
+        - Authentication
+      summary: Renew account activation code
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /auth/send-password-renewal-code:
+    post:
+      tags:
+        - Authentication
+      summary: Send an email with a code to change password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account
+              properties:
+                account:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /auth/reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: Resets user password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account
+                - password
+                - code
+              properties:
+                account:
+                  type: string
+                password:
+                  type: string
+                  pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+                code:
+                  type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  '/users/{userId}':
+    get:
+      tags:
+        - Users
+      summary: Get a user by id
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Users
+      summary: Update a user
+      requestBody:
+        description: User info for account creation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Get current user data
+      parameters:
+        - $ref: '#/components/parameters/filters'
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /me:
+    get:
+      tags:
+        - Me
+      summary: Get current user data
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - Me
+      summary: Update current user data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Me'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Me
+      summary: Delete current user data
+      responses:
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /me/password:
+    put:
+      tags:
+        - Me
+      summary: Change user password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - newPassword
+                - currentPassword
+              properties:
+                newPassword:
+                  type: string
+                  pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+                currentPassword:
+                  type: string
+                  pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /me/avatar:
+    put:
+      tags:
+        - Me
+      summary: Change user avatar
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Me
+      summary: Delete user avatar
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  parameters:
+    userId:
+      name: userId
+      in: path
+      schema:
+        type: string
+      required: true
+      description: Unique user identifier
+    filters:
+      name: filters
+      in: query
+      description: A filtering object
+      style: deepObject
+      schema:
+        type: object
+        description: '?filters[lastName][$eq]=Dupond&filters[lastName][$neq]=Dupont'
+    skip:
+      name: skip
+      in: query
+      description: number of items to skip
+      schema:
+        type: integer
+        format: int32
+        default: 0
+    limit:
+      name: limit
+      in: query
+      description: max records to return
+      schema:
+        type: integer
+        format: int32
+        default: 20
+    sort:
+      name: sort
+      in: query
+      description: Sort returned data
+      schema:
+        type: string
+        description: '?sort=firstname,-createdAt'
+  responses:
+    BadRequest:
+      description: Illegal input for operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/responses/NotFound/content/application~1json/schema'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            title: Error
+            type: object
+            required:
+              - error
+            properties:
+              error:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    path:
+                      type: string
+                    errorCode:
+                      type: string
+    Forbidden:
+      description: Permission denied.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/responses/NotFound/content/application~1json/schema'
+    Unauthorized:
+      description: Authentification needed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/responses/NotFound/content/application~1json/schema'
+    ServerError:
+      description: An unexpected error occured on the server.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/responses/NotFound/content/application~1json/schema'
+  schemas:
+    User:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: User id
+        username:
+          type: string
+          pattern: '^[A-Za-z0-9]{3,15}$'
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+        email:
+          type: string
+        active:
+          type: boolean
+        confirmed:
+          type: boolean
+        avatar:
+          type: string
+          nullable: true
+          readOnly: true
+        role:
+          type: string
+          description: User role
+          enum:
+            - user
+            - admin
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        createdBy:
+          type: string
+          readOnly: true
+        updatedBy:
+          type: string
+          readOnly: true
+    Me:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: User's internal id
+        username:
+          type: string
+          readOnly: true
+          pattern: '^[A-Za-z0-9]{3,15}$'
+          description: User unique identifier.
+        firstName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+        email:
+          type: string
+        active:
+          type: boolean
+          readOnly: true
+        confirmed:
+          type: boolean
+          readOnly: true
+        avatar:
+          type: string
+          nullable: true
+          readOnly: true
+        role:
+          type: string
+          description: User role
+          readOnly: true
+          enum:
+            - user
+            - admin
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        createdBy:
+          type: string
+          readOnly: true
+        updatedBy:
+          type: string
+          readOnly: true
+    SignInPayload:
+      type: object
+      required:
+        - password
+        - account
+      properties:
+        password:
+          type: string
+          pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+          example: Azertyui!87
+          description: 'Minimum eight characters, at least one letter, one number and one special character'
+        account:
+          type: string
+    SignUpPayload:
+      type: object
+      required:
+        - password
+        - email
+        - username
+      properties:
+        password:
+          type: string
+          pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+          example: Azertyui!87
+          description: 'Minimum eight characters, at least one letter, one number and one special character'
+        email:
+          type: string
+          format: email
+          example: folland@dataesr.ovh
+        username:
+          type: string
+          example: folland87
+        firstName:
+          type: string
+          example: Frédéric
+        lastName:
+          type: string
+          example: Olland
+    Tokens:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Authentication with a Bearer token.
