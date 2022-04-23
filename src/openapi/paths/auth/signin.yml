@@ -7,7 +7,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../schemas/signin.payload.yml'
+          $ref: '../../auth.yml#/components/schemas/SignInPayload'
     required: true
   responses:
     '200':
@@ -15,8 +15,8 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../schemas/sign.response.yml'
+            $ref: '../../auth.yml#/components/schemas/Tokens'
     '400':
-      $ref: '../../../responses/errors/bad-request.yml'
+      $ref: '../../auth.yml#/components/responses/BadRequest'
     '500':
-      $ref: '../../../responses/errors/server-error.yml'
+      $ref: '../../auth.yml#/components/responses/ServerError'
