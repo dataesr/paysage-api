@@ -1,7 +1,7 @@
-post:
+get:
   tags:
     - Authentication
-  summary: Sign a user out
+  summary: Renew account activation code
   responses:
     '200':
       description: Success
@@ -13,6 +13,8 @@ post:
               message:
                 type: string
     '400':
-      $ref: '../../../responses/errors/bad-request.yml'
+      $ref: '../../auth.yml#/components/responses/BadRequest'
+    '401':
+      $ref: '../../auth.yml#/components/responses/Unauthorized'
     '500':
-      $ref: '../../../responses/errors/server-error.yml'
+      $ref: '../../auth.yml#/components/responses/ServerError'

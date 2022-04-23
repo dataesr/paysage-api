@@ -1,0 +1,96 @@
+Users:
+  get:
+    tags:
+      - Users
+    summary: Get current user data
+    parameters:
+      - $ref: ../../auth.yml#/components/parameters/filters
+      - $ref: ../../auth.yml#/components/parameters/skip
+      - $ref: ../../auth.yml#/components/parameters/limit
+      - $ref: ../../auth.yml#/components/parameters/sort
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: ../../auth.yml#/components/schemas/User
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'
+
+User:
+  get:
+    tags:
+      - Users
+    summary: Get a user by id
+    parameters:
+      - $ref: ../../auth.yml#/components/parameters/userId
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../../auth.yml#/components/schemas/User
+      '400':
+        $ref: '../../auth.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../auth.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../auth.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Users
+    summary: Delete a user
+    # parameters:
+    #   - $ref: '../parameters/user-id.yml'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../auth.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../auth.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'
+
+  patch:
+    tags:
+      - Users
+    summary: Update a user
+    # parameters:
+    #   - $ref: '../parameters/user-id.yml'
+    requestBody:
+      description: User info for account creation
+      content:
+        application/json:
+          schema:
+            $ref: ../../auth.yml#/components/schemas/User
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../../auth.yml#/components/schemas/User
+      '400':
+        $ref: '../../auth.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../auth.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../auth.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../auth.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../auth.yml#/components/responses/ServerError'
