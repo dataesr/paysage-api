@@ -1,6 +1,6 @@
 import parseSortParams from './helpers';
 
-export default class BaseMongoRepository {
+class BaseMongoRepository {
   constructor({ db, collection, queries = {} }) {
     if (!collection) { throw new Error("Parameter 'collection' must be specified"); }
     if (!(typeof collection === 'string' && Object.prototype.toString.call(collection) === '[object String]')) {
@@ -63,3 +63,5 @@ export default class BaseMongoRepository {
 
   exists = async (id) => !!await this._collection.findOne({ id });
 }
+
+export default BaseMongoRepository;
