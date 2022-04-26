@@ -30,7 +30,7 @@ const data = [
     updatedBy: 42
   }
 ];
-let id;
+
 let baseRepository;
 
 beforeAll(() => {
@@ -115,12 +115,12 @@ describe('exists method', () => {
   });
 
   it('should find existing data', async () => {
-    const result = await baseRepository.exists(id=data[0].id);
+    const result = await baseRepository.exists(data[0].id);
     expect(result).toBeTruthy();
   });
 
   it('should not find unexisting data', async () => {
-    const result = await baseRepository.exists(id=42);
+    const result = await baseRepository.exists(42);
     expect(result).toBeFalsy();
   });
 });
@@ -131,12 +131,12 @@ describe('remove method', () => {
   });
 
   it('should delete existing data', async () => {
-    const { ok } = await baseRepository.remove(id=data[0].id);
+    const { ok } = await baseRepository.remove(data[0].id);
     expect(ok).toBeTruthy();
   });
 
   it('should not delete unexisting data', async () => {
-    const { ok } = await baseRepository.remove(id=42);
+    const { ok } = await baseRepository.remove(42);
     expect(ok).toBeFalsy();
   });
 });
