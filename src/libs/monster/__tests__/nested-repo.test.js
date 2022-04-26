@@ -44,7 +44,7 @@ const metasPipeline = [
 ];
 
 const user = {
-  id: Math.random().toString().substr(2, 8),
+  id: Math.random().toString().substring(2, 10),
   username: 'tester',
   avatar: 'http://avatars.com/tester',
 };
@@ -79,8 +79,8 @@ const data = [
     updatedBy: user.id,
   },
 ];
+
 let rid;
-let id;
 let baseRepository;
 let nestedRepository;
 
@@ -92,29 +92,17 @@ beforeAll(async () => {
   rid = insertedId;
 });
 
-afterAll(async () => {
-  await baseRepository._collection.deleteMany({});
-  await nestedRepository._collection.deleteMany({});
+afterEach(async () => {
+  await nestedRepository.remove(rid, data[0].id);
+  await nestedRepository.remove(rid, data[1].id);
+  await nestedRepository.remove(rid, data[2].id);
+  await nestedRepository.remove(rid, data[3].id);
 });
-
-afterAll(async () => {
-  await baseRepository._collection.deleteMany({});
-})
 
 describe('create method', () => {
   it('should create data', async () => {
-    const insertedId = await nestedRepository.create(rid, data[0]);
-    id = insertedId;
-    expect(insertedId).toBe(1);
-  });
-  
-  it('should create multiple data', async () => {
-    const insertedId1 = await nestedRepository.create(rid, data[1]);
-    expect(insertedId1).toBe(2);
-    const insertedId2 = await nestedRepository.create(rid, data[2]);
-    expect(insertedId2).toBe(3);
-    const insertedId3 = await nestedRepository.create(rid, data[3]);
-    expect(insertedId3).toBe(4);
+    const insertedId1 = await nestedRepository.create(rid, data[0]);
+    expect(insertedId1).toBe(data[0].id);
   });
 });
 
@@ -180,9 +168,8 @@ describe('get method', () => {
   it('should get by id', async () => {
     const id = data[0].id;
     const result = await nestedRepository.get(rid, id);
-    expect(result.id).toBeTruthy();
-    expect(result.name).toBe('test42');
-    expect(result.number).toBe(88);
+    expect(result.id).toBe(id);
+    expect(result.name).toBe('test1');
   });
 })
 
@@ -195,5 +182,7 @@ describe('remove method', () => {
     const id = data[0].id;
     const { ok } = await nestedRepository.remove(rid, id);
     expect(ok).toBeTruthy();
+    const find = await nestedRepository.find({ rid, filters: { id } });
+    expect(find.data.length).toBe(0);
   });
 })
