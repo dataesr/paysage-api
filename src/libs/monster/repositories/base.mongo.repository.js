@@ -1,6 +1,6 @@
 import parseSortParams from './helpers';
 
-export default class MongoRepository {
+export default class BaseMongoRepository {
   constructor({ db, collection, queries = {} }) {
     if (!collection) { throw new Error("Parameter 'collection' must be specified"); }
     if (!(typeof collection === 'string' && Object.prototype.toString.call(collection) === '[object String]')) {
