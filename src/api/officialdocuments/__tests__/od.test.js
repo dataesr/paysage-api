@@ -3,8 +3,8 @@ let id;
 const payload = {
   nature: 'Publication au JO',
   type: 'Loi',
-  documentNumber: 'string',
-  title: 'string',
+  documentNumber: 'documentNumber',
+  title: 'title',
   pageUrl: 'http://string.fr',
   signatureDate: '2020',
   endDate: '2020',
@@ -36,6 +36,15 @@ describe('API > official documents > create', () => {
       .expect(201);
     const dbData = await global.db.collection('official-documents').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
+  });
+  it('should fail if missing properties', async () => {
+    let partialPayload = payload;
+    delete payload.title;
+    const { body } = await global.superapp
+      .post('/officialdocuments')
+      .set('Authorization', authorization)
+      .send(partialPayload)
+      .expect(400);
   });
 });
 
