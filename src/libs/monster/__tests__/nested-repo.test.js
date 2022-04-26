@@ -1,4 +1,4 @@
-import MongoRepository from '../repositories/base.repository'
+import BaseMongoRepository from '../repositories/base.repository'
 import NestedMongoRepository from '../repositories/nested.repository'
 
 const metasPipeline = [
@@ -81,14 +81,14 @@ const data = [
 ];
 
 let rid;
-let baseRepository;
+let baseMongoRepository;
 let nestedRepository;
 
 beforeAll(async () => {
-  baseRepository = new MongoRepository({ db: global.utils.db, collection: 'test' });
+  baseMongoRepository = new BaseMongoRepository({ db: global.utils.db, collection: 'test' });
   nestedRepository = new NestedMongoRepository({ db: global.utils.db, collection: 'test', field: 'test', pipeline: metasPipeline });
   await global.utils.db.collection('users').insertOne(user);
-  const insertedId = await baseRepository.create({ id: 1, name: 'test1', createdBy: user.id, updatedBy: user.id });
+  const insertedId = await baseMongoRepository.create({ id: 1, name: 'test1', createdBy: user.id, updatedBy: user.id });
   rid = insertedId;
 });
 

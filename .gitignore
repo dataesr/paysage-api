@@ -1,6 +1,12 @@
-.env*
+# IDE
 .idea
 .vscode
+
+# dependencies
 /node_modules
 
+# misc
+.env*
+
+# production
 yarn.lock
