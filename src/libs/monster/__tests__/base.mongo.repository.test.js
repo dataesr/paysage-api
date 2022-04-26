@@ -1,4 +1,4 @@
-import BaseMongoRepository from '../repositories/base.repository'
+import BaseMongoRepository from '../repositories/base.mongo.repository'
 
 const data = [
   {

@@ -1,5 +1,5 @@
-import BaseMongoRepository from '../repositories/base.repository'
-import NestedMongoRepository from '../repositories/nested.repository'
+import BaseMongoRepository from '../repositories/base.mongo.repository'
+import NestedMongoRepository from '../repositories/nested.mongo.repository'
 
 const metasPipeline = [
   {
