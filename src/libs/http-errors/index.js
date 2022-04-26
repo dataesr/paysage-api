@@ -1,15 +1,15 @@
 import BadRequestError from './bad-request.error';
-import NotFoundError from './not-found.error';
-import UnauthorizedError from './unauthorized.error';
 import ForbiddenError from './forbidden.error';
-import ServerError from './server.error';
 import HTTPError from './http.error';
+import NotFoundError from './not-found.error';
+import ServerError from './server.error';
+import UnauthorizedError from './unauthorized.error';
 
 export {
-  HTTPError,
   BadRequestError,
+  ForbiddenError,
+  HTTPError,
   NotFoundError,
   ServerError,
   UnauthorizedError,
-  ForbiddenError,
 };

@@ -1,33 +1,35 @@
 import BaseMongoRepository from '../repositories/base.mongo.repository'
 
+const userId = 42;
+
 const data = [
   {
     id: 1,
     name: 'test1',
     number: 8,
-    createdBy: 42,
-    updatedBy: 42
+    createdBy: userId,
+    updatedBy: userId
   },
   {
     id: 2,
     name: 'test2',
     number: 16,
-    createdBy: 42,
-    updatedBy: 42
+    createdBy: userId,
+    updatedBy: userId
   },
   {
     id: 3,
     name: 'test3',
     number: 24,
-    createdBy: 42,
-    updatedBy: 42
+    createdBy: userId,
+    updatedBy: userId
   },
   {
     id: 4,
     name: 'test4',
     number: 32,
-    createdBy: 42,
-    updatedBy: 42
+    createdBy: userId,
+    updatedBy: userId
   }
 ];
 
@@ -120,7 +122,7 @@ describe('exists method', () => {
   });
 
   it('should not find unexisting data', async () => {
-    const result = await baseMongoRepository.exists(42);
+    const result = await baseMongoRepository.exists(userId);
     expect(result).toBeFalsy();
   });
 });
@@ -136,7 +138,7 @@ describe('remove method', () => {
   });
 
   it('should not delete unexisting data', async () => {
-    const { ok } = await baseMongoRepository.remove(42);
+    const { ok } = await baseMongoRepository.remove(userId);
     expect(ok).toBeFalsy();
   });
 });

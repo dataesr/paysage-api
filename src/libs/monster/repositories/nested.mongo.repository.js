@@ -1,6 +1,6 @@
 import parseSortParams from './helpers';
 
-export default class NestedMongoRepository {
+class NestedMongoRepository {
   constructor({ db, collection, field, queries = {} }) {
     if (!field) { throw new Error("Parameter 'field' must be specified"); }
     if (!(typeof field === 'string' && Object.prototype.toString.call(field) === '[object String]')) {
@@ -105,3 +105,5 @@ export default class NestedMongoRepository {
     return resource;
   };
 }
+
+export default NestedMongoRepository;
