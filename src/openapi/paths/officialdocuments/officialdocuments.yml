@@ -48,7 +48,8 @@
               - title
               - documentNumber
               - pageUrl
-            $ref: '../../api.yml#/components/schemas/OfficialDocumentPayload'
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/OfficialDocumentPayload'
     responses:
       '201':
         description: Created

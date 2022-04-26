@@ -20,7 +20,7 @@ export default class Utils {
   async createUser(username = 'user', admin = false) {
     const password = await bcrypt.hash('Passw0rd!', 10);
     const user = {
-      id: Math.random().toString().substr(2, 8),
+      id: Math.random().toString().substring(2, 10),
       email: `${username}@test.com`,
       username,
       password,
