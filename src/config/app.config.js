@@ -44,7 +44,7 @@ const testing = {
   jwtSecret: 'VerYvErySecrREt',
   database: {
     ...production.database,
-    mongoDbName: 'paysage-test1',
+    mongoDbName: 'paysage-test',
   },
   elastic: {
     ...production.elastic,
