@@ -1,7 +1,7 @@
 import NestedControllers from './controllers/nested.controllers';
 import Controllers from './controllers/base.controllers';
-import NestedRepository from './repositories/nested.repository';
-import Repository from './repositories/base.repository';
+import NestedMongoRepository from './repositories/nested.mongo.repository';
+import BaseMongoRepository from './repositories/base.mongo.repository';
 import Catalogue from './repositories/catalogue.repository';
 
 class Resource {
@@ -12,8 +12,8 @@ class Resource {
     this.catalogue = catalogue;
     this.eventStore = eventStore;
     this.repository = (field)
-      ? new NestedRepository({ db, collection, field, queries })
-      : new Repository({ db, collection, queries });
+      ? new NestedMongoRepository({ db, collection, field, queries })
+      : new BaseMongoRepository({ db, collection, queries });
     this.controllers = (field)
       ? new NestedControllers(this.repository, { storeContext, eventStore, catalogue })
       : new Controllers(this.repository, { storeContext, eventStore, catalogue });
@@ -22,7 +22,7 @@ class Resource {
 
 export {
   Resource,
-  Repository,
-  NestedRepository,
+  BaseMongoRepository,
+  NestedMongoRepository,
   Catalogue,
 };

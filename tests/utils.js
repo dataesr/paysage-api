@@ -12,15 +12,15 @@ export default class Utils {
   async clearDB() {
     const collections = await this.db.listCollections().toArray();
     const collectionsToDelete = collections.filter((collection) => collection.name !== 'system.views');
-    await Promise.all(collectionsToDelete.map(async (collection) => {
-      await this.db.collection(collection.name).drop();
+    return Promise.all(collectionsToDelete.map((collection) => {
+      this.db.collection(collection.name).drop();
     }));
   }
 
   async createUser(username = 'user', admin = false) {
     const password = await bcrypt.hash('Passw0rd!', 10);
     const user = {
-      id: Math.random().toString().substr(2, 8),
+      id: Math.random().toString().substring(2, 10),
       email: `${username}@test.com`,
       username,
       password,
