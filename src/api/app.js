@@ -49,11 +49,10 @@ app.get('/docs/api-specs.yml', (req, res) => { res.send(apiDocument); });
 // express-openapi-validator setup to validate requests
 app.use(OAV.middleware({
   apiSpec,
-  // validateRequests: true,
   validateRequests: {
     removeAdditional: true,
   },
-  validateResponses: false,
+  validateResponses: true,
   fileUploader: { storage: multer.memoryStorage() },
   ignoreUndocumented: true,
 }));
