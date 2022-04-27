@@ -1,4 +1,4 @@
-# Paysage API.
+# Paysage API
 
 ## Developpement
 ### Install
