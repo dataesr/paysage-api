@@ -1,6 +1,6 @@
 import mongodb from 'mongodb';
 
-import { NotFoundError, ServerError, BadRequestError } from '../../http-errors';
+import { BadRequestError, NotFoundError, ServerError } from '../../http-errors';
 
 class BaseController {
   constructor(repository, { storeContext, eventStore, catalogue } = {}) {
@@ -12,7 +12,7 @@ class BaseController {
 
   create = async (req, res, next) => {
     const ctx = req.ctx || {};
-    if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
+    if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
     let { id } = req.ctx;
     if (!id) {
       id = (this._catalogue)
