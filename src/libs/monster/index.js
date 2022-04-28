@@ -1,5 +1,5 @@
-import NestedControllers from './controllers/nested.controllers';
-import Controllers from './controllers/base.controllers';
+import NestedControllers from './controllers/nested.controller';
+import Controllers from './controllers/base.controller';
 import NestedMongoRepository from './repositories/nested.mongo.repository';
 import BaseMongoRepository from './repositories/base.mongo.repository';
 import Catalogue from './repositories/catalogue.repository';
