@@ -1,7 +1,8 @@
 import mongodb from 'mongodb';
+
 import { NotFoundError, ServerError, BadRequestError } from '../../http-errors';
 
-export default class BaseController {
+class BaseController {
   constructor(repository, { storeContext, eventStore, catalogue } = {}) {
     this._repository = repository;
     this._storeContext = storeContext;
@@ -111,4 +112,6 @@ export default class BaseController {
     res.status(200).json({ data, totalCount: totalCount || 0 });
     return next();
   };
-}
+};
+
+export default BaseController;
