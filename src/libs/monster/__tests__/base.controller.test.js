@@ -17,7 +17,7 @@ const mockResponse = () => {
 
 describe('create method', () => {
     beforeAll(() => {
-        baseMongoRepository = { create: () => 42, get: () => ({}) };
+        baseMongoRepository = { create: () => {}, get: () => ({}) };
         baseController = new BaseController(baseMongoRepository);
     });
 
@@ -44,7 +44,7 @@ describe('create method', () => {
     });
 
     it('should return a ServerError the resource is not in the repository after creation', () => {
-        const mockedBaseMongoRepository = { create: () => 42, get: () => undefined };
+        const mockedBaseMongoRepository = { create: () => {}, get: () => undefined };
         const mockedBaseController = new BaseController(mockedBaseMongoRepository);
         const create = async () => { await mockedBaseController.create(...args) };
         expect(create).rejects.toThrow(ServerError);
@@ -55,4 +55,25 @@ describe('create method', () => {
         expect(create).toEqual({});
     });
 
+    it('should NOT create a new event in the repository store', async () => {
+        const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
+        await baseController.create(...args);
+        expect(baseController._eventStore).toBeUndefined();
+        expect(spyRepositoryGet).toBeCalledTimes(1);
+        spyRepositoryGet.mockRestore();
+    });
+
+    it('should create a new event in the repository store', async () => {
+        const mockedEventStore = { create: () => {} };
+        const mockedBaseController = new BaseController(baseMongoRepository, { eventStore: mockedEventStore });
+        const spyEventStoreCreation = jest.spyOn(mockedBaseController._eventStore, 'create');
+        const spyRepositoryGet = jest.spyOn(mockedBaseController._repository, 'get');
+        await mockedBaseController.create(...args);
+
+        expect(spyEventStoreCreation).toBeCalled();
+        expect(spyRepositoryGet).toBeCalledTimes(2);
+
+        spyEventStoreCreation.mockRestore();
+        spyRepositoryGet.mockRestore();
+    });
 });
