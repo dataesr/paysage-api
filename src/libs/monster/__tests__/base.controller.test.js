@@ -20,6 +20,7 @@ beforeAll(() => {
         create: () => ({}),
         get: () => ({}),
         patch: () => ({ ok: true }),
+        remove: () => ({ ok: true }),
     };
     baseController = new BaseController(baseMongoRepository);
 });
@@ -28,6 +29,7 @@ describe('default constructor', () => {
     it('should have undefined catalog, eventStore and storeContext by default', () => {
         expect(baseController._catalogue).toBeUndefined();
         expect(baseController._eventStore).toBeUndefined();
+        expect(baseController._repository).not.toBeUndefined();
         expect(baseController._storeContext).toBeUndefined();
     });
 });
@@ -83,6 +85,7 @@ describe('create method', () => {
         expect(spyRepositoryGet).toBeCalledTimes(2);
         expect(spyRepositoryCreate).toBeCalledTimes(1);
         expect(spyEventStoreCreate).toBeCalledTimes(1);
+        expect(spyEventStoreCreate).toBeCalledWith(expect.objectContaining({ action: 'create', id: 42 }));
         spyRepositoryGet.mockRestore();
         spyRepositoryCreate.mockRestore();
         spyEventStoreCreate.mockRestore();
@@ -152,6 +155,7 @@ describe('patch method', () => {
         expect(patch).toEqual({});
         expect(spyRepositoryGet).toBeCalledTimes(2);
         expect(spyRepositoryPatch).toBeCalledTimes(1);
+        expect(baseController._eventStore).toBeUndefined();
         spyRepositoryGet.mockRestore();
         spyRepositoryPatch.mockRestore();
     });
@@ -172,3 +176,51 @@ describe('patch method', () => {
         spyEventStoreCreate.mockRestore();
     });
 });
+
+describe('delete method', () => {
+    beforeEach(() => {
+        args = [
+            { ctx: {}, params: { id: 42 } },
+            mockResponse(),
+            () => ({})
+        ];
+    });
+
+    it('should throw a NotFoundError if resource does not exist', () => {
+        const mockedBaseController = new BaseController({ get: () => undefined });
+        const remove = async () => { await mockedBaseController.delete(...args) };
+        expect(remove).rejects.toThrow(NotFoundError);
+    });
+
+    it('should delete the resource without adding event in the store', async () => {
+        const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
+        const spyRepositoryRemove = jest.spyOn(baseController._repository, 'remove');
+        const remove = await baseController.delete(...args);
+        expect(remove).toEqual({});
+        expect(spyRepositoryGet).toBeCalledTimes(1);
+        expect(spyRepositoryRemove).toBeCalledTimes(1);
+        expect(baseController._eventStore).toBeUndefined();
+        spyRepositoryGet.mockRestore();
+        spyRepositoryRemove.mockRestore();
+    });
+
+    it('should delete the resource and add event in the store', async () => {
+        const mockedBaseController = new BaseController(baseMongoRepository, { eventStore: { create: () => {} } });
+        const spyRepositoryGet = jest.spyOn(mockedBaseController._repository, 'get');
+        const spyRepositoryRemove = jest.spyOn(mockedBaseController._repository, 'remove');
+        const spyEventStoreCreate = jest.spyOn(mockedBaseController._eventStore, 'create');
+        const remove = await mockedBaseController.delete(...args);
+        expect(remove).toEqual({});
+        expect(spyRepositoryGet).toBeCalledTimes(1);
+        expect(spyRepositoryRemove).toBeCalledTimes(1);
+        expect(spyEventStoreCreate).toBeCalledTimes(1);
+        expect(spyEventStoreCreate).toBeCalledWith(expect.objectContaining({ action: 'delete', id: 42 }));
+        spyRepositoryGet.mockRestore();
+        spyRepositoryRemove.mockRestore();
+        spyEventStoreCreate.mockRestore();
+    });
+});
+
+// describe.todo('read method');
+// describe.todo('list method');
+// describe.todo('events method');
