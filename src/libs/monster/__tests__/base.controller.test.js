@@ -38,7 +38,7 @@ describe('create method', () => {
         args = [
             { body: 'my_body', ctx: { id: 42 } },
             mockResponse(),
-            () => ({})
+            () => ({}),
         ];
     });
 
@@ -121,7 +121,7 @@ describe('patch method', () => {
         args = [
             { body: 'my_body', ctx: {}, params: { id: 42 } },
             mockResponse(),
-            () => ({})
+            () => ({}),
         ];
     });
 
@@ -197,7 +197,7 @@ describe('delete method', () => {
         args = [
             { ctx: {}, params: { id: 42 } },
             mockResponse(),
-            () => ({})
+            () => ({}),
         ];
     });
 
@@ -249,27 +249,59 @@ describe('read method', () => {
         args = [
             { params: { id: 42 } },
             mockResponse(),
-            () => ({})
+            () => ({}),
         ];
     });
 
     it('should throw a NotFoundError if the resource does not exist', () => {
         const mockedBaseController = new BaseController({ get: () => null });
-        const spyRepositoryGet = jest.spyOn(mockedBaseController._repository, 'get');
+        const spy = jest.spyOn(mockedBaseController._repository, 'get');
         const read = async () => { await mockedBaseController.read(...args) };
         expect(read).rejects.toThrow(NotFoundError);
-        expect(spyRepositoryGet).toBeCalledTimes(1);
-        spyRepositoryGet.mockRestore();
+        expect(spy).toBeCalledTimes(1);
+        spy.mockRestore();
     });
 
     it('should return the read resource', async () => {
-        const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
+        const spy = jest.spyOn(baseController._repository, 'get');
         const read = await baseController.read(...args);
         expect(read).toEqual({});
-        expect(spyRepositoryGet).toBeCalledTimes(1);
-        spyRepositoryGet.mockRestore();
+        expect(spy).toBeCalledTimes(1);
+        spy.mockRestore();
     });
 });
 
-describe('list method', () => {});
-describe('events method', () => {});
+describe('list method', () => {
+    it('should return the list of the macthing resources', async () => {
+        args = [
+            { query: { my_query: 'example_query' } },
+            mockResponse(),
+            () => ({}),
+        ];
+        const findResult = { data: ['my_data'], totalCount: 12 }
+        baseController = new BaseController({ find: () => (findResult) });
+        const spy = jest.spyOn(baseController._repository, 'find');
+        const list = await baseController.list(...args)
+        expect(list).toEqual({});
+        expect(spy).toBeCalledTimes(1);
+        expect(spy).toBeCalledWith({ my_query: 'example_query', useQuery: 'readQuery' });
+        spy.mockRestore();
+    })
+});
+
+describe('events method', () => {
+    it('should filter event from catalog', async () => {
+        args = [
+            { query: { filters: { my_filter: 'filter_example' }, other: 'other_value' }, params: { id: 42 } },
+            mockResponse(),
+            () => ({}),
+        ];
+        baseController = new BaseController({}, { eventStore: { find: () => ({}) } });
+        const spy = jest.spyOn(baseController._eventStore, 'find');
+        const events = await baseController.events(...args);
+        expect(events).toEqual({});
+        expect(spy).toBeCalledTimes(1);
+        expect(spy).toBeCalledWith({ filters: { id: 42, my_filter: 'filter_example' }, other: 'other_value', useQuery: 'readQuery' });
+        spy.mockRestore();
+    })
+});
