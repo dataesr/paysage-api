@@ -15,18 +15,9 @@ const mockResponse = () => {
     return res;
 };
 
-beforeAll(() => {
-    baseMongoRepository = {
-        create: () => ({}),
-        get: () => ({}),
-        patch: () => ({ ok: true }),
-        remove: () => ({ ok: true }),
-    };
-    baseController = new BaseController(baseMongoRepository);
-});
-
-describe('default constructor', () => {
+describe('constructor', () => {
     it('should have undefined catalog, eventStore and storeContext by default', () => {
+        baseController = new BaseController({});
         expect(baseController._catalogue).toBeUndefined();
         expect(baseController._eventStore).toBeUndefined();
         expect(baseController._repository).not.toBeUndefined();
@@ -35,6 +26,14 @@ describe('default constructor', () => {
 });
 
 describe('create method', () => {
+    beforeAll(() => {
+        baseMongoRepository = {
+            create: () => ({}),
+            get: () => ({}),
+        };
+        baseController = new BaseController(baseMongoRepository);
+    });
+
     beforeEach(() => {
         args = [
             { body: 'my_body', ctx: { id: 42 } },
@@ -58,7 +57,7 @@ describe('create method', () => {
     });
 
     it('should throw a ServerError the resource is not in the repository after creation', () => {
-        const mockedBaseController = new BaseController({ create: () => {}, get: () => undefined });
+        const mockedBaseController = new BaseController({ create: () => {}, get: () => null });
         const create = async () => { await mockedBaseController.create(...args) };
         expect(create).rejects.toThrow(ServerError);
     });
@@ -110,6 +109,14 @@ describe('create method', () => {
 });
 
 describe('patch method', () => {
+    beforeAll(() => {
+        baseMongoRepository = {
+            get: () => ({}),
+            patch: () => ({ ok: true }),
+        };
+        baseController = new BaseController(baseMongoRepository);
+    });
+
     beforeEach(() => {
         args = [
             { body: 'my_body', ctx: {}, params: { id: 42 } },
@@ -133,14 +140,14 @@ describe('patch method', () => {
     });
 
     it('should throw a NotFoundError if req.params.id is not found in repository', () => {
-        const mockedBaseController = new BaseController({ get: () => undefined });
+        const mockedBaseController = new BaseController({ get: () => null });
         const patch = async () => { await mockedBaseController.patch(...args) };
         expect(patch).rejects.toThrow(NotFoundError);
     });
 
     it('should throw a ServerError the resource is not in the repository after patch', () => {
         const mockedBaseMongoRepository = {
-            get: jest.fn().mockImplementationOnce(() => 42).mockImplementation(() => undefined),
+            get: jest.fn().mockImplementationOnce(() => 42).mockImplementation(() => null),
             patch: () => new Promise(resolve => { ok: true })
         };
         const mockedBaseController = new BaseController(mockedBaseMongoRepository);
@@ -178,6 +185,14 @@ describe('patch method', () => {
 });
 
 describe('delete method', () => {
+    beforeAll(() => {
+        baseMongoRepository = {
+            get: () => ({}),
+            remove: () => ({ ok: true }),
+        };
+        baseController = new BaseController(baseMongoRepository);
+    });
+
     beforeEach(() => {
         args = [
             { ctx: {}, params: { id: 42 } },
@@ -186,8 +201,8 @@ describe('delete method', () => {
         ];
     });
 
-    it('should throw a NotFoundError if resource does not exist', () => {
-        const mockedBaseController = new BaseController({ get: () => undefined });
+    it('should throw a NotFoundError if the resource does not exist', () => {
+        const mockedBaseController = new BaseController({ get: () => null });
         const remove = async () => { await mockedBaseController.delete(...args) };
         expect(remove).rejects.toThrow(NotFoundError);
     });
@@ -221,6 +236,40 @@ describe('delete method', () => {
     });
 });
 
-// describe.todo('read method');
-// describe.todo('list method');
-// describe.todo('events method');
+describe('read method', () => {
+    beforeAll(() => {
+        baseMongoRepository = {
+            get: () => ({}),
+            read: () => ({}),
+        };
+        baseController = new BaseController(baseMongoRepository);
+    });
+
+    beforeEach(() => {
+        args = [
+            { params: { id: 42 } },
+            mockResponse(),
+            () => ({})
+        ];
+    });
+
+    it('should throw a NotFoundError if the resource does not exist', () => {
+        const mockedBaseController = new BaseController({ get: () => null });
+        const spyRepositoryGet = jest.spyOn(mockedBaseController._repository, 'get');
+        const read = async () => { await mockedBaseController.read(...args) };
+        expect(read).rejects.toThrow(NotFoundError);
+        expect(spyRepositoryGet).toBeCalledTimes(1);
+        spyRepositoryGet.mockRestore();
+    });
+
+    it('should return the read resource', async () => {
+        const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
+        const read = await baseController.read(...args);
+        expect(read).toEqual({});
+        expect(spyRepositoryGet).toBeCalledTimes(1);
+        spyRepositoryGet.mockRestore();
+    });
+});
+
+describe('list method', () => {});
+describe('events method', () => {});
