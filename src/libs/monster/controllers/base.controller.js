@@ -3,11 +3,11 @@ import mongodb from 'mongodb';
 import { BadRequestError, NotFoundError, ServerError } from '../../http-errors';
 
 class BaseController {
-  constructor(repository, { storeContext, eventStore, catalogue } = {}) {
+  constructor(repository, { catalogue, eventStore, storeContext } = {}) {
+    this._catalogue = catalogue;
+    this._eventStore = eventStore;
     this._repository = repository;
     this._storeContext = storeContext;
-    this._eventStore = eventStore;
-    this._catalogue = catalogue;
   }
 
   create = async (req, res, next) => {
