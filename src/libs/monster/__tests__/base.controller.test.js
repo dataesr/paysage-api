@@ -12,8 +12,7 @@ const mockResponse = () => {
     res.status = jest.fn().mockReturnValue(res);
     res.json = jest.fn().mockReturnValue(res);
     return res;
-};  
-  
+};
 
 describe('create method', () => {
     beforeAll(() => {
@@ -58,8 +57,10 @@ describe('create method', () => {
     it('should NOT create a new event in the repository store', async () => {
         const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
         await baseController.create(...args);
+
         expect(baseController._eventStore).toBeUndefined();
         expect(spyRepositoryGet).toBeCalledTimes(1);
+
         spyRepositoryGet.mockRestore();
     });
 
