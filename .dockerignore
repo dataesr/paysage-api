@@ -5,10 +5,6 @@
 # dependencies
 /node_modules
 
-# tests
-/tests
-__tests*
-
 # docs
 /docs
 
