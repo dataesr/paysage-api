@@ -110,33 +110,33 @@ describe('find method', () => {
   });
 
   it('should find all documents', async () => {
-    const result = await nestedRepository.find({ rid: resourceId });
+    const result = await nestedRepository.find({ resourceId });
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(4);
   });
 
   it('should find with filter', async () => {
-    const result = await nestedRepository.find({ rid: resourceId, filters: { name: 'test1' } });
+    const result = await nestedRepository.find({ resourceId, filters: { name: 'test1' } });
     expect(result.totalCount).toBe(1);
     expect(result.data).toHaveLength(1);
     expect(result.data[0].number).toBe(88);
   });
 
   it('should find with sort', async () => {
-    const result = await nestedRepository.find({ rid: resourceId, sort: '-name' });
+    const result = await nestedRepository.find({ resourceId, sort: '-name' });
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(4);
     expect(result.data[0].number).toBe(3232);
   });
 
   it('should find with limit', async () => {
-    const result = await nestedRepository.find({ rid: resourceId, limit: 3 });
+    const result = await nestedRepository.find({ resourceId, limit: 3 });
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(3);
   });
   
   it('should find with skip and limit', async () => {
-    const result = await nestedRepository.find({ rid: resourceId, limit: 3, skip: 2 });
+    const result = await nestedRepository.find({ resourceId, limit: 3, skip: 2 });
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(2);
   });
@@ -176,7 +176,7 @@ describe('remove method', () => {
     const id = data[0].id;
     const { ok } = await nestedRepository.remove(resourceId, id);
     expect(ok).toBeTruthy();
-    const find = await nestedRepository.find({ rid: resourceId, filters: { id } });
+    const find = await nestedRepository.find({ resourceId, filters: { id } });
     expect(find.data.length).toBe(0);
   });
 })
