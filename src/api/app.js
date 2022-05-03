@@ -11,8 +11,8 @@ import { authenticate } from './commons/middlewares/authenticate.middlewares';
 
 import structuresRoutes from './structures/structures.routes';
 import personsRoutes from './persons/persons.routes';
-import officialDocumentsRoutes from './officialdocuments/od.routes';
-import legalCategoriesRoutes from './legalcategories/lc.routes';
+import officialDocumentsRoutes from './officialdocuments/officialdocuments.routes';
+import legalCategoriesRoutes from './legalcategories/legalcategories.routes';
 import pricesRoutes from './prices/prices.routes';
 import termsRoutes from './terms/terms.routes';
 import documentsRoutes from './documents/documents.routes';
