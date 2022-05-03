@@ -1,11 +1,11 @@
 import { Resource } from '../../../libs/monster';
 import db from '../../../services/mongo.service';
-import { eventStore, internalCatalogue as catalogue } from '../../commons/monster';
+import { eventStore, internalCatalog as catalog } from '../../commons/monster';
 import queries from './identifiers.queries';
 
 const identifiers = new Resource(
   { db, collection: 'categories', field: 'identifiers', queries },
-  { eventStore, catalogue },
+  { eventStore, catalog },
 );
 
 export default identifiers;
