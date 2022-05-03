@@ -2,6 +2,7 @@ let authorization;
 let rid;
 let id;
 let tid;
+
 const payload = {
   cityId: 'string',
   distributionStatement: 'string',
@@ -17,6 +18,7 @@ const payload = {
   startDate: '2015',
   endDate: '2013',
 };
+
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
   const response = await global.superapp
@@ -41,13 +43,16 @@ describe('API > structures > localisations > create', () => {
     expect(body.createdBy.username).toBe('user');
     id = body.id;
   });
-  it('throws with required field missing', async () => {
+
+  it('should fail if country is missing', async () => {
     const { country, ...rest } = payload;
     await global.superapp
       .post(`/structures/${rid}/localisations`)
       .set('Authorization', authorization)
-      .send(rest).expect(400);
+      .send(rest)
+      .expect(400);
   });
+
   it('can create with missing coordinates', async () => {
     const { coordinates, ...rest } = payload;
     const { body } = await global.superapp
@@ -69,6 +74,7 @@ describe('API > structures > localisations > update', () => {
     expect(body.coordinates.lat).toBe(2.56);
     expect(body.coordinates.lng).toBe(69.1631);
   });
+
   it('throws bad request with wrong id', async () => {
     await global.superapp
       .patch(`/structures/${rid}/localisations/45frK`)
@@ -83,6 +89,7 @@ describe('API > structures > localisations > update', () => {
       .send({ locality: 'Strasbourg' })
       .expect(404);
   });
+
   it('throws with wrong data', async () => {
     await global.superapp
       .patch(`/structures/${rid}/localisations/${id}`)
