@@ -1,4 +1,4 @@
-import { internalCatalogue } from '../../commons/monster';
+import { internalCatalog } from '../../commons/monster';
 import { BadRequestError } from '../../../libs/http-errors';
 import structures from './root.resource';
 import categories from '../../categories/root/root.resource';
@@ -56,7 +56,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (Object.values(structureName).filter((value) => value).length) {
     structureName.createdBy = req.currentUser.id;
     structureName.createdAt = new Date();
-    structureName.id = await internalCatalogue.getUniqueId('structures');
+    structureName.id = await internalCatalog.getUniqueId('structures');
     structure.names = [structureName];
   }
   const structureLocalisation = {
@@ -74,7 +74,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (Object.values(structureLocalisation).filter((value) => value).length) {
     structureLocalisation.createdBy = req.currentUser.id;
     structureLocalisation.createdAt = new Date();
-    structureLocalisation.id = await internalCatalogue.getUniqueId('structures');
+    structureLocalisation.id = await internalCatalog.getUniqueId('structures');
     structure.localisations = [structureLocalisation];
   }
   const structureWebsites = [];
@@ -85,7 +85,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       language: 'Français',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   if (payload.websiteEn) {
@@ -95,7 +95,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       language: 'Anglais',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   const structureParents = [];
@@ -106,7 +106,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'idRef',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   if (payload.wikidata) {
@@ -115,7 +115,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'Wikidata',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   if (payload.uai) {
@@ -124,7 +124,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'UAI',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   if (payload.siret) {
@@ -133,7 +133,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'Siret',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   if (payload.rnsr) {
@@ -142,7 +142,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'Répertoire National des Sructures de Recherche (RNSR)',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   if (payload.ed) {
@@ -151,7 +151,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: "Numéro d'ED",
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   if (payload.ror) {
@@ -160,7 +160,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'ROR',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   const structureSocialMedias = [];
@@ -170,7 +170,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'twitter',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   if (payload.linkedIn) {
@@ -179,7 +179,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'linkedIn',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalogue.getUniqueId('structures'),
+      id: await internalCatalog.getUniqueId('structures'),
     });
   }
   const structureCategories = [];

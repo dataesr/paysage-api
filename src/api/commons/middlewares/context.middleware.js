@@ -1,4 +1,4 @@
-import { objectCatalogue, internalCatalogue } from '../monster';
+import { objectCatalog, internalCatalog } from '../monster';
 
 export function patchCtx(req, res, next) {
   req.ctx = { updatedBy: req.currentUser.id, updatedAt: new Date() };
@@ -12,7 +12,7 @@ export function createCtx(req, res, next) {
 
 export function setPutIdInContext(type) {
   return async (req, res, next) => {
-    const id = await objectCatalogue.setUniqueId(req.params.id, type);
+    const id = await objectCatalog.setUniqueId(req.params.id, type);
     req.ctx = { ...req.ctx, id };
     return next();
   };
@@ -20,7 +20,7 @@ export function setPutIdInContext(type) {
 
 export function setGeneratedObjectIdInContext(type) {
   return async (req, res, next) => {
-    const id = await objectCatalogue.getUniqueId(type);
+    const id = await objectCatalog.getUniqueId(type);
     req.ctx = { ...req.ctx, id };
     return next();
   };
@@ -28,7 +28,7 @@ export function setGeneratedObjectIdInContext(type) {
 
 export function setGeneratedInternalIdInContext(type) {
   return async (req, res, next) => {
-    const id = await internalCatalogue.getUniqueId(type);
+    const id = await internalCatalog.getUniqueId(type);
     req.ctx = { ...req.ctx, id };
     return next();
   };

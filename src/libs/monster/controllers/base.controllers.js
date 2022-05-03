@@ -2,11 +2,11 @@ import mongodb from 'mongodb';
 import { NotFoundError, ServerError, BadRequestError } from '../../http-errors';
 
 export default class BaseController {
-  constructor(repository, { storeContext, eventStore, catalogue } = {}) {
+  constructor(repository, { storeContext, eventStore, catalog } = {}) {
     this._repository = repository;
     this._storeContext = storeContext;
     this._eventStore = eventStore;
-    this._catalogue = catalogue;
+    this._catalog = catalog;
   }
 
   create = async (req, res, next) => {
@@ -14,8 +14,8 @@ export default class BaseController {
     if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
     let { id } = req.ctx;
     if (!id) {
-      id = (this._catalogue)
-        ? await this._catalogue.getUniqueId(this._repository.collectionName)
+      id = (this._catalog)
+        ? await this._catalog.getUniqueId(this._repository.collectionName)
         : mongodb.ObjectId();
     }
     const payload = { id, ...req.body };
