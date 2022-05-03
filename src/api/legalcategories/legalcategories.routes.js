@@ -1,32 +1,32 @@
 import express from 'express';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
-import lc from './lc.resource';
-import { validatePayload } from './lc.middlewares';
+import legalCategories from './legalcategories.resource';
+import { validatePayload } from './legalcategories.middlewares';
 
 const router = new express.Router();
 
 router.route('/legalcategories')
-  .get(lc.controllers.list)
+  .get(legalCategories.controllers.list)
   .post([
     requireActiveUser,
     createCtx,
     validatePayload,
-    lc.controllers.create,
+    legalCategories.controllers.create,
   ]);
 
 router.route('/legalcategories/:id')
-  .get(lc.controllers.read)
+  .get(legalCategories.controllers.read)
   .patch([
     requireActiveUser,
     patchCtx,
     validatePayload,
-    lc.controllers.patch,
+    legalCategories.controllers.patch,
   ])
   .delete([
     requireActiveUser,
     patchCtx,
-    lc.controllers.delete,
+    legalCategories.controllers.delete,
   ]);
 
 export default router;

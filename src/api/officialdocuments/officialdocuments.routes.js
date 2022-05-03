@@ -1,7 +1,7 @@
 import express from 'express';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
-import officialDocuments from './od.resource';
+import officialDocuments from './officialdocuments.resource';
 
 const router = new express.Router();
 
