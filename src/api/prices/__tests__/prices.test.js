@@ -43,14 +43,7 @@ describe('API > prices > create', () => {
       .send({ ...payload, parentIds: ['frYh5'] })
       .expect(400);
   });
-  it('throws with missing required', async () => {
-    const { nameFr, ...rest } = payload;
-    await global.superapp
-      .post('/prices')
-      .set('Authorization', authorization)
-      .send(rest)
-      .expect(400);
-  });
+
   it('ignore additionalProperties', async () => {
     const { body } = await global.superapp
       .post('/prices')
@@ -58,6 +51,15 @@ describe('API > prices > create', () => {
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
     expect(body.arbitrary).toBeFalsy();
+  });
+
+  it('should fail if nameFr is missing', async () => {
+    const { nameFr, ...rest } = payload;
+    await global.superapp
+      .post('/prices')
+      .set('Authorization', authorization)
+      .send(rest)
+      .expect(400);
   });
 });
 
