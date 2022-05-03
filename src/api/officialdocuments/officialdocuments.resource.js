@@ -1,11 +1,11 @@
 import db from '../../services/mongo.service';
 import { Resource } from '../../libs/monster';
 import { eventStore, objectCatalogue as catalogue } from '../commons/monster';
-import queries from './lc.queries';
+import queries from './officialdocuments.queries';
 
-const lc = new Resource(
-  { db, collection: 'legal-categories', queries },
+const officialDocuments = new Resource(
+  { db, collection: 'official-documents', queries },
   { eventStore, catalogue },
 );
 
-export default lc;
+export default officialDocuments;
