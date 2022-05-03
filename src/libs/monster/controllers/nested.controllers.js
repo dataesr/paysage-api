@@ -46,8 +46,8 @@ export default class NestedControllers {
     if (!await this._repository.checkResource(rid)) throw new NotFoundError(`Resource ${rid} does not exist`);
     const ctx = req.ctx || {};
     const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
-    const prevState = await this._repository.get(rid, id, { useQuery: 'writeQuery' });
-    if (!prevState) throw new NotFoundError();
+    const previousState = await this._repository.get(rid, id, { useQuery: 'writeQuery' });
+    if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.patch(rid, id, data);
     if (ok && this._eventStore) {
       const nextState = await this._repository.get(rid, id, { useQuery: 'writeQuery' });
@@ -59,7 +59,7 @@ export default class NestedControllers {
         fieldId: id,
         resource: req.path,
         action: 'patch',
-        prevState,
+        previousState,
         nextState,
       });
     }
@@ -73,8 +73,8 @@ export default class NestedControllers {
     const { rid, id } = req.params;
     if (!await this._repository.checkResource(rid)) throw new NotFoundError(`Resource ${rid} does not exist`);
     const ctx = req.ctx || {};
-    const prevState = await this._repository.get(rid, id, { useQuery: 'writeQuery' });
-    if (!prevState) throw new NotFoundError();
+    const previousState = await this._repository.get(rid, id, { useQuery: 'writeQuery' });
+    if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.remove(rid, id);
     if (ok && this._eventStore) {
       this._eventStore.create({
@@ -85,7 +85,7 @@ export default class NestedControllers {
         fieldId: id,
         resource: req.path,
         action: 'delete',
-        prevState,
+        previousState,
       });
     }
     res.status(204).json();

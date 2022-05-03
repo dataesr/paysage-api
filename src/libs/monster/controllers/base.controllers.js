@@ -43,8 +43,8 @@ export default class BaseController {
     if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
     const { id } = req.params;
     const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
-    const prevState = await this._repository.get(id, { useQuery: 'writeQuery' });
-    if (!prevState) throw new NotFoundError();
+    const previousState = await this._repository.get(id, { useQuery: 'writeQuery' });
+    if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.patch(id, data);
     if (ok && this._eventStore) {
       const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
@@ -54,7 +54,7 @@ export default class BaseController {
         collection: this._repository.collectionName,
         resource: req.path,
         action: 'patch',
-        prevState,
+        previousState,
         nextState,
       });
     }
@@ -67,8 +67,8 @@ export default class BaseController {
   delete = async (req, res, next) => {
     const ctx = req.ctx || {};
     const { id } = req.params;
-    const prevState = await this._repository.get(id, { useQuery: 'writeQuery' });
-    if (!prevState) throw new NotFoundError();
+    const previousState = await this._repository.get(id, { useQuery: 'writeQuery' });
+    if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.remove(id);
     if (ok && this._eventStore) {
       this._eventStore.create({
@@ -77,7 +77,7 @@ export default class BaseController {
         collection: this._repository.collectionName,
         resource: req.path,
         action: 'delete',
-        prevState,
+        previousState,
       });
     }
     res.status(204).json();
