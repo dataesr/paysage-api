@@ -2,11 +2,11 @@ import mongodb from 'mongodb';
 import { NotFoundError, ServerError } from '../../http-errors';
 
 export default class NestedControllers {
-  constructor(repository, { storeContext, eventStore, catalogue } = {}) {
+  constructor(repository, { storeContext, eventStore, catalog } = {}) {
     this._repository = repository;
     this._storeContext = storeContext;
     this._eventStore = eventStore;
-    this._catalogue = catalogue;
+    this._catalog = catalog;
   }
 
   create = async (req, res, next) => {
@@ -15,8 +15,8 @@ export default class NestedControllers {
     const ctx = req.ctx || {};
     let { id } = req.ctx;
     if (!id) {
-      id = (this._catalogue)
-        ? await this._catalogue.getUniqueId(this._repository.collectionName)
+      id = (this._catalog)
+        ? await this._catalog.getUniqueId(this._repository.collectionName)
         : mongodb.ObjectId();
     }
     const payload = { id, ...req.body };
