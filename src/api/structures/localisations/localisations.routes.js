@@ -6,7 +6,6 @@ import localisations from './localisations.resource';
 
 const router = new express.Router();
 
-// LOCALISATIONS
 router.route('/structures/:rid/localisations')
   .get(localisations.controllers.list)
   .post([

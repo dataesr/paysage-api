@@ -5,7 +5,6 @@ import identifiers from './identifiers.resource';
 
 const router = new express.Router();
 
-// IDENTIFIERS
 router.route('/categories/:rid/identifiers')
   .get(identifiers.controllers.list)
   .post([

@@ -5,7 +5,6 @@ import weblinks from './weblinks.resource';
 
 const router = new express.Router();
 
-// WEBLINKS
 router.route('/persons/:rid/weblinks')
   .get(weblinks.controllers.list)
   .post([
