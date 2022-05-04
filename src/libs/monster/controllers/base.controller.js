@@ -1,17 +1,18 @@
 import mongodb from 'mongodb';
-import { NotFoundError, ServerError, BadRequestError } from '../../http-errors';
 
-export default class BaseController {
-  constructor(repository, { storeContext, eventStore, catalog } = {}) {
+import { BadRequestError, NotFoundError, ServerError } from '../../http-errors';
+
+class BaseController {
+  constructor(repository, { catalog, eventStore, storeContext } = {}) {
+    this._catalog = catalog;
+    this._eventStore = eventStore;
     this._repository = repository;
     this._storeContext = storeContext;
-    this._eventStore = eventStore;
-    this._catalog = catalog;
   }
 
   create = async (req, res, next) => {
     const ctx = req.ctx || {};
-    if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
+    if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
     let { id } = req.ctx;
     if (!id) {
       id = (this._catalog)
@@ -40,11 +41,11 @@ export default class BaseController {
 
   patch = async (req, res, next) => {
     const ctx = req.ctx || {};
-    if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
+    if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
     const { id } = req.params;
-    const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
     const prevState = await this._repository.get(id, { useQuery: 'writeQuery' });
     if (!prevState) throw new NotFoundError();
+    const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
     const { ok } = await this._repository.patch(id, data);
     if (ok && this._eventStore) {
       const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
@@ -112,3 +113,5 @@ export default class BaseController {
     return next();
   };
 }
+
+export default BaseController;
