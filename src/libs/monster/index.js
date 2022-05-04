@@ -7,7 +7,7 @@ import Catalog from './repositories/catalog.repository';
 class Resource {
   constructor(
     { db, collection, field = null, queries = {} },
-    { storeContext = true, eventStore = null, catalog = null } = {},
+    { catalog = null, eventStore = null, storeContext = true } = {},
   ) {
     this.catalog = catalog;
     this.eventStore = eventStore;

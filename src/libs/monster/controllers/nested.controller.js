@@ -3,35 +3,35 @@ import mongodb from 'mongodb';
 import { NotFoundError, ServerError } from '../../http-errors';
 
 class NestedControllers {
-  constructor(repository, { storeContext, eventStore, catalog } = {}) {
+  constructor(repository, { catalog, eventStore, storeContext } = {}) {
+    this._catalog = catalog;
+    this._eventStore = eventStore;
     this._repository = repository;
     this._storeContext = storeContext;
-    this._eventStore = eventStore;
-    this._catalog = catalog;
   }
 
   create = async (req, res, next) => {
-    const { resourceId } = req.params;
+    const { body, ctx, params, path } = req;
+    let { id } = ctx || {};
+    const { user } = ctx || {};
+    const { resourceId } = params || {};
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
-    const ctx = req.ctx || {};
-    let { id } = req.ctx;
     if (!id) {
       id = (this._catalog)
         ? await this._catalog.getUniqueId(this._repository.collectionName)
         : mongodb.ObjectId();
     }
-    const payload = { id, ...req.body };
-    const data = this._storeContext ? { ...payload, ...ctx } : payload;
-    const insertedId = await this._repository.create(resourceId, data);
+    const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
+    await this._repository.create(resourceId, data);
     if (this._eventStore) {
-      const nextState = await this._repository.get(resourceId, insertedId, { useQuery: 'writeQuery' });
+      const nextState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
       this._eventStore.create({
-        actor: ctx.user,
+        actor: user,
         id: resourceId,
         collection: this._repository.collectionName,
         field: this._repository.fieldName,
         fieldId: id,
-        resource: req.path,
+        resource: path,
         action: 'create',
         nextState,
       });
@@ -43,22 +43,23 @@ class NestedControllers {
   };
 
   patch = async (req, res, next) => {
-    const { resourceId, id } = req.params;
+    const { body, ctx, params, path } = req;
+    const { user } = ctx || {};
+    const { id, resourceId } = params || {};
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
-    const ctx = req.ctx || {};
-    const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
+    const data = this._storeContext ? { ...body, ...ctx } : { ...body };
     const previousState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.patch(resourceId, id, data);
     if (ok && this._eventStore) {
       const nextState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
       this._eventStore.create({
-        actor: ctx.user,
+        actor: user,
         id: resourceId,
         collection: this._repository.collectionName,
         field: this._repository.fieldName,
         fieldId: id,
-        resource: req.path,
+        resource: path,
         action: 'patch',
         previousState,
         nextState,
@@ -71,20 +72,21 @@ class NestedControllers {
   };
 
   delete = async (req, res, next) => {
-    const { resourceId, id } = req.params;
+    const { ctx, params, path } = req;
+    const { user } = ctx || {};
+    const { id, resourceId } = params || {};
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
-    const ctx = req.ctx || {};
     const previousState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.remove(resourceId, id);
     if (ok && this._eventStore) {
       this._eventStore.create({
-        actor: ctx.user,
+        actor: user,
         id: resourceId,
         collection: this._repository.collectionName,
         field: this._repository.fieldName,
         fieldId: id,
-        resource: req.path,
+        resource: path,
         action: 'delete',
         previousState,
       });
@@ -94,7 +96,7 @@ class NestedControllers {
   };
 
   read = async (req, res, next) => {
-    const { resourceId, id } = req.params;
+    const { id, resourceId } = req.params;
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
     const resource = await this._repository.get(resourceId, id, { useQuery: 'readQuery' });
     if (!resource) throw new NotFoundError();
@@ -103,11 +105,11 @@ class NestedControllers {
   };
 
   list = async (req, res, next) => {
-    const { resourceId } = req.params;
+    const { params, query } = req;
+    const { resourceId } = params || {};
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
-    const { query } = req;
-    const { data, totalCount } = await this._repository.find({ resourceId, ...query, useQuery: 'readQuery' });
-    res.status(200).json({ data, totalCount: totalCount || 0 });
+    const { data, totalCount = 0 } = await this._repository.find({ resourceId, ...query, useQuery: 'readQuery' });
+    res.status(200).json({ data, totalCount });
     return next();
   };
 }

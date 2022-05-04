@@ -11,24 +11,27 @@ class BaseController {
   }
 
   create = async (req, res, next) => {
-    const ctx = req.ctx || {};
-    if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
-    let { id } = req.ctx;
+    if (
+      !req.body
+      || !Object.keys(req.body).length
+    ) throw new BadRequestError('Payload missing');
+    const { body, ctx, path } = req;
+    let { id } = ctx || {};
+    const { user } = ctx || {};
     if (!id) {
       id = (this._catalog)
         ? await this._catalog.getUniqueId(this._repository.collectionName)
         : mongodb.ObjectId();
     }
-    const payload = { id, ...req.body };
-    const data = this._storeContext ? { ...payload, ...ctx } : payload;
-    const insertedId = await this._repository.create(data);
+    const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
+    await this._repository.create(data);
     if (this._eventStore) {
-      const nextState = await this._repository.get(insertedId, { useQuery: 'writeQuery' });
+      const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
       this._eventStore.create({
-        actor: ctx.user,
+        actor: user,
         id,
         collection: this._repository.collectionName,
-        resource: req.path,
+        resource: path,
         action: 'create',
         nextState,
       });
@@ -40,9 +43,10 @@ class BaseController {
   };
 
   patch = async (req, res, next) => {
-    const ctx = req.ctx || {};
     if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
-    const { id } = req.params;
+    const { ctx, params, path } = req;
+    const { user } = ctx || {};
+    const { id } = params || {};
     const previousState = await this._repository.get(id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
@@ -50,10 +54,10 @@ class BaseController {
     if (ok && this._eventStore) {
       const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
       this._eventStore.create({
-        actor: ctx.user,
+        actor: user,
         id,
         collection: this._repository.collectionName,
-        resource: req.path,
+        resource: path,
         action: 'patch',
         previousState,
         nextState,
@@ -66,17 +70,18 @@ class BaseController {
   };
 
   delete = async (req, res, next) => {
-    const ctx = req.ctx || {};
-    const { id } = req.params;
+    const { ctx, params, path } = req;
+    const { user } = ctx || {};
+    const { id } = params || {};
     const previousState = await this._repository.get(id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.remove(id);
     if (ok && this._eventStore) {
       this._eventStore.create({
-        actor: ctx.user,
+        actor: user,
         id,
         collection: this._repository.collectionName,
-        resource: req.path,
+        resource: path,
         action: 'delete',
         previousState,
       });
@@ -95,8 +100,8 @@ class BaseController {
 
   list = async (req, res, next) => {
     const { query } = req;
-    const { data, totalCount } = await this._repository.find({ ...query, useQuery: 'readQuery' });
-    res.status(200).json({ data, totalCount: totalCount || 0 });
+    const { data, totalCount = 0 } = await this._repository.find({ ...query, useQuery: 'readQuery' });
+    res.status(200).json({ data, totalCount });
     return next();
   };
 
@@ -104,12 +109,12 @@ class BaseController {
     const { query } = req;
     const { id } = req.params;
     const { filters, ...options } = query;
-    const { data, totalCount } = await this._eventStore.find({
+    const { data, totalCount = 0 } = await this._eventStore.find({
       ...options,
       useQuery: 'readQuery',
       filters: { ...filters, id },
     });
-    res.status(200).json({ data, totalCount: totalCount || 0 });
+    res.status(200).json({ data, totalCount });
     return next();
   };
 }
