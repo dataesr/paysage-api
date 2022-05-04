@@ -10,12 +10,10 @@ let httpServer;
 function cleanup() {
   app.isReady = false;
   logger.info('SIGTERM/SIGINT signal received');
-  httpServer.close(() => {
-    logger.info('HTTP server stopped');
-  });
-  client.close(() => {
-    logger.info('Mongo connexion closed');
-  });
+  if (httpServer) httpServer.close();
+  logger.info('HTTP server stopped');
+  if (client) client.close();
+  logger.info('Mongo connexion closed');
   process.exit(1);
 }
 

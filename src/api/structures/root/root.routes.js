@@ -6,7 +6,6 @@ import structures from './root.resource';
 
 const router = new express.Router();
 
-// STUCTURES
 router.route('/structures')
   .get(structures.controllers.list)
   .post([

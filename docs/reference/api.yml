@@ -3116,7 +3116,7 @@ components:
               readOnly: true
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{8}$'
-            rid:
+            resourceId:
               type: string
               readOnly: true
               description: Unique identifier
@@ -3184,7 +3184,7 @@ components:
           type: string
           description: Unique identifier
           pattern: '^[a-zA-Z0-9]{8}$'
-        rid:
+        resourceId:
           type: string
           description: Unique identifier
           pattern: '^[a-zA-Z0-9]{5}$'
@@ -3224,7 +3224,7 @@ components:
               readOnly: true
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{8}$'
-            rid:
+            resourceId:
               type: string
               readOnly: true
               description: Unique resource identifier
@@ -3251,7 +3251,7 @@ components:
               readOnly: true
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{8}$'
-            rid:
+            resourceId:
               type: string
               readOnly: true
               description: Unique resource identifier
@@ -3282,7 +3282,7 @@ components:
               readOnly: true
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{8}$'
-            rid:
+            resourceId:
               type: string
               readOnly: true
               description: Unique identifier
@@ -3344,7 +3344,7 @@ components:
           readOnly: true
           description: Unique identifier
           pattern: '^[a-zA-Z0-9]{8}$'
-        rid:
+        resourceId:
           type: string
           readOnly: true
           description: Unique identifier
@@ -3380,7 +3380,7 @@ components:
               readOnly: true
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{8}$'
-            rid:
+            resourceId:
               type: string
               readOnly: true
               description: Unique parent resource identifier
@@ -3404,7 +3404,7 @@ components:
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{8}$'
               readOnly: true
-            rid:
+            resourceId:
               type: string
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{5}$'
@@ -3469,7 +3469,7 @@ components:
               readOnly: true
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{8}$'
-            rid:
+            resourceId:
               type: string
               readOnly: true
               description: Unique parent resource identifier
@@ -3716,7 +3716,7 @@ components:
               readOnly: true
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{8}$'
-            rid:
+            resourceId:
               type: string
               readOnly: true
               description: Unique resource identifier
@@ -3871,7 +3871,7 @@ components:
               readOnly: true
               description: Unique identifier
               pattern: '^[a-zA-Z0-9]{8}$'
-            rid:
+            resourceId:
               type: string
               readOnly: true
               description: Unique resource identifier
