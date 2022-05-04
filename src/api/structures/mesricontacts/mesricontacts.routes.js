@@ -6,7 +6,7 @@ import mesricontacts from './mesricontacts.resource';
 
 const router = new express.Router();
 
-router.route('/structures/:rid/mesricontacts')
+router.route('/structures/:resourceId/mesricontacts')
   .get(mesricontacts.controllers.list)
   .post([
     // requireActiveUser,
@@ -15,7 +15,7 @@ router.route('/structures/:rid/mesricontacts')
     mesricontacts.controllers.create,
   ]);
 
-router.route('/structures/:rid/mesricontacts/:id')
+router.route('/structures/:resourceId/mesricontacts/:id')
   .delete([
     requireActiveUser,
     patchCtx,

@@ -5,7 +5,7 @@ import weblinks from './weblinks.resource';
 
 const router = new express.Router();
 
-router.route('/structures/:rid/weblinks')
+router.route('/structures/:resourceId/weblinks')
   .get(weblinks.controllers.list)
   .post([
     requireActiveUser,
@@ -13,7 +13,7 @@ router.route('/structures/:rid/weblinks')
     weblinks.controllers.create,
   ]);
 
-router.route('/structures/:rid/weblinks/:id')
+router.route('/structures/:resourceId/weblinks/:id')
   .delete([
     requireActiveUser,
     patchCtx,

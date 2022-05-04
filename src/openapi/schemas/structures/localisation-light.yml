@@ -7,7 +7,7 @@ properties:
     readOnly: true
     description: Unique identifier
     pattern: '^[a-zA-Z0-9]{8}$'
-  rid:
+  resourceId:
     type: string
     readOnly: true
     description: Unique identifier
