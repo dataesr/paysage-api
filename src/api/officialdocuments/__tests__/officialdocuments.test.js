@@ -37,13 +37,22 @@ describe('API > official documents > create', () => {
     const dbData = await global.db.collection('official-documents').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
   });
-  it('should fail if missing properties', async () => {
-    let partialPayload = payload;
-    delete payload.title;
-    const { body } = await global.superapp
+
+  it('should fail if title is missing', async () => {
+    const { title, ...rest } = payload;
+    await global.superapp
       .post('/officialdocuments')
       .set('Authorization', authorization)
-      .send(partialPayload)
+      .send(rest)
+      .expect(400);
+  });
+
+  it('should fail if documentNumber is missing', async () => {
+    const { documentNumber, ...rest } = payload;
+    await global.superapp
+      .post('/officialdocuments')
+      .set('Authorization', authorization)
+      .send(rest)
       .expect(400);
   });
 });
