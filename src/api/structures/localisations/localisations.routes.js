@@ -6,8 +6,7 @@ import localisations from './localisations.resource';
 
 const router = new express.Router();
 
-// LOCALISATIONS
-router.route('/structures/:rid/localisations')
+router.route('/structures/:resourceId/localisations')
   .get(localisations.controllers.list)
   .post([
     requireActiveUser,
@@ -17,7 +16,7 @@ router.route('/structures/:rid/localisations')
     localisations.controllers.create,
   ]);
 
-router.route('/structures/:rid/localisations/:id')
+router.route('/structures/:resourceId/localisations/:id')
   .delete([
     requireActiveUser,
     patchCtx,
