@@ -1,4 +1,4 @@
-class Catalogue {
+class Catalog {
   constructor({ db, collection }, length) {
     this._db = db;
     this._collection = db.collection(collection);
@@ -11,14 +11,14 @@ class Catalogue {
     for (let i = 0; i < length; i += 1) {
       id += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    if (id.startsWith(0) || id.match(/^\d*$/)) return Catalogue.generateId(length);
+    if (id.startsWith(0) || id.match(/^\d*$/)) return Catalog.generateId(length);
     return id;
   };
 
   getUniqueId = async (objectCollection) => {
     let _id;
     for (let retries = 0; retries < 100; retries += 1) {
-      _id = Catalogue.generateId(this._idLength);
+      _id = Catalog.generateId(this._idLength);
       // eslint-disable-next-line no-await-in-loop
       const exists = await this._collection.findOne({ _id });
       if (!exists) { break; }
@@ -38,4 +38,4 @@ class Catalogue {
   };
 }
 
-export default Catalogue;
+export default Catalog;

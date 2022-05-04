@@ -167,17 +167,3 @@ describe('API > structures > structures > list', () => {
   });
 });
 
-// describe('API > structures > structures > upsert', () => {
-//   it('can upsert with id successfully', async () => {
-//     const { body } = await global.superapp
-//       .put('/structures/iw59y')
-//       .set('Authorization', authorization)
-//       .send({
-//         structureStatus: 'active',
-//       }).expect(201);
-//     expect(body.id).toBeTruthy();
-//     expect(body.createdBy.username).toBe('user');
-//     const catalogue = await global.db.collection('_catalogue').findOne({ _id: body.id });
-//     expect(catalogue._id).toBe(body.id);
-//   });
-// });
