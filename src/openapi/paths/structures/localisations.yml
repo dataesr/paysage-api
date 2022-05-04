@@ -45,7 +45,8 @@
         application/json:
           schema:
             title: StructureLocalisationCreatePayload
-            required: [ 'country' ]
+            required:
+              - 'country'
             allOf:
               - $ref: '../../api.yml#/components/schemas/StructureLocalisationPayload'
     responses:

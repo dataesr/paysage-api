@@ -6,7 +6,7 @@ import leaders from './leaders.resource';
 
 const router = new express.Router();
 
-router.route('/structures/:rid/leaders')
+router.route('/structures/:resourceId/leaders')
   .get(leaders.controllers.list)
   .post([
     // requireActiveUser,
@@ -15,7 +15,7 @@ router.route('/structures/:rid/leaders')
     leaders.controllers.create,
   ]);
 
-router.route('/structures/:rid/leaders/:id')
+router.route('/structures/:resourceId/leaders/:id')
   .delete([
     requireActiveUser,
     patchCtx,

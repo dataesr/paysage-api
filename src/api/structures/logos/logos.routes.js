@@ -6,7 +6,7 @@ import { setFileInfo, saveFile, deleteFile } from './logos.middlewares';
 
 const router = new express.Router();
 
-router.route('/structures/:rid/logos')
+router.route('/structures/:resourceId/logos')
   .get(logos.controllers.list)
   .post([
     requireActiveUser,
@@ -17,7 +17,7 @@ router.route('/structures/:rid/logos')
     logos.controllers.create,
   ]);
 
-router.route('/structures/:rid/logos/:id')
+router.route('/structures/:resourceId/logos/:id')
   .get(logos.controllers.read)
   .patch([
     requireActiveUser,
