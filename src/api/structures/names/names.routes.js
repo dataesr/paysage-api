@@ -5,7 +5,7 @@ import names from './names.resource';
 
 const router = new express.Router();
 
-router.route('/structures/:rid/names')
+router.route('/structures/:resourceId/names')
   .get(names.controllers.list)
   .post([
     requireActiveUser,
@@ -13,7 +13,7 @@ router.route('/structures/:rid/names')
     names.controllers.create,
   ]);
 
-router.route('/structures/:rid/names/:id')
+router.route('/structures/:resourceId/names/:id')
   .delete([
     requireActiveUser,
     patchCtx,

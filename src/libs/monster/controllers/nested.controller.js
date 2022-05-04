@@ -110,6 +110,6 @@ class NestedControllers {
     res.status(200).json({ data, totalCount: totalCount || 0 });
     return next();
   };
-};
+}
 
 export default NestedControllers;

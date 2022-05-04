@@ -6,7 +6,7 @@ import categories from './categories.resource';
 
 const router = new express.Router();
 
-router.route('/structures/:rid/categories')
+router.route('/structures/:resourceId/categories')
   .get(categories.controllers.list)
   .post([
     requireActiveUser,
@@ -15,7 +15,7 @@ router.route('/structures/:rid/categories')
     categories.controllers.create,
   ]);
 
-router.route('/structures/:rid/categories/:id')
+router.route('/structures/:resourceId/categories/:id')
   .delete([
     requireActiveUser,
     patchCtx,
