@@ -1,7 +1,8 @@
 import mongodb from 'mongodb';
+
 import { NotFoundError, ServerError } from '../../http-errors';
 
-export default class NestedControllers {
+class NestedControllers {
   constructor(repository, { storeContext, eventStore, catalogue } = {}) {
     this._repository = repository;
     this._storeContext = storeContext;
@@ -109,4 +110,6 @@ export default class NestedControllers {
     res.status(200).json({ data, totalCount: totalCount || 0 });
     return next();
   };
-}
+};
+
+export default NestedControllers;

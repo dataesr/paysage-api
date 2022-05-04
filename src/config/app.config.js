@@ -39,6 +39,7 @@ const staging = {
   },
   hostname: 'https://api.paysage.staging.dataesr.ovh',
 };
+
 const testing = {
   ...production,
   jwtSecret: 'VerYvErySecrREt',
@@ -58,6 +59,7 @@ const testing = {
     logLevel: 'error',
   },
 };
+
 const development = {
   ...production,
   jwtSecret: 'VerYvErySecrREt',
