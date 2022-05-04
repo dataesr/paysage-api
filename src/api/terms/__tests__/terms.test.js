@@ -7,7 +7,7 @@ const payload = {
 };
 const updatePayLoad = {
   usualNameFr: 'Term C',
-  acronymFr: 'T C'
+  acronymFr: 'T C',
 };
 
 beforeAll(async () => {

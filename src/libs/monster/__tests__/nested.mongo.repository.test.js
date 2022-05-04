@@ -1,5 +1,5 @@
-import BaseMongoRepository from '../repositories/base.mongo.repository'
-import NestedMongoRepository from '../repositories/nested.mongo.repository'
+import BaseMongoRepository from '../repositories/base.mongo.repository';
+import NestedMongoRepository from '../repositories/nested.mongo.repository';
 
 const metasPipeline = [
   {
@@ -100,7 +100,6 @@ describe('create method', () => {
   });
 });
 
-
 describe('find method', () => {
   beforeEach(async () => {
     await nestedRepository.create(resourceId, data[0]);
@@ -134,7 +133,7 @@ describe('find method', () => {
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(3);
   });
-  
+
   it('should find with skip and limit', async () => {
     const result = await nestedRepository.find({ resourceId, limit: 3, skip: 2 });
     expect(result.totalCount).toBe(4);
@@ -148,11 +147,11 @@ describe('patch method', () => {
   });
 
   it('should patch name by id', async () => {
-    const id = data[0].id;
+    const { id } = data[0];
     const result = await nestedRepository.patch(resourceId, id, { name: 'test42' });
     expect(result.ok).toBeTruthy();
-  });  
-})
+  });
+});
 
 describe('get method', () => {
   beforeEach(async () => {
@@ -160,12 +159,12 @@ describe('get method', () => {
   });
 
   it('should get by id', async () => {
-    const id = data[0].id;
+    const { id } = data[0];
     const result = await nestedRepository.get(resourceId, id);
     expect(result.id).toBe(id);
     expect(result.name).toBe('test1');
   });
-})
+});
 
 describe('remove method', () => {
   beforeEach(async () => {
@@ -173,10 +172,10 @@ describe('remove method', () => {
   });
 
   it('should remove by id', async () => {
-    const id = data[0].id;
+    const { id } = data[0];
     const { ok } = await nestedRepository.remove(resourceId, id);
     expect(ok).toBeTruthy();
     const find = await nestedRepository.find({ resourceId, filters: { id } });
     expect(find.data.length).toBe(0);
   });
-})
+});
