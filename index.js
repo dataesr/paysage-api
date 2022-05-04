@@ -1,7 +1,6 @@
 import 'dotenv/config';
+
 import logger from './src/services/logger.service';
-// import createAPIServer from './src/api';
-// import createIndexers from './src/indexers';
 
 const { ENTRYPOINT: entrypoint, PORT: port } = process.env;
 

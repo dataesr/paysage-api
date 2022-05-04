@@ -6,7 +6,7 @@ properties:
     type: string
     description: Unique identifier
     pattern: '^[a-zA-Z0-9]{8}$'
-  rid:
+  resourceId:
     type: string
     description: Unique identifier
     pattern: '^[a-zA-Z0-9]{5}$'

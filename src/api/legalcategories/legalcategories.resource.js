@@ -1,11 +1,11 @@
 import db from '../../services/mongo.service';
 import { Resource } from '../../libs/monster';
 import { eventStore, objectCatalog as catalog } from '../commons/monster';
-import queries from './prices.queries';
+import queries from './legalcategories.queries';
 
-const prices = new Resource(
-  { db, collection: 'prices', queries },
+const legalCategories = new Resource(
+  { db, collection: 'legal-categories', queries },
   { eventStore, catalog },
 );
 
-export default prices;
+export default legalCategories;

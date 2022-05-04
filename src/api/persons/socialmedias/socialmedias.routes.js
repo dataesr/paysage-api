@@ -5,7 +5,7 @@ import socialmedias from './socialmedias.resource';
 
 const router = new express.Router();
 
-router.route('/persons/:rid/socials')
+router.route('/persons/:resourceId/socials')
   .get(socialmedias.controllers.list)
   .post([
     requireActiveUser,
@@ -13,7 +13,7 @@ router.route('/persons/:rid/socials')
     socialmedias.controllers.create,
   ]);
 
-router.route('/persons/:rid/socials/:id')
+router.route('/persons/:resourceId/socials/:id')
   .delete([
     requireActiveUser,
     patchCtx,

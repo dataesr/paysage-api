@@ -34,6 +34,15 @@ describe('API > legal categories > create', () => {
     const dbData = await global.db.collection('legal-categories').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
   });
+
+  it('should fail if longNameFr is missing', async () => {
+    const { longNameFr, ...rest } = payload;
+    await global.superapp
+      .post('/legalcategories')
+      .set('Authorization', authorization)
+      .send(rest)
+      .expect(400);
+  });
 });
 
 describe('API > legal categories > update', () => {

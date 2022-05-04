@@ -34,25 +34,30 @@ describe('API > structures > names > create', () => {
     const response = await global.superapp
       .post(`/structures/${rid}/names`)
       .set('Authorization', authorization)
-      .send(structureName).expect(201);
+      .send(structureName)
+      .expect(201);
     expect(response.body.id).toBeTruthy();
     expect(response.body.officialName).toBe('string');
     expect(response.body.usualName).toBe('string');
     expect(response.body.createdBy.username).toBe('user');
     id = response.body.id;
   });
-  it('throws with required field missing', async () => {
+
+  it('should fail if usualName is missing', async () => {
     const { usualName, ...rest } = structureName;
     await global.superapp
       .post(`/structures/${rid}/names`)
       .set('Authorization', authorization)
-      .send(rest).expect(400);
+      .send(rest)
+      .expect(400);
   });
+
   it('throws with unknown resource', async () => {
     await global.superapp
       .post('/structures/re98D/names')
       .set('Authorization', authorization)
-      .send(structureName).expect(404);
+      .send(structureName)
+      .expect(404);
   });
 });
 

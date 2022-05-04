@@ -6,7 +6,6 @@ import { validatePayload } from './root.middlewares';
 
 const router = new express.Router();
 
-// CATEGORIES
 router.route('/categories')
   .get(categories.controllers.list)
   .post([

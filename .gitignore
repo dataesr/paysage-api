@@ -10,3 +10,5 @@
 
 # production
 yarn.lock
+
+/docs

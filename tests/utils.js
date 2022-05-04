@@ -1,5 +1,6 @@
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
 import config from '../src/config/app.config';
 
 const { jwtSecret } = config;
@@ -7,7 +8,7 @@ const { jwtSecret } = config;
 export default class Utils {
   constructor(db) {
     this.db = db;
-  }
+  };
 
   async clearDB() {
     const collections = await this.db.listCollections().toArray();
@@ -15,7 +16,7 @@ export default class Utils {
     return Promise.all(collectionsToDelete.map((collection) => {
       this.db.collection(collection.name).drop();
     }));
-  }
+  };
 
   async createUser(username = 'user', admin = false) {
     const password = await bcrypt.hash('Passw0rd!', 10);
@@ -38,5 +39,5 @@ export default class Utils {
       { expiresIn: '15m' },
     );
     return `Bearer ${accessToken}`;
-  }
-}
+  };
+};

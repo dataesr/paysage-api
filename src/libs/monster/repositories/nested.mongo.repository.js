@@ -14,7 +14,7 @@ class NestedMongoRepository {
   }
 
   find = async ({
-    rid,
+    resourceId,
     filters = {},
     skip = 0,
     limit = 20,
@@ -22,12 +22,12 @@ class NestedMongoRepository {
     useQuery = null,
   } = {}) => {
     const _pipeline = [
-      { $match: { id: rid } },
+      { $match: { id: resourceId } },
       { $unwind: { path: `$${this._field}` } },
       { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
       { $replaceRoot: { newRoot: `$${this._field}` } },
       { $match: filters },
-      { $set: { rid } },
+      { $set: { rid: resourceId } },
     ];
     const model = this._queries[useQuery] ?? [];
     const queryPipeline = [
@@ -46,22 +46,22 @@ class NestedMongoRepository {
     return data[0];
   };
 
-  get = async (rid, id, { useQuery } = {}) => {
-    const { data } = await this.find({ rid, filters: { id }, limit: 1, useQuery });
+  get = async (resourceId, id, { useQuery } = {}) => {
+    const { data } = await this.find({ resourceId, filters: { id }, limit: 1, useQuery });
     return data ? data[0] : null;
   };
 
-  create = async (rid, data) => {
+  create = async (resourceId, data) => {
     const { modifiedCount } = await this._collection.updateOne(
-      { id: rid, [this._field]: { $not: { $elemMatch: { id: data.id } } } },
+      { id: resourceId, [this._field]: { $not: { $elemMatch: { id: data.id } } } },
       { $push: { [this._field]: data } },
     );
     return modifiedCount ? data.id : 0;
   };
 
-  patch = async (rid, id, data) => {
+  patch = async (resourceId, id, data) => {
     const pipe = [
-      { $match: { id: rid } },
+      { $match: { id: resourceId } },
       { $unwind: { path: `$${this._field}` } },
       { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
       { $replaceRoot: { newRoot: `$${this._field}` } },
@@ -74,34 +74,34 @@ class NestedMongoRepository {
       {},
     );
     const { modifiedCount } = await this._collection.updateOne(
-      { id: rid, [`${this._field}.id`]: id },
+      { id: resourceId, [`${this._field}.id`]: id },
       { $set: { [`${this._field}.$`]: __data } },
     );
     return { ok: !!modifiedCount };
   };
 
-  put = async (rid, id, data) => {
+  put = async (resourceId, id, data) => {
     const _data = Object.keys(data).reduce(
       (doc, field) => ([null, ''].includes(data[field]) ? doc : ({ ...doc, [field]: data[field] })),
       {},
     );
     const { modifiedCount } = await this._collection.updateOne(
-      { id: rid, [`${this._field}.id`]: id },
+      { id: resourceId, [`${this._field}.id`]: id },
       { $set: { [`${this._field}.$`]: _data } },
     );
     return { ok: !!modifiedCount };
   };
 
-  remove = async (rid, id) => {
+  remove = async (resourceId, id) => {
     const { modifiedCount } = await this._collection.updateOne(
-      { id: rid },
+      { id: resourceId },
       { $pull: { [this._field]: { id } } },
     );
     return { ok: !!modifiedCount };
   };
 
-  checkResource = async (rid) => {
-    const resource = await this._collection.findOne({ id: rid });
+  checkResource = async (resourceId) => {
+    const resource = await this._collection.findOne({ id: resourceId });
     return resource;
   };
 }

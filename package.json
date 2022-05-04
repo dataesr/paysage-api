@@ -40,20 +40,21 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jest": "^26.0.0",
     "jest": "^27.0.6",
+    "jest-mock": "^28.0.2",
     "nodemon": "^2.0.7",
     "supertest": "^6.1.4",
     "swagger-cli": "^4.0.4"
   },
   "jest": {
-    "setupFilesAfterEnv": [
-      "./tests/globalSetup.js"
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
     ],
-    "testEnvironment": "node",
     "modulePathIgnorePatterns": [
       "save"
     ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
+    "setupFilesAfterEnv": [
+      "./tests/globalSetup.js"
+    ],
+    "testEnvironment": "node"
   }
 }
