@@ -1,8 +1,8 @@
+import { BaseMongoRepository, Catalog } from '../../../libs/monster';
 import db from '../../../services/mongo.service';
-import { BaseMongoRepository, Catalogue } from '../../../libs/monster';
 
-const objectCatalogue = new Catalogue({ db, collection: '_catalogue' }, 5);
-const internalCatalogue = new Catalogue({ db, collection: '_catalogue' }, 8);
 const eventStore = new BaseMongoRepository({ db, collection: '_events' });
+const internalCatalog = new Catalog({ db, collection: '_catalog' }, 8);
+const objectCatalog = new Catalog({ db, collection: '_catalog' }, 5);
 
-export { objectCatalogue, internalCatalogue, eventStore };
+export { eventStore, internalCatalog, objectCatalog };
