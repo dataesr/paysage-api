@@ -45,15 +45,15 @@
     "swagger-cli": "^4.0.4"
   },
   "jest": {
-    "setupFilesAfterEnv": [
-      "./tests/globalSetup.js"
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
     ],
-    "testEnvironment": "node",
     "modulePathIgnorePatterns": [
       "save"
     ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
+    "setupFilesAfterEnv": [
+      "./tests/globalSetup.js"
+    ],
+    "testEnvironment": "node"
   }
 }
