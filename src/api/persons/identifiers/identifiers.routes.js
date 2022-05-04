@@ -5,7 +5,7 @@ import identifiers from './identifiers.resource';
 
 const router = new express.Router();
 
-router.route('/persons/:rid/identifiers')
+router.route('/persons/:resourceId/identifiers')
   .get(identifiers.controllers.list)
   .post([
     requireActiveUser,
@@ -13,7 +13,7 @@ router.route('/persons/:rid/identifiers')
     identifiers.controllers.create,
   ]);
 
-router.route('/persons/:rid/identifiers/:id')
+router.route('/persons/:resourceId/identifiers/:id')
   .delete([
     requireActiveUser,
     patchCtx,

@@ -9,16 +9,19 @@ const client = new mongodb.MongoClient(
   mongoUri,
   { useNewUrlParser: true, useUnifiedTopology: true },
 );
-logger.info(`Try to connect to mongo... ${mongoUri}`);
 
-client.connect().catch((e) => {
-  logger.info(`Connexion to mongo instance failed... Terminating... ${e.message}`);
-  process.kill(process.pid, 'SIGTERM');
-});
+logger.info(`Try to connect to mongo... ${mongoUri}`);
+client
+  .connect()
+  .then(() => {
+    logger.info(`Connected to mongo database... ${mongoDbName}`);
+  })
+  .catch((e) => {
+    logger.info(`Connexion to mongo instance failed... Terminating... ${e.message}`);
+    process.kill(process.pid, 'SIGTERM');
+  });
 
 const db = client.db(mongoDbName);
-logger.info(`Connected to mongo database... ${mongoDbName}`);
-
 const mongoUtils = {
   async clear(exclude) {
     const collections = await db.listCollections().toArray();
