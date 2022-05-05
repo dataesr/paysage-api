@@ -1,50 +1,23 @@
-import BaseMongoRepository from '../repositories/base.mongo.repository'
-import NestedMongoRepository from '../repositories/nested.mongo.repository'
+import BaseMongoRepository from '../repositories/base.mongo.repository';
+import NestedMongoRepository from '../repositories/nested.mongo.repository';
 
-const metasPipeline = [
-  {
-    $lookup: {
-      from: 'users',
-      localField: 'createdBy',
-      foreignField: 'id',
-      as: 'user',
-    },
-  },
-  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
-  {
-    $set: {
-      createdBy:
-      {
-        id: { $ifNull: ['$user.id', null] },
-        username: { $ifNull: ['$user.username', null] },
-        avatar: { $ifNull: ['$user.avatar', null] },
-      },
-    },
-  },
-  {
-    $lookup: {
-      from: 'users',
-      localField: 'updatedBy',
-      foreignField: 'id',
-      as: 'user',
-    },
-  },
-  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
-  {
-    $set: {
-      updatedBy:
-      {
-        id: { $ifNull: ['$user.id', null] },
-        username: { $ifNull: ['$user.username', null] },
-        avatar: { $ifNull: ['$user.avatar', null] },
-      },
-    },
-  },
-  { $project: { user: 0 } },
-];
-
+const fakeUser = 'tester';
 const userId = 42;
 
+const useQuery = [
+  { $set: {
+    createdBy: {
+      id: userId,
+      username: fakeUser,
+    },
+  } },
+  { $project: {
+    _id: 0,
+    id: 1,
+    name: 1,
+    createdBy: 1,
+  } },
+];
 const data = [
   {
     id: 1,
@@ -78,65 +51,64 @@ const data = [
 
 let resourceId;
 let baseMongoRepository;
-let nestedRepository;
+let nestedMongoRepository;
 
 beforeAll(async () => {
   baseMongoRepository = new BaseMongoRepository({ db: global.utils.db, collection: 'test' });
-  nestedRepository = new NestedMongoRepository({ db: global.utils.db, collection: 'test', field: 'test', pipeline: metasPipeline });
+  nestedMongoRepository = new NestedMongoRepository({ db: global.utils.db, collection: 'test', field: 'test' });
   resourceId = await baseMongoRepository.create(data[0]);
 });
 
 afterEach(async () => {
-  await nestedRepository.remove(resourceId, data[0].id);
-  await nestedRepository.remove(resourceId, data[1].id);
-  await nestedRepository.remove(resourceId, data[2].id);
-  await nestedRepository.remove(resourceId, data[3].id);
+  await nestedMongoRepository.remove(resourceId, data[0].id);
+  await nestedMongoRepository.remove(resourceId, data[1].id);
+  await nestedMongoRepository.remove(resourceId, data[2].id);
+  await nestedMongoRepository.remove(resourceId, data[3].id);
 });
 
 describe('create method', () => {
   it('should create data', async () => {
-    const insertedId1 = await nestedRepository.create(resourceId, data[0]);
+    const insertedId1 = await nestedMongoRepository.create(resourceId, data[0]);
     expect(insertedId1).toBe(data[0].id);
   });
 });
 
-
 describe('find method', () => {
   beforeEach(async () => {
-    await nestedRepository.create(resourceId, data[0]);
-    await nestedRepository.create(resourceId, data[1]);
-    await nestedRepository.create(resourceId, data[2]);
-    await nestedRepository.create(resourceId, data[3]);
+    await nestedMongoRepository.create(resourceId, data[0]);
+    await nestedMongoRepository.create(resourceId, data[1]);
+    await nestedMongoRepository.create(resourceId, data[2]);
+    await nestedMongoRepository.create(resourceId, data[3]);
   });
 
   it('should find all documents', async () => {
-    const result = await nestedRepository.find({ resourceId });
+    const result = await nestedMongoRepository.find({ resourceId });
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(4);
   });
 
   it('should find with filter', async () => {
-    const result = await nestedRepository.find({ resourceId, filters: { name: 'test1' } });
+    const result = await nestedMongoRepository.find({ resourceId, filters: { name: 'test1' } });
     expect(result.totalCount).toBe(1);
     expect(result.data).toHaveLength(1);
     expect(result.data[0].number).toBe(88);
   });
 
   it('should find with sort', async () => {
-    const result = await nestedRepository.find({ resourceId, sort: '-name' });
+    const result = await nestedMongoRepository.find({ resourceId, sort: '-name' });
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(4);
     expect(result.data[0].number).toBe(3232);
   });
 
   it('should find with limit', async () => {
-    const result = await nestedRepository.find({ resourceId, limit: 3 });
+    const result = await nestedMongoRepository.find({ resourceId, limit: 3 });
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(3);
   });
-  
+
   it('should find with skip and limit', async () => {
-    const result = await nestedRepository.find({ resourceId, limit: 3, skip: 2 });
+    const result = await nestedMongoRepository.find({ resourceId, limit: 3, skip: 2 });
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(2);
   });
@@ -144,39 +116,48 @@ describe('find method', () => {
 
 describe('patch method', () => {
   beforeEach(async () => {
-    await nestedRepository.create(resourceId, data[0]);
+    await nestedMongoRepository.create(resourceId, data[0]);
   });
 
   it('should patch name by id', async () => {
-    const id = data[0].id;
-    const result = await nestedRepository.patch(resourceId, id, { name: 'test42' });
+    const { id } = data[0];
+    const result = await nestedMongoRepository.patch(resourceId, id, { name: 'test42' });
     expect(result.ok).toBeTruthy();
-  });  
-})
+  });
+});
 
 describe('get method', () => {
   beforeEach(async () => {
-    await nestedRepository.create(resourceId, data[0]);
+    await nestedMongoRepository.create(resourceId, data[0]);
   });
 
   it('should get by id', async () => {
-    const id = data[0].id;
-    const result = await nestedRepository.get(resourceId, id);
+    const { id } = data[0];
+    const result = await nestedMongoRepository.get(resourceId, id);
     expect(result.id).toBe(id);
     expect(result.name).toBe('test1');
   });
-})
+  it('should get by id and use useQuery properly', async () => {
+    const { id } = data[0];
+    const result = await nestedMongoRepository.get(resourceId, id, { useQuery });
+    expect(result.id).toBe(id);
+    expect(result.name).toBe('test1');
+    expect(result.number).toBeFalsy();
+    expect(result.createdBy.id).toBe(userId);
+    expect(result.createdBy.username).toBe(fakeUser);
+  });
+});
 
 describe('remove method', () => {
   beforeEach(async () => {
-    await nestedRepository.create(resourceId, data[0]);
+    await nestedMongoRepository.create(resourceId, data[0]);
   });
 
   it('should remove by id', async () => {
-    const id = data[0].id;
-    const { ok } = await nestedRepository.remove(resourceId, id);
+    const { id } = data[0];
+    const { ok } = await nestedMongoRepository.remove(resourceId, id);
     expect(ok).toBeTruthy();
-    const find = await nestedRepository.find({ resourceId, filters: { id } });
+    const find = await nestedMongoRepository.find({ resourceId, filters: { id } });
     expect(find.data.length).toBe(0);
   });
-})
+});

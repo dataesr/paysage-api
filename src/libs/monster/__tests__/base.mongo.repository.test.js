@@ -1,36 +1,55 @@
-import BaseMongoRepository from '../repositories/base.mongo.repository'
+import BaseMongoRepository from '../repositories/base.mongo.repository';
 
 const userId = 42;
+const fakeUser = 'tester';
 
+const useQuery = [
+  {
+    $set: {
+      createdBy: {
+        id: userId,
+        username: fakeUser,
+      },
+    },
+  },
+  {
+    $project: {
+      _id: 0,
+      id: 1,
+      name: 1,
+      createdBy: 1,
+    },
+  },
+];
 const data = [
   {
     id: 1,
     name: 'test1',
     number: 8,
     createdBy: userId,
-    updatedBy: userId
+    updatedBy: userId,
   },
   {
     id: 2,
     name: 'test2',
     number: 16,
     createdBy: userId,
-    updatedBy: userId
+    updatedBy: userId,
   },
   {
     id: 3,
     name: 'test3',
     number: 24,
     createdBy: userId,
-    updatedBy: userId
+    updatedBy: userId,
   },
   {
     id: 4,
     name: 'test4',
     number: 32,
     createdBy: userId,
-    updatedBy: userId
-  }
+    updatedBy: userId,
+  },
 ];
 
 let baseMongoRepository;
@@ -41,7 +60,7 @@ beforeAll(() => {
 
 afterEach(async () => {
   await baseMongoRepository._collection.deleteMany({});
-})
+});
 
 describe('create method', () => {
   it('should create data', async () => {
@@ -71,6 +90,18 @@ describe('find method', () => {
     const result = await baseMongoRepository.find();
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(4);
+  });
+
+  it('should return all documents with specific query', async () => {
+    const result = await baseMongoRepository.find({ useQuery });
+    expect(result.totalCount).toBe(4);
+    expect(result.data).toHaveLength(4);
+    const firstResultElement = result.data[0];
+    expect(firstResultElement.id).toBe(data[0].id);
+    expect(firstResultElement.name).toBe('test1');
+    expect(firstResultElement.number).toBeFalsy();
+    expect(firstResultElement.createdBy.id).toBe(userId);
+    expect(firstResultElement.createdBy.username).toBe(fakeUser);
   });
 
   it('should find with filter', async () => {

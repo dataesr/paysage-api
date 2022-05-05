@@ -1,25 +1,22 @@
 import parseSortParams from './helpers';
 
 class BaseMongoRepository {
-  constructor({ db, collection, queries = {} }) {
+  constructor({ db, collection }) {
     if (!collection) { throw new Error("Parameter 'collection' must be specified"); }
     if (!(typeof collection === 'string' && Object.prototype.toString.call(collection) === '[object String]')) {
       throw new Error("Parameter 'collection' must be a string");
     }
     this.collectionName = collection;
     this._collection = db.collection(collection);
-    this._queries = queries;
   }
 
-  find = async ({ filters = {}, skip = 0, limit = 20, sort = null, useQuery } = {}) => {
-    const modelPipeline = this._queries[useQuery] || [];
-    if (useQuery && !modelPipeline.length) throw new Error(`${useQuery} is not defined`);
+  find = async ({ filters = {}, skip = 0, limit = 20, sort = null, useQuery = [] } = {}) => {
     const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
     const queryPipeline = [
       { $match: filters },
       { $skip: skip },
       { $limit: limit },
-      ...modelPipeline,
+      ...useQuery,
     ];
     if (sort) { queryPipeline.push({ $sort: parseSortParams(sort) }); }
     const data = await this._collection.aggregate([
