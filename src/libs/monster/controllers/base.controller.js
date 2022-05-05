@@ -1,6 +1,6 @@
 import mongodb from 'mongodb';
 
-import { BadRequestError, NotFoundError, ServerError } from '../../http-errors';
+import { BadRequestError, NotFoundError } from '../../http-errors';
 
 class BaseController {
   constructor(repository, { catalog, eventStore, storeContext } = {}) {
@@ -25,6 +25,21 @@ class BaseController {
     }
   };
 
+  read = async (req, res, next) => {
+    const { id, statusCode = 200 } = req.params;
+    const resource = await this._repository.get(id, { useQuery: 'readQuery' });
+    if (!resource) throw new NotFoundError();
+    res.status(statusCode).json(resource);
+    return next();
+  };
+
+  list = async (req, res, next) => {
+    const { query } = req;
+    const { data, totalCount = 0 } = await this._repository.find({ ...query, useQuery: 'readQuery' });
+    res.status(200).json({ data, totalCount });
+    return next();
+  };
+
   create = async (req, res, next) => {
     if (
       !req.body
@@ -41,14 +56,14 @@ class BaseController {
     const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
     await this._repository.create(data);
     await this._saveInStore({ action: 'create', id, path, user });
-    const resource = await this._repository.get(id, { useQuery: 'readQuery' });
-    if (!resource) throw new ServerError();
-    res.status(201).json(resource);
-    return next();
+    return this.read({ params: { id, statusCode: 201 } }, res, next);
   };
 
   patch = async (req, res, next) => {
-    if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
+    if (
+      !req.body
+      || !Object.keys(req.body).length
+    ) throw new BadRequestError('Payload missing');
     const { ctx, params, path } = req;
     const { user } = ctx || {};
     const { id } = params || {};
@@ -59,10 +74,7 @@ class BaseController {
     if (ok) {
       await this._saveInStore({ action: 'patch', id, path, previousState, user });
     }
-    const resource = await this._repository.get(id, { useQuery: 'readQuery' });
-    if (!resource) throw new ServerError();
-    res.status(200).json(resource);
-    return next();
+    return this.read({ params: { id } }, res, next);
   };
 
   delete = async (req, res, next) => {
@@ -76,21 +88,6 @@ class BaseController {
       await this._saveInStore({ action: 'delete', id, path, previousState, user });
     }
     res.status(204).json();
-    return next();
-  };
-
-  read = async (req, res, next) => {
-    const { id } = req.params;
-    const resource = await this._repository.get(id, { useQuery: 'readQuery' });
-    if (!resource) throw new NotFoundError();
-    res.status(200).json(resource);
-    return next();
-  };
-
-  list = async (req, res, next) => {
-    const { query } = req;
-    const { data, totalCount = 0 } = await this._repository.find({ ...query, useQuery: 'readQuery' });
-    res.status(200).json({ data, totalCount });
     return next();
   };
 
