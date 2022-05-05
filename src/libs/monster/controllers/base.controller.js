@@ -10,6 +10,21 @@ class BaseController {
     this._storeContext = storeContext;
   }
 
+  _saveInStore = async ({ action, id, path, previousState = {}, user }) => {
+    if (this._eventStore) {
+      const nextState = action === 'delete' ? {} : await this._repository.get(id, { useQuery: 'writeQuery' });
+      this._eventStore.create({
+        action,
+        actor: user,
+        collection: this._repository.collectionName,
+        id,
+        nextState,
+        previousState,
+        resource: path,
+      });
+    }
+  };
+
   create = async (req, res, next) => {
     if (
       !req.body
@@ -25,17 +40,7 @@ class BaseController {
     }
     const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
     await this._repository.create(data);
-    if (this._eventStore) {
-      const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
-      this._eventStore.create({
-        actor: user,
-        id,
-        collection: this._repository.collectionName,
-        resource: path,
-        action: 'create',
-        nextState,
-      });
-    }
+    await this._saveInStore({ action: 'create', id, path, user });
     const resource = await this._repository.get(id, { useQuery: 'readQuery' });
     if (!resource) throw new ServerError();
     res.status(201).json(resource);
@@ -51,17 +56,8 @@ class BaseController {
     if (!previousState) throw new NotFoundError();
     const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
     const { ok } = await this._repository.patch(id, data);
-    if (ok && this._eventStore) {
-      const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
-      this._eventStore.create({
-        actor: user,
-        id,
-        collection: this._repository.collectionName,
-        resource: path,
-        action: 'patch',
-        previousState,
-        nextState,
-      });
+    if (ok) {
+      await this._saveInStore({ action: 'patch', id, path, previousState, user });
     }
     const resource = await this._repository.get(id, { useQuery: 'readQuery' });
     if (!resource) throw new ServerError();
@@ -76,15 +72,8 @@ class BaseController {
     const previousState = await this._repository.get(id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.remove(id);
-    if (ok && this._eventStore) {
-      this._eventStore.create({
-        actor: user,
-        id,
-        collection: this._repository.collectionName,
-        resource: path,
-        action: 'delete',
-        previousState,
-      });
+    if (ok) {
+      await this._saveInStore({ action: 'delete', id, path, previousState, user });
     }
     res.status(204).json();
     return next();
