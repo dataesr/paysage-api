@@ -10,6 +10,25 @@ class NestedControllers {
     this._storeContext = storeContext;
   }
 
+  _saveInStore = async ({
+    action, id, path, previousState = {}, resourceId, user,
+  }) => {
+    if (this._eventStore) {
+      const nextState = action === 'delete' ? {} : await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
+      this._eventStore.create({
+        action,
+        actor: user,
+        collection: this._repository.collectionName,
+        field: this._repository.fieldName,
+        fieldId: id,
+        id: resourceId,
+        nextState,
+        previousState,
+        resource: path,
+      });
+    }
+  };
+
   create = async (req, res, next) => {
     const { body, ctx, params, path } = req;
     let { id } = ctx || {};
@@ -23,19 +42,7 @@ class NestedControllers {
     }
     const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
     await this._repository.create(resourceId, data);
-    if (this._eventStore) {
-      const nextState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
-      this._eventStore.create({
-        actor: user,
-        id: resourceId,
-        collection: this._repository.collectionName,
-        field: this._repository.fieldName,
-        fieldId: id,
-        resource: path,
-        action: 'create',
-        nextState,
-      });
-    }
+    await this._saveInStore({ action: 'create', id, path, resourceId, user });
     const resource = await this._repository.get(resourceId, id, { useQuery: 'readQuery' });
     if (!resource) throw new ServerError();
     res.status(201).json(resource);
@@ -51,19 +58,8 @@ class NestedControllers {
     const previousState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.patch(resourceId, id, data);
-    if (ok && this._eventStore) {
-      const nextState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
-      this._eventStore.create({
-        actor: user,
-        id: resourceId,
-        collection: this._repository.collectionName,
-        field: this._repository.fieldName,
-        fieldId: id,
-        resource: path,
-        action: 'patch',
-        previousState,
-        nextState,
-      });
+    if (ok) {
+      await this._saveInStore({ action: 'patch', id, path, resourceId, user });
     }
     const resource = await this._repository.get(resourceId, id, { useQuery: 'readQuery' });
     if (!resource) throw new ServerError();
@@ -79,17 +75,8 @@ class NestedControllers {
     const previousState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.remove(resourceId, id);
-    if (ok && this._eventStore) {
-      this._eventStore.create({
-        actor: user,
-        id: resourceId,
-        collection: this._repository.collectionName,
-        field: this._repository.fieldName,
-        fieldId: id,
-        resource: path,
-        action: 'delete',
-        previousState,
-      });
+    if (ok) {
+      await this._saveInStore({ action: 'delete', id, path, resourceId, user });
     }
     res.status(204).json();
     return next();
