@@ -10,6 +10,10 @@ on:
     branches:
       - dev
 
+env:
+  DEPLOYMENT_URL: https://docs.paysage.dataesr.ovh/docs/paysage-api-1
+  SLACK_NOTIFICATION_CHANNEL: '#paysage-bot'
+
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -19,7 +23,7 @@ jobs:
         run: docker-compose up --build --exit-code-from app
 
   notify:
-    needs: deploy
+    needs: tests
     if: always()
     runs-on: ubuntu-latest
     steps:
