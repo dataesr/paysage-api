@@ -1,32 +1,54 @@
 import express from 'express';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
-import prices from './prices.resource';
-import { validatePayload } from './prices.middlewares';
+import validatePayload from './middlewares/validate-payload';
+import createPrice from './middlewares/create-price';
+import getPrice from './middlewares/get-price';
+import patchPrice from './middlewares/patch-price';
+import listPrices from './middlewares/list-prices';
+import deletePrice from './middlewares/delete-price';
+import generateId from './middlewares/generate-id';
+import existsOr404 from './middlewares/exists-or-404';
 
 const router = new express.Router();
 
 router.route('/prices')
-  .get(prices.controllers.list)
+  .get([
+    requireActiveUser,
+    listPrices,
+  ])
   .post([
-    // requireActiveUser,
+    requireActiveUser,
     validatePayload,
     createCtx,
-    prices.controllers.create,
+    generateId,
+    createPrice,
+    getPrice,
+    // storeEvent,
+    // indexWhatever
   ]);
 
 router.route('/prices/:id')
-  .get(prices.controllers.read)
+  .get([
+    requireActiveUser,
+    getPrice,
+  ])
   .patch([
     requireActiveUser,
+    existsOr404,
     patchCtx,
     validatePayload,
-    prices.controllers.patch,
+    patchPrice,
+    getPrice,
+    // storeEvent,
+    // indexWhatever
   ])
   .delete([
     requireActiveUser,
-    patchCtx,
-    prices.controllers.delete,
+    existsOr404,
+    deletePrice,
+    // storeEvent,
+    // unindexWhatever
   ]);
 
 export default router;
