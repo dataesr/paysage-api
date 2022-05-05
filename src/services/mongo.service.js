@@ -22,14 +22,13 @@ client
   });
 
 const db = client.db(mongoDbName);
-const mongoUtils = {
-  async clear(exclude) {
-    const collections = await db.listCollections().toArray();
-    const collectionsToDelete = collections.filter((collection) => (!(exclude.includes(collection.name))));
-    await Promise.all(collectionsToDelete.map(async (collection) => {
-      await db.collection(collection.name).drop();
-    }));
-  },
+
+const clearDB = async (_db, exclude = []) => {
+  const collections = await _db.listCollections().toArray();
+  exclude += ['system.views'];
+  const collectionsToDelete = collections.filter((collection) => (!(exclude.includes(collection.name))));
+  return Promise.all(collectionsToDelete.map((collection) => _db.collection(collection.name).drop()));
 };
-export { client, mongoUtils };
+
+export { client, clearDB };
 export default db;

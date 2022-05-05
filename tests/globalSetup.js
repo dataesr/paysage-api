@@ -2,7 +2,7 @@ import 'dotenv/config';
 import request from 'supertest';
 
 import app from '../src/api/app';
-import db, { client } from '../src/services/mongo.service';
+import db, { client, clearDB } from '../src/services/mongo.service';
 import Utils from './utils';
 
 beforeAll(() => {
@@ -12,6 +12,6 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await global.utils.clearDB();
+  await clearDB(global.db);
   client.close();
 });
