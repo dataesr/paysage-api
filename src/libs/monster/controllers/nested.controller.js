@@ -29,6 +29,18 @@ class NestedController {
     }
   };
 
+  _getId = async (id) => {
+    let myId;
+    if (!id) {
+      myId = (this._catalog)
+        ? await this._catalog.getUniqueId(this._repository.collectionName)
+        : mongodb.ObjectId();
+    } else {
+      myId = id;
+    }
+    return myId;
+  };
+
   read = async (req, res, next) => {
     const { id, resourceId, statusCode = 200 } = req.params;
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
@@ -57,11 +69,7 @@ class NestedController {
     const { user } = ctx || {};
     const { resourceId } = params || {};
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
-    if (!id) {
-      id = (this._catalog)
-        ? await this._catalog.getUniqueId(this._repository.collectionName)
-        : mongodb.ObjectId();
-    }
+    id = this._getId(id);
     const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
     await this._repository.create(resourceId, data);
     await this._saveInStore({ action: 'create', id, path, resourceId, user });
