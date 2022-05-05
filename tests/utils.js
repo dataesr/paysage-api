@@ -8,15 +8,13 @@ const { jwtSecret } = config;
 export default class Utils {
   constructor(db) {
     this.db = db;
-  };
+  }
 
   async clearDB() {
     const collections = await this.db.listCollections().toArray();
     const collectionsToDelete = collections.filter((collection) => collection.name !== 'system.views');
-    return Promise.all(collectionsToDelete.map((collection) => {
-      this.db.collection(collection.name).drop();
-    }));
-  };
+    return Promise.all(collectionsToDelete.map((collection) => this.db.collection(collection.name).drop()));
+  }
 
   async createUser(username = 'user', admin = false) {
     const password = await bcrypt.hash('Passw0rd!', 10);
@@ -39,5 +37,5 @@ export default class Utils {
       { expiresIn: '15m' },
     );
     return `Bearer ${accessToken}`;
-  };
-};
+  }
+}
