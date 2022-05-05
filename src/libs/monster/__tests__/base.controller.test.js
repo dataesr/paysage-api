@@ -2,7 +2,7 @@ import jest from 'jest-mock';
 import mongodb from 'mongodb';
 
 import BaseController from '../controllers/base.controller';
-import { BadRequestError, NotFoundError, ServerError } from '../../http-errors';
+import { BadRequestError, NotFoundError } from '../../http-errors';
 
 let args;
 let baseController;
@@ -22,6 +22,59 @@ describe('constructor', () => {
     expect(baseController._eventStore).toBeUndefined();
     expect(baseController._repository).not.toBeUndefined();
     expect(baseController._storeContext).toBeUndefined();
+  });
+});
+
+describe('read method', () => {
+  beforeAll(() => {
+    baseMongoRepository = {
+      get: () => ({}),
+      read: () => ({}),
+    };
+    baseController = new BaseController(baseMongoRepository);
+  });
+
+  beforeEach(() => {
+    args = [
+      { params: { id: 42 } },
+      mockResponse(),
+      () => ({}),
+    ];
+  });
+
+  it('should throw a NotFoundError if the resource does not exist', () => {
+    const mockedBaseController = new BaseController({ get: () => null });
+    const spy = jest.spyOn(mockedBaseController._repository, 'get');
+    const read = async () => { await mockedBaseController.read(...args); };
+    expect(read).rejects.toThrow(NotFoundError);
+    expect(spy).toBeCalledTimes(1);
+    spy.mockRestore();
+  });
+
+  it('should return the read resource', async () => {
+    const spy = jest.spyOn(baseController._repository, 'get');
+    const read = await baseController.read(...args);
+    expect(read).toEqual({});
+    expect(spy).toBeCalledTimes(1);
+    spy.mockRestore();
+  });
+});
+
+describe('list method', () => {
+  it('should return the list of the macthing resources', async () => {
+    args = [
+      { query: { my_query: 'example_query' } },
+      mockResponse(),
+      () => ({}),
+    ];
+    const findResult = { data: ['my_data'], totalCount: 12 };
+    baseController = new BaseController({ find: () => (findResult) });
+    const spy = jest.spyOn(baseController._repository, 'find');
+    const list = await baseController.list(...args);
+    expect(list).toEqual({});
+    expect(spy).toBeCalledTimes(1);
+    expect(spy).toBeCalledWith({ my_query: 'example_query', useQuery: 'readQuery' });
+    spy.mockRestore();
   });
 });
 
@@ -56,10 +109,10 @@ describe('create method', () => {
     expect(create).rejects.toThrow('Payload missing');
   });
 
-  it('should throw a ServerError the resource is not in the repository after creation', () => {
+  it('should throw a NotFoundError the resource is not in the repository after creation', () => {
     const mockedBaseController = new BaseController({ create: () => {}, get: () => null });
     const create = async () => { await mockedBaseController.create(...args); };
-    expect(create).rejects.toThrow(ServerError);
+    expect(create).rejects.toThrow(NotFoundError);
   });
 
   it('should return a newly created document without adding event in the store', async () => {
@@ -145,14 +198,14 @@ describe('patch method', () => {
     expect(patch).rejects.toThrow(NotFoundError);
   });
 
-  it('should throw a ServerError the resource is not in the repository after patch', () => {
+  it('should throw a NotFoundError the resource is not in the repository after patch', () => {
     const mockedBaseMongoRepository = {
       get: jest.fn().mockImplementationOnce(() => 42).mockImplementation(() => null),
       patch: () => new Promise((resolve) => { resolve(true); }),
     };
     const mockedBaseController = new BaseController(mockedBaseMongoRepository);
     const patch = async () => { await mockedBaseController.patch(...args); };
-    expect(patch).rejects.toThrow(ServerError);
+    expect(patch).rejects.toThrow(NotFoundError);
   });
 
   it('should return a patched document without adding event in the store', async () => {
@@ -233,59 +286,6 @@ describe('delete method', () => {
     spyRepositoryGet.mockRestore();
     spyRepositoryRemove.mockRestore();
     spyEventStoreCreate.mockRestore();
-  });
-});
-
-describe('read method', () => {
-  beforeAll(() => {
-    baseMongoRepository = {
-      get: () => ({}),
-      read: () => ({}),
-    };
-    baseController = new BaseController(baseMongoRepository);
-  });
-
-  beforeEach(() => {
-    args = [
-      { params: { id: 42 } },
-      mockResponse(),
-      () => ({}),
-    ];
-  });
-
-  it('should throw a NotFoundError if the resource does not exist', () => {
-    const mockedBaseController = new BaseController({ get: () => null });
-    const spy = jest.spyOn(mockedBaseController._repository, 'get');
-    const read = async () => { await mockedBaseController.read(...args); };
-    expect(read).rejects.toThrow(NotFoundError);
-    expect(spy).toBeCalledTimes(1);
-    spy.mockRestore();
-  });
-
-  it('should return the read resource', async () => {
-    const spy = jest.spyOn(baseController._repository, 'get');
-    const read = await baseController.read(...args);
-    expect(read).toEqual({});
-    expect(spy).toBeCalledTimes(1);
-    spy.mockRestore();
-  });
-});
-
-describe('list method', () => {
-  it('should return the list of the macthing resources', async () => {
-    args = [
-      { query: { my_query: 'example_query' } },
-      mockResponse(),
-      () => ({}),
-    ];
-    const findResult = { data: ['my_data'], totalCount: 12 };
-    baseController = new BaseController({ find: () => (findResult) });
-    const spy = jest.spyOn(baseController._repository, 'find');
-    const list = await baseController.list(...args);
-    expect(list).toEqual({});
-    expect(spy).toBeCalledTimes(1);
-    expect(spy).toBeCalledWith({ my_query: 'example_query', useQuery: 'readQuery' });
-    spy.mockRestore();
   });
 });
 
