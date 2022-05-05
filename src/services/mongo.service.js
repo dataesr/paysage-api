@@ -25,8 +25,8 @@ const db = client.db(mongoDbName);
 
 const clearDB = async (_db, exclude = []) => {
   const collections = await _db.listCollections().toArray();
-  exclude += ['system.views'];
-  const collectionsToDelete = collections.filter((collection) => (!(exclude.includes(collection.name))));
+  const excludeAll = [...exclude, 'system.views'];
+  const collectionsToDelete = collections.filter((collection) => (!(excludeAll.includes(collection.name))));
   return Promise.all(collectionsToDelete.map((collection) => _db.collection(collection.name).drop()));
 };
 
