@@ -1,10 +1,14 @@
 let authorization;
 let id;
+
 const payload = {
   usualNameFr: 'Term A',
   acronymFr: 'Term A',
 };
-const updatePayLoad = { usualNameFr: 'Term C', acronymFr: 'T C' };
+const updatePayLoad = {
+  usualNameFr: 'Term C',
+  acronymFr: 'T C',
+};
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
@@ -22,6 +26,7 @@ describe('API > terms > create', () => {
     expect(body.createdBy.username).toBe('user');
     id = body.id;
   });
+
   it('ignore additionalProperties', async () => {
     const { body } = await global.superapp
       .post('/terms')
@@ -31,6 +36,15 @@ describe('API > terms > create', () => {
     expect(body.arbitrary).toBeFalsy();
     const data = await global.db.collection('terms').findOne({ id: body.id });
     expect(data.arbitrary).toBe(undefined);
+  });
+
+  it('should fail if usualNameFr is missing', async () => {
+    const { usualNameFr, ...rest } = payload;
+    await global.superapp
+      .post('/terms')
+      .set('Authorization', authorization)
+      .send(rest)
+      .expect(400);
   });
 });
 

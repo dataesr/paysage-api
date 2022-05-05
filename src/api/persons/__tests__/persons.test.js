@@ -6,6 +6,7 @@ const payload = {
   gender: 'Femme',
 };
 const updatePayLoad = { lastName: 'Dupont', firstName: null };
+const collection = 'persons';
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
@@ -29,8 +30,17 @@ describe('API > persons > create', () => {
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
-    const dbData = await global.db.collection('persons').findOne({ id });
+    const dbData = await global.db.collection(collection).findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
+  });
+
+  it('should fail if lastName is missing', async () => {
+    const { lastName, ...rest } = payload;
+    await global.superapp
+      .post('/persons')
+      .set('Authorization', authorization)
+      .send(rest)
+      .expect(400);
   });
 });
 
@@ -105,7 +115,7 @@ describe('API > persons > delete', () => {
 
 describe('API > persons > list', () => {
   beforeAll(async () => {
-    await global.utils.db.collection('persons').deleteMany({});
+    await global.utils.db.collection(collection).deleteMany({});
     await global.superapp
       .post('/persons')
       .set('Authorization', authorization)

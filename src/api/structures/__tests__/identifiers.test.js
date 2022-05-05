@@ -1,6 +1,15 @@
 let authorization;
 let rid;
 let id;
+
+const payload = {
+  type: 'Siret',
+  value: '12345678912345',
+  active: true,
+  startDate: '2012-01-01',
+  endDate: '2014-12-31',
+};
+
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
   const response = await global.superapp
@@ -19,13 +28,8 @@ describe('API > structures > identifiers > create', () => {
     const response = await global.superapp
       .post(`/structures/${rid}/identifiers`)
       .set('Authorization', authorization)
-      .send({
-        type: 'Siret',
-        value: '12345678912345',
-        active: true,
-        startDate: '2012-01-01',
-        endDate: '2014-12-31',
-      }).expect(201);
+      .send(payload)
+      .expect(201);
     expect(response.body.id).toBeTruthy();
     expect(response.body.type).toBe('Siret');
     expect(response.body.value).toBe('12345678912345');
@@ -33,16 +37,23 @@ describe('API > structures > identifiers > create', () => {
     expect(response.body.createdBy.username).toBe('user');
     id = response.body.id;
   });
-  it('throws with required field missing', async () => {
+
+  it('should fail if type is missing', async () => {
+    const { type, ...rest } = payload;
     await global.superapp
       .post(`/structures/${rid}/identifiers`)
       .set('Authorization', authorization)
-      .send({
-        value: '12345678912345',
-        active: true,
-        startDate: '2012-01-01',
-        endDate: '2014-12-31',
-      }).expect(400);
+      .send(rest)
+      .expect(400);
+  });
+
+  it('should fail if value is missing', async () => {
+    const { value, ...rest } = payload;
+    await global.superapp
+      .post(`/structures/${rid}/identifiers`)
+      .set('Authorization', authorization)
+      .send(rest)
+      .expect(400);
   });
 });
 
