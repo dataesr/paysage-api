@@ -2,14 +2,14 @@ import 'dotenv/config';
 
 import logger from './src/services/logger.service';
 
-const { ENTRYPOINT: entrypoint, PORT: port } = process.env;
+const { ENTRYPOINT, PORT } = process.env;
 
-logger.info(`"Starting with entrypoint ${entrypoint}`);
+logger.info(`Starting with entrypoint ${ENTRYPOINT}`);
 
-switch (entrypoint) {
+switch (ENTRYPOINT) {
   case 'api':
     import('./src/api')
-      .then(({ default: createAPIServer }) => createAPIServer(port || 3000));
+      .then(({ default: createAPIServer }) => createAPIServer(PORT || 3000));
     break;
   case 'indexers':
     import('./src/api')
