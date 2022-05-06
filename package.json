@@ -5,12 +5,17 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build:docs": "swagger-cli bundle src/openapi/api.yml --outfile docs/reference/api.yml --type yaml && swagger-cli bundle src/openapi/auth.yml --outfile docs/reference/auth.yml --type yaml",
-    "test": "npm run build:docs && NODE_ENV=testing ENTRYPOINT=api node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --watchAll --runInBand",
-    "start": "npm run build:docs && NODE_ENV=${npm_config_env} ENTRYPOINT=${npm_config_entrypoint} PORT=${npm_config_port} nodemon --experimental-specifier-resolution=node index.js",
-    "start:dev": "npm run start --env=development --entrypoint=api",
-    "start:staging": "npm run start --env=staging --entrypoint=api",
-    "start:production": "npm run start --env=production --entrypoint=api"
+    "setup:mongodb": "NODE_ENV=${npm_config_env} node --experimental-specifier-resolution=node src/setup/database.js",
+    "setup:storage": "NODE_ENV=${npm_config_env} node --experimental-specifier-resolution=node src/setup/storage.js",
+    "setup:elastic": "NODE_ENV=${npm_config_env} node --experimental-specifier-resolution=node src/setup/elastic.js",
+    "docs:build": "swagger-cli bundle src/openapi/api.yml --outfile docs/reference/api.yml --type yaml && swagger-cli bundle src/openapi/auth.yml --outfile docs/reference/auth.yml --type yaml",
+    "api:test": "NODE_ENV=testing node --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --runInBand",
+    "api:dev": "NODE_ENV=development PORT=${npm_config_port} nodemon --experimental-specifier-resolution=node index.js",
+    "api:start": "NODE_ENV=${npm_config_env} PORT=${npm_config_port} node --experimental-specifier-resolution=node index.js",
+    "test": "npm run docs:build && npm run setup:mongodb --env=testing && npm run api:test",
+    "start": "npm run docs:build && npm run setup:mongodb --env=development && npm run setup:storage --env=development && npm run api:dev",
+    "start:staging": "npm run docs:build  && npm run api:start --env=staging",
+    "start:production": "npm run docs:build && npm run api:start --env=production"
   },
   "keywords": [
     "paysage"

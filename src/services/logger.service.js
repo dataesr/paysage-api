@@ -1,9 +1,8 @@
 import winston from 'winston';
-import config from '../config/app.config';
+import config from '../config';
 
 const { combine, printf, colorize, timestamp, errors } = winston.format;
 const { Console } = winston.transports;
-
 const { logLevel } = config.logger;
 
 const format = combine(
@@ -16,9 +15,13 @@ const format = combine(
   }),
 );
 
-export default winston.createLogger({
+const defaultMeta = (['api', 'indexers'].includes(process.env.ENTRYPOINT)) ? { service: process.env.ENTRYPOINT.toUpperCase() } : null;
+
+const logger = winston.createLogger({
   level: logLevel,
   format: errors({ stack: true }),
   transports: [new Console({ format })],
-  defaultMeta: { service: process.env.ENTRYPOINT.toUpperCase() },
+  defaultMeta,
 });
+
+export default logger;
