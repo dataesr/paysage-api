@@ -1,6 +1,7 @@
 import 'dotenv/config';
-import db, { client } from '../services/mongo.service';
+
 import logger from '../services/logger.service';
+import db, { client } from '../services/mongo.service';
 
 async function setupDatabase() {
   await db.collection('categories').createIndex({ id: 1 }, { unique: true });
@@ -12,14 +13,13 @@ async function setupDatabase() {
   await db.collection('prices').createIndex({ id: 1 }, { unique: true });
   await db.collection('strctures').createIndex({ id: 1 }, { unique: true });
   await db.collection('terms').createIndex({ id: 1 }, { unique: true });
-  logger.info('mongodb setup successfull');
+  logger.info('Mongodb setup successfull');
   if (client) client.close();
-  logger.info('mongodb connexion closed');
+  logger.info('Mongodb connexion closed');
   process.exit(0);
 }
 
 setupDatabase().catch((e) => {
-  e.message = 'mongodb setup failed';
-  logger.error(e);
+  logger.error({ ...e, message: 'Mongodb setup failed' });
   process.exit(1);
 });
