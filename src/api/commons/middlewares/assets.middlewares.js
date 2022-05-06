@@ -1,5 +1,5 @@
 import storage from 'swift/storage';
-import config from '../../../config/app.config';
+import config from '../../../config';
 import swift from '../../../services/storage.service';
 import { NotFoundError, ServerError } from '../../../libs/http-errors';
 

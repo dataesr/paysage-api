@@ -1,0 +1,36 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - dev
+      - staging
+      - main
+  pull_request:
+    branches:
+      - dev
+
+env:
+  DEPLOYMENT_URL: https://docs.paysage.dataesr.ovh/docs/paysage-api-1
+  SLACK_NOTIFICATION_CHANNEL: '#paysage-bot'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: docker-compose up --build --exit-code-from app
+
+  notify:
+    needs: tests
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dataesr/slack-notifier-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN}}
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          slack_channel: ${{ env.SLACK_NOTIFICATION_CHANNEL}}
+          deployment_url: ${{ env.DEPLOYMENT_URL }}
