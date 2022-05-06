@@ -12,7 +12,7 @@ const production = {
     index: 'paysage-prod',
   },
   objectStorage: {
-    creds: {
+    credentials: {
       authUrl: process.env.OVH_AUTH_URL,
       username: process.env.OVH_USERNAME,
       password: process.env.OVH_PASSWORD,
