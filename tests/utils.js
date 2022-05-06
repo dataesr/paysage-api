@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import config from '../src/config/app.config';
+import config from '../src/config';
 
 const { jwtSecret } = config;
 
