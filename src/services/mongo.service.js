@@ -1,6 +1,6 @@
 import mongodb from 'mongodb';
 
-import config from '../config/app.config';
+import config from '../config';
 import logger from './logger.service';
 
 const { mongoUri, mongoDbName } = config.database;
