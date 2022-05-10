@@ -1,6 +1,7 @@
 import express from 'express';
 import { patchCtx } from '../../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import status from './status.resource';
 import { validateStatusPayload } from './status.middlewares';
 
@@ -12,6 +13,7 @@ router.route('/structures/:id/status')
     patchCtx,
     validateStatusPayload,
     status.controllers.patch,
+    saveInStore('structures'),
   ]);
 
 export default router;

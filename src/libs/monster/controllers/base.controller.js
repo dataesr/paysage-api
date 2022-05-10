@@ -10,21 +10,6 @@ class BaseController {
     this._storeContext = storeContext;
   }
 
-  _saveInStore = async ({ action, id, path, previousState = {}, user }) => {
-    if (this._eventStore) {
-      const nextState = action === 'delete' ? {} : await this._repository.get(id, { useQuery: 'writeQuery' });
-      this._eventStore.create({
-        action,
-        actor: user,
-        collection: this._repository.collectionName,
-        id,
-        nextState,
-        previousState,
-        resource: path,
-      });
-    }
-  };
-
   _getId = async (id) => {
     let myId;
     if (!id) {
@@ -57,13 +42,13 @@ class BaseController {
       !req.body
       || !Object.keys(req.body).length
     ) throw new BadRequestError('Payload missing');
-    const { body, ctx, path } = req;
+    const { body, ctx } = req;
     let { id } = ctx || {};
-    const { user } = ctx || {};
     id = this._getId(id);
     const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
     await this._repository.create(data);
-    await this._saveInStore({ action: 'create', id, path, user });
+    const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
+    req.event = { action: 'create', id, nextState };
     return this.read({ params: { id, statusCode: 201 } }, res, next);
   };
 
@@ -72,29 +57,26 @@ class BaseController {
       !req.body
       || !Object.keys(req.body).length
     ) throw new BadRequestError('Payload missing');
-    const { ctx, params, path } = req;
-    const { user } = ctx || {};
+    const { ctx, params } = req;
     const { id } = params || {};
     const previousState = await this._repository.get(id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
     const { ok } = await this._repository.patch(id, data);
     if (ok) {
-      await this._saveInStore({ action: 'patch', id, path, previousState, user });
+      const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
+      req.event = { action: 'patch', id, nextState, previousState };
     }
     return this.read({ params: { id } }, res, next);
   };
 
   delete = async (req, res, next) => {
-    const { ctx, params, path } = req;
-    const { user } = ctx || {};
+    const { params } = req;
     const { id } = params || {};
     const previousState = await this._repository.get(id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.remove(id);
-    if (ok) {
-      await this._saveInStore({ action: 'delete', id, path, previousState, user });
-    }
+    req.event = ok ? { action: 'delete', id, previousState } : {};
     res.status(204).json();
     return next();
   };

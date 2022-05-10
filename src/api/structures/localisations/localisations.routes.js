@@ -1,6 +1,7 @@
 import express from 'express';
 import { createCtx, patchCtx } from '../../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { setGeoJSON, validatePhoneNumber } from './localisations.middlewares';
 import localisations from './localisations.resource';
 
@@ -14,6 +15,7 @@ router.route('/structures/:resourceId/localisations')
     setGeoJSON,
     validatePhoneNumber,
     localisations.controllers.create,
+    saveInStore('structures'),
   ]);
 
 router.route('/structures/:resourceId/localisations/:id')
@@ -21,6 +23,7 @@ router.route('/structures/:resourceId/localisations/:id')
     requireActiveUser,
     patchCtx,
     localisations.controllers.delete,
+    saveInStore('structures'),
   ])
   .get(localisations.controllers.read)
   .patch([
@@ -29,6 +32,7 @@ router.route('/structures/:resourceId/localisations/:id')
     setGeoJSON,
     validatePhoneNumber,
     localisations.controllers.patch,
+    saveInStore('structures'),
   ]);
 
 export default router;
