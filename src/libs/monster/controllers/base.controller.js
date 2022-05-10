@@ -43,7 +43,7 @@ class BaseController {
     ) throw new BadRequestError('Payload missing');
     const { body, ctx } = req;
     let { id } = ctx || {};
-    id = this._getId(id);
+    id = await this._getId(id);
     const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
     await this._repository.create(data);
     const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
