@@ -1,5 +1,5 @@
 import express from 'express';
-import { createCtx, patchCtx, setPutIdInContext } from '../../commons/middlewares/context.middleware';
+import { createCtx, patchCtx, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { fromPayloadToStructure, validateStructureCreatePayload } from './root.middlewares';

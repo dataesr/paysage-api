@@ -1,6 +1,6 @@
 import express from 'express';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx, setPutIdInContext } from '../../commons/middlewares/context.middleware';
+import { patchCtx, createCtx, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import categories from './root.resource';
 import { validatePayload } from './root.middlewares';
