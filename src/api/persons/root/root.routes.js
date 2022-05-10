@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx } from '../../commons/middlewares/context.middleware';
+import { patchCtx, createCtx } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import persons from './root.resource';
 

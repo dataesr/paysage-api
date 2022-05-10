@@ -1,6 +1,6 @@
 import express from 'express';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middleware';
+import { patchCtx, createCtx, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import logos from './logos.resource';
 import { setFileInfo, saveFile, deleteFile } from './logos.middlewares';
