@@ -48,7 +48,7 @@ class NestedController {
     let { id } = ctx || {};
     const { resourceId } = params || {};
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
-    id = this._getId(id);
+    id = await this._getId(id);
     const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
     await this._repository.create(resourceId, data);
     const nextState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
