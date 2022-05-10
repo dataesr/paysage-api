@@ -1,6 +1,7 @@
 import express from 'express';
 import { createCtx, patchCtx } from '../../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from './categories.middlewares';
 import categories from './categories.resource';
 
@@ -13,6 +14,7 @@ router.route('/structures/:resourceId/categories')
     validatePayload,
     createCtx,
     categories.controllers.create,
+    saveInStore('structures'),
   ]);
 
 router.route('/structures/:resourceId/categories/:id')
@@ -20,6 +22,7 @@ router.route('/structures/:resourceId/categories/:id')
     requireActiveUser,
     patchCtx,
     categories.controllers.delete,
+    saveInStore('structures'),
   ])
   .get(categories.controllers.read)
   .patch([
@@ -27,6 +30,7 @@ router.route('/structures/:resourceId/categories/:id')
     validatePayload,
     patchCtx,
     categories.controllers.patch,
+    saveInStore('structures'),
   ]);
 
 export default router;

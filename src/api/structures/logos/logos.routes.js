@@ -1,6 +1,7 @@
 import express from 'express';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middleware';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import logos from './logos.resource';
 import { setFileInfo, saveFile, deleteFile } from './logos.middlewares';
 
@@ -15,6 +16,7 @@ router.route('/structures/:resourceId/logos')
     setFileInfo,
     saveFile,
     logos.controllers.create,
+    saveInStore('structures'),
   ]);
 
 router.route('/structures/:resourceId/logos/:id')
@@ -25,12 +27,14 @@ router.route('/structures/:resourceId/logos/:id')
     setFileInfo,
     saveFile,
     logos.controllers.patch,
+    saveInStore('structures'),
   ])
   .delete([
     requireActiveUser,
     patchCtx,
     deleteFile,
     logos.controllers.delete,
+    saveInStore('structures'),
   ]);
 
 export default router;
