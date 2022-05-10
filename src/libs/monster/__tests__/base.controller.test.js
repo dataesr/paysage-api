@@ -288,20 +288,3 @@ describe('delete method', () => {
     spyEventStoreCreate.mockRestore();
   });
 });
-
-describe('events method', () => {
-  it('should filter event from catalog', async () => {
-    args = [
-      { query: { filters: { my_filter: 'filter_example' }, other: 'other_value' }, params: { id: 42 } },
-      mockResponse(),
-      () => ({}),
-    ];
-    baseController = new BaseController({}, { eventStore: { find: () => ({}) } });
-    const spy = jest.spyOn(baseController._eventStore, 'find');
-    const events = await baseController.events(...args);
-    expect(events).toEqual({});
-    expect(spy).toBeCalledTimes(1);
-    expect(spy).toBeCalledWith({ filters: { id: 42, my_filter: 'filter_example' }, other: 'other_value', useQuery: 'readQuery' });
-    spy.mockRestore();
-  });
-});
