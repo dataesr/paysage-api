@@ -10,25 +10,6 @@ class NestedController {
     this._storeContext = storeContext;
   }
 
-  _saveInStore = async ({
-    action, id, path, previousState = {}, resourceId, user,
-  }) => {
-    if (this._eventStore) {
-      const nextState = action === 'delete' ? {} : await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
-      this._eventStore.create({
-        action,
-        actor: user,
-        collection: this._repository.collectionName,
-        field: this._repository.fieldName,
-        fieldId: id,
-        id: resourceId,
-        nextState,
-        previousState,
-        resource: path,
-      });
-    }
-  };
-
   _getId = async (id) => {
     let myId;
     if (!id) {
