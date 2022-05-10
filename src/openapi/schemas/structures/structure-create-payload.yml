@@ -67,7 +67,7 @@ properties:
     type: array
     items:
       type: string
-  legelCategory:
+  legalCategory:
     type: string
   cityId:
     type: string
