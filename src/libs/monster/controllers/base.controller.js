@@ -80,19 +80,6 @@ class BaseController {
     res.status(204).json();
     return next();
   };
-
-  events = async (req, res, next) => {
-    const { query } = req;
-    const { id } = req.params;
-    const { filters, ...options } = query;
-    const { data, totalCount = 0 } = await this._eventStore.find({
-      ...options,
-      useQuery: 'readQuery',
-      filters: { ...filters, id },
-    });
-    res.status(200).json({ data, totalCount });
-    return next();
-  };
 }
 
 export default BaseController;
