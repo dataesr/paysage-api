@@ -15,8 +15,8 @@ class Resource {
       ? new NestedMongoRepository({ db, collection, field, queries })
       : new BaseMongoRepository({ db, collection, queries });
     this.controllers = (field)
-      ? new NestedController(this.repository, { storeContext, eventStore, catalog })
-      : new BaseController(this.repository, { storeContext, eventStore, catalog });
+      ? new NestedController(this.repository, { storeContext, catalog })
+      : new BaseController(this.repository, { storeContext, catalog });
   }
 }
 
