@@ -1,4 +1,4 @@
-import config from '../../../config/app.config';
+import config from '../../../config';
 import logger from '../../../services/logger.service';
 import elastic from '../../../services/elastic.service';
 
@@ -27,3 +27,5 @@ class Indexer {
     }
   };
 }
+
+export default Indexer;
