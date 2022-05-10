@@ -16,10 +16,9 @@ const mockResponse = () => {
 };
 
 describe('constructor', () => {
-  it('should have undefined catalog, eventStore and storeContext by default', () => {
+  it('should have undefined catalog, repository and storeContext by default', () => {
     baseController = new BaseController({});
     expect(baseController._catalog).toBeUndefined();
-    expect(baseController._eventStore).toBeUndefined();
     expect(baseController._repository).not.toBeUndefined();
     expect(baseController._storeContext).toBeUndefined();
   });
@@ -115,32 +114,15 @@ describe('create method', () => {
     expect(create).rejects.toThrow(NotFoundError);
   });
 
-  it('should return a newly created document without adding event in the store', async () => {
+  it('should return a newly created document', async () => {
     const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
     const spyRepositoryCreate = jest.spyOn(baseController._repository, 'create');
     const create = await baseController.create(...args);
     expect(create).toEqual({});
-    expect(spyRepositoryGet).toBeCalledTimes(1);
-    expect(spyRepositoryCreate).toBeCalledTimes(1);
-    expect(baseController._eventStore).toBeUndefined();
-    spyRepositoryGet.mockRestore();
-    spyRepositoryCreate.mockRestore();
-  });
-
-  it('should create a new document and add event in the store', async () => {
-    const mockedBaseController = new BaseController(baseMongoRepository, { eventStore: { create: () => {} } });
-    const spyRepositoryGet = jest.spyOn(mockedBaseController._repository, 'get');
-    const spyRepositoryCreate = jest.spyOn(baseController._repository, 'create');
-    const spyEventStoreCreate = jest.spyOn(mockedBaseController._eventStore, 'create');
-    const create = await mockedBaseController.create(...args);
-    expect(create).toEqual({});
     expect(spyRepositoryGet).toBeCalledTimes(2);
     expect(spyRepositoryCreate).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledWith(expect.objectContaining({ action: 'create', id: 42 }));
     spyRepositoryGet.mockRestore();
     spyRepositoryCreate.mockRestore();
-    spyEventStoreCreate.mockRestore();
   });
 
   it('should get id from mongo if no id in context and no catalog', async () => {
@@ -208,32 +190,16 @@ describe('patch method', () => {
     expect(patch).rejects.toThrow(NotFoundError);
   });
 
-  it('should return a patched document without adding event in the store', async () => {
+  it('should return a patched document', async () => {
     const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
     const spyRepositoryPatch = jest.spyOn(baseController._repository, 'patch');
+    expect(spyRepositoryGet).toBeCalledTimes(0);
     const patch = await baseController.patch(...args);
-    expect(patch).toEqual({});
-    expect(spyRepositoryGet).toBeCalledTimes(2);
-    expect(spyRepositoryPatch).toBeCalledTimes(1);
-    expect(baseController._eventStore).toBeUndefined();
-    spyRepositoryGet.mockRestore();
-    spyRepositoryPatch.mockRestore();
-  });
-
-  it('should patch a document and add event in the store', async () => {
-    const mockedBaseController = new BaseController(baseMongoRepository, { eventStore: { create: () => {} } });
-    const spyRepositoryGet = jest.spyOn(mockedBaseController._repository, 'get');
-    const spyRepositoryPatch = jest.spyOn(mockedBaseController._repository, 'patch');
-    const spyEventStoreCreate = jest.spyOn(mockedBaseController._eventStore, 'create');
-    const patch = await mockedBaseController.patch(...args);
     expect(patch).toEqual({});
     expect(spyRepositoryGet).toBeCalledTimes(3);
     expect(spyRepositoryPatch).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledWith(expect.objectContaining({ action: 'patch', id: 42 }));
     spyRepositoryGet.mockRestore();
     spyRepositoryPatch.mockRestore();
-    spyEventStoreCreate.mockRestore();
   });
 });
 
@@ -260,31 +226,14 @@ describe('delete method', () => {
     expect(remove).rejects.toThrow(NotFoundError);
   });
 
-  it('should delete the resource without adding event in the store', async () => {
+  it('should delete the resource', async () => {
     const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
     const spyRepositoryRemove = jest.spyOn(baseController._repository, 'remove');
     const remove = await baseController.delete(...args);
     expect(remove).toEqual({});
     expect(spyRepositoryGet).toBeCalledTimes(1);
     expect(spyRepositoryRemove).toBeCalledTimes(1);
-    expect(baseController._eventStore).toBeUndefined();
     spyRepositoryGet.mockRestore();
     spyRepositoryRemove.mockRestore();
-  });
-
-  it('should delete the resource and add event in the store', async () => {
-    const mockedBaseController = new BaseController(baseMongoRepository, { eventStore: { create: () => {} } });
-    const spyRepositoryGet = jest.spyOn(mockedBaseController._repository, 'get');
-    const spyRepositoryRemove = jest.spyOn(mockedBaseController._repository, 'remove');
-    const spyEventStoreCreate = jest.spyOn(mockedBaseController._eventStore, 'create');
-    const remove = await mockedBaseController.delete(...args);
-    expect(remove).toEqual({});
-    expect(spyRepositoryGet).toBeCalledTimes(1);
-    expect(spyRepositoryRemove).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledWith(expect.objectContaining({ action: 'delete', id: 42 }));
-    spyRepositoryGet.mockRestore();
-    spyRepositoryRemove.mockRestore();
-    spyEventStoreCreate.mockRestore();
   });
 });

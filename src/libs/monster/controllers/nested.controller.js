@@ -3,9 +3,8 @@ import mongodb from 'mongodb';
 import { BadRequestError, NotFoundError } from '../../http-errors';
 
 class NestedController {
-  constructor(repository, { catalog, eventStore, storeContext } = {}) {
+  constructor(repository, { catalog, storeContext } = {}) {
     this._catalog = catalog;
-    this._eventStore = eventStore;
     this._repository = repository;
     this._storeContext = storeContext;
   }

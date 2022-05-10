@@ -16,10 +16,9 @@ const mockResponse = () => {
 };
 
 describe('constructor', () => {
-  it('should have undefined catalog, eventStore and storeContext by default', () => {
+  it('should have undefined catalog, repository and storeContext by default', () => {
     nestedController = new NestedController({});
     expect(nestedController._catalog).toBeUndefined();
-    expect(nestedController._eventStore).toBeUndefined();
     expect(nestedController._repository).not.toBeUndefined();
     expect(nestedController._storeContext).toBeUndefined();
   });
@@ -114,32 +113,15 @@ describe('create method', () => {
     expect(create).rejects.toThrow(NotFoundError);
   });
 
-  it('should return a newly created document without adding event in the store', async () => {
+  it('should return a newly created document', async () => {
     const spyRepositoryGet = jest.spyOn(nestedController._repository, 'get');
     const spyRepositoryCreate = jest.spyOn(nestedController._repository, 'create');
     const create = await nestedController.create(...args);
     expect(create).toEqual({});
-    expect(spyRepositoryGet).toBeCalledTimes(1);
-    expect(spyRepositoryCreate).toBeCalledTimes(1);
-    expect(nestedController._eventStore).toBeUndefined();
-    spyRepositoryGet.mockRestore();
-    spyRepositoryCreate.mockRestore();
-  });
-
-  it('should create a new document and add event in the store', async () => {
-    const mockedNestedController = new NestedController(nestedMongoRepository, { eventStore: { create: () => {} } });
-    const spyRepositoryGet = jest.spyOn(mockedNestedController._repository, 'get');
-    const spyRepositoryCreate = jest.spyOn(nestedController._repository, 'create');
-    const spyEventStoreCreate = jest.spyOn(mockedNestedController._eventStore, 'create');
-    const create = await mockedNestedController.create(...args);
-    expect(create).toEqual({});
     expect(spyRepositoryGet).toBeCalledTimes(2);
     expect(spyRepositoryCreate).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledWith(expect.objectContaining({ action: 'create', fieldId: 42 }));
     spyRepositoryGet.mockRestore();
     spyRepositoryCreate.mockRestore();
-    spyEventStoreCreate.mockRestore();
   });
 
   it('should get id from mongo if no id in context and no catalog', async () => {
@@ -209,32 +191,15 @@ describe('patch method', () => {
     expect(patch).rejects.toThrow(NotFoundError);
   });
 
-  it('should return a patched document without adding event in the store', async () => {
+  it('should return a patched document', async () => {
     const spyRepositoryGet = jest.spyOn(nestedController._repository, 'get');
     const spyRepositoryPatch = jest.spyOn(nestedController._repository, 'patch');
     const patch = await nestedController.patch(...args);
     expect(patch).toEqual({});
-    expect(spyRepositoryGet).toBeCalledTimes(2);
-    expect(spyRepositoryPatch).toBeCalledTimes(1);
-    expect(nestedController._eventStore).toBeUndefined();
-    spyRepositoryGet.mockRestore();
-    spyRepositoryPatch.mockRestore();
-  });
-
-  it('should patch a document and add event in the store', async () => {
-    const mockedNestedController = new NestedController(nestedMongoRepository, { eventStore: { create: () => {} } });
-    const spyRepositoryGet = jest.spyOn(mockedNestedController._repository, 'get');
-    const spyRepositoryPatch = jest.spyOn(mockedNestedController._repository, 'patch');
-    const spyEventStoreCreate = jest.spyOn(mockedNestedController._eventStore, 'create');
-    const patch = await mockedNestedController.patch(...args);
-    expect(patch).toEqual({});
     expect(spyRepositoryGet).toBeCalledTimes(3);
     expect(spyRepositoryPatch).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledWith(expect.objectContaining({ action: 'patch', fieldId: 42 }));
     spyRepositoryGet.mockRestore();
     spyRepositoryPatch.mockRestore();
-    spyEventStoreCreate.mockRestore();
   });
 });
 
@@ -262,31 +227,14 @@ describe('delete method', () => {
     expect(remove).rejects.toThrow(NotFoundError);
   });
 
-  it('should delete the resource without adding event in the store', async () => {
+  it('should delete the resource', async () => {
     const spyRepositoryGet = jest.spyOn(nestedController._repository, 'get');
     const spyRepositoryRemove = jest.spyOn(nestedController._repository, 'remove');
     const remove = await nestedController.delete(...args);
     expect(remove).toEqual({});
     expect(spyRepositoryGet).toBeCalledTimes(1);
     expect(spyRepositoryRemove).toBeCalledTimes(1);
-    expect(nestedController._eventStore).toBeUndefined();
     spyRepositoryGet.mockRestore();
     spyRepositoryRemove.mockRestore();
-  });
-
-  it('should delete the resource and add event in the store', async () => {
-    const mockedNestedController = new NestedController(nestedMongoRepository, { eventStore: { create: () => {} } });
-    const spyRepositoryGet = jest.spyOn(mockedNestedController._repository, 'get');
-    const spyRepositoryRemove = jest.spyOn(mockedNestedController._repository, 'remove');
-    const spyEventStoreCreate = jest.spyOn(mockedNestedController._eventStore, 'create');
-    const remove = await mockedNestedController.delete(...args);
-    expect(remove).toEqual({});
-    expect(spyRepositoryGet).toBeCalledTimes(1);
-    expect(spyRepositoryRemove).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledTimes(1);
-    expect(spyEventStoreCreate).toBeCalledWith(expect.objectContaining({ action: 'delete', fieldId: 42 }));
-    spyRepositoryGet.mockRestore();
-    spyRepositoryRemove.mockRestore();
-    spyEventStoreCreate.mockRestore();
   });
 });
