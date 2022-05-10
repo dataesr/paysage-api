@@ -1,5 +1,4 @@
 import jest from 'jest-mock';
-import mongodb from 'mongodb';
 
 import NestedController from '../controllers/nested.controller';
 import { BadRequestError, NotFoundError } from '../../http-errors';
@@ -122,14 +121,6 @@ describe('create method', () => {
     expect(spyRepositoryCreate).toBeCalledTimes(1);
     spyRepositoryGet.mockRestore();
     spyRepositoryCreate.mockRestore();
-  });
-
-  it('should get id from mongo if no id in context and no catalog', async () => {
-    args[0].ctx = {};
-    const spy = jest.spyOn(mongodb, 'ObjectId').mockImplementation(() => 42);
-    await nestedController.create(...args);
-    expect(spy).toBeCalled();
-    spy.mockRestore();
   });
 
   it('should get an id from catalog if no id but existing catalog', async () => {
