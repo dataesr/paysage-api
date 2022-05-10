@@ -1,7 +1,7 @@
 import { db } from '../services/mongo.service';
 import elastic from '../services/elastic.service';
 import logger from '../services/logger.service';
-import config from '../config/app.config';
+import config from '../config';
 import categories from '../api/categories/root/root.resource';
 import structures from '../api/structures/root/root.resource';
 
