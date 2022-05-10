@@ -1,5 +1,3 @@
-import mongodb from 'mongodb';
-
 import { BadRequestError, NotFoundError } from '../../http-errors';
 
 class NestedController {
@@ -8,18 +6,6 @@ class NestedController {
     this._repository = repository;
     this._storeContext = storeContext;
   }
-
-  _getId = async (id) => {
-    let myId;
-    if (!id) {
-      myId = (this._catalog)
-        ? await this._catalog.getUniqueId(this._repository.collectionName)
-        : mongodb.ObjectId();
-    } else {
-      myId = id;
-    }
-    return myId;
-  };
 
   read = async (req, res, next) => {
     const { id, resourceId, statusCode = 200 } = req.params;
@@ -48,7 +34,7 @@ class NestedController {
     let { id } = ctx || {};
     const { resourceId } = params || {};
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
-    id = await this._getId(id);
+    id = id || await this._catalog.getUniqueId(this._repository.collectionName);
     const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
     await this._repository.create(resourceId, data);
     const nextState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
