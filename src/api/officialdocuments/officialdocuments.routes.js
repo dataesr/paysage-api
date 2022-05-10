@@ -1,6 +1,7 @@
 import express from 'express';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
+import { saveInStore } from '../commons/middlewares/event.middlewares';
 import officialDocuments from './officialdocuments.resource';
 
 const router = new express.Router();
@@ -11,6 +12,7 @@ router.route('/officialdocuments')
     requireActiveUser,
     createCtx,
     officialDocuments.controllers.create,
+    saveInStore('official-documents'),
   ]);
 
 router.route('/officialdocuments/:id')
@@ -19,11 +21,13 @@ router.route('/officialdocuments/:id')
     requireActiveUser,
     patchCtx,
     officialDocuments.controllers.patch,
+    saveInStore('official-documents'),
   ])
   .delete([
     requireActiveUser,
     patchCtx,
     officialDocuments.controllers.delete,
+    saveInStore('official-documents'),
   ]);
 
 export default router;

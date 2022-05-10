@@ -1,6 +1,7 @@
 import express from 'express';
 import { createCtx, patchCtx } from '../../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from './mesricontacts.middlewares';
 import mesricontacts from './mesricontacts.resource';
 
@@ -13,6 +14,7 @@ router.route('/structures/:resourceId/mesricontacts')
     validatePayload,
     createCtx,
     mesricontacts.controllers.create,
+    saveInStore('structures'),
   ]);
 
 router.route('/structures/:resourceId/mesricontacts/:id')
@@ -20,6 +22,7 @@ router.route('/structures/:resourceId/mesricontacts/:id')
     requireActiveUser,
     patchCtx,
     mesricontacts.controllers.delete,
+    saveInStore('structures'),
   ])
   .get(mesricontacts.controllers.read)
   .patch([
@@ -27,6 +30,7 @@ router.route('/structures/:resourceId/mesricontacts/:id')
     validatePayload,
     patchCtx,
     mesricontacts.controllers.patch,
+    saveInStore('structures'),
   ]);
 
 export default router;

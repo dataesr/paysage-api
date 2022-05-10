@@ -1,6 +1,7 @@
 import express from 'express';
 import { createCtx, patchCtx } from '../../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from './leaders.middlewares';
 import leaders from './leaders.resource';
 
@@ -13,6 +14,7 @@ router.route('/structures/:resourceId/leaders')
     validatePayload,
     createCtx,
     leaders.controllers.create,
+    saveInStore('structures'),
   ]);
 
 router.route('/structures/:resourceId/leaders/:id')
@@ -20,6 +22,7 @@ router.route('/structures/:resourceId/leaders/:id')
     requireActiveUser,
     patchCtx,
     leaders.controllers.delete,
+    saveInStore('structures'),
   ])
   .get(leaders.controllers.read)
   .patch([
@@ -27,6 +30,7 @@ router.route('/structures/:resourceId/leaders/:id')
     validatePayload,
     patchCtx,
     leaders.controllers.patch,
+    saveInStore('structures'),
   ]);
 
 export default router;
