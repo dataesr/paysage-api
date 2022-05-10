@@ -42,11 +42,11 @@ class BaseController {
       !req.body
       || !Object.keys(req.body).length
     ) throw new BadRequestError('Payload missing');
-    const { ctx, params } = req;
+    const { body, ctx, params } = req;
     const { id } = params || {};
     const previousState = await this._repository.get(id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
-    const data = this._storeContext ? { ...req.body, ...ctx } : { ...req.body };
+    const data = this._storeContext ? { ...body, ...ctx } : { ...body };
     const { ok } = await this._repository.patch(id, data);
     if (ok) {
       const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
