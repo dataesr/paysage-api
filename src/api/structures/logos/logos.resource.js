@@ -1,4 +1,4 @@
-import db from '../../../services/mongo.service';
+import { db } from '../../../services/mongo.service';
 import { Resource } from '../../../libs/monster';
 import { eventStore, internalCatalog as catalog } from '../../commons/monster';
 import queries from './logos.queries';

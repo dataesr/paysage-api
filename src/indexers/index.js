@@ -1,4 +1,4 @@
-import db from '../services/mongo.service';
+import { db } from '../services/mongo.service';
 import elastic from '../services/elastic.service';
 import logger from '../services/logger.service';
 import config from '../config/app.config';
