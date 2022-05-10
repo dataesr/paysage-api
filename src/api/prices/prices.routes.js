@@ -1,6 +1,7 @@
 import express from 'express';
 import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
 import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
+import { saveInStore } from '../commons/middlewares/event.middlewares';
 import prices from './prices.resource';
 import { validatePayload } from './prices.middlewares';
 
@@ -13,6 +14,7 @@ router.route('/prices')
     validatePayload,
     createCtx,
     prices.controllers.create,
+    saveInStore('prices'),
   ]);
 
 router.route('/prices/:id')
@@ -22,11 +24,13 @@ router.route('/prices/:id')
     patchCtx,
     validatePayload,
     prices.controllers.patch,
+    saveInStore('prices'),
   ])
   .delete([
     requireActiveUser,
     patchCtx,
     prices.controllers.delete,
+    saveInStore('prices'),
   ]);
 
 export default router;

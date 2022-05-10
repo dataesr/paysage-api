@@ -1,6 +1,7 @@
 import express from 'express';
 import { createCtx, patchCtx, setPutIdInContext } from '../../commons/middlewares/context.middleware';
 import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { fromPayloadToStructure, validateStructureCreatePayload } from './root.middlewares';
 import structures from './root.resource';
 
@@ -14,6 +15,7 @@ router.route('/structures')
     validateStructureCreatePayload,
     fromPayloadToStructure,
     structures.controllers.create,
+    saveInStore('structures'),
   ]);
 
 router.route('/structures/:id')
@@ -22,11 +24,13 @@ router.route('/structures/:id')
     requireActiveUser,
     patchCtx,
     structures.controllers.patch,
+    saveInStore('structures'),
   ])
   .delete([
     requireActiveUser,
     patchCtx,
     structures.controllers.delete,
+    saveInStore('structures'),
   ])
   .put([
     requireActiveUser,

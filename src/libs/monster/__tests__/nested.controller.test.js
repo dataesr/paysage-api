@@ -1,11 +1,11 @@
 import jest from 'jest-mock';
 
-import BaseController from '../controllers/base.controller';
+import NestedController from '../controllers/nested.controller';
 import { BadRequestError, NotFoundError } from '../../http-errors';
 
 let args;
-let baseController;
-let baseMongoRepository;
+let nestedController;
+let nestedMongoRepository;
 
 const mockResponse = () => {
   const res = {};
@@ -16,20 +16,21 @@ const mockResponse = () => {
 
 describe('constructor', () => {
   it('should have undefined catalog, repository and storeContext by default', () => {
-    baseController = new BaseController({});
-    expect(baseController._catalog).toBeUndefined();
-    expect(baseController._repository).not.toBeUndefined();
-    expect(baseController._storeContext).toBeUndefined();
+    nestedController = new NestedController({});
+    expect(nestedController._catalog).toBeUndefined();
+    expect(nestedController._repository).not.toBeUndefined();
+    expect(nestedController._storeContext).toBeUndefined();
   });
 });
 
 describe('read method', () => {
   beforeAll(() => {
-    baseMongoRepository = {
+    nestedMongoRepository = {
+      checkResource: () => ({}),
       get: () => ({}),
       read: () => ({}),
     };
-    baseController = new BaseController(baseMongoRepository);
+    nestedController = new NestedController(nestedMongoRepository);
   });
 
   beforeEach(() => {
@@ -41,17 +42,14 @@ describe('read method', () => {
   });
 
   it('should throw a NotFoundError if the resource does not exist', () => {
-    const mockedBaseController = new BaseController({ get: () => null });
-    const spy = jest.spyOn(mockedBaseController._repository, 'get');
-    const read = async () => { await mockedBaseController.read(...args); };
+    const mockedNestedController = new NestedController({ checkResource: () => ({}), get: () => null });
+    const read = async () => { await mockedNestedController.read(...args); };
     expect(read).rejects.toThrow(NotFoundError);
-    expect(spy).toBeCalledTimes(1);
-    spy.mockRestore();
   });
 
   it('should return the read resource', async () => {
-    const spy = jest.spyOn(baseController._repository, 'get');
-    const read = await baseController.read(...args);
+    const spy = jest.spyOn(nestedController._repository, 'get');
+    const read = await nestedController.read(...args);
     expect(read).toEqual({});
     expect(spy).toBeCalledTimes(1);
     spy.mockRestore();
@@ -66,9 +64,9 @@ describe('list method', () => {
       () => ({}),
     ];
     const findResult = { data: ['my_data'], totalCount: 12 };
-    baseController = new BaseController({ find: () => (findResult) });
-    const spy = jest.spyOn(baseController._repository, 'find');
-    const list = await baseController.list(...args);
+    nestedController = new NestedController({ checkResource: () => ({}), find: () => (findResult) });
+    const spy = jest.spyOn(nestedController._repository, 'find');
+    const list = await nestedController.list(...args);
     expect(list).toEqual({});
     expect(spy).toBeCalledTimes(1);
     expect(spy).toBeCalledWith({ my_query: 'example_query', useQuery: 'readQuery' });
@@ -78,11 +76,12 @@ describe('list method', () => {
 
 describe('create method', () => {
   beforeAll(() => {
-    baseMongoRepository = {
+    nestedMongoRepository = {
+      checkResource: () => ({}),
       create: () => ({}),
       get: () => ({}),
     };
-    baseController = new BaseController(baseMongoRepository);
+    nestedController = new NestedController(nestedMongoRepository);
   });
 
   beforeEach(() => {
@@ -95,28 +94,28 @@ describe('create method', () => {
 
   it('should throw a BadRequest error if request body is missing', () => {
     args[0] = {};
-    const create = async () => { await baseController.create(...args); };
+    const create = async () => { await nestedController.create(...args); };
     expect(create).rejects.toThrow(BadRequestError);
     expect(create).rejects.toThrow('Payload missing');
   });
 
   it('should throw a BadRequest error if request body is empty', () => {
     args[0] = { body: '' };
-    const create = async () => { await baseController.create(...args); };
+    const create = async () => { await nestedController.create(...args); };
     expect(create).rejects.toThrow(BadRequestError);
     expect(create).rejects.toThrow('Payload missing');
   });
 
   it('should throw a NotFoundError the resource is not in the repository after creation', () => {
-    const mockedBaseController = new BaseController({ create: () => {}, get: () => null });
-    const create = async () => { await mockedBaseController.create(...args); };
+    const mockedNestedController = new NestedController({ checkResource: () => ({}), create: () => {}, get: () => null });
+    const create = async () => { await mockedNestedController.create(...args); };
     expect(create).rejects.toThrow(NotFoundError);
   });
 
   it('should return a newly created document', async () => {
-    const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
-    const spyRepositoryCreate = jest.spyOn(baseController._repository, 'create');
-    const create = await baseController.create(...args);
+    const spyRepositoryGet = jest.spyOn(nestedController._repository, 'get');
+    const spyRepositoryCreate = jest.spyOn(nestedController._repository, 'create');
+    const create = await nestedController.create(...args);
     expect(create).toEqual({});
     expect(spyRepositoryGet).toBeCalledTimes(2);
     expect(spyRepositoryCreate).toBeCalledTimes(1);
@@ -126,9 +125,9 @@ describe('create method', () => {
 
   it('should get an id from catalog if no id but existing catalog', async () => {
     args[0].ctx = {};
-    const mockedBaseController = new BaseController(baseMongoRepository, { catalog: { getUniqueId: () => 42 } });
-    const spy = jest.spyOn(mockedBaseController._catalog, 'getUniqueId');
-    await mockedBaseController.create(...args);
+    const mockedNestedController = new NestedController(nestedMongoRepository, { catalog: { getUniqueId: () => 42 } });
+    const spy = jest.spyOn(mockedNestedController._catalog, 'getUniqueId');
+    await mockedNestedController.create(...args);
     expect(spy).toBeCalled();
     spy.mockRestore();
   });
@@ -136,11 +135,12 @@ describe('create method', () => {
 
 describe('patch method', () => {
   beforeAll(() => {
-    baseMongoRepository = {
+    nestedMongoRepository = {
+      checkResource: () => ({}),
       get: () => ({}),
       patch: () => ({ ok: true }),
     };
-    baseController = new BaseController(baseMongoRepository);
+    nestedController = new NestedController(nestedMongoRepository);
   });
 
   beforeEach(() => {
@@ -153,39 +153,39 @@ describe('patch method', () => {
 
   it('should throw a BadRequest error if request body is missing', () => {
     args[0] = {};
-    const patch = async () => { await baseController.patch(...args); };
+    const patch = async () => { await nestedController.patch(...args); };
     expect(patch).rejects.toThrow(BadRequestError);
     expect(patch).rejects.toThrow('Payload missing');
   });
 
   it('should throw a BadRequest error if request body is empty', () => {
     args[0] = { body: '' };
-    const patch = async () => { await baseController.patch(...args); };
+    const patch = async () => { await nestedController.patch(...args); };
     expect(patch).rejects.toThrow(BadRequestError);
     expect(patch).rejects.toThrow('Payload missing');
   });
 
   it('should throw a NotFoundError if req.params.id is not found in repository', () => {
-    const mockedBaseController = new BaseController({ get: () => null });
-    const patch = async () => { await mockedBaseController.patch(...args); };
+    const mockedNestedController = new NestedController({ checkResource: () => ({}), get: () => null });
+    const patch = async () => { await mockedNestedController.patch(...args); };
     expect(patch).rejects.toThrow(NotFoundError);
   });
 
   it('should throw a NotFoundError the resource is not in the repository after patch', () => {
     const mockedBaseMongoRepository = {
+      checkResource: () => ({}),
       get: jest.fn().mockImplementationOnce(() => 42).mockImplementation(() => null),
       patch: () => new Promise((resolve) => { resolve(true); }),
     };
-    const mockedBaseController = new BaseController(mockedBaseMongoRepository);
-    const patch = async () => { await mockedBaseController.patch(...args); };
+    const mockedNestedController = new NestedController(mockedBaseMongoRepository);
+    const patch = async () => { await mockedNestedController.patch(...args); };
     expect(patch).rejects.toThrow(NotFoundError);
   });
 
   it('should return a patched document', async () => {
-    const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
-    const spyRepositoryPatch = jest.spyOn(baseController._repository, 'patch');
-    expect(spyRepositoryGet).toBeCalledTimes(0);
-    const patch = await baseController.patch(...args);
+    const spyRepositoryGet = jest.spyOn(nestedController._repository, 'get');
+    const spyRepositoryPatch = jest.spyOn(nestedController._repository, 'patch');
+    const patch = await nestedController.patch(...args);
     expect(patch).toEqual({});
     expect(spyRepositoryGet).toBeCalledTimes(3);
     expect(spyRepositoryPatch).toBeCalledTimes(1);
@@ -196,11 +196,12 @@ describe('patch method', () => {
 
 describe('delete method', () => {
   beforeAll(() => {
-    baseMongoRepository = {
+    nestedMongoRepository = {
+      checkResource: () => ({}),
       get: () => ({}),
       remove: () => ({ ok: true }),
     };
-    baseController = new BaseController(baseMongoRepository);
+    nestedController = new NestedController(nestedMongoRepository);
   });
 
   beforeEach(() => {
@@ -212,15 +213,15 @@ describe('delete method', () => {
   });
 
   it('should throw a NotFoundError if the resource does not exist', () => {
-    const mockedBaseController = new BaseController({ get: () => null });
-    const remove = async () => { await mockedBaseController.delete(...args); };
+    const mockedNestedController = new NestedController({ checkResource: () => ({}), get: () => null });
+    const remove = async () => { await mockedNestedController.delete(...args); };
     expect(remove).rejects.toThrow(NotFoundError);
   });
 
   it('should delete the resource', async () => {
-    const spyRepositoryGet = jest.spyOn(baseController._repository, 'get');
-    const spyRepositoryRemove = jest.spyOn(baseController._repository, 'remove');
-    const remove = await baseController.delete(...args);
+    const spyRepositoryGet = jest.spyOn(nestedController._repository, 'get');
+    const spyRepositoryRemove = jest.spyOn(nestedController._repository, 'remove');
+    const remove = await nestedController.delete(...args);
     expect(remove).toEqual({});
     expect(spyRepositoryGet).toBeCalledTimes(1);
     expect(spyRepositoryRemove).toBeCalledTimes(1);
