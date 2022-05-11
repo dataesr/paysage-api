@@ -1,35 +1,35 @@
 import express from 'express';
-import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx } from '../commons/middlewares/context.middleware';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middleware';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
-import prices from './prices.resource';
 import { validatePayload } from './prices.middlewares';
+import controllers from '../commons/middlewares/crud.middlewares';
+
+import { readQuery } from './prices.queries';
+import pricesRepository from './prices.repository';
+import { PRICES_COLLECTION } from './prices.config';
 
 const router = new express.Router();
-
 router.route('/prices')
-  .get(prices.controllers.list)
+  .get(controllers.list(pricesRepository, readQuery))
   .post([
-    // requireActiveUser,
     validatePayload,
-    createCtx,
-    prices.controllers.create,
+    createContext,
+    setGeneratedObjectIdInContext(PRICES_COLLECTION),
+    controllers.create(pricesRepository, readQuery),
     saveInStore('prices'),
   ]);
 
 router.route('/prices/:id')
-  .get(prices.controllers.read)
+  .get(controllers.read(pricesRepository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     validatePayload,
-    prices.controllers.patch,
+    controllers.patch(pricesRepository, readQuery),
     saveInStore('prices'),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
-    prices.controllers.delete,
+    patchContext,
+    controllers.remove(pricesRepository),
     saveInStore('prices'),
   ]);
 
