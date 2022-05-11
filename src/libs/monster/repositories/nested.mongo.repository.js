@@ -1,11 +1,7 @@
 import parseSortParams from './helpers';
 
 class NestedMongoRepository {
-  constructor({ db, collection, field }) {
-    if (!collection) { throw new Error("Parameter 'collection' must be specified"); }
-    if (!(typeof collection === 'string' && Object.prototype.toString.call(collection) === '[object String]')) {
-      throw new Error("Parameter 'collection' must be a string");
-    }
+  constructor({ db, collection, field, queries = {} }) {
     if (!field) { throw new Error("Parameter 'field' must be specified"); }
     if (!(typeof field === 'string' && Object.prototype.toString.call(field) === '[object String]')) {
       throw new Error("Parameter 'field' must be a string");
@@ -14,6 +10,7 @@ class NestedMongoRepository {
     this.fieldName = field;
     this._collection = db.collection(collection);
     this._field = field;
+    this._queries = queries;
   }
 
   find = async ({
@@ -48,7 +45,7 @@ class NestedMongoRepository {
     return data[0];
   };
 
-  get = async (resourceId, id, { useQuery } = {}) => {
+  get = async (resourceId, id, { useQuery } = []) => {
     const { data } = await this.find({ resourceId, filters: { id }, limit: 1, useQuery });
     return data ? data[0] : null;
   };

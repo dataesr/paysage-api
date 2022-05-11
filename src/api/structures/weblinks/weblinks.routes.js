@@ -1,33 +1,34 @@
 import express from 'express';
-import { createCtx, patchCtx } from '../../commons/middlewares/context.middleware';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middleware';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import weblinks from './weblinks.resource';
+import { readQuery } from './weblinks.queries';
+import repository from './weblinks.respository';
+import config from '../structures.config';
+import controllers from '../../commons/middlewares/crud-nested.middlewares';
 
 const router = new express.Router();
+const collectionField = `${config.collectionName}-${config.weblinksField}`;
 
 router.route('/structures/:resourceId/weblinks')
-  .get(weblinks.controllers.list)
+  .get(controllers.list(repository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
-    weblinks.controllers.create,
-    saveInStore('structures'),
+    createContext,
+    setGeneratedInternalIdInContext(collectionField),
+    controllers.create(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
 router.route('/structures/:resourceId/weblinks/:id')
   .delete([
-    requireActiveUser,
-    patchCtx,
-    weblinks.controllers.delete,
-    saveInStore('structures'),
+    patchContext,
+    controllers.remove(repository),
+    saveInStore(collectionField),
   ])
-  .get(weblinks.controllers.read)
+  .get(controllers.read(repository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
-    weblinks.controllers.patch,
-    saveInStore('structures'),
+    patchContext,
+    controllers.patch(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
 export default router;

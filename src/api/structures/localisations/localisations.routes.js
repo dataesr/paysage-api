@@ -1,38 +1,40 @@
 import express from 'express';
-import { createCtx, patchCtx } from '../../commons/middlewares/context.middleware';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middleware';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
+import controllers from '../../commons/middlewares/crud-nested.middlewares';
+import { readQuery } from './localisations.queries';
 import { setGeoJSON, validatePhoneNumber } from './localisations.middlewares';
-import localisations from './localisations.resource';
+import repository from './localisations.repository';
+import config from '../structures.config';
 
 const router = new express.Router();
 
+const collectionField = `${config.collectionName}-${config.localisationsField}`;
+
 router.route('/structures/:resourceId/localisations')
-  .get(localisations.controllers.list)
+  .get(controllers.list(repository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
+    createContext,
     setGeoJSON,
     validatePhoneNumber,
-    localisations.controllers.create,
-    saveInStore('structures'),
+    setGeneratedInternalIdInContext(collectionField),
+    controllers.create(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
 router.route('/structures/:resourceId/localisations/:id')
   .delete([
-    requireActiveUser,
-    patchCtx,
-    localisations.controllers.delete,
-    saveInStore('structures'),
+    patchContext,
+    controllers.remove(repository),
+    saveInStore(collectionField),
   ])
-  .get(localisations.controllers.read)
+  .get(controllers.read(repository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     setGeoJSON,
     validatePhoneNumber,
-    localisations.controllers.patch,
-    saveInStore('structures'),
+    controllers.patch(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
 export default router;
