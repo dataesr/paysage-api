@@ -1,42 +1,35 @@
 import express from 'express';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx, setPutIdInContext } from '../../commons/middlewares/context.middleware';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middleware';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import categories from './root.resource';
 import { validatePayload } from './root.middlewares';
+import controllers from '../../commons/middlewares/crud.middlewares';
+
+import { readQuery } from './root.queries';
+import categoriesRepository from './root.repository';
+import config from '../categories.config';
 
 const router = new express.Router();
-
 router.route('/categories')
-  .get(categories.controllers.list)
+  .get(controllers.list(categoriesRepository, readQuery))
   .post([
-    // requireActiveUser,
-    createCtx,
     validatePayload,
-    categories.controllers.create,
+    createContext,
+    setGeneratedObjectIdInContext(config.collectionName),
+    controllers.create(categoriesRepository, readQuery),
     saveInStore('categories'),
   ]);
 
 router.route('/categories/:id')
-  .get(categories.controllers.read)
+  .get(controllers.read(categoriesRepository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     validatePayload,
-    categories.controllers.patch,
+    controllers.patch(categoriesRepository, readQuery),
     saveInStore('categories'),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
-    categories.controllers.delete,
-    saveInStore('categories'),
-  ])
-  .put([
-    requireActiveUser,
-    createCtx,
-    setPutIdInContext('categories'),
-    categories.controllers.create,
+    patchContext,
+    controllers.remove(categoriesRepository),
     saveInStore('categories'),
   ]);
 

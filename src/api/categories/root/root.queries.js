@@ -104,4 +104,4 @@ const indexQuery = [{
   },
 } }];
 
-export default { readQuery, writeQuery, checkQuery, indexQuery };
+export { readQuery, writeQuery, checkQuery, indexQuery };

@@ -109,7 +109,7 @@ const lightQuery = [...currentNamePipeline, { $project: { _id: 0, id: 1, structu
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 const indexQuery = [{ $project: { _id: 0, id: 1, status: 1 } }];
 
-export default {
+export {
   readQuery,
   writeQuery,
   lightQuery,

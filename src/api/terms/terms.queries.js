@@ -53,4 +53,4 @@ const referenceQuery = [{
 }];
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 
-export default { readQuery, writeQuery, referenceQuery, checkQuery };
+export { readQuery, writeQuery, referenceQuery, checkQuery };

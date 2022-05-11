@@ -1,1 +1,3 @@
-export const PRICES_COLLECTION = 'prices';
+export default {
+  collectionName: 'prices',
+};

@@ -27,4 +27,4 @@ const readQuery = [
 const writeQuery = [{ $project: { _id: 0, ...model } }];
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 
-export default { readQuery, writeQuery, checkQuery };
+export { readQuery, writeQuery, checkQuery };
