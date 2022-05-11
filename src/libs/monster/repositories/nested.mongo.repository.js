@@ -1,7 +1,11 @@
 import parseSortParams from './helpers';
 
 class NestedMongoRepository {
-  constructor({ db, collection, field, queries = {} }) {
+  constructor({ db, collection, field }) {
+    if (!collection) { throw new Error("Parameter 'collection' must be specified"); }
+    if (!(typeof collection === 'string' && Object.prototype.toString.call(collection) === '[object String]')) {
+      throw new Error("Parameter 'collection' must be a string");
+    }
     if (!field) { throw new Error("Parameter 'field' must be specified"); }
     if (!(typeof field === 'string' && Object.prototype.toString.call(field) === '[object String]')) {
       throw new Error("Parameter 'field' must be a string");
@@ -10,7 +14,6 @@ class NestedMongoRepository {
     this.fieldName = field;
     this._collection = db.collection(collection);
     this._field = field;
-    this._queries = queries;
   }
 
   find = async ({
@@ -19,7 +22,7 @@ class NestedMongoRepository {
     skip = 0,
     limit = 20,
     sort = null,
-    useQuery = null,
+    useQuery = [],
   } = {}) => {
     const _pipeline = [
       { $match: { id: resourceId } },
@@ -29,12 +32,11 @@ class NestedMongoRepository {
       { $match: filters },
       { $set: { rid: resourceId } },
     ];
-    const model = this._queries[useQuery] ?? [];
     const queryPipeline = [
       ..._pipeline,
       { $skip: skip || 0 },
       { $limit: limit || 20 },
-      ...model,
+      ...useQuery,
     ];
     if (sort) queryPipeline.push({ $sort: parseSortParams(sort) });
     const countPipeline = [..._pipeline, { $count: 'totalCount' }];
