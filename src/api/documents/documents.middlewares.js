@@ -2,7 +2,7 @@ import storage from 'swift/storage';
 import config from '../../config';
 import swift from '../../services/storage.service';
 import { ServerError } from '../../libs/http-errors';
-import documents from './documents.resource';
+import documentsRepository from './documents.repository';
 
 const { container } = config.objectStorage;
 
@@ -30,7 +30,7 @@ async function saveFile(req, res, next) {
 }
 
 async function deleteFile(req, res, next) {
-  const { path } = await documents.repository.get(req.params.id);
+  const { path } = await documentsRepository.get(req.params.id);
   await storage.deleteFile(swift, container, path)
     .catch(() => { throw new ServerError('Error deleting file'); });
   return next();

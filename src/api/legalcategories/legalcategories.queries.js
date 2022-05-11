@@ -51,4 +51,4 @@ const writeQuery = [{
   },
 }];
 
-export default { readQuery, writeQuery };
+export { readQuery, writeQuery };

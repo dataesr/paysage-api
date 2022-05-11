@@ -27,6 +27,7 @@ beforeAll(async () => {
       usualName: 'Université',
     }).expect(201);
   rid = response.body.id;
+  console.log(id);
 });
 
 describe('API > structures > names > create', () => {

@@ -6,7 +6,7 @@ import controllers from '../commons/middlewares/crud.middlewares';
 
 import { readQuery } from './prices.queries';
 import pricesRepository from './prices.repository';
-import { PRICES_COLLECTION } from './prices.config';
+import config from './prices.config';
 
 const router = new express.Router();
 router.route('/prices')
@@ -14,7 +14,7 @@ router.route('/prices')
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(PRICES_COLLECTION),
+    setGeneratedObjectIdInContext(config.collectionName),
     controllers.create(pricesRepository, readQuery),
     saveInStore('prices'),
   ]);
