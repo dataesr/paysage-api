@@ -1,40 +1,40 @@
 import express from 'express';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middleware';
+import { patchContext, createContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middleware';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import logos from './logos.resource';
+import repository from './logos.repository';
 import { setFileInfo, saveFile, deleteFile } from './logos.middlewares';
+import config from '../structures.config';
+import controllers from '../../commons/middlewares/crud-nested.middlewares';
+import { readQuery } from './logos.queries';
 
 const router = new express.Router();
+const collectionField = `${config.collectionName}-${config.logosField}`;
 
 router.route('/structures/:resourceId/logos')
-  .get(logos.controllers.list)
+  .get(controllers.list(repository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
-    setGeneratedInternalIdInContext('structures'),
+    createContext,
+    setGeneratedInternalIdInContext(collectionField),
     setFileInfo,
     saveFile,
-    logos.controllers.create,
-    saveInStore('structures'),
+    controllers.create(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
 router.route('/structures/:resourceId/logos/:id')
-  .get(logos.controllers.read)
+  .get(controllers.read(repository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     setFileInfo,
     saveFile,
-    logos.controllers.patch,
-    saveInStore('structures'),
+    controllers.patch(repository, readQuery),
+    saveInStore(collectionField),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     deleteFile,
-    logos.controllers.delete,
-    saveInStore('structures'),
+    controllers.remove(repository),
+    saveInStore(collectionField),
   ]);
 
 export default router;

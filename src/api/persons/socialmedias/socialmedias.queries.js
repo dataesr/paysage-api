@@ -2,7 +2,7 @@ import metas from '../../commons/pipelines/metas';
 
 const model = {
   type: 1,
-  account: 1,
+  url: 1,
 };
 
 const readQuery = [
@@ -21,4 +21,4 @@ const readQuery = [
 ];
 const writeQuery = [{ $project: { _id: 0, id: 1, ...model } }];
 
-export default { readQuery, writeQuery };
+export { readQuery, writeQuery };
