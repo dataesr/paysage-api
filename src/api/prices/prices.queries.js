@@ -45,4 +45,4 @@ const lightQuery = [{ $project: { _id: 0, id: 1, ...lightModel } }];
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 const indexQuery = [{ $project: model }];
 
-export default { readQuery, writeQuery, lightQuery, checkQuery, indexQuery };
+export { readQuery, writeQuery, lightQuery, checkQuery, indexQuery };
