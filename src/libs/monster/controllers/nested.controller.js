@@ -30,12 +30,12 @@ class NestedController {
       !req.body
       || !Object.keys(req.body).length
     ) throw new BadRequestError('Payload missing');
-    const { body, ctx, params } = req;
-    let { id } = ctx || {};
+    const { body, context, params } = req;
+    let { id } = context || {};
     const { resourceId } = params || {};
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
     id = id || await this._catalog.getUniqueId(this._repository.collectionName);
-    const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
+    const data = this._storeContext ? { id, ...body, ...context } : { id, ...body };
     await this._repository.create(resourceId, data);
     const nextState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
     req.event = { action: 'create', id, nextState, resourceId };
@@ -47,10 +47,10 @@ class NestedController {
       !req.body
       || !Object.keys(req.body).length
     ) throw new BadRequestError('Payload missing');
-    const { body, ctx, params } = req;
+    const { body, context, params } = req;
     const { id, resourceId } = params || {};
     if (!await this._repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
-    const data = this._storeContext ? { ...body, ...ctx } : { ...body };
+    const data = this._storeContext ? { ...body, ...context } : { ...body };
     const previousState = await this._repository.get(resourceId, id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
     const { ok } = await this._repository.patch(resourceId, id, data);

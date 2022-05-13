@@ -9,7 +9,7 @@ const { container } = config.objectStorage;
 async function setFileInfo(req, res, next) {
   if (!req.files || !req.files.length) { return next(); }
   [req.file] = req.files;
-  const id = req.ctx.id ?? req.params.id;
+  const id = req.context.id ?? req.params.id;
   const path = `assets/structures/logos/${id}`;
   req.context = {
     ...req.context,
@@ -38,7 +38,7 @@ async function deleteFile(req, res, next) {
 }
 
 export {
-  setFileInfo,
-  saveFile,
   deleteFile,
+  saveFile,
+  setFileInfo,
 };
