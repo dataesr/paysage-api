@@ -10,16 +10,6 @@ export function createContext(req, res, next) {
   return next();
 }
 
-export function patchCtx(req, res, next) {
-  req.context = { updatedBy: req.currentUser.id, updatedAt: new Date() };
-  return next();
-}
-
-export function createCtx(req, res, next) {
-  req.context = { createdBy: req.currentUser.id, createdAt: new Date() };
-  return next();
-}
-
 export function setPutIdInContext(type) {
   return async (req, res, next) => {
     const id = await objectCatalog.setUniqueId(req.params.id, type);
