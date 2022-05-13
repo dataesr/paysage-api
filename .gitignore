@@ -11,4 +11,4 @@
 # production
 yarn.lock
 
-/docs
+docs/reference
