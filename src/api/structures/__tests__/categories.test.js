@@ -1,17 +1,23 @@
+import { BadRequestError } from '../../../libs/http-errors';
+
 let authorization;
-let rid;
-let id;
 let cid;
+let id;
+let rid;
+
+const category = {
+  usualNameFr: 'Catégorie',
+};
+const categoryLink = {
+  startDate: '2000-02-12',
+  endDate: '2020-02-12',
+};
 const structure = {
   structureStatus: 'active',
   creationDate: '2021-02',
   usualName: 'Université',
 };
-const category = { usualNameFr: 'Catégorie' };
-const categoryLink = {
-  startDate: '2000-02-12',
-  endDate: '2020-02-12',
-};
+
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
   const struct = await global.superapp
@@ -33,10 +39,40 @@ describe('API > structures > categories > create', () => {
     const response = await global.superapp
       .post(`/structures/${rid}/categories`)
       .set('Authorization', authorization)
-      .send({ categoryId: cid, ...categoryLink })
+      .send(categoryLink)
       .expect(201);
     expect(response.body.id).toBeTruthy();
     id = response.body.id;
+  });
+
+  it('should accept approximate date with only year and month', async () => {
+    const response = await global.superapp
+      .post(`/structures/${rid}/categories`)
+      .set('Authorization', authorization)
+      .send({ ...categoryLink, startDate: '2000-02' })
+      .expect(201);
+    expect(response.body.id).toBeTruthy();
+    id = response.body.id;
+  });
+
+  it('should accept approximate date with only year', async () => {
+    const response = await global.superapp
+      .post(`/structures/${rid}/categories`)
+      .set('Authorization', authorization)
+      .send({ ...categoryLink, startDate: '2000' })
+      .expect(201);
+    expect(response.body.id).toBeTruthy();
+    id = response.body.id;
+  });
+
+  it('should throw a BadRequest error if date is malformed', async () => {
+    const create = async () => {
+      await global.superapp
+        .post(`/structures/${rid}/categories`)
+        .set('Authorization', authorization)
+        .send({ ...categoryLink, startDate: '20' });
+    };
+    expect(create).rejects.toThrow(BadRequestError);
   });
 });
 
