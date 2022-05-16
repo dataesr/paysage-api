@@ -1,5 +1,5 @@
 import express from 'express';
-import { createContext, patchContext, setPutIdInContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middleware';
+import { createContext, patchContext, setPutIdInContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from '../../commons/middlewares/validate.middlewares';
 import { fromPayloadToStructure, validateStructureCreatePayload } from './root.middlewares';

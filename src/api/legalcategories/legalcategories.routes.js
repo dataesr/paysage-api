@@ -1,5 +1,5 @@
 import express from 'express';
-import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middleware';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import { validatePayload } from './legalcategories.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';

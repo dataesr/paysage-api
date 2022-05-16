@@ -1,10 +1,11 @@
-import { db } from '../services/mongo.service';
+import mongo from '../services/mongo.service';
 import elastic from '../services/elastic.service';
 import logger from '../services/logger.service';
 import config from '../config';
-import categories from '../api/categories/root/root.resource';
-import structures from '../api/structures/root/root.resource';
+import categoryRepository from '../api/categories/root/root.repository';
+import structureRepository from '../api/structures/root/root.repository';
 
+const { db } = mongo;
 const { index: paysageIndex } = config.elastic;
 
 const mapping = {
@@ -42,13 +43,13 @@ class Indexer {
     logger.info('Indexers ready');
   }
 
-  use = async (resource) => {
+  use = async (resourceRepository) => {
     const changeStream = this._mongodb.collection('_events').watch(
-      [{ $match: { 'fullDocument.collection': resource.repository.collectionName } }],
+      [{ $match: { 'fullDocument.collection': resourceRepository.collectionName } }],
     );
     changeStream.on('change', async (next) => {
       const { id } = next.fullDocument;
-      const { op, doc } = await resource.repository.index(id);
+      const { op, doc } = await resourceRepository.index(id);
       switch (op) {
         case 'index':
           elastic.update({ index: this._index, id, body: { doc, doc_as_upsert: true } })
@@ -67,6 +68,6 @@ class Indexer {
 }
 export default function createIndexers() {
   const indexer = new Indexer(db, elastic, paysageIndex);
-  indexer.use(categories);
-  indexer.use(structures);
+  indexer.use(categoryRepository);
+  indexer.use(structureRepository);
 }

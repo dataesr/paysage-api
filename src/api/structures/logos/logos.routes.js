@@ -1,5 +1,5 @@
 import express from 'express';
-import { patchContext, createContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middleware';
+import { patchContext, createContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import repository from './logos.repository';
 import { setFileInfo, saveFile, deleteFile } from './logos.middlewares';
