@@ -26,6 +26,7 @@ const readQuery = [
     },
   },
 ];
+
 const writeQuery = [{
   $project: {
     _id: 0,
@@ -37,6 +38,7 @@ const writeQuery = [{
 
   },
 }];
+
 const referenceQuery = [{
   $project: {
     _id: 0,
@@ -51,6 +53,12 @@ const referenceQuery = [{
     shortNameEn: 1,
   },
 }];
+
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 
-export { readQuery, writeQuery, referenceQuery, checkQuery };
+export {
+  checkQuery,
+  readQuery,
+  referenceQuery,
+  writeQuery,
+};
