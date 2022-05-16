@@ -1,3 +1,3 @@
 export default {
-  collectionName: 'legal-categories',
+  collection: 'legal-categories',
 };

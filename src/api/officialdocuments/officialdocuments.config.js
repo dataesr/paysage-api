@@ -1,3 +1,3 @@
 export default {
-  collectionName: 'official-documents',
+  collection: 'official-documents',
 };

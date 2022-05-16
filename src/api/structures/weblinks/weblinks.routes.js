@@ -6,10 +6,12 @@ import repository from './weblinks.respository';
 import config from '../structures.config';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
 
-const router = new express.Router();
-const collectionField = `${config.collectionName}-${config.weblinksField}`;
+const { collection, weblinksField: field } = config;
+const collectionField = `${collection}-${field}`;
 
-router.route('/structures/:resourceId/weblinks')
+const router = new express.Router();
+
+router.route(`/${collection}/:resourceId/${field}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
@@ -18,7 +20,7 @@ router.route('/structures/:resourceId/weblinks')
     saveInStore(collectionField),
   ]);
 
-router.route('/structures/:resourceId/weblinks/:id')
+router.route(`/${collection}/:resourceId/${field}/:id`)
   .delete([
     patchContext,
     controllers.remove(repository),

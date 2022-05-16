@@ -6,12 +6,12 @@ import repository from './names.repository';
 import { readQuery } from './names.queries';
 import config from '../structures.config';
 
-const { collectionName, namesField } = config;
-const collectionField = `${collectionName}-${namesField}`;
+const { collection, namesField: field } = config;
+const collectionField = `${collection}-${field}`;
 
 const router = new express.Router();
 
-router.route(`/${collectionName}/:resourceId/${namesField}`)
+router.route(`/${collection}/:resourceId/${field}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
@@ -20,7 +20,7 @@ router.route(`/${collectionName}/:resourceId/${namesField}`)
     saveInStore(collectionField),
   ]);
 
-router.route(`/${collectionName}/:resourceId/${namesField}/:id`)
+router.route(`/${collection}/:resourceId/${field}/:id`)
   .delete([
     patchContext,
     controllers.remove(repository),

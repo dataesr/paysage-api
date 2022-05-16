@@ -8,37 +8,37 @@ import structuresRepository from './root.repository';
 import { readQuery } from './root.queries';
 import config from '../structures.config';
 
-const { collectionName } = config;
+const { collection } = config;
 
 const router = new express.Router();
 
-router.route(`/${collectionName}`)
+router.route(`/${collection}`)
   .get(controllers.list(structuresRepository, readQuery))
   .post([
     validateStructureCreatePayload,
     fromPayloadToStructure,
     createContext,
-    setGeneratedObjectIdInContext(collectionName),
+    setGeneratedObjectIdInContext(collection),
     controllers.create(structuresRepository, readQuery),
-    saveInStore(collectionName),
+    saveInStore(collection),
   ]);
 
-router.route(`/${collectionName}/:id`)
+router.route(`/${collection}/:id`)
   .get(controllers.read(structuresRepository, readQuery))
   .patch([
     validatePayload,
     patchContext,
     controllers.patch(structuresRepository, readQuery),
-    saveInStore(collectionName),
+    saveInStore(collection),
   ])
   .delete([
     patchContext,
     controllers.remove(structuresRepository),
-    saveInStore(collectionName),
+    saveInStore(collection),
   ])
   .put([
     createContext,
-    setPutIdInContext(config.collectionName),
+    setPutIdInContext(collection),
     controllers.create(structuresRepository, readQuery),
   ]);
 

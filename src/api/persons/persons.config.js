@@ -1,5 +1,5 @@
 export default {
-  collectionName: 'persons',
+  collection: 'persons',
   identifiersField: 'identifiers',
   socialMediasField: 'socials',
   weblinksField: 'weblinks',
