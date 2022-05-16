@@ -67,6 +67,7 @@ const readQuery = [
     childs: lightModel,
   } },
 ];
+
 const writeQuery = [{
   $project: {
     _id: 0,
@@ -76,6 +77,7 @@ const writeQuery = [{
     parentsIds: { $ifNull: ['$parentIds', []] },
   },
 }];
+
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 
 const indexQuery = [{
@@ -104,4 +106,9 @@ const indexQuery = [{
   },
 } }];
 
-export { readQuery, writeQuery, checkQuery, indexQuery };
+export {
+  checkQuery,
+  indexQuery,
+  readQuery,
+  writeQuery,
+};

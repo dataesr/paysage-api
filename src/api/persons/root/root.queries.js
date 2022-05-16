@@ -10,6 +10,7 @@ const model = {
   activity: { $ifNull: ['$activity', null] },
   comment: { $ifNull: ['$comment', null] },
 };
+
 const readQuery = [
   ...metas,
   {
@@ -24,7 +25,13 @@ const readQuery = [
     },
   },
 ];
+
 const writeQuery = [{ $project: { _id: 0, ...model } }];
+
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 
-export { readQuery, writeQuery, checkQuery };
+export {
+  checkQuery,
+  readQuery,
+  writeQuery,
+};

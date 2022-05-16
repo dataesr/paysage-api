@@ -12,6 +12,7 @@ const model = {
   startDate: { $ifNull: ['$startDate', null] },
   endDate: { $ifNull: ['$endDate', null] },
 };
+
 const readQuery = [
   ...metas,
   {
@@ -40,9 +41,19 @@ const readQuery = [
     },
   },
 ];
+
 const writeQuery = [{ $project: { _id: 0, parentIds: { $ifNull: ['$parentIds', []] }, ...model } }];
+
 const lightQuery = [{ $project: { _id: 0, id: 1, ...lightModel } }];
+
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
+
 const indexQuery = [{ $project: model }];
 
-export { readQuery, writeQuery, lightQuery, checkQuery, indexQuery };
+export {
+  checkQuery,
+  indexQuery,
+  lightQuery,
+  readQuery,
+  writeQuery,
+};
