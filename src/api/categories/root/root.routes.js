@@ -1,43 +1,39 @@
 import express from 'express';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import categories from './root.resource';
 import { validatePayload } from './root.middlewares';
+import controllers from '../../commons/middlewares/crud.middlewares';
+
+import { readQuery } from './root.queries';
+import categoriesRepository from './root.repository';
+import config from '../categories.config';
+
+const { collection } = config;
 
 const router = new express.Router();
 
-router.route('/categories')
-  .get(categories.controllers.list)
+router.route(`/${collection}`)
+  .get(controllers.list(categoriesRepository, readQuery))
   .post([
-    // requireActiveUser,
-    createCtx,
     validatePayload,
-    categories.controllers.create,
-    saveInStore('categories'),
+    createContext,
+    setGeneratedObjectIdInContext(collection),
+    controllers.create(categoriesRepository, readQuery),
+    saveInStore(collection),
   ]);
 
-router.route('/categories/:id')
-  .get(categories.controllers.read)
+router.route(`/${collection}/:id`)
+  .get(controllers.read(categoriesRepository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     validatePayload,
-    categories.controllers.patch,
-    saveInStore('categories'),
+    controllers.patch(categoriesRepository, readQuery),
+    saveInStore(collection),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
-    categories.controllers.delete,
-    saveInStore('categories'),
-  ])
-  .put([
-    requireActiveUser,
-    createCtx,
-    setPutIdInContext('categories'),
-    categories.controllers.create,
-    saveInStore('categories'),
+    patchContext,
+    controllers.remove(categoriesRepository),
+    saveInStore(collection),
   ]);
 
 export default router;

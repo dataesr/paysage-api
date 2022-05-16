@@ -19,7 +19,7 @@ class NestedMongoRepository {
     skip = 0,
     limit = 20,
     sort = null,
-    useQuery = null,
+    useQuery = [],
   } = {}) => {
     const _pipeline = [
       { $match: { id: resourceId } },
@@ -29,12 +29,11 @@ class NestedMongoRepository {
       { $match: filters },
       { $set: { rid: resourceId } },
     ];
-    const model = this._queries[useQuery] ?? [];
     const queryPipeline = [
       ..._pipeline,
       { $skip: skip || 0 },
       { $limit: limit || 20 },
-      ...model,
+      ...useQuery,
     ];
     if (sort) queryPipeline.push({ $sort: parseSortParams(sort) });
     const countPipeline = [..._pipeline, { $count: 'totalCount' }];
@@ -46,7 +45,7 @@ class NestedMongoRepository {
     return data[0];
   };
 
-  get = async (resourceId, id, { useQuery } = {}) => {
+  get = async (resourceId, id, { useQuery } = []) => {
     const { data } = await this.find({ resourceId, filters: { id }, limit: 1, useQuery });
     return data ? data[0] : null;
   };

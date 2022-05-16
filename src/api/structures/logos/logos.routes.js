@@ -1,40 +1,42 @@
 import express from 'express';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import logos from './logos.resource';
+import repository from './logos.repository';
 import { setFileInfo, saveFile, deleteFile } from './logos.middlewares';
+import config from '../structures.config';
+import controllers from '../../commons/middlewares/crud-nested.middlewares';
+import { readQuery } from './logos.queries';
+
+const { collection, logosField: field } = config;
+const collectionField = `${collection}-${field}`;
 
 const router = new express.Router();
 
-router.route('/structures/:resourceId/logos')
-  .get(logos.controllers.list)
+router.route(`/${collection}/:resourceId/${field}`)
+  .get(controllers.list(repository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
-    setGeneratedInternalIdInContext('structures'),
+    createContext,
+    setGeneratedInternalIdInContext(collectionField),
     setFileInfo,
     saveFile,
-    logos.controllers.create,
-    saveInStore('structures'),
+    controllers.create(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
-router.route('/structures/:resourceId/logos/:id')
-  .get(logos.controllers.read)
+router.route(`/${collection}/:resourceId/${field}/:id`)
+  .get(controllers.read(repository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     setFileInfo,
     saveFile,
-    logos.controllers.patch,
-    saveInStore('structures'),
+    controllers.patch(repository, readQuery),
+    saveInStore(collectionField),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     deleteFile,
-    logos.controllers.delete,
-    saveInStore('structures'),
+    controllers.remove(repository),
+    saveInStore(collectionField),
   ]);
 
 export default router;

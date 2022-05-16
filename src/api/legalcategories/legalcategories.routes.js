@@ -1,36 +1,39 @@
 import express from 'express';
-import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx } from '../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
-import legalCategories from './legalcategories.resource';
 import { validatePayload } from './legalcategories.middlewares';
+import controllers from '../commons/middlewares/crud.middlewares';
+
+import { readQuery } from './legalcategories.queries';
+import legalCategoriesRepository from './legalcategories.repository';
+import config from './legalcategories.config';
+
+const { collection } = config;
 
 const router = new express.Router();
 
 router.route('/legalcategories')
-  .get(legalCategories.controllers.list)
+  .get(controllers.list(legalCategoriesRepository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
     validatePayload,
-    legalCategories.controllers.create,
-    saveInStore('legal-categories'),
+    createContext,
+    setGeneratedObjectIdInContext(collection),
+    controllers.create(legalCategoriesRepository, readQuery),
+    saveInStore(collection),
   ]);
 
 router.route('/legalcategories/:id')
-  .get(legalCategories.controllers.read)
+  .get(controllers.read(legalCategoriesRepository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     validatePayload,
-    legalCategories.controllers.patch,
-    saveInStore('legal-categories'),
+    controllers.patch(legalCategoriesRepository, readQuery),
+    saveInStore(collection),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
-    legalCategories.controllers.delete,
-    saveInStore('legal-categories'),
+    patchContext,
+    controllers.remove(legalCategoriesRepository),
+    saveInStore(collection),
   ]);
 
 export default router;

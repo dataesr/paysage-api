@@ -19,6 +19,10 @@ const readQuery = [
     },
   },
 ];
+
 const writeQuery = [{ $project: { _id: 0, id: 1, ...model } }];
 
-export default { readQuery, writeQuery };
+export {
+  readQuery,
+  writeQuery,
+};

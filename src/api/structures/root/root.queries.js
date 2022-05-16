@@ -104,15 +104,19 @@ const readQuery = [
     },
   },
 ];
+
 const writeQuery = [{ $project: { _id: 0, id: 1, structureStatus: 1 } }];
+
 const lightQuery = [...currentNamePipeline, { $project: { _id: 0, id: 1, structureStatus: 1, currentName: 1 } }];
+
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
+
 const indexQuery = [{ $project: { _id: 0, id: 1, status: 1 } }];
 
-export default {
-  readQuery,
-  writeQuery,
-  lightQuery,
+export {
   checkQuery,
   indexQuery,
+  lightQuery,
+  readQuery,
+  writeQuery,
 };

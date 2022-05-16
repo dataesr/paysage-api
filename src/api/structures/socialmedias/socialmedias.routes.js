@@ -1,33 +1,36 @@
 import express from 'express';
-import { createCtx, patchCtx } from '../../commons/middlewares/context.middlewares';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import socialmedias from './socialmedias.resource';
+import repository from './socialmedias.repository';
+import config from '../structures.config';
+import controllers from '../../commons/middlewares/crud-nested.middlewares';
+import { readQuery } from './socialmedias.queries';
+
+const { collection, socialMediasField: field } = config;
+const collectionField = `${collection}-${field}`;
 
 const router = new express.Router();
 
-router.route('/structures/:resourceId/socials')
-  .get(socialmedias.controllers.list)
+router.route(`/${collection}/:resourceId/${field}`)
+  .get(controllers.list(repository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
-    socialmedias.controllers.create,
-    saveInStore('structures'),
+    createContext,
+    setGeneratedInternalIdInContext(collectionField),
+    controllers.create(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
-router.route('/structures/:resourceId/socials/:id')
+router.route(`/${collection}/:resourceId/${field}/:id`)
   .delete([
-    requireActiveUser,
-    patchCtx,
-    socialmedias.controllers.delete,
-    saveInStore('structures'),
+    patchContext,
+    controllers.remove(repository),
+    saveInStore(collectionField),
   ])
-  .get(socialmedias.controllers.read)
+  .get(controllers.read(repository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
-    socialmedias.controllers.patch,
-    saveInStore('structures'),
+    patchContext,
+    controllers.patch(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
 export default router;

@@ -1,15 +1,12 @@
 import { BadRequestError } from '../../../libs/http-errors';
-import officialDocument from '../../officialdocuments/officialdocuments.resource';
-import categories from './root.resource';
+import officialDocumentRepository from '../../officialdocuments/officialdocuments.repository';
+import categories from './root.repository';
 
 export async function validatePayload(req, res, next) {
   if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
   const { officialDocumentId, parentIds } = req.body;
   if (officialDocumentId) {
-    const exists = await officialDocument.repository.get(
-      officialDocumentId,
-      { useQuery: 'checkQuery' },
-    );
+    const exists = await officialDocumentRepository.get(officialDocumentId);
     if (!exists) {
       throw new BadRequestError(
         'Referencing unknown resource',

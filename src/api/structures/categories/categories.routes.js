@@ -1,36 +1,39 @@
 import express from 'express';
-import { createCtx, patchCtx } from '../../commons/middlewares/context.middlewares';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from './categories.middlewares';
-import categories from './categories.resource';
+import repository from './categories.repository';
+import config from '../structures.config';
+import controllers from '../../commons/middlewares/crud-nested.middlewares';
+import { readQuery } from './categories.queries';
+
+const { categoriesField: field, collection } = config;
+const collectionField = `${collection}-${field}`;
 
 const router = new express.Router();
 
-router.route('/structures/:resourceId/categories')
-  .get(categories.controllers.list)
+router.route(`/${collection}/:resourceId/${field}`)
+  .get(controllers.list(repository, readQuery))
   .post([
-    requireActiveUser,
     validatePayload,
-    createCtx,
-    categories.controllers.create,
-    saveInStore('structures'),
+    createContext,
+    setGeneratedInternalIdInContext(collectionField),
+    controllers.create(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
-router.route('/structures/:resourceId/categories/:id')
+router.route(`/${collection}/:resourceId/${field}/:id`)
   .delete([
-    requireActiveUser,
-    patchCtx,
-    categories.controllers.delete,
-    saveInStore('structures'),
+    patchContext,
+    controllers.remove(repository),
+    saveInStore(collectionField),
   ])
-  .get(categories.controllers.read)
+  .get(controllers.read(repository, readQuery))
   .patch([
-    requireActiveUser,
     validatePayload,
-    patchCtx,
-    categories.controllers.patch,
-    saveInStore('structures'),
+    patchContext,
+    controllers.patch(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
 export default router;

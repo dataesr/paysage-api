@@ -1,40 +1,42 @@
 import express from 'express';
-import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
-import documents from './documents.resource';
+import controllers from '../commons/middlewares/crud.middlewares';
 import { setFileInfo, saveFile, deleteFile } from './documents.middlewares';
+
+import { readQuery } from './documents.queries';
+import pricesRepository from './documents.repository';
+import config from './documents.config';
+
+const { collection } = config;
 
 const router = new express.Router();
 
-router.route('/documents')
-  .get(documents.controllers.list)
+router.route(`/${collection}`)
+  .get(controllers.list(pricesRepository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
-    setGeneratedObjectIdInContext('documents'),
+    createContext,
+    setGeneratedObjectIdInContext(collection),
     setFileInfo,
     saveFile,
-    documents.controllers.create,
-    saveInStore('documents'),
+    controllers.create(pricesRepository, readQuery),
+    saveInStore(collection),
   ]);
 
-router.route('/documents/:id')
-  .get(documents.controllers.read)
+router.route(`/${collection}/:id`)
+  .get(controllers.read(pricesRepository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     setFileInfo,
     saveFile,
-    documents.controllers.patch,
-    saveInStore('documents'),
+    controllers.patch(pricesRepository, readQuery),
+    saveInStore(collection),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     deleteFile,
-    documents.controllers.delete,
-    saveInStore('documents'),
+    controllers.remove(pricesRepository, readQuery),
+    saveInStore(collection),
   ]);
 
 export default router;

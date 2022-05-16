@@ -42,6 +42,7 @@ const readQuery = [
     officialDocument: 1,
   } },
 ];
+
 const writeQuery = [{
   $project: {
     _id: 0,
@@ -51,4 +52,7 @@ const writeQuery = [{
   },
 }];
 
-export default { readQuery, writeQuery };
+export {
+  readQuery,
+  writeQuery,
+};
