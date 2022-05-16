@@ -1,33 +1,36 @@
 import express from 'express';
-import { createCtx, patchCtx } from '../../commons/middlewares/context.middlewares';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import identifiers from './identifiers.resource';
+import controllers from '../../commons/middlewares/crud-nested.middlewares';
+import repository from './identifiers.repository';
+import { readQuery } from './identifiers.queries';
+import config from '../persons.config';
+
+const { collection, identifiersField: field } = config;
+const collectionField = `${collection}-${field}`;
 
 const router = new express.Router();
 
-router.route('/persons/:resourceId/identifiers')
-  .get(identifiers.controllers.list)
+router.route(`/${collection}/:resourceId/${field}`)
+  .get(controllers.list(repository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
-    identifiers.controllers.create,
-    saveInStore('persons'),
+    createContext,
+    setGeneratedInternalIdInContext(collectionField),
+    controllers.create(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
-router.route('/persons/:resourceId/identifiers/:id')
+router.route(`/${collection}/:resourceId/${field}/:id`)
   .delete([
-    requireActiveUser,
-    patchCtx,
-    identifiers.controllers.delete,
-    saveInStore('persons'),
+    patchContext,
+    controllers.remove(repository),
+    saveInStore(collectionField),
   ])
-  .get(identifiers.controllers.read)
+  .get(controllers.read(repository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
-    identifiers.controllers.patch,
-    saveInStore('persons'),
+    patchContext,
+    controllers.patch(repository, readQuery),
+    saveInStore(collectionField),
   ]);
 
 export default router;

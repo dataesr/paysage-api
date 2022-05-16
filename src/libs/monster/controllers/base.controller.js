@@ -27,10 +27,10 @@ class BaseController {
       !req.body
       || !Object.keys(req.body).length
     ) throw new BadRequestError('Payload missing');
-    const { body, ctx } = req;
-    let { id } = ctx || {};
+    const { body, context } = req;
+    let { id } = context || {};
     id = id || await this._catalog.getUniqueId(this._repository.collectionName);
-    const data = this._storeContext ? { id, ...body, ...ctx } : { id, ...body };
+    const data = this._storeContext ? { id, ...body, ...context } : { id, ...body };
     await this._repository.create(data);
     const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });
     req.event = { action: 'create', id, nextState };
@@ -42,11 +42,11 @@ class BaseController {
       !req.body
       || !Object.keys(req.body).length
     ) throw new BadRequestError('Payload missing');
-    const { body, ctx, params } = req;
+    const { body, context, params } = req;
     const { id } = params || {};
     const previousState = await this._repository.get(id, { useQuery: 'writeQuery' });
     if (!previousState) throw new NotFoundError();
-    const data = this._storeContext ? { ...body, ...ctx } : { ...body };
+    const data = this._storeContext ? { ...body, ...context } : { ...body };
     const { ok } = await this._repository.patch(id, data);
     if (ok) {
       const nextState = await this._repository.get(id, { useQuery: 'writeQuery' });

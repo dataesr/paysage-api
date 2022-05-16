@@ -1,42 +1,45 @@
 import express from 'express';
-import { createCtx, patchCtx, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
+import { createContext, patchContext, setPutIdInContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
+import { validatePayload } from '../../commons/middlewares/validate.middlewares';
 import { fromPayloadToStructure, validateStructureCreatePayload } from './root.middlewares';
-import structures from './root.resource';
+import controllers from '../../commons/middlewares/crud.middlewares';
+import structuresRepository from './root.repository';
+import { readQuery } from './root.queries';
+import config from '../structures.config';
+
+const { collection } = config;
 
 const router = new express.Router();
 
-router.route('/structures')
-  .get(structures.controllers.list)
+router.route(`/${collection}`)
+  .get(controllers.list(structuresRepository, readQuery))
   .post([
-    // requireActiveUser,
-    createCtx,
     validateStructureCreatePayload,
     fromPayloadToStructure,
-    structures.controllers.create,
-    saveInStore('structures'),
+    createContext,
+    setGeneratedObjectIdInContext(collection),
+    controllers.create(structuresRepository, readQuery),
+    saveInStore(collection),
   ]);
 
-router.route('/structures/:id')
-  .get(structures.controllers.read)
+router.route(`/${collection}/:id`)
+  .get(controllers.read(structuresRepository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
-    structures.controllers.patch,
-    saveInStore('structures'),
+    validatePayload,
+    patchContext,
+    controllers.patch(structuresRepository, readQuery),
+    saveInStore(collection),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
-    structures.controllers.delete,
-    saveInStore('structures'),
+    patchContext,
+    controllers.remove(structuresRepository),
+    saveInStore(collection),
   ])
   .put([
-    requireActiveUser,
-    createCtx,
-    setPutIdInContext('structures'),
-    structures.controllers.create,
+    createContext,
+    setPutIdInContext(collection),
+    controllers.create(structuresRepository, readQuery),
   ]);
 
 export default router;

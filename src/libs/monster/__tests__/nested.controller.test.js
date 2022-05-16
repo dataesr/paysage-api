@@ -86,7 +86,7 @@ describe('create method', () => {
 
   beforeEach(() => {
     args = [
-      { body: 'my_body', ctx: { id: 42 } },
+      { body: 'my_body', context: { id: 42 } },
       mockResponse(),
       () => ({}),
     ];
@@ -124,7 +124,7 @@ describe('create method', () => {
   });
 
   it('should get an id from catalog if no id but existing catalog', async () => {
-    args[0].ctx = {};
+    args[0].context = {};
     const mockedNestedController = new NestedController(nestedMongoRepository, { catalog: { getUniqueId: () => 42 } });
     const spy = jest.spyOn(mockedNestedController._catalog, 'getUniqueId');
     await mockedNestedController.create(...args);
@@ -145,7 +145,7 @@ describe('patch method', () => {
 
   beforeEach(() => {
     args = [
-      { body: 'my_body', ctx: {}, params: { id: 42 } },
+      { body: 'my_body', context: {}, params: { id: 42 } },
       mockResponse(),
       () => ({}),
     ];
@@ -206,7 +206,7 @@ describe('delete method', () => {
 
   beforeEach(() => {
     args = [
-      { ctx: {}, params: { id: 42 } },
+      { context: {}, params: { id: 42 } },
       mockResponse(),
       () => ({}),
     ];

@@ -1,33 +1,39 @@
 import express from 'express';
-import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx } from '../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
-import officialDocuments from './officialdocuments.resource';
+import controllers from '../commons/middlewares/crud.middlewares';
+import { validatePayload } from '../commons/middlewares/validate.middlewares';
+
+import { readQuery } from './officialdocuments.queries';
+import officialDocumentsRepository from './officialdocuments.repository';
+import config from './officialdocuments.config';
+
+const { collection } = config;
 
 const router = new express.Router();
 
 router.route('/officialdocuments')
-  .get(officialDocuments.controllers.list)
+  .get(controllers.list(officialDocumentsRepository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
-    officialDocuments.controllers.create,
-    saveInStore('official-documents'),
+    validatePayload,
+    createContext,
+    setGeneratedObjectIdInContext(collection),
+    controllers.create(officialDocumentsRepository, readQuery),
+    saveInStore(collection),
   ]);
 
 router.route('/officialdocuments/:id')
-  .get(officialDocuments.controllers.read)
+  .get(controllers.read(officialDocumentsRepository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
-    officialDocuments.controllers.patch,
-    saveInStore('official-documents'),
+    validatePayload,
+    patchContext,
+    controllers.patch(officialDocumentsRepository, readQuery),
+    saveInStore(collection),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
-    officialDocuments.controllers.delete,
-    saveInStore('official-documents'),
+    patchContext,
+    controllers.remove(officialDocumentsRepository),
+    saveInStore(collection),
   ]);
 
 export default router;

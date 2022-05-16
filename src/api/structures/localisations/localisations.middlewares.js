@@ -1,5 +1,6 @@
 import { BadRequestError } from '../../../libs/http-errors';
-import localisations from './localisations.resource';
+import localisationsRepository from './localisations.repository';
+import { readQuery } from './localisations.queries';
 
 export function setGeoJSON(req, res, next) {
   const { coordinates, ...rest } = req.body;
@@ -16,7 +17,7 @@ export async function validatePhoneNumber(req, res, next) {
   const phoneRegex = /^\+33[0-9]{9}$/;
   const { rid, id } = req.params;
   const { telephone, country } = req.body;
-  const nextCountry = country || await localisations.repository.get(rid, id, { useQuery: 'readQuery' }).country;
+  const nextCountry = country || await localisationsRepository.get(rid, id, { useQuery: readQuery }).country;
   if (telephone && nextCountry === 'France' && !telephone.match(phoneRegex)) {
     throw new BadRequestError('Validation error', [{ path: '.body.telephone', message: 'Phone numbers from france should match pattern' }]);
   }

@@ -1,7 +1,9 @@
 import 'dotenv/config';
 
 import logger from '../services/logger.service';
-import { client, db } from '../services/mongo.service';
+import mongo from '../services/mongo.service';
+
+const { client, db } = mongo;
 
 async function setupDatabase() {
   await db.collection('categories').createIndex({ id: 1 }, { unique: true });

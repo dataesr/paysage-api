@@ -1,36 +1,39 @@
 import express from 'express';
-import terms from './terms.resource';
-import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx } from '../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import { validatePayload } from './terms.middlewares';
+import controllers from '../commons/middlewares/crud.middlewares';
+
+import { readQuery } from './terms.queries';
+import termsRepository from './terms.repository';
+import config from './terms.config';
+
+const { collection } = config;
 
 const router = new express.Router();
 
-router.route('/terms')
-  .get(terms.controllers.list)
+router.route(`/${collection}`)
+  .get(controllers.list(termsRepository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
     validatePayload,
-    terms.controllers.create,
-    saveInStore('terms'),
+    createContext,
+    setGeneratedObjectIdInContext(collection),
+    controllers.create(termsRepository, readQuery),
+    saveInStore(collection),
   ]);
 
-router.route('/terms/:id')
-  .get(terms.controllers.read)
+router.route(`/${collection}/:id`)
+  .get(controllers.read(termsRepository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
+    patchContext,
     validatePayload,
-    terms.controllers.patch,
-    saveInStore('terms'),
+    controllers.patch(termsRepository, readQuery),
+    saveInStore(collection),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
-    terms.controllers.delete,
-    saveInStore('terms'),
+    patchContext,
+    controllers.remove(termsRepository),
+    saveInStore(collection),
   ]);
 
 export default router;

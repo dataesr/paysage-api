@@ -1,34 +1,39 @@
 import express from 'express';
-
-import { requireActiveUser } from '../../commons/middlewares/rbac.middlewares';
-import { patchCtx, createCtx } from '../../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import persons from './root.resource';
+import { validatePayload } from '../../commons/middlewares/validate.middlewares';
+import controllers from '../../commons/middlewares/crud.middlewares';
+
+import { readQuery } from './root.queries';
+import personsRepository from './root.repository';
+import config from '../persons.config';
+
+const { collection } = config;
 
 const router = new express.Router();
 
-router.route('/persons')
-  .get(persons.controllers.list)
+router.route(`/${collection}`)
+  .get(controllers.list(personsRepository, readQuery))
   .post([
-    requireActiveUser,
-    createCtx,
-    persons.controllers.create,
-    saveInStore('persons'),
+    validatePayload,
+    createContext,
+    setGeneratedObjectIdInContext(collection),
+    controllers.create(personsRepository, readQuery),
+    saveInStore(collection),
   ]);
 
-router.route('/persons/:id')
-  .get(persons.controllers.read)
+router.route(`/${collection}/:id`)
+  .get(controllers.read(personsRepository, readQuery))
   .patch([
-    requireActiveUser,
-    patchCtx,
-    persons.controllers.patch,
-    saveInStore('persons'),
+    patchContext,
+    validatePayload,
+    controllers.patch(personsRepository, readQuery),
+    saveInStore(collection),
   ])
   .delete([
-    requireActiveUser,
-    patchCtx,
-    persons.controllers.delete,
-    saveInStore('persons'),
+    patchContext,
+    controllers.remove(personsRepository),
+    saveInStore(collection),
   ]);
 
 export default router;

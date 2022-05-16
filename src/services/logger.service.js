@@ -16,10 +16,8 @@ const format = combine(
   }),
 );
 
-const defaultMeta = (['api', 'indexers'].includes(process.env.ENTRYPOINT)) ? { service: process.env.ENTRYPOINT.toUpperCase() } : null;
-
 const logger = winston.createLogger({
-  defaultMeta,
+  defaultMeta: { service: 'API' },
   format: errors({ stack: true }),
   level: logLevel,
   transports: [new Console({ format })],
