@@ -2,6 +2,7 @@ import db from '../../../services/mongo.service';
 import { NestedMongoRepository } from '../../../libs/monster';
 import config from '../structures.config';
 
-const structureLocalisationsRepository = new NestedMongoRepository({ db, collection: config.collectionName, field: config.localisationsField });
+const { collectionName, localisationsField } = config;
+const structureLocalisationsRepository = new NestedMongoRepository({ db, collection: collectionName, field: localisationsField });
 
 export default structureLocalisationsRepository;
