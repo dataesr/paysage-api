@@ -7,11 +7,12 @@ import { setGeoJSON, validatePhoneNumber } from './localisations.middlewares';
 import repository from './localisations.repository';
 import config from '../structures.config';
 
+const { collectionName, localisationsField } = config;
+const collectionField = `${collectionName}-${localisationsField}`;
+
 const router = new express.Router();
 
-const collectionField = `${config.collectionName}-${config.localisationsField}`;
-
-router.route('/structures/:resourceId/localisations')
+router.route(`/${collectionName}/:resourceId/${localisationsField}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
@@ -22,7 +23,7 @@ router.route('/structures/:resourceId/localisations')
     saveInStore(collectionField),
   ]);
 
-router.route('/structures/:resourceId/localisations/:id')
+router.route(`/${collectionName}/:resourceId/${localisationsField}/:id`)
   .delete([
     patchContext,
     controllers.remove(repository),

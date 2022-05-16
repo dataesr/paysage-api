@@ -8,15 +8,18 @@ import { readQuery } from './legalcategories.queries';
 import legalCategoriesRepository from './legalcategories.repository';
 import config from './legalcategories.config';
 
+const { collectionName } = config;
+
 const router = new express.Router();
+
 router.route('/legalcategories')
   .get(controllers.list(legalCategoriesRepository, readQuery))
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(config.collectionName),
+    setGeneratedObjectIdInContext(collectionName),
     controllers.create(legalCategoriesRepository, readQuery),
-    saveInStore('legal-categories'),
+    saveInStore(collectionName),
   ]);
 
 router.route('/legalcategories/:id')
@@ -25,11 +28,12 @@ router.route('/legalcategories/:id')
     patchContext,
     validatePayload,
     controllers.patch(legalCategoriesRepository, readQuery),
-    saveInStore('legal-categories'),
+    saveInStore(collectionName),
   ])
   .delete([
     patchContext,
     controllers.remove(legalCategoriesRepository),
-    saveInStore('legal-categories'),
+    saveInStore(collectionName),
   ]);
+
 export default router;

@@ -1,10 +1,10 @@
 export default {
-  collectionName: 'structures',
-  namesField: 'names',
-  weblinksField: 'weblinks',
-  socialMediasField: 'socials',
-  localisationsField: 'localisations',
   categoriesField: 'categories',
+  collectionName: 'structures',
   identifiersField: 'identifiers',
+  localisationsField: 'localisations',
   logosField: 'logos',
+  namesField: 'names',
+  socialMediasField: 'socials',
+  weblinksField: 'weblinks',
 };
