@@ -1,31 +1,32 @@
 let authorization;
-let rid;
-let id;
 let cid;
-const structure = {
-  structureStatus: 'active',
-  creationDate: '2021-02',
-  usualName: 'Université',
-};
-const category = { usualNameFr: 'Catégorie' };
+let id;
+let rid;
+
 const categoryLink = {
   startDate: '2000-02-12',
   endDate: '2020-02-12',
 };
+
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
-  const struct = await global.superapp
+  const structure = await global.superapp
     .post('/structures')
     .set('Authorization', authorization)
-    .send(structure)
+    .send({
+      structureStatus: 'active',
+      creationDate: '2021-02',
+      usualName: 'Université',
+    })
     .expect(201);
-  const cat = await global.superapp
+  const category = await global.superapp
     .post('/categories')
     .set('Authorization', authorization)
-    .send(category)
+    .send({ usualNameFr: 'Catégorie' })
     .expect(201);
-  rid = struct.body.id;
-  cid = cat.body.id;
+
+  rid = structure.body.id;
+  cid = category.body.id;
 });
 
 describe('API > structures > categories > create', () => {
@@ -38,9 +39,46 @@ describe('API > structures > categories > create', () => {
     expect(response.body.id).toBeTruthy();
     id = response.body.id;
   });
+
+  it('should accept approximate date with only year and month', async () => {
+    const response = await global.superapp
+      .post(`/structures/${rid}/categories`)
+      .set('Authorization', authorization)
+      .send({ ...categoryLink, startDate: '2000-02' })
+      .expect(201);
+    expect(response.body.id).toBeTruthy();
+    id = response.body.id;
+  });
+
+  it('should accept approximate date with only year', async () => {
+    const response = await global.superapp
+      .post(`/structures/${rid}/categories`)
+      .set('Authorization', authorization)
+      .send({ ...categoryLink, startDate: '2000' })
+      .expect(201);
+    expect(response.body.id).toBeTruthy();
+    id = response.body.id;
+  });
+
+  it('should throw a BadRequest error if date is malformed', async () => {
+    const response = await global.superapp
+      .post(`/structures/${rid}/categories`)
+      .set('Authorization', authorization)
+      .send({ ...categoryLink, startDate: '20' });
+    expect(response.status).toBe(400);
+    expect(response.text).toContain('Validation failed');
+  });
 });
 
 describe('API > structures > categories > update', () => {
+  beforeAll(async () => {
+    const response = await global.superapp
+      .post(`/structures/${rid}/categories`)
+      .set('Authorization', authorization)
+      .send({ categoryId: cid, ...categoryLink });
+    id = response.body.id;
+  });
+
   it('can update successfully', async () => {
     const response = await global.superapp
       .patch(`/structures/${rid}/categories/${id}`)
@@ -81,6 +119,14 @@ describe('API > structures > categories > update', () => {
 });
 
 describe('API > structures > categories > read', () => {
+  beforeAll(async () => {
+    const response = await global.superapp
+      .post(`/structures/${rid}/categories`)
+      .set('Authorization', authorization)
+      .send({ categoryId: cid, ...categoryLink });
+    id = response.body.id;
+  });
+
   it('can read successfully', async () => {
     const response = await global.superapp
       .get(`/structures/${rid}/categories/${id}`)
@@ -125,86 +171,3 @@ describe('API > structures > names > delete', () => {
       .expect(204);
   });
 });
-
-// describe('API > structures > names > list', () => {
-//   beforeAll(async () => {
-//     await global.superapp
-//       .post(`/structures/${rid}/names/`)
-//       .set('Authorization', authorization)
-//       .send({ ...structureName, usualName: 'string2', startDate: null })
-//       .expect(201);
-//     await global.superapp
-//       .post(`/structures/${rid}/names/`)
-//       .set('Authorization', authorization)
-//       .send({ ...structureName, usualName: 'string3', startDate: '2017-01-01' })
-//       .expect(201);
-//   });
-//   it('can list successfully', async () => {
-//     const { body } = await global.superapp
-//       .get(`/structures/${rid}/names`)
-//       .set('Authorization', authorization)
-//       .expect(200);
-//     const docs = body.data.map((doc) => doc.usualName);
-//     expect(docs).toContain('string');
-//     expect(docs).toContain('string2');
-//     expect(docs).toContain('string3');
-//   });
-//   it('can skip successfully', async () => {
-//     const { body } = await global.superapp
-//       .get(`/structures/${rid}/names?skip=1`)
-//       .set('Authorization', authorization)
-//       .expect(200);
-//     const docs = body.data.map((doc) => doc.usualName);
-//     expect(docs).toContain('string2');
-//     expect(docs).toContain('string3');
-//     expect(docs).toHaveLength(3);
-//     expect(body.totalCount).toBe(4);
-//   });
-//   it('can limit successfully', async () => {
-//     const { body } = await global.superapp
-//       .get(`/structures/${rid}/names?limit=1`)
-//       .set('Authorization', authorization)
-//       .expect(200);
-//     const docs = body.data.map((doc) => doc.usualName);
-//     expect(docs).toContain('Université');
-//     expect(docs).toHaveLength(1);
-//     expect(body.totalCount).toBe(4);
-//   });
-//   it('can sort successfully', async () => {
-//     const { body } = await global.superapp
-//       .get(`/structures/${rid}/names?sort=usualName`)
-//       .set('Authorization', authorization)
-//       .expect(200);
-//     const docs = body.data.map((doc) => doc.usualName);
-//     expect(docs[0]).toBe('Université');
-//     expect(docs).toHaveLength(4);
-//     expect(body.totalCount).toBe(4);
-//   });
-//   it('can reversely sort successfully', async () => {
-//     const { body } = await global.superapp
-//       .get(`/structures/${rid}/names?sort=-usualName`)
-//       .set('Authorization', authorization)
-//       .expect(200);
-//     const docs = body.data.map((doc) => doc.usualName);
-//     expect(docs[0]).toBe('string3');
-//     expect(docs).toHaveLength(4);
-//     expect(body.totalCount).toBe(4);
-//   });
-//   it('can filter successfully', async () => {
-//     const { body } = await global.superapp
-//       .get(`/structures/${rid}/names?filters[usualName]=string2`)
-//       .set('Authorization', authorization)
-//       .expect(200);
-//     const docs = body.data.map((doc) => doc.usualName);
-//     expect(docs).toContain('string2');
-//     expect(docs).toHaveLength(1);
-//     expect(body.totalCount).toBe(1);
-//   });
-//   it('returns currentName successfully', async () => {
-//     const { body } = await global.superapp
-//       .get(`/structures/${rid}`)
-//       .set('Authorization', authorization)
-//       .expect(200);
-//     expect(body.currentName.startDate).toBe('2017-01-01');
-//   });
-// });
