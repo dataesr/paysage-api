@@ -2,7 +2,7 @@ import 'dotenv/config';
 import request from 'supertest';
 
 import app from '../src/api/app';
-import db, { client, clearDB } from '../src/services/mongo.service';
+import { clearDB, client, db } from '../src/services/mongo.service';
 import Utils from './utils';
 
 beforeAll(() => {

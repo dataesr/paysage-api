@@ -30,5 +30,4 @@ const clearDB = async (_db, exclude = []) => {
   return Promise.all(collectionsToDelete.map((collection) => _db.collection(collection.name).drop()));
 };
 
-export { client, clearDB };
-export default db;
+export { clearDB, client, db };
