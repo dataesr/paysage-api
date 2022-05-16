@@ -7,10 +7,12 @@ import config from '../structures.config';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
 import { readQuery } from './categories.queries';
 
-const router = new express.Router();
-const collectionField = `${config.collectionName}-${config.categoriesField}`;
+const { categoriesField, collectionName } = config;
+const collectionField = `${collectionName}-${categoriesField}`;
 
-router.route('/structures/:resourceId/categories')
+const router = new express.Router();
+
+router.route(`/${collectionName}/:resourceId/${categoriesField}`)
   .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
@@ -20,7 +22,7 @@ router.route('/structures/:resourceId/categories')
     saveInStore(collectionField),
   ]);
 
-router.route('/structures/:resourceId/categories/:id')
+router.route(`/${collectionName}/:resourceId/${categoriesField}/:id`)
   .delete([
     patchContext,
     controllers.remove(repository),

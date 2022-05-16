@@ -8,29 +8,32 @@ import { readQuery } from './root.queries';
 import personsRepository from './root.repository';
 import config from '../persons.config';
 
+const { collectionName } = config;
+
 const router = new express.Router();
-router.route('/persons')
+
+router.route(`/${collectionName}`)
   .get(controllers.list(personsRepository, readQuery))
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(config.collectionName),
+    setGeneratedObjectIdInContext(collectionName),
     controllers.create(personsRepository, readQuery),
-    saveInStore('persons'),
+    saveInStore(collectionName),
   ]);
 
-router.route('/persons/:id')
+router.route(`/${collectionName}/:id`)
   .get(controllers.read(personsRepository, readQuery))
   .patch([
     patchContext,
     validatePayload,
     controllers.patch(personsRepository, readQuery),
-    saveInStore('persons'),
+    saveInStore(collectionName),
   ])
   .delete([
     patchContext,
     controllers.remove(personsRepository),
-    saveInStore('persons'),
+    saveInStore(collectionName),
   ]);
 
 export default router;
