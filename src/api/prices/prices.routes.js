@@ -8,32 +8,32 @@ import { readQuery } from './prices.queries';
 import pricesRepository from './prices.repository';
 import config from './prices.config';
 
-const { collectionName } = config;
+const { collection } = config;
 
 const router = new express.Router();
 
-router.route(`/${collectionName}`)
+router.route(`/${collection}`)
   .get(controllers.list(pricesRepository, readQuery))
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(collectionName),
+    setGeneratedObjectIdInContext(collection),
     controllers.create(pricesRepository, readQuery),
-    saveInStore(collectionName),
+    saveInStore(collection),
   ]);
 
-router.route(`/${collectionName}/:id`)
+router.route(`/${collection}/:id`)
   .get(controllers.read(pricesRepository, readQuery))
   .patch([
     patchContext,
     validatePayload,
     controllers.patch(pricesRepository, readQuery),
-    saveInStore(collectionName),
+    saveInStore(collection),
   ])
   .delete([
     patchContext,
     controllers.remove(pricesRepository),
-    saveInStore(collectionName),
+    saveInStore(collection),
   ]);
 
 export default router;

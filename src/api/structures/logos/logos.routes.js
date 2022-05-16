@@ -7,12 +7,12 @@ import config from '../structures.config';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
 import { readQuery } from './logos.queries';
 
-const { collectionName, logosField } = config;
-const collectionField = `${collectionName}-${logosField}`;
+const { collection, logosField: field } = config;
+const collectionField = `${collection}-${field}`;
 
 const router = new express.Router();
 
-router.route(`/${collectionName}/:resourceId/${logosField}`)
+router.route(`/${collection}/:resourceId/${field}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
@@ -23,7 +23,7 @@ router.route(`/${collectionName}/:resourceId/${logosField}`)
     saveInStore(collectionField),
   ]);
 
-router.route(`/${collectionName}/:resourceId/${logosField}/:id`)
+router.route(`/${collection}/:resourceId/${field}/:id`)
   .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,

@@ -6,10 +6,12 @@ import config from '../structures.config';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
 import { readQuery } from './socialmedias.queries';
 
-const router = new express.Router();
-const collectionField = `${config.collectionName}-${config.socialMediasField}`;
+const { collection, socialMediasField: field } = config;
+const collectionField = `${collection}-${field}`;
 
-router.route('/structures/:resourceId/socials')
+const router = new express.Router();
+
+router.route(`/${collection}/:resourceId/${field}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
@@ -18,7 +20,7 @@ router.route('/structures/:resourceId/socials')
     saveInStore(collectionField),
   ]);
 
-router.route('/structures/:resourceId/socials/:id')
+router.route(`/${collection}/:resourceId/${field}/:id`)
   .delete([
     patchContext,
     controllers.remove(repository),

@@ -8,7 +8,7 @@ import { readQuery } from './officialdocuments.queries';
 import officialDocumentsRepository from './officialdocuments.repository';
 import config from './officialdocuments.config';
 
-const { collectionName } = config;
+const { collection } = config;
 
 const router = new express.Router();
 
@@ -17,9 +17,9 @@ router.route('/officialdocuments')
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(collectionName),
+    setGeneratedObjectIdInContext(collection),
     controllers.create(officialDocumentsRepository, readQuery),
-    saveInStore(collectionName),
+    saveInStore(collection),
   ]);
 
 router.route('/officialdocuments/:id')
@@ -28,12 +28,12 @@ router.route('/officialdocuments/:id')
     validatePayload,
     patchContext,
     controllers.patch(officialDocumentsRepository, readQuery),
-    saveInStore(collectionName),
+    saveInStore(collection),
   ])
   .delete([
     patchContext,
     controllers.remove(officialDocumentsRepository),
-    saveInStore(collectionName),
+    saveInStore(collection),
   ]);
 
 export default router;

@@ -1,5 +1,5 @@
 export default {
-  collectionName: 'categories',
+  collection: 'categories',
   identifiersField: 'identifiers',
   weblinksField: 'weblinks',
 };
