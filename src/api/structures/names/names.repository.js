@@ -2,6 +2,7 @@ import db from '../../../services/mongo.service';
 import { NestedMongoRepository } from '../../../libs/monster';
 import config from '../structures.config';
 
-const structureNamesRepository = new NestedMongoRepository({ db, collection: config.collectionName, field: config.namesField });
+const { collectionName, namesField } = config;
+const structureNamesRepository = new NestedMongoRepository({ db, collection: collectionName, field: namesField });
 
 export default structureNamesRepository;
