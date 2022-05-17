@@ -13,7 +13,7 @@ async function setupDatabase() {
   await db.collection('officialdocuments').createIndex({ id: 1 }, { unique: true });
   await db.collection('persons').createIndex({ id: 1 }, { unique: true });
   await db.collection('prices').createIndex({ id: 1 }, { unique: true });
-  await db.collection('strctures').createIndex({ id: 1 }, { unique: true });
+  await db.collection('structures').createIndex({ id: 1 }, { unique: true });
   await db.collection('terms').createIndex({ id: 1 }, { unique: true });
   logger.info('Mongodb setup successfull');
   if (client) client.close();
