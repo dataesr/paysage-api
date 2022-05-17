@@ -16,5 +16,8 @@
 
 `npm test my_file.test.js`
 
+* Run test into a Docker container
+
+`docker-compose -f docker-compose-test.yml up --build --exit-code-from app`
 
 ## Route
