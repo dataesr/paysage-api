@@ -1,12 +1,24 @@
+version: '3'
+
 services:
   mongo:
     image: mongo:5.0
     ports:
       - 27017:27017
-    restart: unless-stopped
+    restart: always
+    volumes:
+      - mongo:/data/db
 
-  app:
-    container_name: app
+  paysage-auth:
+    image: ghcr.io/dataesr/paysage-auth:staging
+    command: npm start
+    depends_on:
+       - mongo
+    restart: always
+    ports:
+      - 3002:3000
+
+  paysage-api:
     build: .
     command: npm start
     environment:
@@ -15,3 +27,6 @@ services:
       - 3000:3000
     depends_on:
       - mongo
+
+volumes:
+  mongo:
