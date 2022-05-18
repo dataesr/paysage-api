@@ -4,7 +4,7 @@ services:
   mongo:
     image: mongo:5.0
     ports:
-      - 27017:27017
+      - 27017
     restart: always
     volumes:
       - mongo:/data/db
@@ -15,16 +15,16 @@ services:
     depends_on:
        - mongo
     restart: always
+    env_file:
+      - .env
     ports:
-      - 3002:3000
+      - 3004:3000
 
   paysage-api:
     build: .
     command: npm start
-    environment:
-      - MONGO_URI=mongodb://mongo:27017
     ports:
-      - 3000:3000
+      - 3003:3000
     depends_on:
       - mongo
 
