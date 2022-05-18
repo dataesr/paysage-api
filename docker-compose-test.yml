@@ -2,15 +2,13 @@ services:
   mongo:
     image: mongo:5.0
     ports:
-      - 27017:27017
+      - 27017
     restart: always
 
   paysage-api:
     build: .
     command: npm test
-    environment:
-      - MONGO_URI=mongodb://mongo:27017
     ports:
-      - 3000:3000
+      - 3003:3000
     depends_on:
       - mongo

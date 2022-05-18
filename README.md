@@ -27,12 +27,12 @@ To run the full app in a Docker container :
 
 This run a docker container, with a MongoDB inside, the paysage-auth app and the paysage-api app.
 
-To acces the MongoDB from the outside, use host : `mongodb://127.0.0.1:27017`.
+To acces the MongoDB from outside, use host : `mongodb://127.0.0.1:27017`.
 
-To access the paysage-api, use host : `http://localhost:3000/`.
+To access the paysage-api from outside, use host : `http://localhost:3003/`.
 
-To acess the paysage-auth, use host : `http://localhost:3000/`.
+To acess the paysage-auth from outside, use host : `http://localhost:3004/`.
 
-To see the API docs, see : http://localhost:3000/docs/api/.
+To see the API docs, see : http://localhost:3003/docs/api/.
 
 ## Route
