@@ -21,11 +21,16 @@
 `docker-compose -f docker-compose-test.yml up --build --exit-code-from paysage-api`
 
 ### Docker
+
+:warning: As our auth app "paysage-auth" is private, you need to be logged to ghcr.io to use this docker-compose file.
+
 To run the full app in a Docker container :
 
 `docker-compose up --build`
 
 This run a docker container, with a MongoDB inside, the paysage-auth app and the paysage-api app.
+
+To acces the MongoDB from inside, use host : `mongodb://mongo:27017`.
 
 To acces the MongoDB from outside, use host : `mongodb://127.0.0.1:27017`.
 
