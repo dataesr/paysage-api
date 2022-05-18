@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: dataesr/slack-notifier-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN}}
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          slack_channel: ${{ env.SLACK_NOTIFICATION_CHANNEL}}
           deployment_url: ${{ env.DEPLOYMENT_URL }}
+          github_token: ${{ secrets.GITHUB_TOKEN}}
+          slack_channel: ${{ env.SLACK_NOTIFICATION_CHANNEL}}
+          slack_token: ${{ secrets.SLACK_TOKEN }}
