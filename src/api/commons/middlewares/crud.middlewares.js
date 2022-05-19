@@ -17,11 +17,10 @@ const list = (repository, useQuery) => async (req, res, next) => {
 };
 
 const create = (repository, useQuery) => async (req, res, next) => {
-  const { body, context } = req;
-  const { id } = context;
-  const insertedId = await repository.create({ ...body, ...context });
+  const { body, context, params } = req;
+  const insertedId = await repository.create({ ...body, ...params, ...context });
   if (!insertedId) throw new ServerError();
-  const resource = await repository.get(id, { useQuery });
+  const resource = await repository.get(insertedId, { useQuery });
   res.status(201).json(resource);
   return next();
 };
@@ -50,5 +49,9 @@ const remove = (repository) => async (req, res, next) => {
 };
 
 export default {
-  read, remove, patch, create, list,
+  create,
+  list,
+  patch,
+  read,
+  remove,
 };

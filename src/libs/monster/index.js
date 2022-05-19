@@ -1,7 +1,7 @@
-import NestedController from './controllers/nested.controller';
 import BaseController from './controllers/base.controller';
-import NestedMongoRepository from './repositories/nested.mongo.repository';
+import NestedController from './controllers/nested.controller';
 import BaseMongoRepository from './repositories/base.mongo.repository';
+import NestedMongoRepository from './repositories/nested.mongo.repository';
 import Catalog from './repositories/catalog.repository';
 
 class Resource {
