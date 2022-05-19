@@ -1,6 +1,6 @@
 let authorization;
-let rid;
 let id;
+let rid;
 
 const payload = {
   type: 'Siret',
@@ -25,17 +25,17 @@ beforeAll(async () => {
 
 describe('API > structures > identifiers > create', () => {
   it('can create successfully', async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .post(`/structures/${rid}/identifiers`)
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
-    expect(response.body.id).toBeTruthy();
-    expect(response.body.type).toBe('Siret');
-    expect(response.body.value).toBe('12345678912345');
-    expect(response.body.active).toBe(true);
-    expect(response.body.createdBy.username).toBe('user');
-    id = response.body.id;
+    expect(body.id).toBeTruthy();
+    expect(body.type).toBe('Siret');
+    expect(body.value).toBe('12345678912345');
+    expect(body.active).toBeTruthy();
+    expect(body.createdBy.username).toBe('user');
+    id = body.id;
   });
 
   it('should fail if type is missing', async () => {
@@ -98,14 +98,14 @@ describe('API > structures > identifiers > update', () => {
 
 describe('API > structures > identifiers > read', () => {
   it('can read successfully', async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .get(`/structures/${rid}/identifiers/${id}`)
       .set('Authorization', authorization)
       .expect(200);
-    expect(response.body.type).toBe('Wikidata');
-    expect(response.body.value).toBe('12345678912345');
-    expect(response.body.active).toBe(true);
-    expect(response.body.createdBy.username).toBe('user');
+    expect(body.type).toBe('Wikidata');
+    expect(body.value).toBe('12345678912345');
+    expect(body.active).toBe(true);
+    expect(body.createdBy.username).toBe('user');
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
