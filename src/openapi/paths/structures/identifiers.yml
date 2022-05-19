@@ -46,8 +46,8 @@
           schema:
             title: StructureIdentifierCreatePayload
             required:
-              - 'type'
-              - 'value'
+              - type
+              - value
             allOf:
               - $ref: '../../api.yml#/components/schemas/StructureIdentifierPayload'
     responses:

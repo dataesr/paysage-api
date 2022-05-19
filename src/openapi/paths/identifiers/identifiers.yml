@@ -1,0 +1,29 @@
+/identifiers/{resourceId}:
+  post:
+    tags:
+      - Identifiants
+    summary: Créer un nouvel identifiant
+    requestBody:
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '../../api.yml#/components/schemas/IdentifierPayload'
+                - required:
+                  - 'type'
+                  - 'value'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Identifier'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
