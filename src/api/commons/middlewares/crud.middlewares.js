@@ -10,8 +10,8 @@ const read = (repository, useQuery) => async (req, res, next) => {
 
 const list = (repository, useQuery) => async (req, res, next) => {
   const { query } = req;
-  const { filters, sort, limit, skip } = query;
-  const { data, totalCount = 0 } = await repository.find({ filters, sort, limit, skip, useQuery });
+  const { filters, limit, skip, sort } = query;
+  const { data, totalCount = 0 } = await repository.find({ filters, limit, skip, sort, useQuery });
   res.status(200).json({ data, totalCount });
   return next();
 };

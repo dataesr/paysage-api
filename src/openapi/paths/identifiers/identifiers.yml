@@ -10,8 +10,8 @@
               allOf:
                 - $ref: '../../api.yml#/components/schemas/IdentifierPayload'
                 - required:
-                  - 'type'
-                  - 'value'
+                  - type
+                  - value
     responses:
       '201':
         description: Created

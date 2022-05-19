@@ -1,7 +1,6 @@
 import express from 'express';
 import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
-// import { saveInStore } from '../commons/middlewares/event.middlewares';
-// import { validatePayload } from './prices.middlewares';
+import { saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 
 import { readQuery } from './identifiers.queries';
@@ -13,27 +12,26 @@ const { collection } = config;
 const router = new express.Router();
 
 router.route(`/${collection}/:resourceId`)
-  // .get(controllers.list(pricesRepository, readQuery))
+  .get(controllers.list(identifiersRepository, readQuery))
   .post([
-    // validatePayload,
     createContext,
     setGeneratedObjectIdInContext(collection),
     controllers.create(identifiersRepository, readQuery),
-    // saveInStore(collection),
+    saveInStore(collection),
   ]);
 
 /*
 router.route(`/${collection}/:id`)
-  .get(controllers.read(pricesRepository, readQuery))
+  .get(controllers.read(identifiersRepository, readQuery))
   .patch([
     patchContext,
     // validatePayload,
-    controllers.patch(pricesRepository, readQuery),
+    controllers.patch(identifiersRepository, readQuery),
     saveInStore(collection),
   ])
   .delete([
     patchContext,
-    controllers.remove(pricesRepository),
+    controllers.remove(identifiersRepository),
     saveInStore(collection),
   ]);
 */
