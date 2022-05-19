@@ -148,6 +148,10 @@ paths:
     $ref: './paths/prices/prices.yml#/~1prices'
   '/prices/{priceId}':
     $ref: './paths/prices/prices.yml#/~1prices~1{priceId}'
+  
+  ### IDENTIFIERS ###
+  '/identifiers/{resourceId}':
+    $ref: './paths/identifiers/identifiers.yml#/~1identifiers~1{resourceId}'
 
 components:
   parameters:
@@ -266,6 +270,8 @@ components:
       $ref: './schemas/legalcategories/legalcategory.yml'
     LegalCategoryLight:
       $ref: './schemas/legalcategories/legalcategory-light.yml'
+    Identifier:
+      $ref: './schemas/identifiers/identifier.yml'
 
 
     ### PAYLOADS ###
@@ -315,6 +321,9 @@ components:
 
     RolePayload:
       $ref: './schemas/roles/role-payload.yml'
+    
+    IdentifierPayload:
+      $ref: './schemas/identifiers/identifier-payload.yml'
 
 
     ### ENUMS ###
