@@ -11,7 +11,7 @@ const { collection } = config;
 
 const router = new express.Router();
 
-router.route(`/${collection}/:resourceId/$identifiers`)
+router.route(`/${collection}/:resourceId/identifiers`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
