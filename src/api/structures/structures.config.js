@@ -4,6 +4,6 @@ export default {
   localisationsField: 'localisations',
   logosField: 'logos',
   namesField: 'names',
-  socialMediasField: 'socials',
+  socialMediasField: 'socialmedias',
   weblinksField: 'weblinks',
 };
