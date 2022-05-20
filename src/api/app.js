@@ -9,16 +9,15 @@ import health from '@cloudnative/health-connect';
 import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 import { authenticate } from './commons/middlewares/authenticate.middlewares';
 
-import structuresRoutes from './structures/structures.routes';
-import personsRoutes from './persons/persons.routes';
-import officialDocumentsRoutes from './officialdocuments/officialdocuments.routes';
-import legalCategoriesRoutes from './legalcategories/legalcategories.routes';
-import pricesRoutes from './prices/prices.routes';
-import termsRoutes from './terms/terms.routes';
-import documentsRoutes from './documents/documents.routes';
-import categoriesRoutes from './categories/categories.routes';
-
 import assetsRoutes from './assets/assets.routes';
+import categoriesRoutes from './categories/categories.routes';
+import documentsRoutes from './documents/documents.routes';
+import legalCategoriesRoutes from './legalcategories/legalcategories.routes';
+import officialDocumentsRoutes from './officialdocuments/officialdocuments.routes';
+import personsRoutes from './persons/persons.routes';
+import pricesRoutes from './prices/prices.routes';
+import structuresRoutes from './structures/structures.routes';
+import termsRoutes from './terms/terms.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/api.yml');
@@ -61,17 +60,15 @@ app.use(OAV.middleware({
 app.use(authenticate);
 
 // Register api routes
-app.use(structuresRoutes);
-app.use(personsRoutes);
-app.use(officialDocumentsRoutes);
-app.use(legalCategoriesRoutes);
-app.use(pricesRoutes);
-app.use(termsRoutes);
-app.use(documentsRoutes);
-app.use(categoriesRoutes);
-
-// Assets
 app.use(assetsRoutes);
+app.use(categoriesRoutes);
+app.use(documentsRoutes);
+app.use(legalCategoriesRoutes);
+app.use(officialDocumentsRoutes);
+app.use(personsRoutes);
+app.use(pricesRoutes);
+app.use(structuresRoutes);
+app.use(termsRoutes);
 
 // Error handler
 app.use(handleErrors);

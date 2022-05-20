@@ -1,9 +1,7 @@
 import mongo from '../../../services/mongo.service';
-import { NestedMongoRepository } from '../../../libs/monster';
-import config from '../categories.config';
+import { BaseMongoRepository } from '../../../libs/monster';
 
 const { db } = mongo;
-const { collection, identifiersField: field } = config;
-const categoryIdentifiersRepository = new NestedMongoRepository({ db, collection, field });
+const categoryIdentifiersRepository = new BaseMongoRepository({ db, collection: 'identifiers' });
 
 export default categoryIdentifiersRepository;

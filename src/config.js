@@ -82,10 +82,10 @@ const development = {
 };
 
 const configs = {
+  development,
   production,
   staging,
   testing,
-  development,
 };
 
 export default configs[process.env.NODE_ENV];

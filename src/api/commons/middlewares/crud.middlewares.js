@@ -10,18 +10,17 @@ const read = (repository, useQuery) => async (req, res, next) => {
 
 const list = (repository, useQuery) => async (req, res, next) => {
   const { query } = req;
-  const { filters, sort, limit, skip } = query;
-  const { data, totalCount = 0 } = await repository.find({ filters, sort, limit, skip, useQuery });
+  const { filters, limit, skip, sort } = query;
+  const { data, totalCount = 0 } = await repository.find({ filters, limit, skip, sort, useQuery });
   res.status(200).json({ data, totalCount });
   return next();
 };
 
 const create = (repository, useQuery) => async (req, res, next) => {
-  const { body, context } = req;
-  const { id } = context;
-  const insertedId = await repository.create({ ...body, ...context });
+  const { body, context, params } = req;
+  const insertedId = await repository.create({ ...body, ...params, ...context });
   if (!insertedId) throw new ServerError();
-  const resource = await repository.get(id, { useQuery });
+  const resource = await repository.get(insertedId, { useQuery });
   res.status(201).json(resource);
   return next();
 };
@@ -50,5 +49,9 @@ const remove = (repository) => async (req, res, next) => {
 };
 
 export default {
-  read, remove, patch, create, list,
+  create,
+  list,
+  patch,
+  read,
+  remove,
 };

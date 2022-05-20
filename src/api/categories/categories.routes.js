@@ -1,4 +1,5 @@
 import express from 'express';
+
 import categories from './root/root.routes';
 import identifiers from './identifiers/identifiers.routes';
 import weblinks from './weblinks/weblinks.routes';

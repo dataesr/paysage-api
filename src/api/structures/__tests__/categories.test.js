@@ -31,33 +31,33 @@ beforeAll(async () => {
 
 describe('API > structures > categories > create', () => {
   it('can create successfully', async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .post(`/structures/${rid}/categories`)
       .set('Authorization', authorization)
       .send({ categoryId: cid, ...categoryLink })
       .expect(201);
-    expect(response.body.id).toBeTruthy();
-    id = response.body.id;
+    expect(body.id).toBeTruthy();
+    id = body.id;
   });
 
   it('should accept approximate date with only year and month', async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .post(`/structures/${rid}/categories`)
       .set('Authorization', authorization)
       .send({ ...categoryLink, startDate: '2000-02' })
       .expect(201);
-    expect(response.body.id).toBeTruthy();
-    id = response.body.id;
+    expect(body.id).toBeTruthy();
+    id = body.id;
   });
 
   it('should accept approximate date with only year', async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .post(`/structures/${rid}/categories`)
       .set('Authorization', authorization)
       .send({ ...categoryLink, startDate: '2000' })
       .expect(201);
-    expect(response.body.id).toBeTruthy();
-    id = response.body.id;
+    expect(body.id).toBeTruthy();
+    id = body.id;
   });
 
   it('should throw a BadRequest error if date is malformed', async () => {
@@ -72,20 +72,20 @@ describe('API > structures > categories > create', () => {
 
 describe('API > structures > categories > update', () => {
   beforeAll(async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .post(`/structures/${rid}/categories`)
       .set('Authorization', authorization)
       .send({ categoryId: cid, ...categoryLink });
-    id = response.body.id;
+    id = body.id;
   });
 
   it('can update successfully', async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .patch(`/structures/${rid}/categories/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: '2017-01-01' })
       .expect(200);
-    expect(response.body.startDate).toBe('2017-01-01');
+    expect(body.startDate).toBe('2017-01-01');
   });
   it('throws bad request with malformed id', async () => {
     await global.superapp
@@ -120,22 +120,22 @@ describe('API > structures > categories > update', () => {
 
 describe('API > structures > categories > read', () => {
   beforeAll(async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .post(`/structures/${rid}/categories`)
       .set('Authorization', authorization)
       .send({ categoryId: cid, ...categoryLink });
-    id = response.body.id;
+    id = body.id;
   });
 
   it('can read successfully', async () => {
-    const response = await global.superapp
+    const { body } = await global.superapp
       .get(`/structures/${rid}/categories/${id}`)
       .set('Authorization', authorization)
       .expect(200);
-    expect(response.body.id).toBe(id);
-    expect(response.body.category.id).toBe(cid);
-    expect(response.body.category.usualNameFr).toBe('Catégorie');
-    expect(response.body.createdBy.username).toBe('user');
+    expect(body.id).toBe(id);
+    expect(body.category.id).toBe(cid);
+    expect(body.category.usualNameFr).toBe('Catégorie');
+    expect(body.createdBy.username).toBe('user');
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
