@@ -2,13 +2,13 @@ let authorization;
 let id;
 let rid;
 
-const collection = 'structures';
+const collection = 'persons';
 const payload = {
-  active: false,
-  endDate: '2014-12-31',
-  startDate: '2012-01-01',
-  type: 'Siret',
-  value: '12345678912345',
+  active: true,
+  endDate: '2024-02-04',
+  startDate: '2022-01-28',
+  type: 'ORCID Id',
+  value: 'person_id',
 };
 
 beforeAll(async () => {
@@ -17,9 +17,9 @@ beforeAll(async () => {
     .post(`/${collection}`)
     .set('Authorization', authorization)
     .send({
-      structureStatus: 'active',
-      creationDate: '2021-02',
-      usualName: 'Université',
+      firstName: 'Jean',
+      gender: 'Femme',
+      lastName: 'Dupond',
     });
   rid = body.id;
 });
@@ -28,7 +28,8 @@ beforeEach(async () => {
   const { body } = await global.superapp
     .post(`/${collection}/${rid}/identifiers`)
     .set('Authorization', authorization)
-    .send(payload);
+    .send(payload)
+    .expect(201);
   id = body.id;
 });
 
@@ -40,7 +41,7 @@ afterEach(async () => {
   }
 });
 
-describe('API > structures > identifiers > create', () => {
+describe('API > persons > identifiers > create', () => {
   it('should create a new identifier', async () => {
     const { body } = await global.superapp
       .post(`/${collection}/${rid}/identifiers`)
@@ -77,7 +78,7 @@ describe('API > structures > identifiers > create', () => {
   });
 });
 
-describe('API > structures > identifiers > update', () => {
+describe('API > persons > identifiers > update', () => {
   it('should update an existing identifier', async () => {
     const type = 'Wikidata';
     const { body } = await global.superapp
@@ -121,7 +122,7 @@ describe('API > structures > identifiers > update', () => {
   });
 });
 
-describe('API > structures > identifiers > read', () => {
+describe('API > persons > identifiers > read', () => {
   it('should read existing identifier', async () => {
     const { body } = await global.superapp
       .get(`/${collection}/${rid}/identifiers/${id}`)
@@ -129,7 +130,7 @@ describe('API > structures > identifiers > read', () => {
       .expect(200);
     expect(body.type).toBe(payload.type);
     expect(body.value).toBe(payload.value);
-    expect(body.active).toBeFalsy();
+    expect(body.active).toBe(payload.active);
     expect(body.createdBy.username).toBe('user');
   });
 
@@ -148,7 +149,7 @@ describe('API > structures > identifiers > read', () => {
   });
 });
 
-describe('API > structures > identifiers > delete', () => {
+describe('API > persons > identifiers > delete', () => {
   it('should throw bad request if id too short', async () => {
     await global.superapp
       .delete(`/${collection}/${rid}/identifiers/vgy775`)
@@ -171,7 +172,7 @@ describe('API > structures > identifiers > delete', () => {
   });
 });
 
-describe('API > structures > identifiers > list', () => {
+describe('API > persons > identifiers > list', () => {
   beforeAll(async () => {
     await global.superapp
       .post(`/${collection}/${rid}/identifiers/`)
