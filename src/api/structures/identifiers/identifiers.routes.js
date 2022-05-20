@@ -1,5 +1,5 @@
 import express from 'express';
-import { createContext, patchContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import repository from './identifiers.repository';
@@ -14,7 +14,7 @@ router.route(`/${collection}/:resourceId/identifiers`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
-    setGeneratedObjectIdInContext('identifiers'),
+    setGeneratedInternalIdInContext('identifiers'),
     controllers.create(repository, readQuery),
     saveInStore('identifiers'),
   ]);
