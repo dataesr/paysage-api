@@ -1,22 +1,23 @@
 import express from 'express';
-import structures from './root/root.routes';
-import names from './names/names.routes';
-import logos from './logos/logos.routes';
+
+import categories from './categories/categories.routes';
 import identifiers from './identifiers/identifiers.routes';
 import localisations from './localisations/localisations.routes';
-import weblinks from './weblinks/weblinks.routes';
+import logos from './logos/logos.routes';
+import names from './names/names.routes';
 import socialmedias from './socialmedias/socialmedias.routes';
-import categories from './categories/categories.routes';
+import structures from './root/root.routes';
+import weblinks from './weblinks/weblinks.routes';
 
 const router = new express.Router();
 
-router.use(structures);
-router.use(names);
+router.use(categories);
 router.use(identifiers);
 router.use(localisations);
-router.use(socialmedias);
-router.use(weblinks);
 router.use(logos);
-router.use(categories);
+router.use(names);
+router.use(socialmedias);
+router.use(structures);
+router.use(weblinks);
 
 export default router;
