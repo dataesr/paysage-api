@@ -1,13 +1,14 @@
 import express from 'express';
-import root from './root/root.routes';
+
 import identifiers from './identifiers/identifiers.routes';
-import weblinks from './weblinks/weblinks.routes';
+import root from './root/root.routes';
 import socialmedias from './socialmedias/socialmedias.routes';
+import weblinks from './weblinks/weblinks.routes';
 
 const router = new express.Router();
 
-router.use(root);
 router.use(identifiers);
+router.use(root);
 router.use(socialmedias);
 router.use(weblinks);
 
