@@ -1,10 +1,11 @@
 import express from 'express';
+
+import config from '../config';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import repository from './socialmedias.repository';
-import config from '../persons.config';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { readQuery } from './socialmedias.queries';
+import repository from './socialmedias.repository';
 
 const { collection, socialMediasField: field } = config;
 const collectionField = `${collection}-${field}`;

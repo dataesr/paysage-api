@@ -1,4 +1,4 @@
-import metas from '../../commons/pipelines/metas';
+import metas from '../pipelines/metas';
 
 const model = {
   type: 1,

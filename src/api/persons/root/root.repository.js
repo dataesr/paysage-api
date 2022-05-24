@@ -1,6 +1,6 @@
 import mongo from '../../../services/mongo.service';
 import { BaseMongoRepository } from '../../../libs/monster';
-import config from '../persons.config';
+import config from '../config';
 
 const { db } = mongo;
 const { collection } = config;

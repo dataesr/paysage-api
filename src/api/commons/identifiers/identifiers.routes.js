@@ -1,13 +1,12 @@
 import express from 'express';
 
-import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import controllers from '../../commons/middlewares/crud.middlewares';
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../middlewares/context.middlewares';
+import { saveInStore } from '../middlewares/event.middlewares';
+import controllers from '../middlewares/crud.middlewares';
 import repository from './identifiers.repository';
 import { readQuery } from './identifiers.queries';
-import config from '../persons.config';
 
-const { collection } = config;
+const collection = 'persons';
 
 const router = new express.Router();
 
