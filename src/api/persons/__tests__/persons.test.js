@@ -1,5 +1,6 @@
 let authorization;
 let id;
+
 const payload = {
   lastName: 'Dupond',
   firstName: 'Jean',

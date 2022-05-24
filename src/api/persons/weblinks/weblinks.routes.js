@@ -1,10 +1,11 @@
 import express from 'express';
+
+import config from '../config';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
+import controllers from '../../commons/middlewares/crud-nested.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { readQuery } from './weblinks.queries';
 import repository from './weblinks.respository';
-import config from '../persons.config';
-import controllers from '../../commons/middlewares/crud-nested.middlewares';
 
 const { collection, weblinksField: field } = config;
 const collectionField = `${collection}-${field}`;

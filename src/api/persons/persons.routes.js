@@ -1,6 +1,6 @@
 import express from 'express';
 
-import identifiers from './identifiers/identifiers.routes';
+import identifiers from '../commons/identifiers/identifiers.routes';
 import root from './root/root.routes';
 import socialmedias from './socialmedias/socialmedias.routes';
 import weblinks from './weblinks/weblinks.routes';
