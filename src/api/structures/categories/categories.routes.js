@@ -1,11 +1,12 @@
 import express from 'express';
-import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
+
 import { validatePayload } from './categories.middlewares';
-import repository from './categories.repository';
-import config from '../structures.config';
-import controllers from '../../commons/middlewares/crud-nested.middlewares';
 import { readQuery } from './categories.queries';
+import repository from './categories.repository';
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
+import controllers from '../../commons/middlewares/crud-nested.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
+import config from '../structures.config';
 
 const { categoriesField: field, collection } = config;
 const collectionField = `${collection}-${field}`;

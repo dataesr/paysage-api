@@ -1,6 +1,6 @@
 import express from 'express';
 
-import config from '../config';
+import config from '../persons.config';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
