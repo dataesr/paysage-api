@@ -13,7 +13,7 @@ import config from './structures.config';
 const router = new express.Router();
 
 const { collection } = config;
-const identifiers = getIdentifiersRoutes(collection);
+const identifiers = getIdentifiersRoutes(collection, 'identifiers');
 router.use(identifiers);
 
 router.use(categories);

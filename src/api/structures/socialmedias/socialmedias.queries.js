@@ -1,8 +1,8 @@
 import metas from '../../commons/pipelines/metas';
 
 const model = {
+  account: 1,
   type: 1,
-  url: 1,
 };
 
 const readQuery = [
@@ -11,6 +11,7 @@ const readQuery = [
     $project: {
       _id: 0,
       id: 1,
+      rid: 1,
       ...model,
       createdBy: 1,
       createdAt: 1,
