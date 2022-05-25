@@ -1,13 +1,17 @@
 import express from 'express';
 
+import getIdentifiersRoutes from '../commons/identifiers/identifiers.routes';
 import categories from './root/root.routes';
-import identifiers from './identifiers/identifiers.routes';
 import weblinks from './weblinks/weblinks.routes';
+import config from './categories.config';
 
 const router = new express.Router();
 
-router.use(categories);
+const { collection } = config;
+const identifiers = getIdentifiersRoutes(collection);
 router.use(identifiers);
+
+router.use(categories);
 router.use(weblinks);
 
 export default router;
