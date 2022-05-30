@@ -5,7 +5,7 @@ let resourceId;
 const collection = 'structures';
 const payload = {
   account: 'my_account',
-  type: 'my_type',
+  type: 'Dailymotion',
 };
 
 beforeAll(async () => {
@@ -85,7 +85,7 @@ describe('API > structures > socialmedias > create', () => {
 
 describe('API > structures > socialmedias > update', () => {
   it('should update an existing socialmedia', async () => {
-    const type = 'another_type';
+    const type = 'Github';
     const { body } = await global.superapp
       .patch(`/${collection}/${resourceId}/social-medias/${id}`)
       .set('Authorization', authorization)
@@ -177,21 +177,21 @@ describe('API > structures > socialmedias > list', () => {
       .set('Authorization', authorization)
       .send({
         account: 'account_03',
-        type: 'type_03',
+        type: 'Twitter',
       });
     await global.superapp
       .post(`/${collection}/${resourceId}/social-medias/`)
       .set('Authorization', authorization)
       .send({
         account: 'account_02',
-        type: 'type_02',
+        type: 'Facebook',
       });
     await global.superapp
       .post(`/${collection}/${resourceId}/social-medias/`)
       .set('Authorization', authorization)
       .send({
         account: 'account_01',
-        type: 'type_01',
+        type: 'Youtube',
       });
   });
 
@@ -209,9 +209,9 @@ describe('API > structures > socialmedias > list', () => {
       .set('Authorization', authorization);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(3);
-    expect(docs).toContain('type_03');
-    expect(docs).toContain('type_02');
-    expect(docs).toContain('type_01');
+    expect(docs).toContain('Twitter');
+    expect(docs).toContain('Facebook');
+    expect(docs).toContain('Youtube');
   });
 
   it('should skip socialmedias in list', async () => {
@@ -221,8 +221,8 @@ describe('API > structures > socialmedias > list', () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(2);
-    expect(docs).toContain('type_02');
-    expect(docs).toContain('type_01');
+    expect(docs).toContain('Facebook');
+    expect(docs).toContain('Youtube');
     expect(body.totalCount).toBe(3);
   });
 
@@ -233,7 +233,7 @@ describe('API > structures > socialmedias > list', () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(1);
-    expect(docs).toContain('type_03');
+    expect(docs).toContain('Twitter');
     expect(body.totalCount).toBe(3);
   });
 
@@ -261,7 +261,7 @@ describe('API > structures > socialmedias > list', () => {
 
   it('should filter socialmedias in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/social-medias?filters[type]=type_01&filters[account]=account_01`)
+      .get(`/${collection}/${resourceId}/social-medias?filters[type]=Youtube&filters[account]=account_01`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.account);

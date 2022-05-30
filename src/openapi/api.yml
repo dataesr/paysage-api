@@ -318,16 +318,18 @@ components:
 
 
     ### ENUMS ###
-    StructureIdentifierTypesEnum:
-      $ref: './schemas/structures/enums/identifier-types.yml'
-    PersonIdentifierTypesEnum:
-      $ref: './schemas/persons/enums/identifier-types.yml'
     CategoryIdentifierTypesEnum:
       $ref: './schemas/categories/enums/identifier-types.yml'
-    OfficialDocumentTypesEnum:
-      $ref: './schemas/officialdocuments/enums/type.yml'
     OfficialDocumentNaturesEnum:
       $ref: './schemas/officialdocuments/enums/nature.yml'
+    OfficialDocumentTypesEnum:
+      $ref: './schemas/officialdocuments/enums/type.yml'
+    PersonIdentifierTypesEnum:
+      $ref: './schemas/persons/enums/identifier-types.yml'
+    SocialmediaTypesEnum:
+      $ref: './schemas/commons/enums/social-media-types.yml'
+    StructureIdentifierTypesEnum:
+      $ref: './schemas/structures/enums/identifier-types.yml'
 
 
     ### COMMON MODELS ###
