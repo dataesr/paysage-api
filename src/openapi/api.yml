@@ -100,10 +100,10 @@ paths:
     $ref: './paths/persons/weblinks.yml#/~1persons~1{personId}~1weblinks'
   '/persons/{personId}/weblinks/{weblinkId}':
     $ref: './paths/persons/weblinks.yml#/~1persons~1{personId}~1weblinks~1{weblinkId}'
-  '/persons/{personId}/socialmedias':
-    $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias'
-  '/persons/{personId}/socialmedias/{socialmediaId}':
-    $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias~1{socialmediaId}'
+  '/persons/{personId}/social-medias':
+    $ref: './paths/persons/social-medias.yml#/~1persons~1{personId}~1social-medias'
+  '/persons/{personId}/social-medias/{socialmediaId}':
+    $ref: './paths/persons/social-medias.yml#/~1persons~1{personId}~1social-medias~1{socialmediaId}'
 
   ### TERMES ###
   '/terms':
