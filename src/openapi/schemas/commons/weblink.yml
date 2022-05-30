@@ -19,5 +19,6 @@ allOf:
         type: string
       language:
         type: string
-        nullable: true
+        description: Language of the web link on 2 letters
+        pattern: '^[a-zA-Z]{2}$'
   - $ref: '../../api.yml#/components/schemas/Metas'
