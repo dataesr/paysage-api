@@ -1,4 +1,4 @@
-import { BadRequestError } from '../../../libs/http-errors';
+import { BadRequestError } from '../../commons/http-errors';
 import localisationsRepository from './localisations.repository';
 import { readQuery } from './localisations.queries';
 

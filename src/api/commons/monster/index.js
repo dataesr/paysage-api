@@ -1,4 +1,5 @@
-import { BaseMongoRepository, Catalog } from '../../../libs/monster';
+import BaseMongoRepository from '../repositories/base.mongo.repository';
+import Catalog from '../repositories/catalog.repository';
 import mongo from '../../../services/mongo.service';
 
 const { db } = mongo;
