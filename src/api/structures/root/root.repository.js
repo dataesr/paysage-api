@@ -1,5 +1,5 @@
 import mongo from '../../../services/mongo.service';
-import { BaseMongoRepository } from '../../../libs/monster';
+import BaseMongoRepository from '../../commons/repositories/base.mongo.repository';
 import config from '../structures.config';
 
 const { db } = mongo;

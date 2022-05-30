@@ -1,5 +1,5 @@
-import BaseMongoRepository from '../repositories/base.mongo.repository';
-import NestedMongoRepository from '../repositories/nested.mongo.repository';
+import BaseMongoRepository from '../base.mongo.repository';
+import NestedMongoRepository from '../nested.mongo.repository';
 
 const fakeUser = 'tester';
 const userId = 42;

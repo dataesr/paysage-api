@@ -1,5 +1,5 @@
 import { error as OAVError } from 'express-openapi-validator';
-import { HTTPError } from '../../../libs/http-errors';
+import { HTTPError } from '../http-errors';
 import logger from '../../../services/logger.service';
 
 export function handleErrors(err, req, res, next) {
@@ -27,6 +27,13 @@ export function handleErrors(err, req, res, next) {
     logger.error(err);
     return res.status(500).json({
       error: 'Something went wrong',
+      details: err.errors,
+    });
+  }
+  if (err instanceof OAVError.Unauthorized) {
+    logger.error(err);
+    return res.status(401).json({
+      error: 'User must be logged in',
       details: err.errors,
     });
   }

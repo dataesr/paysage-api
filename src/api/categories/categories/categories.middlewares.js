@@ -1,9 +1,9 @@
 import { BadRequestError } from '../../commons/http-errors';
-import categoriesRepository from '../../categories/root/root.repository';
+import categoriesRepository from '../root/root.repository';
 
-export function setStructureIdFromRequestPath(req, res, next) {
+export function setPersonIdFromRequestPath(req, res, next) {
   const { resourceId } = req.params;
-  req.context.structureId = resourceId;
+  req.context.personId = resourceId;
   return next();
 }
 

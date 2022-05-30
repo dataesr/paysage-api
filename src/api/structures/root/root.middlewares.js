@@ -1,5 +1,5 @@
 import { internalCatalog } from '../../commons/monster';
-import { BadRequestError } from '../../../libs/http-errors';
+import { BadRequestError } from '../../commons/http-errors';
 import structuresRepository from './root.repository';
 import categoriesRepository from '../../categories/root/root.repository';
 
