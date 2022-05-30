@@ -1,4 +1,4 @@
-/persons/{personId}/socialmedias:
+/persons/{personId}/social-medias:
   get:
     tags:
       - Personnes - Médias sociaux
@@ -45,10 +45,9 @@
         application/json:
           schema:
             title: PersonSocialMediaPayLoad
-            type: object
             required:
-              - type
               - account
+              - type
             allOf:
               - $ref: '../../api.yml#/components/schemas/SocialMediaPayload'
     responses:
@@ -69,7 +68,7 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/persons/{personId}/socialmedias/{socialmediaId}:
+/persons/{personId}/social-medias/{socialmediaId}:
   get:
     tags:
       - Personnes - Médias sociaux
