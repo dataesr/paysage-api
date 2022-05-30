@@ -1,4 +1,4 @@
-/structures/{structureId}/socialmedias:
+/structures/{structureId}/social-medias:
   get:
     tags:
       - Structures - Médias sociaux
@@ -45,7 +45,6 @@
         application/json:
           schema:
             title: StructureSocialMediaPayLoad
-            type: object
             required:
               - type
               - account
@@ -69,7 +68,7 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/socialmedias/{socialmediaId}:
+/structures/{structureId}/social-medias/{socialmediaId}:
   get:
     tags:
       - Structures - Médias sociaux

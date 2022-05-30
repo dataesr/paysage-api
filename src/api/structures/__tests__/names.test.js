@@ -1,6 +1,7 @@
 let authorization;
-let rid;
 let id;
+let resourceId;
+
 const structureName = {
   officialName: 'string',
   usualName: 'string',
@@ -16,6 +17,7 @@ const structureName = {
   comment: 'string',
   article: "à l'",
 };
+
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
   const response = await global.superapp
@@ -26,13 +28,13 @@ beforeAll(async () => {
       creationDate: '2021-02',
       usualName: 'Université',
     }).expect(201);
-  rid = response.body.id;
+  resourceId = response.body.id;
 });
 
 describe('API > structures > names > create', () => {
   it('can create successfully', async () => {
     const response = await global.superapp
-      .post(`/structures/${rid}/names`)
+      .post(`/structures/${resourceId}/names`)
       .set('Authorization', authorization)
       .send(structureName)
       .expect(201);
@@ -46,7 +48,7 @@ describe('API > structures > names > create', () => {
   it('should fail if usualName is missing', async () => {
     const { usualName, ...rest } = structureName;
     await global.superapp
-      .post(`/structures/${rid}/names`)
+      .post(`/structures/${resourceId}/names`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -64,7 +66,7 @@ describe('API > structures > names > create', () => {
 describe('API > structures > names > update', () => {
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/structures/${rid}/names/${id}`)
+      .patch(`/structures/${resourceId}/names/${id}`)
       .set('Authorization', authorization)
       .send({ otherNames: ['string', 'string2'], article: null })
       .expect(200);
@@ -73,28 +75,28 @@ describe('API > structures > names > update', () => {
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .patch(`/structures/${rid}/names/45frK`)
+      .patch(`/structures/${resourceId}/names/45frK`)
       .set('Authorization', authorization)
       .send({ otherNames: ['string', 'string2'] })
       .expect(400);
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/structures/${rid}/names/45skrc65`)
+      .patch(`/structures/${resourceId}/names/45skrc65`)
       .set('Authorization', authorization)
       .send({ otherNames: ['string', 'string2'] })
       .expect(404);
   });
   it('throws with wrong data', async () => {
     await global.superapp
-      .patch(`/structures/${rid}/names/${id}`)
+      .patch(`/structures/${resourceId}/names/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: 'string' })
       .expect(400);
   });
   it('can empty dates', async () => {
     const { body } = await global.superapp
-      .patch(`/structures/${rid}/names/${id}`)
+      .patch(`/structures/${resourceId}/names/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: '' })
       .expect(200);
@@ -105,7 +107,7 @@ describe('API > structures > names > update', () => {
 describe('API > structures > names > read', () => {
   it('can read successfully', async () => {
     const response = await global.superapp
-      .get(`/structures/${rid}/names/${id}`)
+      .get(`/structures/${resourceId}/names/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(response.body.id).toBeTruthy();
@@ -117,13 +119,13 @@ describe('API > structures > names > read', () => {
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .get(`/structures/${rid}/names/265vty`)
+      .get(`/structures/${resourceId}/names/265vty`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/structures/${rid}/names/265fkrld`)
+      .get(`/structures/${resourceId}/names/265fkrld`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -132,13 +134,13 @@ describe('API > structures > names > read', () => {
 describe('API > structures > names > delete', () => {
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .delete(`/structures/${rid}/names/vgy775`)
+      .delete(`/structures/${resourceId}/names/vgy775`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/structures/${rid}/names/775flrks`)
+      .delete(`/structures/${resourceId}/names/775flrks`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -147,19 +149,19 @@ describe('API > structures > names > delete', () => {
 describe('API > structures > names > list', () => {
   beforeAll(async () => {
     await global.superapp
-      .post(`/structures/${rid}/names/`)
+      .post(`/structures/${resourceId}/names/`)
       .set('Authorization', authorization)
       .send({ ...structureName, usualName: 'string2', startDate: null })
       .expect(201);
     await global.superapp
-      .post(`/structures/${rid}/names/`)
+      .post(`/structures/${resourceId}/names/`)
       .set('Authorization', authorization)
       .send({ ...structureName, usualName: 'string3', startDate: '2017-01-01' })
       .expect(201);
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/names`)
+      .get(`/structures/${resourceId}/names`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
@@ -169,7 +171,7 @@ describe('API > structures > names > list', () => {
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/names?skip=1`)
+      .get(`/structures/${resourceId}/names?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
@@ -180,7 +182,7 @@ describe('API > structures > names > list', () => {
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/names?limit=1`)
+      .get(`/structures/${resourceId}/names?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
@@ -190,7 +192,7 @@ describe('API > structures > names > list', () => {
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/names?sort=usualName`)
+      .get(`/structures/${resourceId}/names?sort=usualName`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
@@ -200,7 +202,7 @@ describe('API > structures > names > list', () => {
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/names?sort=-usualName`)
+      .get(`/structures/${resourceId}/names?sort=-usualName`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
@@ -210,7 +212,7 @@ describe('API > structures > names > list', () => {
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/names?filters[usualName]=string2`)
+      .get(`/structures/${resourceId}/names?filters[usualName]=string2`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
@@ -220,7 +222,7 @@ describe('API > structures > names > list', () => {
   });
   it('returns currentName successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}`)
+      .get(`/structures/${resourceId}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(body.currentName.startDate).toBe('2017-01-01');
@@ -238,26 +240,26 @@ describe('API > structures > names > currentName', () => {
         creationDate: '2021-02',
         usualName: 'Université',
       }).expect(201);
-    rid = response.body.id;
+    resourceId = response.body.id;
     await global.superapp
-      .post(`/structures/${rid}/names/`)
+      .post(`/structures/${resourceId}/names/`)
       .set('Authorization', authorization)
       .send({ ...structure })
       .expect(201);
     await global.superapp
-      .post(`/structures/${rid}/names/`)
+      .post(`/structures/${resourceId}/names/`)
       .set('Authorization', authorization)
       .send({ ...structure, usualName: 'string2' })
       .expect(201);
     await global.superapp
-      .post(`/structures/${rid}/names/`)
+      .post(`/structures/${resourceId}/names/`)
       .set('Authorization', authorization)
       .send({ ...structure, usualName: 'string3' })
       .expect(201);
   });
   it('returns currentName successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}`)
+      .get(`/structures/${resourceId}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(body.currentName.usualName).toBe('string3');

@@ -14,6 +14,7 @@ const readQuery = [
     $project: {
       _id: 0,
       id: 1,
+      resourceId: 1,
       ...model,
       createdBy: 1,
       createdAt: 1,
