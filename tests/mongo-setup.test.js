@@ -7,7 +7,9 @@ describe('config tests', () => {
     const session = client.startSession();
     await session.withTransaction(async () => {
       await db.collection('test').insertOne({ id: 1 });
+      const test = await db.collection('test').findOne({ id: 1 });
+      await session.endSession();
+      expect(test.id).toBe(1);
     });
-    await session.endSession();
   });
 });
