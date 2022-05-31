@@ -1,4 +1,4 @@
-description: Valeurs possibles pour un type d'identifiant de structure
+description: Accepted values of the identifier type of a structure
 type: string
 enum:
   - Wikidata

@@ -1,0 +1,21 @@
+description: Accepted values of the web link type of a structure
+type: string
+enum:
+  - Hal
+  - mooc
+  - scanR
+  - POpenData
+  - DataGouvFr
+  - EducPros
+  - ServicePublic
+  - CanalU
+  - TheConversation
+  - Onisep
+  - EdCF
+  - jorfsearch
+  - TalentCNRS
+  - IUF
+  - OE1
+  - OE2
+  - OE3
+  - hceres
