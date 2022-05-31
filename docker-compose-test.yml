@@ -1,9 +1,12 @@
 services:
-  mongo:
+  mongodb:
     image: mongo:5.0
     ports:
       - 27017:27017
     restart: always
+    command: --replSet rs0 --logpath /dev/null --quiet 
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
 
   paysage-api:
     build: .
@@ -11,6 +14,6 @@ services:
     ports:
       - 3003:3000
     depends_on:
-      - mongo
+      - mongodb
     environment:
-      - MONGO_URI=mongodb://mongo:27017
+      - MONGO_URI=mongodb://mongodb:27017
