@@ -5,8 +5,6 @@ services:
     image: mongo:5.0
     ports:
       - 27017:27017
-    expose:
-      - 27017
     restart: always
     command: --replSet rs0 --logpath /dev/null --quiet 
     volumes:
