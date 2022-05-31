@@ -2,13 +2,13 @@ let authorization;
 let id;
 let rid;
 
-const collection = 'structures';
+const collection = 'categories';
 const payload = {
-  active: false,
-  endDate: '2014-12-31',
-  startDate: '2012-01-01',
-  type: 'Siret',
-  value: '12345678912345',
+  active: true,
+  endDate: '2024-05-17',
+  startDate: '2022-01-12',
+  type: 'Wikidata',
+  value: 'category_id',
 };
 
 beforeAll(async () => {
@@ -17,9 +17,7 @@ beforeAll(async () => {
     .post(`/${collection}`)
     .set('Authorization', authorization)
     .send({
-      structureStatus: 'active',
-      creationDate: '2021-02',
-      usualName: 'Université',
+      usualNameFr: 'Test category',
     });
   rid = body.id;
 });
@@ -28,7 +26,8 @@ beforeEach(async () => {
   const { body } = await global.superapp
     .post(`/${collection}/${rid}/identifiers`)
     .set('Authorization', authorization)
-    .send(payload);
+    .send(payload)
+    .expect(201);
   id = body.id;
 });
 
@@ -40,7 +39,7 @@ afterEach(async () => {
   }
 });
 
-describe('API > structures > identifiers > create', () => {
+describe('API > persons > identifiers > create', () => {
   it('should create a new identifier', async () => {
     const { body } = await global.superapp
       .post(`/${collection}/${rid}/identifiers`)
@@ -77,7 +76,7 @@ describe('API > structures > identifiers > create', () => {
   });
 });
 
-describe('API > structures > identifiers > update', () => {
+describe('API > persons > identifiers > update', () => {
   it('should update an existing identifier', async () => {
     const type = 'Wikidata';
     const { body } = await global.superapp
@@ -121,7 +120,7 @@ describe('API > structures > identifiers > update', () => {
   });
 });
 
-describe('API > structures > identifiers > read', () => {
+describe('API > persons > identifiers > read', () => {
   it('should read existing identifier', async () => {
     const { body } = await global.superapp
       .get(`/${collection}/${rid}/identifiers/${id}`)
@@ -129,7 +128,7 @@ describe('API > structures > identifiers > read', () => {
       .expect(200);
     expect(body.type).toBe(payload.type);
     expect(body.value).toBe(payload.value);
-    expect(body.active).toBeFalsy();
+    expect(body.active).toBe(payload.active);
     expect(body.createdBy.username).toBe('user');
   });
 
@@ -148,7 +147,7 @@ describe('API > structures > identifiers > read', () => {
   });
 });
 
-describe('API > structures > identifiers > delete', () => {
+describe('API > persons > identifiers > delete', () => {
   it('should throw bad request if id too short', async () => {
     await global.superapp
       .delete(`/${collection}/${rid}/identifiers/vgy775`)
@@ -171,14 +170,14 @@ describe('API > structures > identifiers > delete', () => {
   });
 });
 
-describe('API > structures > identifiers > list', () => {
+describe('API > persons > identifiers > list', () => {
   beforeAll(async () => {
     await global.superapp
       .post(`/${collection}/${rid}/identifiers/`)
       .set('Authorization', authorization)
       .send({
-        type: 'Siret',
-        value: 'siretID',
+        type: 'Wikidata',
+        value: 'id_01',
         active: true,
         startDate: '2012-01-01',
         endDate: '2014-12-31',
@@ -188,7 +187,7 @@ describe('API > structures > identifiers > list', () => {
       .set('Authorization', authorization)
       .send({
         type: 'Wikidata',
-        value: 'wikidataID',
+        value: 'id_02',
         active: true,
         startDate: '2012-01-01',
         endDate: '2014-12-31',
@@ -197,8 +196,8 @@ describe('API > structures > identifiers > list', () => {
       .post(`/${collection}/${rid}/identifiers/`)
       .set('Authorization', authorization)
       .send({
-        type: 'idRef',
-        value: 'idrefID',
+        type: 'Wikidata',
+        value: 'id_03',
         active: true,
         startDate: '2012-01-01',
         endDate: '2014-12-31',
@@ -219,9 +218,7 @@ describe('API > structures > identifiers > list', () => {
       .set('Authorization', authorization);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(3);
-    expect(docs).toContain('Siret');
     expect(docs).toContain('Wikidata');
-    expect(docs).toContain('idRef');
   });
 
   it('should skip identifiers in list', async () => {
@@ -232,7 +229,6 @@ describe('API > structures > identifiers > list', () => {
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(2);
     expect(docs).toContain('Wikidata');
-    expect(docs).toContain('idRef');
     expect(body.totalCount).toBe(3);
   });
 
@@ -243,7 +239,7 @@ describe('API > structures > identifiers > list', () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(1);
-    expect(docs).toContain('Siret');
+    expect(docs).toContain('Wikidata');
     expect(body.totalCount).toBe(3);
   });
 
@@ -254,7 +250,7 @@ describe('API > structures > identifiers > list', () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.value);
     expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('idrefID');
+    expect(docs[0]).toBe('id_01');
     expect(body.totalCount).toBe(3);
   });
 
@@ -265,18 +261,18 @@ describe('API > structures > identifiers > list', () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.value);
     expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('wikidataID');
+    expect(docs[0]).toBe('id_03');
     expect(body.totalCount).toBe(3);
   });
 
   it('should filter identifiers in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${rid}/identifiers?filters[type]=Wikidata&filters[value]=wikidataID`)
+      .get(`/${collection}/${rid}/identifiers?filters[type]=Wikidata&filters[value]=id_02`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.value);
     expect(docs).toHaveLength(1);
-    expect(docs).toContain('wikidataID');
+    expect(docs).toContain('id_02');
     expect(body.totalCount).toBe(1);
   });
 });

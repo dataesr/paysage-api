@@ -5,7 +5,7 @@
 `npm install`
 
 ### Start the app in dev
-`npm run start`
+`npm start`
 
 ### Run tests
 * Run all tests

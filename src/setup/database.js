@@ -8,6 +8,7 @@ const { client, db } = mongo;
 async function setupDatabase() {
   await db.collection('categories').createIndex({ id: 1 }, { unique: true });
   await db.collection('documents').createIndex({ id: 1 }, { unique: true });
+  await db.collection('identifiers').createIndex({ id: 1 }, { unique: true });
   await db.collection('legalcategories').createIndex({ id: 1 }, { unique: true });
   await db.collection('news').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialdocuments').createIndex({ id: 1 }, { unique: true });
