@@ -2,36 +2,37 @@ import express from 'express';
 
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import controllers from '../../commons/middlewares/crud-nested.middlewares';
-import repository from './names.repository';
-import { readQuery } from './names.queries';
-import config from '../structures.config';
+import controllers from '../../commons/middlewares/crud.middlewares';
+import { validatePayload } from './social-medias.middlewares';
+import { readQuery } from '../../commons/social-medias/social-medias.queries';
+import repository from '../../commons/social-medias/social-medias.repository';
+import config from '../persons.config';
 
-const { collection, namesField: field } = config;
-const collectionField = `${collection}-${field}`;
-
+const { collection } = config;
+const field = 'social-medias';
 const router = new express.Router();
 
 router.route(`/${collection}/:resourceId/${field}`)
   .get(controllers.list(repository, readQuery))
   .post([
+    validatePayload,
     createContext,
-    setGeneratedInternalIdInContext(collectionField),
+    setGeneratedInternalIdInContext(field),
     controllers.create(repository, readQuery),
-    saveInStore(collectionField),
+    saveInStore(field),
   ]);
 
 router.route(`/${collection}/:resourceId/${field}/:id`)
-  .delete([
-    patchContext,
-    controllers.remove(repository),
-    saveInStore(collectionField),
-  ])
   .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
     controllers.patch(repository, readQuery),
-    saveInStore(collectionField),
+    saveInStore(field),
+  ])
+  .delete([
+    patchContext,
+    controllers.remove(repository),
+    saveInStore(field),
   ]);
 
 export default router;
