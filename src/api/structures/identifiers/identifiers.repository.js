@@ -1,9 +1,7 @@
 import mongo from '../../../services/mongo.service';
-import NestedMongoRepository from '../../commons/repositories/nested.mongo.repository';
-import config from '../structures.config';
+import BaseMongoRepository from '../../commons/repositories/base.mongo.repository';
 
 const { db } = mongo;
-const { collection, identifiersField: field } = config;
-const structureIdentifiersRepository = new NestedMongoRepository({ db, collection, field });
+const structureIdentifiersRepository = new BaseMongoRepository({ db, collection: 'identifiers' });
 
 export default structureIdentifiersRepository;
