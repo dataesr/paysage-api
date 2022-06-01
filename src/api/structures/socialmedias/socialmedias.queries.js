@@ -2,7 +2,7 @@ import metas from '../../commons/pipelines/metas';
 
 const model = {
   type: 1,
-  url: 1,
+  account: 1,
 };
 
 const readQuery = [

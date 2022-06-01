@@ -45,10 +45,9 @@
         application/json:
           schema:
             title: StructureSocialMediaPayLoad
-            type: object
             required:
-              - type
-              - account
+              - 'type'
+              - 'account'
             allOf:
               - $ref: '../../api.yml#/components/schemas/SocialMediaPayload'
     responses:

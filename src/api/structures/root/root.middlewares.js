@@ -1,7 +1,10 @@
-import { internalCatalog } from '../../commons/monster';
-import { BadRequestError } from '../../../libs/http-errors';
+import { objectCatalog, internalCatalog } from '../../commons/monster';
+import { BadRequestError } from '../../commons/http-errors';
 import structuresRepository from './root.repository';
 import categoriesRepository from '../../categories/root/root.repository';
+import { client } from '../../../services/mongo.service';
+import structureIdentifiersRepository from '../identifiers/identifiers.repository';
+import { readQuery } from './root.queries';
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
@@ -40,6 +43,9 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structureStatus: payload.structureStatus,
     creationDate: payload.creationDate,
     closureDate: payload.closureDate,
+    createdBy: req.currentUser.id,
+    createdAt: new Date(),
+    id: await objectCatalog.getUniqueId('structures'),
   };
   const structureName = {
     officialName: payload.officialName,
@@ -199,5 +205,27 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structure.parents = structureParents;
   }
   req.body = structure;
+  return next();
+};
+
+export const storeStructure = async (req, res, next) => {
+  const { identifiers, ...rest } = req.body;
+  const { id: resourceId } = rest;
+  const session = client.startSession();
+  await session.withTransaction(async () => {
+    await structuresRepository.create(rest);
+    if (identifiers?.length) {
+      await identifiers.forEach(async (identifier) => {
+        await structureIdentifiersRepository.create({ ...identifier, resourceId });
+      });
+    }
+    await session.endSession();
+  });
+  return next();
+};
+
+export const createStructureResponse = async (req, res, next) => {
+  const resource = await structuresRepository.get(req.body.id, { useQuery: readQuery });
+  res.status(201).json(resource);
   return next();
 };
