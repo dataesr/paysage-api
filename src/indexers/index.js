@@ -1,11 +1,10 @@
-import mongo from '../services/mongo.service';
+import { db } from '../services/mongo.service';
 import elastic from '../services/elastic.service';
 import logger from '../services/logger.service';
 import config from '../config';
 import categoryRepository from '../api/categories/root/root.repository';
 import structureRepository from '../api/structures/root/root.repository';
 
-const { db } = mongo;
 const { index: paysageIndex } = config.elastic;
 
 const mapping = {

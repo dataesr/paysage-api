@@ -1,8 +1,7 @@
 import app from './app';
-import mongo from '../services/mongo.service';
+import { client } from '../services/mongo.service';
 import logger from '../services/logger.service';
 
-const { client } = mongo;
 let httpServer;
 
 function cleanup() {
