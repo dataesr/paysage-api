@@ -1,4 +1,4 @@
-import { BadRequestError } from '../../../libs/http-errors';
+import { BadRequestError } from '../../commons/http-errors';
 import officialTextRepository from '../../officialtexts/officialtexts.repository';
 import categories from './root.repository';
 

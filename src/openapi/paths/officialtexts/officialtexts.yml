@@ -72,7 +72,7 @@ resource:
       - Textes officiels
     summary: Obtenir le détail d'un document officiel
     parameters:
-      - $ref: '../../api.yml#/components/parameters/OfficialTextId'
+      - $ref: '../../api.yml#/components/parameters/officialTextId'
     responses:
       '200':
         description: OK
@@ -98,7 +98,7 @@ resource:
     security:
     - BearerAuth: []
     parameters:
-      - $ref: '../../api.yml#/components/parameters/OfficialTextId'
+      - $ref: '../../api.yml#/components/parameters/officialTextId'
     responses:
       '204':
         description: No content
@@ -118,7 +118,7 @@ resource:
     security:
     - BearerAuth: []
     parameters:
-      - $ref: '../../api.yml#/components/parameters/OfficialTextId'
+      - $ref: '../../api.yml#/components/parameters/officialTextId'
     requestBody:
       content:
         application/json:
