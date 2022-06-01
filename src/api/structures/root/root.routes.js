@@ -1,8 +1,8 @@
 import express from 'express';
-import { createContext, patchContext, setPutIdInContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
+import { createContext, patchContext, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from '../../commons/middlewares/validate.middlewares';
-import { fromPayloadToStructure, validateStructureCreatePayload } from './root.middlewares';
+import { createStructureResponse, fromPayloadToStructure, storeStructure, validateStructureCreatePayload } from './root.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import structuresRepository from './root.repository';
 import { readQuery } from './root.queries';
@@ -17,9 +17,8 @@ router.route(`/${collection}`)
   .post([
     validateStructureCreatePayload,
     fromPayloadToStructure,
-    createContext,
-    setGeneratedObjectIdInContext(collection),
-    controllers.create(structuresRepository, readQuery),
+    storeStructure,
+    createStructureResponse,
     saveInStore(collection),
   ]);
 

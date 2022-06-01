@@ -3,6 +3,8 @@ import { BadRequestError } from '../../commons/http-errors';
 import structuresRepository from './root.repository';
 import categoriesRepository from '../../categories/root/root.repository';
 import { client } from '../../../services/mongo.service';
+import structureIdentifiersRepository from '../identifiers/identifiers.repository';
+import { readQuery } from './root.queries';
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
@@ -207,16 +209,23 @@ export const fromPayloadToStructure = async (req, res, next) => {
 };
 
 export const storeStructure = async (req, res, next) => {
-  const {
-    websites, socials, identifiers, categories, parents, ...rest
-  } = req.body;
-  const { id } = rest;
+  const { identifiers, ...rest } = req.body;
+  const { id: resourceId } = rest;
   const session = client.startSession();
   await session.withTransaction(async () => {
-    await db.collection('structures').insertOne({ id: 1 });
-    const test = await db.collection('test').findOne({ id: 1 });
+    await structuresRepository.create(rest);
+    if (identifiers?.length) {
+      await identifiers.forEach(async (identifier) => {
+        await structureIdentifiersRepository.create({ ...identifier, resourceId });
+      });
+    }
     await session.endSession();
-    expect(test.id).toBe(1);
   });
+  return next();
+};
+
+export const createStructureResponse = async (req, res, next) => {
+  const resource = await structuresRepository.get(req.body.id, { useQuery: readQuery });
+  res.status(201).json(resource);
   return next();
 };
