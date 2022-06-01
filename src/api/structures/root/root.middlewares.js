@@ -1,7 +1,8 @@
-import { internalCatalog } from '../../commons/monster';
+import { objectCatalog, internalCatalog } from '../../commons/monster';
 import { BadRequestError } from '../../commons/http-errors';
 import structuresRepository from './root.repository';
 import categoriesRepository from '../../categories/root/root.repository';
+import { client } from '../../../services/mongo.service';
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
@@ -40,6 +41,9 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structureStatus: payload.structureStatus,
     creationDate: payload.creationDate,
     closureDate: payload.closureDate,
+    createdBy: req.currentUser.id,
+    createdAt: new Date(),
+    id: await objectCatalog.getUniqueId('structures'),
   };
   const structureName = {
     officialName: payload.officialName,
@@ -199,5 +203,20 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structure.parents = structureParents;
   }
   req.body = structure;
+  return next();
+};
+
+export const storeStructure = async (req, res, next) => {
+  const {
+    websites, socials, identifiers, categories, parents, ...rest
+  } = req.body;
+  const { id } = rest;
+  const session = client.startSession();
+  await session.withTransaction(async () => {
+    await db.collection('structures').insertOne({ id: 1 });
+    const test = await db.collection('test').findOne({ id: 1 });
+    await session.endSession();
+    expect(test.id).toBe(1);
+  });
   return next();
 };

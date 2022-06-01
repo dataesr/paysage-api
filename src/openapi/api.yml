@@ -334,6 +334,8 @@ components:
       $ref: './schemas/officialdocuments/enums/type.yml'
     OfficialDocumentNaturesEnum:
       $ref: './schemas/officialdocuments/enums/nature.yml'
+    WeblinkTypesEnum:
+      $ref: './schemas/commons/enums/weblink-types.yml'
 
 
     ### COMMON MODELS ###
