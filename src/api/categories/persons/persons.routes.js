@@ -11,7 +11,4 @@ const router = new express.Router();
 router.route(`/${collection}/:resourceId/persons`)
   .get(controllers.list(repository, readQuery));
 
-// router.route(`/${collection}/:resourceId/categories/:id`)
-//   .get(controllers.read(repository, readQuery));
-
 export default router;
