@@ -1,5 +1,5 @@
 import { BadRequestError } from '../../../libs/http-errors';
-import officialDocumentRepository from '../../officialdocuments/officialdocuments.repository';
+import officialDocumentRepository from '../../officialtexts/officialtexts.repository';
 import categories from './root.repository';
 
 export async function validatePayload(req, res, next) {

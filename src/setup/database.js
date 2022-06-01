@@ -11,7 +11,7 @@ async function setupDatabase() {
   await db.collection('identifiers').createIndex({ id: 1 }, { unique: true });
   await db.collection('legalcategories').createIndex({ id: 1 }, { unique: true });
   await db.collection('news').createIndex({ id: 1 }, { unique: true });
-  await db.collection('officialdocuments').createIndex({ id: 1 }, { unique: true });
+  await db.collection('officialtexts').createIndex({ id: 1 }, { unique: true });
   await db.collection('persons').createIndex({ id: 1 }, { unique: true });
   await db.collection('prices').createIndex({ id: 1 }, { unique: true });
   await db.collection('structures').createIndex({ id: 1 }, { unique: true });

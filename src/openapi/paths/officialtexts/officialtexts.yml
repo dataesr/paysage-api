@@ -1,7 +1,7 @@
-/officialdocuments:
+collection:
   get:
     tags:
-      - Documents officiels
+      - Textes officiels
     summary: Lister les documents officiels
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -33,7 +33,7 @@
 
   post:
     tags:
-      - Documents officiels
+      - Textes officiels
     summary: Ajouter un document officiel
     security:
     - BearerAuth: []
@@ -66,10 +66,10 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/officialdocuments/{officialDocumentId}:
+resource:
   get:
     tags:
-      - Documents officiels
+      - Textes officiels
     summary: Obtenir le détail d'un document officiel
     parameters:
       - $ref: '../../api.yml#/components/parameters/officialDocumentId'
@@ -93,7 +93,7 @@
 
   delete:
     tags:
-      - Documents officiels
+      - Textes officiels
     summary: Supprimer un document officiel
     security:
     - BearerAuth: []
@@ -113,7 +113,7 @@
 
   patch:
     tags:
-      - Documents officiels
+      - Textes officiels
     summary: Modifier un document officiel
     security:
     - BearerAuth: []
