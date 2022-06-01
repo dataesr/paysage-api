@@ -1,4 +1,4 @@
-import { NotFoundError, ServerError } from '../../../libs/http-errors';
+import { NotFoundError, ServerError } from '../http-errors';
 
 const read = (repository, useQuery) => async (req, res, next) => {
   const { id, resourceId } = req.params;

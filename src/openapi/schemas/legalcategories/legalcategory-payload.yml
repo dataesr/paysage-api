@@ -38,7 +38,7 @@ properties:
       - privé
       - sans objet
       - null
-  officialDocumentId:
+  officialTextId:
     type: string
     nullable: true
     writeOnly: true

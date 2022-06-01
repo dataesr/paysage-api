@@ -1,18 +1,18 @@
 import { BadRequestError } from '../../../libs/http-errors';
-import officialDocumentRepository from '../../officialtexts/officialtexts.repository';
+import officialTextRepository from '../../officialtexts/officialtexts.repository';
 import categories from './root.repository';
 
 export async function validatePayload(req, res, next) {
   if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
-  const { officialDocumentId, parentIds } = req.body;
-  if (officialDocumentId) {
-    const exists = await officialDocumentRepository.get(officialDocumentId);
+  const { officialTextId, parentIds } = req.body;
+  if (officialTextId) {
+    const exists = await officialTextRepository.get(officialTextId);
     if (!exists) {
       throw new BadRequestError(
         'Referencing unknown resource',
         [{
-          path: '.body.officialDocumentId',
-          message: `official document '${officialDocumentId}' does not exist`,
+          path: '.body.officialTextId',
+          message: `official text '${officialTextId}' does not exist`,
         }],
       );
     }

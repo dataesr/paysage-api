@@ -15,8 +15,8 @@ allOf:
         type: array
         items:
           $ref: '../../api.yml#/components/schemas/CategoryLight'
-      officialDocument:
-        $ref: '../../api.yml#/components/schemas/OfficialDocument'
+      officialText:
+        $ref: '../../api.yml#/components/schemas/OfficialText'
       usualNameFr:
         type: string
       usualNameEn:
@@ -73,7 +73,7 @@ allOf:
       isLegalCategory:
         type: boolean
         nullable: true
-      officialDocumentId:
+      officialTextId:
         type: string
         nullable: true
         writeOnly: true

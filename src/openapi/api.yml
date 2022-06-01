@@ -104,6 +104,10 @@ paths:
     $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias'
   '/persons/{personId}/socialmedias/{socialmediaId}':
     $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias~1{socialmediaId}'
+  '/persons/{personId}/categories':
+    $ref: './paths/persons/categories.yml#/~1persons~1{personId}~1categories'
+  '/persons/{personId}/categories/{relationshipId}':
+    $ref: './paths/persons/categories.yml#/~1persons~1{personId}~1categories~1{relationshipId}'
 
   ### TERMES ###
   '/terms':
@@ -131,7 +135,7 @@ paths:
   '/categories/{categoryId}/weblinks/{weblinkId}':
     $ref: './paths/categories/weblinks.yml#/~1categories~1{categoryId}~1weblinks~1{weblinkId}'
 
-  ### OFFICIAL DOCUMENTS ###
+  ### OFFICIAL TEXTS ###
   '/official-texts':
     $ref: './paths/officialtexts/officialtexts.yml#/collection'
   '/official-texts/{officialTextId}':
@@ -187,12 +191,14 @@ components:
       $ref: ./parameters/ids/price-id.yml
     personId:
       $ref: ./parameters/ids/person-id.yml
-    officialDocumentId:
-      $ref: ./parameters/ids/officialdocument-id.yml
+    officialTextId:
+      $ref: ./parameters/ids/officialtext-id.yml
     newsId:
       $ref: ./parameters/ids/news-id.yml
     roleId:
       $ref: ./parameters/ids/role-id.yml
+    relationshipId:
+      $ref: ./parameters/ids/relationship-id.yml
 
   responses:
     BadRequest:
@@ -303,7 +309,7 @@ components:
     DocumentPayload:
       $ref: './schemas/documents/document-payload.yml'
 
-    OfficialDocumentPayload:
+    OfficialTextPayload:
       $ref: './schemas/officialtexts/officialtext-payload.yml'
 
     LogoPayload:
@@ -324,9 +330,9 @@ components:
       $ref: './schemas/persons/enums/identifier-types.yml'
     CategoryIdentifierTypesEnum:
       $ref: './schemas/categories/enums/identifier-types.yml'
-    OfficialDocumentTypesEnum:
+    OfficialTextTypesEnum:
       $ref: './schemas/officialtexts/enums/type.yml'
-    OfficialDocumentNaturesEnum:
+    OfficialTextNaturesEnum:
       $ref: './schemas/officialtexts/enums/nature.yml'
     WeblinkTypesEnum:
       $ref: './schemas/commons/enums/weblink-types.yml'

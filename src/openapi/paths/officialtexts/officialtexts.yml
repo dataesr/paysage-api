@@ -19,7 +19,7 @@ collection:
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/OfficialDocument'
+                    $ref: '../../api.yml#/components/schemas/OfficialText'
                 totalCount:
                   type: number
       '400':
@@ -49,14 +49,14 @@ collection:
               - documentNumber
               - pageUrl
             allOf:
-              - $ref: '../../api.yml#/components/schemas/OfficialDocumentPayload'
+              - $ref: '../../api.yml#/components/schemas/OfficialTextPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/OfficialDocument'
+              $ref: '../../api.yml#/components/schemas/OfficialText'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -72,14 +72,14 @@ resource:
       - Textes officiels
     summary: Obtenir le détail d'un document officiel
     parameters:
-      - $ref: '../../api.yml#/components/parameters/officialDocumentId'
+      - $ref: '../../api.yml#/components/parameters/OfficialTextId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/OfficialDocument'
+              $ref: '../../api.yml#/components/schemas/OfficialText'
       '301':
         description: No content
       '401':
@@ -98,7 +98,7 @@ resource:
     security:
     - BearerAuth: []
     parameters:
-      - $ref: '../../api.yml#/components/parameters/officialDocumentId'
+      - $ref: '../../api.yml#/components/parameters/OfficialTextId'
     responses:
       '204':
         description: No content
@@ -118,12 +118,12 @@ resource:
     security:
     - BearerAuth: []
     parameters:
-      - $ref: '../../api.yml#/components/parameters/officialDocumentId'
+      - $ref: '../../api.yml#/components/parameters/OfficialTextId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/OfficialDocumentPayload'
+            $ref: '../../api.yml#/components/schemas/OfficialTextPayload'
 
     responses:
       '200':
@@ -131,7 +131,7 @@ resource:
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/OfficialDocument'
+              $ref: '../../api.yml#/components/schemas/OfficialText'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
