@@ -1,7 +1,7 @@
 import storage from 'swift/storage';
 
 import config from '../../../config';
-import { NotFoundError, ServerError } from '../../../libs/http-errors';
+import { NotFoundError, ServerError } from '../http-errors';
 import swift from '../../../services/storage.service';
 
 const { container } = config.objectStorage;

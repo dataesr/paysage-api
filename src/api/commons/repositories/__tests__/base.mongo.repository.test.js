@@ -1,4 +1,4 @@
-import BaseMongoRepository from '../repositories/base.mongo.repository';
+import BaseMongoRepository from '../base.mongo.repository';
 
 const userId = 42;
 const fakeUser = 'tester';

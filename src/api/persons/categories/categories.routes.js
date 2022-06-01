@@ -1,8 +1,8 @@
 import express from 'express';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import { validatePayload, setStructureIdFromRequestPath } from './categories.middlewares';
-import config from '../structures.config';
+import { validatePayload, setPersonIdFromRequestPath } from './categories.middlewares';
+import config from '../persons.config';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { readQuery } from './categories.queries';
 import repository from '../../commons/repositories/relationships.repository';
@@ -16,7 +16,7 @@ router.route(`/${collection}/:resourceId/categories`)
   .post([
     validatePayload,
     createContext,
-    setStructureIdFromRequestPath,
+    setPersonIdFromRequestPath,
     setGeneratedInternalIdInContext('relationships'),
     controllers.create(repository, readQuery),
     saveInStore('relationships'),
