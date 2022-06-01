@@ -13,12 +13,21 @@ describe('API > structures > structures > create', () => {
         structureStatus: 'active',
         creationDate: '2021-02',
         usualName: 'Université',
+        wikidata: '5dv7d6',
       }).expect(201);
     const { body } = response;
     expect(body.id).toBeTruthy();
     expect(body.createdBy.username).toBe('user');
     expect(body.currentName.usualName).toBe('Université');
     id = body.id;
+  });
+  it('has an identifier', async () => {
+    const response = await global.superapp
+      .get(`/structures/${id}/identifiers`)
+      .set('Authorization', authorization)
+      .expect(200);
+    const { body } = response;
+    expect(body.totalCount).toBe(1);
   });
 });
 
@@ -166,4 +175,3 @@ describe('API > structures > structures > list', () => {
     expect(body.totalCount).toBe(1);
   });
 });
-

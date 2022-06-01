@@ -75,9 +75,9 @@ const currentLocalisationPipeline = [
 const model = {
   structureStatus: { $ifNull: ['$structureStatus', null] },
   creationDate: { $ifNull: ['$creationDate', null] },
-  creationOfficialDocumentId: { $ifNull: ['$creationOfficialDocumentId', null] },
+  creationOfficialTextId: { $ifNull: ['$creationOfficialTextId', null] },
   closureDate: { $ifNull: ['$closureDate', null] },
-  closureOfficialDocumentId: { $ifNull: ['$closureOfficialDocumentId', null] },
+  closureOfficialTextId: { $ifNull: ['$closureOfficialTextId', null] },
   creationReason: { $ifNull: ['$creationReason', null] },
   descriptionFr: { $ifNull: ['$descriptionFr', null] },
   descriptionEn: { $ifNull: ['$descriptionEn', null] },

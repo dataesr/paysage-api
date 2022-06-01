@@ -59,7 +59,7 @@ properties:
   isLegalCategory:
     type: boolean
     nullable: true
-  officialDocumentId:
+  officialTextId:
     type: string
     nullable: true
     writeOnly: true

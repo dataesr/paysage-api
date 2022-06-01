@@ -1,4 +1,4 @@
-import { BadRequestError } from '../../../libs/http-errors';
+import { BadRequestError } from '../http-errors';
 
 export function validatePayload(req, res, next) {
   if (

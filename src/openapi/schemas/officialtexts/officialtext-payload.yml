@@ -1,12 +1,12 @@
-title: OfficialDocumentPayload
+title: OfficialTextPayload
 description: Modèle de création et d'update d'un document officiel
 additionalProperties: false
 type: object
 properties:
   nature:
-    $ref: ../../api.yml#/components/schemas/OfficialDocumentNaturesEnum
+    $ref: ../../api.yml#/components/schemas/OfficialTextNaturesEnum
   type:
-    $ref: ../../api.yml#/components/schemas/OfficialDocumentTypesEnum
+    $ref: ../../api.yml#/components/schemas/OfficialTextTypesEnum
   documentNumber:
     type: string
   title:

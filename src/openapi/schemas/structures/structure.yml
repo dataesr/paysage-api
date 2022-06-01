@@ -19,12 +19,12 @@ allOf:
         type: array
         items:
           type: string
-      creationOfficialDocument:
-        description: Reference the official document that accounts for the structure creation
-        $ref: '../../api.yml#/components/schemas/OfficialDocumentLight'
-      closureOfficialDocument:
-        description: Reference the official document that accounts for the structure closure
-        $ref: '../../api.yml#/components/schemas/OfficialDocumentLight'
+      creationOfficialText:
+        description: Reference the official text that accounts for the structure creation
+        $ref: '../../api.yml#/components/schemas/OfficialTextLight'
+      closureOfficialText:
+        description: Reference the official text that accounts for the structure closure
+        $ref: '../../api.yml#/components/schemas/OfficialTextLight'
       structureStatus:
         type: string
         nullable: true

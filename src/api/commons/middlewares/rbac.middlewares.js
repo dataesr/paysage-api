@@ -1,4 +1,4 @@
-import { UnauthorizedError, ForbiddenError } from '../../../libs/http-errors';
+import { UnauthorizedError, ForbiddenError } from '../http-errors';
 
 export function requireAuth(req, res, next) {
   if (!req.currentUser.id) {

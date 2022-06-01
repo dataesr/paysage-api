@@ -20,18 +20,18 @@ properties:
     type: string
     pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
     nullable: true
-  creationOfficialDocumentId:
+  creationOfficialTextId:
     type: string
-    description: Unique officialDocument identifier
+    description: Unique officialText identifier
     pattern: '^[a-zA-Z0-9]{8}$'
     nullable: true
   closureDate:
     type: string
     pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
     nullable: true
-  closureOfficialDocumentId:
+  closureOfficialTextId:
     type: string
-    description: Unique officialDocument identifier
+    description: Unique officialText identifier
     pattern: '^[a-zA-Z0-9]{8}$'
     nullable: true
   creationReason:

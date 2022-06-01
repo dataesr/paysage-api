@@ -23,14 +23,14 @@ const readQuery = [
   ...metas,
   {
     $lookup: {
-      from: 'official-documents',
-      localField: 'officialDocumentId',
+      from: 'official-texts',
+      localField: 'officialTextId',
       foreignField: 'id',
-      as: 'officialDocument',
+      as: 'officialText',
     },
   },
-  { $set: { officialDocument: { $arrayElemAt: ['$officialDocument', 0] } } },
-  { $project: { officialDocument: { _id: 0, createdAt: 0, createdBy: 0, updatedAt: 0, updatedBy: 0 } } },
+  { $set: { officialText: { $arrayElemAt: ['$officialText', 0] } } },
+  { $project: { officialText: { _id: 0, createdAt: 0, createdBy: 0, updatedAt: 0, updatedBy: 0 } } },
   { $project: {
     _id: 0,
     id: 1,
@@ -39,7 +39,7 @@ const readQuery = [
     createdAt: 1,
     updatedAt: 1,
     ...model,
-    officialDocument: 1,
+    officialText: 1,
   } },
 ];
 
@@ -48,7 +48,7 @@ const writeQuery = [{
     _id: 0,
     id: 1,
     ...model,
-    officialDocumentId: { $ifNull: ['$officialDocumentId', [null]] },
+    officialTextId: { $ifNull: ['$officialTextId', [null]] },
   },
 }];
 
