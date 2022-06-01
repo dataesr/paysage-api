@@ -1,3 +1,3 @@
 export default {
-  collection: 'officialtexts',
+  collection: 'official-texts',
 };
