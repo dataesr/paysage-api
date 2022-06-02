@@ -1,10 +1,10 @@
-/structures/{structureId}/socialmedias:
+/persons/{personId}/social-medias:
   get:
     tags:
-      - Structures - Médias sociaux
-    summary: Lister les médias sociaux d'une structure
+      - Personnes - Médias sociaux
+    summary: Lister les médias sociaux d'une personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
       - $ref: '../../api.yml#/components/parameters/limit'
@@ -36,18 +36,18 @@
 
   post:
     tags:
-      - Structures - Médias sociaux
-    summary: Ajouter un média social à la structure
+      - Personnes - Médias sociaux
+    summary: Ajouter un média social à la personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
     requestBody:
       content:
         application/json:
           schema:
-            title: StructureSocialMediaPayLoad
+            title: PersonSocialMediaPayLoad
             required:
-              - 'type'
-              - 'account'
+              - account
+              - type
             allOf:
               - $ref: '../../api.yml#/components/schemas/SocialMediaPayload'
     responses:
@@ -68,13 +68,13 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/socialmedias/{socialmediaId}:
+/persons/{personId}/social-medias/{socialmediaId}:
   get:
     tags:
-      - Structures - Médias sociaux
-    summary: Obtenir le détail d'un media social d'une structure
+      - Personnes - Médias sociaux
+    summary: Obtenir le détail d'un media social d'une personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
     responses:
       '200':
@@ -94,10 +94,10 @@
 
   delete:
     tags:
-      - Structures - Médias sociaux
-    summary: Retirer un média social de la structure
+      - Personnes - Médias sociaux
+    summary: Retirer un média social de la personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
     responses:
       '204':
@@ -113,10 +113,10 @@
 
   patch:
     tags:
-      - Structures - Médias sociaux
-    summary: Modifier un média social de la structure
+      - Personnes - Médias sociaux
+    summary: Modifier un média social de la personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
     requestBody:
       content:
