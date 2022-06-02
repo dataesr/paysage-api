@@ -1,10 +1,10 @@
-import { objectCatalog, internalCatalog } from '../../commons/monster';
-import { BadRequestError } from '../../commons/http-errors';
-import structuresRepository from './root.repository';
 import categoriesRepository from '../../categories/root/root.repository';
-import { client } from '../../../services/mongo.service';
-import structureIdentifiersRepository from '../identifiers/identifiers.repository';
+import { BadRequestError } from '../../commons/http-errors';
+import structureIdentifiersRepository from '../../commons/identifiers/identifiers.repository';
+import { objectCatalog, internalCatalog } from '../../commons/monster';
 import { readQuery } from './root.queries';
+import structuresRepository from './root.repository';
+import { client } from '../../../services/mongo.service';
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
