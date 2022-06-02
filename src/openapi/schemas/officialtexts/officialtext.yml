@@ -11,7 +11,7 @@ allOf:
         $ref: ../../api.yml#/components/schemas/OfficialTextNaturesEnum
       type:
         $ref: ../../api.yml#/components/schemas/OfficialTextTypesEnum
-      documentNumber:
+      textNumber:
         type: string
       title:
         type: string

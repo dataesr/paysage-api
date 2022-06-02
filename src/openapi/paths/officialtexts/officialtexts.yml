@@ -2,7 +2,7 @@ collection:
   get:
     tags:
       - Textes officiels
-    summary: Lister les documents officiels
+    summary: Lister les textes officiels
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -34,7 +34,7 @@ collection:
   post:
     tags:
       - Textes officiels
-    summary: Ajouter un document officiel
+    summary: Ajouter un texte officiel
     security:
     - BearerAuth: []
     requestBody:
@@ -46,7 +46,6 @@ collection:
               - nature
               - type
               - title
-              - documentNumber
               - pageUrl
             allOf:
               - $ref: '../../api.yml#/components/schemas/OfficialTextPayload'
@@ -70,7 +69,7 @@ resource:
   get:
     tags:
       - Textes officiels
-    summary: Obtenir le détail d'un document officiel
+    summary: Obtenir le détail d'un texte officiel
     parameters:
       - $ref: '../../api.yml#/components/parameters/officialTextId'
     responses:
@@ -94,7 +93,7 @@ resource:
   delete:
     tags:
       - Textes officiels
-    summary: Supprimer un document officiel
+    summary: Supprimer un texte officiel
     security:
     - BearerAuth: []
     parameters:
@@ -114,7 +113,7 @@ resource:
   patch:
     tags:
       - Textes officiels
-    summary: Modifier un document officiel
+    summary: Modifier un texte officiel
     security:
     - BearerAuth: []
     parameters:

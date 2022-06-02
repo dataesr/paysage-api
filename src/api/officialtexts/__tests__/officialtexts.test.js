@@ -3,7 +3,7 @@ let id;
 const payload = {
   nature: 'Publication au JO',
   type: 'Loi',
-  documentNumber: 'documentNumber',
+  textNumber: 'textNumber',
   title: 'title',
   pageUrl: 'http://string.fr',
   signatureDate: '2020',
@@ -47,8 +47,8 @@ describe('API > official texts > create', () => {
       .expect(400);
   });
 
-  it('should fail if documentNumber is missing', async () => {
-    const { documentNumber, ...rest } = payload;
+  it('should fail if textNumber is missing', async () => {
+    const { textNumber, ...rest } = payload;
     await global.superapp
       .post('/official-texts')
       .set('Authorization', authorization)
