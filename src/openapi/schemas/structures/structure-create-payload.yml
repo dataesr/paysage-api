@@ -59,9 +59,19 @@ properties:
     type: string
     pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
     nullable: true
+  creationOfficialTextId:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
+    description: Identifiant d'un texte officiel
+    nullable: true
   closureDate:
     type: string
     pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+    nullable: true
+  closureOfficialTextId:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
+    description: Identifiant d'un texte officiel
     nullable: true
   categories:
     type: array
