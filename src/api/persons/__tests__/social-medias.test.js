@@ -1,4 +1,4 @@
-import { ServerError } from '../../../libs/http-errors';
+import { ServerError } from '../../commons/http-errors';
 
 let authorization;
 let id;
