@@ -1,4 +1,4 @@
-title: OfficialDocument
+title: OfficialText
 description: Représentation d'un document officiel
 allOf: 
   - type: object
@@ -8,10 +8,10 @@ allOf:
         pattern: '^[a-zA-Z0-9]{5}$'
         readOnly: true
       nature:
-        $ref: ../../api.yml#/components/schemas/OfficialDocumentNaturesEnum
+        $ref: ../../api.yml#/components/schemas/OfficialTextNaturesEnum
       type:
-        $ref: ../../api.yml#/components/schemas/OfficialDocumentTypesEnum
-      documentNumber:
+        $ref: ../../api.yml#/components/schemas/OfficialTextTypesEnum
+      textNumber:
         type: string
       title:
         type: string

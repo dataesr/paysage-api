@@ -1,8 +1,8 @@
-/officialdocuments:
+/official-texts:
   get:
     tags:
-      - Documents officiels
-    summary: Lister les documents officiels
+      - Textes officiels
+    summary: Lister les textes officiels
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -19,7 +19,7 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/OfficialDocument'
+                    $ref: '../../api.yml#/components/schemas/OfficialText'
                 totalCount:
                   type: number
       '400':
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Documents officiels
-    summary: Ajouter un document officiel
+      - Textes officiels
+    summary: Ajouter un texte officiel
     security:
     - BearerAuth: []
     requestBody:
@@ -46,17 +46,16 @@
               - nature
               - type
               - title
-              - documentNumber
               - pageUrl
             allOf:
-              - $ref: '../../api.yml#/components/schemas/OfficialDocumentPayload'
+              - $ref: '../../api.yml#/components/schemas/OfficialTextPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/OfficialDocument'
+              $ref: '../../api.yml#/components/schemas/OfficialText'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -66,20 +65,20 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/officialdocuments/{officialDocumentId}:
+/official-texts/{officialTextId}:
   get:
     tags:
-      - Documents officiels
-    summary: Obtenir le détail d'un document officiel
+      - Textes officiels
+    summary: Obtenir le détail d'un texte officiel
     parameters:
-      - $ref: '../../api.yml#/components/parameters/officialDocumentId'
+      - $ref: '../../api.yml#/components/parameters/officialTextId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/OfficialDocument'
+              $ref: '../../api.yml#/components/schemas/OfficialText'
       '301':
         description: No content
       '401':
@@ -93,12 +92,12 @@
 
   delete:
     tags:
-      - Documents officiels
-    summary: Supprimer un document officiel
+      - Textes officiels
+    summary: Supprimer un texte officiel
     security:
     - BearerAuth: []
     parameters:
-      - $ref: '../../api.yml#/components/parameters/officialDocumentId'
+      - $ref: '../../api.yml#/components/parameters/officialTextId'
     responses:
       '204':
         description: No content
@@ -113,17 +112,17 @@
 
   patch:
     tags:
-      - Documents officiels
-    summary: Modifier un document officiel
+      - Textes officiels
+    summary: Modifier un texte officiel
     security:
     - BearerAuth: []
     parameters:
-      - $ref: '../../api.yml#/components/parameters/officialDocumentId'
+      - $ref: '../../api.yml#/components/parameters/officialTextId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/OfficialDocumentPayload'
+            $ref: '../../api.yml#/components/schemas/OfficialTextPayload'
 
     responses:
       '200':
@@ -131,7 +130,7 @@
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/OfficialDocument'
+              $ref: '../../api.yml#/components/schemas/OfficialText'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

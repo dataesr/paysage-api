@@ -3,7 +3,7 @@ let id;
 const payload = {
   nature: 'Publication au JO',
   type: 'Loi',
-  documentNumber: 'documentNumber',
+  textNumber: 'textNumber',
   title: 'title',
   pageUrl: 'http://string.fr',
   signatureDate: '2020',
@@ -16,10 +16,10 @@ beforeAll(async () => {
   authorization = await global.utils.createUser('user');
 });
 
-describe('API > official documents > create', () => {
+describe('API > official texts > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
-      .post('/officialdocuments')
+      .post('/official-texts')
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
@@ -30,44 +30,44 @@ describe('API > official documents > create', () => {
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
-      .post('/officialdocuments')
+      .post('/official-texts')
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
-    const dbData = await global.db.collection('official-documents').findOne({ id });
+    const dbData = await global.db.collection('official-texts').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
   });
 
   it('should fail if title is missing', async () => {
     const { title, ...rest } = payload;
     await global.superapp
-      .post('/officialdocuments')
+      .post('/official-texts')
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
   });
 
-  it('should fail if documentNumber is missing', async () => {
-    const { documentNumber, ...rest } = payload;
+  it('should fail if type is missing', async () => {
+    const { type, ...rest } = payload;
     await global.superapp
-      .post('/officialdocuments')
+      .post('/official-texts')
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
   });
 });
 
-describe('API > official documents > update', () => {
+describe('API > official texts > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch('/officialdocuments/45frK')
+      .patch('/official-texts/45frK')
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(404);
   });
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/officialdocuments/${id}`)
+      .patch(`/official-texts/${id}`)
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(200);
@@ -78,31 +78,31 @@ describe('API > official documents > update', () => {
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
-      .patch(`/officialdocuments/${id}`)
+      .patch(`/official-texts/${id}`)
       .set('Authorization', authorization)
       .send({ arbitrary: 'test' })
       .expect(400);
   });
   it('throws with no data', async () => {
     await global.superapp
-      .patch(`/officialdocuments/${id}`)
+      .patch(`/official-texts/${id}`)
       .set('Authorization', authorization)
       .send({})
       .expect(400);
   });
   it('throws when nullifying required', async () => {
     await global.superapp
-      .patch(`/officialdocuments/${id}`)
+      .patch(`/official-texts/${id}`)
       .set('Authorization', authorization)
       .send({ nature: null })
       .expect(400);
   });
 });
 
-describe('API > official documents > read', () => {
+describe('API > official texts > read', () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
-      .get(`/officialdocuments/${id}`)
+      .get(`/official-texts/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     const expected = { ...payload, ...updatePayLoad };
@@ -112,49 +112,49 @@ describe('API > official documents > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get('/officialdocuments/45frK')
+      .get('/official-texts/45frK')
       .set('Authorization', authorization)
       .expect(404);
   });
 });
 
-describe('API > official documents > delete', () => {
+describe('API > official texts > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete('/officialdocuments/45frK')
+      .delete('/official-texts/45frK')
       .set('Authorization', authorization)
       .expect(404);
   });
   it('can delete successfully', async () => {
     await global.superapp
-      .delete(`/officialdocuments/${id}`)
+      .delete(`/official-texts/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
 });
 
-describe('API > official documents > list', () => {
+describe('API > official texts > list', () => {
   beforeAll(async () => {
-    await global.utils.db.collection('official-documents').deleteMany({});
+    await global.utils.db.collection('official-texts').deleteMany({});
     await global.superapp
-      .post('/officialdocuments')
+      .post('/official-texts')
       .set('Authorization', authorization)
       .send({ ...payload, title: 'od1' })
       .expect(201);
     await global.superapp
-      .post('/officialdocuments')
+      .post('/official-texts')
       .set('Authorization', authorization)
       .send({ ...payload, title: 'od2' })
       .expect(201);
     await global.superapp
-      .post('/officialdocuments')
+      .post('/official-texts')
       .set('Authorization', authorization)
       .send({ ...payload, title: 'od3' })
       .expect(201);
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get('/officialdocuments')
+      .get('/official-texts')
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -164,7 +164,7 @@ describe('API > official documents > list', () => {
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get('/officialdocuments?skip=1')
+      .get('/official-texts?skip=1')
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -174,7 +174,7 @@ describe('API > official documents > list', () => {
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get('/officialdocuments?limit=1')
+      .get('/official-texts?limit=1')
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -183,7 +183,7 @@ describe('API > official documents > list', () => {
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/officialdocuments?sort=title')
+      .get('/official-texts?sort=title')
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -192,7 +192,7 @@ describe('API > official documents > list', () => {
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/officialdocuments?sort=-title')
+      .get('/official-texts?sort=-title')
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -201,7 +201,7 @@ describe('API > official documents > list', () => {
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get('/officialdocuments?filters[title]=od1')
+      .get('/official-texts?filters[title]=od1')
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);

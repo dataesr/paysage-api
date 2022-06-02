@@ -42,8 +42,8 @@ allOf:
           - privé
           - sans objet
           - null
-      officialDocument:
-        $ref: '../../api.yml#/components/schemas/OfficialDocument'
+      officialText:
+        $ref: '../../api.yml#/components/schemas/OfficialText'
       legalPersonality:
         type: string
         nullable: true
