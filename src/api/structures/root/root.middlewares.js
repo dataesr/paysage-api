@@ -1,13 +1,23 @@
-import categoriesRepository from '../../categories/root/root.repository';
 import { BadRequestError } from '../../commons/http-errors';
 import structureIdentifiersRepository from '../../commons/identifiers/identifiers.repository';
 import { objectCatalog, internalCatalog } from '../../commons/monster';
 import { readQuery } from './root.queries';
+import categoriesRepository from '../../categories/root/root.repository';
 import structuresRepository from './root.repository';
+import officialTextRepository from '../../officialtexts/officialtexts.repository';
 import { client } from '../../../services/mongo.service';
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
+  const { creationOfficialTextId, closureOfficialTextId } = req.body;
+  if (creationOfficialTextId) {
+    const text = await officialTextRepository.read(creationOfficialTextId);
+    if (!text?.id) { errors.push({ path: '.body.creationOfficialTextId', message: `official text ${creationOfficialTextId} does not exist` }); }
+  }
+  if (closureOfficialTextId) {
+    const text = await officialTextRepository.read(closureOfficialTextId);
+    if (!text?.id) { errors.push({ path: '.body.closureOfficialTextId', message: `official text ${closureOfficialTextId} does not exist` }); }
+  }
   const { categories: categoryIds, parents: parentIds } = req.body;
   if (parentIds) {
     const { data: structuresData } = await structuresRepository.find({ filters: { id: { $in: parentIds } }, useQuery: 'checkQuery' });

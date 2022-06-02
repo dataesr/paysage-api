@@ -3,7 +3,7 @@ import metas from '../commons/pipelines/metas';
 const lightModel = {
   nature: 1,
   type: 1,
-  documentNumber: 1,
+  textNumber: 1,
   title: 1,
   pageUrl: 1,
 };

@@ -24,25 +24,16 @@ tags:
   - name: Structures - Liens web
   - name: Structures - Médias sociaux
   - name: Structures - Logos
-  # - name: Structures - Agenda
-  # - name: Structures - Documents
   - name: Structures - Catégories
-  # - name: Structures - Gouvernance
-  # - name: Structures - Référents MESRI
-  # - name: Structures - Tutelles
-  # - name: Structures - Parents
-  # - name: Structures - Enfants
   - name: Personnes
   - name: Personnes - Identifiants
   - name: Personnes - Médias sociaux
   - name: Personnes - Liens web
-  # - name: Personnes - Rôles
-  # - name: Personnes - Prix
   - name: Catégories
   - name: Catégories - Identifiants
   - name: Catégories - Liens web
   - name: Termes
-  - name: Documents officiels
+  - name: Textes officiels
   - name: Documents
   - name: Catégories juridiques
   - name: Prix scientifiques
@@ -135,11 +126,11 @@ paths:
   '/categories/{categoryId}/weblinks/{weblinkId}':
     $ref: './paths/categories/weblinks.yml#/~1categories~1{categoryId}~1weblinks~1{weblinkId}'
 
-  ### OFFICIAL DOCUMENTS ###
-  '/officialdocuments':
-    $ref: './paths/officialdocuments/officialdocuments.yml#/~1officialdocuments'
-  '/officialdocuments/{officialDocumentId}':
-    $ref: './paths/officialdocuments/officialdocuments.yml#/~1officialdocuments~1{officialDocumentId}'
+  ### OFFICIAL TEXTS ###
+  '/official-texts':
+    $ref: './paths/officialtexts/officialtexts.yml#/~1official-texts'
+  '/official-texts/{officialTextId}':
+    $ref: './paths/officialtexts/officialtexts.yml#/~1official-texts~1{officialTextId}'
 
   ### DOCUMENTS ###
   '/documents':
@@ -191,8 +182,8 @@ components:
       $ref: ./parameters/ids/price-id.yml
     personId:
       $ref: ./parameters/ids/person-id.yml
-    officialDocumentId:
-      $ref: ./parameters/ids/officialdocument-id.yml
+    officialTextId:
+      $ref: ./parameters/ids/officialtext-id.yml
     newsId:
       $ref: ./parameters/ids/news-id.yml
     roleId:
@@ -236,10 +227,10 @@ components:
       $ref: './schemas/commons/logo.yml'
     SocialMedia:
       $ref: './schemas/commons/social-media.yml'
-    OfficialDocument:
-      $ref: './schemas/officialdocuments/officialdocument.yml'
-    OfficialDocumentLight:
-      $ref: './schemas/officialdocuments/officialdocument-light.yml'
+    OfficialText:
+      $ref: './schemas/officialtexts/officialtext.yml'
+    OfficialTextLight:
+      $ref: './schemas/officialtexts/officialtext-light.yml'
     Document:
       $ref: './schemas/documents/document.yml'
     DocumentLight:
@@ -309,8 +300,8 @@ components:
     DocumentPayload:
       $ref: './schemas/documents/document-payload.yml'
 
-    OfficialDocumentPayload:
-      $ref: './schemas/officialdocuments/officialdocument-payload.yml'
+    OfficialTextPayload:
+      $ref: './schemas/officialtexts/officialtext-payload.yml'
 
     LogoPayload:
       $ref: './schemas/commons/logo-payload.yml'
@@ -326,10 +317,10 @@ components:
     ### ENUMS ###
     CategoryIdentifierTypesEnum:
       $ref: './schemas/categories/enums/identifier-types.yml'
-    OfficialDocumentNaturesEnum:
-      $ref: './schemas/officialdocuments/enums/nature.yml'
-    OfficialDocumentTypesEnum:
-      $ref: './schemas/officialdocuments/enums/type.yml'
+    OfficialTextTypesEnum:
+      $ref: './schemas/officialtexts/enums/type.yml'
+    OfficialTextNaturesEnum:
+      $ref: './schemas/officialtexts/enums/nature.yml'
     PersonIdentifierTypesEnum:
       $ref: './schemas/persons/enums/identifier-types.yml'
     SocialmediaTypesEnum:
