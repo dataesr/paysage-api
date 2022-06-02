@@ -37,9 +37,9 @@
     summary: Créer un nouveau document
     requestBody:
       content:
-          application/json:
-            schema:
-              $ref: '../../api.yml#/components/schemas/DocumentPayload'
+        multipart/form-data:
+          schema:
+            $ref: '../../api.yml#/components/schemas/DocumentPayload'
     responses:
       '201':
         description: Created
@@ -91,7 +91,7 @@
       - $ref: '../../api.yml#/components/parameters/documentId'
     requestBody:
       content:
-          application/json:
+          mutlipart/form-data:
             schema:
               $ref: '../../api.yml#/components/schemas/DocumentPayload'
     responses:

@@ -18,7 +18,7 @@
 
 * Run test into a Docker container
 
-`docker-compose -f docker-compose-test.yml up --build --exit-code-from paysage-api`
+`npm run docker:test`
 
 ### Docker
 

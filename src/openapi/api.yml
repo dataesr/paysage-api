@@ -104,6 +104,10 @@ paths:
     $ref: './paths/persons/social-medias.yml#/~1persons~1{personId}~1social-medias'
   '/persons/{personId}/social-medias/{socialmediaId}':
     $ref: './paths/persons/social-medias.yml#/~1persons~1{personId}~1social-medias~1{socialmediaId}'
+  '/persons/{personId}/categories':
+    $ref: './paths/persons/categories.yml#/~1persons~1{personId}~1categories'
+  '/persons/{personId}/categories/{relationshipId}':
+    $ref: './paths/persons/categories.yml#/~1persons~1{personId}~1categories~1{relationshipId}'
 
   ### TERMES ###
   '/terms':
@@ -193,6 +197,8 @@ components:
       $ref: ./parameters/ids/news-id.yml
     roleId:
       $ref: ./parameters/ids/role-id.yml
+    relationshipId:
+      $ref: ./parameters/ids/relationship-id.yml
 
   responses:
     BadRequest:
@@ -330,6 +336,8 @@ components:
       $ref: './schemas/commons/enums/social-media-types.yml'
     StructureIdentifierTypesEnum:
       $ref: './schemas/structures/enums/identifier-types.yml'
+    WeblinkTypesEnum:
+      $ref: './schemas/commons/enums/weblink-types.yml'
 
 
     ### COMMON MODELS ###

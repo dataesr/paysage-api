@@ -1,10 +1,10 @@
-/structures/{structureId}/social-medias:
+/persons/{personId}/categories:
   get:
     tags:
-      - Structures - Médias sociaux
-    summary: Lister les médias sociaux d'une structure
+      - Persons - Catégories
+    summary: Lister les catégories d'une personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
       - $ref: '../../api.yml#/components/parameters/limit'
@@ -20,7 +20,7 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/SocialMedia'
+                    $ref: '../../api.yml#/components/schemas/StructureCategory'
                 totalCount:
                   type: integer
       '400':
@@ -36,27 +36,22 @@
 
   post:
     tags:
-      - Structures - Médias sociaux
-    summary: Ajouter un média social à la structure
+      - Persons - Catégories
+    summary: Ajouter une catégory à la personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
     requestBody:
       content:
         application/json:
           schema:
-            title: StructureSocialMediaPayLoad
-            required:
-              - 'type'
-              - 'account'
-            allOf:
-              - $ref: '../../api.yml#/components/schemas/SocialMediaPayload'
+            $ref: '../../api.yml#/components/schemas/StructureCategoryPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/SocialMedia'
+              $ref: '../../api.yml#/components/schemas/StructureCategory'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -68,21 +63,21 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/social-medias/{socialmediaId}:
+/persons/{personId}/categories/{relationshipId}:
   get:
     tags:
-      - Structures - Médias sociaux
-    summary: Obtenir le détail d'un media social d'une structure
+      - Persons - Catégories
+    summary: Obtenir le détail d'une catégory de personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/socialmediaId'
+      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/relationshipId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/SocialMedia'
+              $ref: '../../api.yml#/components/schemas/StructureCategory'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -94,11 +89,11 @@
 
   delete:
     tags:
-      - Structures - Médias sociaux
-    summary: Retirer un média social de la structure
+      - Persons - Catégories
+    summary: Retirer une catégory de la personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/socialmediaId'
+      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/relationshipId'
     responses:
       '204':
         description: No content
@@ -113,23 +108,23 @@
 
   patch:
     tags:
-      - Structures - Médias sociaux
-    summary: Modifier un média social de la structure
+      - Persons - Catégories
+    summary: Modifier une catégory de la personne
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/socialmediaId'
+      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/relationshipId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/SocialMediaPayload'
+            $ref: '../../api.yml#/components/schemas/StructureCategoryPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/SocialMedia'
+              $ref: '../../api.yml#/components/schemas/StructureCategory'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
