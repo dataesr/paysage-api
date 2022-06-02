@@ -1,12 +1,12 @@
 import express from 'express';
+
+import config from '../persons.config';
 import { patchContext, createContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
+import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from '../../commons/middlewares/validate.middlewares';
-import controllers from '../../commons/middlewares/crud.middlewares';
-
 import { readQuery } from './root.queries';
 import personsRepository from './root.repository';
-import config from '../persons.config';
 
 const { collection } = config;
 

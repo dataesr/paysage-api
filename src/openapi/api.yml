@@ -69,10 +69,10 @@ paths:
     $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks'
   '/structures/{structureId}/weblinks/{weblinkId}':
     $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks~1{weblinkId}'
-  '/structures/{structureId}/socialmedias':
-    $ref: './paths/structures/socialmedias.yml#/~1structures~1{structureId}~1socialmedias'
-  '/structures/{structureId}/socialmedias/{socialmediaId}':
-    $ref: './paths/structures/socialmedias.yml#/~1structures~1{structureId}~1socialmedias~1{socialmediaId}'
+  '/structures/{structureId}/social-medias':
+    $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias'
+  '/structures/{structureId}/social-medias/{socialmediaId}':
+    $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias~1{socialmediaId}'
   '/structures/{structureId}/categories':
     $ref: './paths/structures/categories.yml#/~1structures~1{structureId}~1categories'
   '/structures/{structureId}/categories/{relatedCategoryId}':
@@ -91,10 +91,10 @@ paths:
     $ref: './paths/persons/weblinks.yml#/~1persons~1{personId}~1weblinks'
   '/persons/{personId}/weblinks/{weblinkId}':
     $ref: './paths/persons/weblinks.yml#/~1persons~1{personId}~1weblinks~1{weblinkId}'
-  '/persons/{personId}/socialmedias':
-    $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias'
-  '/persons/{personId}/socialmedias/{socialmediaId}':
-    $ref: './paths/persons/socialmedias.yml#/~1persons~1{personId}~1socialmedias~1{socialmediaId}'
+  '/persons/{personId}/social-medias':
+    $ref: './paths/persons/social-medias.yml#/~1persons~1{personId}~1social-medias'
+  '/persons/{personId}/social-medias/{socialmediaId}':
+    $ref: './paths/persons/social-medias.yml#/~1persons~1{personId}~1social-medias~1{socialmediaId}'
   '/persons/{personId}/categories':
     $ref: './paths/persons/categories.yml#/~1persons~1{personId}~1categories'
   '/persons/{personId}/categories/{relationshipId}':
@@ -128,9 +128,9 @@ paths:
 
   ### OFFICIAL TEXTS ###
   '/official-texts':
-    $ref: './paths/officialtexts/officialtexts.yml#/collection'
+    $ref: './paths/officialtexts/officialtexts.yml#/~1official-texts'
   '/official-texts/{officialTextId}':
-    $ref: './paths/officialtexts/officialtexts.yml#/resource'
+    $ref: './paths/officialtexts/officialtexts.yml#/~1official-texts~1{officialTextId}'
 
   ### DOCUMENTS ###
   '/documents':
@@ -169,7 +169,7 @@ components:
     weblinkId:
       $ref: ./parameters/ids/weblink-id.yml
     socialmediaId:
-      $ref: ./parameters/ids/socialmedia-id.yml
+      $ref: ./parameters/ids/social-media-id.yml
     termId:
       $ref: ./parameters/ids/term-id.yml
     categoryId:
@@ -308,23 +308,32 @@ components:
     WeblinkPayload:
       $ref: './schemas/commons/weblink-payload.yml'
     SocialMediaPayload:
-      $ref: './schemas/commons/socialmedia-payload.yml'
+      $ref: './schemas/commons/social-media-payload.yml'
 
     RolePayload:
       $ref: './schemas/roles/role-payload.yml'
 
 
     ### ENUMS ###
-    StructureIdentifierTypesEnum:
-      $ref: './schemas/structures/enums/identifier-types.yml'
-    PersonIdentifierTypesEnum:
-      $ref: './schemas/persons/enums/identifier-types.yml'
     CategoryIdentifierTypesEnum:
       $ref: './schemas/categories/enums/identifier-types.yml'
+<<<<<<< HEAD
     OfficialTextTypesEnum:
       $ref: './schemas/officialtexts/enums/type.yml'
     OfficialTextNaturesEnum:
       $ref: './schemas/officialtexts/enums/nature.yml'
+=======
+    OfficialDocumentNaturesEnum:
+      $ref: './schemas/officialdocuments/enums/nature.yml'
+    OfficialDocumentTypesEnum:
+      $ref: './schemas/officialdocuments/enums/type.yml'
+    PersonIdentifierTypesEnum:
+      $ref: './schemas/persons/enums/identifier-types.yml'
+    SocialmediaTypesEnum:
+      $ref: './schemas/commons/enums/social-media-types.yml'
+    StructureIdentifierTypesEnum:
+      $ref: './schemas/structures/enums/identifier-types.yml'
+>>>>>>> 8b1cdc646303c6582093eb00d2c0f3d897e95a56
     WeblinkTypesEnum:
       $ref: './schemas/commons/enums/weblink-types.yml'
 

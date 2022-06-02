@@ -1,0 +1,19 @@
+type: string
+enum:
+  - Dailymotion
+  - Facebook
+  - Flickr
+  - France Culture
+  - Github
+  - Instagram
+  - Linkedin
+  - Pinterest
+  - Scoopit
+  - Scribd
+  - Snapchat
+  - Tiktok
+  - Tumblr
+  - Twitch
+  - Twitter
+  - Vimeo
+  - Youtube
