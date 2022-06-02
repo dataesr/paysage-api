@@ -1,7 +1,6 @@
-import mongo from '../../../services/mongo.service';
-import { BaseMongoRepository } from '../../../libs/monster';
+import { db } from '../../../services/mongo.service';
+import BaseMongoRepository from '../repositories/base.mongo.repository';
 
-const { db } = mongo;
 const socialMediasRepository = new BaseMongoRepository({ db, collection: 'social-medias' });
 
 export default socialMediasRepository;

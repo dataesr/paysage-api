@@ -1,5 +1,5 @@
 title: Structure
-description: Representation d'une structure
+description: Representation of a structure
 readOnly: true
 allOf: 
   - type: object
