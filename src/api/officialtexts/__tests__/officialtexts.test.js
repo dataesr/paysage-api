@@ -47,8 +47,8 @@ describe('API > official texts > create', () => {
       .expect(400);
   });
 
-  it('should fail if textNumber is missing', async () => {
-    const { textNumber, ...rest } = payload;
+  it('should fail if type is missing', async () => {
+    const { type, ...rest } = payload;
     await global.superapp
       .post('/official-texts')
       .set('Authorization', authorization)

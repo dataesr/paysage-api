@@ -226,7 +226,7 @@ components:
     Logo:
       $ref: './schemas/commons/logo.yml'
     SocialMedia:
-      $ref: './schemas/commons/socialmedia.yml'
+      $ref: './schemas/commons/social-media.yml'
     OfficialText:
       $ref: './schemas/officialtexts/officialtext.yml'
     OfficialTextLight:
@@ -317,23 +317,16 @@ components:
     ### ENUMS ###
     CategoryIdentifierTypesEnum:
       $ref: './schemas/categories/enums/identifier-types.yml'
-<<<<<<< HEAD
     OfficialTextTypesEnum:
       $ref: './schemas/officialtexts/enums/type.yml'
     OfficialTextNaturesEnum:
       $ref: './schemas/officialtexts/enums/nature.yml'
-=======
-    OfficialDocumentNaturesEnum:
-      $ref: './schemas/officialdocuments/enums/nature.yml'
-    OfficialDocumentTypesEnum:
-      $ref: './schemas/officialdocuments/enums/type.yml'
     PersonIdentifierTypesEnum:
       $ref: './schemas/persons/enums/identifier-types.yml'
     SocialmediaTypesEnum:
       $ref: './schemas/commons/enums/social-media-types.yml'
     StructureIdentifierTypesEnum:
       $ref: './schemas/structures/enums/identifier-types.yml'
->>>>>>> 8b1cdc646303c6582093eb00d2c0f3d897e95a56
     WeblinkTypesEnum:
       $ref: './schemas/commons/enums/weblink-types.yml'
 
