@@ -5,7 +5,7 @@ import identifiers from './identifiers/identifiers.routes';
 import localisations from './localisations/localisations.routes';
 import logos from './logos/logos.routes';
 import names from './names/names.routes';
-import socialmedias from './socialmedias/socialmedias.routes';
+import socialmedias from './social-medias/social-medias.routes';
 import structures from './root/root.routes';
 import weblinks from './weblinks/weblinks.routes';
 

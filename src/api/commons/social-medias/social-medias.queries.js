@@ -1,11 +1,8 @@
-import metas from '../../commons/pipelines/metas';
+import metas from '../pipelines/metas';
 
 const model = {
+  account: 1,
   type: 1,
-  value: 1,
-  active: 1,
-  startDate: { $ifNull: ['$startDate', null] },
-  endDate: { $ifNull: ['$endDate', null] },
 };
 
 const readQuery = [
@@ -14,11 +11,12 @@ const readQuery = [
     $project: {
       _id: 0,
       id: 1,
+      resourceId: 1,
       ...model,
-      createdBy: 1,
       createdAt: 1,
-      updatedBy: 1,
+      createdBy: 1,
       updatedAt: 1,
+      updatedBy: 1,
     },
   },
 ];

@@ -1,6 +1,6 @@
 let authorization;
-let rid;
 let id;
+let resourceId;
 let tid;
 
 const payload = {
@@ -29,13 +29,13 @@ beforeAll(async () => {
       creationDate: '2021-02',
       usualName: 'Université',
     }).expect(201);
-  rid = response.body.id;
+  resourceId = response.body.id;
 });
 
 describe('API > structures > localisations > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
-      .post(`/structures/${rid}/localisations`)
+      .post(`/structures/${resourceId}/localisations`)
       .set('Authorization', authorization)
       .send(payload).expect(201);
     Object.entries(payload).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
@@ -47,7 +47,7 @@ describe('API > structures > localisations > create', () => {
   it('should fail if country is missing', async () => {
     const { country, ...rest } = payload;
     await global.superapp
-      .post(`/structures/${rid}/localisations`)
+      .post(`/structures/${resourceId}/localisations`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -56,7 +56,7 @@ describe('API > structures > localisations > create', () => {
   it('can create with missing coordinates', async () => {
     const { coordinates, ...rest } = payload;
     const { body } = await global.superapp
-      .post(`/structures/${rid}/localisations`)
+      .post(`/structures/${resourceId}/localisations`)
       .set('Authorization', authorization)
       .send(rest);
     tid = body.id;
@@ -66,7 +66,7 @@ describe('API > structures > localisations > create', () => {
 describe('API > structures > localisations > update', () => {
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/structures/${rid}/localisations/${id}`)
+      .patch(`/structures/${resourceId}/localisations/${id}`)
       .set('Authorization', authorization)
       .send({ locality: 'Strasbourg', coordinates: { lat: 2.56, lng: 69.1631 } })
       .expect(200);
@@ -77,14 +77,14 @@ describe('API > structures > localisations > update', () => {
 
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .patch(`/structures/${rid}/localisations/45frK`)
+      .patch(`/structures/${resourceId}/localisations/45frK`)
       .set('Authorization', authorization)
       .send({ locality: 'Strasbourg' })
       .expect(400);
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/structures/${rid}/localisations/45skrc65`)
+      .patch(`/structures/${resourceId}/localisations/45skrc65`)
       .set('Authorization', authorization)
       .send({ locality: 'Strasbourg' })
       .expect(404);
@@ -92,21 +92,21 @@ describe('API > structures > localisations > update', () => {
 
   it('throws with wrong data', async () => {
     await global.superapp
-      .patch(`/structures/${rid}/localisations/${id}`)
+      .patch(`/structures/${resourceId}/localisations/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: 'string' })
       .expect(400);
   });
   it('throws with wrong data', async () => {
     await global.superapp
-      .patch(`/structures/${rid}/localisations/${id}`)
+      .patch(`/structures/${resourceId}/localisations/${id}`)
       .set('Authorization', authorization)
       .send({ coordinates: { lat: 45.462168 } })
       .expect(400);
   });
   it('throws with wrong data', async () => {
     await global.superapp
-      .patch(`/structures/${rid}/localisations/${id}`)
+      .patch(`/structures/${resourceId}/localisations/${id}`)
       .set('Authorization', authorization)
       .send({ telephone: { lat: 45.462168 } })
       .expect(400);
@@ -116,7 +116,7 @@ describe('API > structures > localisations > update', () => {
 describe('API > structures > localisations > read', () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/localisations/${id}`)
+      .get(`/structures/${resourceId}/localisations/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(body.id).toBeTruthy();
@@ -129,13 +129,13 @@ describe('API > structures > localisations > read', () => {
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .get(`/structures/${rid}/localisations/265vty`)
+      .get(`/structures/${resourceId}/localisations/265vty`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/structures/${rid}/localisations/265fkrld`)
+      .get(`/structures/${resourceId}/localisations/265fkrld`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -144,19 +144,19 @@ describe('API > structures > localisations > read', () => {
 describe('API > structures > localisations > delete', () => {
   it('can delete', async () => {
     await global.superapp
-      .delete(`/structures/${rid}/localisations/${tid}`)
+      .delete(`/structures/${resourceId}/localisations/${tid}`)
       .set('Authorization', authorization)
       .expect(204);
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .delete(`/structures/${rid}/localisations/vgy775`)
+      .delete(`/structures/${resourceId}/localisations/vgy775`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/structures/${rid}/localisations/775flrks`)
+      .delete(`/structures/${resourceId}/localisations/775flrks`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -165,19 +165,19 @@ describe('API > structures > localisations > delete', () => {
 describe('API > structures > localisations > list', () => {
   beforeAll(async () => {
     await global.superapp
-      .post(`/structures/${rid}/localisations/`)
+      .post(`/structures/${resourceId}/localisations/`)
       .set('Authorization', authorization)
       .send({ ...payload, locality: 'Colmar' })
       .expect(201);
     await global.superapp
-      .post(`/structures/${rid}/localisations/`)
+      .post(`/structures/${resourceId}/localisations/`)
       .set('Authorization', authorization)
       .send({ ...payload, locality: 'Mulhouse' })
       .expect(201);
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/localisations`)
+      .get(`/structures/${resourceId}/localisations`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -187,7 +187,7 @@ describe('API > structures > localisations > list', () => {
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/localisations?skip=1`)
+      .get(`/structures/${resourceId}/localisations?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -198,7 +198,7 @@ describe('API > structures > localisations > list', () => {
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/localisations?limit=1`)
+      .get(`/structures/${resourceId}/localisations?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -208,7 +208,7 @@ describe('API > structures > localisations > list', () => {
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/localisations?sort=locality`)
+      .get(`/structures/${resourceId}/localisations?sort=locality`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -218,7 +218,7 @@ describe('API > structures > localisations > list', () => {
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/localisations?sort=-locality`)
+      .get(`/structures/${resourceId}/localisations?sort=-locality`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -228,7 +228,7 @@ describe('API > structures > localisations > list', () => {
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${rid}/localisations?filters[locality]=Strasbourg`)
+      .get(`/structures/${resourceId}/localisations?filters[locality]=Strasbourg`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);

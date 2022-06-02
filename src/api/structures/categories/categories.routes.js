@@ -1,11 +1,12 @@
 import express from 'express';
-import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
+
 import { validatePayload, setStructureIdFromRequestPath } from './categories.middlewares';
-import config from '../structures.config';
-import controllers from '../../commons/middlewares/crud.middlewares';
 import { readQuery } from './categories.queries';
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
+import controllers from '../../commons/middlewares/crud.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import repository from '../../commons/repositories/relationships.repository';
+import config from '../structures.config';
 
 const { collection } = config;
 
