@@ -27,7 +27,7 @@ class NestedMongoRepository {
       { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
       { $replaceRoot: { newRoot: `$${this._field}` } },
       { $match: filters },
-      { $set: { rid: resourceId } },
+      { $set: { resourceId } },
     ];
     const queryPipeline = [
       ..._pipeline,

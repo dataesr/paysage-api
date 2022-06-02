@@ -1,4 +1,4 @@
-collection:
+/official-texts:
   get:
     tags:
       - Textes officiels
@@ -65,7 +65,7 @@ collection:
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-resource:
+/official-texts/{officialTextId}:
   get:
     tags:
       - Textes officiels

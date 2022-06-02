@@ -30,7 +30,7 @@ const readQuery = [
     $project: {
       _id: 0,
       id: 1,
-      rid: 1,
+      resourceId: 1,
       ...model,
       category: 1,
       createdBy: 1,

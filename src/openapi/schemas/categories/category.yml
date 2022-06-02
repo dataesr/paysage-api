@@ -81,7 +81,7 @@ allOf:
         type: array
         nullable: true
         writeOnly: true
-        description: Liste d'identifiant de catégories parente
+        description: Liste d'identifiants de catégories parentes
         items:
           type: string
   - $ref: '../../api.yml#/components/schemas/Metas'
