@@ -1,21 +1,27 @@
 description: Accepted values of the web link type of a structure
 type: string
 enum:
-  - Hal
-  - mooc
-  - scanR
-  - POpenData
-  - DataGouvFr
-  - EducPros
-  - ServicePublic
   - CanalU
-  - TheConversation
-  - Onisep
+  - DataGouvFr
   - EdCF
-  - jorfsearch
-  - TalentCNRS
+  - EducPros
+  - Hal
+  - hceres
   - IUF
+  - jorfsearch
+  - mooc
   - OE1
   - OE2
   - OE3
-  - hceres
+  - Onisep
+  - POpenData
+  - scanR
+  - ServicePublic
+  - TalentCNRS
+  - TheConversation
+  - website
+  - websiteCatForm
+  - websiteDirectory
+  - websiteGovernance
+  - websiteOrganizationChart
+  - websiteRss
