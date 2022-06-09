@@ -160,6 +160,8 @@ components:
       $ref: ./parameters/ids/structure-id.yml
     nameId:
       $ref: ./parameters/ids/name-id.yml
+    emailId:
+      $ref: ./parameters/ids/email-id.yml
     logoId:
       $ref: ./parameters/ids/logo-id.yml
     identifierId:
@@ -221,12 +223,14 @@ components:
       $ref: './schemas/structures/localisation.yml'
     StructureLocalisationLight:
       $ref: './schemas/structures/localisation-light.yml'
-    Weblink:
-      $ref: './schemas/commons/weblink.yml'
-    Logo:
-      $ref: './schemas/commons/logo.yml'
+    StructureWeblink:
+      $ref: './schemas/structures/weblink.yml'
+    StructureEmail:
+      $ref: './schemas/structures/email.yml'
     SocialMedia:
       $ref: './schemas/commons/social-media.yml'
+    Logo:
+      $ref: './schemas/commons/logo.yml'
     OfficialText:
       $ref: './schemas/officialtexts/officialtext.yml'
     OfficialTextLight:
@@ -241,6 +245,8 @@ components:
       $ref: './schemas/categories/category-light.yml'
     CategoryIdentifier:
       $ref: './schemas/categories/identifier.yml'
+    CategoryWeblink:
+      $ref: './schemas/categories/weblink.yml'
     Price:
       $ref: './schemas/prices/price.yml'
     PriceLight:
@@ -251,6 +257,8 @@ components:
       $ref: './schemas/persons/person-light.yml'
     PersonIdentifier:
       $ref: './schemas/persons/identifier.yml'
+    PersonWeblink:
+      $ref: './schemas/persons/weblink.yml'
     Role:
       $ref: './schemas/roles/role.yml'
     RoleLight:
@@ -278,15 +286,26 @@ components:
       $ref: './schemas/structures/name-payload.yml'
     StructureLocalisationPayload:
       $ref: './schemas/structures/localisation-payload.yml'
+    StructureWeblinkPayload:
+      $ref: './schemas/structures/weblink-payload.yml'
+    StructureEmailPayload:
+      $ref: './schemas/structures/email-payload.yml'
+    SocialMediaPayload:
+      $ref: './schemas/commons/social-media-payload.yml'
+
     CategoryPayload:
       $ref: './schemas/categories/category-payload.yml'
     CategoryIdentifierPayload:
       $ref: './schemas/categories/identifier-payload.yml'
+    CategoryWeblinkPayload:
+      $ref: './schemas/categories/weblink-payload.yml'
 
     PersonPayload:
       $ref: './schemas/persons/person-payload.yml'
     PersonIdentifierPayload:
       $ref: './schemas/persons/identifier-payload.yml'
+    PersonWeblinkPayload:
+      $ref: './schemas/persons/weblink-payload.yml'
 
     PricePayload:
       $ref: './schemas/prices/price-payload.yml'
@@ -305,10 +324,6 @@ components:
 
     LogoPayload:
       $ref: './schemas/commons/logo-payload.yml'
-    WeblinkPayload:
-      $ref: './schemas/commons/weblink-payload.yml'
-    SocialMediaPayload:
-      $ref: './schemas/commons/social-media-payload.yml'
 
     RolePayload:
       $ref: './schemas/roles/role-payload.yml'
@@ -317,18 +332,24 @@ components:
     ### ENUMS ###
     CategoryIdentifierTypesEnum:
       $ref: './schemas/categories/enums/identifier-types.yml'
+    CategoryWeblinkTypesEnum:
+      $ref: './schemas/categories/enums/weblink-types.yml'
     OfficialTextTypesEnum:
       $ref: './schemas/officialtexts/enums/type.yml'
     OfficialTextNaturesEnum:
       $ref: './schemas/officialtexts/enums/nature.yml'
-    PersonIdentifierTypesEnum:
-      $ref: './schemas/persons/enums/identifier-types.yml'
-    SocialmediaTypesEnum:
-      $ref: './schemas/commons/enums/social-media-types.yml'
     StructureIdentifierTypesEnum:
       $ref: './schemas/structures/enums/identifier-types.yml'
-    WeblinkTypesEnum:
-      $ref: './schemas/commons/enums/weblink-types.yml'
+    StructureWeblinkTypesEnum:
+      $ref: './schemas/structures/enums/weblink-types.yml'
+    StructureEmailTypesEnum:
+      $ref: './schemas/structures/enums/email-types.yml'
+    PersonIdentifierTypesEnum:
+      $ref: './schemas/persons/enums/identifier-types.yml'
+    PersonWeblinkTypesEnum:
+      $ref: './schemas/persons/enums/weblink-types.yml'
+    SocialmediaTypesEnum:
+      $ref: './schemas/commons/enums/social-media-types.yml'
 
 
     ### COMMON MODELS ###
