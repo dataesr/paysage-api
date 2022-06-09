@@ -1,5 +1,5 @@
-title: WeblinkPayload
-description: Représentation d'un lien web
+title: EmailPayload
+description: Modèle servant à ajouter un email
 type: object
 properties:
   type:
