@@ -25,6 +25,7 @@ tags:
   - name: Structures - Médias sociaux
   - name: Structures - Logos
   - name: Structures - Catégories
+  - name: Structures - Emails
   - name: Personnes
   - name: Personnes - Identifiants
   - name: Personnes - Médias sociaux
@@ -69,6 +70,10 @@ paths:
     $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks'
   '/structures/{structureId}/weblinks/{weblinkId}':
     $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks~1{weblinkId}'
+  '/structures/{structureId}/emails':
+    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails'
+  '/structures/{structureId}/emails/{emailId}':
+    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails~1{emailId}'
   '/structures/{structureId}/social-medias':
     $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias'
   '/structures/{structureId}/social-medias/{socialmediaId}':

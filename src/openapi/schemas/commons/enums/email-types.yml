@@ -1,0 +1,6 @@
+description: Accepted values of the email type of a structure
+type: string
+enum:
+  - Président
+  - Vice-président
+  - Secrétariat
