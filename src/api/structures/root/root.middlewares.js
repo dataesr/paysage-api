@@ -98,7 +98,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structureWebsites.push({
       url: payload.websiteFr,
       type: 'website',
-      language: 'Français',
+      language: 'fr',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await internalCatalog.getUniqueId('structures'),
@@ -108,7 +108,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structureWebsites.push({
       url: payload.websiteEn,
       type: 'website',
-      language: 'Anglais',
+      language: 'en',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await internalCatalog.getUniqueId('structures'),
