@@ -1,5 +1,5 @@
-title: Weblink
-description: Représentation d'un lien web
+title: PersonWeblink
+description: Représentation d'un lien web d'une Personne
 allOf: 
   - type: object
     properties:
@@ -14,7 +14,7 @@ allOf:
         description: Unique parent resource identifier
         pattern: '^[a-zA-Z0-9]{5}$'
       type:
-        $ref: ../../api.yml#/components/schemas/WeblinkTypesEnum
+        $ref: ../../api.yml#/components/schemas/PersonWeblinkTypesEnum
       url:
         type: string
       language:

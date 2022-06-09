@@ -1,0 +1,11 @@
+title: CategoryWeblinkPayload
+description: Représentation d'un lien web d'une structure
+type: object
+properties:
+  type:
+    $ref: ../../api.yml#/components/schemas/CategoryWeblinkTypesEnum
+  url:
+    type: string
+  language:
+    type: string
+    nullable: true
