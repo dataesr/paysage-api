@@ -25,6 +25,7 @@ tags:
   - name: Structures - Médias sociaux
   - name: Structures - Logos
   - name: Structures - Catégories
+  - name: Structures - Emails
   - name: Personnes
   - name: Personnes - Identifiants
   - name: Personnes - Médias sociaux
@@ -69,6 +70,10 @@ paths:
     $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks'
   '/structures/{structureId}/weblinks/{weblinkId}':
     $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks~1{weblinkId}'
+  '/structures/{structureId}/emails':
+    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails'
+  '/structures/{structureId}/emails/{emailId}':
+    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails~1{emailId}'
   '/structures/{structureId}/social-medias':
     $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias'
   '/structures/{structureId}/social-medias/{socialmediaId}':
@@ -190,6 +195,8 @@ components:
       $ref: ./parameters/ids/role-id.yml
     relationshipId:
       $ref: ./parameters/ids/relationship-id.yml
+    emailId:
+      $ref: ./parameters/ids/email-id.yml
 
   responses:
     BadRequest:
@@ -223,6 +230,8 @@ components:
       $ref: './schemas/structures/localisation-light.yml'
     Weblink:
       $ref: './schemas/commons/weblink.yml'
+    Email:
+      $ref: './schemas/commons/email.yml'
     Logo:
       $ref: './schemas/commons/logo.yml'
     SocialMedia:
@@ -307,6 +316,8 @@ components:
       $ref: './schemas/commons/logo-payload.yml'
     WeblinkPayload:
       $ref: './schemas/commons/weblink-payload.yml'
+    EmailPayload:
+      $ref: './schemas/commons/email-payload.yml'
     SocialMediaPayload:
       $ref: './schemas/commons/social-media-payload.yml'
 
@@ -329,6 +340,8 @@ components:
       $ref: './schemas/structures/enums/identifier-types.yml'
     WeblinkTypesEnum:
       $ref: './schemas/commons/enums/weblink-types.yml'
+    EmailTypesEnum:
+      $ref: './schemas/commons/enums/email-types.yml'
 
 
     ### COMMON MODELS ###

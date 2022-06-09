@@ -8,6 +8,7 @@ import names from './names/names.routes';
 import socialmedias from './social-medias/social-medias.routes';
 import structures from './root/root.routes';
 import weblinks from './weblinks/weblinks.routes';
+import emails from './emails/emails.routes';
 
 const router = new express.Router();
 
@@ -19,5 +20,6 @@ router.use(names);
 router.use(socialmedias);
 router.use(structures);
 router.use(weblinks);
+router.use(emails);
 
 export default router;
