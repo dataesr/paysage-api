@@ -1,0 +1,11 @@
+title: PersonWeblinkPayload
+description: Représentation d'un lien web d'une personne
+type: object
+properties:
+  type:
+    $ref: ../../api.yml#/components/schemas/PersonWeblinkTypesEnum
+  url:
+    type: string
+  language:
+    type: string
+    nullable: true

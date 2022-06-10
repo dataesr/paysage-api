@@ -1,10 +1,10 @@
-/persons/{personId}/weblinks:
+/structures/{structureId}/emails:
   get:
     tags:
-      - Personnes - Liens web
-    summary: Lister les liens web de la personne
+      - Structures - Emails
+    summary: Lister les emails de la structure
     parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
       - $ref: '../../api.yml#/components/parameters/limit'
@@ -20,7 +20,7 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/PersonWeblink'
+                    $ref: '../../api.yml#/components/schemas/StructureEmail'
                 totalCount:
                   type: integer
       '400':
@@ -36,28 +36,28 @@
 
   post:
     tags:
-      - Personnes - Liens web
-    summary: Ajouter un lien web à la personne
+      - Structures - Emails
+    summary: Ajouter un email à la structure
     parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
       content:
         application/json:
           schema:
-            title: categoryWeblinkPayLoad
+            title: StructureEmailPayLoad
             type: object
             required:
               - type
-              - url
+              - email
             allOf:
-              - $ref: '../../api.yml#/components/schemas/PersonWeblinkPayload'
+              - $ref: '../../api.yml#/components/schemas/StructureEmailPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/PersonWeblink'
+              $ref: '../../api.yml#/components/schemas/StructureEmail'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -69,21 +69,21 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/persons/{personId}/weblinks/{weblinkId}:
+/structures/{structureId}/emails/{emailId}:
   get:
     tags:
-      - Personnes - Liens web
-    summary: Obtenir le détail d'un lien web de la personne
+      - Structures - Emails
+    summary: Obtenir le détail d'un email de la structure
     parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
-      - $ref: '../../api.yml#/components/parameters/weblinkId'
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/emailId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/PersonWeblink'
+              $ref: '../../api.yml#/components/schemas/StructureEmail'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -95,11 +95,11 @@
 
   delete:
     tags:
-      - Personnes - Liens web
-    summary: Retirer un lien web de la personne
+      - Structures - Emails
+    summary: Retirer un email de la structure
     parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
-      - $ref: '../../api.yml#/components/parameters/weblinkId'
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/emailId'
     responses:
       '204':
         description: No content
@@ -114,23 +114,23 @@
 
   patch:
     tags:
-      - Personnes - Liens web
-    summary: Modifier un lien web de la personne
+      - Structures - Emails
+    summary: Modifier un email de la structure
     parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
-      - $ref: '../../api.yml#/components/parameters/weblinkId'
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/emailId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/PersonWeblinkPayload'
+            $ref: '../../api.yml#/components/schemas/StructureEmailPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/PersonWeblink'
+              $ref: '../../api.yml#/components/schemas/StructureEmail'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
