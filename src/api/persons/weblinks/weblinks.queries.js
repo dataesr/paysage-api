@@ -4,6 +4,7 @@ const model = {
   type: 1,
   url: 1,
   language: { $ifNull: ['$language', null] },
+  resourceId: 1,
 };
 
 const readQuery = [
