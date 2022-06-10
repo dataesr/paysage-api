@@ -1,0 +1,25 @@
+title: CategoryWeblink
+description: Représentation d'un lien web d'une structure
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{8}$'
+      resourceId:
+        type: string
+        readOnly: true
+        description: Unique parent resource identifier
+        pattern: '^[a-zA-Z0-9]{5}$'
+      type:
+        $ref: ../../api.yml#/components/schemas/CategoryWeblinkTypesEnum
+      url:
+        type: string
+      language:
+        type: string
+        description: Language of the web link on 2 letters
+        pattern: '^[a-zA-Z]{2}$'
+        nullable: true
+  - $ref: '../../api.yml#/components/schemas/Metas'

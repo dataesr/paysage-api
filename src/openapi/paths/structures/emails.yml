@@ -20,7 +20,7 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/Email'
+                    $ref: '../../api.yml#/components/schemas/StructureEmail'
                 totalCount:
                   type: integer
       '400':
@@ -50,14 +50,14 @@
               - type
               - email
             allOf:
-              - $ref: '../../api.yml#/components/schemas/EmailPayload'
+              - $ref: '../../api.yml#/components/schemas/StructureEmailPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Email'
+              $ref: '../../api.yml#/components/schemas/StructureEmail'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -83,7 +83,7 @@
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Email'
+              $ref: '../../api.yml#/components/schemas/StructureEmail'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -123,14 +123,14 @@
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/EmailPayload'
+            $ref: '../../api.yml#/components/schemas/StructureEmailPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Email'
+              $ref: '../../api.yml#/components/schemas/StructureEmail'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

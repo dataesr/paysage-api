@@ -3,6 +3,6 @@ description: Modèle de création et d'update d'un média social
 type: object
 properties:
   type:
-    type: string
+    $ref: ../../api.yml#/components/schemas/SocialmediaTypesEnum
   account:
     type: string

@@ -1,0 +1,11 @@
+title: StructureWeblinkPayload
+description: Représentation d'un lien web d'une structure
+type: object
+properties:
+  type:
+    $ref: ../../api.yml#/components/schemas/StructureWeblinkTypesEnum
+  url:
+    type: string
+  language:
+    type: string
+    nullable: true
