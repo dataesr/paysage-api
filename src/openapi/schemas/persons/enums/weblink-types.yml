@@ -2,5 +2,5 @@ description: Valeurs possibles pour un type de lien web d'une personne'.
 type: string
 enum:
   - website
-  - personnal
+  - personal
   - official
