@@ -1,5 +1,5 @@
-title: Weblink
-description: Représentation d'un lien web
+title: Email
+description: Représentation d'un email
 allOf: 
   - type: object
     properties:
@@ -14,12 +14,8 @@ allOf:
         description: Unique parent resource identifier
         pattern: '^[a-zA-Z0-9]{5}$'
       type:
-        $ref: ../../api.yml#/components/schemas/WeblinkTypesEnum
-      url:
+        $ref: ../../api.yml#/components/schemas/EmailTypesEnum
+      email:
         type: string
-      language:
-        type: string
-        description: Language of the web link on 2 letters
-        pattern: '^[a-zA-Z]{2}$'
-        nullable: true
+        format: email
   - $ref: '../../api.yml#/components/schemas/Metas'
