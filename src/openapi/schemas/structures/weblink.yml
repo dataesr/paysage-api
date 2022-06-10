@@ -17,6 +17,7 @@ allOf:
         $ref: ../../api.yml#/components/schemas/StructureWeblinkTypesEnum
       url:
         type: string
+        format: uri
       language:
         type: string
         description: Language of the web link on 2 letters
