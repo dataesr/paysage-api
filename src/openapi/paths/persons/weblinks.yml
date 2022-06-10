@@ -20,7 +20,7 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/Weblink'
+                    $ref: '../../api.yml#/components/schemas/PersonWeblink'
                 totalCount:
                   type: integer
       '400':
@@ -50,14 +50,14 @@
               - type
               - url
             allOf:
-              - $ref: '../../api.yml#/components/schemas/WeblinkPayload'
+              - $ref: '../../api.yml#/components/schemas/PersonWeblinkPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Weblink'
+              $ref: '../../api.yml#/components/schemas/PersonWeblink'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -83,7 +83,7 @@
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Weblink'
+              $ref: '../../api.yml#/components/schemas/PersonWeblink'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -123,14 +123,14 @@
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/WeblinkPayload'
+            $ref: '../../api.yml#/components/schemas/PersonWeblinkPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Weblink'
+              $ref: '../../api.yml#/components/schemas/PersonWeblink'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

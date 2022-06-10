@@ -81,6 +81,14 @@ describe('API > structures > socialmedias > create', () => {
       .send(rest)
       .expect(400);
   });
+
+  it('should throw bad request if type is not allowed', async () => {
+    await global.superapp
+      .post(`/${collection}/${resourceId}/social-medias`)
+      .set('Authorization', authorization)
+      .send({ ...payload, type: 'i am not allowed' })
+      .expect(400);
+  });
 });
 
 describe('API > structures > socialmedias > update', () => {

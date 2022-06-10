@@ -1,3 +1,4 @@
+description: Accepted values of social media's type for a structure
 type: string
 enum:
   - Dailymotion
