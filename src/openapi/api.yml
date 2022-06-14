@@ -33,6 +33,7 @@ tags:
   - name: Catégories
   - name: Catégories - Identifiants
   - name: Catégories - Liens web
+  - name: Catégories - Médias sociaux
   - name: Termes
   - name: Textes officiels
   - name: Documents
@@ -130,7 +131,11 @@ paths:
     $ref: './paths/categories/weblinks.yml#/~1categories~1{categoryId}~1weblinks'
   '/categories/{categoryId}/weblinks/{weblinkId}':
     $ref: './paths/categories/weblinks.yml#/~1categories~1{categoryId}~1weblinks~1{weblinkId}'
-
+  '/categories/{categoryId}/social-medias':
+    $ref: './paths/categories/social-medias.yml#/~1categories~1{categoryId}~1social-medias'
+  '/categories/{categoryId}/social-medias/{socialmediaId}':
+    $ref: './paths/categories/social-medias.yml#/~1categories~1{categoryId}~1social-medias~1{socialmediaId}'
+  
   ### OFFICIAL TEXTS ###
   '/official-texts':
     $ref: './paths/officialtexts/officialtexts.yml#/~1official-texts'
