@@ -1,14 +1,13 @@
 import express from 'express';
-import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedInternalIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
-import { validatePayload } from '../commons/middlewares/validate.middlewares';
+import { validatePayload } from './officialtext.middlewares';
+import officialTextsRepository from './officialtexts.repository';
 
 import { readQuery } from './officialtexts.queries';
-import officialTextsRepository from './officialtexts.repository';
-import config from './officialtexts.config';
 
-const { collection } = config;
+const collection = 'official-texts';
 
 const router = new express.Router();
 
@@ -17,7 +16,7 @@ router.route('/official-texts')
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(collection),
+    setGeneratedInternalIdInContext(collection),
     controllers.create(officialTextsRepository, readQuery),
     saveInStore(collection),
   ]);

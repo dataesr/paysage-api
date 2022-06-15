@@ -1,21 +1,23 @@
 title: OfficialTextLight
-description: Représentation simplifiée d'un document officiel
+description: Représentation simplifiée d'un texte officiel
 type: object
 required:
   - id
 properties:
   id:
     type: string
-    pattern: '^[a-zA-Z0-9]{5}$'
+    pattern: '^[a-zA-Z0-9]{15}$'
     readOnly: true
   nature:
     $ref: ../../api.yml#/components/schemas/OfficialTextNaturesEnum
   type:
     $ref: ../../api.yml#/components/schemas/OfficialTextTypesEnum
-  textNumber:
-    type: string
   title:
     type: string
   pageUrl:
     type: string
     format: uri
+  publicationDate:
+    nullable: true
+    type: string
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'

@@ -99,7 +99,7 @@ describe('API > persons > identifiers > update', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/identifiers/45dlrt5d`)
+      .patch(`/${collection}/${resourceId}/identifiers/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ type: 'Wikidata' })
       .expect(404);
@@ -143,7 +143,7 @@ describe('API > persons > identifiers > read', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers/265gtr5d`)
+      .get(`/${collection}/${resourceId}/identifiers/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -159,7 +159,7 @@ describe('API > persons > identifiers > delete', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/identifiers/775glrs5`)
+      .delete(`/${collection}/${resourceId}/identifiers/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });

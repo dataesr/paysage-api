@@ -84,7 +84,7 @@ describe('API > structures > localisations > update', () => {
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/structures/${resourceId}/localisations/45skrc65`)
+      .patch(`/structures/${resourceId}/localisations/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ locality: 'Strasbourg' })
       .expect(404);
@@ -135,7 +135,7 @@ describe('API > structures > localisations > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/structures/${resourceId}/localisations/265fkrld`)
+      .get(`/structures/${resourceId}/localisations/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -156,7 +156,7 @@ describe('API > structures > localisations > delete', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/structures/${resourceId}/localisations/775flrks`)
+      .delete(`/structures/${resourceId}/localisations/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });

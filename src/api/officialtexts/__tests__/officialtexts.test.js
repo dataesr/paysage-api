@@ -1,5 +1,8 @@
 let authorization;
 let id;
+let structureId;
+let personId;
+
 const payload = {
   nature: 'Publication au JO',
   type: 'Loi',
@@ -14,6 +17,24 @@ const updatePayLoad = { nature: 'Publication au BOESR', type: 'Décret' };
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
+  const { body: structureBody } = await global.superapp
+    .post('/structures')
+    .set('Authorization', authorization)
+    .send({
+      structureStatus: 'active',
+      creationDate: '2021-02',
+      usualName: 'Université',
+    }).expect(201);
+  structureId = structureBody.id;
+  const { body: personBody } = await global.superapp
+    .post('/persons')
+    .set('Authorization', authorization)
+    .send({
+      firstName: 'Jean',
+      gender: 'Femme',
+      lastName: 'Dupond',
+    });
+  personId = personBody.id;
 });
 
 describe('API > official texts > create', () => {
@@ -21,7 +42,7 @@ describe('API > official texts > create', () => {
     const { body } = await global.superapp
       .post('/official-texts')
       .set('Authorization', authorization)
-      .send(payload)
+      .send({ ...payload, relatesTo: [structureId, personId] })
       .expect(201);
     Object.entries(payload).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBeTruthy();
@@ -60,7 +81,7 @@ describe('API > official texts > create', () => {
 describe('API > official texts > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch('/official-texts/45frK')
+      .patch('/official-texts/45frK45frK45frK')
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(404);
@@ -109,10 +130,11 @@ describe('API > official texts > read', () => {
     Object.entries(expected).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBe(id);
     expect(body.createdBy.username).toBe('user');
+    expect(body.relatedStructures[0].currentName.usualName).toBe('Université');
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get('/official-texts/45frK')
+      .get('/official-texts/45frK45frK45frK')
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -121,7 +143,7 @@ describe('API > official texts > read', () => {
 describe('API > official texts > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete('/official-texts/45frK')
+      .delete('/official-texts/45frK45frK45frK')
       .set('Authorization', authorization)
       .expect(404);
   });

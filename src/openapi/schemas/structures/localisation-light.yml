@@ -6,7 +6,7 @@ properties:
     type: string
     readOnly: true
     description: Unique identifier
-    pattern: '^[a-zA-Z0-9]{8}$'
+    pattern: '^[a-zA-Z0-9]{15}$'
   resourceId:
     type: string
     readOnly: true

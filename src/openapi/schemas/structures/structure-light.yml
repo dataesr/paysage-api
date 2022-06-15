@@ -3,21 +3,18 @@ description: Representation simplifiée d'une structure
 readOnly: true
 required:
   - id
-  - status
 type: object
 properties:
   id:
     type: string
     description: Unique identifier
     pattern: '^[a-zA-Z0-9]{5}$'
-  name:
+  currentName:
     description: currentName is computed using the most recent startDate. If startDate is never present, it returns the name with the most recent createdAt value.
-    type: string
-    nullable: true
-  address:
-    description: address is computed using the most recent localisation. If startDate is never present, it returns the name with the most recent createdAt value.
-    type: string
-    nullable: true
+    $ref: ../../api.yml#/components/schemas/StructureNameLight
+  currentLocalisation:
+    description: currentLocalisation is computed using the most recent startDate. If startDate is never present, it returns the name with the most recent createdAt value.
+    $ref: ../../api.yml#/components/schemas/StructureLocalisationLight
   structureStatus:
     type: string
     nullable: true
@@ -28,9 +25,9 @@ properties:
       - null
   creationDate:
     type: string
-    pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
     nullable: true
   closureDate:
     type: string
-    pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
     nullable: true
