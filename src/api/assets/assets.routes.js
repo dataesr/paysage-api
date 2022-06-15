@@ -1,9 +1,8 @@
 import express from 'express';
-import { serveAsset } from '../commons/middlewares/assets.middlewares';
-import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
+import { serveAsset } from './assets.middlewares';
 
 const router = new express.Router();
 
-router.get('/assets/*', [requireActiveUser, serveAsset]);
+router.get('/assets/*', [serveAsset]);
 
 export default router;

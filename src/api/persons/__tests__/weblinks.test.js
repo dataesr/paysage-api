@@ -119,7 +119,7 @@ describe('API > persons > weblinks > update', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/weblinks/45dlrt5d`)
+      .patch(`/${collection}/${resourceId}/weblinks/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send(payload)
       .expect(404);
@@ -156,7 +156,7 @@ describe('API > persons > weblinks > read', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .get(`/${collection}/${resourceId}/weblinks/265gtr5d`)
+      .get(`/${collection}/${resourceId}/weblinks/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -172,7 +172,7 @@ describe('API > persons > weblinks > delete', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/weblinks/775glrs5`)
+      .delete(`/${collection}/${resourceId}/weblinks/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });

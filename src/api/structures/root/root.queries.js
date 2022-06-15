@@ -105,9 +105,28 @@ const readQuery = [
   },
 ];
 
-const writeQuery = [{ $project: { _id: 0, id: 1, structureStatus: 1 } }];
+const lightQuery = [
+  ...currentNamePipeline,
+  ...currentLocalisationPipeline,
+  {
+    $project: {
+      _id: 0,
+      id: 1,
+      ...model,
+      structureStatus: { $ifNull: ['$structureStatus', null] },
+      creationDate: { $ifNull: ['$creationDate', null] },
+      closureDate: { $ifNull: ['$closureDate', null] },
+      currentName: { $ifNull: ['$currentName', {}] },
+      currentLocalisation: { $ifNull: ['$currentLocalisation', {}] },
+      createdBy: 1,
+      createdAt: 1,
+      updatedBy: 1,
+      updatedAt: 1,
+    },
+  },
+];
 
-const lightQuery = [...currentNamePipeline, { $project: { _id: 0, id: 1, structureStatus: 1, currentName: 1 } }];
+const writeQuery = [{ $project: { _id: 0, id: 1, structureStatus: 1 } }];
 
 const checkQuery = [{ $project: { _id: 0, id: 1 } }];
 

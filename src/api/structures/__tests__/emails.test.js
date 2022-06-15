@@ -103,7 +103,7 @@ describe('API > structures > emails > update', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/emails/45dlrt5d`)
+      .patch(`/${collection}/${resourceId}/emails/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ type: 'Président' })
       .expect(404);
@@ -138,7 +138,7 @@ describe('API > structures > emails > read', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .get(`/${collection}/${resourceId}/emails/265gtr5d`)
+      .get(`/${collection}/${resourceId}/emails/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -154,7 +154,7 @@ describe('API > structures > emails > delete', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/emails/775glrs5`)
+      .delete(`/${collection}/${resourceId}/emails/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });

@@ -96,7 +96,7 @@ describe('API > structures > categories > update', () => {
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/structures/${resourceId}/categories/45skrc65`)
+      .patch(`/structures/${resourceId}/categories/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ startDate: '2017-01-01' })
       .expect(404);
@@ -145,7 +145,7 @@ describe('API > structures > categories > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/structures/${resourceId}/categories/265fkrld`)
+      .get(`/structures/${resourceId}/categories/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -160,7 +160,7 @@ describe('API > structures > names > delete', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/structures/${resourceId}/categories/775flrks`)
+      .delete(`/structures/${resourceId}/categories/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });

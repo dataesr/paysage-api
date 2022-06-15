@@ -1,41 +1,42 @@
 import express from 'express';
-import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
+import { db } from '../../services/mongo.service';
+import BaseMongoRepository from '../commons/repositories/base.mongo.repository';
+import { patchContext, createContext, setGeneratedInternalIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 import { setFileInfo, saveFile, deleteFile } from './documents.middlewares';
 
 import { readQuery } from './documents.queries';
-import pricesRepository from './documents.repository';
-import config from './documents.config';
 
-const { collection } = config;
+const collection = 'documents';
+const documentsRepository = new BaseMongoRepository({ db, collection });
 
 const router = new express.Router();
 
 router.route(`/${collection}`)
-  .get(controllers.list(pricesRepository, readQuery))
+  .get(controllers.list(documentsRepository, readQuery))
   .post([
     createContext,
-    setGeneratedObjectIdInContext(collection),
+    setGeneratedInternalIdInContext(collection),
     setFileInfo,
     saveFile,
-    controllers.create(pricesRepository, readQuery),
+    controllers.create(documentsRepository, readQuery),
     saveInStore(collection),
   ]);
 
 router.route(`/${collection}/:id`)
-  .get(controllers.read(pricesRepository, readQuery))
+  .get(controllers.read(documentsRepository, readQuery))
   .patch([
     patchContext,
     setFileInfo,
     saveFile,
-    controllers.patch(pricesRepository, readQuery),
+    controllers.patch(documentsRepository, readQuery),
     saveInStore(collection),
   ])
   .delete([
     patchContext,
     deleteFile,
-    controllers.remove(pricesRepository, readQuery),
+    controllers.remove(documentsRepository, readQuery),
     saveInStore(collection),
   ]);
 

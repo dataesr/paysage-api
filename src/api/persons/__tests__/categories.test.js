@@ -59,7 +59,7 @@ describe('API > persons > categories > update', () => {
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/persons/${rid}/categories/45skrc65`)
+      .patch(`/persons/${rid}/categories/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ startDate: '2017-01-01' })
       .expect(404);
@@ -108,7 +108,7 @@ describe('API > persons > categories > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/persons/${rid}/categories/265fkrld`)
+      .get(`/persons/${rid}/categories/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -123,7 +123,7 @@ describe('API > persons > names > delete', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/persons/${rid}/categories/775flrks`)
+      .delete(`/persons/${rid}/categories/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });

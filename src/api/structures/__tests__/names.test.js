@@ -82,7 +82,7 @@ describe('API > structures > names > update', () => {
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/structures/${resourceId}/names/45skrc65`)
+      .patch(`/structures/${resourceId}/names/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ otherNames: ['string', 'string2'] })
       .expect(404);
@@ -125,7 +125,7 @@ describe('API > structures > names > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/structures/${resourceId}/names/265fkrld`)
+      .get(`/structures/${resourceId}/names/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -140,7 +140,7 @@ describe('API > structures > names > delete', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/structures/${resourceId}/names/775flrks`)
+      .delete(`/structures/${resourceId}/names/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
