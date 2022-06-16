@@ -64,6 +64,19 @@ describe('API > structures > emails > create', () => {
       .expect(400);
   });
 
+  it('should accept whatever email type', async () => {
+    const { type, ...rest } = payload;
+    const { body } = await global.superapp
+      .post(`/${collection}/${resourceId}/emails`)
+      .set('Authorization', authorization)
+      .send({ ...rest, type: 'whatevertype' })
+      .expect(201);
+
+    await global.superapp
+      .delete(`/${collection}/${resourceId}/emails/${body.id}`)
+      .set('Authorization', authorization);
+  });
+
   it('should throw bad request if email is missing', async () => {
     const { email, ...rest } = payload;
     await global.superapp
@@ -113,7 +126,7 @@ describe('API > structures > emails > update', () => {
     await global.superapp
       .patch(`/${collection}/${resourceId}/emails/${id}`)
       .set('Authorization', authorization)
-      .send({ type: 'wikipedia' })
+      .send({ email: 'not an email' })
       .expect(400);
   });
 });
