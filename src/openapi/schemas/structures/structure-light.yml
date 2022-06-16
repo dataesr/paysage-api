@@ -14,7 +14,7 @@ properties:
     $ref: ../../api.yml#/components/schemas/StructureNameLight
   currentLocalisation:
     description: currentLocalisation is computed using the most recent startDate. If startDate is never present, it returns the name with the most recent createdAt value.
-    $ref: ../../api.yml#/components/schemas/StructureLocalisationLight
+    $ref: ../../api.yml#/components/schemas/LocalisationLight
   structureStatus:
     type: string
     nullable: true

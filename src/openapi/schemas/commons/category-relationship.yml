@@ -1,5 +1,5 @@
-title: StructureCategory
-description: Représentation d'une relation entre structure et catégorie
+title: CategoryRelationship
+description: Représentation d'une relation entre objet paysage et une catégorie
 allOf: 
   - type: object
     properties:
@@ -11,7 +11,7 @@ allOf:
       resourceId:
         type: string
         readOnly: true
-        description: Unique resource identifier
+        description: Identifiant unique de l'objet paysage
         pattern: '^[a-zA-Z0-9]{5}$'
       category:
         $ref: '../../api.yml#/components/schemas/CategoryLight'

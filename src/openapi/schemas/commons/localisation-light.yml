@@ -1,5 +1,5 @@
-title: StructureLocalisationLight
-description: Représentation simplifiée d'une localisation de structure
+title: LocalisationLight
+description: Représentation simplifiée d'une localisation
 type: object
 properties:
   id:

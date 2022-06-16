@@ -1,10 +1,10 @@
-title: StructureCategoryPayload
-description: Modèle servant à ajouter une categorie à un structure
+title: CategoryRelationshipPayload
+description: Modèle servant à ajouter une categorie à un object
 type: object
 properties:
   categoryId:
     type: string
-    description: Unique category identifier
+    description: Identifiant unique d'une catégorie
     pattern: '^[a-zA-Z0-9]{5}$'
   startDate:
     type: string

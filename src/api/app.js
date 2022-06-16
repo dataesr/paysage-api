@@ -18,6 +18,7 @@ import personsRoutes from './persons/persons.routes';
 import pricesRoutes from './prices/prices.routes';
 import structuresRoutes from './structures/structures.routes';
 import termsRoutes from './terms/terms.routes';
+import projectsRoutes from './projects/projects.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/api.yml');
@@ -69,6 +70,7 @@ app.use(personsRoutes);
 app.use(pricesRoutes);
 app.use(structuresRoutes);
 app.use(termsRoutes);
+app.use(projectsRoutes);
 
 // Error handler
 app.use(handleErrors);

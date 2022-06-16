@@ -1,36 +1,39 @@
 import express from 'express';
-import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import { readQuery } from './weblinks.queries';
-import repository from './weblinks.respository';
-import config from '../structures.config';
-import controllers from '../../commons/middlewares/crud-nested.middlewares';
 
-const { collection, weblinksField: field } = config;
-const collectionField = `${collection}-${field}`;
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
+import controllers from '../../commons/middlewares/crud.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
+import { readQuery } from '../../commons/weblinks/weblinks.queries';
+import { validatePayload } from './weblinks.middlewares';
+import weblinksRepository from '../../commons/weblinks/weblinks.respository';
+
+const collection = 'structures';
+const field = 'weblinks';
 
 const router = new express.Router();
 
 router.route(`/${collection}/:resourceId/${field}`)
-  .get(controllers.list(repository, readQuery))
+  .get(controllers.list(weblinksRepository, readQuery))
   .post([
+    validatePayload,
     createContext,
-    setGeneratedInternalIdInContext(collectionField),
-    controllers.create(repository, readQuery),
-    saveInStore(collectionField),
+    setGeneratedInternalIdInContext(field),
+    controllers.create(weblinksRepository, readQuery),
+    saveInStore(field),
   ]);
 
 router.route(`/${collection}/:resourceId/${field}/:id`)
   .delete([
     patchContext,
-    controllers.remove(repository),
-    saveInStore(collectionField),
+    controllers.remove(weblinksRepository),
+    saveInStore(field),
   ])
-  .get(controllers.read(repository, readQuery))
+  .get(controllers.read(weblinksRepository, readQuery))
   .patch([
+    validatePayload,
     patchContext,
-    controllers.patch(repository, readQuery),
-    saveInStore(collectionField),
+    controllers.patch(weblinksRepository, readQuery),
+    saveInStore(field),
   ]);
 
 export default router;

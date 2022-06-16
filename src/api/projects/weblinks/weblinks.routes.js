@@ -7,7 +7,7 @@ import { readQuery } from '../../commons/weblinks/weblinks.queries';
 import { validatePayload } from './weblinks.middlewares';
 import weblinksRepository from '../../commons/weblinks/weblinks.respository';
 
-const collection = 'categories';
+const collection = 'projects';
 const field = 'weblinks';
 
 const router = new express.Router();
