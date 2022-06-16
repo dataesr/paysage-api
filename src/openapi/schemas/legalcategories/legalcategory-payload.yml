@@ -1,5 +1,5 @@
 title: LegalCategoryPayload
-description: Modèle de création et d'update d'une catégorie juridique
+description: Modèle de création et de mise à jour d'une catégorie juridique
 additionalProperties: false
 type: object
 properties:
