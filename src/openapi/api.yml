@@ -113,10 +113,10 @@ paths:
     $ref: './paths/terms/terms.yml#/~1terms~1{termId}'
 
   ### CATEGORIES JURIDIQUES ###
-  '/legalcategories':
-    $ref: './paths/legalcategories/legalcategories.yml#/~1legalcategories'
-  '/legalcategories/{legalCategoryId}':
-    $ref: './paths/legalcategories/legalcategories.yml#/~1legalcategories~1{legalCategoryId}'
+  '/legal-categories':
+    $ref: './paths/legalcategories/legalcategories.yml#/~1legal-categories'
+  '/legal-categories/{legalCategoryId}':
+    $ref: './paths/legalcategories/legalcategories.yml#/~1legal-categories~1{legalCategoryId}'
 
   ### CATEGORIES ###
   '/categories':

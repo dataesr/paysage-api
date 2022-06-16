@@ -1,8 +1,8 @@
-/legalcategories:
+/legal-categories:
   get:
     tags:
       - Catégories juridiques
-    summary: Lister les catégorie juridique
+    summary: Lister les catégories juridiques
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -61,7 +61,7 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/legalcategories/{legalCategoryId}:
+/legal-categories/{legalCategoryId}:
   get:
     tags:
       - Catégories juridiques
