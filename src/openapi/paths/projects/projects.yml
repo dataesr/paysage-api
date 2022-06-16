@@ -1,17 +1,16 @@
-/structures/{structureId}/categories:
+/projects:
   get:
     tags:
-      - Structures - Catégories
-    summary: Lister les catégories d'une structure
+      - Projets
+    summary: Lister les projets
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/filters'
-      - $ref: '../../api.yml#/components/parameters/skip'
-      - $ref: '../../api.yml#/components/parameters/limit'
-      - $ref: '../../api.yml#/components/parameters/sort'
+        - $ref: '../../api.yml#/components/parameters/filters'
+        - $ref: '../../api.yml#/components/parameters/skip'
+        - $ref: '../../api.yml#/components/parameters/limit'
+        - $ref: '../../api.yml#/components/parameters/sort'
     responses:
       '200':
-        description: OK
+        description: Success
         content:
           application/json:
             schema:
@@ -20,64 +19,62 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+                    $ref: '../../api.yml#/components/schemas/Project'
                 totalCount:
-                  type: integer
+                  type: number
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
-      '404':
-        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
   post:
     tags:
-      - Structures - Catégories
-    summary: Ajouter une catégory à la structure
-    parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - Projets
+    summary: Créer un projet
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/CategoryRelationshipPayload'
+            title: CreateProject
+            type: object
+            required:
+              - nameFr
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/ProjectPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+              $ref: '../../api.yml#/components/schemas/Project'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
-      '404':
-        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/categories/{relatedCategoryId}:
+/projects/{projectId}:
   get:
     tags:
-      - Structures - Catégories
-    summary: Obtenir le détail d'une catégory de structure
+      - Projets
+    summary: Obtenir le détail d'un projet
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
+      - $ref: '../../api.yml#/components/parameters/projectId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+              $ref: '../../api.yml#/components/schemas/Project'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -89,11 +86,10 @@
 
   delete:
     tags:
-      - Structures - Catégories
-    summary: Retirer une catégory de la structure
+      - Projets
+    summary: Supprimer une projet
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
+      - $ref: '../../api.yml#/components/parameters/projectId'
     responses:
       '204':
         description: No content
@@ -108,23 +104,22 @@
 
   patch:
     tags:
-      - Structures - Catégories
-    summary: Modifier une catégory de la structure
+      - Projets
+    summary: Modifier une projet
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
+      - $ref: '../../api.yml#/components/parameters/projectId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/CategoryRelationshipPayload'
+              $ref: '../../api.yml#/components/schemas/ProjectPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+              $ref: '../../api.yml#/components/schemas/Project'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -133,5 +128,32 @@
         $ref: '../../api.yml#/components/responses/Forbidden'
       '404':
         $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  put:
+    tags:
+      - Projets
+    summary: Créer une projet avec un identifiant.
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/projectId'
+    requestBody:
+      content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/ProjectPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Project'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'

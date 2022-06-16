@@ -20,7 +20,7 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/StructureLocalisation'
+                    $ref: '../../api.yml#/components/schemas/Localisation'
                 totalCount:
                   type: number
       '400':
@@ -48,14 +48,14 @@
             required:
               - 'country'
             allOf:
-              - $ref: '../../api.yml#/components/schemas/StructureLocalisationPayload'
+              - $ref: '../../api.yml#/components/schemas/LocalisationPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/StructureLocalisation'
+              $ref: '../../api.yml#/components/schemas/Localisation'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -81,7 +81,7 @@
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/StructureLocalisation'
+              $ref: '../../api.yml#/components/schemas/Localisation'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -121,14 +121,14 @@
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/StructureLocalisationPayload'
+            $ref: '../../api.yml#/components/schemas/LocalisationPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/StructureLocalisation'
+              $ref: '../../api.yml#/components/schemas/Localisation'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

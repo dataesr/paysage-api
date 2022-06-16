@@ -1,5 +1,5 @@
-title: StructureLocalisationPayload
-description: Modèle de création et d'update d'une localisation de structure
+title: LocalisationPayload
+description: Modèle de création et d'update d'une localisation
 type: object
 properties:
   cityId:

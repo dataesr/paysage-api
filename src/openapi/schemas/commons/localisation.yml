@@ -1,5 +1,5 @@
-title: StructureLocalisation
-description: Représentation d'une localisation de structure
+title: Localisation
+description: Représentation d'une localisation
 allOf: 
   - type: object
     properties:
