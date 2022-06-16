@@ -352,8 +352,6 @@ components:
       $ref: './schemas/structures/enums/identifier-types.yml'
     StructureWeblinkTypesEnum:
       $ref: './schemas/structures/enums/weblink-types.yml'
-    StructureEmailTypesEnum:
-      $ref: './schemas/structures/enums/email-types.yml'
     PersonIdentifierTypesEnum:
       $ref: './schemas/persons/enums/identifier-types.yml'
     PersonWeblinkTypesEnum:
