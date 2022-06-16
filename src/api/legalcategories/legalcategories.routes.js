@@ -12,7 +12,7 @@ const { collection } = config;
 
 const router = new express.Router();
 
-router.route('/legalcategories')
+router.route(`/${collection}`)
   .get(controllers.list(legalCategoriesRepository, readQuery))
   .post([
     validatePayload,
@@ -22,7 +22,7 @@ router.route('/legalcategories')
     saveInStore(collection),
   ]);
 
-router.route('/legalcategories/:id')
+router.route(`/${collection}/:id`)
   .get(controllers.read(legalCategoriesRepository, readQuery))
   .patch([
     patchContext,
