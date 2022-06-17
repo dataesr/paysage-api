@@ -1,16 +1,17 @@
-/legal-categories:
+/structures/{structureId}/legal-categories:
   get:
     tags:
-      - Catégories juridiques
-    summary: Lister les catégories juridiques
+      - Structures - Status juridiques
+    summary: Lister les status juridiques d'une structure
     parameters:
-        - $ref: '../../api.yml#/components/parameters/filters'
-        - $ref: '../../api.yml#/components/parameters/skip'
-        - $ref: '../../api.yml#/components/parameters/limit'
-        - $ref: '../../api.yml#/components/parameters/sort'
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -19,62 +20,64 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/LegalCategory'
+                    $ref: '../../api.yml#/components/schemas/StructureLegalCategory'
                 totalCount:
-                  type: number
+                  type: integer
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
   post:
     tags:
-      - Catégories juridiques
-    summary: Créer un catégorie juridique
+      - Structures - Status juridiques
+    summary: Ajouter un status juridique à la structure
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
       content:
         application/json:
           schema:
-            title: CreateLegalCategory
-            type: object
-            required:
-              - longNameFr
-            allOf:
-              - $ref: '../../api.yml#/components/schemas/LegalCategoryPayload'
+            $ref: '../../api.yml#/components/schemas/StructureLegalCategoryPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/LegalCategory'
+              $ref: '../../api.yml#/components/schemas/StructureLegalCategory'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/legal-categories/{legalCategoryId}:
+/structures/{structureId}/legal-categories/{relatedLegalCategoryId}:
   get:
     tags:
-      - Catégories juridiques
-    summary: Obtenir le détail d'une catégorie juridique
+      - Structures - Status juridiques
+    summary: Obtenir le détail du status juridique d'une structure
     parameters:
-      - $ref: '../../api.yml#/components/parameters/legalCategoryId'
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/relatedLegalCategoryId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/LegalCategory'
+              $ref: '../../api.yml#/components/schemas/StructureLegalCategory'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -86,10 +89,11 @@
 
   delete:
     tags:
-      - Catégories juridiques
-    summary: Supprimer une catégorie juridique
+      - Structures - Status juridiques
+    summary: Supprimer un status juridique de la structure
     parameters:
-      - $ref: '../../api.yml#/components/parameters/legalCategoryId'
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/relatedLegalCategoryId'
     responses:
       '204':
         description: No content
@@ -104,22 +108,23 @@
 
   patch:
     tags:
-      - Catégories juridiques
-    summary: Modifier une catégorie juridique
+      - Structures - Status juridiques
+    summary: Modifier le status juridique de la structure
     parameters:
-      - $ref: '../../api.yml#/components/parameters/legalCategoryId'
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/relatedLegalCategoryId'
     requestBody:
       content:
         application/json:
           schema:
-              $ref: '../../api.yml#/components/schemas/LegalCategoryPayload'
+            $ref: '../../api.yml#/components/schemas/StructureLegalCategoryPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/LegalCategory'
+              $ref: '../../api.yml#/components/schemas/StructureLegalCategory'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -128,32 +133,5 @@
         $ref: '../../api.yml#/components/responses/Forbidden'
       '404':
         $ref: '../../api.yml#/components/responses/NotFound'
-      '500':
-        $ref: '../../api.yml#/components/responses/ServerError'
-
-  put:
-    tags:
-      - Catégories juridiques
-    summary: Créer une catégorie juridique avec un identifiant.
-    parameters:
-      - $ref: '../../api.yml#/components/parameters/legalCategoryId'
-    requestBody:
-      content:
-          application/json:
-            schema:
-              $ref: '../../api.yml#/components/schemas/LegalCategory'
-    responses:
-      '201':
-        description: Created
-        content:
-          application/json:
-            schema:
-              $ref: '../../api.yml#/components/schemas/LegalCategory'
-      '400':
-        $ref: '../../api.yml#/components/responses/BadRequest'
-      '401':
-        $ref: '../../api.yml#/components/responses/Unauthorized'
-      '403':
-        $ref: '../../api.yml#/components/responses/Forbidden'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
