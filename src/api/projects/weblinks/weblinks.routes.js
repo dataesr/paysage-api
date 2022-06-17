@@ -3,37 +3,35 @@ import express from 'express';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import { readQuery } from '../../commons/weblinks/weblinks.queries';
+import { readQuery } from '../../commons/queries/weblinks.queries';
 import { validatePayload } from './weblinks.middlewares';
-import weblinksRepository from '../../commons/weblinks/weblinks.respository';
-
-const collection = 'projects';
-const field = 'weblinks';
+import { weblinksRepository as repository } from '../../commons/repositories';
+import { projects as resource, weblinks as subresource } from '../../resources';
 
 const router = new express.Router();
 
-router.route(`/${collection}/:resourceId/${field}`)
-  .get(controllers.list(weblinksRepository, readQuery))
+router.route(`/${resource}/:resourceId/${subresource}`)
+  .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
     createContext,
-    setGeneratedInternalIdInContext(field),
-    controllers.create(weblinksRepository, readQuery),
-    saveInStore(field),
+    setGeneratedInternalIdInContext(subresource),
+    controllers.create(repository, readQuery),
+    saveInStore(subresource),
   ]);
 
-router.route(`/${collection}/:resourceId/${field}/:id`)
+router.route(`/${resource}/:resourceId/${subresource}/:id`)
   .delete([
     patchContext,
-    controllers.remove(weblinksRepository),
-    saveInStore(field),
+    controllers.remove(repository),
+    saveInStore(subresource),
   ])
-  .get(controllers.read(weblinksRepository, readQuery))
+  .get(controllers.read(repository, readQuery))
   .patch([
     validatePayload,
     patchContext,
-    controllers.patch(weblinksRepository, readQuery),
-    saveInStore(field),
+    controllers.patch(repository, readQuery),
+    saveInStore(subresource),
   ]);
 
 export default router;

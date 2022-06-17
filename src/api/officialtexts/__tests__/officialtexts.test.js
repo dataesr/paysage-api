@@ -1,3 +1,5 @@
+import { officialtexts as resource } from '../../resources';
+
 let authorization;
 let id;
 let structureId;
@@ -40,7 +42,7 @@ beforeAll(async () => {
 describe('API > official texts > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
-      .post('/official-texts')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, relatesTo: [structureId, personId] })
       .expect(201);
@@ -51,18 +53,18 @@ describe('API > official texts > create', () => {
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
-      .post('/official-texts')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
-    const dbData = await global.db.collection('official-texts').findOne({ id });
+    const dbData = await global.db.collection('officialtexts').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
   });
 
   it('should fail if title is missing', async () => {
     const { title, ...rest } = payload;
     await global.superapp
-      .post('/official-texts')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -71,7 +73,7 @@ describe('API > official texts > create', () => {
   it('should fail if type is missing', async () => {
     const { type, ...rest } = payload;
     await global.superapp
-      .post('/official-texts')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -81,14 +83,14 @@ describe('API > official texts > create', () => {
 describe('API > official texts > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch('/official-texts/45frK45frK45frK')
+      .patch(`/${resource}/45frK45frK45frK`)
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(404);
   });
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/official-texts/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(200);
@@ -99,21 +101,21 @@ describe('API > official texts > update', () => {
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
-      .patch(`/official-texts/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send({ arbitrary: 'test' })
       .expect(400);
   });
   it('throws with no data', async () => {
     await global.superapp
-      .patch(`/official-texts/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send({})
       .expect(400);
   });
   it('throws when nullifying required', async () => {
     await global.superapp
-      .patch(`/official-texts/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send({ nature: null })
       .expect(400);
@@ -123,7 +125,7 @@ describe('API > official texts > update', () => {
 describe('API > official texts > read', () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
-      .get(`/official-texts/${id}`)
+      .get(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     const expected = { ...payload, ...updatePayLoad };
@@ -134,7 +136,7 @@ describe('API > official texts > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get('/official-texts/45frK45frK45frK')
+      .get(`/${resource}/45frK45frK45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -143,13 +145,13 @@ describe('API > official texts > read', () => {
 describe('API > official texts > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete('/official-texts/45frK45frK45frK')
+      .delete(`/${resource}/45frK45frK45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });
   it('can delete successfully', async () => {
     await global.superapp
-      .delete(`/official-texts/${id}`)
+      .delete(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
@@ -157,26 +159,26 @@ describe('API > official texts > delete', () => {
 
 describe('API > official texts > list', () => {
   beforeAll(async () => {
-    await global.utils.db.collection('official-texts').deleteMany({});
+    await global.utils.db.collection('officialtexts').deleteMany({});
     await global.superapp
-      .post('/official-texts')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, title: 'od1' })
       .expect(201);
     await global.superapp
-      .post('/official-texts')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, title: 'od2' })
       .expect(201);
     await global.superapp
-      .post('/official-texts')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, title: 'od3' })
       .expect(201);
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get('/official-texts')
+      .get(`/${resource}`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -186,7 +188,7 @@ describe('API > official texts > list', () => {
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get('/official-texts?skip=1')
+      .get(`/${resource}?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -196,7 +198,7 @@ describe('API > official texts > list', () => {
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get('/official-texts?limit=1')
+      .get(`/${resource}?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -205,7 +207,7 @@ describe('API > official texts > list', () => {
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/official-texts?sort=title')
+      .get(`/${resource}?sort=title`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -214,7 +216,7 @@ describe('API > official texts > list', () => {
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/official-texts?sort=-title')
+      .get(`/${resource}?sort=-title`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);
@@ -223,7 +225,7 @@ describe('API > official texts > list', () => {
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get('/official-texts?filters[title]=od1')
+      .get(`/${resource}?filters[title]=od1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.title);

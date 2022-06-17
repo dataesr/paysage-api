@@ -1,8 +1,5 @@
-import { db } from '../../services/mongo.service';
-import BaseMongoRepository from '../commons/repositories/base.mongo.repository';
 import { BadRequestError } from '../commons/http-errors';
-
-const catalogRepository = new BaseMongoRepository({ db, collection: '_catalog' });
+import { catalogRepository } from '../commons/repositories';
 
 export async function validatePayload(req, res, next) {
   if (

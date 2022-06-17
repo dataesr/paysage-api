@@ -1,3 +1,5 @@
+import { persons as resource, categories as subresource } from '../../resources';
+
 let authorization;
 let cid;
 let id;
@@ -11,7 +13,7 @@ const categoryLink = {
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
   const structure = await global.superapp
-    .post('/persons')
+    .post(`/${resource}`)
     .set('Authorization', authorization)
     .send({
       lastName: 'Dupond',
@@ -20,7 +22,7 @@ beforeAll(async () => {
     })
     .expect(201);
   const category = await global.superapp
-    .post('/categories')
+    .post(`/${subresource}`)
     .set('Authorization', authorization)
     .send({ usualNameFr: 'Catégorie' })
     .expect(201);
@@ -32,7 +34,7 @@ beforeAll(async () => {
 describe('API > persons > categories > create', () => {
   it('can create successfully', async () => {
     const response = await global.superapp
-      .post(`/persons/${rid}/categories`)
+      .post(`/${resource}/${rid}/${subresource}`)
       .set('Authorization', authorization)
       .send({ categoryId: cid, ...categoryLink })
       .expect(201);
@@ -44,7 +46,7 @@ describe('API > persons > categories > create', () => {
 describe('API > persons > categories > update', () => {
   it('can update successfully', async () => {
     const response = await global.superapp
-      .patch(`/persons/${rid}/categories/${id}`)
+      .patch(`/${resource}/${rid}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: '2017-01-01' })
       .expect(200);
@@ -52,28 +54,28 @@ describe('API > persons > categories > update', () => {
   });
   it('throws bad request with malformed id', async () => {
     await global.superapp
-      .patch(`/persons/${rid}/categories/45frK`)
+      .patch(`/${resource}/${rid}/${subresource}/45frK`)
       .set('Authorization', authorization)
       .send({ startDate: '2017-01-01' })
       .expect(400);
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/persons/${rid}/categories/45dlrt5dkkhhuu7`)
+      .patch(`/${resource}/${rid}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ startDate: '2017-01-01' })
       .expect(404);
   });
   it('throws with wrong data', async () => {
     await global.superapp
-      .patch(`/persons/${rid}/categories/${id}`)
+      .patch(`/${resource}/${rid}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: 'string' })
       .expect(400);
   });
   it('can empty dates', async () => {
     const { body } = await global.superapp
-      .patch(`/persons/${rid}/categories/${id}`)
+      .patch(`/${resource}/${rid}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: '' })
       .expect(200);
@@ -84,7 +86,7 @@ describe('API > persons > categories > update', () => {
 describe('API > persons > categories > read', () => {
   beforeAll(async () => {
     const response = await global.superapp
-      .post(`/persons/${rid}/categories`)
+      .post(`/${resource}/${rid}/${subresource}`)
       .set('Authorization', authorization)
       .send({ categoryId: cid, ...categoryLink });
     id = response.body.id;
@@ -92,7 +94,7 @@ describe('API > persons > categories > read', () => {
 
   it('can read successfully', async () => {
     const response = await global.superapp
-      .get(`/persons/${rid}/categories/${id}`)
+      .get(`/${resource}/${rid}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(response.body.id).toBe(id);
@@ -102,13 +104,13 @@ describe('API > persons > categories > read', () => {
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .get(`/persons/${rid}/categories/265vty`)
+      .get(`/${resource}/${rid}/${subresource}/265vty`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/persons/${rid}/categories/45dlrt5dkkhhuu7`)
+      .get(`/${resource}/${rid}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -117,19 +119,19 @@ describe('API > persons > categories > read', () => {
 describe('API > persons > names > delete', () => {
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .delete(`/persons/${rid}/categories/vgy775`)
+      .delete(`/${resource}/${rid}/${subresource}/vgy775`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/persons/${rid}/categories/45dlrt5dkkhhuu7`)
+      .delete(`/${resource}/${rid}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
   it('can delete successfully', async () => {
     await global.superapp
-      .delete(`/persons/${rid}/categories/${id}`)
+      .delete(`/${resource}/${rid}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });

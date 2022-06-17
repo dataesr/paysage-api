@@ -3,36 +3,34 @@ import { patchContext, createContext, setGeneratedInternalIdInContext } from '..
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 import { validatePayload } from './officialtext.middlewares';
-import officialTextsRepository from './officialtexts.repository';
-
-import { readQuery } from './officialtexts.queries';
-
-const collection = 'official-texts';
+import { officialtextsRepository as repository } from '../commons/repositories';
+import { readQuery } from '../commons/queries/officialtexts.queries';
+import { officialtexts as resource } from '../resources';
 
 const router = new express.Router();
 
-router.route('/official-texts')
-  .get(controllers.list(officialTextsRepository, readQuery))
+router.route(`/${resource}`)
+  .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
     createContext,
-    setGeneratedInternalIdInContext(collection),
-    controllers.create(officialTextsRepository, readQuery),
-    saveInStore(collection),
+    setGeneratedInternalIdInContext(resource),
+    controllers.create(repository, readQuery),
+    saveInStore(resource),
   ]);
 
-router.route('/official-texts/:id')
-  .get(controllers.read(officialTextsRepository, readQuery))
+router.route(`/${resource}/:id`)
+  .get(controllers.read(repository, readQuery))
   .patch([
     validatePayload,
     patchContext,
-    controllers.patch(officialTextsRepository, readQuery),
-    saveInStore(collection),
+    controllers.patch(repository, readQuery),
+    saveInStore(resource),
   ])
   .delete([
     patchContext,
-    controllers.remove(officialTextsRepository),
-    saveInStore(collection),
+    controllers.remove(repository),
+    saveInStore(resource),
   ]);
 
 export default router;

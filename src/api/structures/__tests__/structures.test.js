@@ -1,3 +1,5 @@
+import { structures as resource } from '../../resources';
+
 let authorization;
 let id;
 beforeAll(async () => {
@@ -7,7 +9,7 @@ beforeAll(async () => {
 describe('API > structures > structures > create', () => {
   it('can create successfully', async () => {
     const response = await global.superapp
-      .post('/structures')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({
         structureStatus: 'active',
@@ -23,7 +25,7 @@ describe('API > structures > structures > create', () => {
   });
   it('has an identifier', async () => {
     const response = await global.superapp
-      .get(`/structures/${id}/identifiers`)
+      .get(`/${resource}/${id}/identifiers`)
       .set('Authorization', authorization)
       .expect(200);
     const { body } = response;
@@ -34,7 +36,7 @@ describe('API > structures > structures > create', () => {
 describe('API > structures > structures > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch('/structures/45frK')
+      .patch(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .send({
         structureStatus: 'inactive',
@@ -42,7 +44,7 @@ describe('API > structures > structures > update', () => {
   });
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/structures/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send({ structureStatus: 'inactive' })
       .expect(200);
@@ -50,7 +52,7 @@ describe('API > structures > structures > update', () => {
   });
   it('ignore additional properties', async () => {
     await global.superapp
-      .patch(`/structures/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send({ status: 'test' })
       .expect(400);
@@ -60,7 +62,7 @@ describe('API > structures > structures > update', () => {
 describe('API > structures > structures > read', () => {
   it('can read successfully', async () => {
     const response = await global.superapp
-      .get(`/structures/${id}`)
+      .get(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(response.body.structureStatus).toBe('inactive');
@@ -69,7 +71,7 @@ describe('API > structures > structures > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get('/structures/45frK')
+      .get(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -78,13 +80,13 @@ describe('API > structures > structures > read', () => {
 describe('API > structures > structures > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete('/structures/45frK')
+      .delete(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });
   it('can delete successfully', async () => {
     await global.superapp
-      .delete(`/structures/${id}`)
+      .delete(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
@@ -94,7 +96,7 @@ describe('API > structures > structures > list', () => {
   beforeAll(async () => {
     await global.utils.db.collection('structures').deleteMany({});
     await global.superapp
-      .post('/structures')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({
         structureStatus: 'active',
@@ -102,7 +104,7 @@ describe('API > structures > structures > list', () => {
         usualName: 'Université',
       }).expect(201);
     await global.superapp
-      .post('/structures')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({
         structureStatus: 'inactive',
@@ -110,7 +112,7 @@ describe('API > structures > structures > list', () => {
         usualName: 'Université',
       }).expect(201);
     await global.superapp
-      .post('/structures')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({
         structureStatus: 'forthcoming',
@@ -120,7 +122,7 @@ describe('API > structures > structures > list', () => {
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get('/structures')
+      .get(`/${resource}`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.structureStatus);
@@ -130,7 +132,7 @@ describe('API > structures > structures > list', () => {
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get('/structures?skip=1')
+      .get(`/${resource}?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.structureStatus);
@@ -140,7 +142,7 @@ describe('API > structures > structures > list', () => {
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get('/structures?limit=1')
+      .get(`/${resource}?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.structureStatus);
@@ -149,7 +151,7 @@ describe('API > structures > structures > list', () => {
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/structures?sort=structureStatus')
+      .get(`/${resource}?sort=structureStatus`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.structureStatus);
@@ -158,7 +160,7 @@ describe('API > structures > structures > list', () => {
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/structures?sort=-structureStatus')
+      .get(`/${resource}?sort=-structureStatus`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.structureStatus);
@@ -167,7 +169,7 @@ describe('API > structures > structures > list', () => {
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get('/structures?filters[structureStatus]=active')
+      .get(`/${resource}?filters[structureStatus]=active`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.structureStatus);

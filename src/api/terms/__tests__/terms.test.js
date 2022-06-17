@@ -1,3 +1,5 @@
+import { terms as resource } from '../../resources';
+
 let authorization;
 let id;
 
@@ -17,7 +19,7 @@ beforeAll(async () => {
 describe('API > terms > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
-      .post('/terms')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
@@ -29,7 +31,7 @@ describe('API > terms > create', () => {
 
   it('ignore additionalProperties', async () => {
     const { body } = await global.superapp
-      .post('/terms')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
@@ -41,7 +43,7 @@ describe('API > terms > create', () => {
   it('should fail if usualNameFr is missing', async () => {
     const { usualNameFr, ...rest } = payload;
     await global.superapp
-      .post('/terms')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -51,14 +53,14 @@ describe('API > terms > create', () => {
 describe('API > terms > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch('/terms/45frK')
+      .patch(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(404);
   });
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/terms/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send(updatePayLoad);
     const updated = { ...payload, ...updatePayLoad };
@@ -68,14 +70,14 @@ describe('API > terms > update', () => {
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
-      .patch(`/terms/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send({ arbitrary: 'test' })
       .expect(400);
   });
   it('throws with no data', async () => {
     await global.superapp
-      .patch(`/terms/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send({})
       .expect(400);
@@ -85,7 +87,7 @@ describe('API > terms > update', () => {
 describe('API > terms > read', () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
-      .get(`/terms/${id}`)
+      .get(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     const expected = { ...payload, ...updatePayLoad };
@@ -95,7 +97,7 @@ describe('API > terms > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get('/terms/45frK')
+      .get(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -104,13 +106,13 @@ describe('API > terms > read', () => {
 describe('API > terms > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete('/terms/45frK')
+      .delete(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });
   it('can delete successfully', async () => {
     await global.superapp
-      .delete(`/terms/${id}`)
+      .delete(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
@@ -120,24 +122,24 @@ describe('API > terms > list', () => {
   beforeAll(async () => {
     await global.utils.db.collection('terms').deleteMany({});
     await global.superapp
-      .post('/terms')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
     await global.superapp
-      .post('/terms')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, usualNameFr: 'Term B' })
       .expect(201);
     await global.superapp
-      .post('/terms')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, usualNameFr: 'Term C' })
       .expect(201);
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get('/terms')
+      .get(`/${resource}`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
@@ -147,7 +149,7 @@ describe('API > terms > list', () => {
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get('/terms?skip=1')
+      .get(`/${resource}?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
@@ -157,7 +159,7 @@ describe('API > terms > list', () => {
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get('/terms?limit=1')
+      .get(`/${resource}?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
@@ -166,7 +168,7 @@ describe('API > terms > list', () => {
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/terms?sort=usualNameFr')
+      .get(`/${resource}?sort=usualNameFr`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
@@ -175,7 +177,7 @@ describe('API > terms > list', () => {
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/terms?sort=-usualNameFr')
+      .get(`/${resource}?sort=-usualNameFr`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
@@ -184,7 +186,7 @@ describe('API > terms > list', () => {
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get('/terms?filters[usualNameFr]=Term A')
+      .get(`/${resource}?filters[usualNameFr]=Term A`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);

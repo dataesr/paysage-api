@@ -3,34 +3,35 @@ import express from 'express';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import repository from '../../commons/identifiers/identifiers.repository';
-import { readQuery } from '../../commons/identifiers/identifiers.queries';
-import config from '../categories.config';
+import { identifiersRepository as repository } from '../../commons/repositories';
+import { readQuery } from '../../commons/queries/identifiers.queries';
+import {
+  categories as resource,
+  identifiers as subresource,
+} from '../../resources';
 
-const { collection } = config;
-const field = 'identifiers';
 const router = new express.Router();
 
-router.route(`/${collection}/:resourceId/${field}`)
+router.route(`/${resource}/:resourceId/${subresource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
-    setGeneratedInternalIdInContext(field),
+    setGeneratedInternalIdInContext(subresource),
     controllers.create(repository, readQuery),
-    saveInStore(field),
+    saveInStore(subresource),
   ]);
 
-router.route(`/${collection}/:resourceId/${field}/:id`)
+router.route(`/${resource}/:resourceId/${subresource}/:id`)
   .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
     controllers.patch(repository, readQuery),
-    saveInStore(field),
+    saveInStore(subresource),
   ])
   .delete([
     patchContext,
     controllers.remove(repository),
-    saveInStore(field),
+    saveInStore(subresource),
   ]);
 
 export default router;

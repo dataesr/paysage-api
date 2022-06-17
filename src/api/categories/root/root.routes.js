@@ -4,36 +4,34 @@ import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from './root.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 
-import { readQuery } from './root.queries';
-import categoriesRepository from './root.repository';
-import config from '../categories.config';
-
-const { collection } = config;
+import { readQuery } from '../../commons/queries/categories.queries';
+import { categoriesRepository as repository } from '../../commons/repositories';
+import { categories as resource } from '../../resources';
 
 const router = new express.Router();
 
-router.route(`/${collection}`)
-  .get(controllers.list(categoriesRepository, readQuery))
+router.route(`/${resource}`)
+  .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(collection),
-    controllers.create(categoriesRepository, readQuery),
-    saveInStore(collection),
+    setGeneratedObjectIdInContext(resource),
+    controllers.create(repository, readQuery),
+    saveInStore(resource),
   ]);
 
-router.route(`/${collection}/:id`)
-  .get(controllers.read(categoriesRepository, readQuery))
+router.route(`/${resource}/:id`)
+  .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
     validatePayload,
-    controllers.patch(categoriesRepository, readQuery),
-    saveInStore(collection),
+    controllers.patch(repository, readQuery),
+    saveInStore(resource),
   ])
   .delete([
     patchContext,
-    controllers.remove(categoriesRepository),
-    saveInStore(collection),
+    controllers.remove(repository),
+    saveInStore(resource),
   ]);
 
 export default router;
