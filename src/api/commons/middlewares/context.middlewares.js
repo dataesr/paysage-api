@@ -1,4 +1,4 @@
-import { objectCatalog, internalCatalog } from '../monster';
+import catalog from '../catalog';
 
 export function patchContext(req, res, next) {
   req.context = { updatedBy: req.currentUser.id, updatedAt: new Date() };
@@ -10,25 +10,25 @@ export function createContext(req, res, next) {
   return next();
 }
 
-export function setPutIdInContext(type) {
+export function setPutIdInContext(collection) {
   return async (req, res, next) => {
-    const id = await objectCatalog.setUniqueId(req.params.id, type);
+    const id = await catalog.setUniqueId(req.params.id, collection);
     req.context = { ...req.context, id };
     return next();
   };
 }
 
-export function setGeneratedObjectIdInContext(type) {
+export function setGeneratedObjectIdInContext(collection) {
   return async (req, res, next) => {
-    const id = await objectCatalog.getUniqueId(type);
+    const id = await catalog.getUniqueId(collection, 5);
     req.context = { ...req.context, id };
     return next();
   };
 }
 
-export function setGeneratedInternalIdInContext(type) {
+export function setGeneratedInternalIdInContext(collection) {
   return async (req, res, next) => {
-    const id = await internalCatalog.getUniqueId(type);
+    const id = await catalog.getUniqueId(collection, 15);
     req.context = { ...req.context, id };
     return next();
   };

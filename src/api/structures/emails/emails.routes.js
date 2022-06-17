@@ -1,39 +1,33 @@
 import express from 'express';
-
-import { db } from '../../../services/mongo.service';
-
-import BaseMongoRepository from '../../commons/repositories/base.mongo.repository';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import { readQuery } from './emails.queries';
-import config from '../structures.config';
+import { readQuery } from '../../commons/queries/emails.queries';
+import { emailsRepository as repository } from '../../commons/repositories';
+import { structures as resource, emails as subresource } from '../../resources';
 
-const { collection } = config;
-const field = 'emails';
-const repository = new BaseMongoRepository({ db, collection: 'emails' });
 const router = new express.Router();
 
-router.route(`/${collection}/:resourceId/${field}`)
+router.route(`/${resource}/:resourceId/${subresource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
-    setGeneratedInternalIdInContext(field),
+    setGeneratedInternalIdInContext(subresource),
     controllers.create(repository, readQuery),
-    saveInStore(field),
+    saveInStore(subresource),
   ]);
 
-router.route(`/${collection}/:resourceId/${field}/:id`)
+router.route(`/${resource}/:resourceId/${subresource}/:id`)
   .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
     controllers.patch(repository, readQuery),
-    saveInStore(field),
+    saveInStore(subresource),
   ])
   .delete([
     patchContext,
     controllers.remove(repository),
-    saveInStore(field),
+    saveInStore(subresource),
   ]);
 
 export default router;

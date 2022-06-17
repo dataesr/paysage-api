@@ -1,3 +1,5 @@
+import { projects as resource, localisations as subresource } from '../../resources';
+
 let authorization;
 let id;
 let resourceId;
@@ -19,12 +21,10 @@ const payload = {
   endDate: '2013',
 };
 
-const collection = 'projects';
-
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
   const { body } = await global.superapp
-    .post(`/${collection}`)
+    .post(`/${resource}`)
     .set('Authorization', authorization)
     .send({
       nameFr: 'Test',
@@ -45,7 +45,7 @@ beforeAll(async () => {
 describe('API > projects > localisations > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
-      .post(`/${collection}/${resourceId}/localisations`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send(payload).expect(201);
     Object.entries(payload).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
@@ -57,7 +57,7 @@ describe('API > projects > localisations > create', () => {
   it('should fail if country is missing', async () => {
     const { country, ...rest } = payload;
     await global.superapp
-      .post(`/${collection}/${resourceId}/localisations`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -66,7 +66,7 @@ describe('API > projects > localisations > create', () => {
   it('can create with missing coordinates', async () => {
     const { coordinates, ...rest } = payload;
     const { body } = await global.superapp
-      .post(`/${collection}/${resourceId}/localisations`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send(rest);
     tid = body.id;
@@ -76,7 +76,7 @@ describe('API > projects > localisations > create', () => {
 describe('API > projects > localisations > update', () => {
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/${collection}/${resourceId}/localisations/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ locality: 'Strasbourg', coordinates: { lat: 2.56, lng: 69.1631 } })
       .expect(200);
@@ -87,14 +87,14 @@ describe('API > projects > localisations > update', () => {
 
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/localisations/45frK`)
+      .patch(`/${resource}/${resourceId}/${subresource}/45frK`)
       .set('Authorization', authorization)
       .send({ locality: 'Strasbourg' })
       .expect(400);
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/localisations/45dlrt5dkkhhuu7`)
+      .patch(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ locality: 'Strasbourg' })
       .expect(404);
@@ -102,21 +102,21 @@ describe('API > projects > localisations > update', () => {
 
   it('throws with wrong data', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/localisations/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: 'string' })
       .expect(400);
   });
   it('throws with wrong data', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/localisations/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ coordinates: { lat: 45.462168 } })
       .expect(400);
   });
   it('throws with wrong data', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/localisations/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ telephone: { lat: 45.462168 } })
       .expect(400);
@@ -126,7 +126,7 @@ describe('API > projects > localisations > update', () => {
 describe('API > projects > localisations > read', () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/localisations/${id}`)
+      .get(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(body.id).toBeTruthy();
@@ -139,13 +139,13 @@ describe('API > projects > localisations > read', () => {
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .get(`/${collection}/${resourceId}/localisations/265vty`)
+      .get(`/${resource}/${resourceId}/${subresource}/265vty`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/structures/${resourceId}/localisations/45dlrt5dkkhhuu7`)
+      .get(`/structures/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -154,19 +154,19 @@ describe('API > projects > localisations > read', () => {
 describe('API > projects > localisations > delete', () => {
   it('can delete', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/localisations/${tid}`)
+      .delete(`/${resource}/${resourceId}/${subresource}/${tid}`)
       .set('Authorization', authorization)
       .expect(204);
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/localisations/vgy775`)
+      .delete(`/${resource}/${resourceId}/${subresource}/vgy775`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/localisations/45dlrt5dkkhhuu7`)
+      .delete(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -175,19 +175,19 @@ describe('API > projects > localisations > delete', () => {
 describe('API > projects > localisations > list', () => {
   beforeAll(async () => {
     await global.superapp
-      .post(`/${collection}/${resourceId}/localisations/`)
+      .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({ ...payload, locality: 'Colmar' })
       .expect(201);
     await global.superapp
-      .post(`/${collection}/${resourceId}/localisations/`)
+      .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({ ...payload, locality: 'Mulhouse' })
       .expect(201);
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/localisations`)
+      .get(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -197,7 +197,7 @@ describe('API > projects > localisations > list', () => {
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/localisations?skip=1`)
+      .get(`/${resource}/${resourceId}/${subresource}?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -208,7 +208,7 @@ describe('API > projects > localisations > list', () => {
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/localisations?limit=1`)
+      .get(`/${resource}/${resourceId}/${subresource}?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -218,7 +218,7 @@ describe('API > projects > localisations > list', () => {
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/localisations?sort=locality`)
+      .get(`/${resource}/${resourceId}/${subresource}?sort=locality`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -228,7 +228,7 @@ describe('API > projects > localisations > list', () => {
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/localisations?sort=-locality`)
+      .get(`/${resource}/${resourceId}/${subresource}?sort=-locality`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);
@@ -238,7 +238,7 @@ describe('API > projects > localisations > list', () => {
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/localisations?filters[locality]=Strasbourg`)
+      .get(`/${resource}/${resourceId}/${subresource}?filters[locality]=Strasbourg`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.locality);

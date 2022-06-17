@@ -4,35 +4,33 @@ import { createContext, patchContext, setGeneratedInternalIdInContext } from '..
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { validatePayload } from './social-medias.middlewares';
-import { readQuery } from '../../commons/social-medias/social-medias.queries';
-import repository from '../../commons/social-medias/social-medias.repository';
-import config from '../categories.config';
+import { readQuery } from '../../commons/queries/social-medias.queries';
+import { socialmediasRepository as repository } from '../../commons/repositories';
+import { categories as resource, socialmedias as subresource } from '../../resources';
 
-const { collection } = config;
-const field = 'social-medias';
 const router = new express.Router();
 
-router.route(`/${collection}/:resourceId/${field}`)
+router.route(`/${resource}/:resourceId/${subresource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
     createContext,
-    setGeneratedInternalIdInContext(field),
+    setGeneratedInternalIdInContext(subresource),
     controllers.create(repository, readQuery),
-    saveInStore(field),
+    saveInStore(subresource),
   ]);
 
-router.route(`/${collection}/:resourceId/${field}/:id`)
+router.route(`/${resource}/:resourceId/${subresource}/:id`)
   .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
     controllers.patch(repository, readQuery),
-    saveInStore(field),
+    saveInStore(subresource),
   ])
   .delete([
     patchContext,
     controllers.remove(repository),
-    saveInStore(field),
+    saveInStore(subresource),
   ]);
 
 export default router;

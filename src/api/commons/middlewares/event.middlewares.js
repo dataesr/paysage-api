@@ -1,4 +1,4 @@
-import { eventStore } from '../monster';
+import { eventsRepository } from '../repositories';
 
 export function saveInStore(collection) {
   return async (req, res, next) => {
@@ -8,7 +8,7 @@ export function saveInStore(collection) {
       const nextState = event?.nextState || {};
       const previousState = event?.previousState || {};
       const eventToStore = { ...event, ...{ actor: user, collection, nextState, previousState, resource: path } };
-      eventStore.create(eventToStore);
+      eventsRepository.create(eventToStore);
     }
     return next();
   };

@@ -2,16 +2,14 @@ import express from 'express';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload, setPersonIdFromRequestPath } from './categories.middlewares';
-import config from '../persons.config';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import { readQuery } from './categories.queries';
-import repository from '../../commons/repositories/relationships.repository';
-
-const { collection } = config;
+import { readQuery } from '../../commons/queries/object-categories.queries';
+import { relationshipsRepository as repository } from '../../commons/repositories';
+import { persons as resource, categories as subresource } from '../../resources';
 
 const router = new express.Router();
 
-router.route(`/${collection}/:resourceId/categories`)
+router.route(`/${resource}/:resourceId/${subresource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
@@ -22,7 +20,7 @@ router.route(`/${collection}/:resourceId/categories`)
     saveInStore('relationships'),
   ]);
 
-router.route(`/${collection}/:resourceId/categories/:id`)
+router.route(`/${resource}/:resourceId/${subresource}/:id`)
   .delete([
     patchContext,
     controllers.remove(repository),

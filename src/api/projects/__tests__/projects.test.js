@@ -1,3 +1,5 @@
+import { projects as resource } from '../../resources';
+
 let authorization;
 let id;
 
@@ -15,16 +17,15 @@ const payload = {
   comment: 'Test',
 };
 const updatePayLoad = { fullNameFr: 'TestTestTest', fullNameEn: null };
-const collection = 'projects';
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
 });
 
-describe(`API > ${collection} > create`, () => {
+describe(`API > ${resource} > create`, () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
-      .post('/projects')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
@@ -35,35 +36,35 @@ describe(`API > ${collection} > create`, () => {
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
-      .post('/projects')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
-    const dbData = await global.db.collection(collection).findOne({ id });
+    const dbData = await global.db.collection('projects').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
   });
 
   it('should fail if nameFr is missing', async () => {
     const { nameFr, ...rest } = payload;
     await global.superapp
-      .post('/projects')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
   });
 });
 
-describe(`API > ${collection} > update`, () => {
+describe(`API > ${resource} > update`, () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch('/projects/45frK')
+      .patch(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(404);
   });
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/projects/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(200);
@@ -74,24 +75,24 @@ describe(`API > ${collection} > update`, () => {
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
-      .patch(`/projects/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send({ arbitrary: 'test' })
       .expect(400);
   });
   it('throws with no data', async () => {
     await global.superapp
-      .patch(`/projects/${id}`)
+      .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .send({})
       .expect(400);
   });
 });
 
-describe(`API > ${collection} > read`, () => {
+describe(`API > ${resource} > read`, () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
-      .get(`/projects/${id}`)
+      .get(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     const expected = { ...payload, ...updatePayLoad };
@@ -101,49 +102,49 @@ describe(`API > ${collection} > read`, () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get('/projects/45frK')
+      .get(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });
 });
 
-describe(`API > ${collection} > delete`, () => {
+describe(`API > ${resource} > delete`, () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete('/projects/45frK')
+      .delete(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });
   it('can delete successfully', async () => {
     await global.superapp
-      .delete(`/projects/${id}`)
+      .delete(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
 });
 
-describe(`API > ${collection} > list`, () => {
+describe(`API > ${resource} > list`, () => {
   beforeAll(async () => {
-    await global.utils.db.collection(collection).deleteMany({});
+    await global.utils.db.collection('projects').deleteMany({});
     await global.superapp
-      .post('/projects')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
     await global.superapp
-      .post('/projects')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, fullNameFr: 'Test1' })
       .expect(201);
     await global.superapp
-      .post('/projects')
+      .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, fullNameFr: 'Test2' })
       .expect(201);
   });
   it('can list successfully', async () => {
     const { body } = await global.superapp
-      .get('/projects')
+      .get(`/${resource}`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.fullNameFr);
@@ -153,7 +154,7 @@ describe(`API > ${collection} > list`, () => {
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
-      .get('/projects?skip=1')
+      .get(`/${resource}?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.fullNameFr);
@@ -163,7 +164,7 @@ describe(`API > ${collection} > list`, () => {
   });
   it('can limit successfully', async () => {
     const { body } = await global.superapp
-      .get('/projects?limit=1')
+      .get(`/${resource}?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.fullNameFr);
@@ -172,7 +173,7 @@ describe(`API > ${collection} > list`, () => {
   });
   it('can sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/projects?sort=fullNameFr')
+      .get(`/${resource}?sort=fullNameFr`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.fullNameFr);
@@ -181,7 +182,7 @@ describe(`API > ${collection} > list`, () => {
   });
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
-      .get('/projects?sort=-fullNameFr')
+      .get(`/${resource}?sort=-fullNameFr`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.fullNameFr);
@@ -190,7 +191,7 @@ describe(`API > ${collection} > list`, () => {
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get('/projects?filters[fullNameFr]=Test')
+      .get(`/${resource}?filters[fullNameFr]=Test`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.fullNameFr);
