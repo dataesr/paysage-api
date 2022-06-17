@@ -9,7 +9,7 @@ const readQuery = [
   ...metas,
   {
     $lookup: {
-      from: 'legalcategories',
+      from: 'legal-categories',
       let: { legalcategoryId: '$legalcategoryId' },
       pipeline: [
         { $match: { $expr: { $and: [{ $ne: ['$deleted', true] }, { $eq: ['$id', '$$legalcategoryId'] }] } } },

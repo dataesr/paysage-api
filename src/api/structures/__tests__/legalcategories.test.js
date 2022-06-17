@@ -129,14 +129,14 @@ describe('API > structures > legal categories > read', () => {
     id = body.id;
   });
 
-  it('can read successfully', async () => {
+  it.only('can read successfully', async () => {
     const { body } = await global.superapp
       .get(`/structures/${resourceId}/legal-categories/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(body.id).toBe(id);
     expect(body.legalcategory.id).toBe(lcid);
-    expect(body.legalcategory.usualNameFr).toBe('Catégorie');
+    expect(body.legalcategory.longNameFr).toBe('This is a legal category');
     expect(body.createdBy.username).toBe('user');
   });
   it('throws bad request with wrong id', async () => {
