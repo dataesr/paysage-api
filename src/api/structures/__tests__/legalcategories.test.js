@@ -129,7 +129,7 @@ describe('API > structures > legal categories > read', () => {
     id = body.id;
   });
 
-  it.only('can read successfully', async () => {
+  it('can read successfully', async () => {
     const { body } = await global.superapp
       .get(`/structures/${resourceId}/legal-categories/${id}`)
       .set('Authorization', authorization)
