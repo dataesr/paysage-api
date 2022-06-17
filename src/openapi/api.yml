@@ -165,6 +165,10 @@ paths:
     $ref: './paths/projects/weblinks.yml#/~1projects~1{projectId}~1weblinks'
   '/projects/{projectId}/weblinks/{weblinkId}':
     $ref: './paths/projects/weblinks.yml#/~1projects~1{projectId}~1weblinks~1{weblinkId}'
+  '/projects/{projectId}/localisations':
+    $ref: './paths/projects/localisations.yml#/~1projects~1{projectId}~1localisations'
+  '/projects/{projectId}/localisations/{localisationId}':
+    $ref: './paths/projects/localisations.yml#/~1projects~1{projectId}~1localisations~1{localisationId}'
 
 components:
   parameters:
