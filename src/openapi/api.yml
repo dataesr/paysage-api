@@ -25,6 +25,7 @@ tags:
   - name: Structures - Médias sociaux
   - name: Structures - Logos
   - name: Structures - Catégories
+  - name: Structures - Status juridiques
   - name: Structures - Emails
   - name: Personnes
   - name: Personnes - Identifiants
@@ -53,10 +54,22 @@ paths:
     $ref: './paths/structures/structures.yml#/~1structures'
   '/structures/{structureId}':
     $ref: './paths/structures/structures.yml#/~1structures~1{structureId}'
+  '/structures/{structureId}/categories':
+    $ref: './paths/structures/categories.yml#/~1structures~1{structureId}~1categories'
+  '/structures/{structureId}/categories/{relatedCategoryId}':
+    $ref: './paths/structures/categories.yml#/~1structures~1{structureId}~1categories~1{relatedCategoryId}'
+  '/structures/{structureId}/emails':
+    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails'
+  '/structures/{structureId}/emails/{emailId}':
+    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails~1{emailId}'
   '/structures/{structureId}/identifiers':
     $ref: './paths/structures/identifiers.yml#/~1structures~1{structureId}~1identifiers'
   '/structures/{structureId}/identifiers/{identifierId}':
     $ref: './paths/structures/identifiers.yml#/~1structures~1{structureId}~1identifiers~1{identifierId}'
+  '/structures/{structureId}/legal-categories':
+    $ref: './paths/structures/legal-categories.yml#/~1structures~1{structureId}~1legal-categories'
+  '/structures/{structureId}/legal-categories/{relatedLegalCategoryId}':
+    $ref: './paths/structures/legal-categories.yml#/~1structures~1{structureId}~1legal-categories~1{relatedLegalCategoryId}'
   '/structures/{structureId}/localisations':
     $ref: './paths/structures/localisations.yml#/~1structures~1{structureId}~1localisations'
   '/structures/{structureId}/localisations/{localisationId}':
@@ -69,22 +82,14 @@ paths:
     $ref: './paths/structures/names.yml#/~1structures~1{structureId}~1names'
   '/structures/{structureId}/names/{nameId}':
     $ref: './paths/structures/names.yml#/~1structures~1{structureId}~1names~1{nameId}'
-  '/structures/{structureId}/weblinks':
-    $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks'
-  '/structures/{structureId}/weblinks/{weblinkId}':
-    $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks~1{weblinkId}'
-  '/structures/{structureId}/emails':
-    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails'
-  '/structures/{structureId}/emails/{emailId}':
-    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails~1{emailId}'
   '/structures/{structureId}/social-medias':
     $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias'
   '/structures/{structureId}/social-medias/{socialmediaId}':
     $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias~1{socialmediaId}'
-  '/structures/{structureId}/categories':
-    $ref: './paths/structures/categories.yml#/~1structures~1{structureId}~1categories'
-  '/structures/{structureId}/categories/{relatedCategoryId}':
-    $ref: './paths/structures/categories.yml#/~1structures~1{structureId}~1categories~1{relatedCategoryId}'
+  '/structures/{structureId}/weblinks':
+    $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks'
+  '/structures/{structureId}/weblinks/{weblinkId}':
+    $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks~1{weblinkId}'
   
   ### PERSONNES ###
   '/persons':
@@ -115,10 +120,10 @@ paths:
     $ref: './paths/terms/terms.yml#/~1terms~1{termId}'
 
   ### CATEGORIES JURIDIQUES ###
-  '/legalcategories':
-    $ref: './paths/legalcategories/legalcategories.yml#/~1legalcategories'
-  '/legalcategories/{legalCategoryId}':
-    $ref: './paths/legalcategories/legalcategories.yml#/~1legalcategories~1{legalCategoryId}'
+  '/legal-categories':
+    $ref: './paths/legalcategories/legalcategories.yml#/~1legal-categories'
+  '/legal-categories/{legalCategoryId}':
+    $ref: './paths/legalcategories/legalcategories.yml#/~1legal-categories~1{legalCategoryId}'
 
   ### CATEGORIES ###
   '/categories':
@@ -204,6 +209,8 @@ components:
       $ref: ./parameters/ids/category-id.yml
     relatedCategoryId:
       $ref: ./parameters/ids/related-category-id.yml
+    relatedLegalCategoryId:
+      $ref: ./parameters/ids/related-legal-category-id.yml
     legalCategoryId:
       $ref: ./parameters/ids/legal-category-id.yml
     priceId:
@@ -235,42 +242,42 @@ components:
 
   schemas:
     ### MODELS ###
-    Structure:
-      $ref: './schemas/structures/structure.yml'
-    StructureLight:
-      $ref: './schemas/structures/structure-light.yml'
-    StructureName:
-      $ref: './schemas/structures/name.yml'
-    StructureNameLight:
-      $ref: './schemas/structures/name-light.yml'
-    StructureIdentifier:
-      $ref: './schemas/structures/identifier.yml'
-    StructureWeblink:
-      $ref: './schemas/structures/weblink.yml'
-    StructureEmail:
-      $ref: './schemas/structures/email.yml'
-    SocialMedia:
-      $ref: './schemas/commons/social-media.yml'
+    Category:
+      $ref: './schemas/categories/category.yml'
+    CategoryIdentifier:
+      $ref: './schemas/categories/identifier.yml'
+    CategoryLight:
+      $ref: './schemas/categories/category-light.yml'
+    CategoryWeblink:
+      $ref: './schemas/categories/weblink.yml'
+    CategoryRelationship:
+      $ref: './schemas/commons/category-relationship.yml'
+    Document:
+      $ref: './schemas/documents/document.yml'
+    DocumentLight:
+      $ref: './schemas/documents/document-light.yml'
+    LegalCategory:
+      $ref: './schemas/legalcategories/legalcategory.yml'
+    LegalCategoryLight:
+      $ref: './schemas/legalcategories/legalcategory-light.yml'
+    Localisation:
+      $ref: './schemas/commons/localisation.yml'
+    LocalisationLight:
+      $ref: './schemas/commons/localisation-light.yml'
     Logo:
       $ref: './schemas/commons/logo.yml'
     OfficialText:
       $ref: './schemas/officialtexts/officialtext.yml'
     OfficialTextLight:
       $ref: './schemas/officialtexts/officialtext-light.yml'
-    Document:
-      $ref: './schemas/documents/document.yml'
-    DocumentLight:
-      $ref: './schemas/documents/document-light.yml'
-    Category:
-      $ref: './schemas/categories/category.yml'
-    CategoryLight:
-      $ref: './schemas/categories/category-light.yml'
-    CategoryIdentifier:
-      $ref: './schemas/categories/identifier.yml'
-    CategoryWeblink:
-      $ref: './schemas/categories/weblink.yml'
-    CategoryRelationship:
-      $ref: './schemas/commons/category-relationship.yml'
+    Person:
+      $ref: './schemas/persons/person.yml'
+    PersonIdentifier:
+      $ref: './schemas/persons/identifier.yml'
+    PersonLight:
+      $ref: './schemas/persons/person-light.yml'
+    PersonWeblink:
+      $ref: './schemas/persons/weblink.yml'
     Price:
       $ref: './schemas/prices/price.yml'
     PriceLight:
@@ -281,92 +288,93 @@ components:
       $ref: './schemas/projects/project-light.yml'
     ProjectWeblink:
       $ref: './schemas/projects/weblink.yml'
-    Person:
-      $ref: './schemas/persons/person.yml'
-    PersonLight:
-      $ref: './schemas/persons/person-light.yml'
-    PersonIdentifier:
-      $ref: './schemas/persons/identifier.yml'
-    PersonWeblink:
-      $ref: './schemas/persons/weblink.yml'
     Role:
       $ref: './schemas/roles/role.yml'
     RoleLight:
       $ref: './schemas/roles/role-light.yml'
+    SocialMedia:
+      $ref: './schemas/commons/social-media.yml'
+    Structure:
+      $ref: './schemas/structures/structure.yml'
+    StructureCategory:
+      $ref: './schemas/commons/category-relationship.yml'
+    StructureEmail:
+      $ref: './schemas/structures/email.yml'
+    StructureIdentifier:
+      $ref: './schemas/structures/identifier.yml'
+    StructureLegalCategory:
+      $ref: './schemas/structures/legalcategory.yml'
+    StructureLight:
+      $ref: './schemas/structures/structure-light.yml'
+    StructureLocalisation:
+      $ref: './schemas/commons/localisation.yml'
+    StructureLocalisationLight:
+      $ref: './schemas/commons/localisation-light.yml'
+    StructureName:
+      $ref: './schemas/structures/name.yml'
+    StructureNameLight:
+      $ref: './schemas/structures/name-light.yml'
+    StructureWeblink:
+      $ref: './schemas/structures/weblink.yml'
     Term:
       $ref: './schemas/terms/term.yml'
     TermLight:
       $ref: './schemas/terms/term-light.yml'
-    LegalCategory:
-      $ref: './schemas/legalcategories/legalcategory.yml'
-    LegalCategoryLight:
-      $ref: './schemas/legalcategories/legalcategory-light.yml'
-    Localisation:
-      $ref: './schemas/commons/localisation.yml'
-    LocalisationLight:
-      $ref: './schemas/commons/localisation-light.yml'
 
 
     ### PAYLOADS ###
-    StructureCreatePayload:
-      $ref: './schemas/structures/structure-create-payload.yml'
-    StructureUpdatePayload:
-      $ref: './schemas/structures/structure-update-payload.yml'
-    StructureIdentifierPayload:
-      $ref: './schemas/structures/identifier-payload.yml'
-    StructureNamePayload:
-      $ref: './schemas/structures/name-payload.yml'
-    StructureWeblinkPayload:
-      $ref: './schemas/structures/weblink-payload.yml'
-    StructureEmailPayload:
-      $ref: './schemas/structures/email-payload.yml'
-    SocialMediaPayload:
-      $ref: './schemas/commons/social-media-payload.yml'
-
-    CategoryPayload:
-      $ref: './schemas/categories/category-payload.yml'
     CategoryIdentifierPayload:
       $ref: './schemas/categories/identifier-payload.yml'
+    CategoryPayload:
+      $ref: './schemas/categories/category-payload.yml'
     CategoryWeblinkPayload:
       $ref: './schemas/categories/weblink-payload.yml'
     CategoryRelationshipPayload:
       $ref: './schemas/commons/category-relationship-payload.yml'
-
-    PersonPayload:
-      $ref: './schemas/persons/person-payload.yml'
+    DocumentPayload:
+      $ref: './schemas/documents/document-payload.yml'
+    LegalCategoryPayload:
+      $ref: './schemas/legalcategories/legalcategory-payload.yml'
+    LogoPayload:
+      $ref: './schemas/commons/logo-payload.yml'
+    OfficialTextPayload:
+      $ref: './schemas/officialtexts/officialtext-payload.yml'
     PersonIdentifierPayload:
       $ref: './schemas/persons/identifier-payload.yml'
+    PersonPayload:
+      $ref: './schemas/persons/person-payload.yml'
     PersonWeblinkPayload:
       $ref: './schemas/persons/weblink-payload.yml'
-
     PricePayload:
       $ref: './schemas/prices/price-payload.yml'
-
     ProjectPayload:
       $ref: './schemas/projects/project-payload.yml'
     ProjectWeblinkPayload:
       $ref: './schemas/projects/weblink-payload.yml'
-
-    TermPayload:
-      $ref: './schemas/terms/term-payload.yml'
-
-    LegalCategoryPayload:
-      $ref: './schemas/legalcategories/legalcategory-payload.yml'
-
-    DocumentPayload:
-      $ref: './schemas/documents/document-payload.yml'
-
-    OfficialTextPayload:
-      $ref: './schemas/officialtexts/officialtext-payload.yml'
-
-    LogoPayload:
-      $ref: './schemas/commons/logo-payload.yml'
-
     RolePayload:
       $ref: './schemas/roles/role-payload.yml'
-    
     LocalisationPayload:
       $ref: './schemas/commons/localisation-payload.yml'
+    SocialMediaPayload:
+      $ref: './schemas/commons/social-media-payload.yml'
+    StructureCreatePayload:
+      $ref: './schemas/structures/structure-create-payload.yml'
+    StructureEmailPayload:
+      $ref: './schemas/structures/email-payload.yml'
+    StructureIdentifierPayload:
+      $ref: './schemas/structures/identifier-payload.yml'
+    StructureLegalCategoryPayload:
+      $ref: './schemas/structures/legalcategory-payload.yml'
+    StructureLocalisationPayload:
+      $ref: './schemas/commons/localisation-payload.yml'
+    StructureNamePayload:
+      $ref: './schemas/structures/name-payload.yml'
+    StructureUpdatePayload:
+      $ref: './schemas/structures/structure-update-payload.yml'
+    StructureWeblinkPayload:
+      $ref: './schemas/structures/weblink-payload.yml'
+    TermPayload:
+      $ref: './schemas/terms/term-payload.yml'
 
 
     ### ENUMS ###
@@ -374,16 +382,10 @@ components:
       $ref: './schemas/categories/enums/identifier-types.yml'
     CategoryWeblinkTypesEnum:
       $ref: './schemas/categories/enums/weblink-types.yml'
-    OfficialTextTypesEnum:
-      $ref: './schemas/officialtexts/enums/type.yml'
     OfficialTextNaturesEnum:
       $ref: './schemas/officialtexts/enums/nature.yml'
-    StructureIdentifierTypesEnum:
-      $ref: './schemas/structures/enums/identifier-types.yml'
-    StructureWeblinkTypesEnum:
-      $ref: './schemas/structures/enums/weblink-types.yml'
-    StructureEmailTypesEnum:
-      $ref: './schemas/structures/enums/email-types.yml'
+    OfficialTextTypesEnum:
+      $ref: './schemas/officialtexts/enums/type.yml'
     PersonIdentifierTypesEnum:
       $ref: './schemas/persons/enums/identifier-types.yml'
     PersonWeblinkTypesEnum:
@@ -392,8 +394,10 @@ components:
       $ref: './schemas/projects/enums/weblink-types.yml'
     SocialmediaTypesEnum:
       $ref: './schemas/commons/enums/social-media-types.yml'
-    EmailTypesEnum:
-      $ref: './schemas/commons/enums/email-types.yml'
+    StructureIdentifierTypesEnum:
+      $ref: './schemas/structures/enums/identifier-types.yml'
+    StructureWeblinkTypesEnum:
+      $ref: './schemas/structures/enums/weblink-types.yml'
 
 
     ### COMMON MODELS ###

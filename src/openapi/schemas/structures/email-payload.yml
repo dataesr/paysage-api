@@ -3,7 +3,7 @@ description: Modèle servant à ajouter un email
 type: object
 properties:
   type:
-    $ref: ../../api.yml#/components/schemas/StructureEmailTypesEnum
+    type: string
   email:
     type: string
     format: email

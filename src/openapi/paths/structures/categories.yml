@@ -2,7 +2,7 @@
   get:
     tags:
       - Structures - Catégories
-    summary: Lister les catégories d'une structure
+    summary: Lister les catégories de la structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -37,7 +37,7 @@
   post:
     tags:
       - Structures - Catégories
-    summary: Ajouter une catégory à la structure
+    summary: Ajouter une catégorie à la structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -67,7 +67,7 @@
   get:
     tags:
       - Structures - Catégories
-    summary: Obtenir le détail d'une catégory de structure
+    summary: Obtenir le détail d'une catégorie de structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
@@ -90,7 +90,7 @@
   delete:
     tags:
       - Structures - Catégories
-    summary: Retirer une catégory de la structure
+    summary: Retirer une catégorie de la structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
@@ -109,7 +109,7 @@
   patch:
     tags:
       - Structures - Catégories
-    summary: Modifier une catégory de la structure
+    summary: Modifier une catégorie de la structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
