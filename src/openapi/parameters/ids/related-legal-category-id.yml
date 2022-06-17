@@ -1,0 +1,7 @@
+name: relatedLegalCategoryId
+in: path
+schema:
+  type: string
+  pattern: '^[a-zA-Z0-9]{8}$'
+required: true
+description: Unique relation id
