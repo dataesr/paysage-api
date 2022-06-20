@@ -19,7 +19,10 @@ export async function validatePhoneNumber(req, res, next) {
   const { telephone, country } = req.body;
   const nextCountry = country || await structureLocalisationsRepository.get(resourceId, id, { useQuery: readQuery }).country;
   if (telephone && nextCountry === 'France' && !telephone.match(phoneRegex)) {
-    throw new BadRequestError('Validation error', [{ path: '.body.telephone', message: 'Phone numbers from france should match pattern' }]);
+    throw new BadRequestError('Validation error', [{
+      path: '.body.telephone',
+      message: `Phone numbers from France should match pattern ${phoneRegex}`,
+    }]);
   }
   return next();
 }
