@@ -1,36 +1,37 @@
 import express from 'express';
-import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import { readQuery } from './weblinks.queries';
-import repository from './weblinks.respository';
-import config from '../categories.config';
-import controllers from '../../commons/middlewares/crud-nested.middlewares';
 
-const { collection, weblinksField: field } = config;
-const collectionField = `${collection}-${field}`;
+import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
+import controllers from '../../commons/middlewares/crud.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
+import { readQuery } from '../../commons/queries/weblinks.queries';
+import { validatePayload } from './weblinks.middlewares';
+import { weblinksRepository as repository } from '../../commons/repositories';
+import { categories as resource, weblinks as subresource } from '../../resources';
 
 const router = new express.Router();
 
-router.route(`/${collection}/:resourceId/${field}`)
+router.route(`/${resource}/:resourceId/${subresource}`)
   .get(controllers.list(repository, readQuery))
   .post([
+    validatePayload,
     createContext,
-    setGeneratedInternalIdInContext(collectionField),
+    setGeneratedInternalIdInContext(subresource),
     controllers.create(repository, readQuery),
-    saveInStore(collectionField),
+    saveInStore(subresource),
   ]);
 
-router.route(`/${collection}/:resourceId/${field}/:id`)
+router.route(`/${resource}/:resourceId/${subresource}/:id`)
   .delete([
     patchContext,
     controllers.remove(repository),
-    saveInStore(collectionField),
+    saveInStore(subresource),
   ])
   .get(controllers.read(repository, readQuery))
   .patch([
+    validatePayload,
     patchContext,
     controllers.patch(repository, readQuery),
-    saveInStore(collectionField),
+    saveInStore(subresource),
   ]);
 
 export default router;

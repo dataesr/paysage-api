@@ -38,6 +38,8 @@ tags:
   - name: Termes
   - name: Textes officiels
   - name: Documents
+  - name: Projets
+  - name: Projets - Liens web
   - name: Catégories juridiques
   - name: Prix scientifiques
   # - name: Projects
@@ -159,6 +161,20 @@ paths:
   '/prices/{priceId}':
     $ref: './paths/prices/prices.yml#/~1prices~1{priceId}'
 
+  ### PROJETS ###
+  '/projects':
+    $ref: './paths/projects/projects.yml#/~1projects'
+  '/projects/{projectId}':
+    $ref: './paths/projects/projects.yml#/~1projects~1{projectId}'
+  '/projects/{projectId}/weblinks':
+    $ref: './paths/projects/weblinks.yml#/~1projects~1{projectId}~1weblinks'
+  '/projects/{projectId}/weblinks/{weblinkId}':
+    $ref: './paths/projects/weblinks.yml#/~1projects~1{projectId}~1weblinks~1{weblinkId}'
+  '/projects/{projectId}/localisations':
+    $ref: './paths/projects/localisations.yml#/~1projects~1{projectId}~1localisations'
+  '/projects/{projectId}/localisations/{localisationId}':
+    $ref: './paths/projects/localisations.yml#/~1projects~1{projectId}~1localisations~1{localisationId}'
+
 components:
   parameters:
     filters:
@@ -201,6 +217,8 @@ components:
       $ref: ./parameters/ids/price-id.yml
     personId:
       $ref: ./parameters/ids/person-id.yml
+    projectId:
+      $ref: ./parameters/ids/project-id.yml
     officialTextId:
       $ref: ./parameters/ids/officialtext-id.yml
     newsId:
@@ -232,6 +250,8 @@ components:
       $ref: './schemas/categories/category-light.yml'
     CategoryWeblink:
       $ref: './schemas/categories/weblink.yml'
+    CategoryRelationship:
+      $ref: './schemas/commons/category-relationship.yml'
     Document:
       $ref: './schemas/documents/document.yml'
     DocumentLight:
@@ -240,6 +260,10 @@ components:
       $ref: './schemas/legalcategories/legalcategory.yml'
     LegalCategoryLight:
       $ref: './schemas/legalcategories/legalcategory-light.yml'
+    Localisation:
+      $ref: './schemas/commons/localisation.yml'
+    LocalisationLight:
+      $ref: './schemas/commons/localisation-light.yml'
     Logo:
       $ref: './schemas/commons/logo.yml'
     OfficialText:
@@ -258,6 +282,12 @@ components:
       $ref: './schemas/prices/price.yml'
     PriceLight:
       $ref: './schemas/prices/price-light.yml'
+    Project:
+      $ref: './schemas/projects/project.yml'
+    ProjectLight:
+      $ref: './schemas/projects/project-light.yml'
+    ProjectWeblink:
+      $ref: './schemas/projects/weblink.yml'
     Role:
       $ref: './schemas/roles/role.yml'
     RoleLight:
@@ -267,7 +297,7 @@ components:
     Structure:
       $ref: './schemas/structures/structure.yml'
     StructureCategory:
-      $ref: './schemas/structures/category.yml'
+      $ref: './schemas/commons/category-relationship.yml'
     StructureEmail:
       $ref: './schemas/structures/email.yml'
     StructureIdentifier:
@@ -277,9 +307,9 @@ components:
     StructureLight:
       $ref: './schemas/structures/structure-light.yml'
     StructureLocalisation:
-      $ref: './schemas/structures/localisation.yml'
+      $ref: './schemas/commons/localisation.yml'
     StructureLocalisationLight:
-      $ref: './schemas/structures/localisation-light.yml'
+      $ref: './schemas/commons/localisation-light.yml'
     StructureName:
       $ref: './schemas/structures/name.yml'
     StructureNameLight:
@@ -299,6 +329,8 @@ components:
       $ref: './schemas/categories/category-payload.yml'
     CategoryWeblinkPayload:
       $ref: './schemas/categories/weblink-payload.yml'
+    CategoryRelationshipPayload:
+      $ref: './schemas/commons/category-relationship-payload.yml'
     DocumentPayload:
       $ref: './schemas/documents/document-payload.yml'
     LegalCategoryPayload:
@@ -315,12 +347,16 @@ components:
       $ref: './schemas/persons/weblink-payload.yml'
     PricePayload:
       $ref: './schemas/prices/price-payload.yml'
+    ProjectPayload:
+      $ref: './schemas/projects/project-payload.yml'
+    ProjectWeblinkPayload:
+      $ref: './schemas/projects/weblink-payload.yml'
     RolePayload:
       $ref: './schemas/roles/role-payload.yml'
+    LocalisationPayload:
+      $ref: './schemas/commons/localisation-payload.yml'
     SocialMediaPayload:
       $ref: './schemas/commons/social-media-payload.yml'
-    StructureCategoryPayload:
-      $ref: './schemas/structures/category-payload.yml'
     StructureCreatePayload:
       $ref: './schemas/structures/structure-create-payload.yml'
     StructureEmailPayload:
@@ -330,7 +366,7 @@ components:
     StructureLegalCategoryPayload:
       $ref: './schemas/structures/legalcategory-payload.yml'
     StructureLocalisationPayload:
-      $ref: './schemas/structures/localisation-payload.yml'
+      $ref: './schemas/commons/localisation-payload.yml'
     StructureNamePayload:
       $ref: './schemas/structures/name-payload.yml'
     StructureUpdatePayload:
@@ -354,6 +390,8 @@ components:
       $ref: './schemas/persons/enums/identifier-types.yml'
     PersonWeblinkTypesEnum:
       $ref: './schemas/persons/enums/weblink-types.yml'
+    ProjectWeblinkTypesEnum:
+      $ref: './schemas/projects/enums/weblink-types.yml'
     SocialmediaTypesEnum:
       $ref: './schemas/commons/enums/social-media-types.yml'
     StructureIdentifierTypesEnum:

@@ -1,5 +1,5 @@
 import { BadRequestError } from '../commons/http-errors';
-import termsRepository from './terms.repository';
+import { termsRepository } from '../commons/repositories';
 
 export async function validatePayload(req, res, next) {
   if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');

@@ -1,0 +1,62 @@
+title: Localisation
+description: Représentation d'une localisation
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{15}$'
+      resourceId:
+        type: string
+        readOnly: true
+        description: Unique identifier
+        pattern: '^[a-zA-Z0-9]{5}$'
+      cityId:
+        type: string
+        nullable: true
+        description: Code d'identification de la commune (code insee pour la france)
+        example: 67482
+      distributionStatement:
+        type: string
+        nullable: true
+      address:
+        type: string
+        nullable: true
+      postOfficeBoxNumber:
+        type: string
+        nullable: true
+      postalCode:
+        type: string
+        nullable: true
+      locality:
+        type: string
+        nullable: true
+        example: La Défense
+      place:
+        type: string
+        nullable: true
+        description: Lieu-dit
+      country:
+        type: string
+      telephone:
+        type: string
+        nullable: true
+      coordinates:
+        type: object
+        nullable: true
+        properties:
+          lat:
+            type: number
+          lng:
+            type: number
+      startDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+      endDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+  - $ref: '../../api.yml#/components/schemas/Metas'

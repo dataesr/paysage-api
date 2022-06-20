@@ -1,42 +1,39 @@
 import express from 'express';
-import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedInternalIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
-import { setFileInfo, saveFile, deleteFile } from './documents.middlewares';
-
-import { readQuery } from './documents.queries';
-import pricesRepository from './documents.repository';
-import config from './documents.config';
-
-const { collection } = config;
+import { setFileInfo, saveFile, deleteFile } from '../commons/middlewares/files.middlewares';
+import { documentsRepository as repository } from '../commons/repositories';
+import { readQuery } from '../commons/queries/documents.queries';
+import { documents as resource } from '../resources';
 
 const router = new express.Router();
 
-router.route(`/${collection}`)
-  .get(controllers.list(pricesRepository, readQuery))
+router.route(`/${resource}`)
+  .get(controllers.list(repository, readQuery))
   .post([
     createContext,
-    setGeneratedObjectIdInContext(collection),
-    setFileInfo,
+    setGeneratedInternalIdInContext(resource),
+    setFileInfo(resource),
     saveFile,
-    controllers.create(pricesRepository, readQuery),
-    saveInStore(collection),
+    controllers.create(repository, readQuery),
+    saveInStore(resource),
   ]);
 
-router.route(`/${collection}/:id`)
-  .get(controllers.read(pricesRepository, readQuery))
+router.route(`/${resource}/:id`)
+  .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
-    setFileInfo,
+    setFileInfo(resource),
     saveFile,
-    controllers.patch(pricesRepository, readQuery),
-    saveInStore(collection),
+    controllers.patch(repository, readQuery),
+    saveInStore(resource),
   ])
   .delete([
     patchContext,
-    deleteFile,
-    controllers.remove(pricesRepository, readQuery),
-    saveInStore(collection),
+    deleteFile(resource),
+    controllers.remove(repository, readQuery),
+    saveInStore(resource),
   ]);
 
 export default router;

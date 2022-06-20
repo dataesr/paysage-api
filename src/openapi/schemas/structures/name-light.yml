@@ -5,7 +5,7 @@ properties:
   id:
     type: string
     description: Unique identifier
-    pattern: '^[a-zA-Z0-9]{8}$'
+    pattern: '^[a-zA-Z0-9]{15}$'
   resourceId:
     type: string
     description: Unique identifier

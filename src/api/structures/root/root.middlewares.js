@@ -1,21 +1,23 @@
 import { BadRequestError } from '../../commons/http-errors';
-import structureIdentifiersRepository from '../../commons/identifiers/identifiers.repository';
-import { objectCatalog, internalCatalog } from '../../commons/monster';
-import { readQuery } from './root.queries';
-import categoriesRepository from '../../categories/root/root.repository';
-import structuresRepository from './root.repository';
-import officialTextRepository from '../../officialtexts/officialtexts.repository';
+import catalog from '../../commons/catalog';
+import { readQuery } from '../../commons/queries/structures.queries';
+import {
+  categoriesRepository,
+  identifiersRepository,
+  officialtextsRepository,
+  structuresRepository,
+} from '../../commons/repositories';
 import { client } from '../../../services/mongo.service';
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
   const { creationOfficialTextId, closureOfficialTextId } = req.body;
   if (creationOfficialTextId) {
-    const text = await officialTextRepository.read(creationOfficialTextId);
+    const text = await officialtextsRepository.read(creationOfficialTextId);
     if (!text?.id) { errors.push({ path: '.body.creationOfficialTextId', message: `official text ${creationOfficialTextId} does not exist` }); }
   }
   if (closureOfficialTextId) {
-    const text = await officialTextRepository.read(closureOfficialTextId);
+    const text = await officialtextsRepository.read(closureOfficialTextId);
     if (!text?.id) { errors.push({ path: '.body.closureOfficialTextId', message: `official text ${closureOfficialTextId} does not exist` }); }
   }
   const { categories: categoryIds, parents: parentIds } = req.body;
@@ -55,7 +57,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
     closureDate: payload.closureDate,
     createdBy: req.currentUser.id,
     createdAt: new Date(),
-    id: await objectCatalog.getUniqueId('structures'),
+    id: await catalog.getUniqueId('structures', 5),
   };
   const structureName = {
     officialName: payload.officialName,
@@ -72,7 +74,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (Object.values(structureName).filter((value) => value).length) {
     structureName.createdBy = req.currentUser.id;
     structureName.createdAt = new Date();
-    structureName.id = await internalCatalog.getUniqueId('structures');
+    structureName.id = await catalog.getUniqueId('names', 15);
     structure.names = [structureName];
   }
   const structureLocalisation = {
@@ -90,7 +92,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (Object.values(structureLocalisation).filter((value) => value).length) {
     structureLocalisation.createdBy = req.currentUser.id;
     structureLocalisation.createdAt = new Date();
-    structureLocalisation.id = await internalCatalog.getUniqueId('structures');
+    structureLocalisation.id = await catalog.getUniqueId('localisations', 15);
     structure.localisations = [structureLocalisation];
   }
   const structureWebsites = [];
@@ -101,7 +103,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       language: 'fr',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('weblinks', 15),
     });
   }
   if (payload.websiteEn) {
@@ -111,7 +113,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       language: 'en',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('weblinks', 15),
     });
   }
   const structureParents = [];
@@ -122,7 +124,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'idRef',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('weblinks', 15),
     });
   }
   if (payload.wikidata) {
@@ -131,7 +133,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'Wikidata',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('weblinks', 15),
     });
   }
   if (payload.uai) {
@@ -140,7 +142,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'UAI',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('identifiers', 15),
     });
   }
   if (payload.siret) {
@@ -149,7 +151,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'Siret',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('identifiers', 15),
     });
   }
   if (payload.rnsr) {
@@ -158,7 +160,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'Répertoire National des Sructures de Recherche (RNSR)',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('identifiers', 15),
     });
   }
   if (payload.ed) {
@@ -167,7 +169,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: "Numéro d'ED",
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('identifiers', 15),
     });
   }
   if (payload.ror) {
@@ -176,7 +178,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'ROR',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('identifiers', 15),
     });
   }
   const structureSocialMedias = [];
@@ -186,7 +188,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'twitter',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('social-medias', 15),
     });
   }
   if (payload.linkedIn) {
@@ -195,7 +197,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'linkedIn',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await internalCatalog.getUniqueId('structures'),
+      id: await catalog.getUniqueId('social-medias', 15),
     });
   }
   const structureCategories = [];
@@ -226,7 +228,7 @@ export const storeStructure = async (req, res, next) => {
     await structuresRepository.create(rest);
     if (identifiers?.length) {
       await identifiers.forEach(async (identifier) => {
-        await structureIdentifiersRepository.create({ ...identifier, resourceId });
+        await identifiersRepository.create({ ...identifier, resourceId });
       });
     }
     await session.endSession();

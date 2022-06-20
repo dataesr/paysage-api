@@ -1,42 +1,39 @@
 import express from 'express';
 import { patchContext, createContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import repository from './logos.repository';
-import { setFileInfo, saveFile, deleteFile } from './logos.middlewares';
-import config from '../structures.config';
+import { structureLogosRepository as repository } from '../../commons/repositories';
+import { setFileInfo, saveFile, deleteFile } from '../../commons/middlewares/files.middlewares';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
-import { readQuery } from './logos.queries';
-
-const { collection, logosField: field } = config;
-const collectionField = `${collection}-${field}`;
+import { readQuery } from '../../commons/queries/logos.queries';
+import { structures as resource, logos as subresource } from '../../resources';
 
 const router = new express.Router();
 
-router.route(`/${collection}/:resourceId/${field}`)
+router.route(`/${resource}/:resourceId/${subresource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
-    setGeneratedInternalIdInContext(collectionField),
-    setFileInfo,
+    setGeneratedInternalIdInContext(subresource),
+    setFileInfo(subresource),
     saveFile,
     controllers.create(repository, readQuery),
-    saveInStore(collectionField),
+    saveInStore(subresource),
   ]);
 
-router.route(`/${collection}/:resourceId/${field}/:id`)
+router.route(`/${resource}/:resourceId/${subresource}/:id`)
   .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
-    setFileInfo,
+    setFileInfo(subresource),
     saveFile,
     controllers.patch(repository, readQuery),
-    saveInStore(collectionField),
+    saveInStore(subresource),
   ])
   .delete([
     patchContext,
-    deleteFile,
+    deleteFile(subresource),
     controllers.remove(repository),
-    saveInStore(collectionField),
+    saveInStore(subresource),
   ]);
 
 export default router;
