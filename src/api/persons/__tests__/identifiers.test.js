@@ -1,8 +1,9 @@
+import { persons as resource, identifiers as subresource } from '../../resources';
+
 let authorization;
 let id;
 let resourceId;
 
-const collection = 'persons';
 const payload = {
   active: true,
   endDate: '2024-02-04',
@@ -14,7 +15,7 @@ const payload = {
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
   const { body } = await global.superapp
-    .post(`/${collection}`)
+    .post(`/${resource}`)
     .set('Authorization', authorization)
     .send({
       firstName: 'Jean',
@@ -26,7 +27,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   const { body } = await global.superapp
-    .post(`/${collection}/${resourceId}/identifiers`)
+    .post(`/${resource}/${resourceId}/${subresource}`)
     .set('Authorization', authorization)
     .send(payload)
     .expect(201);
@@ -36,7 +37,7 @@ beforeEach(async () => {
 afterEach(async () => {
   if (id) {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/identifiers/${id}`)
+      .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization);
   }
 });
@@ -44,7 +45,7 @@ afterEach(async () => {
 describe('API > persons > identifiers > create', () => {
   it('should create a new identifier', async () => {
     const { body } = await global.superapp
-      .post(`/${collection}/${resourceId}/identifiers`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
@@ -55,14 +56,14 @@ describe('API > persons > identifiers > create', () => {
     expect(body.createdBy.username).toBe('user');
 
     await global.superapp
-      .delete(`/${collection}/${resourceId}/identifiers/${body.id}`)
+      .delete(`/${resource}/${resourceId}/${subresource}/${body.id}`)
       .set('Authorization', authorization);
   });
 
   it('should throw bad request if type is missing', async () => {
     const { type, ...rest } = payload;
     await global.superapp
-      .post(`/${collection}/${resourceId}/identifiers`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -71,7 +72,7 @@ describe('API > persons > identifiers > create', () => {
   it('should throw bad request if value is missing', async () => {
     const { value, ...rest } = payload;
     await global.superapp
-      .post(`/${collection}/${resourceId}/identifiers`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -82,7 +83,7 @@ describe('API > persons > identifiers > update', () => {
   it('should update an existing identifier', async () => {
     const type = 'Wikidata';
     const { body } = await global.superapp
-      .patch(`/${collection}/${resourceId}/identifiers/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ type })
       .expect(200);
@@ -91,7 +92,7 @@ describe('API > persons > identifiers > update', () => {
 
   it('should throw bad request if id too short', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/identifiers/45frK`)
+      .patch(`/${resource}/${resourceId}/${subresource}/45frK`)
       .set('Authorization', authorization)
       .send({ type: 'Wikidata' })
       .expect(400);
@@ -99,7 +100,7 @@ describe('API > persons > identifiers > update', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/identifiers/45dlrt5d`)
+      .patch(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ type: 'Wikidata' })
       .expect(404);
@@ -107,7 +108,7 @@ describe('API > persons > identifiers > update', () => {
 
   it('should throw bad request with badly formatted payload', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/identifiers/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: 'Wikidata' })
       .expect(400);
@@ -115,7 +116,7 @@ describe('API > persons > identifiers > update', () => {
 
   it('should accept empty dates', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/identifiers/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: '' })
       .expect(200);
@@ -125,7 +126,7 @@ describe('API > persons > identifiers > update', () => {
 describe('API > persons > identifiers > read', () => {
   it('should read existing identifier', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers/${id}`)
+      .get(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(body.type).toBe(payload.type);
@@ -136,14 +137,14 @@ describe('API > persons > identifiers > read', () => {
 
   it('should throw bad request if id too short', async () => {
     await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers/265vty`)
+      .get(`/${resource}/${resourceId}/${subresource}/265vty`)
       .set('Authorization', authorization)
       .expect(400);
   });
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers/265gtr5d`)
+      .get(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -152,21 +153,21 @@ describe('API > persons > identifiers > read', () => {
 describe('API > persons > identifiers > delete', () => {
   it('should throw bad request if id too short', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/identifiers/vgy775`)
+      .delete(`/${resource}/${resourceId}/${subresource}/vgy775`)
       .set('Authorization', authorization)
       .expect(400);
   });
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/identifiers/775glrs5`)
+      .delete(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
 
   it('should delete existing identifier', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/identifiers/${id}`)
+      .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
@@ -175,7 +176,7 @@ describe('API > persons > identifiers > delete', () => {
 describe('API > persons > identifiers > list', () => {
   beforeAll(async () => {
     await global.superapp
-      .post(`/${collection}/${resourceId}/identifiers/`)
+      .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
         type: 'Siret',
@@ -185,7 +186,7 @@ describe('API > persons > identifiers > list', () => {
         endDate: '2014-12-31',
       });
     await global.superapp
-      .post(`/${collection}/${resourceId}/identifiers/`)
+      .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
         type: 'Wikidata',
@@ -195,7 +196,7 @@ describe('API > persons > identifiers > list', () => {
         endDate: '2014-12-31',
       });
     await global.superapp
-      .post(`/${collection}/${resourceId}/identifiers/`)
+      .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
         type: 'idRef',
@@ -209,14 +210,14 @@ describe('API > persons > identifiers > list', () => {
   beforeEach(async () => {
     if (id) {
       await global.superapp
-        .delete(`/${collection}/${resourceId}/identifiers/${id}`)
+        .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
         .set('Authorization', authorization);
     }
   });
 
   it('should list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers`)
+      .get(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(3);
@@ -227,7 +228,7 @@ describe('API > persons > identifiers > list', () => {
 
   it('should skip identifiers in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers?skip=1`)
+      .get(`/${resource}/${resourceId}/${subresource}?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.type);
@@ -239,7 +240,7 @@ describe('API > persons > identifiers > list', () => {
 
   it('should limit identifiers in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers?limit=1`)
+      .get(`/${resource}/${resourceId}/${subresource}?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.type);
@@ -250,7 +251,7 @@ describe('API > persons > identifiers > list', () => {
 
   it('should sort identifiers in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers?sort=value`)
+      .get(`/${resource}/${resourceId}/${subresource}?sort=value`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.value);
@@ -261,7 +262,7 @@ describe('API > persons > identifiers > list', () => {
 
   it('should reversely sort identifiers in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers?sort=-value`)
+      .get(`/${resource}/${resourceId}/${subresource}?sort=-value`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.value);
@@ -272,7 +273,7 @@ describe('API > persons > identifiers > list', () => {
 
   it('should filter identifiers in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/identifiers?filters[type]=Wikidata&filters[value]=wikidataID`)
+      .get(`/${resource}/${resourceId}/${subresource}?filters[type]=Wikidata&filters[value]=wikidataID`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.value);

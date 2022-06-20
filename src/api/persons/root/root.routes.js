@@ -1,39 +1,36 @@
 import express from 'express';
-
-import config from '../persons.config';
 import { patchContext, createContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from '../../commons/middlewares/validate.middlewares';
-import { readQuery } from './root.queries';
-import personsRepository from './root.repository';
-
-const { collection } = config;
+import { readQuery } from '../../commons/queries/persons.queries';
+import { personsRepository as repository } from '../../commons/repositories';
+import { persons as resource } from '../../resources';
 
 const router = new express.Router();
 
-router.route(`/${collection}`)
-  .get(controllers.list(personsRepository, readQuery))
+router.route(`/${resource}`)
+  .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(collection),
-    controllers.create(personsRepository, readQuery),
-    saveInStore(collection),
+    setGeneratedObjectIdInContext(resource),
+    controllers.create(repository, readQuery),
+    saveInStore(resource),
   ]);
 
-router.route(`/${collection}/:id`)
-  .get(controllers.read(personsRepository, readQuery))
+router.route(`/${resource}/:id`)
+  .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
     validatePayload,
-    controllers.patch(personsRepository, readQuery),
-    saveInStore(collection),
+    controllers.patch(repository, readQuery),
+    saveInStore(resource),
   ])
   .delete([
     patchContext,
-    controllers.remove(personsRepository),
-    saveInStore(collection),
+    controllers.remove(repository),
+    saveInStore(resource),
   ]);
 
 export default router;

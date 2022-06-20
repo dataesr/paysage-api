@@ -1,8 +1,9 @@
+import { structures as resource, emails as subresource } from '../../resources';
+
 let authorization;
 let id;
 let resourceId;
 
-const collection = 'structures';
 const payload = {
   type: 'Secrétariat',
   email: 'secretariat@univ.fr',
@@ -11,7 +12,7 @@ const payload = {
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
   const { body } = await global.superapp
-    .post(`/${collection}`)
+    .post(`/${resource}`)
     .set('Authorization', authorization)
     .send({
       structureStatus: 'active',
@@ -23,7 +24,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   const { body } = await global.superapp
-    .post(`/${collection}/${resourceId}/emails`)
+    .post(`/${resource}/${resourceId}/${subresource}`)
     .set('Authorization', authorization)
     .send(payload);
   id = body.id;
@@ -32,7 +33,7 @@ beforeEach(async () => {
 afterEach(async () => {
   if (id) {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/emails/${id}`)
+      .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization);
   }
 });
@@ -40,7 +41,7 @@ afterEach(async () => {
 describe('API > structures > emails > create', () => {
   it('should create a new email', async () => {
     const { body } = await global.superapp
-      .post(`/${collection}/${resourceId}/emails`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send(payload)
       .expect(201);
@@ -51,14 +52,14 @@ describe('API > structures > emails > create', () => {
     expect(body.createdBy.username).toBe('user');
 
     await global.superapp
-      .delete(`/${collection}/${resourceId}/emails/${body.id}`)
+      .delete(`/${resource}/${resourceId}/${subresource}/${body.id}`)
       .set('Authorization', authorization);
   });
 
   it('should throw bad request if type is missing', async () => {
     const { type, ...rest } = payload;
     await global.superapp
-      .post(`/${collection}/${resourceId}/emails`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -67,20 +68,20 @@ describe('API > structures > emails > create', () => {
   it('should accept whatever email type', async () => {
     const { type, ...rest } = payload;
     const { body } = await global.superapp
-      .post(`/${collection}/${resourceId}/emails`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send({ ...rest, type: 'whatevertype' })
       .expect(201);
 
     await global.superapp
-      .delete(`/${collection}/${resourceId}/emails/${body.id}`)
+      .delete(`/${resource}/${resourceId}/${subresource}/${body.id}`)
       .set('Authorization', authorization);
   });
 
   it('should throw bad request if email is missing', async () => {
     const { email, ...rest } = payload;
     await global.superapp
-      .post(`/${collection}/${resourceId}/emails`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
@@ -88,7 +89,7 @@ describe('API > structures > emails > create', () => {
 
   it('should throw bad request if email is malformed', async () => {
     await global.superapp
-      .post(`/${collection}/${resourceId}/emails`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send({ ...payload, email: 'not an email' })
       .expect(400);
@@ -99,7 +100,7 @@ describe('API > structures > emails > update', () => {
   it('should update an existing email', async () => {
     const type = 'Président';
     const { body } = await global.superapp
-      .patch(`/${collection}/${resourceId}/emails/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ type })
       .expect(200);
@@ -108,7 +109,7 @@ describe('API > structures > emails > update', () => {
 
   it('should throw bad request if id too short', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/emails/45frK`)
+      .patch(`/${resource}/${resourceId}/${subresource}/45frK`)
       .set('Authorization', authorization)
       .send({ type: 'Président' })
       .expect(400);
@@ -116,7 +117,7 @@ describe('API > structures > emails > update', () => {
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/emails/45dlrt5d`)
+      .patch(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ type: 'Président' })
       .expect(404);
@@ -124,7 +125,7 @@ describe('API > structures > emails > update', () => {
 
   it('should throw bad request with badly formatted payload', async () => {
     await global.superapp
-      .patch(`/${collection}/${resourceId}/emails/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ email: 'not an email' })
       .expect(400);
@@ -134,7 +135,7 @@ describe('API > structures > emails > update', () => {
 describe('API > structures > emails > read', () => {
   it('should read existing email', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/emails/${id}`)
+      .get(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(body.type).toBe(payload.type);
@@ -144,14 +145,14 @@ describe('API > structures > emails > read', () => {
 
   it('should throw bad request if id too short', async () => {
     await global.superapp
-      .get(`/${collection}/${resourceId}/emails/265vty`)
+      .get(`/${resource}/${resourceId}/${subresource}/265vty`)
       .set('Authorization', authorization)
       .expect(400);
   });
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .get(`/${collection}/${resourceId}/emails/265gtr5d`)
+      .get(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -160,21 +161,21 @@ describe('API > structures > emails > read', () => {
 describe('API > structures > emails > delete', () => {
   it('should throw bad request if id too short', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/emails/vgy775`)
+      .delete(`/${resource}/${resourceId}/${subresource}/vgy775`)
       .set('Authorization', authorization)
       .expect(400);
   });
 
   it('should throw not found if unexisting id', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/emails/775glrs5`)
+      .delete(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
 
   it('should delete existing email', async () => {
     await global.superapp
-      .delete(`/${collection}/${resourceId}/emails/${id}`)
+      .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
@@ -183,15 +184,15 @@ describe('API > structures > emails > delete', () => {
 describe('API > structures > emails > list', () => {
   beforeAll(async () => {
     await global.superapp
-      .post(`/${collection}/${resourceId}/emails/`)
+      .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send(payload);
     await global.superapp
-      .post(`/${collection}/${resourceId}/emails/`)
+      .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({ type: 'Président', email: 'pres@univ.fr' });
     await global.superapp
-      .post(`/${collection}/${resourceId}/emails/`)
+      .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({ type: 'Vice-président', email: 'vicepres@univ.fr' });
   });
@@ -199,14 +200,14 @@ describe('API > structures > emails > list', () => {
   beforeEach(async () => {
     if (id) {
       await global.superapp
-        .delete(`/${collection}/${resourceId}/emails/${id}`)
+        .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
         .set('Authorization', authorization);
     }
   });
 
   it('should list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/emails`)
+      .get(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(3);
@@ -217,7 +218,7 @@ describe('API > structures > emails > list', () => {
 
   it('should skip emails in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/emails?skip=1`)
+      .get(`/${resource}/${resourceId}/${subresource}?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.type);
@@ -229,7 +230,7 @@ describe('API > structures > emails > list', () => {
 
   it('should limit emails in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/emails?limit=1`)
+      .get(`/${resource}/${resourceId}/${subresource}?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.type);
@@ -240,7 +241,7 @@ describe('API > structures > emails > list', () => {
 
   it('should sort emails in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/emails?sort=email`)
+      .get(`/${resource}/${resourceId}/${subresource}?sort=email`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.email);
@@ -251,7 +252,7 @@ describe('API > structures > emails > list', () => {
 
   it('should reversely sort emails in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/emails?sort=-email`)
+      .get(`/${resource}/${resourceId}/${subresource}?sort=-email`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.email);
@@ -262,7 +263,7 @@ describe('API > structures > emails > list', () => {
 
   it('should filter emails in list', async () => {
     const { body } = await global.superapp
-      .get(`/${collection}/${resourceId}/emails?filters[type]=Président`)
+      .get(`/${resource}/${resourceId}/${subresource}?filters[type]=Président`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.email);

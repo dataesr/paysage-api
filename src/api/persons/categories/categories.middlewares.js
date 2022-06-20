@@ -1,5 +1,5 @@
 import { BadRequestError } from '../../commons/http-errors';
-import categoriesRepository from '../../categories/root/root.repository';
+import { categoriesRepository } from '../../commons/repositories';
 
 export function setPersonIdFromRequestPath(req, res, next) {
   const { resourceId } = req.params;

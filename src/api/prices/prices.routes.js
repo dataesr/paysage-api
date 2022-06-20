@@ -4,36 +4,34 @@ import { saveInStore } from '../commons/middlewares/event.middlewares';
 import { validatePayload } from './prices.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 
-import { readQuery } from './prices.queries';
-import pricesRepository from './prices.repository';
-import config from './prices.config';
-
-const { collection } = config;
+import { readQuery } from '../commons/queries/prices.queries';
+import { pricesRepository as repository } from '../commons/repositories';
+import { prices as resource } from '../resources';
 
 const router = new express.Router();
 
-router.route(`/${collection}`)
-  .get(controllers.list(pricesRepository, readQuery))
+router.route(`/${resource}`)
+  .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(collection),
-    controllers.create(pricesRepository, readQuery),
-    saveInStore(collection),
+    setGeneratedObjectIdInContext(resource),
+    controllers.create(repository, readQuery),
+    saveInStore(resource),
   ]);
 
-router.route(`/${collection}/:id`)
-  .get(controllers.read(pricesRepository, readQuery))
+router.route(`/${resource}/:id`)
+  .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
     validatePayload,
-    controllers.patch(pricesRepository, readQuery),
-    saveInStore(collection),
+    controllers.patch(repository, readQuery),
+    saveInStore(resource),
   ])
   .delete([
     patchContext,
-    controllers.remove(pricesRepository),
-    saveInStore(collection),
+    controllers.remove(repository),
+    saveInStore(resource),
   ]);
 
 export default router;

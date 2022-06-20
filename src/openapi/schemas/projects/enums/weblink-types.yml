@@ -1,0 +1,4 @@
+description: Valeurs possibles pour un type de lien web d'un projet.
+type: string
+enum:
+  - website

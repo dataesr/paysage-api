@@ -1,0 +1,141 @@
+/projects/{projectId}/localisations:
+  get:
+    tags:
+      - Projets - Localisations
+    summary: Lister les localisations d'un projet
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/projectId'
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/Localisation'
+                totalCount:
+                  type: number
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Projets - Localisations
+    summary: Ajouter une localisation au projet
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/projectId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: ProjectLocalisationCreatePayload
+            required:
+              - 'country'
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/LocalisationPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Localisation'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+/projects/{projectId}/localisations/{localisationId}:
+  get:
+    tags:
+      - Projets - Localisations
+    summary: Obtenir le détail d'une localisation de projet
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/projectId'
+      - $ref: '../../api.yml#/components/parameters/localisationId'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Localisation'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Projets - Localisations
+    summary: Retirer une localisation du projet
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/projectId'
+      - $ref: '../../api.yml#/components/parameters/localisationId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  patch:
+    tags:
+      - Projets - Localisations
+    summary: Modifier une localisation du projet
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/projectId'
+      - $ref: '../../api.yml#/components/parameters/localisationId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../../api.yml#/components/schemas/LocalisationPayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Localisation'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

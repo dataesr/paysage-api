@@ -1,3 +1,5 @@
+import { structures as resource, categories as subresource } from '../../resources';
+
 let authorization;
 let cid;
 let id;
@@ -11,7 +13,7 @@ const categoryLink = {
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
   const structure = await global.superapp
-    .post('/structures')
+    .post(`/${resource}`)
     .set('Authorization', authorization)
     .send({
       structureStatus: 'active',
@@ -20,7 +22,7 @@ beforeAll(async () => {
     })
     .expect(201);
   const category = await global.superapp
-    .post('/categories')
+    .post(`/${subresource}`)
     .set('Authorization', authorization)
     .send({ usualNameFr: 'Catégorie' })
     .expect(201);
@@ -32,7 +34,7 @@ beforeAll(async () => {
 describe('API > structures > categories > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
-      .post(`/structures/${resourceId}/categories`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send({ categoryId: cid, ...categoryLink })
       .expect(201);
@@ -42,7 +44,7 @@ describe('API > structures > categories > create', () => {
 
   it('should accept approximate date with only year and month', async () => {
     const { body } = await global.superapp
-      .post(`/structures/${resourceId}/categories`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send({ ...categoryLink, startDate: '2000-02' })
       .expect(201);
@@ -52,7 +54,7 @@ describe('API > structures > categories > create', () => {
 
   it('should accept approximate date with only year', async () => {
     const { body } = await global.superapp
-      .post(`/structures/${resourceId}/categories`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send({ ...categoryLink, startDate: '2000' })
       .expect(201);
@@ -62,7 +64,7 @@ describe('API > structures > categories > create', () => {
 
   it('should throw a BadRequest error if date is malformed', async () => {
     const response = await global.superapp
-      .post(`/structures/${resourceId}/categories`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send({ ...categoryLink, startDate: '20' });
     expect(response.status).toBe(400);
@@ -73,7 +75,7 @@ describe('API > structures > categories > create', () => {
 describe('API > structures > categories > update', () => {
   beforeAll(async () => {
     const { body } = await global.superapp
-      .post(`/structures/${resourceId}/categories`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send({ categoryId: cid, ...categoryLink });
     id = body.id;
@@ -81,7 +83,7 @@ describe('API > structures > categories > update', () => {
 
   it('can update successfully', async () => {
     const { body } = await global.superapp
-      .patch(`/structures/${resourceId}/categories/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: '2017-01-01' })
       .expect(200);
@@ -89,28 +91,28 @@ describe('API > structures > categories > update', () => {
   });
   it('throws bad request with malformed id', async () => {
     await global.superapp
-      .patch(`/structures/${resourceId}/categories/45frK`)
+      .patch(`/${resource}/${resourceId}/${subresource}/45frK`)
       .set('Authorization', authorization)
       .send({ startDate: '2017-01-01' })
       .expect(400);
   });
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/structures/${resourceId}/categories/45skrc65`)
+      .patch(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .send({ startDate: '2017-01-01' })
       .expect(404);
   });
   it('throws with wrong data', async () => {
     await global.superapp
-      .patch(`/structures/${resourceId}/categories/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: 'string' })
       .expect(400);
   });
   it('can empty dates', async () => {
     const { body } = await global.superapp
-      .patch(`/structures/${resourceId}/categories/${id}`)
+      .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ startDate: '' })
       .expect(200);
@@ -121,7 +123,7 @@ describe('API > structures > categories > update', () => {
 describe('API > structures > categories > read', () => {
   beforeAll(async () => {
     const { body } = await global.superapp
-      .post(`/structures/${resourceId}/categories`)
+      .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .send({ categoryId: cid, ...categoryLink });
     id = body.id;
@@ -129,7 +131,7 @@ describe('API > structures > categories > read', () => {
 
   it('can read successfully', async () => {
     const { body } = await global.superapp
-      .get(`/structures/${resourceId}/categories/${id}`)
+      .get(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     expect(body.id).toBe(id);
@@ -139,13 +141,13 @@ describe('API > structures > categories > read', () => {
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .get(`/structures/${resourceId}/categories/265vty`)
+      .get(`/${resource}/${resourceId}/${subresource}/265vty`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/structures/${resourceId}/categories/265fkrld`)
+      .get(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -154,19 +156,19 @@ describe('API > structures > categories > read', () => {
 describe('API > structures > names > delete', () => {
   it('throws bad request with wrong id', async () => {
     await global.superapp
-      .delete(`/structures/${resourceId}/categories/vgy775`)
+      .delete(`/${resource}/${resourceId}/${subresource}/vgy775`)
       .set('Authorization', authorization)
       .expect(400);
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .delete(`/structures/${resourceId}/categories/775flrks`)
+      .delete(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
       .expect(404);
   });
   it('can delete successfully', async () => {
     await global.superapp
-      .delete(`/structures/${resourceId}/categories/${id}`)
+      .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(204);
   });
