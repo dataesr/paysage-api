@@ -39,7 +39,11 @@
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/EmailTypePayload'
+            title: EmailTypePayload
+            required:
+              - usualName
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/EmailTypePayload'
     responses:
       '201':
         description: Created
@@ -95,6 +99,8 @@
     responses:
       '204':
         description: No content
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
