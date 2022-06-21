@@ -3,7 +3,7 @@ import { createContext, patchContext, setGeneratedInternalIdInContext } from '..
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload, setPersonIdFromRequestPath } from './categories.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import { readQuery } from '../../commons/queries/object-categories.queries';
+import readQuery from '../../commons/queries/object-categories.query';
 import { relationshipsRepository as repository } from '../../commons/repositories';
 import { persons as resource, categories as subresource } from '../../resources';
 

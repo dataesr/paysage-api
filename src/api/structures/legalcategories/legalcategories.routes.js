@@ -5,7 +5,7 @@ import { createContext, patchContext, setGeneratedInternalIdInContext } from '..
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { relationshipsRepository as repository } from '../../commons/repositories';
-import { readQuery } from '../../commons/queries/object-legalcategories.queries';
+import readQuery from '../../commons/queries/object-legalcategories.query';
 import { structures as resource, legalcategories as subresource } from '../../resources';
 
 const router = new express.Router();

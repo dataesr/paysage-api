@@ -4,7 +4,7 @@ import { patchContext, createContext, setGeneratedObjectIdInContext } from '../.
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from '../../commons/middlewares/validate.middlewares';
-import { readQuery } from '../../commons/queries/projects.queries';
+import readQuery from '../../commons/queries/projects.query';
 import { projectsRepository as repository } from '../../commons/repositories';
 import { projects as resource } from '../../resources';
 

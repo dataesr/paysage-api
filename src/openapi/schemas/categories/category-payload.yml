@@ -44,29 +44,14 @@ properties:
     type: string
     nullable: true
     description: Description en français
-  inseeCode:
-    type: string
-    nullable: true
-  sector:
-    type: string
-    nullable: true
-  inPublicResearch:
-    type: boolean
-    nullable: true
   comment:
     type: string
     nullable: true
-  isLegalCategory:
-    type: boolean
-    nullable: true
-  officialTextId:
+  creationOfficialTextId:
     type: string
-    nullable: true
-    writeOnly: true
-  parentIds:
-    type: array
-    nullable: true
-    writeOnly: true
-    description: Liste d'identifiant de catégories parente
-    items:
-      type: string
+    description: Identifiant d'un texte officiel justifiant de l'ouverture de la catégorie
+    pattern: '^[a-zA-Z0-9]{5}$'
+  closureOfficialTextId:
+    type: string
+    description: Identifiant d'un texte officiel justifiant de la fermeture de la catégorie
+    pattern: '^[a-zA-Z0-9]{5}$'

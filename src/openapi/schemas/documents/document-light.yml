@@ -5,6 +5,8 @@ properties:
     type: string
     pattern: '^[a-zA-Z0-9]{15}$'
     readOnly: true
+  documentType:
+    $ref: ../../api.yml#/components/schemas/DocumentTypeLight
   url:
     type: string
     format: uri
@@ -17,3 +19,11 @@ properties:
   description:
     type: string
     nullable: true
+  startDate:
+    nullable: true
+    type: string
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+  endDate:
+    nullable: true
+    type: string
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'

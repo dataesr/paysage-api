@@ -3,7 +3,7 @@ import express from 'express';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import { readQuery } from '../../commons/queries/weblinks.queries';
+import readQuery from '../../commons/queries/weblinks.query';
 import { validatePayload } from './weblinks.middlewares';
 import { weblinksRepository as repository } from '../../commons/repositories';
 import { projects as resource, weblinks as subresource } from '../../resources';

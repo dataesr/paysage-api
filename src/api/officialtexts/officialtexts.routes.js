@@ -3,8 +3,8 @@ import { patchContext, createContext, setGeneratedInternalIdInContext } from '..
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 import { validatePayload } from './officialtext.middlewares';
+import readQuery from '../commons/queries/officialtexts.query';
 import { officialtextsRepository as repository } from '../commons/repositories';
-import { readQuery } from '../commons/queries/officialtexts.queries';
 import { officialtexts as resource } from '../resources';
 
 const router = new express.Router();

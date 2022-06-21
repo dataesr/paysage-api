@@ -13,9 +13,11 @@ allOf:
         readOnly: true
         description: Unique parent resource identifier
         pattern: '^[a-zA-Z0-9]{5}$'
-      type:
+      emailTypeId:
         type: string
+      emailType:
+        $ref: ../../api.yml#/components/schemas/EmailTypeLight
       email:
         type: string
         format: email
-  - $ref: '../../api.yml#/components/schemas/Metas'
+  - $ref: ../../api.yml#/components/schemas/Metas

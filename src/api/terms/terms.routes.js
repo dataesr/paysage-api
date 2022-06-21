@@ -3,7 +3,7 @@ import { patchContext, createContext, setGeneratedObjectIdInContext } from '../c
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import { validatePayload } from './terms.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
-import { readQuery } from '../commons/queries/terms.queries';
+import readQuery from '../commons/queries/terms.query';
 import { termsRepository as repository } from '../commons/repositories';
 import { terms as resource } from '../resources';
 
