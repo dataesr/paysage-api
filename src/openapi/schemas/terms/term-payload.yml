@@ -40,7 +40,7 @@ properties:
   descriptionEn:
     type: string
     nullable: true
-  otherName:
+  otherNames:
     type: array
     description: Autres intitulés
     nullable: true

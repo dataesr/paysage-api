@@ -1,6 +1,6 @@
 import { BadRequestError } from '../../commons/http-errors';
 import { structureLocalisationsRepository } from '../../commons/repositories';
-import { readQuery } from '../../commons/queries/localisations.queries';
+import readQuery from '../../commons/queries/localisations.query';
 
 export function setGeoJSON(req, res, next) {
   const { coordinates, ...rest } = req.body;

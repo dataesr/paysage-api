@@ -4,7 +4,7 @@ import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { structureLogosRepository as repository } from '../../commons/repositories';
 import { setFileInfo, saveFile, deleteFile } from '../../commons/middlewares/files.middlewares';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
-import { readQuery } from '../../commons/queries/logos.queries';
+import readQuery from '../../commons/queries/logos.query';
 import { structures as resource, logos as subresource } from '../../resources';
 
 const router = new express.Router();

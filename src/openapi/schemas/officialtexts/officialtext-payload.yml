@@ -7,8 +7,14 @@ properties:
     $ref: ../../api.yml#/components/schemas/OfficialTextNaturesEnum
   type:
     $ref: ../../api.yml#/components/schemas/OfficialTextTypesEnum
-  textNumber:
+  jorftext:
+        type: string
+        description: le numero jorftext pour les publications au JO
+        nullable: true
+  nor:
     type: string
+    description: le numero NOR (système normalisé de numérotation des textes officiels publiés en France) du texte officiel
+    nullable: true
   title:
     type: string
   pageUrl:

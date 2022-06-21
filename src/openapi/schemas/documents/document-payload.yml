@@ -2,6 +2,10 @@ title: DocumentPayload
 description: Modèle de creation et d'update d'un document
 type: object
 properties:
+  documentTypeId:
+    type: string
+    pattern: ^[a-zA-Z0-9]{5}$
+    description: Un identifiant de type de document
   title:
     type: string
   description:
@@ -11,3 +15,27 @@ properties:
     writeOnly: true
     type: string
     format: binary
+  startDate:
+    nullable: true
+    type: string
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+  endDate:
+    nullable: true
+    type: string
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))' 
+  canRead:
+    type: array
+    items:
+      type: string
+      description: Une liste d'utilisateur ou de groupe d'utilisateur Paysage authorisés à voir le document
+  canEdit:
+    type: array
+    items:
+      type: string
+      description: Une liste d'utilisateur ou de groupe d'utilisateur Paysage authorisés à éditer le document
+  relatesTo:
+    type: array
+    description: Une liste d'objets Paysage qui sont liés au document
+    items:
+      type: string
+      pattern: ^[a-zA-Z0-9]{5}$

@@ -1,16 +1,23 @@
-import { structures as resource, emails as subresource } from '../../resources';
+import {
+  structures as resource,
+  emails as subresource,
+  emailtypes,
+} from '../../resources';
 
 let authorization;
 let id;
 let resourceId;
-
-const payload = {
-  type: 'Secrétariat',
-  email: 'secretariat@univ.fr',
-};
+let emailTypeId;
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
+  const { body: emailTypeBody } = await global.superapp
+    .post(`/${emailtypes}`)
+    .set('Authorization', authorization)
+    .send({
+      usualName: 'Président',
+      otherNames: ['Presidence'],
+    });
   const { body } = await global.superapp
     .post(`/${resource}`)
     .set('Authorization', authorization)
@@ -19,6 +26,7 @@ beforeAll(async () => {
       creationDate: '2021-02',
       usualName: 'Université',
     });
+  emailTypeId = emailTypeBody.id;
   resourceId = body.id;
 });
 
@@ -26,7 +34,10 @@ beforeEach(async () => {
   const { body } = await global.superapp
     .post(`/${resource}/${resourceId}/${subresource}`)
     .set('Authorization', authorization)
-    .send(payload);
+    .send({
+      emailTypeId,
+      email: 'secretariat@univ.fr',
+    });
   id = body.id;
 });
 
@@ -43,12 +54,12 @@ describe('API > structures > emails > create', () => {
     const { body } = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send(payload)
+      .send({ emailTypeId, email: 'secretariat@univ.fr' })
       .expect(201);
     expect(body.id).toBeTruthy();
     expect(body.resourceId).toBe(resourceId);
-    expect(body.type).toBe(payload.type);
-    expect(body.email).toBe(payload.email);
+    expect(body.emailType.id).toBe(emailTypeId);
+    expect(body.email).toBe('secretariat@univ.fr');
     expect(body.createdBy.username).toBe('user');
 
     await global.superapp
@@ -57,33 +68,18 @@ describe('API > structures > emails > create', () => {
   });
 
   it('should throw bad request if type is missing', async () => {
-    const { type, ...rest } = payload;
     await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send(rest)
+      .send({ email: 'secretariat@univ.fr' })
       .expect(400);
   });
 
-  it('should accept whatever email type', async () => {
-    const { type, ...rest } = payload;
-    const { body } = await global.superapp
-      .post(`/${resource}/${resourceId}/${subresource}`)
-      .set('Authorization', authorization)
-      .send({ ...rest, type: 'whatevertype' })
-      .expect(201);
-
-    await global.superapp
-      .delete(`/${resource}/${resourceId}/${subresource}/${body.id}`)
-      .set('Authorization', authorization);
-  });
-
   it('should throw bad request if email is missing', async () => {
-    const { email, ...rest } = payload;
     await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send(rest)
+      .send({ emailTypeId })
       .expect(400);
   });
 
@@ -91,27 +87,27 @@ describe('API > structures > emails > create', () => {
     await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send({ ...payload, email: 'not an email' })
+      .send({ emailTypeId, email: 'not an email' })
       .expect(400);
   });
 });
 
 describe('API > structures > emails > update', () => {
   it('should update an existing email', async () => {
-    const type = 'Président';
+    const email = 'test@test.com';
     const { body } = await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
-      .send({ type })
+      .send({ email })
       .expect(200);
-    expect(body.type).toBe(type);
+    expect(body.email).toBe(email);
   });
 
   it('should throw bad request if id too short', async () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45frK`)
       .set('Authorization', authorization)
-      .send({ type: 'Président' })
+      .send({ email: 'test@test.com' })
       .expect(400);
   });
 
@@ -119,7 +115,7 @@ describe('API > structures > emails > update', () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
-      .send({ type: 'Président' })
+      .send({ email: 'test@test.com' })
       .expect(404);
   });
 
@@ -138,8 +134,9 @@ describe('API > structures > emails > read', () => {
       .get(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
-    expect(body.type).toBe(payload.type);
-    expect(body.email).toBe(payload.email);
+    expect(body.emailType.id).toBe(emailTypeId);
+    expect(body.emailType.usualName).toBe('Président');
+    expect(body.email).toBe('secretariat@univ.fr');
     expect(body.createdBy.username).toBe('user');
   });
 
@@ -186,15 +183,15 @@ describe('API > structures > emails > list', () => {
     await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
-      .send(payload);
+      .send({ emailTypeId, email: 'secretariat@univ.fr' });
     await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
-      .send({ type: 'Président', email: 'pres@univ.fr' });
+      .send({ emailTypeId, email: 'secretariat1@univ.fr' });
     await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
-      .send({ type: 'Vice-président', email: 'vicepres@univ.fr' });
+      .send({ emailTypeId, email: 'secretariat2@univ.fr' });
   });
 
   beforeEach(async () => {
@@ -209,11 +206,11 @@ describe('API > structures > emails > list', () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization);
-    const docs = body.data.map((doc) => doc.type);
+    const docs = body.data.map((doc) => doc.email);
     expect(docs).toHaveLength(3);
-    expect(docs).toContain('Secrétariat');
-    expect(docs).toContain('Président');
-    expect(docs).toContain('Vice-président');
+    expect(docs).toContain('secretariat@univ.fr');
+    expect(docs).toContain('secretariat1@univ.fr');
+    expect(docs).toContain('secretariat2@univ.fr');
   });
 
   it('should skip emails in list', async () => {
@@ -221,10 +218,10 @@ describe('API > structures > emails > list', () => {
       .get(`/${resource}/${resourceId}/${subresource}?skip=1`)
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.type);
+    const docs = body.data.map((doc) => doc.email);
     expect(docs).toHaveLength(2);
-    expect(docs).toContain('Président');
-    expect(docs).toContain('Vice-président');
+    expect(docs).toContain('secretariat1@univ.fr');
+    expect(docs).toContain('secretariat2@univ.fr');
     expect(body.totalCount).toBe(3);
   });
 
@@ -233,9 +230,9 @@ describe('API > structures > emails > list', () => {
       .get(`/${resource}/${resourceId}/${subresource}?limit=1`)
       .set('Authorization', authorization)
       .expect(200);
-    const docs = body.data.map((doc) => doc.type);
+    const docs = body.data.map((doc) => doc.email);
     expect(docs).toHaveLength(1);
-    expect(docs).toContain('Secrétariat');
+    expect(docs).toContain('secretariat@univ.fr');
     expect(body.totalCount).toBe(3);
   });
 
@@ -246,7 +243,7 @@ describe('API > structures > emails > list', () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.email);
     expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('pres@univ.fr');
+    expect(docs[0]).toBe('secretariat1@univ.fr');
     expect(body.totalCount).toBe(3);
   });
 
@@ -257,18 +254,7 @@ describe('API > structures > emails > list', () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.email);
     expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('vicepres@univ.fr');
+    expect(docs[0]).toBe('secretariat@univ.fr');
     expect(body.totalCount).toBe(3);
-  });
-
-  it('should filter emails in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?filters[type]=Président`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.email);
-    expect(docs).toHaveLength(1);
-    expect(docs).toContain('pres@univ.fr');
-    expect(body.totalCount).toBe(1);
   });
 });

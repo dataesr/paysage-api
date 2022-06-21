@@ -4,7 +4,7 @@ import { createContext, patchContext, setGeneratedInternalIdInContext } from '..
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
 import { structureLocalisationsRepository as repository } from '../../commons/repositories';
-import { readQuery } from '../../commons/queries/localisations.queries';
+import readQuery from '../../commons/queries/localisations.query';
 import { setGeoJSON, validatePhoneNumber } from './localisations.middlewares';
 import { structures as resource, localisations as subresource } from '../../resources';
 
