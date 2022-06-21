@@ -8,7 +8,7 @@ export async function validatePayload(req, res, next) {
 
 export async function canDelete(req, res, next) {
   const { id } = req.params;
-  const { totalCo: referenceCount } = await documentsRepository.find({ documentTypeId: id });
+  const { totalCount: referenceCount } = await documentsRepository.find({ filters: { documentTypeId: id } });
   if (referenceCount) {
     throw new BadRequestError(
       'Cannot delete a referenced object',
