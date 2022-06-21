@@ -1,10 +1,13 @@
 description: Accepted values of the web link type of a structure
 type: string
 enum:
+  - Actualités
   - CanalU
+  - Catalogue de formations
   - DataGouvFr
   - EdCF
   - EducPros
+  - Espace presse
   - Hal
   - hceres
   - IUF
@@ -14,9 +17,17 @@ enum:
   - OE2
   - OE3
   - Onisep
+  - Page avec le lien vers l'organigramme
+  - Page bilan social
+  - Page histoire
+  - Page liste des composantes
+  - Page rapport d'activité
+  - Photothèque
   - POpenData
   - scanR
+  - Service communication
   - ServicePublic
+  - Services généraux
   - TalentCNRS
   - TheConversation
   - website
@@ -25,14 +36,4 @@ enum:
   - websiteGovernance
   - websiteOrganizationChart
   - websiteRss
-  - Services généraux
-  - Service communication
-  - Page bilan social
-  - Page avec le lien vers l'organigramme
-  - Page rapport d'activité
-  - Espace presse
-  - Actualités
-  - Catalogue de formations
-  - Page liste des composantes
-  - Page histoire
-  - Photothèque
+  - Wikipedia
