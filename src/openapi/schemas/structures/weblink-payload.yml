@@ -9,6 +9,5 @@ properties:
     format: uri
   language:
     type: string
-    description: Language of the web link on 2 letters
-    pattern: '^[a-zA-Z]{2}$'
+    description: Language of the web link
     nullable: true
