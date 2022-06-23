@@ -7,15 +7,9 @@ allOf:
       id:
         type: string
         pattern: '^[a-zA-Z0-9]{5}$'
-      parents:
-        type: array
-        items:
-          $ref: './category-light.yml'
-      childs:
-        type: array
-        items:
-          $ref: '../../api.yml#/components/schemas/CategoryLight'
-      officialText:
+      creationOfficialText:
+        $ref: '../../api.yml#/components/schemas/OfficialText'
+      closureOfficialText:
         $ref: '../../api.yml#/components/schemas/OfficialText'
       usualNameFr:
         type: string
@@ -58,30 +52,21 @@ allOf:
         type: string
         nullable: true
         description: Description en français
-      inseeCode:
-        type: string
-        nullable: true
-      sector:
-        type: string
-        nullable: true
-      inPublicResearch:
-        type: boolean
-        nullable: true
       comment:
         type: string
         nullable: true
-      isLegalCategory:
-        type: boolean
-        nullable: true
-      officialTextId:
+      priority:
+        type: integer
+        minimum: 1
+        maximum: 99
+        description: |
+          Un ordre de priorité d'affichage de la catégorie.
+          La priorité maximal est 1. La priorité minimale est 99.
+          Valeur par default: 99.
+      creationOfficialTextId:
         type: string
         nullable: true
-        writeOnly: true
-      parentIds:
-        type: array
+      closureOfficialTextId:
+        type: string
         nullable: true
-        writeOnly: true
-        description: Liste d'identifiants de catégories parentes
-        items:
-          type: string
   - $ref: '../../api.yml#/components/schemas/Metas'

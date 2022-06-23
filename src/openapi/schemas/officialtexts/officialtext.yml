@@ -11,8 +11,14 @@ allOf:
         $ref: ../../api.yml#/components/schemas/OfficialTextNaturesEnum
       type:
         $ref: ../../api.yml#/components/schemas/OfficialTextTypesEnum
-      textNumber:
+      jorftext:
         type: string
+        description: le numero jorftext pour les publications au JO
+        nullable: true
+      nor:
+        type: string
+        description: le numero NOR (système normalisé de numérotation des textes officiels publiés en France) du texte officiel
+        nullable: true
       title:
         type: string
       pageUrl:
@@ -66,10 +72,10 @@ allOf:
         type: array
         items:
           $ref: ../../api.yml#/components/schemas/PriceLight
-      # relatedProjects:
-      #   type: array
-      #   items:
-      #     $ref: ../../api.yml#/components/schemas/ProjectLight
+      relatedProjects:
+        type: array
+        items:
+          $ref: ../../api.yml#/components/schemas/ProjectLight
       relatedTerms:
         type: array
         items:

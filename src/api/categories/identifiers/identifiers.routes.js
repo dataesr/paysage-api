@@ -4,7 +4,7 @@ import { createContext, patchContext, setGeneratedInternalIdInContext } from '..
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { identifiersRepository as repository } from '../../commons/repositories';
-import { readQuery } from '../../commons/queries/identifiers.queries';
+import readQuery from '../../commons/queries/identifiers.query';
 import {
   categories as resource,
   identifiers as subresource,

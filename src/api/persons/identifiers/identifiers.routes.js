@@ -4,7 +4,7 @@ import { createContext, patchContext, setGeneratedInternalIdInContext } from '..
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { personsRepository as repository } from '../../commons/repositories';
-import { readQuery } from '../../commons/queries/identifiers.queries';
+import readQuery from '../../commons/queries/identifiers.query';
 import { persons as resource, identifiers as subresource } from '../../resources';
 
 const router = new express.Router();

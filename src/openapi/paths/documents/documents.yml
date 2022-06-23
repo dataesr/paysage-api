@@ -39,7 +39,13 @@
       content:
         multipart/form-data:
           schema:
-            $ref: '../../api.yml#/components/schemas/DocumentPayload'
+            title: PersonIdentifierPayLoad
+            type: object
+            required:
+              - documentTypeId
+              - file
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/DocumentPayload'
     responses:
       '201':
         description: Created

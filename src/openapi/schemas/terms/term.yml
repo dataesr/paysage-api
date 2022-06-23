@@ -1,50 +1,72 @@
-description: Représentation détaillée d'un terme
-readOnly: true
-allOf: 
+type: object
+required:
+  - id
+allOf:
   - type: object
     properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      creationOfficialText:
+        $ref: '../../api.yml#/components/schemas/OfficialText'
+      closureOfficialText:
+        $ref: '../../api.yml#/components/schemas/OfficialText'
       usualNameFr:
         type: string
-        description: Nom usuel en francais
-        nullable: true
       usualNameEn:
         type: string
-        description: Nom usuel en anglais
-        nullable: true
-      pluralNameFr:
-        type: string
-        description: Forme du nom usuel français au pluriel
-        nullable: true
-      pluralNameEn:
-        type: string
-        description: Forme du nom usuel anglais au pluriel
-        nullable: true
-      shortNameFr:
-        type: string
-        description: Nom court en français
         nullable: true
       shortNameEn:
         type: string
-        description: Nom court en anglais
         nullable: true
+        description: Nom court en anglais
+      shortNameFr:
+        type: string
+        nullable: true
+        description: Nom court en français
       acronymFr:
         type: string
+        nullable: true
         description: Sigle en français
-        nullable: true
-      acronymEn:
+      pluralNameFr:
         type: string
-        description: Sigle en anglais
         nullable: true
+        description: Forme du nom usuel français au pluriel
+      otherNamesFr:
+        type: array
+        nullable: true
+        description: Autres intitulés français
+        items:
+          type: string
+      otherNamesEn:
+        type: array
+        nullable: true
+        description: Autres intitulés anglais
+        items:
+          type: string
       descriptionFr:
         type: string
         nullable: true
+        description: Description en français
       descriptionEn:
         type: string
         nullable: true
-      otherName:
-        type: array
-        description: Autres intitulés
+        description: Description en français
+      comment:
+        type: string
         nullable: true
-        items:
-          type: string
+      priority:
+        type: integer
+        minimum: 1
+        maximum: 99
+        description: |
+          Un ordre de priorité d'affichage d'un terme.
+          La priorité maximal est 1. La priorité minimale est 99.
+          Valeur par default: 99.
+      creationOfficialTextId:
+        type: string
+        nullable: true
+      closureOfficialTextId:
+        type: string
+        nullable: true
   - $ref: '../../api.yml#/components/schemas/Metas'

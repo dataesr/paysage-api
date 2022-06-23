@@ -17,6 +17,21 @@ servers:
     description: Development server
 
 tags:
+  - name: Catégories
+  - name: Catégories juridiques
+  - name: Catégories - Identifiants
+  - name: Catégories - Liens web
+  - name: Catégories - Médias sociaux
+  - name: Documents
+  - name: Personnes
+  - name: Personnes - Identifiants
+  - name: Personnes - Médias sociaux
+  - name: Personnes - Liens web
+  - name: Personnes - Catégories
+  - name: Prix scientifiques
+  - name: Projets
+  - name: Projets - Liens web
+  - name: Projets - Localisations
   - name: Structures
   - name: Structures - Noms
   - name: Structures - Identifiants
@@ -27,23 +42,12 @@ tags:
   - name: Structures - Catégories
   - name: Structures - Status juridiques
   - name: Structures - Emails
-  - name: Personnes
-  - name: Personnes - Identifiants
-  - name: Personnes - Médias sociaux
-  - name: Personnes - Liens web
-  - name: Catégories
-  - name: Catégories - Identifiants
-  - name: Catégories - Liens web
-  - name: Catégories - Médias sociaux
   - name: Termes
+  - name: Termes - Liens web
+  - name: Termes - Médias sociaux
   - name: Textes officiels
-  - name: Documents
-  - name: Projets
-  - name: Projets - Liens web
-  - name: Catégories juridiques
-  - name: Prix scientifiques
-  # - name: Projects
-  # - name: Events
+  - name: Types de documents
+  - name: Types d'email
 
 security:
   - BearerAuth: []
@@ -118,6 +122,14 @@ paths:
     $ref: './paths/terms/terms.yml#/~1terms'
   '/terms/{termId}':
     $ref: './paths/terms/terms.yml#/~1terms~1{termId}'
+  '/terms/{termId}/weblinks':
+    $ref: './paths/terms/weblinks.yml#/~1terms~1{termId}~1weblinks'
+  '/terms/{termId}/weblinks/{weblinkId}':
+    $ref: './paths/terms/weblinks.yml#/~1terms~1{termId}~1weblinks~1{weblinkId}'
+  '/terms/{termId}/social-medias':
+    $ref: './paths/terms/social-medias.yml#/~1terms~1{termId}~1social-medias'
+  '/terms/{termId}/social-medias/{socialmediaId}':
+    $ref: './paths/terms/social-medias.yml#/~1terms~1{termId}~1social-medias~1{socialmediaId}'
 
   ### CATEGORIES JURIDIQUES ###
   '/legal-categories':
@@ -175,6 +187,24 @@ paths:
   '/projects/{projectId}/localisations/{localisationId}':
     $ref: './paths/projects/localisations.yml#/~1projects~1{projectId}~1localisations~1{localisationId}'
 
+  ### TYPE DE DOCUMENTS ###
+  '/document-types':
+    $ref: './paths/document-types/document-types.yml#/~1document-types'
+  '/document-types/{documentTypeId}':
+    $ref: './paths/document-types/document-types.yml#/~1document-types~1{documentTypeId}'
+
+  ### TYPE DE CONTACT GENERIC ###
+  '/email-types':
+    $ref: './paths/email-types/email-types.yml#/~1email-types'
+  '/email-types/{emailTypeId}':
+    $ref: './paths/email-types/email-types.yml#/~1email-types~1{emailTypeId}'
+  
+  ### PORTEFEUILLE MINISTERIELS ###
+  '/ministerial-portfolios':
+    $ref: './paths/ministerial-portfolios/ministerial-portfolios.yml#/~1ministerial-portfolios'
+  '/ministerial-portfolios/{ministerialPortfolioId}':
+    $ref: './paths/ministerial-portfolios/ministerial-portfolios.yml#/~1ministerial-portfolios~1{ministerialPortfolioId}'
+
 components:
   parameters:
     filters:
@@ -187,6 +217,10 @@ components:
       $ref: ./parameters/query/sort.yml
     documentId:
       $ref: ./parameters/ids/document-id.yml
+    documentTypeId:
+      $ref: ./parameters/ids/document-type-id.yml
+    emailTypeId:
+      $ref: ./parameters/ids/email-type-id.yml
     structureId:
       $ref: ./parameters/ids/structure-id.yml
     nameId:
@@ -227,6 +261,8 @@ components:
       $ref: ./parameters/ids/role-id.yml
     relationshipId:
       $ref: ./parameters/ids/relationship-id.yml
+    ministerialPortfolioId:
+      $ref: ./parameters/ids/ministerial-portfolio-id.yml
 
   responses:
     BadRequest:
@@ -256,6 +292,14 @@ components:
       $ref: './schemas/documents/document.yml'
     DocumentLight:
       $ref: './schemas/documents/document-light.yml'
+    DocumentType:
+      $ref: './schemas/commons/nomenclature.yml'
+    DocumentTypeLight:
+      $ref: './schemas/commons/nomenclature-light.yml'
+    EmailType:
+      $ref: './schemas/commons/nomenclature.yml'
+    EmailTypeLight:
+      $ref: './schemas/commons/nomenclature-light.yml'
     LegalCategory:
       $ref: './schemas/legalcategories/legalcategory.yml'
     LegalCategoryLight:
@@ -266,6 +310,10 @@ components:
       $ref: './schemas/commons/localisation-light.yml'
     Logo:
       $ref: './schemas/commons/logo.yml'
+    MinisterialPortfolio:
+      $ref: './schemas/commons/nomenclature.yml'
+    MinisterialPortfolioLight:
+      $ref: './schemas/commons/nomenclature-light.yml'
     OfficialText:
       $ref: './schemas/officialtexts/officialtext.yml'
     OfficialTextLight:
@@ -320,6 +368,8 @@ components:
       $ref: './schemas/terms/term.yml'
     TermLight:
       $ref: './schemas/terms/term-light.yml'
+    TermWeblink:
+      $ref: './schemas/terms/weblink.yml'
 
 
     ### PAYLOADS ###
@@ -333,10 +383,16 @@ components:
       $ref: './schemas/commons/category-relationship-payload.yml'
     DocumentPayload:
       $ref: './schemas/documents/document-payload.yml'
+    DocumentTypePayload:
+      $ref: './schemas/commons/nomenclature-payload.yml'
+    EmailTypePayload:
+      $ref: './schemas/commons/nomenclature-payload.yml'
     LegalCategoryPayload:
       $ref: './schemas/legalcategories/legalcategory-payload.yml'
     LogoPayload:
       $ref: './schemas/commons/logo-payload.yml'
+    MinisterialPortfolioPayload:
+      $ref: './schemas/commons/nomenclature-payload.yml'
     OfficialTextPayload:
       $ref: './schemas/officialtexts/officialtext-payload.yml'
     PersonIdentifierPayload:
@@ -375,6 +431,8 @@ components:
       $ref: './schemas/structures/weblink-payload.yml'
     TermPayload:
       $ref: './schemas/terms/term-payload.yml'
+    TermWeblinkPayload:
+      $ref: './schemas/terms/weblink-payload.yml'
 
 
     ### ENUMS ###
@@ -398,6 +456,8 @@ components:
       $ref: './schemas/structures/enums/identifier-types.yml'
     StructureWeblinkTypesEnum:
       $ref: './schemas/structures/enums/weblink-types.yml'
+    TermWeblinkTypesEnum:
+      $ref: './schemas/terms/enums/weblink-types.yml'
 
 
     ### COMMON MODELS ###

@@ -5,7 +5,7 @@ import { validatePayload } from '../../commons/middlewares/validate.middlewares'
 import { createStructureResponse, fromPayloadToStructure, storeStructure, validateStructureCreatePayload } from './root.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { structuresRepository as repository } from '../../commons/repositories';
-import { readQuery } from '../../commons/queries/structures.queries';
+import readQuery from '../../commons/queries/structures.query';
 import { structures as resource } from '../../resources';
 
 const router = new express.Router();

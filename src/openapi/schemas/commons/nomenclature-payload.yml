@@ -1,0 +1,9 @@
+additionalProperties: false
+type: object
+properties:
+  usualName:
+    type: string
+  otherNames:
+    type: array
+    items:
+      type: string

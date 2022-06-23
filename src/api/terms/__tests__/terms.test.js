@@ -2,45 +2,67 @@ import { terms as resource } from '../../resources';
 
 let authorization;
 let id;
+let textId;
 
 const payload = {
-  usualNameFr: 'Term A',
-  acronymFr: 'Term A',
+  usualNameFr: 'Terme',
+  usualNameEn: 'Term',
+  shortNameEn: 'Te',
+  shortNameFr: 'Te',
+  acronymFr: 'T',
+  pluralNameFr: 'Termes',
+  otherNamesFr: ['Mot', 'Concept'],
+  otherNamesEn: ['Mot', 'Concept'],
+  descriptionFr: 'Un terme',
+  descriptionEn: 'A term',
+  comment: 'Terminé!',
 };
-const updatePayLoad = {
-  usualNameFr: 'Term C',
-  acronymFr: 'T C',
-};
+const updatePayLoad = { usualNameFr: 'Terme modifié' };
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
+  const { body } = await global.superapp
+    .post('/official-texts')
+    .set('Authorization', authorization)
+    .send({
+      nature: 'Publication au JO',
+      type: 'Loi',
+      jorftext: 'jorftextNumber',
+      nor: 'norNumber',
+      title: 'title',
+      pageUrl: 'http://string.fr',
+      signatureDate: '2020',
+      endDate: '2020',
+      textExtract: 'string',
+    }).expect(201);
+  textId = body.id;
 });
 
-describe('API > terms > create', () => {
+describe(`API > ${resource} > create`, () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
-      .send(payload)
+      .send({ ...payload, creationOfficialTextId: textId, closureOfficialTextId: textId })
       .expect(201);
-    Object.entries(payload).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
+    Object.entries(payload).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
     expect(body.id).toBeTruthy();
     expect(body.createdBy.username).toBe('user');
+    expect(body.creationOfficialText.id).toBe(textId);
+    expect(body.closureOfficialText.id).toBe(textId);
     id = body.id;
   });
-
   it('ignore additionalProperties', async () => {
-    const { body } = await global.superapp
+    await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
-    expect(body.arbitrary).toBeFalsy();
-    const data = await global.db.collection('terms').findOne({ id: body.id });
-    expect(data.arbitrary).toBe(undefined);
+    const dbData = await global.db.collection('terms').findOne({ id });
+    expect(dbData.arbitrary).toBe(undefined);
   });
 
-  it('should fail if usualNameFr is missing', async () => {
+  it('should fail if usualName is missing', async () => {
     const { usualNameFr, ...rest } = payload;
     await global.superapp
       .post(`/${resource}`)
@@ -48,9 +70,17 @@ describe('API > terms > create', () => {
       .send(rest)
       .expect(400);
   });
+  it('should fail if creationTextId does not exist', async () => {
+    const { body } = await global.superapp
+      .post(`/${resource}`)
+      .set('Authorization', authorization)
+      .send({ ...payload, creationOfficialTextId: '45frK45frK45frK' })
+      .expect(400);
+    expect(body.error).toBe('Validation failed');
+  });
 });
 
-describe('API > terms > update', () => {
+describe(`API > ${resource} > update`, () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
       .patch(`/${resource}/45frK`)
@@ -62,9 +92,10 @@ describe('API > terms > update', () => {
     const { body } = await global.superapp
       .patch(`/${resource}/${id}`)
       .set('Authorization', authorization)
-      .send(updatePayLoad);
+      .send(updatePayLoad)
+      .expect(200);
     const updated = { ...payload, ...updatePayLoad };
-    Object.entries(updated).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
+    Object.entries(updated).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
     expect(body.id).toBeTruthy();
     expect(body.createdBy.username).toBe('user');
   });
@@ -82,18 +113,31 @@ describe('API > terms > update', () => {
       .send({})
       .expect(400);
   });
+  it('should fail if creationTextId does not exist', async () => {
+    const { body } = await global.superapp
+      .patch(`/${resource}/${id}`)
+      .set('Authorization', authorization)
+      .send({ creationOfficialTextId: '45frK45frK45frK' })
+      .expect(400);
+    expect(body.error).toBe('Validation failed');
+  });
 });
 
-describe('API > terms > read', () => {
+describe(`API > ${resource} > read`, () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
     const expected = { ...payload, ...updatePayLoad };
-    Object.entries(expected).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
+    Object.entries(expected).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
     expect(body.id).toBe(id);
+    expect(body.priority).toBe(99);
     expect(body.createdBy.username).toBe('user');
+    expect(body.creationOfficialText.id).toBe(textId);
+    expect(body.closureOfficialText.id).toBe(textId);
+    expect(body.creationOfficialText.nature).toBe('Publication au JO');
+    expect(body.closureOfficialText.nature).toBe('Publication au JO');
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
@@ -103,7 +147,7 @@ describe('API > terms > read', () => {
   });
 });
 
-describe('API > terms > delete', () => {
+describe(`API > ${resource} > delete`, () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
       .delete(`/${resource}/45frK`)
@@ -118,23 +162,23 @@ describe('API > terms > delete', () => {
   });
 });
 
-describe('API > terms > list', () => {
+describe(`API > ${resource} > list`, () => {
   beforeAll(async () => {
     await global.utils.db.collection('terms').deleteMany({});
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
-      .send(payload)
+      .send({ ...payload, usualNameFr: 'Name_0' })
       .expect(201);
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
-      .send({ ...payload, usualNameFr: 'Term B' })
+      .send({ ...payload, usualNameFr: 'Name_1' })
       .expect(201);
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
-      .send({ ...payload, usualNameFr: 'Term C' })
+      .send({ ...payload, usualNameFr: 'Name_2' })
       .expect(201);
   });
   it('can list successfully', async () => {
@@ -143,9 +187,9 @@ describe('API > terms > list', () => {
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
-    expect(docs).toContain('Term A');
-    expect(docs).toContain('Term B');
-    expect(docs).toContain('Term C');
+    expect(docs).toContain('Name_0');
+    expect(docs).toContain('Name_1');
+    expect(docs).toContain('Name_2');
   });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
@@ -153,8 +197,8 @@ describe('API > terms > list', () => {
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
-    expect(docs).toContain('Term B');
-    expect(docs).toContain('Term C');
+    expect(docs).toContain('Name_1');
+    expect(docs).toContain('Name_2');
     expect(body.totalCount).toBe(3);
   });
   it('can limit successfully', async () => {
@@ -163,7 +207,7 @@ describe('API > terms > list', () => {
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
-    expect(docs).toContain('Term A');
+    expect(docs).toContain('Name_0');
     expect(body.totalCount).toBe(3);
   });
   it('can sort successfully', async () => {
@@ -172,7 +216,7 @@ describe('API > terms > list', () => {
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
-    expect(docs[0]).toBe('Term A');
+    expect(docs[0]).toBe('Name_0');
     expect(body.totalCount).toBe(3);
   });
   it('can reversely sort successfully', async () => {
@@ -181,16 +225,16 @@ describe('API > terms > list', () => {
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
-    expect(docs[0]).toBe('Term C');
+    expect(docs[0]).toBe('Name_2');
     expect(body.totalCount).toBe(3);
   });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
-      .get(`/${resource}?filters[usualNameFr]=Term A`)
+      .get(`/${resource}?filters[usualNameFr]=Name_1`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
-    expect(docs).toContain('Term A');
+    expect(docs).toContain('Name_1');
     expect(body.totalCount).toBe(1);
   });
 });

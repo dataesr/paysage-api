@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { validatePayload, setStructureIdFromRequestPath } from './categories.middlewares';
-import { readQuery } from '../../commons/queries/object-categories.queries';
+import readQuery from '../../commons/queries/object-categories.query';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
