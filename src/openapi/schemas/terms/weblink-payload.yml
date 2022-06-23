@@ -1,0 +1,14 @@
+title: TermWeblinkPayload
+description: Représentation d'un lien web d'un terme
+type: object
+properties:
+  type:
+    $ref: ../../api.yml#/components/schemas/TermWeblinkTypesEnum
+  url:
+    type: string
+    format: uri
+  language:
+    type: string
+    description: Language of the web link on 2 letters
+    pattern: '^[a-zA-Z]{2}$'
+    nullable: true

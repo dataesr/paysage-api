@@ -1,23 +1,23 @@
-import { terms as resource } from '../../resources';
+import { categories as resource } from '../../resources';
 
 let authorization;
 let id;
 let textId;
 
 const payload = {
-  usualNameFr: 'Term',
-  usualNameEn: 'Term',
-  shortNameEn: 'Te',
-  shortNameFr: 'Te',
-  acronymFr: 'T',
-  pluralNameFr: 'Termes',
-  otherNamesFr: ['Mot', 'Concept'],
-  otherNamesEn: ['Mot', 'Concept'],
-  descriptionFr: 'Un terme',
-  descriptionEn: 'A term',
-  comment: 'Terminé!',
+  usualNameFr: 'Catégori',
+  usualNameEn: 'Category',
+  shortNameEn: 'Cat',
+  shortNameFr: 'Cat',
+  acronymFr: 'C',
+  pluralNameFr: 'Catégories',
+  otherNamesFr: ['Status', 'Type'],
+  otherNamesEn: ['Status', 'Type'],
+  descriptionFr: 'Une catégorie',
+  descriptionEn: 'A category',
+  comment: 'Catégorique!',
 };
-const updatePayLoad = { usualNameFr: 'Terme' };
+const updatePayLoad = { usualNameFr: 'Catégorie' };
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
@@ -58,7 +58,7 @@ describe(`API > ${resource} > create`, () => {
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
-    const dbData = await global.db.collection('terms').findOne({ id });
+    const dbData = await global.db.collection('categories').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
   });
 
@@ -164,7 +164,7 @@ describe(`API > ${resource} > delete`, () => {
 
 describe(`API > ${resource} > list`, () => {
   beforeAll(async () => {
-    await global.utils.db.collection('terms').deleteMany({});
+    await global.utils.db.collection('categories').deleteMany({});
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)

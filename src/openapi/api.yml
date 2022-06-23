@@ -43,6 +43,8 @@ tags:
   - name: Structures - Status juridiques
   - name: Structures - Emails
   - name: Termes
+  - name: Termes - Liens web
+  - name: Termes - Médias sociaux
   - name: Textes officiels
   - name: Types de documents
   - name: Types d'email
@@ -120,6 +122,14 @@ paths:
     $ref: './paths/terms/terms.yml#/~1terms'
   '/terms/{termId}':
     $ref: './paths/terms/terms.yml#/~1terms~1{termId}'
+  '/terms/{termId}/weblinks':
+    $ref: './paths/terms/weblinks.yml#/~1terms~1{termId}~1weblinks'
+  '/terms/{termId}/weblinks/{weblinkId}':
+    $ref: './paths/terms/weblinks.yml#/~1terms~1{termId}~1weblinks~1{weblinkId}'
+  '/terms/{termId}/social-medias':
+    $ref: './paths/terms/social-medias.yml#/~1terms~1{termId}~1social-medias'
+  '/terms/{termId}/social-medias/{socialmediaId}':
+    $ref: './paths/terms/social-medias.yml#/~1terms~1{termId}~1social-medias~1{socialmediaId}'
 
   ### CATEGORIES JURIDIQUES ###
   '/legal-categories':
@@ -358,6 +368,8 @@ components:
       $ref: './schemas/terms/term.yml'
     TermLight:
       $ref: './schemas/terms/term-light.yml'
+    TermWeblink:
+      $ref: './schemas/terms/weblink.yml'
 
 
     ### PAYLOADS ###
@@ -419,6 +431,8 @@ components:
       $ref: './schemas/structures/weblink-payload.yml'
     TermPayload:
       $ref: './schemas/terms/term-payload.yml'
+    TermWeblinkPayload:
+      $ref: './schemas/terms/weblink-payload.yml'
 
 
     ### ENUMS ###
@@ -442,6 +456,8 @@ components:
       $ref: './schemas/structures/enums/identifier-types.yml'
     StructureWeblinkTypesEnum:
       $ref: './schemas/structures/enums/weblink-types.yml'
+    TermWeblinkTypesEnum:
+      $ref: './schemas/terms/enums/weblink-types.yml'
 
 
     ### COMMON MODELS ###
