@@ -5,7 +5,7 @@ let id;
 let textId;
 
 const payload = {
-  usualNameFr: 'Catégori',
+  usualNameFr: 'Catégorie',
   usualNameEn: 'Category',
   shortNameEn: 'Cat',
   shortNameFr: 'Cat',
@@ -17,7 +17,7 @@ const payload = {
   descriptionEn: 'A category',
   comment: 'Catégorique!',
 };
-const updatePayLoad = { usualNameFr: 'Catégorie' };
+const updatePayLoad = { usualNameFr: 'Catégorie modifiée' };
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');

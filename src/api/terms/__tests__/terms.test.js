@@ -5,7 +5,7 @@ let id;
 let textId;
 
 const payload = {
-  usualNameFr: 'Term',
+  usualNameFr: 'Terme',
   usualNameEn: 'Term',
   shortNameEn: 'Te',
   shortNameFr: 'Te',
@@ -17,7 +17,7 @@ const payload = {
   descriptionEn: 'A term',
   comment: 'Terminé!',
 };
-const updatePayLoad = { usualNameFr: 'Terme' };
+const updatePayLoad = { usualNameFr: 'Terme modifié' };
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
