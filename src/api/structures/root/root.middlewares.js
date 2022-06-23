@@ -22,7 +22,7 @@ export const validateStructureCreatePayload = async (req, res, next) => {
   }
   const { categories: categoryIds, parents: parentIds } = req.body;
   if (parentIds) {
-    const { data: structuresData } = await structuresRepository.find({ filters: { id: { $in: parentIds } }, useQuery: 'checkQuery' });
+    const { data: structuresData } = await structuresRepository.find({ filters: { id: { $in: parentIds } } });
     const savedParents = structuresData.reduce((arr, parent) => [...arr, parent.id], []);
     const notFoundParent = parentIds.filter((x) => savedParents.indexOf(x) === -1);
     if (notFoundParent.length) {
@@ -33,7 +33,7 @@ export const validateStructureCreatePayload = async (req, res, next) => {
     }
   }
   if (categoryIds) {
-    const { data: categoriesData } = await categoriesRepository.find({ filters: { id: { $in: categoryIds } }, useQuery: 'checkQuery' });
+    const { data: categoriesData } = await categoriesRepository.find({ filters: { id: { $in: categoryIds } } });
     const savedCategories = categoriesData.reduce((arr, parent) => [...arr, parent.id], []);
     const notFoundCategories = categoryIds.filter((x) => savedCategories.indexOf(x) === -1);
     if (notFoundCategories.length) {

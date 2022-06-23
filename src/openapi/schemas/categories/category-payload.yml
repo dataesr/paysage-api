@@ -47,11 +47,19 @@ properties:
   comment:
     type: string
     nullable: true
+  priority:
+    type: integer
+    minimum: 1
+    maximum: 99
+    description: |
+      Un ordre de priorité d'affichage de la catégorie.
+      La priorité maximal est 1. La priorité minimale est 99.
+      Valeur par default: 99.
   creationOfficialTextId:
     type: string
     description: Identifiant d'un texte officiel justifiant de l'ouverture de la catégorie
-    pattern: '^[a-zA-Z0-9]{5}$'
+    pattern: '^[a-zA-Z0-9]{15}$'
   closureOfficialTextId:
     type: string
     description: Identifiant d'un texte officiel justifiant de la fermeture de la catégorie
-    pattern: '^[a-zA-Z0-9]{5}$'
+    pattern: '^[a-zA-Z0-9]{15}$'

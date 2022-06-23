@@ -1,0 +1,142 @@
+/terms/{termId}/social-medias:
+  get:
+    tags:
+      - Termes - Médias sociaux
+    summary: Lister les médias sociaux d'un terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/SocialMedia'
+                totalCount:
+                  type: integer
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Termes - Médias sociaux
+    summary: Ajouter un média social à la terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: TermSocialMediaPayLoad
+            required:
+              - account
+              - type
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/SocialMediaPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/SocialMedia'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+/terms/{termId}/social-medias/{socialmediaId}:
+  get:
+    tags:
+      - Termes - Médias sociaux
+    summary: Obtenir le détail d'un media social d'un terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/socialmediaId'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/SocialMedia'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Termes - Médias sociaux
+    summary: Retirer un média social du terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/socialmediaId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  patch:
+    tags:
+      - Termes - Médias sociaux
+    summary: Modifier un média social de la terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/socialmediaId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../../api.yml#/components/schemas/SocialMediaPayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/SocialMedia'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

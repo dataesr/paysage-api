@@ -3,10 +3,9 @@ import { patchContext, createContext, setGeneratedObjectIdInContext } from '../.
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload, setDefaultPriorityField } from './root.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-
-import readQuery from '../../commons/queries/categories.query';
-import { categoriesRepository as repository } from '../../commons/repositories';
-import { categories as resource } from '../../resources';
+import readQuery from '../../commons/queries/terms.query';
+import { termsRepository as repository } from '../../commons/repositories';
+import { terms as resource } from '../../resources';
 
 const router = new express.Router();
 

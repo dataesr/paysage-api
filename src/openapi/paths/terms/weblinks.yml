@@ -1,0 +1,143 @@
+/terms/{termId}/weblinks:
+  get:
+    tags:
+      - Termes - Liens web
+    summary: Lister les liens web du terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/TermWeblink'
+                totalCount:
+                  type: integer
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Termes - Liens web
+    summary: Ajouter un lien web au terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: TermWeblinkPayLoad
+            type: object
+            required:
+              - type
+              - url
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/TermWeblinkPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/TermWeblink'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+/terms/{termId}/weblinks/{weblinkId}:
+  get:
+    tags:
+      - Termes - Liens web
+    summary: Obtenir le détail d'un lien web du terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/weblinkId'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/TermWeblink'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Termes - Liens web
+    summary: Retirer un lien web du terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/weblinkId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  patch:
+    tags:
+      - Termes - Liens web
+    summary: Modifier un lien web du terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/weblinkId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../../api.yml#/components/schemas/TermWeblinkPayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/TermWeblink'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
