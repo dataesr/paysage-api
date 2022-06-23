@@ -2,8 +2,10 @@ title: EmailPayload
 description: Modèle servant à ajouter un email
 type: object
 properties:
-  type:
+  emailTypeId:
     type: string
+    description: Unique email type identifier
+    pattern: '^[a-zA-Z0-9]{15}$'
   email:
     type: string
     format: email

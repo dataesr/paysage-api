@@ -2,10 +2,7 @@ import { BadRequestError } from '../commons/http-errors';
 import { catalogRepository } from '../commons/repositories';
 
 export async function validatePayload(req, res, next) {
-  if (
-    !req.body
-    || !Object.keys(req.body).length
-  ) throw new BadRequestError('Payload missing');
+  if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
   const { relatesTo } = req.body;
   if (!relatesTo) return next();
   const { data } = await catalogRepository.find({ filters: { _id: { $in: relatesTo } } });

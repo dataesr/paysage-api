@@ -1,0 +1,111 @@
+/document-types:
+  get:
+    tags:
+      - Types de documents
+    summary: Lister les types de documents
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/DocumentType'
+                totalCount:
+                  type: integer
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Types de documents
+    summary: Créer un nouveau type de document
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: DocumentTypePayload
+            required:
+              - usualName
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/DocumentTypePayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/DocumentType'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+/document-types/{documentTypeId}:
+  patch:
+    tags:
+      - Types de documents
+    summary: Modifier un type de document
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/documentTypeId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../../api.yml#/components/schemas/DocumentTypePayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/DocumentType'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+  
+  delete:
+    tags:
+      - Types de documents
+    summary: Supprimer un type de document
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/documentTypeId'
+    responses:
+      '204':
+        description: No content
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

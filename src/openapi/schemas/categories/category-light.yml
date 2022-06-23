@@ -16,3 +16,11 @@ properties:
     type: string
     nullable: true
     description: Description en français
+  priority:
+    type: integer
+    minimum: 1
+    maximum: 99
+    description: |
+      Un ordre de priorité d'affichage de la catégorie.
+      La priorité maximal est 1. La priorité minimale est 99.
+      Valeur par default: 99.

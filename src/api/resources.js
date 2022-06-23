@@ -1,11 +1,14 @@
 export const categories = 'categories';
 export const documents = 'documents';
+export const documentTypes = 'document-types';
 export const emails = 'emails';
+export const emailtypes = 'email-types';
 export const identifiers = 'identifiers';
 export const officialtexts = 'official-texts';
 export const legalcategories = 'legal-categories';
 export const localisations = 'localisations';
 export const logos = 'logos';
+export const ministerialPortfolios = 'ministerial-portfolios';
 export const names = 'names';
 export const persons = 'persons';
 export const prices = 'prices';

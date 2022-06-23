@@ -1,11 +1,26 @@
-description: Représentation simplifiée d'un terme
 type: object
 properties:
   id:
     type: string
     pattern: '^[a-zA-Z0-9]{5}$'
-    readOnly: true
   usualNameFr:
     type: string
   usualNameEn:
     type: string
+    nullable: true
+  descriptionFr:
+    type: string
+    nullable: true
+    description: Description en français
+  descriptionEn:
+    type: string
+    nullable: true
+    description: Description en français
+  priority:
+    type: integer
+    minimum: 1
+    maximum: 99
+    description: |
+      Un ordre de priorité d'affichage d'un terme.
+      La priorité maximal est 1. La priorité minimale est 99.
+      Valeur par default: 99.

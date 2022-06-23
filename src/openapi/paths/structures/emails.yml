@@ -47,7 +47,7 @@
             title: StructureEmailPayLoad
             type: object
             required:
-              - type
+              - emailTypeId
               - email
             allOf:
               - $ref: '../../api.yml#/components/schemas/StructureEmailPayload'

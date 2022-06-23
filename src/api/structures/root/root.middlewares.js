@@ -1,6 +1,6 @@
 import { BadRequestError } from '../../commons/http-errors';
 import catalog from '../../commons/catalog';
-import { readQuery } from '../../commons/queries/structures.queries';
+import readQuery from '../../commons/queries/structures.query';
 import {
   categoriesRepository,
   identifiersRepository,
@@ -13,16 +13,16 @@ export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
   const { creationOfficialTextId, closureOfficialTextId } = req.body;
   if (creationOfficialTextId) {
-    const text = await officialtextsRepository.read(creationOfficialTextId);
+    const text = await officialtextsRepository.get(creationOfficialTextId);
     if (!text?.id) { errors.push({ path: '.body.creationOfficialTextId', message: `official text ${creationOfficialTextId} does not exist` }); }
   }
   if (closureOfficialTextId) {
-    const text = await officialtextsRepository.read(closureOfficialTextId);
+    const text = await officialtextsRepository.get(closureOfficialTextId);
     if (!text?.id) { errors.push({ path: '.body.closureOfficialTextId', message: `official text ${closureOfficialTextId} does not exist` }); }
   }
   const { categories: categoryIds, parents: parentIds } = req.body;
   if (parentIds) {
-    const { data: structuresData } = await structuresRepository.find({ filters: { id: { $in: parentIds } }, useQuery: 'checkQuery' });
+    const { data: structuresData } = await structuresRepository.find({ filters: { id: { $in: parentIds } } });
     const savedParents = structuresData.reduce((arr, parent) => [...arr, parent.id], []);
     const notFoundParent = parentIds.filter((x) => savedParents.indexOf(x) === -1);
     if (notFoundParent.length) {
@@ -33,7 +33,7 @@ export const validateStructureCreatePayload = async (req, res, next) => {
     }
   }
   if (categoryIds) {
-    const { data: categoriesData } = await categoriesRepository.find({ filters: { id: { $in: categoryIds } }, useQuery: 'checkQuery' });
+    const { data: categoriesData } = await categoriesRepository.find({ filters: { id: { $in: categoryIds } } });
     const savedCategories = categoriesData.reduce((arr, parent) => [...arr, parent.id], []);
     const notFoundCategories = categoryIds.filter((x) => savedCategories.indexOf(x) === -1);
     if (notFoundCategories.length) {

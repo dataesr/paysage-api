@@ -8,7 +8,8 @@ let personId;
 const payload = {
   nature: 'Publication au JO',
   type: 'Loi',
-  textNumber: 'textNumber',
+  jorftext: 'jorftextNumber',
+  nor: 'norNumber',
   title: 'title',
   pageUrl: 'http://string.fr',
   signatureDate: '2020',

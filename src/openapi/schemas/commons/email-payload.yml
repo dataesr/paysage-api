@@ -1,9 +1,0 @@
-title: EmailPayload
-description: Modèle servant à ajouter un email
-type: object
-properties:
-  type:
-    $ref: ../../api.yml#/components/schemas/EmailTypesEnum
-  email:
-    type: string
-    format: email

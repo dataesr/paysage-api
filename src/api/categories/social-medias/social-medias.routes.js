@@ -4,7 +4,7 @@ import { createContext, patchContext, setGeneratedInternalIdInContext } from '..
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { validatePayload } from './social-medias.middlewares';
-import { readQuery } from '../../commons/queries/social-medias.queries';
+import readQuery from '../../commons/queries/social-medias.query';
 import { socialmediasRepository as repository } from '../../commons/repositories';
 import { categories as resource, socialmedias as subresource } from '../../resources';
 
