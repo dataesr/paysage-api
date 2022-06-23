@@ -69,7 +69,6 @@ app.use(categoriesRoutes);
 app.use(documentsRoutes);
 app.use(documentTypesRoutes);
 app.use(emailTypesRoutes);
-app.use(documentsRoutes);
 app.use(legalCategoriesRoutes);
 app.use(ministerialPortfoliosRoutes);
 app.use(officialTextsRoutes);
