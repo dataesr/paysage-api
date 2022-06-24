@@ -46,8 +46,14 @@ app.use('/livez', health.LivenessEndpoint(healthcheck));
 app.use('/readyz', health.ReadinessEndpoint(healthcheck));
 
 // Expose swagger API documentation
+const { schemas } = apiDocument.components;
 app.use('/docs/api', swaggerUi.serve, swaggerUi.setup(apiDocument));
-app.get('/docs/api-specs.yml', (req, res) => { res.send(apiDocument); });
+app.get('/docs/specs', (req, res) => { res.status(200).json(apiDocument); });
+app.get('/docs/enums', (req, res) => {
+  res.status(200).json(
+    Object.fromEntries(Object.entries(schemas).filter(([key]) => key.match(/Enum$/))),
+  );
+});
 
 // express-openapi-validator setup to validate requests
 app.use(OAV.middleware({
