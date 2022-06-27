@@ -49,7 +49,6 @@ app.use('/readyz', health.ReadinessEndpoint(healthcheck));
 const { schemas } = apiDocument.components;
 app.use('/docs/api', swaggerUi.serve, swaggerUi.setup(apiDocument));
 app.get('/docs/specs', (req, res) => { res.status(200).json(apiDocument); });
-app.get('/docs/schemas', (req, res) => { res.status(200).json(schemas); });
 app.get('/docs/enums', (req, res) => {
   res.status(200).json(
     Object.fromEntries(Object.entries(schemas).filter(([key]) => key.match(/Enum$/))),
