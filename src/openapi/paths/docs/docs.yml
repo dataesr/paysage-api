@@ -1,0 +1,28 @@
+/docs/specs:
+  get:
+    tags:
+      - Documentation
+    summary: Obtenir les specifications openapi
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+/docs/enums:
+  get:
+    tags:
+      - Documentation
+    summary: Obtenir les enums des schemas openapi
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
