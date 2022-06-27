@@ -199,7 +199,7 @@ paths:
   '/email-types/{emailTypeId}':
     $ref: './paths/email-types/email-types.yml#/~1email-types~1{emailTypeId}'
   
-  ### PORTEFEUILLE MINISTERIELS ###
+  ### PORTEFEUILLES MINISTERIELS ###
   '/ministerial-portfolios':
     $ref: './paths/ministerial-portfolios/ministerial-portfolios.yml#/~1ministerial-portfolios'
   '/ministerial-portfolios/{ministerialPortfolioId}':
