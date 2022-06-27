@@ -1,8 +1,8 @@
 /ministerial-portfolios:
   get:
     tags:
-      - Portefeuille ministériels
-    summary: Lister les portefeuille ministériels
+      - Portefeuilles ministériels
+    summary: Lister les portefeuilles ministériels
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,7 +33,7 @@
 
   post:
     tags:
-      - Portefeuille ministériels
+      - Portefeuilles ministériels
     summary: Créer un nouveau portefeuille ministériel
     requestBody:
       content:
@@ -63,7 +63,7 @@
 /ministerial-portfolios/{ministerialPortfolioId}:
   patch:
     tags:
-      - Portefeuille ministériels
+      - Portefeuilles ministériels
     summary: Modifier un portefeuille ministériel
     parameters:
       - $ref: '../../api.yml#/components/parameters/ministerialPortfolioId'
@@ -92,7 +92,7 @@
   
   delete:
     tags:
-      - Portefeuille ministériels
+      - Portefeuilles ministériels
     summary: Supprimer un portefeuille ministériel
     parameters:
       - $ref: '../../api.yml#/components/parameters/ministerialPortfolioId'
