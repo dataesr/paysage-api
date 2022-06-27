@@ -1,5 +1,5 @@
 title: StructureLegalCategory
-description: Représentation d'une relation entre structure et status juridique
+description: Représentation d'une relation entre structure et une catégorie juridique
 allOf: 
   - type: object
     properties:

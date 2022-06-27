@@ -1,5 +1,5 @@
 title: StructureLegalCategoryPayload
-description: Modèle servant à ajouter un status juridique à un structure
+description: Modèle servant à ajouter une catégorie juridique à un structure
 type: object
 properties:
   legalcategoryId:
