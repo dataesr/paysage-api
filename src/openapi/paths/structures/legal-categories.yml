@@ -1,8 +1,8 @@
 /structures/{structureId}/legal-categories:
   get:
     tags:
-      - Structures - Status juridiques
-    summary: Lister les status juridiques d'une structure
+      - Structures - Catégories juridiques
+    summary: Lister les catégories juridiques d'une structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Structures - Status juridiques
-    summary: Ajouter un status juridique à la structure
+      - Structures - Catégories juridiques
+    summary: Ajouter une catégorie juridique à la structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -66,8 +66,8 @@
 /structures/{structureId}/legal-categories/{relatedLegalCategoryId}:
   get:
     tags:
-      - Structures - Status juridiques
-    summary: Obtenir le détail du status juridique d'une structure
+      - Structures - Catégories juridiques
+    summary: Obtenir le détail de la catégorie juridique d'une structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/relatedLegalCategoryId'
@@ -89,8 +89,8 @@
 
   delete:
     tags:
-      - Structures - Status juridiques
-    summary: Supprimer un status juridique de la structure
+      - Structures - Catégories juridiques
+    summary: Supprimer une catégorie juridique de la structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/relatedLegalCategoryId'
@@ -108,8 +108,8 @@
 
   patch:
     tags:
-      - Structures - Status juridiques
-    summary: Modifier le status juridique de la structure
+      - Structures - Catégories juridiques
+    summary: Modifier la catégorie juridique de la structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/relatedLegalCategoryId'
