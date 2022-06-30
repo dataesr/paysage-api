@@ -1,9 +1,9 @@
-import { ForbiddenError, BadRequestError } from '../commons/http-errors';
+import { BadRequestError, ForbiddenError } from '../commons/http-errors';
 import {
   catalogRepository,
   documentsRepository,
-  usersRepository,
   documentTypesRepository,
+  usersRepository,
 } from '../commons/repositories';
 
 export async function canUserEdit(req, res, next) {
