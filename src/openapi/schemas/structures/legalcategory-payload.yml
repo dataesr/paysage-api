@@ -4,7 +4,7 @@ type: object
 properties:
   legalcategoryId:
     type: string
-    description: Unique category identifier
+    description: Unique legal category identifier
     pattern: '^[a-zA-Z0-9]{5}$'
   startDate:
     type: string

@@ -19,15 +19,15 @@ router.route(`/${resource}/:resourceId/${subresource}`)
   ]);
 
 router.route(`/${resource}/:resourceId/${subresource}/:id`)
-  .delete([
-    patchContext,
-    controllers.remove(repository),
-    saveInStore(subresource),
-  ])
   .get(controllers.read(repository, readQuery))
   .patch([
     patchContext,
     controllers.patch(repository, readQuery),
+    saveInStore(subresource),
+  ])
+  .delete([
+    patchContext,
+    controllers.remove(repository),
     saveInStore(subresource),
   ]);
 

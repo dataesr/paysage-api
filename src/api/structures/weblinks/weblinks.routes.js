@@ -23,16 +23,16 @@ router.route(`/${collection}/:resourceId/${field}`)
   ]);
 
 router.route(`/${collection}/:resourceId/${field}/:id`)
-  .delete([
-    patchContext,
-    controllers.remove(repository),
-    saveInStore(field),
-  ])
   .get(controllers.read(repository, readQuery))
   .patch([
     validatePayload,
     patchContext,
     controllers.patch(repository, readQuery),
+    saveInStore(field),
+  ])
+  .delete([
+    patchContext,
+    controllers.remove(repository),
     saveInStore(field),
   ]);
 

@@ -1,11 +1,11 @@
-import { structures as resource, legalcategories as subresource } from '../../resources';
+import { structures as resource, supervisingMinisters as subresource } from '../../resources';
 
 let authorization;
 let id;
-let lcid;
 let resourceId;
+let smid;
 
-const legalcategoryLink = {
+const supervisingMinisterLink = {
   startDate: '2000-02-12',
   endDate: '2020-02-12',
 };
@@ -23,22 +23,22 @@ beforeAll(async () => {
     })
     .expect(201);
 
-  const legalcategory = await global.superapp
+  const supervisingMinister = await global.superapp
     .post(`/${subresource}`)
     .set('Authorization', authorization)
-    .send({ longNameFr: 'This is a legal category' })
+    .send({ usualName: 'Minister name' })
     .expect(201);
 
   resourceId = structure.body.id;
-  lcid = legalcategory.body.id;
+  smid = supervisingMinister.body.id;
 });
 
-describe('API > structures > legal categories > create', () => {
-  it('can create successfully', async () => {
+describe('API > structures > supervising ministers > create', () => {
+  it('should create a supervising minister successfully', async () => {
     const { body } = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send({ legalcategoryId: lcid, ...legalcategoryLink })
+      .send({ ...supervisingMinisterLink, supervisingMinisterId: smid })
       .expect(201);
     expect(body.id).toBeTruthy();
     id = body.id;
@@ -48,7 +48,7 @@ describe('API > structures > legal categories > create', () => {
     const { body } = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send({ ...legalcategoryLink, startDate: '2000-02' })
+      .send({ ...supervisingMinisterLink, startDate: '2000-02' })
       .expect(201);
     expect(body.id).toBeTruthy();
     id = body.id;
@@ -58,28 +58,28 @@ describe('API > structures > legal categories > create', () => {
     const { body } = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send({ ...legalcategoryLink, startDate: '2000' })
+      .send({ ...supervisingMinisterLink, startDate: '2000' })
       .expect(201);
     expect(body.id).toBeTruthy();
     id = body.id;
   });
 
-  it('should throw a BadRequest error if date is malformed', async () => {
+  it.only('should throw a BadRequest error if date is malformed', async () => {
     const response = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send({ ...legalcategoryLink, startDate: '20' });
+      .send({ ...supervisingMinisterLink, startDate: '20' });
     expect(response.status).toBe(400);
     expect(response.text).toContain('Validation failed');
   });
 });
 
-describe('API > structures > legal categories > update', () => {
+describe('API > structures > supervising ministers > update', () => {
   beforeAll(async () => {
     const { body } = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send({ legalcategoryId: lcid, ...legalcategoryLink });
+      .send({ ...supervisingMinisterLink, supervisingMinisterId: smid });
     id = body.id;
   });
 
@@ -91,6 +91,7 @@ describe('API > structures > legal categories > update', () => {
       .expect(200);
     expect(body.startDate).toBe('2017-01-01');
   });
+
   it('throws bad request with malformed id', async () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45frK`)
@@ -98,6 +99,7 @@ describe('API > structures > legal categories > update', () => {
       .send({ startDate: '2017-01-01' })
       .expect(400);
   });
+
   it('throws not found with wrong id', async () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45skrc6545skrc6`)
@@ -105,6 +107,7 @@ describe('API > structures > legal categories > update', () => {
       .send({ startDate: '2017-01-01' })
       .expect(404);
   });
+
   it('throws with wrong data', async () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
@@ -112,6 +115,7 @@ describe('API > structures > legal categories > update', () => {
       .send({ startDate: 'string' })
       .expect(400);
   });
+
   it('can empty dates', async () => {
     const { body } = await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
@@ -122,12 +126,12 @@ describe('API > structures > legal categories > update', () => {
   });
 });
 
-describe('API > structures > legal categories > read', () => {
+describe('API > structures > supervising ministers > read', () => {
   beforeAll(async () => {
     const { body } = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
-      .send({ legalcategoryId: lcid, ...legalcategoryLink });
+      .send({ ...supervisingMinisterLink, supervisingMinisterId: smid });
     id = body.id;
   });
 
@@ -137,16 +141,18 @@ describe('API > structures > legal categories > read', () => {
       .set('Authorization', authorization)
       .expect(200);
     expect(body.id).toBe(id);
-    expect(body.legalcategory.id).toBe(lcid);
-    expect(body.legalcategory.longNameFr).toBe('This is a legal category');
+    expect(body.supervisingMinister.id).toBe(smid);
+    expect(body.supervisingMinister.usualName).toBe('Minister name');
     expect(body.createdBy.username).toBe('user');
   });
+
   it('throws bad request with wrong id', async () => {
     await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}/265vty`)
       .set('Authorization', authorization)
       .expect(400);
   });
+
   it('throws not found with unknown id', async () => {
     await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}/45skrc6545skrc6`)
@@ -155,19 +161,21 @@ describe('API > structures > legal categories > read', () => {
   });
 });
 
-describe('API > structures > legal categories > delete', () => {
+describe('API > structures > supervising ministers > delete', () => {
   it('throws bad request with wrong id', async () => {
     await global.superapp
       .delete(`/${resource}/${resourceId}/${subresource}/vgy775`)
       .set('Authorization', authorization)
       .expect(400);
   });
+
   it('throws not found with unknown id', async () => {
     await global.superapp
       .delete(`/${resource}/${resourceId}/${subresource}/45skrc6545skrc6`)
       .set('Authorization', authorization)
       .expect(404);
   });
+
   it('can delete successfully', async () => {
     await global.superapp
       .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
