@@ -23,11 +23,13 @@ tags:
   - name: Catégories - Liens web
   - name: Catégories - Médias sociaux
   - name: Documents
+  - name: Documentation
   - name: Personnes
   - name: Personnes - Identifiants
   - name: Personnes - Médias sociaux
   - name: Personnes - Liens web
   - name: Personnes - Catégories
+  - name: Portefeuilles ministériels
   - name: Prix scientifiques
   - name: Projets
   - name: Projets - Liens web
@@ -53,6 +55,11 @@ security:
   - BearerAuth: []
 
 paths:
+  ### OPENAPI DOCUMENTATION ###
+  '/docs/specs':
+    $ref: './paths/docs/docs.yml#/~1docs~1specs'
+  '/docs/enums':
+    $ref: './paths/docs/docs.yml#/~1docs~1enums'
   ### STRUCTURE ###
   '/structures':
     $ref: './paths/structures/structures.yml#/~1structures'
