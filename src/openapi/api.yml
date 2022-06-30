@@ -22,34 +22,34 @@ tags:
   - name: Catégories - Identifiants
   - name: Catégories - Liens web
   - name: Catégories - Médias sociaux
-  - name: Documents
   - name: Documentation
+  - name: Documents
+  - name: Ministres de tutelle
   - name: Personnes
-  - name: Personnes - Identifiants
-  - name: Personnes - Médias sociaux
-  - name: Personnes - Liens web
   - name: Personnes - Catégories
-  - name: Portefeuilles ministériels
+  - name: Personnes - Identifiants
+  - name: Personnes - Liens web
+  - name: Personnes - Médias sociaux
   - name: Prix scientifiques
   - name: Projets
   - name: Projets - Liens web
   - name: Projets - Localisations
   - name: Structures
-  - name: Structures - Noms
-  - name: Structures - Identifiants
-  - name: Structures - Localisations
-  - name: Structures - Liens web
-  - name: Structures - Médias sociaux
-  - name: Structures - Logos
   - name: Structures - Catégories
   - name: Structures - Catégories juridiques
   - name: Structures - Emails
+  - name: Structures - Identifiants
+  - name: Structures - Liens web
+  - name: Structures - Localisations
+  - name: Structures - Logos
+  - name: Structures - Médias sociaux
+  - name: Structures - Noms
   - name: Termes
   - name: Termes - Liens web
   - name: Termes - Médias sociaux
   - name: Textes officiels
-  - name: Types de documents
   - name: Types d'email
+  - name: Types de document
 
 security:
   - BearerAuth: []
@@ -194,23 +194,23 @@ paths:
   '/projects/{projectId}/localisations/{localisationId}':
     $ref: './paths/projects/localisations.yml#/~1projects~1{projectId}~1localisations~1{localisationId}'
 
-  ### TYPE DE DOCUMENTS ###
+  ### TYPES DE DOCUMENT ###
   '/document-types':
     $ref: './paths/document-types/document-types.yml#/~1document-types'
   '/document-types/{documentTypeId}':
     $ref: './paths/document-types/document-types.yml#/~1document-types~1{documentTypeId}'
 
-  ### TYPE DE CONTACT GENERIC ###
+  ### TYPES DE CONTACT GENERIQUE ###
   '/email-types':
     $ref: './paths/email-types/email-types.yml#/~1email-types'
   '/email-types/{emailTypeId}':
     $ref: './paths/email-types/email-types.yml#/~1email-types~1{emailTypeId}'
   
-  ### PORTEFEUILLES MINISTERIELS ###
-  '/ministerial-portfolios':
-    $ref: './paths/ministerial-portfolios/ministerial-portfolios.yml#/~1ministerial-portfolios'
-  '/ministerial-portfolios/{ministerialPortfolioId}':
-    $ref: './paths/ministerial-portfolios/ministerial-portfolios.yml#/~1ministerial-portfolios~1{ministerialPortfolioId}'
+  ### MINISTRES DE TUTELLE ###
+  '/supervising-ministers':
+    $ref: './paths/supervising-ministers/supervising-ministers.yml#/~1supervising-ministers'
+  '/supervising-ministers/{supervisingMinisterId}':
+    $ref: './paths/supervising-ministers/supervising-ministers.yml#/~1supervising-ministers~1{supervisingMinisterId}'
 
 components:
   parameters:
@@ -261,15 +261,15 @@ components:
     projectId:
       $ref: ./parameters/ids/project-id.yml
     officialTextId:
-      $ref: ./parameters/ids/officialtext-id.yml
+      $ref: ./parameters/ids/official-text-id.yml
     newsId:
       $ref: ./parameters/ids/news-id.yml
     roleId:
       $ref: ./parameters/ids/role-id.yml
     relationshipId:
       $ref: ./parameters/ids/relationship-id.yml
-    ministerialPortfolioId:
-      $ref: ./parameters/ids/ministerial-portfolio-id.yml
+    supervisingMinisterId:
+      $ref: ./parameters/ids/supervising-minister-id.yml
 
   responses:
     BadRequest:
@@ -317,10 +317,6 @@ components:
       $ref: './schemas/commons/localisation-light.yml'
     Logo:
       $ref: './schemas/commons/logo.yml'
-    MinisterialPortfolio:
-      $ref: './schemas/commons/nomenclature.yml'
-    MinisterialPortfolioLight:
-      $ref: './schemas/commons/nomenclature-light.yml'
     OfficialText:
       $ref: './schemas/officialtexts/officialtext.yml'
     OfficialTextLight:
@@ -371,6 +367,10 @@ components:
       $ref: './schemas/structures/name-light.yml'
     StructureWeblink:
       $ref: './schemas/structures/weblink.yml'
+    SupervisingMinister:
+      $ref: './schemas/commons/nomenclature.yml'
+    SupervisingMinisterLight:
+      $ref: './schemas/commons/nomenclature-light.yml'
     Term:
       $ref: './schemas/terms/term.yml'
     TermLight:
@@ -398,8 +398,6 @@ components:
       $ref: './schemas/legalcategories/legalcategory-payload.yml'
     LogoPayload:
       $ref: './schemas/commons/logo-payload.yml'
-    MinisterialPortfolioPayload:
-      $ref: './schemas/commons/nomenclature-payload.yml'
     OfficialTextPayload:
       $ref: './schemas/officialtexts/officialtext-payload.yml'
     PersonIdentifierPayload:
@@ -436,6 +434,8 @@ components:
       $ref: './schemas/structures/structure-update-payload.yml'
     StructureWeblinkPayload:
       $ref: './schemas/structures/weblink-payload.yml'
+    SupervisingMinisterPayload:
+      $ref: './schemas/commons/nomenclature-payload.yml'
     TermPayload:
       $ref: './schemas/terms/term-payload.yml'
     TermWeblinkPayload:
