@@ -1,4 +1,4 @@
-import { ministerialPortfolios as resource } from '../../resources';
+import { supervisingMinisters as resource } from '../../resources';
 
 let authorization;
 let id;
@@ -15,7 +15,7 @@ beforeAll(async () => {
   authorization = await global.utils.createUser('user');
 });
 
-describe('API > ministerial portfolios > create', () => {
+describe('API > supervising ministers > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
       .post(`/${resource}`)
@@ -33,7 +33,7 @@ describe('API > ministerial portfolios > create', () => {
       .set('Authorization', authorization)
       .send({ ...payload, arbitrary: 'test' })
       .expect(201);
-    const dbData = await global.db.collection('ministerialportfolios').findOne({ id });
+    const dbData = await global.db.collection('supervisingministers').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
   });
 
@@ -47,7 +47,7 @@ describe('API > ministerial portfolios > create', () => {
   });
 });
 
-describe('API > ministerial portfolios > update', () => {
+describe('API > supervising ministers > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
       .patch(`/${resource}/45frK45frK45frK`)
@@ -89,7 +89,7 @@ describe('API > ministerial portfolios > update', () => {
   });
 });
 
-describe('API > ministerial portfolios > read', () => {
+describe('API > supervising ministers > read', () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${id}`)
@@ -108,7 +108,7 @@ describe('API > ministerial portfolios > read', () => {
   });
 });
 
-describe('API > ministerial portfolios > delete', () => {
+describe('API > supervising ministers > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
       .delete(`/${resource}/45frK45frK45frK`)
@@ -123,9 +123,9 @@ describe('API > ministerial portfolios > delete', () => {
   });
 });
 
-describe('API > ministerial portfolios > list', () => {
+describe('API > supervising ministers > list', () => {
   beforeAll(async () => {
-    await global.utils.db.collection('ministerialportfolios').deleteMany({});
+    await global.utils.db.collection('supervisingministers').deleteMany({});
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
