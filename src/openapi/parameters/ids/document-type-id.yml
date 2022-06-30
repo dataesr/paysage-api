@@ -4,4 +4,4 @@ schema:
   type: string
   pattern: '^[a-zA-Z0-9]{15}$'
 required: true
-description: Unique resource identifier
+description: Unique document type identifier
