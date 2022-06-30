@@ -1,8 +1,8 @@
-/ministerial-portfolios:
+/supervising-ministers:
   get:
     tags:
-      - Portefeuilles ministériels
-    summary: Lister les portefeuilles ministériels
+      - Ministres de tutelle
+    summary: Lister les ministres de tutelle
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -19,7 +19,7 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/MinisterialPortfolio'
+                    $ref: '../../api.yml#/components/schemas/SupervisingMinister'
                 totalCount:
                   type: integer
       '400':
@@ -33,24 +33,24 @@
 
   post:
     tags:
-      - Portefeuilles ministériels
-    summary: Créer un nouveau portefeuille ministériel
+      - Ministres de tutelle
+    summary: Créer un nouveau ministre de tutelle
     requestBody:
       content:
         application/json:
           schema:
-            title: MinisterialPortfolioPayload
+            title: SupervisingMinisterPayload
             required:
               - usualName
             allOf:
-              - $ref: '../../api.yml#/components/schemas/MinisterialPortfolioPayload'
+              - $ref: '../../api.yml#/components/schemas/SupervisingMinisterPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/MinisterialPortfolio'
+              $ref: '../../api.yml#/components/schemas/SupervisingMinister'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -60,25 +60,25 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/ministerial-portfolios/{ministerialPortfolioId}:
+/supervising-ministers/{supervisingMinisterId}:
   patch:
     tags:
-      - Portefeuilles ministériels
-    summary: Modifier un portefeuille ministériel
+      - Ministres de tutelle
+    summary: Modifier un ministre de tutelle
     parameters:
-      - $ref: '../../api.yml#/components/parameters/ministerialPortfolioId'
+      - $ref: '../../api.yml#/components/parameters/supervisingMinisterId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/MinisterialPortfolioPayload'
+            $ref: '../../api.yml#/components/schemas/SupervisingMinisterPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/MinisterialPortfolio'
+              $ref: '../../api.yml#/components/schemas/SupervisingMinister'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -92,10 +92,10 @@
   
   delete:
     tags:
-      - Portefeuilles ministériels
-    summary: Supprimer un portefeuille ministériel
+      - Ministres de tutelle
+    summary: Supprimer un ministre de tutelle
     parameters:
-      - $ref: '../../api.yml#/components/parameters/ministerialPortfolioId'
+      - $ref: '../../api.yml#/components/parameters/supervisingMinisterId'
     responses:
       '204':
         description: No content

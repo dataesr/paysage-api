@@ -15,13 +15,13 @@ import documentsRoutes from './documents/documents.routes';
 import documentTypesRoutes from './document-types/document-types.routes';
 import emailTypesRoutes from './email-types/email-types.routes';
 import legalCategoriesRoutes from './legalcategories/legalcategories.routes';
-import ministerialPortfoliosRoutes from './ministerial-portfolios/ministerial-portfolios.routes';
 import officialTextsRoutes from './officialtexts/officialtexts.routes';
 import personsRoutes from './persons/persons.routes';
 import pricesRoutes from './prices/prices.routes';
-import structuresRoutes from './structures/structures.routes';
-import termsRoutes from './terms/terms.routes';
 import projectsRoutes from './projects/projects.routes';
+import structuresRoutes from './structures/structures.routes';
+import supervisingMinistersRoutes from './supervising-ministers/supervising-ministers.routes';
+import termsRoutes from './terms/terms.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/api.yml');
@@ -76,13 +76,13 @@ app.use(documentsRoutes);
 app.use(documentTypesRoutes);
 app.use(emailTypesRoutes);
 app.use(legalCategoriesRoutes);
-app.use(ministerialPortfoliosRoutes);
 app.use(officialTextsRoutes);
 app.use(personsRoutes);
 app.use(pricesRoutes);
-app.use(structuresRoutes);
-app.use(termsRoutes);
 app.use(projectsRoutes);
+app.use(structuresRoutes);
+app.use(supervisingMinistersRoutes);
+app.use(termsRoutes);
 
 // Error handler
 app.use(handleErrors);
