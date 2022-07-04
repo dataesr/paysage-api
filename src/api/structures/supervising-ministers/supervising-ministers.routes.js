@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { validatePayload, setStructureIdFromRequestPath } from './supervising-ministers.middlewares';
-import readQuery from '../../commons/queries/supervising-ministers.query';
+import readQuery from '../../commons/queries/structures-supervising-ministers.query';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';

@@ -34,7 +34,7 @@ beforeAll(async () => {
 });
 
 describe('API > structures > legal categories > create', () => {
-  it('can create successfully', async () => {
+  it('should create a legal category', async () => {
     const { body } = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)

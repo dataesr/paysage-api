@@ -1,11 +1,11 @@
-title: StructureLegalCategoryPayload
-description: Modèle servant à ajouter une catégorie juridique à une structure
+title: StructureSupervisingMinisterPayload
+description: Modèle servant à ajouter un ministre de tutelle à une structure
 type: object
 properties:
-  legalcategoryId:
+  supervisingMinisterId:
     type: string
-    description: Unique legal category identifier
-    pattern: '^[a-zA-Z0-9]{5}$'
+    description: Unique supervising minister identifier
+    pattern: '^[a-zA-Z0-9]{15}$'
   startDate:
     type: string
     pattern: '((^$)|(^\d{4}-?(0[1-9]|1[0-2])?-?(0[1-9]|[12][0-9]|3[01])?$))'
