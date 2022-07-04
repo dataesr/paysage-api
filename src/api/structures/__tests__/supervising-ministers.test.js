@@ -34,7 +34,7 @@ beforeAll(async () => {
 });
 
 describe('API > structures > supervising ministers > create', () => {
-  it('should create a supervising minister successfully', async () => {
+  it('should create a supervising minister', async () => {
     const { body } = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
@@ -64,7 +64,7 @@ describe('API > structures > supervising ministers > create', () => {
     id = body.id;
   });
 
-  it.only('should throw a BadRequest error if date is malformed', async () => {
+  it('should throw a BadRequest error if date is malformed', async () => {
     const response = await global.superapp
       .post(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
@@ -83,7 +83,7 @@ describe('API > structures > supervising ministers > update', () => {
     id = body.id;
   });
 
-  it('can update successfully', async () => {
+  it('should update a supervising minister', async () => {
     const { body } = await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
@@ -135,7 +135,7 @@ describe('API > structures > supervising ministers > read', () => {
     id = body.id;
   });
 
-  it('can read successfully', async () => {
+  it('can read supervising minister', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
