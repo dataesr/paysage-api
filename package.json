@@ -17,7 +17,8 @@
     "test": "npm run docs:build && npm run setup:database --env=testing && npm run api:test",
     "start": "npm run docs:build && npm run setup:database --env=development && npm run setup:storage --env=development && npm run api:dev",
     "start:staging": "npm run docs:build  && npm run api:start --env=staging",
-    "start:production": "npm run docs:build && npm run api:start --env=production"
+    "start:production": "npm run docs:build && npm run api:start --env=production",
+    "start:press": "NODE_ENV=development node --experimental-specifier-resolution=node src/press/index.js"
   },
   "keywords": [
     "paysage"
@@ -39,6 +40,7 @@
     "swagger-ui-express": "^4.1.6",
     "swift": "^2.7.3",
     "winston": "^3.3.3",
+    "xml2js": "^0.4.23",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
