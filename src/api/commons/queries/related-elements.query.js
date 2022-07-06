@@ -1,9 +1,9 @@
-import structureLightQuery from './structures.light.query';
-import personLightQuery from './persons.light.query';
 import categoryLightQuery from './categories.light.query';
-import termsLightQuery from './terms.light.query';
+import personLightQuery from './persons.light.query';
 import priceLightQuery from './prices.light.query';
 import projectLightQuery from './projects.light.query';
+import structureLightQuery from './structures.light.query';
+import termsLightQuery from './terms.light.query';
 
 export default [
   {

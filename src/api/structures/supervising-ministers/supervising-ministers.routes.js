@@ -1,12 +1,12 @@
 import express from 'express';
 
-import { validatePayload, setStructureIdFromRequestPath } from './legalcategories.middlewares';
+import { validatePayload, setStructureIdFromRequestPath } from './supervising-ministers.middlewares';
+import readQuery from '../../commons/queries/structures-supervising-ministers.query';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import { relationshipsRepository as repository } from '../../commons/repositories';
-import readQuery from '../../commons/queries/object-legalcategories.query';
-import { structures as resource, legalcategories as subresource } from '../../resources';
+import { structures as resource, supervisingMinisters as subresource } from '../../resources';
 
 const router = new express.Router();
 
@@ -22,16 +22,16 @@ router.route(`/${resource}/:resourceId/${subresource}`)
   ]);
 
 router.route(`/${resource}/:resourceId/${subresource}/:id`)
+  .delete([
+    patchContext,
+    controllers.remove(repository),
+    saveInStore(subresource),
+  ])
   .get(controllers.read(repository, readQuery))
   .patch([
     validatePayload,
     patchContext,
     controllers.patch(repository, readQuery),
-    saveInStore(subresource),
-  ])
-  .delete([
-    patchContext,
-    controllers.remove(repository),
     saveInStore(subresource),
   ]);
 
