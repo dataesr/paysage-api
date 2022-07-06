@@ -4,12 +4,16 @@ import logger from '../services/logger.service';
 
 let httpServer;
 
-function cleanup() {
+async function cleanup() {
   app.isReady = false;
   logger.info('SIGTERM/SIGINT signal received');
-  if (httpServer) httpServer.close();
+  if (httpServer) {
+    await httpServer.close();
+  }
   logger.info('HTTP server stopped');
-  if (client) client.close();
+  if (client) {
+    await client.close();
+  }
   logger.info('Mongo connexion closed');
   process.exit(1);
 }

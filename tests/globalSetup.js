@@ -12,6 +12,10 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await clearDB(global.db);
-  client.close();
+  if (global && global.db) {
+    await clearDB(global.db);
+  }
+  if (client) {
+    await client.close();
+  }
 });
