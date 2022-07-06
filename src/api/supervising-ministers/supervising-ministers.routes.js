@@ -1,12 +1,12 @@
 import express from 'express';
 import { patchContext, createContext, setGeneratedInternalIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
-import { validatePayload } from './ministerial-portfolios.middlewares';
+import { validatePayload } from './supervising-ministers.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 
-import readQuery from '../commons/queries/ministerial-portfolios.query';
-import { ministerialPortfoliosRepository as repository } from '../commons/repositories';
-import { ministerialPortfolios as resource } from '../resources';
+import readQuery from '../commons/queries/supervising-ministers.query';
+import { supervisingMinistersRepository as repository } from '../commons/repositories';
+import { supervisingMinisters as resource } from '../resources';
 
 const router = new express.Router();
 
