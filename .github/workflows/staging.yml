@@ -45,7 +45,7 @@ jobs:
       - name: Build docs
         run: |
           npm i swagger-cli
-          npm run docs:build
+          npm run docs:build:yml
       - name: Push to stoplight
         run: |
           cd docs
