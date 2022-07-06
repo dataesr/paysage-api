@@ -1,10 +1,8 @@
-import path from 'path';
+// import path from 'path';
 import express from 'express';
 import 'express-async-errors';
 import multer from 'multer';
 import * as OAV from 'express-openapi-validator';
-import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
 import health from '@cloudnative/health-connect';
 import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 import { authenticate } from './commons/middlewares/authenticate.middlewares';
@@ -22,10 +20,7 @@ import projectsRoutes from './projects/projects.routes';
 import structuresRoutes from './structures/structures.routes';
 import supervisingMinistersRoutes from './supervising-ministers/supervising-ministers.routes';
 import termsRoutes from './terms/terms.routes';
-
-// Load API specifications
-const apiSpec = path.join(path.resolve(), 'docs/reference/api.yml');
-const apiDocument = YAML.load(apiSpec);
+import apiSpec from '../../docs/reference/api.json';
 
 // Application setup
 const app = express();
@@ -46,9 +41,8 @@ app.use('/livez', health.LivenessEndpoint(healthcheck));
 app.use('/readyz', health.ReadinessEndpoint(healthcheck));
 
 // Expose swagger API documentation
-const { schemas } = apiDocument.components;
-app.use('/docs/api', swaggerUi.serve, swaggerUi.setup(apiDocument));
-app.get('/docs/specs', (req, res) => { res.status(200).json(apiDocument); });
+const { schemas } = apiSpec.components;
+app.get('/docs/specs', (req, res) => { res.status(200).json(apiSpec); });
 app.get('/docs/enums', (req, res) => {
   res.status(200).json(
     Object.fromEntries(Object.entries(schemas).filter(([key]) => key.match(/Enum$/))),
