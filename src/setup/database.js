@@ -22,7 +22,9 @@ async function setupDatabase() {
   await db.collection('terms').createIndex({ id: 1 }, { unique: true });
   await db.collection('weblinks').createIndex({ id: 1 }, { unique: true });
   logger.info('Mongodb setup successfull');
-  if (client) client.close();
+  if (client) {
+    await client.close();
+  }
   logger.info('Mongodb connexion closed');
   process.exit(0);
 }
