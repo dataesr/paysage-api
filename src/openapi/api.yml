@@ -18,10 +18,10 @@ servers:
 
 tags:
   - name: Catégories
-  - name: Catégories juridiques
   - name: Catégories - Identifiants
   - name: Catégories - Liens web
   - name: Catégories - Médias sociaux
+  - name: Catégories juridiques
   - name: Documentation
   - name: Documents
   - name: Ministres de tutelle
@@ -43,6 +43,7 @@ tags:
   - name: Structures - Localisations
   - name: Structures - Logos
   - name: Structures - Médias sociaux
+  - name: Structures - Ministres de tutelle
   - name: Structures - Noms
   - name: Termes
   - name: Termes - Liens web
@@ -60,7 +61,8 @@ paths:
     $ref: './paths/docs/docs.yml#/~1docs~1specs'
   '/docs/enums':
     $ref: './paths/docs/docs.yml#/~1docs~1enums'
-  ### STRUCTURE ###
+
+  ### STRUCTURES ###
   '/structures':
     $ref: './paths/structures/structures.yml#/~1structures'
   '/structures/{structureId}':
@@ -97,6 +99,10 @@ paths:
     $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias'
   '/structures/{structureId}/social-medias/{socialmediaId}':
     $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias~1{socialmediaId}'
+  '/structures/{structureId}/supervising-ministers':
+    $ref: './paths/structures/supervising-ministers.yml#/~1structures~1{structureId}~1supervising-ministers'
+  '/structures/{structureId}/supervising-ministers/{supervisingMinisterId}':
+    $ref: './paths/structures/supervising-ministers.yml#/~1structures~1{structureId}~1supervising-ministers~1{supervisingMinisterId}'
   '/structures/{structureId}/weblinks':
     $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks'
   '/structures/{structureId}/weblinks/{weblinkId}':
@@ -200,7 +206,7 @@ paths:
   '/document-types/{documentTypeId}':
     $ref: './paths/document-types/document-types.yml#/~1document-types~1{documentTypeId}'
 
-  ### TYPES DE CONTACT GENERIQUE ###
+  ### TYPES D'EMAIL GENERIQUE ###
   '/email-types':
     $ref: './paths/email-types/email-types.yml#/~1email-types'
   '/email-types/{emailTypeId}':
@@ -274,14 +280,14 @@ components:
   responses:
     BadRequest:
       $ref: './responses/errors/bad-request.yml'
-    NotFound:
-      $ref: './responses/errors/not-found.yml'
     Forbidden:
       $ref: './responses/errors/forbidden.yml'
-    Unauthorized:
-      $ref: './responses/errors/unauthorized.yml'
+    NotFound:
+      $ref: './responses/errors/not-found.yml'
     ServerError:
       $ref: './responses/errors/server-error.yml'
+    Unauthorized:
+      $ref: './responses/errors/unauthorized.yml'
 
   schemas:
     ### MODELS ###
@@ -291,10 +297,10 @@ components:
       $ref: './schemas/categories/identifier.yml'
     CategoryLight:
       $ref: './schemas/categories/category-light.yml'
-    CategoryWeblink:
-      $ref: './schemas/categories/weblink.yml'
     CategoryRelationship:
       $ref: './schemas/commons/category-relationship.yml'
+    CategoryWeblink:
+      $ref: './schemas/categories/weblink.yml'
     Document:
       $ref: './schemas/documents/document.yml'
     DocumentLight:
@@ -365,6 +371,8 @@ components:
       $ref: './schemas/structures/name.yml'
     StructureNameLight:
       $ref: './schemas/structures/name-light.yml'
+    StructureSupervisingMinister:
+      $ref: './schemas/structures/supervising-minister.yml'
     StructureWeblink:
       $ref: './schemas/structures/weblink.yml'
     SupervisingMinister:
@@ -384,10 +392,10 @@ components:
       $ref: './schemas/categories/identifier-payload.yml'
     CategoryPayload:
       $ref: './schemas/categories/category-payload.yml'
-    CategoryWeblinkPayload:
-      $ref: './schemas/categories/weblink-payload.yml'
     CategoryRelationshipPayload:
       $ref: './schemas/commons/category-relationship-payload.yml'
+    CategoryWeblinkPayload:
+      $ref: './schemas/categories/weblink-payload.yml'
     DocumentPayload:
       $ref: './schemas/documents/document-payload.yml'
     DocumentTypePayload:
@@ -396,6 +404,8 @@ components:
       $ref: './schemas/commons/nomenclature-payload.yml'
     LegalCategoryPayload:
       $ref: './schemas/legalcategories/legalcategory-payload.yml'
+    LocalisationPayload:
+      $ref: './schemas/commons/localisation-payload.yml'
     LogoPayload:
       $ref: './schemas/commons/logo-payload.yml'
     OfficialTextPayload:
@@ -414,8 +424,6 @@ components:
       $ref: './schemas/projects/weblink-payload.yml'
     RolePayload:
       $ref: './schemas/roles/role-payload.yml'
-    LocalisationPayload:
-      $ref: './schemas/commons/localisation-payload.yml'
     SocialMediaPayload:
       $ref: './schemas/commons/social-media-payload.yml'
     StructureCreatePayload:
@@ -430,6 +438,8 @@ components:
       $ref: './schemas/commons/localisation-payload.yml'
     StructureNamePayload:
       $ref: './schemas/structures/name-payload.yml'
+    StructureSupervisingMinisterPayload:
+      $ref: './schemas/structures/supervising-minister-payload.yml'
     StructureUpdatePayload:
       $ref: './schemas/structures/structure-update-payload.yml'
     StructureWeblinkPayload:
