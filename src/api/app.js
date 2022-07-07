@@ -20,7 +20,7 @@ import projectsRoutes from './projects/projects.routes';
 import structuresRoutes from './structures/structures.routes';
 import supervisingMinistersRoutes from './supervising-ministers/supervising-ministers.routes';
 import termsRoutes from './terms/terms.routes';
-import apiSpec from '../../docs/reference/api.json';
+import apiSpec from '../../docs/reference/api.json' assert { type: 'json' };
 
 // Application setup
 const app = express();
