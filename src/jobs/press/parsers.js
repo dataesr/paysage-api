@@ -37,15 +37,17 @@ export const parseNewsTank = (alert) => {
   const sourceName = 'NewsTank';
   const { mapperValuesMailer, mapperValues } = alert;
   const index = mapperValuesMailer?.index || mapperValues?.index;
-  const url = alert.link;
+  const url = index.lien;
   const id = index?.date?.match(/\d{3,10}/)?.[0];
-  const parsedPublicationDate = index?.date
-    ?.match(/\d{2}\/\d{2}\/\d{2,4}/)
+  const correctPublicationDate = index?.date
+    ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
     ?.replaceAll('/', '-');
-  const publicationDate = (parsedPublicationDate?.split('-')?.[2]?.length !== 4)
-    ? `${parsedPublicationDate[0]}-${parsedPublicationDate[1]}-20${parsedPublicationDate[2]}`
-    : parsedPublicationDate?.replaceAll('/', '-');
+  const wrongPublicationDate = index?.date
+    ?.match(/\d{2}\/\d{2}\/\d{2}/)
+    ?.[0]
+    ?.split('/');
+  const publicationDate = correctPublicationDate || `${wrongPublicationDate[0]}-${wrongPublicationDate[1]}-20${wrongPublicationDate[2]}`;
   const lastCrawlDate = alert.crawlDate
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
