@@ -1,57 +1,59 @@
 import { db } from '../../services/mongo.service';
 // import elastic from '../../services/elastic.service';
+import {
+  parseAef,
+  parseNewsTank,
+  parseFigaro,
+  parseEducPro,
+  parseEducProPersonalites,
+  parseADGS,
+} from './parsers';
 
-function parseAef(alert) {
-  const { mapperValues } = alert;
-  const { index } = mapperValues;
-  const url = alert.link?.match(/https:\/\/www.aefinfo.fr\/depeche\/\d{1,10}/)?.[0];
-  const id = url?.match(/\d{3,10}/)?.[0];
-  const publicationDate = index.date
-    ?.match(/\d{2}\/\d{2}\/\d{4}/)
-    ?.[0]
-    ?.replaceAll('/', '-');
-  const lastCrawlDate = alert.crawlDate
-    ?.match(/\d{2}\/\d{2}\/\d{4}/)
-    ?.[0]
-    ?.replaceAll('/', '-');
-  return {
-    id: `${alert.sourceName}-${id}`,
-    url,
-    sourceName: alert.sourceName,
-    title: index.titre,
-    summary: index.intro,
-    publicationDate,
-    lastCrawlDate,
-    number: index.numro,
-    text: index.texte,
-    author: index.auteur,
-  };
-}
-
-class Alert {
+/** Class representing a press alert. */
+export default class Alert {
   #collection;
+  // #elastic;
 
-  #elastic;
-
+  /**
+  * Create a new alert.
+  * @param {object} alert - The row json alert.
+  */
   constructor(alert) {
-    if (!alert?.sourceName) throw Error('Parameter `alert` must have a `sourceName` attribute');
     this.#collection = db.collection('press');
     // this.#elastic = elastic;
-    this.source = alert.sourceName;
-    this.alert = this.parse(alert);
+    this.data = Alert.parse(alert);
+    this.detectedIds = [];
   }
 
-  parse(alert, source) {
-    switch (source) {
+  /**
+  * Parse the raw alert using parser according to alert.sourceName.
+  * @static
+  * @param {object} alert - The row json alert.
+  * @return {object} The parsed json alert
+  */
+  static parse(alert) {
+    switch (alert.sourceName) {
       case 'aef':
-        return parseAef(this.alert);
-      // case 'newsTank':
-      //   return parseNewsTank(this.alert);
+        return parseAef(alert);
+      case 'Newstank':
+        return parseNewsTank(alert);
+      case 'Etudes supérieures: tout savoir sur les formations du supérieur et réussir ses études - Le Figaro':
+        return parseFigaro(alert);
+      case 'Actualités Actualité avec Educpros - Educpros.fr':
+        return parseEducPro(alert);
+      case "Biographie des 500 personnalités de l'enseignement supérieur sur EducPros - Educpros.fr":
+        return parseEducProPersonalites(alert);
+      case 'Nominations - ADGS : Association des DGS d’établissements d’enseignement supérieur':
+        return parseADGS(alert);
       default:
-        throw Error('Parameter `alert` must have a `sourceName` attribute');
+        throw Error('Unknown or missing `sourceName`');
     }
   }
 
+  /**
+  * Detect all paysage object mentioned in the alert.
+  * @return {object} The Alert instance.
+  */
   async detectPaysageObject() {
     // const detectedIds = this.#elastic.search()
     // this.data = { ...this.data, detectedIds}
@@ -59,44 +61,11 @@ class Alert {
   }
 
   async save() {
-    return this.collection.updateOne({ id: this.data.id }, this.data, { upsert: true });
+    await this.#collection.updateOne({ id: this.data.id }, { $set: { ...this.data, detectedIds: this.detectedIds } }, { upsert: true });
+    return this;
   }
 
   async find() {
     return this.collection.findOne({ id: this.data.id });
-  }
-}
-
-export default class AefAlert extends Alert {
-  constructor(alert) {
-    super();
-    this.data = AefAlert.parse(alert);
-  }
-
-  static parse(alert) {
-    const { mapperValues } = alert;
-    const { index } = mapperValues;
-    const url = alert.link?.match(/https:\/\/www.aefinfo.fr\/depeche\/\d{1,10}/)?.[0];
-    const id = url?.match(/\d{3,10}/)?.[0];
-    const publicationDate = index.date
-      ?.match(/\d{2}\/\d{2}\/\d{4}/)
-      ?.[0]
-      ?.replaceAll('/', '-');
-    const lastCrawlDate = alert.crawlDate
-      ?.match(/\d{2}\/\d{2}\/\d{4}/)
-      ?.[0]
-      ?.replaceAll('/', '-');
-    return {
-      id: `${alert.sourceName}-${id}`,
-      url,
-      sourceName: alert.sourceName,
-      title: index.titre,
-      summary: index.intro,
-      publicationDate,
-      lastCrawlDate,
-      number: index.numro,
-      text: index.texte,
-      author: index.auteur,
-    };
   }
 }
