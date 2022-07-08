@@ -55,17 +55,24 @@ export default class Alert {
   * @return {object} The Alert instance.
   */
   async detectPaysageObject() {
-    // const detectedIds = this.#elastic.search()
-    // this.data = { ...this.data, detectedIds}
+    // this.detectedIds = this.#elastic.search()
     return this;
   }
 
+  /**
+  * Save the object in mongo collection.
+  * @return {object} The Alert instance.
+  */
   async save() {
-    await this.#collection.updateOne({ id: this.data.id }, { $set: { ...this.data, detectedIds: this.detectedIds } }, { upsert: true });
+    await this.#collection.updateOne({ alertId: this.data.alertId }, { $set: { ...this.data, detectedIds: this.detectedIds } }, { upsert: true });
     return this;
   }
 
+  /**
+  * Get the alert object saved in database.
+  * @return {object} The Alert instance.
+  */
   async find() {
-    return this.collection.findOne({ id: this.data.id });
+    return this.collection.findOne({ alertId: this.data.alertId });
   }
 }

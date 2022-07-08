@@ -8,23 +8,23 @@ export const parseAef = (alert) => {
   const { mapperValuesMailer, mapperValues } = alert;
   const index = mapperValuesMailer?.index || mapperValues?.index;
   const url = alert.link?.match(/https:\/\/www.aefinfo.fr\/depeche\/\d{1,10}/)?.[0];
-  const id = url?.match(/\d{3,10}/)?.[0];
+  const alertId = url?.match(/\d{3,10}/)?.[0];
   const publicationDate = index.date
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
     ?.replaceAll('/', '-');
-  const lastCrawlDate = alert.crawlDate
+  const crawlDate = alert.crawlDate
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
     ?.replaceAll('/', '-');
   return {
-    id: `${sourceName}-${id}`,
+    alertId: `${sourceName}-${alertId}`,
     url,
     sourceName,
     title: index?.titre,
     summary: index?.intro,
     publicationDate,
-    lastCrawlDate,
+    crawlDate,
   };
 };
 
@@ -38,7 +38,7 @@ export const parseNewsTank = (alert) => {
   const { mapperValuesMailer, mapperValues } = alert;
   const index = mapperValuesMailer?.index || mapperValues?.index;
   const url = index.lien;
-  const id = index?.date?.match(/\d{3,10}/)?.[0];
+  const alertId = index?.date?.match(/\d{3,10}/)?.[0];
   const correctPublicationDate = index?.date
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
@@ -48,18 +48,18 @@ export const parseNewsTank = (alert) => {
     ?.[0]
     ?.split('/');
   const publicationDate = correctPublicationDate || `${wrongPublicationDate[0]}-${wrongPublicationDate[1]}-20${wrongPublicationDate[2]}`;
-  const lastCrawlDate = alert.crawlDate
+  const crawlDate = alert.crawlDate
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
     ?.replaceAll('/', '-');
   return {
-    id: `${sourceName}-${id}`,
+    alertId: `${sourceName}-${alertId}`,
     url,
     sourceName,
     title: index?.titre,
     summary: index?.intro,
     publicationDate,
-    lastCrawlDate,
+    crawlDate,
   };
 };
 
@@ -73,23 +73,23 @@ export const parseFigaro = (alert) => {
   const { mapperValuesMailer, mapperValues } = alert;
   const index = mapperValuesMailer?.index || mapperValues?.index;
   const url = alert.link?.match(/https:\/\/etudiant\.lefigaro\.fr\/article\/[A-Za-z0-9-_]+\//)?.[0];
-  const id = alert.link?.match(/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}/)?.[0];
+  const alertId = alert.link?.match(/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}/)?.[0];
   const publicationDate = index.auteur
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
     ?.replaceAll('/', '-');
-  const lastCrawlDate = alert.crawlDate
+  const crawlDate = alert.crawlDate
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
     ?.replaceAll('/', '-');
   return {
-    id: `${sourceName}-${id}`,
+    alertId: `${sourceName}-${alertId}`,
     url,
     sourceName,
     title: index?.titre,
     summary: index?.intro,
     publicationDate,
-    lastCrawlDate,
+    crawlDate,
   };
 };
 
@@ -103,23 +103,23 @@ export const parseEducPro = (alert) => {
   const { mapperValuesMailer, mapperValues } = alert;
   const index = mapperValuesMailer?.index || mapperValues?.index;
   const url = alert.link?.match(/https:\/\/www\.letudiant\.fr\/educpros\/actualite\/([A-Za-z0-9-_]+).html/)?.[0];
-  const id = alert.link?.match(/https:\/\/www\.letudiant\.fr\/educpros\/actualite\/([A-Za-z0-9-_]+).html/)?.[1];
+  const alertId = alert.link?.match(/https:\/\/www\.letudiant\.fr\/educpros\/actualite\/([A-Za-z0-9-_]+).html/)?.[1];
   const publicationDate = index?.auteur
     ?.match(/\d{2}.\d{2}.\d{4}/)
     ?.[0]
     ?.replaceAll('.', '-');
-  const lastCrawlDate = alert.crawlDate
+  const crawlDate = alert.crawlDate
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
     ?.replaceAll('/', '-');
   return {
-    id: `${sourceName}-${id}`,
+    alertId: `${sourceName}-${alertId}`,
     url,
     sourceName,
     title: index?.titre,
     summary: index?.intro,
     publicationDate,
-    lastCrawlDate,
+    crawlDate,
     text: index?.texte,
   };
 };
@@ -134,18 +134,18 @@ export const parseEducProPersonalites = (alert) => {
   const { mapperValuesMailer, mapperValues } = alert;
   const index = mapperValuesMailer?.index || mapperValues?.index;
   const url = alert.link?.match(/https:\/\/www\.letudiant\.fr\/educpros\/personnalites\/([A-Za-z0-9-_]+).html/)?.[0];
-  const id = alert.link?.match(/https:\/\/www\.letudiant\.fr\/educpros\/personnalites\/([A-Za-z0-9-_]+).html/)?.[1];
-  const lastCrawlDate = alert.crawlDate
+  const alertId = alert.link?.match(/https:\/\/www\.letudiant\.fr\/educpros\/personnalites\/([A-Za-z0-9-_]+).html/)?.[1];
+  const crawlDate = alert.crawlDate
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
     ?.replaceAll('/', '-');
   return {
-    id: `${sourceName}-${id}`,
+    alertId: `${sourceName}-${alertId}`,
     url,
     sourceName,
     title: index?.titre,
     summary: index?.intro,
-    lastCrawlDate,
+    crawlDate,
     text: index?.texte,
   };
 };
@@ -160,18 +160,18 @@ export const parseADGS = (alert) => {
   const { mapperValuesMailer, mapperValues } = alert;
   const index = mapperValuesMailer?.index || mapperValues?.index;
   const url = alert.link?.match(/https:\/\/www\.a-dgs\.fr\/[A-Za-z0-9-_/]+\/([A-Za-z0-9-_]+).html/)?.[0];
-  const id = alert.link?.match(/https:\/\/www\.a-dgs\.fr\/[A-Za-z0-9-_/]+\/([A-Za-z0-9-_]+).html/)?.[1];
-  const lastCrawlDate = alert.crawlDate
+  const alertId = alert.link?.match(/https:\/\/www\.a-dgs\.fr\/[A-Za-z0-9-_/]+\/([A-Za-z0-9-_]+).html/)?.[1];
+  const crawlDate = alert.crawlDate
     ?.match(/\d{2}\/\d{2}\/\d{4}/)
     ?.[0]
     ?.replaceAll('/', '-');
   return {
-    id: `${sourceName}-${id}`,
+    alertId: `${sourceName}-${alertId}`,
     url,
     sourceName,
     title: index?.titre,
     summary: index?.intro,
-    lastCrawlDate,
+    crawlDate,
     text: index?.texte,
   };
 };

@@ -1,0 +1,51 @@
+description: Représentation détaillée d'un prix scientifique
+readOnly: true
+allOf: 
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+      alertId:
+        type: string
+        nullable: true
+      url:
+        type: string
+        format: uri
+        nullable: true
+      sourceName:
+        type: string
+        nullable: true
+      title:
+        type: string
+        nullable: true
+      summary:
+        type: string
+        nullable: true
+      text:
+        type: string
+        nullable: true
+      publicationDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+      crawlDate:
+        type: string
+        nullable: true
+        pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+      detectedPaysageObjectIds:
+        type: array
+        items:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+      validatedPaysageObjectIds:
+        type: array
+        items:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+      discaredPaysageObjectIds:
+        type: array
+        items:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+  - $ref: '../../api.yml#/components/schemas/Metas'

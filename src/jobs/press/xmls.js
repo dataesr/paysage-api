@@ -15,9 +15,9 @@ export const fetchXML = async (url) => {
 };
 
 /**
- * Convert xml to an array of Alert objects.
+ * Parse an xml string and convert it to a json object.
  * @param {string} xml - A xml string to be parsed.
- * @return {array} An array of Alert objects.
+ * @return {object} A javascript object.
  * @throws {Error} An error if the xml cannot be parsed.
  */
 export const parseXML = async (xml) => {

@@ -1,0 +1,11 @@
+description: Représentation simplifiée d'un article de presse
+type: object
+properties:
+  id:
+    type: string
+    pattern: '^[a-zA-Z0-9]{15}$'
+    readOnly: true
+  nameFr:
+    type: string
+  nameEn:
+    type: string

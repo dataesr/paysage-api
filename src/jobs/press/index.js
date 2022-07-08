@@ -19,39 +19,35 @@ const FILES = [
   `${KB_CRAWL_URL}A_DGS.xml`,
 ];
 
-const getAllPressAlerts = async () => {
-  const alertGroups = await Promise
-    .all(FILES.map(async (file) => {
-      const xml = await fetchXML(file);
-      const parsedXML = await parseXML(xml);
-      const alerts = parsedXML.alert
-        .map((alert) => new Alert(alert))
-        .reduce((previous, current) => [...previous, current], []);
-      return alerts;
-    }));
+/**
+ * Processes all provided urls to return an array of Alert objects.
+ * @param {array} urls - An array of urls to fetch xml data.
+ * @return {object} An array of Alert objects.
+ */
+const getAllPressAlerts = async (urls) => {
+  const parser = async (url) => {
+    const xml = await fetchXML(url);
+    const parsedXML = await parseXML(xml);
+    const alerts = parsedXML.alert
+      .map((alert) => new Alert(alert))
+      .reduce((previous, current) => [...previous, current], []);
+    return alerts;
+  };
+  const alertGroups = await Promise.all(urls.map(async (url) => parser(url)));
   return alertGroups.reduce((previous, current) => [...previous, ...current], []);
 };
 
 export const processAllAlerts = async () => {
-  console.log('Starting job');
-  const alerts = await getAllPressAlerts();
-  // const alertIds = alerts.map((a) => a.data.id);
-  // const uniqueAlertIds = new Set(alertIds);
-  // alerts.forEach((alert) => {
-  //   console.log(alert.data.id);
-  //   // if (alert.data.id.indexOf(uniqueAlertIds) !== -1) { console.log(alert.data); }
-  // });
+  const alerts = await getAllPressAlerts(FILES);
   const uniqueAlerts = alerts.reduce((previous, current) => {
-    if (previous.indexOf(current.data.id) === -1) return [...previous, current.data.id];
-    // console.log(alerts.filter((alert) => alert.data.id === current.data.id));
+    if (previous.indexOf(current.data.alertId) === -1) return [...previous, current.data.alertId];
+    // console.log(alerts.filter((alert) => alert.data.alertId === current.data.alertId));
     return previous;
   }, []);
-  console.log({ alertsCount: alerts.length, uniqueAlertsCount: uniqueAlerts.length });
   return { alertsCount: alerts.length, uniqueAlertsCount: uniqueAlerts.length };
 };
 
 export const processNewAlerts = async () => {
   const alerts = await getAllPressAlerts();
-  console.log(alerts[0]);
   return { alertsCount: alerts.length };
 };

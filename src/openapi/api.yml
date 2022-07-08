@@ -17,6 +17,7 @@ servers:
     description: Development server
 
 tags:
+  - name: Article de presse
   - name: Catégories
   - name: Catégories juridiques
   - name: Catégories - Identifiants
@@ -55,11 +56,18 @@ security:
   - BearerAuth: []
 
 paths:
+  ### ARTICLE DE PRESS ###
+  '/press-articles':
+    $ref: './paths/pressarticles/pressarticles.yml#/~1press-articles'
+  '/press-articles/{pressArticleId}':
+    $ref: './paths/pressarticles/pressarticles.yml#/~1press-articles~1{pressArticleId}'
+
   ### OPENAPI DOCUMENTATION ###
   '/docs/specs':
     $ref: './paths/docs/docs.yml#/~1docs~1specs'
   '/docs/enums':
     $ref: './paths/docs/docs.yml#/~1docs~1enums'
+  
   ### STRUCTURE ###
   '/structures':
     $ref: './paths/structures/structures.yml#/~1structures'
@@ -254,16 +262,16 @@ components:
       $ref: ./parameters/ids/related-legal-category-id.yml
     legalCategoryId:
       $ref: ./parameters/ids/legal-category-id.yml
-    priceId:
-      $ref: ./parameters/ids/price-id.yml
     personId:
       $ref: ./parameters/ids/person-id.yml
+    pressArticleId:
+      $ref: ./parameters/ids/pressarticle-id.yml
+    priceId:
+      $ref: ./parameters/ids/price-id.yml
     projectId:
       $ref: ./parameters/ids/project-id.yml
     officialTextId:
       $ref: ./parameters/ids/official-text-id.yml
-    newsId:
-      $ref: ./parameters/ids/news-id.yml
     roleId:
       $ref: ./parameters/ids/role-id.yml
     relationshipId:
@@ -329,6 +337,10 @@ components:
       $ref: './schemas/persons/person-light.yml'
     PersonWeblink:
       $ref: './schemas/persons/weblink.yml'
+    PressArticle:
+      $ref: './schemas/pressarticles/pressarticle.yml'
+    PressArticleLight:
+      $ref: './schemas/pressarticles/pressarticle-light.yml'
     Price:
       $ref: './schemas/prices/price.yml'
     PriceLight:
@@ -406,6 +418,8 @@ components:
       $ref: './schemas/persons/person-payload.yml'
     PersonWeblinkPayload:
       $ref: './schemas/persons/weblink-payload.yml'
+    PressArticlePayload:
+      $ref: './schemas/pressarticles/pressarticle-payload.yml'
     PricePayload:
       $ref: './schemas/prices/price-payload.yml'
     ProjectPayload:

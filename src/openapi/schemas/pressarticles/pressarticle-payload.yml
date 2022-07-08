@@ -1,0 +1,14 @@
+description: Schema de modification d'une représentation d'un article de presse
+additionalProperties: false
+type: object
+properties:
+  discaredPaysageObjectIds:
+    type: array
+    items:
+      type: string
+      pattern: '^[a-zA-Z0-9]{5}$'
+  validatedPaysageObjectIds:
+    type: array
+    items:
+      type: string
+      pattern: '^[a-zA-Z0-9]{5}$'

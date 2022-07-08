@@ -1,12 +1,20 @@
-import os from 'os';
 import agenda from './agenda';
 import logger from '../services/logger.service';
 
-agenda.name(`worker-${os.hostname}-${process.pid}`);
 agenda
-  .on('ready', async () => {
-    logger.info('Agenda connected to mongodb');
-    await agenda.start();
-    await agenda.now('process all press articles');
-  })
-  .on('error', () => { logger.info('Agenda connexion to mongodb failed'); });
+  .on('ready', async () => { logger.info('agenda connected to mongodb'); })
+  .on('error', () => { logger.info('agenda connexion to mongodb failed'); });
+
+async function graceful() {
+  logger.info('Gracefully stopping agenda');
+  await agenda.stop();
+  process.exit(0);
+}
+
+process.on('SIGTERM', graceful);
+process.on('SIGINT', graceful);
+
+agenda.start();
+
+// test a job run;
+// agenda.now('process all press articles');
