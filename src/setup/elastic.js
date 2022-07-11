@@ -1,4 +1,3 @@
-// NOT IN USE FOR NOW
 import 'dotenv/config';
 
 import config from '../config';
@@ -7,34 +6,56 @@ import logger from '../services/logger.service';
 
 const { index } = config.elastic;
 
-const mapping = {
-  properties: {
-    // type: { type: 'text' },
-    // name: { type: 'text' },
-    suggest: {
-      type: 'completion',
-      contexts: [
-        {
-          name: 'type',
-          type: 'category',
-          path: 'type',
+const body = {
+  mappings: {
+    properties: {
+      content: {
+        type: 'text',
+        analyzer: 'name_analyzer',
+      },
+      ids: {
+        type: 'text',
+        fields: {
+          keyword: {
+            type: 'keyword',
+            ignore_above: 256,
+          },
         },
-      ],
+      },
+      query: {
+        type: 'percolator',
+      },
+    },
+  },
+  settings: {
+    analysis: {
+      filter: {
+        french_elision: {
+          type: 'elision',
+          articles: ['l', 'm', 't', 'qu', 'n', 's', 'j', 'd', 'c', 'jusqu', 'quoiqu', 'lorsqu', 'puisqu'],
+          articles_case: true,
+        },
+      },
+      analyzer: {
+        name_analyzer: {
+          filter: ['lowercase', 'french_elision', 'icu_folding'],
+          tokenizer: 'icu_tokenizer',
+        },
+      },
     },
   },
 };
 
-async function setupElasticIndicies() {
+async function setupElasticIndices() {
   const exists = await elastic.indices.exists({ index });
   if (!exists.body) {
-    await elastic.indices.create({ index });
-    await elastic.indices.putMapping({ index, body: mapping });
+    await elastic.indices.create({ index, body });
   }
   logger.info('Elasticsearch setup successfull');
   process.exit(0);
 }
 
-setupElasticIndicies().catch((e) => {
+setupElasticIndices().catch((e) => {
   logger.error({ ...e, message: 'Elasticsearch setup failed' });
   process.exit(1);
 });
