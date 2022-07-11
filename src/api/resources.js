@@ -10,6 +10,7 @@ export const logos = 'logos';
 export const names = 'names';
 export const officialtexts = 'official-texts';
 export const persons = 'persons';
+export const pressArticles = 'press-articles';
 export const prices = 'prices';
 export const projects = 'projects';
 export const socialmedias = 'social-medias';

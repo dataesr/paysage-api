@@ -17,4 +17,4 @@ process.on('SIGINT', graceful);
 agenda.start();
 
 // test a job run;
-// agenda.now('process all press articles');
+// agenda.now('process press articles');

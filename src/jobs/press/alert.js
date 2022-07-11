@@ -1,5 +1,4 @@
 import { db } from '../../services/mongo.service';
-// import elastic from '../../services/elastic.service';
 import {
   parseAef,
   parseNewsTank,
@@ -12,7 +11,6 @@ import {
 /** Class representing a press alert. */
 export default class Alert {
   #collection;
-  // #elastic;
 
   /**
   * Create a new alert.
@@ -20,9 +18,7 @@ export default class Alert {
   */
   constructor(alert) {
     this.#collection = db.collection('press');
-    // this.#elastic = elastic;
-    this.data = Alert.parse(alert);
-    this.detectedIds = [];
+    this.data = this.parse(alert);
   }
 
   /**
@@ -51,28 +47,18 @@ export default class Alert {
   }
 
   /**
-  * Detect all paysage object mentioned in the alert.
-  * @return {object} The Alert instance.
-  */
-  async detectPaysageObject() {
-    // this.detectedIds = this.#elastic.search()
-    return this;
-  }
-
-  /**
   * Save the object in mongo collection.
   * @return {object} The Alert instance.
   */
   async save() {
-    await this.#collection.updateOne({ alertId: this.data.alertId }, { $set: { ...this.data, detectedIds: this.detectedIds } }, { upsert: true });
-    return this;
-  }
-
-  /**
-  * Get the alert object saved in database.
-  * @return {object} The Alert instance.
-  */
-  async find() {
-    return this.collection.findOne({ alertId: this.data.alertId });
+    const exists = this.#collection.findOne({ alertId: this.data.alertId });
+    if (exists) return { ok: 1, status: 'exists' };
+    // search in elastic for potentially related elements.
+    const response = await this.#collection.updateOne(
+      { alertId: this.data.alertId },
+      { $set: { ...this.data } },
+      { upsert: true },
+    );
+    return { ok: 1, status: response };
   }
 }

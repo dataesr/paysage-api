@@ -20,34 +20,20 @@ const FILES = [
 ];
 
 /**
- * Processes all provided urls to return an array of Alert objects.
+ * Processes all provided urls to save new alerts in database.
  * @param {array} urls - An array of urls to fetch xml data.
  * @return {object} An array of Alert objects.
  */
-const getAllPressAlerts = async (urls) => {
-  const parser = async (url) => {
+export const processPressAlerts = async () => {
+  const processPressAlertFile = async (url) => {
     const xml = await fetchXML(url);
     const parsedXML = await parseXML(xml);
     const alerts = parsedXML.alert
-      .map((alert) => new Alert(alert))
-      .reduce((previous, current) => [...previous, current], []);
+      .map(async (alert) => new Alert(alert).save());
     return alerts;
   };
-  const alertGroups = await Promise.all(urls.map(async (url) => parser(url)));
+  const alertGroups = await Promise.all(
+    FILES.map(async (url) => processPressAlertFile(url)),
+  );
   return alertGroups.reduce((previous, current) => [...previous, ...current], []);
-};
-
-export const processAllAlerts = async () => {
-  const alerts = await getAllPressAlerts(FILES);
-  const uniqueAlerts = alerts.reduce((previous, current) => {
-    if (previous.indexOf(current.data.alertId) === -1) return [...previous, current.data.alertId];
-    // console.log(alerts.filter((alert) => alert.data.alertId === current.data.alertId));
-    return previous;
-  }, []);
-  return { alertsCount: alerts.length, uniqueAlertsCount: uniqueAlerts.length };
-};
-
-export const processNewAlerts = async () => {
-  const alerts = await getAllPressAlerts();
-  return { alertsCount: alerts.length };
 };

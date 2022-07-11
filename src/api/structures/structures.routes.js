@@ -9,6 +9,7 @@ import logos from './logos/logos.routes';
 import names from './names/names.routes';
 import socialmedias from './social-medias/social-medias.routes';
 import structures from './root/root.routes';
+import supervisingministers from './supervising-ministers/supervising-ministers.routes';
 import weblinks from './weblinks/weblinks.routes';
 
 const router = new express.Router();
@@ -22,6 +23,7 @@ router.use(logos);
 router.use(names);
 router.use(socialmedias);
 router.use(structures);
+router.use(supervisingministers);
 router.use(weblinks);
 
 export default router;
