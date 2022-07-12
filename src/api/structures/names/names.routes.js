@@ -26,6 +26,7 @@ router.route(`/${resource}/:resourceId/${subresource}/:id`)
     patchContext,
     controllers.patch(repository, readQuery),
     saveInStore(subresource),
+    saveInElastic(repository, elasticQuery, resource),
   ])
   .delete([
     patchContext,
