@@ -3,6 +3,6 @@ import config from '../config';
 
 const { node, username, password } = config.elastic;
 
-const elastic = new Client({ node, auth: { username, password } });
+const esClient = new Client({ node, auth: { username, password } });
 
-export default elastic;
+export default esClient;

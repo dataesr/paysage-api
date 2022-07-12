@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import config from '../config';
-import elastic from '../services/elastic.service';
+import esClient from '../services/elastic.service';
 import logger from '../services/logger.service';
 
 const { index } = config.elastic;
@@ -47,9 +47,9 @@ const body = {
 };
 
 async function setupElasticIndices() {
-  const exists = await elastic.indices.exists({ index });
+  const exists = await esClient.indices.exists({ index });
   if (!exists.body) {
-    await elastic.indices.create({ index, body });
+    await esClient.indices.create({ index, body });
   }
   logger.info('Elasticsearch setup successfull');
   process.exit(0);
