@@ -1,4 +1,11 @@
 services:
+  elasticsearch:
+    image: dataesr/es_icu:1.1
+    ports:
+      - 9200:9200
+    environment:
+      - 'discovery.type=single-node'
+
   mongodb:
     image: mongo:5.0
     ports:
@@ -14,6 +21,7 @@ services:
     ports:
       - 3003:3000
     depends_on:
+      - elasticsearch
       - mongodb
     environment:
       - MONGO_URI=mongodb://mongodb:27017
