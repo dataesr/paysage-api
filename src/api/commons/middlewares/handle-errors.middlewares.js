@@ -6,6 +6,7 @@ export function handleErrors(err, req, res, next) {
   const { path, method } = req;
   if (err instanceof HTTPError) {
     if (err.statusCode !== 500) { logger.info(err, { path, method }); }
+    if (err.statusCode === 500) { logger.error(err, { path, method }); }
     return res.status(err.statusCode).json({
       error: err.message,
       details: err.errors,
@@ -26,7 +27,7 @@ export function handleErrors(err, req, res, next) {
     });
   }
   if (err instanceof OAVError.InternalServerError) {
-    logger.info(err, { path, method });
+    logger.error(err, { path, method });
     return res.status(500).json({
       error: 'Something went wrong',
       details: err.errors,
