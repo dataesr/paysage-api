@@ -26,7 +26,10 @@ async function saveFile(req, res, next) {
   if (!req.file) { return next(); }
   const { path, mimetype } = req.context;
   await storage.putStream(swift, req.file.buffer, container, path, { 'Content-Type': mimetype })
-    .catch(() => { throw new ServerError('Error saving file'); });
+    .catch((e) => {
+      console.log(e);
+      throw new ServerError('Error saving file');
+    });
   return next();
 }
 
