@@ -17,6 +17,7 @@ servers:
     description: Development server
 
 tags:
+  - name: Authentification
   - name: Catégories
   - name: Catégories - Identifiants
   - name: Catégories - Liens web
