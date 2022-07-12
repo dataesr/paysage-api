@@ -1,6 +1,7 @@
 import { db } from '../../services/mongo.service';
 import BaseMongoRepository from './libs/base.mongo.repository';
 import NestedMongoRepository from './libs/nested.mongo.repository';
+import UsersMongoRepository from './libs/users.mongo.repository';
 
 const catalogRepository = new BaseMongoRepository({ db, collection: '_catalog' });
 const categoriesRepository = new BaseMongoRepository({ db, collection: 'categories' });
@@ -24,7 +25,7 @@ const structureNamesRepository = new NestedMongoRepository({ db, collection: 'st
 const structuresRepository = new BaseMongoRepository({ db, collection: 'structures' });
 const supervisingMinistersRepository = new BaseMongoRepository({ db, collection: 'supervisingministers' });
 const termsRepository = new BaseMongoRepository({ db, collection: 'terms' });
-const usersRepository = new BaseMongoRepository({ db, collection: 'users' });
+const usersRepository = new UsersMongoRepository({ db, collection: 'users' });
 const weblinksRepository = new BaseMongoRepository({ db, collection: 'weblinks' });
 
 export {
