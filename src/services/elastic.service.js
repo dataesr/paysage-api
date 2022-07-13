@@ -3,6 +3,11 @@ import config from '../config';
 
 const { node, username, password } = config.elastic;
 
-const esClient = new Client({ node, auth: { username, password } });
+const esConfig = { node };
+if (username && password) {
+  esConfig.auth = { username, password };
+}
+
+const esClient = new Client(esConfig);
 
 export default esClient;

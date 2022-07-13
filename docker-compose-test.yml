@@ -5,6 +5,11 @@ services:
       - 9200:9200
     environment:
       - 'discovery.type=single-node'
+    healthcheck:
+      test: curl -s -f elasticsearch:9200/_cat/health > /dev/null || exit 1
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   mongodb:
     image: mongo:5.0
@@ -21,7 +26,10 @@ services:
     ports:
       - 3003:3000
     depends_on:
-      - elasticsearch
-      - mongodb
+      elasticsearch:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
     environment:
+      - ES_NODE=http://elasticsearch:9200
       - MONGO_URI=mongodb://mongodb:27017
