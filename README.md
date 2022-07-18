@@ -34,6 +34,12 @@ To acces the MongoDB from inside, use host : `mongodb://mongo:27017`.
 
 To acces the MongoDB from outside, use host : `mongodb://127.0.0.1:27017`.
 
+To access the Elasticsearch from inside, use host : `http://elasticsearch:9200/`.
+
+To access the Elasticsearch from outside, use host : `http://localhost:9200/`.
+
+To access the paysage-api from inside, use host : `http://localhost:3000/`.
+
 To access the paysage-api from outside, use host : `http://localhost:3003/`.
 
 To acess the paysage-auth from outside, use host : `http://localhost:3004/`.

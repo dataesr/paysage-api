@@ -1,6 +1,6 @@
 services:
   elasticsearch:
-    image: dataesr/es_icu:1.1
+    image: dataesr/es_icu:7.12.0
     ports:
       - 9200:9200
     environment:
