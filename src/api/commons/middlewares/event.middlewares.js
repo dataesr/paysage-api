@@ -9,6 +9,10 @@ export function saveInElastic(repository, useQuery, resourceName) {
     const { context, params } = req || {};
     const id = context?.id || params?.id || undefined;
     const { resourceId } = params || {};
+    await esClient.deleteByQuery({
+      index,
+      body: { query: { bool: { must: [{ match: { ids: resourceId } }, { term: { type: resourceName } }] } } },
+    });
     const resource = await repository.get(resourceId, id, { useQuery });
     const names = [...new Set(Object.values(resource).flat().filter((n) => n))];
     const body = [];
