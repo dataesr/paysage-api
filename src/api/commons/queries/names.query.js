@@ -7,7 +7,7 @@ export default [
       _id: 0,
       id: 1,
       resourceId: 1,
-      officialName: { $ifNull: ['$usualName', null] },
+      officialName: 1,
       usualName: { $ifNull: ['$usualName', null] },
       shortName: { $ifNull: ['$shortName', null] },
       brandName: { $ifNull: ['$brandName', null] },

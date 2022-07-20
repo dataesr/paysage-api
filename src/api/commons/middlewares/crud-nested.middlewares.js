@@ -1,7 +1,7 @@
 import { NotFoundError, ServerError } from '../http-errors';
 
 const read = (repository, useQuery) => async (req, res, next) => {
-  const { id, resourceId } = req?.params || {};
+  const { id, resourceId } = req.params;
   if (!await repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
   const resource = await repository.get(resourceId, id, { useQuery });
   if (!resource) throw new NotFoundError();
