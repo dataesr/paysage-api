@@ -32,6 +32,7 @@ router.route(`/${resource}/:resourceId/${subresource}/:id`)
     patchContext,
     controllers.remove(repository),
     saveInStore(subresource),
+    saveInElastic(repository, elasticQuery, resource),
   ]);
 
 export default router;
