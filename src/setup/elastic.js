@@ -13,7 +13,7 @@ const body = {
         type: 'text',
         analyzer: 'name_analyzer',
       },
-      ids: {
+      id: {
         type: 'text',
         fields: {
           keyword: {

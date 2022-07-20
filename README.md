@@ -28,6 +28,10 @@ To run the full app in a Docker container :
 
 `docker-compose up --build`
 
+To stop the docker container :
+
+`docker-compose down`
+
 This run a docker container, with a MongoDB inside, the paysage-auth app and the paysage-api app.
 
 To acces the MongoDB from inside, use host : `mongodb://mongo:27017`.
