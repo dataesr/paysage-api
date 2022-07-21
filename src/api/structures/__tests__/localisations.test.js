@@ -42,7 +42,7 @@ describe('API > structures > localisations > create', () => {
       .send(payload).expect(201);
     Object.entries(payload).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
     expect(body.id).toBeTruthy();
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');;
     id = body.id;
   });
 

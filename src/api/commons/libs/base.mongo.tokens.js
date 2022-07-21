@@ -1,21 +1,14 @@
-class BaseMongoTokens {
-  constructor({ db, collection }) {
-    this._db = db;
-    this._collection = db(collection);
-  }
+import BaseMongoRepository from './base.mongo.repository';
 
-  set = async ({ userId, userAgent, refreshToken, expireAt }) => {
-    await this._collection.updateOne(
-      { userId, userAgent },
-      { $set: { userId, userAgent, refreshToken, expireAt } },
-      { upsert: true },
-    );
-    return this._collection.findOne({ userId, userAgent });
+class BaseMongoTokens extends BaseMongoRepository {
+  upsert = async (filters, data) => {
+    const { modifiedCount } = await this._collection.updateOne(filters, { $set: data }, { upsert: true });
+    return { ok: !!modifiedCount };
   };
 
   remove = async (filters) => this._collection.deleteMany(filters);
 
-  find = async (filters) => this._collection.find(filters).toArray();
+  get = async (filters) => this._collection.findOne(filters);
 }
 
 export default BaseMongoTokens;

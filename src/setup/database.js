@@ -20,6 +20,12 @@ async function setupDatabase() {
   await db.collection('structures').createIndex({ id: 1 }, { unique: true });
   await db.collection('supervisingministers').createIndex({ id: 1 }, { unique: true });
   await db.collection('terms').createIndex({ id: 1 }, { unique: true });
+  await db.collection('tokens').createIndex({ expireAt: 1 }, { expireAfterSeconds: 0 });
+  await db.collection('tokens').createIndex({ token: 1, userAgent: 1 });
+  await db.collection('users').createIndex({ email: 1 }, { unique: true });
+  await db.collection('users').createIndex({ id: 1 }, { unique: true });
+  await db.collection('usersgroups').createIndex({ id: 1 }, { unique: true });
+  await db.collection('usersgroupmembers').createIndex({ userId: 1, resourceId: 1 }, { unique: true });
   await db.collection('weblinks').createIndex({ id: 1 }, { unique: true });
   logger.info('Mongodb setup successfull');
   if (client) {

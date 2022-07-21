@@ -2,7 +2,8 @@ type: object
 required:
   - password
   - email
-  - username
+  - firstName
+  - lastName
 properties:
   password:
     type: string
@@ -13,9 +14,6 @@ properties:
     type: string
     format: email
     example: folland@dataesr.ovh
-  username:
-    type: string
-    example: folland87
   firstName:
     type: string
     example: Frédéric

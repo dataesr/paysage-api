@@ -50,7 +50,7 @@ describe('API > persons > weblinks > create', () => {
     expect(body.type).toBe(payload.type);
     expect(body.url).toBe(payload.url);
     expect(body.language).toBe(payload.language);
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');;
 
     await global.superapp
       .delete(`/${resource}/${resourceId}/${subresource}/${body.id}`)
@@ -145,7 +145,7 @@ describe('API > persons > weblinks > read', () => {
     expect(body.resourceId).toBe(resourceId);
     expect(body.type).toBe(payload.type);
     expect(body.url).toBe(payload.url);
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');;
   });
 
   it('should throw bad request if id too short', async () => {

@@ -1,0 +1,40 @@
+type: object
+properties:
+  id:
+    type: string
+    readOnly: true
+    description: User id
+  firstName:
+    type: string
+  lastName:
+    type: string
+  email:
+    type: string
+  confirmed:
+    type: boolean
+  deleted:
+    type: boolean
+  avatar:
+    type: string
+    nullable: true
+    readOnly: true
+  role:
+    type: string
+    description: User role
+    enum:
+      - user
+      - admin
+  createdAt:
+    type: string
+    format: date-time
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    readOnly: true
+  createdBy:
+    type: string
+    readOnly: true
+  updatedBy:
+    type: string
+    readOnly: true

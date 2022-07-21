@@ -43,7 +43,7 @@ describe('API > structures > names > create', () => {
     expect(response.body.id).toBeTruthy();
     expect(response.body.officialName).toBe('string');
     expect(response.body.usualName).toBe('string');
-    expect(response.body.createdBy.username).toBe('user');
+    expect(response.body.createdBy.lastName).toBe('user');
     id = response.body.id;
   });
 
@@ -115,7 +115,7 @@ describe('API > structures > names > read', () => {
     expect(response.body.id).toBeTruthy();
     expect(response.body.officialName).toBe('string');
     expect(response.body.usualName).toBe('string');
-    expect(response.body.createdBy.username).toBe('user');
+    expect(response.body.createdBy.lastName).toBe('user');
     expect(response.body.otherNames).toHaveLength(2);
     expect(response.body.otherNames).toContain('string2');
   });

@@ -1,0 +1,20 @@
+type: object
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+      userId:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+      role:
+        type: string
+        enum:
+          - member
+          - admin
+      confirmed:
+        type: boolean
+  - $ref: '../../api.yml#/components/schemas/Metas'

@@ -11,8 +11,6 @@ services:
   paysage-api:
     build: .
     command: npm test
-    ports:
-      - 3003:3000
     depends_on:
       - mongodb
     environment:
