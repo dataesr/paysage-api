@@ -32,4 +32,6 @@ services:
         condition: service_started
     environment:
       - ES_NODE=http://elasticsearch:9200
+      - ES_PASSWORD=
+      - ES_USERNAME=
       - MONGO_URI=mongodb://mongodb:27017
