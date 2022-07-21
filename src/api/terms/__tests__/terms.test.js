@@ -47,7 +47,7 @@ describe(`API > ${resource} > create`, () => {
       .expect(201);
     Object.entries(payload).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
     expect(body.id).toBeTruthy();
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');;
     expect(body.creationOfficialText.id).toBe(textId);
     expect(body.closureOfficialText.id).toBe(textId);
     id = body.id;
@@ -97,7 +97,7 @@ describe(`API > ${resource} > update`, () => {
     const updated = { ...payload, ...updatePayLoad };
     Object.entries(updated).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
     expect(body.id).toBeTruthy();
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');;
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
@@ -133,7 +133,7 @@ describe(`API > ${resource} > read`, () => {
     Object.entries(expected).map((entry) => expect(body[entry[0]]).toStrictEqual(entry[1]));
     expect(body.id).toBe(id);
     expect(body.priority).toBe(99);
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');;
     expect(body.creationOfficialText.id).toBe(textId);
     expect(body.closureOfficialText.id).toBe(textId);
     expect(body.creationOfficialText.nature).toBe('Publication au JO');

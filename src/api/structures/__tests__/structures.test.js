@@ -19,7 +19,7 @@ describe('API > structures > structures > create', () => {
       }).expect(201);
     const { body } = response;
     expect(body.id).toBeTruthy();
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');;
     expect(body.currentName.usualName).toBe('Université');
     id = body.id;
   });
@@ -67,7 +67,7 @@ describe('API > structures > structures > read', () => {
       .expect(200);
     expect(response.body.structureStatus).toBe('inactive');
     expect(response.body.id).toBe(id);
-    expect(response.body.createdBy.username).toBe('user');
+    expect(response.body.createdBy.lastName).toBe('user');
   });
   it('throws not found with unknown id', async () => {
     await global.superapp

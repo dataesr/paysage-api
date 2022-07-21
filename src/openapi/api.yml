@@ -25,6 +25,7 @@ tags:
   - name: Catégories juridiques
   - name: Documentation
   - name: Documents
+  - name: Groupes d'utilisateurs
   - name: Ministres de tutelle
   - name: Personnes
   - name: Personnes - Catégories
@@ -52,11 +53,50 @@ tags:
   - name: Textes officiels
   - name: Types d'email
   - name: Types de document
+  - name: Utilisateurs
 
 security:
   - BearerAuth: []
 
 paths:
+  ### AUTHENTICATION ###
+  '/signup':
+    $ref: ./paths/auth/signup.yml
+  '/signin':
+    $ref: ./paths/auth/signin.yml
+  '/signout':
+    $ref: ./paths/auth/signout.yml
+  '/token':
+    $ref: ./paths/auth/tokens.yml
+  '/recovery/password':
+    $ref: ./paths/auth/recovery.yml
+
+  ### USERS ###
+  '/users':
+    $ref: ./paths/users/users.yml#/Users
+  '/admin/users/{userId}':
+    $ref: ./paths/users/users.yml#/User-Admin
+  '/admin/users/{userId}/confirm':
+    $ref: ./paths/users/users.yml#/User-Admin-Confirm
+  '/admin/users':
+    $ref: ./paths/users/users.yml#/Users-Admin
+  '/me':
+    $ref: ./paths/users/me.yml#/Me
+  '/me/password':
+    $ref: ./paths/users/me.yml#/Password
+  '/me/avatar':
+    $ref: ./paths/users/me.yml#/Avatar
+  '/users-groups':
+    $ref: ./paths/usersgroups/usersgroups.yml#/UsersGroups
+  '/users-groups/{usersGroupId}':
+    $ref: ./paths/usersgroups/usersgroups.yml#/UsersGroup
+  # '/users-groups/{usersGroupId}/memberships':
+  #   $ref: ./paths/usersgroups/usersgroups.yml#/UsersGroupMemberships
+  # '/users-groups/{usersGroupId}/requests':
+  #   $ref: ./paths/usersgroups/usersgroups.yml#/UsersGroupRequests
+  # '/users-groups/{usersGroupId}/invitations':
+  #   $ref: ./paths/usersgroups/usersgroups.yml#/UsersGroupInvitations
+
   ### OPENAPI DOCUMENTATION ###
   '/docs/specs':
     $ref: './paths/docs/docs.yml#/~1docs~1specs'
@@ -277,6 +317,10 @@ components:
       $ref: ./parameters/ids/relationship-id.yml
     supervisingMinisterId:
       $ref: ./parameters/ids/supervising-minister-id.yml
+    userId:
+      $ref: ./parameters/ids/user-id.yml
+    usersGroupId:
+      $ref: ./parameters/ids/usersgroup-id.yml
 
   responses:
     BadRequest:
@@ -324,6 +368,8 @@ components:
       $ref: './schemas/commons/localisation-light.yml'
     Logo:
       $ref: './schemas/commons/logo.yml'
+    Me:
+      $ref: ./schemas/users/me.yml
     OfficialText:
       $ref: './schemas/officialtexts/officialtext.yml'
     OfficialTextLight:
@@ -350,6 +396,10 @@ components:
       $ref: './schemas/roles/role.yml'
     RoleLight:
       $ref: './schemas/roles/role-light.yml'
+    SignInPayload:
+      $ref: ./schemas/auth/signin-payload.yml
+    SignUpPayload:
+      $ref: ./schemas/auth/signup-payload.yml
     SocialMedia:
       $ref: './schemas/commons/social-media.yml'
     Structure:
@@ -386,6 +436,16 @@ components:
       $ref: './schemas/terms/term-light.yml'
     TermWeblink:
       $ref: './schemas/terms/weblink.yml'
+    Tokens:
+      $ref: ./schemas/auth/tokens.yml
+    User:
+      $ref: ./schemas/users/user.yml
+    UserAdmin:
+      $ref: ./schemas/users/user-admin.yml
+    UsersGroup:
+      $ref: ./schemas/usersgroups/usersgroup.yml
+    UsersGroupMember:
+      $ref: ./schemas/usersgroups/usersgroup-member.yml
 
 
     ### PAYLOADS ###
@@ -451,6 +511,12 @@ components:
       $ref: './schemas/terms/term-payload.yml'
     TermWeblinkPayload:
       $ref: './schemas/terms/weblink-payload.yml'
+    UserAdminPayload:
+      $ref: ./schemas/users/user-admin-payload.yml
+    UsersGroupMemberPayload:
+      $ref: ./schemas/usersgroups/usersgroup-member.yml
+    UsersGroupPayload:
+      $ref: ./schemas/usersgroups/usersgroup-payload.yml
 
 
     ### ENUMS ###
@@ -477,7 +543,7 @@ components:
     TermWeblinkTypesEnum:
       $ref: './schemas/terms/enums/weblink-types.yml'
 
-
+    
     ### COMMON MODELS ###
     Error:
       $ref: './schemas/commons/error.yml'

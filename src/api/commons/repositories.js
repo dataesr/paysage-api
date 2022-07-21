@@ -2,55 +2,32 @@ import { db } from '../../services/mongo.service';
 import BaseMongoRepository from './libs/base.mongo.repository';
 import NestedMongoRepository from './libs/nested.mongo.repository';
 import UsersMongoRepository from './libs/users.mongo.repository';
+import TokensMongoRepository from './libs/base.mongo.tokens';
 
-const catalogRepository = new BaseMongoRepository({ db, collection: '_catalog' });
-const categoriesRepository = new BaseMongoRepository({ db, collection: 'categories' });
-const documentsRepository = new BaseMongoRepository({ db, collection: 'documents' });
-const documentTypesRepository = new BaseMongoRepository({ db, collection: 'documenttypes' });
-const emailsRepository = new BaseMongoRepository({ db, collection: 'emails' });
-const emailTypesRepository = new BaseMongoRepository({ db, collection: 'emailtypes' });
-const eventsRepository = new BaseMongoRepository({ db, collection: '_events' });
-const identifiersRepository = new BaseMongoRepository({ db, collection: 'identifiers' });
-const legalcategoriesRepository = new BaseMongoRepository({ db, collection: 'legalcategories' });
-const officialtextsRepository = new BaseMongoRepository({ db, collection: 'officialtexts' });
-const personsRepository = new BaseMongoRepository({ db, collection: 'persons' });
-const pricesRepository = new BaseMongoRepository({ db, collection: 'prices' });
-const projectLocalisationsRepository = new NestedMongoRepository({ db, collection: 'projects', field: 'localisations' });
-const projectsRepository = new BaseMongoRepository({ db, collection: 'projects' });
-const relationshipsRepository = new BaseMongoRepository({ db, collection: 'relationships' });
-const socialmediasRepository = new BaseMongoRepository({ db, collection: 'socialmedias' });
-const structureLocalisationsRepository = new NestedMongoRepository({ db, collection: 'structures', field: 'localisations' });
-const structureLogosRepository = new NestedMongoRepository({ db, collection: 'structures', field: 'logos' });
-const structureNamesRepository = new NestedMongoRepository({ db, collection: 'structures', field: 'names' });
-const structuresRepository = new BaseMongoRepository({ db, collection: 'structures' });
-const supervisingMinistersRepository = new BaseMongoRepository({ db, collection: 'supervisingministers' });
-const termsRepository = new BaseMongoRepository({ db, collection: 'terms' });
-const usersRepository = new UsersMongoRepository({ db, collection: 'users' });
-const weblinksRepository = new BaseMongoRepository({ db, collection: 'weblinks' });
-
-export {
-  catalogRepository,
-  categoriesRepository,
-  documentsRepository,
-  documentTypesRepository,
-  emailsRepository,
-  emailTypesRepository,
-  eventsRepository,
-  identifiersRepository,
-  legalcategoriesRepository,
-  officialtextsRepository,
-  personsRepository,
-  pricesRepository,
-  projectLocalisationsRepository,
-  projectsRepository,
-  relationshipsRepository,
-  socialmediasRepository,
-  structuresRepository,
-  structureLocalisationsRepository,
-  structureLogosRepository,
-  structureNamesRepository,
-  supervisingMinistersRepository,
-  termsRepository,
-  usersRepository,
-  weblinksRepository,
-};
+export const catalogRepository = new BaseMongoRepository({ db, collection: '_catalog' });
+export const categoriesRepository = new BaseMongoRepository({ db, collection: 'categories' });
+export const documentsRepository = new BaseMongoRepository({ db, collection: 'documents' });
+export const documentTypesRepository = new BaseMongoRepository({ db, collection: 'documenttypes' });
+export const emailsRepository = new BaseMongoRepository({ db, collection: 'emails' });
+export const emailTypesRepository = new BaseMongoRepository({ db, collection: 'emailtypes' });
+export const eventsRepository = new BaseMongoRepository({ db, collection: '_events' });
+export const identifiersRepository = new BaseMongoRepository({ db, collection: 'identifiers' });
+export const legalcategoriesRepository = new BaseMongoRepository({ db, collection: 'legalcategories' });
+export const officialtextsRepository = new BaseMongoRepository({ db, collection: 'officialtexts' });
+export const personsRepository = new BaseMongoRepository({ db, collection: 'persons' });
+export const pricesRepository = new BaseMongoRepository({ db, collection: 'prices' });
+export const projectLocalisationsRepository = new NestedMongoRepository({ db, collection: 'projects', field: 'localisations' });
+export const projectsRepository = new BaseMongoRepository({ db, collection: 'projects' });
+export const relationshipsRepository = new BaseMongoRepository({ db, collection: 'relationships' });
+export const socialmediasRepository = new BaseMongoRepository({ db, collection: 'socialmedias' });
+export const structureLocalisationsRepository = new NestedMongoRepository({ db, collection: 'structures', field: 'localisations' });
+export const structureLogosRepository = new NestedMongoRepository({ db, collection: 'structures', field: 'logos' });
+export const structureNamesRepository = new NestedMongoRepository({ db, collection: 'structures', field: 'names' });
+export const structuresRepository = new BaseMongoRepository({ db, collection: 'structures' });
+export const supervisingMinistersRepository = new BaseMongoRepository({ db, collection: 'supervisingministers' });
+export const termsRepository = new BaseMongoRepository({ db, collection: 'terms' });
+export const tokensRepository = new TokensMongoRepository({ db, collection: 'tokens' });
+export const usersGroupsRepository = new BaseMongoRepository({ db, collection: 'usersgroups' });
+export const usersGroupMembersRepository = new BaseMongoRepository({ db, collection: 'usersgroupmembers' });
+export const usersRepository = new UsersMongoRepository({ db, collection: 'users' });
+export const weblinksRepository = new BaseMongoRepository({ db, collection: 'weblinks' });

@@ -8,12 +8,14 @@ import health from '@cloudnative/health-connect';
 import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 import { authenticate } from './commons/middlewares/authenticate.middlewares';
 
+import authRoutes from './auth/auth.routes';
 import assetsRoutes from './assets/assets.routes';
 import categoriesRoutes from './categories/categories.routes';
 import documentsRoutes from './documents/documents.routes';
 import documentTypesRoutes from './document-types/document-types.routes';
 import emailTypesRoutes from './email-types/email-types.routes';
 import legalCategoriesRoutes from './legalcategories/legalcategories.routes';
+import meRoutes from './me/me.routes';
 import officialTextsRoutes from './officialtexts/officialtexts.routes';
 import personsRoutes from './persons/persons.routes';
 import pricesRoutes from './prices/prices.routes';
@@ -21,6 +23,8 @@ import projectsRoutes from './projects/projects.routes';
 import structuresRoutes from './structures/structures.routes';
 import supervisingMinistersRoutes from './supervising-ministers/supervising-ministers.routes';
 import termsRoutes from './terms/terms.routes';
+import usersRoutes from './users/users.routes';
+import usersGroupsRoutes from './usersgroups/usersgroups.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/api.yml');
@@ -30,6 +34,7 @@ const apiDocument = YAML.load(apiSpec);
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.disable('x-powered-by');
 
 // Health checker
 const healthcheck = new health.HealthChecker();
@@ -68,12 +73,14 @@ app.use(OAV.middleware({
 app.use(authenticate);
 
 // Register api routes
+app.use(authRoutes);
 app.use(assetsRoutes);
 app.use(categoriesRoutes);
 app.use(documentsRoutes);
 app.use(documentTypesRoutes);
 app.use(emailTypesRoutes);
 app.use(legalCategoriesRoutes);
+app.use(meRoutes);
 app.use(officialTextsRoutes);
 app.use(personsRoutes);
 app.use(pricesRoutes);
@@ -81,6 +88,8 @@ app.use(projectsRoutes);
 app.use(structuresRoutes);
 app.use(supervisingMinistersRoutes);
 app.use(termsRoutes);
+app.use(usersRoutes);
+app.use(usersGroupsRoutes);
 
 // Error handler
 app.use(handleErrors);

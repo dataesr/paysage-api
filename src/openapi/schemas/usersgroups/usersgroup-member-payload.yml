@@ -1,0 +1,13 @@
+type: object
+additionalProperties: false
+properties:
+  userId:
+    type: string
+    pattern: '^[a-zA-Z0-9]{15}$'
+  role:
+    type: string
+    enum:
+      - member
+      - admin
+  confirmed:
+    type: boolean

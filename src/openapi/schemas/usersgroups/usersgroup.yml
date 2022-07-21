@@ -1,0 +1,27 @@
+type: object
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+      name:
+        type: string
+        description: Nom du groupe
+      acronym:
+        type: string
+        nullable: true
+        description: Nom du groupe
+      otherNames:
+        type: array
+        nullable: true
+        description: Autres intitulés
+        items:
+          type: string
+      description:
+        type: string
+        nullable: true
+        description: Description
+  - $ref: '../../api.yml#/components/schemas/Metas'

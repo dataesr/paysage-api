@@ -1,9 +1,5 @@
-import storage from 'swift/storage';
-import config from '../../../config';
-import swift from '../../../services/storage.service';
-import { ServerError } from '../http-errors';
-
-const { container } = config.objectStorage;
+import storage from '../../../services/storage.service';
+import { NotFoundError, ServerError } from '../http-errors';
 
 function setFileInfo(resource) {
   return async (req, res, next) => {
@@ -25,7 +21,7 @@ function setFileInfo(resource) {
 async function saveFile(req, res, next) {
   if (!req.file) { return next(); }
   const { path, mimetype } = req.context;
-  await storage.putStream(swift, req.file.buffer, container, path, { 'Content-Type': mimetype })
+  await storage.put(req.file.buffer, path, { contentType: mimetype })
     .catch(() => { throw new ServerError('Error saving file'); });
   return next();
 }
@@ -33,8 +29,11 @@ async function saveFile(req, res, next) {
 function deleteFile(resource) {
   return async (req, res, next) => {
     const { id } = req.params;
-    await storage.deleteFile(swift, container, `assets/${resource}/${id}`)
-      .catch(() => { throw new ServerError('Error deleting file'); });
+    await storage.delete(`assets/${resource}/${id}`)
+      .catch((err) => {
+        if (err.statusCode === 404) throw new NotFoundError();
+        throw new ServerError('Error deleting file');
+      });
     return next();
   };
 }

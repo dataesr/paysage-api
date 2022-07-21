@@ -1,15 +1,48 @@
 import express from 'express';
-import usersControllers from './users.controllers';
+import { patchContext } from '../commons/middlewares/context.middlewares';
 import { requireRoles } from '../commons/middlewares/rbac.middlewares';
-import { addUpdateMetaToPayload, addInsertMetaToPayload } from '../commons/middlewares/metas.middlewares';
-import { parseQueryParams } from '../commons/middlewares/parse-parameters.middlewares';
+import { saveInStore } from '../commons/middlewares/event.middlewares';
+import controllers from '../commons/middlewares/crud.middlewares';
 
-const usersRoutes = new express.Router();
+import readQuery from '../commons/queries/users.query';
+import adminQuery from '../commons/queries/users.admin.query';
+import { setConfirmToContext } from './users.middlewares';
+import { usersRepository as repository } from '../commons/repositories';
+import { users as resource } from '../resources';
 
-usersRoutes.get('/users/:id', requireRoles(['admin']), usersControllers.getUser);
-usersRoutes.patch('/users/:id', requireRoles(['admin']), usersControllers.updateUser);
-usersRoutes.delete('/users/:id', requireRoles(['admin']), addUpdateMetaToPayload, usersControllers.deleteUser);
-usersRoutes.post('/users', requireRoles(['admin']), addInsertMetaToPayload, usersControllers.createUser);
-usersRoutes.get('/users', requireRoles(['admin']), parseQueryParams, usersControllers.listUsers);
+const router = new express.Router();
 
-export default usersRoutes;
+router.route(`/${resource}`)
+  .get(controllers.list(repository, readQuery));
+
+router.route(`/admin/${resource}`)
+  .get([
+    requireRoles(['admin']),
+    controllers.patch(repository, adminQuery),
+  ]);
+
+router.route(`/admin/${resource}/:id/confirm`)
+  .put([
+    requireRoles(['admin']),
+    patchContext,
+    setConfirmToContext,
+    controllers.read(repository, adminQuery),
+    saveInStore(resource),
+  ]);
+
+router.route(`/admin/${resource}/:id`)
+  .get([requireRoles(['admin']), controllers.read(repository, adminQuery)])
+  .patch([
+    requireRoles(['admin']),
+    patchContext,
+    controllers.patch(repository, adminQuery),
+    saveInStore(resource),
+  ])
+  .delete([
+    requireRoles(['admin']),
+    patchContext,
+    controllers.remove(repository),
+    saveInStore(resource),
+  ]);
+
+export default router;

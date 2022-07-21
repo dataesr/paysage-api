@@ -1,17 +1,47 @@
 import express from 'express';
-import meControllers from './me.controllers';
-import { addUpdateMetaToPayload } from '../commons/middlewares/metas.middlewares';
-import { verifyCurrentPassword } from './me.middlewares';
-import { uploadImage } from '../commons/middlewares/uploads.middlewares';
-import { requireActiveUser } from '../commons/middlewares/rbac.middlewares';
+import { patchContext } from '../commons/middlewares/context.middlewares';
+import { saveInStore } from '../commons/middlewares/event.middlewares';
+import controllers from '../commons/middlewares/crud.middlewares';
+import { setFileInfo, saveFile, deleteFile } from '../commons/middlewares/files.middlewares';
+import { setUserIdInParams, setAvatarData, unsetAvatarData, updatePassword } from './me.middlewares';
+import readQuery from '../commons/queries/users.query';
+import { usersRepository as repository } from '../commons/repositories';
+import { me as resource } from '../resources';
 
-const meRoutes = new express.Router();
+const router = new express.Router();
 
-meRoutes.get('/me', requireActiveUser, meControllers.getMe);
-meRoutes.patch('/me', addUpdateMetaToPayload, meControllers.updateMe);
-meRoutes.delete('/me', requireActiveUser, meControllers.deleteMe);
-meRoutes.put('/me/password', requireActiveUser, verifyCurrentPassword, meControllers.setPassword);
-meRoutes.put('/me/avatar', requireActiveUser, uploadImage, meControllers.setAvatar);
-meRoutes.delete('/me/avatar', requireActiveUser, meControllers.unsetAvatar);
+router.route(`/${resource}`)
+  .get([setUserIdInParams, controllers.read(repository, readQuery)])
+  .patch([
+    setUserIdInParams,
+    patchContext,
+    controllers.patch(repository, readQuery),
+    saveInStore(resource),
+  ]);
 
-export default meRoutes;
+router.route(`/${resource}/avatar`)
+  .put([
+    setUserIdInParams,
+    patchContext,
+    setFileInfo('avatars'),
+    saveFile,
+    setAvatarData,
+    controllers.patch(repository, readQuery),
+    saveInStore(resource),
+  ])
+  .delete([
+    setUserIdInParams,
+    patchContext,
+    deleteFile('avatars'),
+    unsetAvatarData,
+    controllers.patch(repository, readQuery),
+    saveInStore(resource),
+  ]);
+
+router.route(`/${resource}/password`)
+  .put([
+    updatePassword,
+    saveInStore(resource),
+  ]);
+
+export default router;

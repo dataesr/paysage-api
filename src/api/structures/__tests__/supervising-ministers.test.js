@@ -143,7 +143,7 @@ describe('API > structures > supervising ministers > read', () => {
     expect(body.id).toBe(id);
     expect(body.supervisingMinister.id).toBe(smid);
     expect(body.supervisingMinister.usualName).toBe('Minister name');
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');;
   });
 
   it('throws bad request with wrong id', async () => {
