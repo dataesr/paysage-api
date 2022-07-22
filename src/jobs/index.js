@@ -15,6 +15,3 @@ process.on('SIGTERM', graceful);
 process.on('SIGINT', graceful);
 
 agenda.start();
-
-// test a job run;
-// agenda.now('process press articles');
