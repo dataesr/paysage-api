@@ -19,7 +19,7 @@ describe('API > structures > structures > create', () => {
       }).expect(201);
     const { body } = response;
     expect(body.id).toBeTruthy();
-    expect(body.createdBy.lastName).toBe('user');;
+    expect(body.createdBy.lastName).toBe('user');
     expect(body.currentName.usualName).toBe('Université');
     id = body.id;
   });
