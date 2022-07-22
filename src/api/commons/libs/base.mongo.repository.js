@@ -54,8 +54,18 @@ class BaseMongoRepository {
     return { ok: !!modifiedCount };
   };
 
+  upsert = async (filters, data) => {
+    const { acknowledged } = await this._collection.updateOne(filters, data, { upsert: true });
+    return { ok: acknowledged };
+  };
+
   remove = async (id) => {
     const { deletedCount } = await this._collection.deleteOne({ id });
+    return { ok: !!deletedCount };
+  };
+
+  deleteOne = async (filters) => {
+    const { deletedCount } = await this._collection.deleteOne(filters);
     return { ok: !!deletedCount };
   };
 

@@ -17,10 +17,10 @@ export default [
     $project: {
       _id: 0,
       id: 1,
+      groupId: 1,
       userId: 1,
       user: 1,
       role: 1,
-      confirmed: 1,
     },
   },
 ];

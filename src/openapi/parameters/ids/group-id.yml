@@ -1,4 +1,4 @@
-name: usersGroupId
+name: groupId
 in: path
 schema:
   type: string

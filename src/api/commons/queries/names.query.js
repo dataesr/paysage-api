@@ -14,6 +14,7 @@ export default [
       nameEn: { $ifNull: ['$nameEn', null] },
       acronymFr: { $ifNull: ['$acronymFr', null] },
       acronymEn: { $ifNull: ['$acronymEn', null] },
+      acronymLocal: { $ifNull: ['$acronymEn', null] },
       otherNames: { $ifNull: ['$otherNames', []] },
       startDate: { $ifNull: ['$startDate', null] },
       endDate: { $ifNull: ['$endDate', null] },

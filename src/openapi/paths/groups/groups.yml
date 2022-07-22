@@ -1,4 +1,4 @@
-UsersGroups:
+Groups:
   get:
     tags:
       - Groupes d'utilisateurs
@@ -19,7 +19,7 @@ UsersGroups:
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/UsersGroup'
+                    $ref: '../../api.yml#/components/schemas/Group'
                 totalCount:
                   type: number
       '400':
@@ -39,19 +39,19 @@ UsersGroups:
       content:
         application/json:
           schema:
-            title: CreateTerm
+            title: CreateGroup
             type: object
             required:
               - name
             allOf:
-              - $ref: '../../api.yml#/components/schemas/UsersGroupPayload'
+              - $ref: '../../api.yml#/components/schemas/GroupPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/UsersGroup'
+              $ref: '../../api.yml#/components/schemas/Group'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -61,20 +61,20 @@ UsersGroups:
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-UsersGroup:
+Group:
   get:
     tags:
       - Groupes d'utilisateurs
     summary: Obtenir le détail d'un groupe d'utilisateurs
     parameters:
-      - $ref: '../../api.yml#/components/parameters/usersGroupId'
+      - $ref: '../../api.yml#/components/parameters/groupId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/UsersGroup'
+              $ref: '../../api.yml#/components/schemas/Group'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -88,8 +88,10 @@ UsersGroup:
     tags:
       - Groupes d'utilisateurs
     summary: Supprimer un groupe d'utilisateurs
+    description: |
+      L'utilisateur actif doit avoir un role d'owner au sein du groupe pour effectuer cette opération.
     parameters:
-      - $ref: '../../api.yml#/components/parameters/usersGroupId'
+      - $ref: '../../api.yml#/components/parameters/groupId'
     responses:
       '204':
         description: No content
@@ -106,20 +108,22 @@ UsersGroup:
     tags:
       - Groupes d'utilisateurs
     summary: Modifier un groupe d'utilisateurs
+    description: |
+      L'utilisateur actif doit avoir un role d'admin au sein du groupe pour effectuer cette opération.
     parameters:
-      - $ref: '../../api.yml#/components/parameters/usersGroupId'
+      - $ref: '../../api.yml#/components/parameters/groupId'
     requestBody:
       content:
         application/json:
           schema:
-              $ref: '../../api.yml#/components/schemas/UsersGroupPayload'
+              $ref: '../../api.yml#/components/schemas/GroupPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/UsersGroup'
+              $ref: '../../api.yml#/components/schemas/Group'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

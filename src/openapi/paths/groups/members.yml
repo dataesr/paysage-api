@@ -1,4 +1,4 @@
-UsersGroupMemberships:
+GroupMembers:
   get:
     tags:
       - Groupes d'utilisateurs
@@ -19,7 +19,7 @@ UsersGroupMemberships:
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/UsersGroup'
+                    $ref: '../../api.yml#/components/schemas/GroupMember'
                 totalCount:
                   type: number
       '400':
@@ -31,27 +31,51 @@ UsersGroupMemberships:
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-UsersGroupMembership:
-  patch:
+GroupMember:
+  put:
     tags:
       - Groupes d'utilisateurs
-    summary: Modifier les attributs d'un membre d'un groupe d'utilisateurs
+    summary: Ajouter un utilisateur à un groupe d'utilisateurs
+    description: |
+      L'utilisateur actif doit avoir un role d'admin au sein du groupe pour effectuer cette opération.
     parameters:
-      - $ref: '../../api.yml#/components/parameters/usersGroupId'
+      - $ref: '../../api.yml#/components/parameters/groupId'
+      - $ref: '../../api.yml#/components/parameters/userId'
     requestBody:
       content:
         application/json:
           schema:
-              $ref: '../../api.yml#/components/schemas/UsersGroupPayload'
+              $ref: '../../api.yml#/components/schemas/GroupMemberPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/UsersGroup'
+              $ref: '../../api.yml#/components/schemas/GroupMember'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Groupes d'utilisateurs
+    summary: Supprimer un utilisateur d'un groupe d'utilisateurs
+    description: |
+      L'utilisateur actif doit avoir un role d'admin au sein du groupe pour effectuer cette opération.
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/groupId'
+      - $ref: '../../api.yml#/components/parameters/userId'
+    responses:
+      '204':
+        description: No content
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
