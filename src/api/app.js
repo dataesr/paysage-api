@@ -24,7 +24,7 @@ import structuresRoutes from './structures/structures.routes';
 import supervisingMinistersRoutes from './supervising-ministers/supervising-ministers.routes';
 import termsRoutes from './terms/terms.routes';
 import usersRoutes from './users/users.routes';
-import usersGroupsRoutes from './usersgroups/usersgroups.routes';
+import usersGroupsRoutes from './groups/groups.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/api.yml');

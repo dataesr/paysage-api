@@ -2,31 +2,33 @@ import express from 'express';
 import { patchContext, createContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import { createGroupMemberController } from './members.middlewares';
-import readQuery from '../../commons/queries/usersgroups.query';
-import { usersGroupMembersRepository as repository } from '../../commons/repositories';
-import { usersGroups as resource, usersGroupMembers as subresource } from '../../resources';
+import { createGroupController, requireGroupRoles } from './groups.middlewares';
+import readQuery from '../../commons/queries/groups.query';
+import { groupsRepository as repository } from '../../commons/repositories';
+import { groups as resource } from '../../resources';
 
 const router = new express.Router();
 
-router.route(`/${resource}/:resourceId/${subresource}`)
+router.route(`/${resource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
     setGeneratedInternalIdInContext(resource),
-    createGroupMemberController,
+    createGroupController,
     saveInStore(resource),
   ]);
 
-router.route(`/${resource}/:resourceId/${subresource}/:id`)
+router.route(`/${resource}/:id`)
+  .get(controllers.read(repository, readQuery))
   .patch([
+    requireGroupRoles(['admin', 'owner']),
     patchContext,
     controllers.patch(repository, readQuery),
     saveInStore(resource),
   ])
   .delete([
+    requireGroupRoles(['owner']),
     patchContext,
-    // remove membership logic
     controllers.remove(repository),
     saveInStore(resource),
   ]);

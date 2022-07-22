@@ -1,10 +1,26 @@
 services:
-  mongo:
+  elasticsearch:
+    image: dataesr/es_icu:7.12.0
+    ports:
+      - 9200:9200
+    environment:
+      - 'discovery.type=single-node'
+    healthcheck:
+      test: curl -s -f elasticsearch:9200/_cat/health > /dev/null || exit 1
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - elastic:/usr/share/elasticsearch/data
+    networks:
+      - paysage
+
+  mongodb:
     image: mongo:5.0
     ports:
       - 27017:27017
     restart: always
-    command: --replSet rs0 --logpath /dev/null 
+    command: --replSet rs0 --logpath /dev/null --quiet
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
       - mongo:/data/db
@@ -14,21 +30,29 @@ services:
   paysage-api:
     build: .
     command: npm start
+    restart: always
     environment:
-      - MONGO_URI=mongodb://mongo:27017
+      - ES_NODE=http://elasticsearch:9200
+      - ES_PASSWORD=
+      - ES_USERNAME=
+      - MONGO_URI=mongodb://mongodb:27017
     env_file:
       - .env
     ports:
       - 3000:3000
     depends_on:
-      - mongo
+      elasticsearch:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
     # volumes:
     #   - ./:/app
     networks:
       - paysage
 
-volumes:
-  mongo:
-
 networks:
   paysage: {}
+
+volumes:
+  mongo:
+  elastic:

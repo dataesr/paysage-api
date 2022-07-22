@@ -1,6 +1,7 @@
 type: object
 required:
   - id
+  - name
 allOf:
   - type: object
     properties:

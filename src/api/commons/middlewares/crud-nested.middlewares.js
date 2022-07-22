@@ -10,7 +10,7 @@ const read = (repository, useQuery) => async (req, res, next) => {
 };
 
 const list = (repository, useQuery) => async (req, res, next) => {
-  const { params, query } = req;
+  const { params, query } = req || {};
   const { resourceId } = params || {};
   if (!await repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
   const { data, totalCount = 0 } = await repository.find({ resourceId, ...query, useQuery });
@@ -19,7 +19,7 @@ const list = (repository, useQuery) => async (req, res, next) => {
 };
 
 const create = (repository, useQuery) => async (req, res, next) => {
-  const { body, context, params } = req;
+  const { body, context, params } = req || {};
   const { id } = context || {};
   const { resourceId } = params || {};
   if (!await repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
@@ -31,7 +31,7 @@ const create = (repository, useQuery) => async (req, res, next) => {
 };
 
 const patch = (repository, useQuery) => async (req, res, next) => {
-  const { body, context, params } = req;
+  const { body, context, params } = req || {};
   const { id, resourceId } = params || {};
   if (!await repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
   const exists = await repository.get(resourceId, id, { useQuery });
@@ -44,7 +44,7 @@ const patch = (repository, useQuery) => async (req, res, next) => {
 };
 
 const remove = (repository) => async (req, res, next) => {
-  const { params } = req;
+  const { params } = req || {};
   const { id, resourceId } = params || {};
   if (!await repository.checkResource(resourceId)) throw new NotFoundError(`Resource ${resourceId} does not exist`);
   const exists = await repository.get(resourceId, id);
