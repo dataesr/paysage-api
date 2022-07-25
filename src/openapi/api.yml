@@ -24,6 +24,7 @@ tags:
   - name: Catégories juridiques
   - name: Documentation
   - name: Documents
+  - name: Evènements de suivi
   - name: Ministres de tutelle
   - name: Personnes
   - name: Personnes - Catégories
@@ -174,6 +175,12 @@ paths:
   '/official-texts/{officialTextId}':
     $ref: './paths/officialtexts/officialtexts.yml#/~1official-texts~1{officialTextId}'
 
+  ### OFFICIAL TEXTS ###
+  '/follow-ups':
+    $ref: './paths/followups/followups.yml#/~1follow-ups'
+  '/follow-ups/{followUpId}':
+    $ref: './paths/followups/followups.yml#/~1follow-ups~1{followUpId}'
+
   ### DOCUMENTS ###
   '/documents':
     $ref: './paths/documents/documents.yml#/~1documents'
@@ -234,6 +241,8 @@ components:
       $ref: ./parameters/ids/document-type-id.yml
     emailTypeId:
       $ref: ./parameters/ids/email-type-id.yml
+    followUpId:
+      $ref: ./parameters/ids/followup-id.yml
     structureId:
       $ref: ./parameters/ids/structure-id.yml
     nameId:
@@ -313,6 +322,10 @@ components:
       $ref: './schemas/commons/nomenclature.yml'
     EmailTypeLight:
       $ref: './schemas/commons/nomenclature-light.yml'
+    FollowUp:
+      $ref: './schemas/followups/followup.yml'
+    FollowUpLight:
+      $ref: './schemas/followups/followup-light.yml'
     LegalCategory:
       $ref: './schemas/legalcategories/legalcategory.yml'
     LegalCategoryLight:
@@ -402,6 +415,8 @@ components:
       $ref: './schemas/commons/nomenclature-payload.yml'
     EmailTypePayload:
       $ref: './schemas/commons/nomenclature-payload.yml'
+    FollowUpPayload:
+      $ref: './schemas/followups/followup-payload.yml'
     LegalCategoryPayload:
       $ref: './schemas/legalcategories/legalcategory-payload.yml'
     LocalisationPayload:
