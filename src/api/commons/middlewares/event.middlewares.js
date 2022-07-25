@@ -27,8 +27,8 @@ export function saveInElastic(repository, useQuery, resourceName) {
         query: { match_phrase: { content: { query: name, analyzer: 'name_analyzer', slop: 2 } } },
         id,
         type: resourceName,
-        name,
-        usualName: resource.currentName.usualName,
+        name: resource.currentName.usualName,
+        text: name,
       });
     });
     await esClient.bulk({ refresh: true, body: actions });
