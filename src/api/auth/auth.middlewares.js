@@ -64,7 +64,6 @@ export const signin = async (req, res, next) => {
   if (!userOtp || !totp.check(userOtp, user.otpSecret)) {
     const otp = totp.generate(user.otpSecret);
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    console.log(ip);
     agenda.now('send signin email', { user, otp, ip });
     res.setHeader(otpHeader, 'required; email');
     const expires = new Date().setMinutes(new Date().getMinutes + 10);

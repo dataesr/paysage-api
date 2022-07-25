@@ -7,7 +7,7 @@ properties:
   acronym:
     type: string
     nullable: true
-    description: Nom du groupe
+    description: Acronyme du groupe
   otherNames:
     type: array
     nullable: true
