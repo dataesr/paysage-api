@@ -18,6 +18,7 @@ import officialTextsRoutes from './officialtexts/officialtexts.routes';
 import personsRoutes from './persons/persons.routes';
 import pricesRoutes from './prices/prices.routes';
 import projectsRoutes from './projects/projects.routes';
+import searchRoutes from './search/search.routes';
 import structuresRoutes from './structures/structures.routes';
 import supervisingMinistersRoutes from './supervising-ministers/supervising-ministers.routes';
 import termsRoutes from './terms/terms.routes';
@@ -79,6 +80,7 @@ app.use(personsRoutes);
 app.use(pricesRoutes);
 app.use(projectsRoutes);
 app.use(structuresRoutes);
+app.use(searchRoutes);
 app.use(supervisingMinistersRoutes);
 app.use(termsRoutes);
 
