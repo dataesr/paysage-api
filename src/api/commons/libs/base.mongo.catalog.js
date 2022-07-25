@@ -23,16 +23,16 @@ class BaseMongoCatalog {
       if (!exists) { break; }
     }
 
-    const { result } = await this._collection
+    const { acknowledged } = await this._collection
       .insertOne({ _id, collection })
       .catch((e) => { throw new Error(e); });
-    if (result.ok) { return _id; }
+    if (acknowledged) { return _id; }
     throw new Error('Too many retries ...');
   };
 
   setUniqueId = async (id, objectCollection) => {
-    const { result } = await this._collection.insertOne({ _id: id, objectCollection });
-    if (result.ok) { return id; }
+    const { acknowledged } = await this._collection.insertOne({ _id: id, objectCollection });
+    if (acknowledged) { return id; }
     throw new Error(`Cannot insert ID ${id}`);
   };
 }

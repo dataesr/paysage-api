@@ -1,0 +1,14 @@
+type: object
+properties:
+  email:
+    type: string
+  confirmed:
+    type: boolean
+  role:
+    type: string
+    description: User role
+    enum:
+      - user
+      - admin
+  deleted:
+    type: boolean

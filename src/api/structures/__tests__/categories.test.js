@@ -137,7 +137,7 @@ describe('API > structures > categories > read', () => {
     expect(body.id).toBe(id);
     expect(body.category.id).toBe(cid);
     expect(body.category.usualNameFr).toBe('Catégorie');
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp

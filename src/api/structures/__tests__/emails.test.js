@@ -60,7 +60,7 @@ describe('API > structures > emails > create', () => {
     expect(body.resourceId).toBe(resourceId);
     expect(body.emailType.id).toBe(emailTypeId);
     expect(body.email).toBe('secretariat@univ.fr');
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');
 
     await global.superapp
       .delete(`/${resource}/${resourceId}/${subresource}/${body.id}`)
@@ -137,7 +137,7 @@ describe('API > structures > emails > read', () => {
     expect(body.emailType.id).toBe(emailTypeId);
     expect(body.emailType.usualName).toBe('Président');
     expect(body.email).toBe('secretariat@univ.fr');
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');
   });
 
   it('should throw bad request if id too short', async () => {

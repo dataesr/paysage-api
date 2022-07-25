@@ -26,11 +26,6 @@
     {
       "type": "item",
       "title": "Authentification",
-      "uri": "reference/auth.yml"
-    },
-    {
-      "type": "item",
-      "title": "Paysage",
       "uri": "reference/api.yml"
     }
   ]

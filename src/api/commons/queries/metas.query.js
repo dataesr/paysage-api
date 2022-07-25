@@ -1,41 +1,24 @@
+import usersLightQuery from './users.light.query';
+
 export default [
   {
     $lookup: {
       from: 'users',
       localField: 'createdBy',
       foreignField: 'id',
-      as: 'user',
+      pipeline: usersLightQuery,
+      as: 'createdBy',
     },
   },
-  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
-  {
-    $set: {
-      createdBy:
-      {
-        id: { $ifNull: ['$user.id', null] },
-        username: { $ifNull: ['$user.username', null] },
-        avatar: { $ifNull: ['$user.avatar', null] },
-      },
-    },
-  },
+  { $set: { createdBy: { $arrayElemAt: ['$createdBy', 0] } } },
   {
     $lookup: {
       from: 'users',
       localField: 'updatedBy',
       foreignField: 'id',
-      as: 'user',
+      pipeline: usersLightQuery,
+      as: 'updatedBy',
     },
   },
-  { $set: { user: { $arrayElemAt: ['$user', 0] } } },
-  {
-    $set: {
-      updatedBy:
-      {
-        id: { $ifNull: ['$user.id', null] },
-        username: { $ifNull: ['$user.username', null] },
-        avatar: { $ifNull: ['$user.avatar', null] },
-      },
-    },
-  },
-  { $project: { user: 0 } },
+  { $set: { updatedBy: { $arrayElemAt: ['$updatedBy', 0] } } },
 ];

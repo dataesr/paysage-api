@@ -1,0 +1,20 @@
+type: object
+additionalProperties: false
+properties:
+  name:
+    type: string
+    description: Nom du groupe
+  acronym:
+    type: string
+    nullable: true
+    description: Acronyme du groupe
+  otherNames:
+    type: array
+    nullable: true
+    description: Autres intitulés
+    items:
+      type: string
+  description:
+    type: string
+    nullable: true
+    description: Description

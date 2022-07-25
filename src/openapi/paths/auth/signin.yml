@@ -1,13 +1,21 @@
 post:
   tags:
     - Authentication
-  summary: Sign a user in
+  summary: Sign a user in.
+           Not passing X-Paysage-OTP returns 401 but triggers a new email with OTP.
+  security: []
+  parameters:
+    - in: header
+      name: X-Paysage-OTP
+      schema:
+        type: string
+        pattern: '^[0-9]{6}$'
   requestBody:
     description: Required user info for signin
     content:
       application/json:
         schema:
-          $ref: '../../auth.yml#/components/schemas/SignInPayload'
+          $ref: '../../api.yml#/components/schemas/SignInPayload'
     required: true
   responses:
     '200':
@@ -15,8 +23,10 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../../auth.yml#/components/schemas/Tokens'
+            $ref: '../../api.yml#/components/schemas/Tokens'
     '400':
-      $ref: '../../auth.yml#/components/responses/BadRequest'
+      $ref: '../../api.yml#/components/responses/BadRequest'
+    '401':
+      $ref: '../../api.yml#/components/responses/Unauthorized'
     '500':
-      $ref: '../../auth.yml#/components/responses/ServerError'
+      $ref: '../../api.yml#/components/responses/ServerError'

@@ -2,6 +2,7 @@ post:
   tags:
     - Authentication
   summary: Use refresh token to regenerate access token
+  security: []
   requestBody:
     description: Required user info for authentication
     content:
@@ -20,8 +21,8 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../../auth.yml#/components/schemas/Tokens'
+            $ref: '../../api.yml#/components/schemas/Tokens'
     '400':
-        $ref: '../../auth.yml#/components/responses/BadRequest'
+        $ref: '../../api.yml#/components/responses/BadRequest'
     '500':
-      $ref: '../../auth.yml#/components/responses/ServerError'
+      $ref: '../../api.yml#/components/responses/ServerError'

@@ -3,33 +3,9 @@ type: object
 description: Object metadatas
 properties:
   createdBy:
-    type: object
-    readOnly: true
-    properties:
-      id:
-        type: string
-        nullable: true
-      username:
-        type: string
-        nullable: true
-      avatar:
-        type: string
-        format: uri
-        nullable: true
+    $ref: '../../api.yml#/components/schemas/UserLight'
   updatedBy:
-    type: object
-    readOnly: true
-    properties:
-      id:
-        type: string
-        nullable: true
-      username:
-        type: string
-        nullable: true
-      avatar:
-        type: string
-        format: uri
-        nullable: true
+    $ref: '../../api.yml#/components/schemas/UserLight'
   createdAt:
     type: string
     format: date-time

@@ -1,0 +1,16 @@
+type: object
+properties:
+  id:
+    type: string
+    readOnly: true
+    description: User's internal id
+  firstName:
+    type: string
+  lastName:
+    type: string
+  email:
+    type: string
+  avatar:
+    type: string
+    nullable: true
+    readOnly: true

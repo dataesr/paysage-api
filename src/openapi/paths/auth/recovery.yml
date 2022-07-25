@@ -1,24 +1,28 @@
 post:
   tags:
     - Authentication
-  summary: Resets user password
+  summary: Reset user password. 
+           Not passing X-Paysage-OTP returns 401 but triggers a new email with OTP.
+  security: []
+  parameters:
+    - in: header
+      name: X-Paysage-OTP
+      schema:
+        type: string
+        pattern: '^[0-9]{6}$'
   requestBody:
     content:
       application/json:
         schema:
           type: object
           required:
-            - account
-            - password
-            - code
+            - email
           properties:
-            account:
+            email:
               type: string
             password:
               type: string
               pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
-            code:
-              type: integer
   responses:
     '200':
       description: Success
@@ -30,8 +34,10 @@ post:
               message:
                 type: string
     '400':
-        $ref: '../../auth.yml#/components/responses/BadRequest'
+        $ref: '../../api.yml#/components/responses/BadRequest'
+    '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
     '404':
-      $ref: '../../auth.yml#/components/responses/NotFound'
+      $ref: '../../api.yml#/components/responses/NotFound'
     '500':
-      $ref: '../../auth.yml#/components/responses/ServerError'
+      $ref: '../../api.yml#/components/responses/ServerError'

@@ -15,11 +15,10 @@ export default class Utils {
     const user = {
       id: Math.random().toString().substring(2, 10),
       email: `${username}@test.com`,
-      username,
       password,
       avatar: 'http://avatars.com/tester',
-      firstName: 'firstName',
-      lastName: 'lastName',
+      firstName: 'user',
+      lastName: 'user',
       active: true,
       confirmed: true,
       role: (admin) ? 'admin' : 'user',

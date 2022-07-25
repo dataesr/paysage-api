@@ -4,6 +4,7 @@ import request from 'supertest';
 import app from '../src/api/app';
 import { clearDB, client, db } from '../src/services/mongo.service';
 import Utils from './utils';
+import agenda from '../src/jobs/agenda';
 
 beforeAll(() => {
   global.superapp = request(app);
@@ -18,4 +19,5 @@ afterAll(async () => {
   if (client) {
     await client.close();
   }
+  await agenda.stop();
 });

@@ -3,7 +3,7 @@ post:
     - Authentication
   summary: Sign a user out
   responses:
-    '200':
+    '204':
       description: Success
       content:
         application/json:
@@ -13,6 +13,6 @@ post:
               message:
                 type: string
     '400':
-      $ref: '../../auth.yml#/components/responses/BadRequest'
+      $ref: '../../api.yml#/components/responses/BadRequest'
     '500':
-      $ref: '../../auth.yml#/components/responses/ServerError'
+      $ref: '../../api.yml#/components/responses/ServerError'
