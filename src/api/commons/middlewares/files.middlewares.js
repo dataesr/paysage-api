@@ -1,5 +1,7 @@
 import storage from 'swift/storage';
+
 import config from '../../../config';
+import logger from '../../../services/logger.service';
 import swift from '../../../services/storage.service';
 import { ServerError } from '../http-errors';
 
@@ -27,7 +29,7 @@ async function saveFile(req, res, next) {
   const { path, mimetype } = req.context;
   await storage.putStream(swift, req.file.buffer, container, path, { 'Content-Type': mimetype })
     .catch((e) => {
-      console.log(e);
+      logger.error(e);
       throw new ServerError('Error saving file');
     });
   return next();
