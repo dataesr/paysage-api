@@ -16,14 +16,13 @@ router.route('/autocompletes')
       .map((type) => type.trim())
       .filter((type) => allowedTypes.includes(type))
       .map((type) => ({ term: { type } }));
-    console.log(should);
     const body = {
       query: {
         bool: {
           must: [
             {
               match: {
-                name: query,
+                text: query,
               },
             },
           ],
@@ -31,9 +30,7 @@ router.route('/autocompletes')
         },
       },
     };
-    console.log(JSON.stringify(body));
     const response = await esClient.search({ index, body });
-    console.log(response);
     res.json(response);
     return next();
   });
