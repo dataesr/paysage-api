@@ -1,7 +1,9 @@
 import metas from './metas.query';
+import currentNameQuery from './current-name.query';
 
 export default [
   ...metas,
+  ...currentNameQuery,
   {
     $project: {
       _id: 0,
@@ -17,6 +19,7 @@ export default [
         acronymLocal: 1,
         otherNames: 1,
       },
+      currentName: { $ifNull: ['$currentName', {}] },
     },
   },
 ];
