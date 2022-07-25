@@ -28,6 +28,7 @@ export function saveInElastic(repository, useQuery, resourceName) {
         id,
         type: resourceName,
         name,
+        usualName: resource.names.usualName,
       });
     });
     await esClient.bulk({ refresh: true, body: actions });
