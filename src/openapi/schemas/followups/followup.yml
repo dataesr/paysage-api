@@ -14,7 +14,7 @@ allOf:
         type: string
         description: Description de l'évenement
         nullable: true
-      file:
+      fileUrl:
         type: string
         format: uri
       eventDate:
@@ -45,4 +45,10 @@ allOf:
         type: array
         items:
           $ref: ../../api.yml#/components/schemas/TermLight
+      relatesTo:
+        type: array
+        description: Une liste d'objets Paysage qui sont liés à l'évènement
+        items:
+          type: string
+          pattern: ^[a-zA-Z0-9]{5}$
   - $ref: '../../api.yml#/components/schemas/Metas'
