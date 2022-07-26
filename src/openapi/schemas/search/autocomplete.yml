@@ -11,3 +11,5 @@ items:
     score:
       type: number
       format: float
+    type:
+      type: string
