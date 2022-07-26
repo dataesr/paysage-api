@@ -9,6 +9,17 @@ const { index } = config.elastic;
 const body = {
   mappings: {
     properties: {
+      suggest: {
+        type: 'completion',
+        analyzer: 'name_analyzer',
+        contexts: [
+          {
+            name: 'type',
+            type: 'category',
+            path: 'type',
+          },
+        ],
+      },
       content: {
         type: 'text',
         analyzer: 'name_analyzer',
