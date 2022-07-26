@@ -28,7 +28,7 @@ authRoutes.post('/signup', [
   signup,
 ]);
 authRoutes.post('/signin', [maxRequestsPerHour(20), signin]);
-authRoutes.post('/token/revoke', [requireAuth, signout]);
+authRoutes.post('/signout', [requireAuth, signout]);
 authRoutes.post('/token', [refreshAccessToken]);
 authRoutes.post('/recovery/password', [maxRequestsPerHour(6), resetPassword]);
 
