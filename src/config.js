@@ -5,6 +5,7 @@ const production = {
   accessTokenExpiresIn: '1d',
   refreshTokenExpiresIn: '20d',
   otpHeader: 'x-paysage-otp',
+  otpMethodHeader: 'x-paysage-otp-method',
   systemName: 'paysage',
   database: {
     mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017',

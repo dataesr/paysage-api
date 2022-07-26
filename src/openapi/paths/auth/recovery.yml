@@ -7,9 +7,19 @@ post:
   parameters:
     - in: header
       name: X-Paysage-OTP
+      description: Use X-Paysage-OTP header to provide user's one-time-password
       schema:
         type: string
         pattern: '^[0-9]{6}$'
+    - in: header
+      name: X-Paysage-OTP-Method
+      description: |
+        Use X-Paysage-OTP-Method header to request a new code.
+        Currently available method: email.
+      schema:
+        type: string
+        enum:
+          - 'email'
   requestBody:
     content:
       application/json:
