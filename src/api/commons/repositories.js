@@ -9,6 +9,7 @@ const documentTypesRepository = new BaseMongoRepository({ db, collection: 'docum
 const emailsRepository = new BaseMongoRepository({ db, collection: 'emails' });
 const emailTypesRepository = new BaseMongoRepository({ db, collection: 'emailtypes' });
 const eventsRepository = new BaseMongoRepository({ db, collection: '_events' });
+const followUpsRepository = new BaseMongoRepository({ db, collection: 'followups' });
 const identifiersRepository = new BaseMongoRepository({ db, collection: 'identifiers' });
 const legalcategoriesRepository = new BaseMongoRepository({ db, collection: 'legalcategories' });
 const officialtextsRepository = new BaseMongoRepository({ db, collection: 'officialtexts' });
@@ -35,6 +36,7 @@ export {
   emailsRepository,
   emailTypesRepository,
   eventsRepository,
+  followUpsRepository,
   identifiersRepository,
   legalcategoriesRepository,
   officialtextsRepository,

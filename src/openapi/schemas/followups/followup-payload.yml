@@ -1,0 +1,24 @@
+title: FollowUpPayload
+description: Modèle de création et d'update d'un évènement de suivi
+additionalProperties: false
+type: object
+properties:
+  title:
+    type: string
+  description:
+    type: string
+    nullable: true
+  file:
+    writeOnly: true
+    type: string
+    format: binary
+  eventDate:
+    nullable: true
+    type: string
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+  relatesTo:
+    type: array
+    description: Une liste d'objets Paysage qui sont liés à l'évènement
+    items:
+      type: string
+      pattern: ^[a-zA-Z0-9]{5}$
