@@ -56,6 +56,9 @@ export const signin = async (req, res, next) => {
     );
   }
   if (user.banned) throw new UnauthorizedError('Compte désactivé');
+  const { password: _password } = user;
+  const isMatch = await bcrypt.compare(password, _password);
+  if (!isMatch) throw new BadRequestError('Mauvaise combinaison utilisateur/mot de passe');
   totp.options = { window: [20, 0] };
   const reason = !userOtp
     ? 'Authentification double facteur requise'
@@ -84,9 +87,6 @@ export const signin = async (req, res, next) => {
     }
     throw new UnauthorizedError(reason);
   }
-  const { password: _password } = user;
-  const isMatch = await bcrypt.compare(password, _password);
-  if (!isMatch) throw new BadRequestError('Mauvaise combinaison utilisateur/mot de passe');
   const tokenUser = await usersRepository.getByEmail(email, { useQuery: userTokenQuery });
   const accessToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: accessTokenExpiresIn });
   const refreshToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: refreshTokenExpiresIn });
