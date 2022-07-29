@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import 'express-async-errors';
+import cors from 'cors';
 import multer from 'multer';
 import YAML from 'yamljs';
 import * as OAV from 'express-openapi-validator';
@@ -35,6 +36,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.disable('x-powered-by');
+if (process.env.NODE_ENV === 'development') {
+  app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'] }));
+}
 
 // Health checker
 const healthcheck = new health.HealthChecker();

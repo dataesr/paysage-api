@@ -27,7 +27,7 @@ authRoutes.post('/signup', [
   setGeneratedInternalIdInContext('user'),
   signup,
 ]);
-authRoutes.post('/signin', [maxRequestsPerHour(20), signin]);
+authRoutes.post('/signin', [maxRequestsPerHour(1000), signin]);
 authRoutes.post('/signout', [requireAuth, signout]);
 authRoutes.post('/token', [refreshAccessToken]);
 authRoutes.post('/recovery/password', [maxRequestsPerHour(6), resetPassword]);
