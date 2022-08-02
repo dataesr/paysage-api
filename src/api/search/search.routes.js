@@ -12,23 +12,24 @@ const { index } = config.elastic;
 
 router.route('/autocomplete')
   .get(async (req, res, next) => {
-    const { query, types, limit = 10 } = req.query;
+    const { query, types = '', limit = 10 } = req.query;
     const parsedTypes = types
       .split(',')
       .map((type) => type.trim())
       .filter((type) => allowedTypes.includes(type));
     const requestedTypes = parsedTypes.length ? parsedTypes : allowedTypes;
     const body = {
-      _source: ['id', 'name'],
-      suggest: {
-        result: {
-          text: query,
-          completion: {
-            field: 'text',
-            contexts: {
+      query: {
+        bool: {
+          must: [{
+            match: {
+              name: query,
+            },
+          }, {
+            terms: {
               type: requestedTypes,
             },
-          },
+          }],
         },
       },
     };
@@ -37,11 +38,11 @@ router.route('/autocomplete')
         logger.error(e);
         throw new ServerError();
       });
-    const response = esResults.body.suggest.result?.[0]?.options
-      .map((option) => ({
-        score: option._score,
-        ...option._source,
-        type: option.contexts.type?.[0],
+    const response = esResults.body.hits.hits
+      .map((hit) => ({
+        id: hit._id,
+        score: hit._score,
+        ...hit._source,
       }))
       .reduce((prev, current) => (
         (prev.map((item) => item.id).includes(current.id)) ? prev : [...prev, current]), [])
