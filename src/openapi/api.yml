@@ -34,6 +34,7 @@ tags:
   - name: Projets
   - name: Projets - Liens web
   - name: Projets - Localisations
+  - name: Recherche
   - name: Structures
   - name: Structures - Catégories
   - name: Structures - Catégories juridiques
@@ -217,9 +218,17 @@ paths:
     $ref: './paths/supervising-ministers/supervising-ministers.yml#/~1supervising-ministers'
   '/supervising-ministers/{supervisingMinisterId}':
     $ref: './paths/supervising-ministers/supervising-ministers.yml#/~1supervising-ministers~1{supervisingMinisterId}'
+  
+  ### SEARCH ###
+  '/autocomplete':
+    $ref: './paths/search/autocomplete.yml#/~1autocomplete'
 
 components:
   parameters:
+    query:
+      $ref: ./parameters/query/query.yml
+    types:
+      $ref: ./parameters/query/types.yml
     filters:
       $ref: ./parameters/query/filters.yml
     skip:
@@ -291,6 +300,8 @@ components:
 
   schemas:
     ### MODELS ###
+    AutocompletionResults:
+      $ref: './schemas/search/autocomplete.yml'
     Category:
       $ref: './schemas/categories/category.yml'
     CategoryIdentifier:

@@ -1,7 +1,7 @@
 const production = {
   jwtSecret: process.env.JWT_SECRET,
   systemName: 'paysage',
-  database: {
+  mongo: {
     mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017',
     mongoDbName: 'paysage',
   },
@@ -43,8 +43,8 @@ const staging = {
 const testing = {
   ...production,
   jwtSecret: 'VerYvErySecrREt',
-  database: {
-    ...production.database,
+  mongo: {
+    ...production.mongo,
     mongoDbName: 'paysage-test',
   },
   elastic: {
@@ -63,8 +63,8 @@ const testing = {
 const development = {
   ...production,
   jwtSecret: 'VerYvErySecrREt',
-  database: {
-    ...production.database,
+  mongo: {
+    ...production.mongo,
     mongoDbName: 'paysage-dev',
   },
   elastic: {

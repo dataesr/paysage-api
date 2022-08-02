@@ -3,7 +3,7 @@ import 'dotenv/config';
 import logger from '../services/logger.service';
 import { client, db } from '../services/mongo.service';
 
-async function setupDatabase() {
+async function setupMongo() {
   await db.collection('categories').createIndex({ id: 1 }, { unique: true });
   await db.collection('documents').createIndex({ id: 1 }, { unique: true });
   await db.collection('documenttypes').createIndex({ id: 1 }, { unique: true });
@@ -29,7 +29,7 @@ async function setupDatabase() {
   process.exit(0);
 }
 
-setupDatabase().catch((e) => {
+setupMongo().catch((e) => {
   logger.error({ ...e, message: 'Mongodb setup failed' });
   process.exit(1);
 });

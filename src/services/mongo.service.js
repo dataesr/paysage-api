@@ -3,7 +3,7 @@ import mongodb from 'mongodb';
 import config from '../config';
 import logger from './logger.service';
 
-const { mongoUri, mongoDbName } = config.database;
+const { mongoUri, mongoDbName } = config.mongo;
 
 const client = new mongodb.MongoClient(
   mongoUri,
@@ -14,7 +14,7 @@ logger.info(`Try to connect to mongo... ${mongoUri}`);
 client
   .connect()
   .then(() => {
-    logger.info(`Connected to mongo database... ${mongoDbName}`);
+    logger.info(`Connected to mongo... ${mongoDbName}`);
   })
   .catch((e) => {
     logger.info(`Connexion to mongo instance failed... Terminating... ${e.message}`);
