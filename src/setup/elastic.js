@@ -9,48 +9,30 @@ const { index } = config.elastic;
 const body = {
   mappings: {
     properties: {
-      suggest: {
-        type: 'completion',
-        analyzer: 'name_analyzer',
-        contexts: [
-          {
-            name: 'type',
-            type: 'category',
-            path: 'type',
-          },
-        ],
-      },
-      content: {
+      name: {
         type: 'text',
-        analyzer: 'name_analyzer',
-      },
-      id: {
-        type: 'text',
-        fields: {
-          keyword: {
-            type: 'keyword',
-            ignore_above: 256,
-          },
-        },
-      },
-      query: {
-        type: 'percolator',
+        analyzer: 'autocomplete',
       },
     },
   },
   settings: {
+    number_of_shards: 1,
     analysis: {
       filter: {
-        french_elision: {
-          type: 'elision',
-          articles: ['l', 'm', 't', 'qu', 'n', 's', 'j', 'd', 'c', 'jusqu', 'quoiqu', 'lorsqu', 'puisqu'],
-          articles_case: true,
+        autocomplete_filter: {
+          type: 'edge_ngram',
+          min_gram: 1,
+          max_gram: 20,
         },
       },
       analyzer: {
-        name_analyzer: {
-          filter: ['lowercase', 'french_elision', 'icu_folding'],
-          tokenizer: 'icu_tokenizer',
+        autocomplete: {
+          type: 'custom',
+          tokenizer: 'standard',
+          filter: [
+            'lowercase',
+            'autocomplete_filter',
+          ],
         },
       },
     },
