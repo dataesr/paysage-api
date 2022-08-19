@@ -38,6 +38,8 @@ services:
       - MONGO_URI=mongodb://mongodb:27017
     env_file:
       - .env
+    volumes:
+      - ./src:/app/src
     ports:
       - 3000:3000
     depends_on:
