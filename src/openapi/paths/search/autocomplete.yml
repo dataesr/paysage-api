@@ -1,0 +1,28 @@
+/autocomplete:
+  get:
+    tags:
+      - Recherche
+    summary: |
+      L'autocomplétion permet de rechercher dans les objets paysage.
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/query'
+      - $ref: '../../api.yml#/components/parameters/types'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '../../api.yml#/components/schemas/AutocompletionResults'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

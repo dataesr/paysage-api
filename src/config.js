@@ -7,7 +7,7 @@ const production = {
   otpHeader: 'x-paysage-otp',
   otpMethodHeader: 'x-paysage-otp-method',
   systemName: 'paysage',
-  database: {
+  mongo: {
     mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017',
     mongoDbName: 'paysage',
   },
@@ -57,8 +57,8 @@ const testing = {
   ...production,
   jwtSecret: 'VerYvErySecrREt',
   defaultAccountConfirmation: true,
-  database: {
-    ...production.database,
+  mongo: {
+    ...production.mongo,
     mongoDbName: 'paysage-test',
   },
   elastic: {
@@ -78,8 +78,8 @@ const development = {
   ...production,
   jwtSecret: 'VerYvErySecrREt',
   defaultAccountConfirmation: true,
-  database: {
-    ...production.database,
+  mongo: {
+    ...production.mongo,
     mongoDbName: 'paysage-dev',
   },
   elastic: {
