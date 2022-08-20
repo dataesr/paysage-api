@@ -1,0 +1,8 @@
+name: types
+in: query
+description: |
+  Les types d'objet a retourner, séparés par une virgule.
+  Les types acceptés sont 'structures'.
+schema:
+  type: string
+  example: '?types=structures,persons'

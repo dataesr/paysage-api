@@ -1,4 +1,5 @@
 import { Client } from '@elastic/elasticsearch';
+
 import config from '../config';
 
 const { node, username, password } = config.elastic;

@@ -49,7 +49,7 @@ describe('API > official texts > create', () => {
       .expect(201);
     Object.entries(payload).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBeTruthy();
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');
     id = body.id;
   });
   it('ignore additionalProperties', async () => {
@@ -98,7 +98,7 @@ describe('API > official texts > update', () => {
     const updated = { ...payload, ...updatePayLoad };
     Object.entries(updated).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBeTruthy();
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
@@ -132,7 +132,7 @@ describe('API > official texts > read', () => {
     const expected = { ...payload, ...updatePayLoad };
     Object.entries(expected).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBe(id);
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');
     expect(body.relatedStructures[0].currentName.usualName).toBe('Université');
   });
   it('throws not found with unknown id', async () => {

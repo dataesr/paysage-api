@@ -1,7 +1,13 @@
 const production = {
   jwtSecret: process.env.JWT_SECRET,
+  defaultAccountConfirmation: false,
+  totpWindow: [20, 0],
+  accessTokenExpiresIn: '1d',
+  refreshTokenExpiresIn: '20d',
+  otpHeader: 'x-paysage-otp',
+  otpMethodHeader: 'x-paysage-otp-method',
   systemName: 'paysage',
-  database: {
+  mongo: {
     mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017',
     mongoDbName: 'paysage',
   },
@@ -13,10 +19,16 @@ const production = {
   },
   objectStorage: {
     credentials: {
+      version: 'v3',
+      keystoneAuthVersion: 'v3',
+      provider: 'openstack',
       authUrl: process.env.OVH_AUTH_URL,
       username: process.env.OVH_USERNAME,
       password: process.env.OVH_PASSWORD,
       tenantId: process.env.OVH_TENANT_ID,
+      tenantName: process.env.OVH_TENANT_NAME,
+      domainName: 'Default',
+      projectDomainName: 'Default',
       region: process.env.OVH_REGION,
     },
     container: 'paysage',
@@ -29,6 +41,7 @@ const production = {
 
 const staging = {
   ...production,
+  defaultAccountConfirmation: true,
   objectStorage: {
     ...production.objectStorage,
     container: 'paysage-staging',
@@ -43,8 +56,9 @@ const staging = {
 const testing = {
   ...production,
   jwtSecret: 'VerYvErySecrREt',
-  database: {
-    ...production.database,
+  defaultAccountConfirmation: true,
+  mongo: {
+    ...production.mongo,
     mongoDbName: 'paysage-test',
   },
   elastic: {
@@ -63,8 +77,9 @@ const testing = {
 const development = {
   ...production,
   jwtSecret: 'VerYvErySecrREt',
-  database: {
-    ...production.database,
+  defaultAccountConfirmation: true,
+  mongo: {
+    ...production.mongo,
     mongoDbName: 'paysage-dev',
   },
   elastic: {
