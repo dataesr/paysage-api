@@ -27,6 +27,7 @@ import supervisingMinistersRoutes from './supervising-ministers/supervising-mini
 import termsRoutes from './terms/terms.routes';
 import usersRoutes from './users/users.routes';
 import usersGroupsRoutes from './groups/groups.routes';
+import { requireAuth } from './commons/middlewares/rbac.middlewares';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/api.yml');
@@ -79,6 +80,7 @@ app.use(authenticate);
 
 // Register api routes
 app.use(authRoutes);
+app.use(requireAuth);
 app.use(assetsRoutes);
 app.use(categoriesRoutes);
 app.use(documentsRoutes);
