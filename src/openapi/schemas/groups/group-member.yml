@@ -1,0 +1,23 @@
+type: object
+required:
+  - groupId
+  - userId
+allOf:
+  - type: object
+    properties:
+      groupId:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+      userId:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+      user:
+        $ref: ../../api.yml#/components/schemas/UserLight
+      role:
+        type: string
+        enum:
+          - member
+          - admin
+          - owner
+  - $ref: ../../api.yml#/components/schemas/UserLight
+  - $ref: '../../api.yml#/components/schemas/Metas'

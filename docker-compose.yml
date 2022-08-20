@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   elasticsearch:
     image: dataesr/es_icu:7.12.0
@@ -14,31 +12,25 @@ services:
       start_period: 30s
     volumes:
       - elastic:/usr/share/elasticsearch/data
+    networks:
+      - paysage
 
   mongodb:
     image: mongo:5.0
     ports:
       - 27017:27017
     restart: always
-    command: --replSet rs0 --logpath /dev/null --quiet 
+    command: --replSet rs0 --logpath /dev/null --quiet
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
       - mongo:/data/db
-
-  paysage-auth:
-    image: ghcr.io/dataesr/paysage-auth:staging
-    command: npm start
-    depends_on:
-       - mongodb
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - 3004:3000
+    networks:
+      - paysage
 
   paysage-api:
     build: .
     command: npm start
+    restart: always
     environment:
       - ES_NODE=http://elasticsearch:9200
       - ES_PASSWORD=
@@ -46,13 +38,22 @@ services:
       - MONGO_URI=mongodb://mongodb:27017
     env_file:
       - .env
+    volumes:
+      - ./src:/app/src
     ports:
-      - 3003:3000
+      - 3000:3000
     depends_on:
       elasticsearch:
         condition: service_healthy
       mongodb:
         condition: service_started
+    volumes:
+      - ./src:/app/src
+    networks:
+      - paysage
+
+networks:
+  paysage: {}
 
 volumes:
   mongo:
