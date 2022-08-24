@@ -13,13 +13,16 @@ export function saveInElastic(repository, useQuery, resourceName) {
       body: { query: { bool: { must: [{ match: { id } }, { term: { type: resourceName } }] } } },
     });
     const resource = await repository.get(id, { useQuery });
-    let names = [];
-    for (let i = 0; i < resource.names.length; i += 1) {
-      names = names.concat(Object.values(resource.names[i]).flat().filter((n) => n));
+    let fields = [];
+    for (let i = 0; i < resource?.names?.length || 0; i += 1) {
+      fields = fields.concat(Object.values(resource.names[i]).flat().filter((n) => n));
     }
-    names = [...new Set(names)];
+    for (let i = 0; i < resource?.localisations?.length || 0; i += 1) {
+      fields = fields.concat(Object.values(resource.localisations[i]).flat().filter((n) => n));
+    }
+    fields = [...new Set(fields)];
     const actions = [];
-    names.forEach((name) => {
+    fields.forEach((name) => {
       actions.push({
         index: { _index: index },
       });
