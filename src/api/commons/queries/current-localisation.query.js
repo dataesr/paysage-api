@@ -19,7 +19,7 @@ export default [
       currentLocalisation: {
         $ifNull: ['$currentLocalisation', {
           $reduce: {
-            input: '$localisation',
+            input: '$localisations',
             initialValue: null,
             in: {
               $cond: [
