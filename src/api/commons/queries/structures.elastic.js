@@ -1,13 +1,18 @@
 import metas from './metas.query';
+import currentLocalisationQuery from './current-localisation.query';
 import currentNameQuery from './current-name.query';
 
 export default [
   ...metas,
+  ...currentLocalisationQuery,
   ...currentNameQuery,
   {
     $project: {
       _id: 0,
       id: 1,
+      localisations: {
+        locality: 1,
+      },
       names: {
         officialName: 1,
         usualName: 1,
@@ -19,6 +24,7 @@ export default [
         acronymLocal: 1,
         otherNames: 1,
       },
+      currentLocalisation: { $ifNull: ['$currentLocalisation', {}] },
       currentName: { $ifNull: ['$currentName', {}] },
     },
   },
