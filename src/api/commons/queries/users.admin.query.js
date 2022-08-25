@@ -11,8 +11,10 @@ export default [
       firstName: 1,
       lastName: 1,
       avatar: { $ifNull: ['$avatar', null] },
+      service: { $ifNull: ['$service', null] },
+      position: { $ifNull: ['$position', null] },
       confirmed: 1,
-      deleted: 1,
+      deleted: { $ifNull: ['$deleted', false] },
     },
   },
 ];

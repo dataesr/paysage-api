@@ -22,7 +22,7 @@ export function requireRoles(roles) {
     if (!req.currentUser.id) {
       throw new UnauthorizedError('You must be connected');
     }
-    if (!req.currentUser.active) {
+    if (req.currentUser.deleted) {
       throw new ForbiddenError('Inactive user');
     }
     if (!roles.includes(req.currentUser.role)) {

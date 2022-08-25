@@ -18,7 +18,7 @@ router.route(`/${resource}`)
 router.route(`/admin/${resource}`)
   .get([
     requireRoles(['admin']),
-    controllers.patch(repository, adminQuery),
+    controllers.list(repository, adminQuery),
   ]);
 
 router.route(`/admin/${resource}/:id/confirm`)
