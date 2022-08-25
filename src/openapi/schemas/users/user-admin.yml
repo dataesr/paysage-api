@@ -12,6 +12,12 @@ allOf:
         type: string
       lastName:
         type: string
+      position:
+        type: string
+        nullable: true
+      service:
+        type: string
+        nullable: true
       email:
         type: string
       confirmed:

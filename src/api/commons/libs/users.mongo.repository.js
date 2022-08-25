@@ -5,4 +5,9 @@ export default class UsersMongoRepository extends BaseMongoRepository {
     const { data } = await this.find({ filters: { email }, limit: 1, useQuery });
     return data ? data[0] : null;
   };
+
+  setPassword = async (id, password) => {
+    const { modifiedCount } = await this._collection.updateOne({ id }, { $set: { password } });
+    return { ok: !!modifiedCount };
+  };
 }

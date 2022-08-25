@@ -128,10 +128,11 @@ export const refreshAccessToken = async (req, res) => {
 export const resetPassword = async (req, res, next) => {
   if (req.currentUser.id) throw new BadRequestError('You are already connected');
   const { password, email } = req.body;
-  const userOtp = req.header[otpHeader];
+  const userOtp = req.headers[otpHeader];
   const otpMethod = req.headers[otpMethodHeader];
   const user = await usersRepository.getByEmail(email);
   if (!user) throw new NotFoundError();
+  totp.options = { window: [20, 0] };
   if (!userOtp || !totp.check(userOtp, user.otpSecret)) {
     res.setHeader(otpHeader, 'required');
     res.setHeader(otpMethodHeader, 'email;');
@@ -157,7 +158,7 @@ export const resetPassword = async (req, res, next) => {
   }
   if (!password) throw new BadRequestError('password required');
   const _password = await bcrypt.hash(password, 10);
-  await usersRepository.patch(user.id, { password: _password });
+  await usersRepository.setPassword(user.id, _password);
   res.status(200).json({ message: 'Mot de passe modifié. Vous pouvez vous connecter.' });
   return next();
 };

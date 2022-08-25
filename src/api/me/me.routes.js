@@ -4,7 +4,7 @@ import { saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 import { setFileInfo, saveFile, deleteFile } from '../commons/middlewares/files.middlewares';
 import { setUserIdInParams, setAvatarData, unsetAvatarData, updatePassword } from './me.middlewares';
-import readQuery from '../commons/queries/users.query';
+import readQuery from '../commons/queries/me.query';
 import { usersRepository as repository } from '../commons/repositories';
 import { me as resource } from '../resources';
 
