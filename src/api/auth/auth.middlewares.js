@@ -55,7 +55,7 @@ export const signin = async (req, res, next) => {
       'Votre compte est en attente de validation par un administrateur. Un email vous sera envoyé lorsque vous pourrez vous connecter',
     );
   }
-  if (user.banned) throw new UnauthorizedError('Compte désactivé');
+  if (user.deleted) throw new UnauthorizedError('Compte désactivé');
   const { password: _password } = user;
   const isMatch = await bcrypt.compare(password, _password);
   if (!isMatch) throw new BadRequestError('Mauvaise combinaison utilisateur/mot de passe');
