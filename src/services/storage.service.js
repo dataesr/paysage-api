@@ -1,8 +1,9 @@
 import pkgcloud from 'pkgcloud';
 import { Duplex } from 'stream';
+
 import config from '../config';
 
-const { credentials, container } = config.objectStorage;
+const { container, credentials } = config.objectStorage;
 export const client = pkgcloud.storage.createClient(credentials);
 
 export default {
