@@ -15,6 +15,10 @@ export default [
       position: { $ifNull: ['$position', null] },
       confirmed: 1,
       deleted: { $ifNull: ['$deleted', false] },
+      createdBy: 1,
+      createdAt: 1,
+      updatedBy: 1,
+      updatedAt: 1,
     },
   },
 ];
