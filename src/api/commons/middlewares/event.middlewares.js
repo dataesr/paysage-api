@@ -7,28 +7,31 @@ const { index } = config.elastic;
 export function saveInElastic(repository, useQuery, resourceName) {
   return async (req, res, next) => {
     const { body, params } = req || {};
-    const id = params?.resourceId || body?.id || undefined;
+    const id = params?.resourceId || params?.id || body?.id || req.context.id || undefined;
     await esClient.deleteByQuery({
       index,
       body: { query: { bool: { must: [{ match: { id } }, { term: { type: resourceName } }] } } },
     });
     const resource = await repository.get(id, { useQuery });
-    let names = [];
-    for (let i = 0; i < resource.names.length; i += 1) {
-      names = names.concat(Object.values(resource.names[i]).flat().filter((n) => n));
+    if (resource?.names) {
+      let names = [];
+      for (let i = 0; i < resource.names.length; i += 1) {
+        names = names.concat(Object.values(resource.names[i]).flat().filter((n) => n));
+      }
+      names = [...new Set(names)];
+      const actions = [];
+      names.forEach((name) => {
+        actions.push({
+          index: { _index: index },
+        });
+        actions.push({
+          name,
+          type: resourceName,
+          id,
+        });
+      });
+      await esClient.bulk({ refresh: true, body: actions });
     }
-    names = [...new Set(names)];
-    const actions = [];
-    names.forEach((name) => {
-      actions.push({
-        index: { _index: index },
-      });
-      actions.push({
-        name,
-        type: resourceName,
-      });
-    });
-    await esClient.bulk({ refresh: true, body: actions });
     return next();
   };
 }
