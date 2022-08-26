@@ -10,7 +10,9 @@ class BaseMongoRepository {
     this._collection = db.collection(collection);
   }
 
-  find = async ({ filters = {}, skip = 0, limit = 20, sort = null, useQuery = [] } = {}, keepDeleted = false) => {
+  find = async ({
+    filters = {}, skip = 0, limit = 20, sort = null, useQuery = [], keepDeleted = false,
+  } = {}) => {
     const _filters = keepDeleted ? filters : { $and: [{ deleted: { $ne: true } }, filters] };
     const countPipeline = [{ $match: _filters }, { $count: 'totalCount' }];
     const queryPipeline = [
@@ -28,8 +30,8 @@ class BaseMongoRepository {
     return data[0];
   };
 
-  get = async (id, { useQuery } = {}) => {
-    const { data } = await this.find({ filters: { id }, limit: 1, useQuery });
+  get = async (id, { useQuery, keepDeleted = false } = {}) => {
+    const { data } = await this.find({ filters: { id }, limit: 1, useQuery, keepDeleted });
     return data ? data[0] : null;
   };
 
