@@ -14,13 +14,13 @@ export function saveInElastic(repository, useQuery, resourceName) {
     });
     const resource = await repository.get(id, { useQuery });
     if (resource?.names) {
-      let names = [];
+      let fields = [];
       for (let i = 0; i < resource.names.length; i += 1) {
-        names = names.concat(Object.values(resource.names[i]).flat().filter((n) => n));
+        fields = fields.concat(Object.values(resource.names[i]).flat().filter((n) => n));
       }
-      names = [...new Set(names)];
+      fields = [...new Set(fields)];
       const actions = [];
-      names.forEach((name) => {
+      fields.forEach((name) => {
         actions.push({
           index: { _index: index },
         });
