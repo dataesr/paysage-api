@@ -1,4 +1,5 @@
 import 'dotenv/config';
+
 import { client } from '../services/storage.service';
 import config from '../config';
 import logger from '../services/logger.service';
