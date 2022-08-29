@@ -12,6 +12,12 @@ allOf:
         type: string
       lastName:
         type: string
+      position:
+        type: string
+        nullable: true
+      service:
+        type: string
+        nullable: true
       email:
         type: string
       confirmed:
@@ -28,18 +34,4 @@ allOf:
         enum:
           - user
           - admin
-      createdAt:
-        type: string
-        format: date-time
-        readOnly: true
-      updatedAt:
-        type: string
-        format: date-time
-        readOnly: true
-      createdBy:
-        type: string
-        readOnly: true
-      updatedBy:
-        type: string
-        readOnly: true
   - $ref: '../../api.yml#/components/schemas/Metas'

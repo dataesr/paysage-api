@@ -13,25 +13,27 @@ export function saveInElastic(repository, useQuery, resourceName) {
       body: { query: { bool: { must: [{ match: { id } }, { term: { type: resourceName } }] } } },
     });
     const resource = await repository.get(id, { useQuery });
-    if (resource?.names) {
-      let fields = [];
-      for (let i = 0; i < resource.names.length; i += 1) {
-        fields = fields.concat(Object.values(resource.names[i]).flat().filter((n) => n));
-      }
-      fields = [...new Set(fields)];
-      const actions = [];
-      fields.forEach((name) => {
-        actions.push({
-          index: { _index: index },
-        });
-        actions.push({
-          name,
-          type: resourceName,
-          id,
-        });
-      });
-      await esClient.bulk({ refresh: true, body: actions });
+    let fields = [];
+    for (let i = 0; i < resource?.names?.length || 0; i += 1) {
+      fields = fields.concat(Object.values(resource.names[i]).flat().filter((n) => n));
     }
+    for (let i = 0; i < resource?.localisations?.length || 0; i += 1) {
+      fields = fields.concat(Object.values(resource.localisations[i]).flat().filter((n) => n));
+    }
+    fields = [...new Set(fields)];
+    const actions = [];
+    fields.forEach((name) => {
+      actions.push({
+        index: { _index: index },
+      });
+      actions.push({
+        name,
+        type: resourceName,
+        id,
+      });
+
+    });
+    await esClient.bulk({ refresh: true, body: actions });
     return next();
   };
 }

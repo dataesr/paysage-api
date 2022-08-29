@@ -18,7 +18,7 @@ router.route(`/${resource}`)
 router.route(`/admin/${resource}`)
   .get([
     requireRoles(['admin']),
-    controllers.patch(repository, adminQuery),
+    controllers.list(repository, adminQuery, true),
   ]);
 
 router.route(`/admin/${resource}/:id/confirm`)
@@ -26,16 +26,16 @@ router.route(`/admin/${resource}/:id/confirm`)
     requireRoles(['admin']),
     patchContext,
     setConfirmToContext,
-    controllers.read(repository, adminQuery),
+    controllers.patch(repository, adminQuery),
     saveInStore(resource),
   ]);
 
 router.route(`/admin/${resource}/:id`)
-  .get([requireRoles(['admin']), controllers.read(repository, adminQuery)])
+  .get([requireRoles(['admin']), controllers.read(repository, adminQuery, true)])
   .patch([
     requireRoles(['admin']),
     patchContext,
-    controllers.patch(repository, adminQuery),
+    controllers.patch(repository, adminQuery, true),
     saveInStore(resource),
   ])
   .delete([
