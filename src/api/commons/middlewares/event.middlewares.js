@@ -7,7 +7,7 @@ const { index } = config.elastic;
 export function saveInElastic(repository, useQuery, resourceName) {
   return async (req, res, next) => {
     const { body, params } = req || {};
-    const id = params?.resourceId || body?.id || undefined;
+    const id = params?.resourceId || params?.id || body?.id || req.context.id || undefined;
     await esClient.deleteByQuery({
       index,
       body: { query: { bool: { must: [{ match: { id } }, { term: { type: resourceName } }] } } },
@@ -29,7 +29,9 @@ export function saveInElastic(repository, useQuery, resourceName) {
       actions.push({
         name,
         type: resourceName,
+        id,
       });
+
     });
     await esClient.bulk({ refresh: true, body: actions });
     return next();
