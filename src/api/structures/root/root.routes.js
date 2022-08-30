@@ -29,12 +29,14 @@ router.route(`/${resource}/:id`)
     createContext,
     setPutIdInContext(resource),
     controllers.create(repository, readQuery),
+    saveInElastic(repository, elasticQuery, resource),
   ])
   .patch([
     validatePayload,
     patchContext,
     controllers.patch(repository, readQuery),
     saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
   ])
   .delete([
     patchContext,

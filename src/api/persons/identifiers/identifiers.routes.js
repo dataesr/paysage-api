@@ -3,7 +3,7 @@ import express from 'express';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import { personsRepository as repository } from '../../commons/repositories';
+import { identifiersRepository as repository } from '../../commons/repositories';
 import readQuery from '../../commons/queries/identifiers.query';
 import { persons as resource, identifiers as subresource } from '../../resources';
 
