@@ -1,10 +1,14 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+
 import {
   createContext,
   setGeneratedInternalIdInContext,
 } from '../commons/middlewares/context.middlewares';
+import { saveInElastic } from '../commons/middlewares/event.middlewares';
 import { requireAuth } from '../commons/middlewares/rbac.middlewares';
+import elasticQuery from '../commons/queries/users.elastic';
+import { usersRepository as repository } from '../commons/repositories';
 import {
   signup,
   signin,
@@ -12,6 +16,7 @@ import {
   refreshAccessToken,
   resetPassword,
 } from './auth.middlewares';
+import { users as resource } from '../resources';
 
 const authRoutes = new express.Router();
 
@@ -26,6 +31,7 @@ authRoutes.post('/signup', [
   createContext,
   setGeneratedInternalIdInContext('user'),
   signup,
+  saveInElastic(repository, elasticQuery, resource),
 ]);
 authRoutes.post('/signin', [maxRequestsPerHour(1000), signin]);
 authRoutes.post('/signout', [requireAuth, signout]);
