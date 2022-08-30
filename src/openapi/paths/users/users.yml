@@ -2,7 +2,7 @@ Users:
   get:
     tags:
       - Utilisateurs
-    summary: Get current user data
+    summary: List users
     parameters:
       - $ref: ../../api.yml#/components/parameters/filters
       - $ref: ../../api.yml#/components/parameters/skip
@@ -31,7 +31,7 @@ Users-Admin:
   get:
     tags:
       - Utilisateurs
-    summary: Get current user data
+    summary: List users
     parameters:
       - $ref: ../../api.yml#/components/parameters/filters
       - $ref: ../../api.yml#/components/parameters/skip
