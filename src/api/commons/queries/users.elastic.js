@@ -9,7 +9,6 @@ export default [
       toindex: [{
         firstName: '$firstName',
         lastName: '$lastName',
-        otherNames: '$otherNames',
       }],
     },
   },

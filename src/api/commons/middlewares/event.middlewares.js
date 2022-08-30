@@ -14,11 +14,8 @@ export function saveInElastic(repository, useQuery, resourceName) {
     });
     const resource = await repository.get(id, { useQuery });
     let fields = [];
-    for (let i = 0; i < resource?.names?.length || 0; i += 1) {
-      fields = fields.concat(Object.values(resource.names[i]).flat().filter((n) => n));
-    }
-    for (let i = 0; i < resource?.localisations?.length || 0; i += 1) {
-      fields = fields.concat(Object.values(resource.localisations[i]).flat().filter((n) => n));
+    for (let i = 0; i < resource?.toindex?.length || 0; i += 1) {
+      fields = fields.concat(Object.values(resource.toindex[i]).flat().filter((n) => n));
     }
     fields = [...new Set(fields)];
     const actions = [];
@@ -31,9 +28,10 @@ export function saveInElastic(repository, useQuery, resourceName) {
         type: resourceName,
         id,
       });
-
     });
-    await esClient.bulk({ refresh: true, body: actions });
+    if (actions.length) {
+      await esClient.bulk({ refresh: true, body: actions });
+    }
     return next();
   };
 }
