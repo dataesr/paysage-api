@@ -2,7 +2,9 @@ import { ForbiddenError, UnauthorizedError } from '../http-errors';
 
 export function requireAuth(req, res, next) {
   if (process.env.NODE_ENV === 'development') return next();
-  if (!req.currentUser.id) {
+  const nonSecurePaths = ['/signup', '/signin', '/token', '/recovery/password'];
+  if (nonSecurePaths.includes(req.path)) return next();
+  if (!req?.currentUser?.id) {
     throw new UnauthorizedError('You must be connected');
   }
   return next();
