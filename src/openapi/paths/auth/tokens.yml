@@ -1,6 +1,6 @@
 post:
   tags:
-    - Authentication
+    - Authentification
   summary: Use refresh token to regenerate access token
   security: []
   requestBody:
