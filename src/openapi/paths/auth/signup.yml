@@ -1,6 +1,6 @@
 post:
   tags:
-    - Authentication
+    - Authentification
   security: []
   summary: Sign a user up
   description: Create a user account

@@ -1,9 +1,10 @@
 import express from 'express';
+
 import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
-import { saveInStore } from '../commons/middlewares/event.middlewares';
+import { saveInElastic, saveInStore } from '../commons/middlewares/event.middlewares';
 import { validatePayload } from './prices.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
-
+import elasticQuery from '../commons/queries/prices.elastic';
 import readQuery from '../commons/queries/prices.query';
 import { pricesRepository as repository } from '../commons/repositories';
 import { prices as resource } from '../resources';
@@ -18,6 +19,7 @@ router.route(`/${resource}`)
     setGeneratedObjectIdInContext(resource),
     controllers.create(repository, readQuery),
     saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
   ]);
 
 router.route(`/${resource}/:id`)
@@ -27,11 +29,13 @@ router.route(`/${resource}/:id`)
     validatePayload,
     controllers.patch(repository, readQuery),
     saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
   ])
   .delete([
     patchContext,
     controllers.remove(repository),
     saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
   ]);
 
 export default router;
