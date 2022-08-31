@@ -10,5 +10,5 @@ properties:
     enum:
       - user
       - admin
-  deleted:
+  isDeleted:
     type: boolean

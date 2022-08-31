@@ -13,7 +13,7 @@ class BaseMongoRepository {
   find = async ({
     filters = {}, skip = 0, limit = 20, sort = null, useQuery = [], keepDeleted = false,
   } = {}) => {
-    const _filters = keepDeleted ? filters : { $and: [{ deleted: { $ne: true } }, filters] };
+    const _filters = keepDeleted ? filters : { $and: [{ isDeleted: { $ne: true } }, filters] };
     const countPipeline = [{ $match: _filters }, { $count: 'totalCount' }];
     const queryPipeline = [
       { $match: _filters },
