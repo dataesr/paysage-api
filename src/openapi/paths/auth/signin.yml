@@ -1,6 +1,6 @@
 post:
   tags:
-    - Authentication
+    - Authentification
   summary: Sign a user in.
            Not passing X-Paysage-OTP returns 401 but triggers a new email with OTP.
   security: []
