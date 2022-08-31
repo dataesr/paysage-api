@@ -29,6 +29,10 @@ router.route('/autocomplete')
             terms: {
               type: requestedTypes,
             },
+          }, {
+            term: {
+              isDeleted: false,
+            },
           }],
         },
       },

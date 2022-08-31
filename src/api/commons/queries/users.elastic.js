@@ -10,6 +10,7 @@ export default [
         firstName: '$firstName',
         lastName: '$lastName',
       }],
+      isDeleted: { $ifNull: ['$isDeleted', false] },
     },
   },
 ];
