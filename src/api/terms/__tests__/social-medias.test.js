@@ -47,7 +47,7 @@ describe('API > socialmedias > create', () => {
     expect(body.resourceId).toBe(resourceId);
     expect(body.type).toBe(payload.type);
     expect(body.account).toBe(payload.account);
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');
 
     await global.superapp
       .delete(`/${resource}/${resourceId}/${subresource}/${body.id}`)
@@ -128,7 +128,7 @@ describe('API > socialmedias > read', () => {
     expect(body.resourceId).toBe(resourceId);
     expect(body.type).toBe(payload.type);
     expect(body.account).toBe(payload.account);
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');
   });
 
   it('should throw bad request if id too short', async () => {

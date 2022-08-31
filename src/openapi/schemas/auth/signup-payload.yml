@@ -2,23 +2,27 @@ type: object
 required:
   - password
   - email
-  - username
+  - firstName
+  - lastName
 properties:
   password:
     type: string
-    pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+    pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&:_]{8,}$'
     example: Azertyui!87
     description: Minimum eight characters, at least one letter, one number and one special character
   email:
     type: string
     format: email
     example: folland@dataesr.ovh
-  username:
-    type: string
-    example: folland87
   firstName:
     type: string
     example: Frédéric
   lastName:
     type: string
     example: Olland
+  position:
+    type: string
+    nullable: true
+  service:
+    type: string
+    nullable: true

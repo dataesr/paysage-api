@@ -1,7 +1,7 @@
 Me:
   get:
     tags:
-      - Me
+      - Utilisateurs
     summary: Get current user data
     responses:
       '200':
@@ -9,54 +9,61 @@ Me:
         content:
           application/json:
             schema:
-              $ref: ../../auth.yml#/components/schemas/Me
+              $ref: ../../api.yml#/components/schemas/Me
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'
   patch:
     tags:
-      - Me
+      - Utilisateurs
     summary: Update current user data
     requestBody:
       content:
         application/json:
           schema:
-            $ref: ../../auth.yml#/components/schemas/Me
+            type: object
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string
     responses:
       '200':
         description: Success
         content:
           application/json:
             schema:
-              $ref: ../../auth.yml#/components/schemas/Me
+              $ref: ../../api.yml#/components/schemas/Me
       '400':
-        $ref: '../../auth.yml#/components/responses/BadRequest'
+        $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'
   delete:
     tags:
-      - Me
+      - Utilisateurs
     summary: Delete current user data
     responses:
       '204':
         description: No content
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'
 Avatar:
   put:
     tags:
-      - Me
+      - Utilisateurs
     summary: Change user avatar
     requestBody:
       content:
         multipart/form-data:
           schema:
             type: object
+            required:
+              - file
             properties:
               file:
                 type: string
@@ -67,15 +74,15 @@ Avatar:
         content:
           application/json:
             schema:
-              $ref: ../../auth.yml#/components/schemas/Me
+              $ref: ../../api.yml#/components/schemas/Me
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'
 
   delete:
     tags:
-      - Me
+      - Utilisateurs
     summary: Delete user avatar
     responses:
       '200':
@@ -83,15 +90,15 @@ Avatar:
         content:
           application/json:
             schema:
-              $ref: ../../auth.yml#/components/schemas/Me
+              $ref: ../../api.yml#/components/schemas/Me
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'
 Password:
   put:
     tags:
-      - Me
+      - Utilisateurs
     summary: Change user password
     requestBody:
       content:
@@ -104,20 +111,20 @@ Password:
             properties:
               newPassword:
                 type: string
-                pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+                pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&:_]{8,}$'
               currentPassword:
                 type: string
-                pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&]{8,}$'
+                pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&:_]{8,}$'
     responses:
       '200':
         description: Success
         content:
           application/json:
             schema:
-              $ref: ../../auth.yml#/components/schemas/Me
+              $ref: ../../api.yml#/components/schemas/Me
       '400':
-        $ref: '../../auth.yml#/components/responses/BadRequest'
+        $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'

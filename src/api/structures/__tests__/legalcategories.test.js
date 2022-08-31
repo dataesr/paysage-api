@@ -139,7 +139,7 @@ describe('API > structures > legal categories > read', () => {
     expect(body.id).toBe(id);
     expect(body.legalcategory.id).toBe(lcid);
     expect(body.legalcategory.longNameFr).toBe('This is a legal category');
-    expect(body.createdBy.username).toBe('user');
+    expect(body.createdBy.lastName).toBe('user');
   });
   it('throws bad request with wrong id', async () => {
     await global.superapp

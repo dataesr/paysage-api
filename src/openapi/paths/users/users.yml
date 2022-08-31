@@ -1,96 +1,131 @@
 Users:
   get:
     tags:
-      - Users
-    summary: Get current user data
+      - Utilisateurs
+    summary: List users
     parameters:
-      - $ref: ../../auth.yml#/components/parameters/filters
-      - $ref: ../../auth.yml#/components/parameters/skip
-      - $ref: ../../auth.yml#/components/parameters/limit
-      - $ref: ../../auth.yml#/components/parameters/sort
+      - $ref: ../../api.yml#/components/parameters/filters
+      - $ref: ../../api.yml#/components/parameters/skip
+      - $ref: ../../api.yml#/components/parameters/limit
+      - $ref: ../../api.yml#/components/parameters/sort
     responses:
       '200':
         description: Success
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: ../../auth.yml#/components/schemas/User
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/User'
+                totalCount:
+                  type: number
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'
 
-User:
+Users-Admin:
   get:
     tags:
-      - Users
-    summary: Get a user by id
+      - Utilisateurs
+    summary: List users
     parameters:
-      - $ref: ../../auth.yml#/components/parameters/userId
+      - $ref: ../../api.yml#/components/parameters/filters
+      - $ref: ../../api.yml#/components/parameters/skip
+      - $ref: ../../api.yml#/components/parameters/limit
+      - $ref: ../../api.yml#/components/parameters/sort
     responses:
       '200':
         description: Success
         content:
           application/json:
             schema:
-              $ref: ../../auth.yml#/components/schemas/User
-      '400':
-        $ref: '../../auth.yml#/components/responses/BadRequest'
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/UserAdmin'
+                totalCount:
+                  type: number
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
-      '403':
-        $ref: '../../auth.yml#/components/responses/Forbidden'
-      '404':
-        $ref: '../../auth.yml#/components/responses/NotFound'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'
 
+User-Admin:
   delete:
     tags:
-      - Users
+      - Utilisateurs
     summary: Delete a user
-    # parameters:
-    #   - $ref: '../parameters/user-id.yml'
+    parameters:
+      - $ref: ../../api.yml#/components/parameters/userId
     responses:
       '204':
         description: No content
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
-        $ref: '../../auth.yml#/components/responses/Forbidden'
+        $ref: '../../api.yml#/components/responses/Forbidden'
       '404':
-        $ref: '../../auth.yml#/components/responses/NotFound'
+        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'
 
   patch:
     tags:
-      - Users
+      - Utilisateurs
     summary: Update a user
-    # parameters:
-    #   - $ref: '../parameters/user-id.yml'
+    parameters:
+      - $ref: ../../api.yml#/components/parameters/userId
     requestBody:
       description: User info for account creation
       content:
         application/json:
           schema:
-            $ref: ../../auth.yml#/components/schemas/User
+            $ref: ../../api.yml#/components/schemas/UserAdminPayload
     responses:
       '200':
         description: Success
         content:
           application/json:
             schema:
-              $ref: ../../auth.yml#/components/schemas/User
+              $ref: ../../api.yml#/components/schemas/UserAdmin
       '400':
-        $ref: '../../auth.yml#/components/responses/BadRequest'
+        $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
-        $ref: '../../auth.yml#/components/responses/Unauthorized'
+        $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
-        $ref: '../../auth.yml#/components/responses/Forbidden'
+        $ref: '../../api.yml#/components/responses/Forbidden'
       '404':
-        $ref: '../../auth.yml#/components/responses/NotFound'
+        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
-        $ref: '../../auth.yml#/components/responses/ServerError'
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+User-Admin-Confirm:
+  put:
+    tags:
+      - Utilisateurs
+    summary: Activer le compte d'un utilisateur
+    parameters:
+      - $ref: ../../api.yml#/components/parameters/userId
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../../api.yml#/components/schemas/UserAdmin
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

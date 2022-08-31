@@ -34,7 +34,7 @@
   post:
     tags:
       - Catégories
-    summary: Créer un catégorie
+    summary: Créer une catégorie
     requestBody:
       content:
         application/json:
@@ -134,7 +134,7 @@
   put:
     tags:
       - Catégories
-    summary: Créer un catégorie avec un identifiant.
+    summary: Créer une catégorie avec un identifiant.
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
     requestBody:

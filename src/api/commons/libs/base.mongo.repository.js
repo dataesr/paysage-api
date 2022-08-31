@@ -10,10 +10,13 @@ class BaseMongoRepository {
     this._collection = db.collection(collection);
   }
 
-  find = async ({ filters = {}, skip = 0, limit = 20, sort = null, useQuery = [] } = {}) => {
-    const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
+  find = async ({
+    filters = {}, skip = 0, limit = 20, sort = null, useQuery = [], keepDeleted = false,
+  } = {}) => {
+    const _filters = keepDeleted ? filters : { $and: [{ deleted: { $ne: true } }, filters] };
+    const countPipeline = [{ $match: _filters }, { $count: 'totalCount' }];
     const queryPipeline = [
-      { $match: filters },
+      { $match: _filters },
       { $skip: skip },
       { $limit: limit },
       ...useQuery,
@@ -27,8 +30,8 @@ class BaseMongoRepository {
     return data[0];
   };
 
-  get = async (id, { useQuery } = {}) => {
-    const { data } = await this.find({ filters: { id }, limit: 1, useQuery });
+  get = async (id, { useQuery, keepDeleted = false } = {}) => {
+    const { data } = await this.find({ filters: { id }, limit: 1, useQuery, keepDeleted });
     return data ? data[0] : null;
   };
 
@@ -53,8 +56,18 @@ class BaseMongoRepository {
     return { ok: !!modifiedCount };
   };
 
+  upsert = async (filters, data) => {
+    const { acknowledged } = await this._collection.updateOne(filters, data, { upsert: true });
+    return { ok: acknowledged };
+  };
+
   remove = async (id) => {
     const { deletedCount } = await this._collection.deleteOne({ id });
+    return { ok: !!deletedCount };
+  };
+
+  deleteOne = async (filters) => {
+    const { deletedCount } = await this._collection.deleteOne(filters);
     return { ok: !!deletedCount };
   };
 

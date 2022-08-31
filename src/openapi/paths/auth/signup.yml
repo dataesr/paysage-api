@@ -1,6 +1,7 @@
 post:
   tags:
-    - Authentication
+    - Authentification
+  security: []
   summary: Sign a user up
   description: Create a user account
   requestBody:
@@ -8,7 +9,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../auth.yml#/components/schemas/SignUpPayload'
+          $ref: '../../api.yml#/components/schemas/SignUpPayload'
     required: true
   responses:
     '201':
@@ -16,8 +17,11 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../../auth.yml#/components/schemas/Tokens'
+            type: object
+            properties:
+              message:
+                type: string
     '400':
-      $ref: '../../auth.yml#/components/responses/BadRequest'
+      $ref: '../../api.yml#/components/responses/BadRequest'
     '500':
-      $ref: '../../auth.yml#/components/responses/ServerError'
+      $ref: '../../api.yml#/components/responses/ServerError'

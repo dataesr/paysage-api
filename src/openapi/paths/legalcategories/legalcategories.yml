@@ -34,7 +34,7 @@
   post:
     tags:
       - Catégories juridiques
-    summary: Créer un catégorie juridique
+    summary: Créer une catégorie juridique
     requestBody:
       content:
         application/json:

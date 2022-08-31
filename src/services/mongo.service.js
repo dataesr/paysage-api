@@ -1,26 +1,19 @@
-import mongodb from 'mongodb';
+import { MongoClient } from 'mongodb';
 
 import config from '../config';
 import logger from './logger.service';
 
-const { mongoUri, mongoDbName } = config.database;
+const { mongoUri, mongoDbName } = config.mongo;
 
-const client = new mongodb.MongoClient(
-  mongoUri,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-);
+const client = new MongoClient(mongoUri, { directConnection: true });
 
 logger.info(`Try to connect to mongo... ${mongoUri}`);
-client
-  .connect()
-  .then(() => {
-    logger.info(`Connected to mongo database... ${mongoDbName}`);
-  })
-  .catch((e) => {
-    logger.info(`Connexion to mongo instance failed... Terminating... ${e.message}`);
-    process.kill(process.pid, 'SIGTERM');
-  });
+await client.connect().catch((e) => {
+  logger.info(`Connexion to mongo instance failed... Terminating... ${e.message}`);
+  process.kill(process.pid, 'SIGTERM');
+});
 
+logger.info(`Connected to mongo database... ${mongoDbName}`);
 const db = client.db(mongoDbName);
 
 const clearDB = async (_db, exclude = []) => {
