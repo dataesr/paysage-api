@@ -1,5 +1,5 @@
 import metas from './metas.query';
-import legalcategoryLightQuery from './legalcategories.light.query';
+import legalcategoryLightQuery from './legal-categories.light.query';
 
 export default [
   ...metas,

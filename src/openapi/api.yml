@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: API
-  description: Documentation for the Paysage rest API routes.
+  description: Documentation for the Paysage REST API routes.
   contact:
     email: frederic.olland@enseignementsup.gouv.fr
   license:
@@ -172,7 +172,7 @@ paths:
   '/persons/{personId}/categories/{relationshipId}':
     $ref: './paths/persons/categories.yml#/~1persons~1{personId}~1categories~1{relationshipId}'
 
-  ### TERMES ###
+  ### TERMS ###
   '/terms':
     $ref: './paths/terms/terms.yml#/~1terms'
   '/terms/{termId}':
