@@ -4,7 +4,7 @@ let authorization;
 let id;
 
 const payload = {
-  acronymeFr: 'acronymeFr',
+  acronymFr: 'acronymFr',
   inseeCode: 'inseeCode',
   legalPersonality: 'personne morale de droit public',
   longNameFr: 'longNameFr',
