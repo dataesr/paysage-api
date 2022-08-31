@@ -75,11 +75,11 @@ app.use(OAV.middleware({
   ignoreUndocumented: true,
 }));
 
-// Require authentication
-app.use(requireAuth);
-
 // Authenticate currentUser
 app.use(authenticate);
+
+// Require authentication
+app.use(requireAuth);
 
 // Register api routes
 app.use(authRoutes);
