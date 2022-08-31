@@ -20,7 +20,7 @@ export default [
       longNameFr: 1,
       inseeCode: { $ifNull: ['$inseeCode', null] },
       shortNameFr: { $ifNull: ['$shortNameFr', null] },
-      acronymeFr: { $ifNull: ['$acronymeFr', null] },
+      acronymFr: { $ifNull: ['$acronymFr', null] },
       pluralNameFr: { $ifNull: ['$pluralNameFr', null] },
       descriptionFr: { $ifNull: ['$descriptionFr', null] },
       longNameEn: { $ifNull: ['$longNameEn', null] },

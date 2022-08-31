@@ -11,7 +11,7 @@ properties:
   shortNameFr:
     type: string
     nullable: true
-  acronymeFr:
+  acronymFr:
     type: string
     nullable: true
   pluralNameFr:
