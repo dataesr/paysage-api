@@ -4,7 +4,6 @@ import {
   createContext,
   setGeneratedInternalIdInContext,
 } from '../commons/middlewares/context.middlewares';
-import { requireAuth } from '../commons/middlewares/rbac.middlewares';
 import {
   signup,
   signin,
@@ -28,7 +27,7 @@ authRoutes.post('/signup', [
   signup,
 ]);
 authRoutes.post('/signin', [maxRequestsPerHour(1000), signin]);
-authRoutes.post('/signout', [requireAuth, signout]);
+authRoutes.post('/signout', [signout]);
 authRoutes.post('/token', [refreshAccessToken]);
 authRoutes.post('/recovery/password', [maxRequestsPerHour(6), resetPassword]);
 
