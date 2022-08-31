@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: API
-  description: Documentation for the Paysage rest API routes.
+  description: Documentation for the Paysage REST API routes.
   contact:
     email: frederic.olland@enseignementsup.gouv.fr
   license:
@@ -17,6 +17,7 @@ servers:
     description: Development server
 
 tags:
+  - name: Authentification
   - name: Catégories
   - name: Catégories - Identifiants
   - name: Catégories - Liens web
@@ -25,6 +26,7 @@ tags:
   - name: Documentation
   - name: Documents
   - name: Evènements de suivi
+  - name: Groupes d'utilisateurs
   - name: Ministres de tutelle
   - name: Personnes
   - name: Personnes - Catégories
@@ -35,6 +37,7 @@ tags:
   - name: Projets
   - name: Projets - Liens web
   - name: Projets - Localisations
+  - name: Recherche
   - name: Structures
   - name: Structures - Catégories
   - name: Structures - Catégories juridiques
@@ -52,11 +55,50 @@ tags:
   - name: Textes officiels
   - name: Types d'email
   - name: Types de document
+  - name: Utilisateurs
 
 security:
   - BearerAuth: []
 
 paths:
+  ### AUTHENTICATION ###
+  '/signup':
+    $ref: ./paths/auth/signup.yml
+  '/signin':
+    $ref: ./paths/auth/signin.yml
+  '/signout':
+    $ref: ./paths/auth/signout.yml
+  '/token':
+    $ref: ./paths/auth/tokens.yml
+  '/recovery/password':
+    $ref: ./paths/auth/recovery.yml
+
+  ### USERS ###
+  '/users':
+    $ref: ./paths/users/users.yml#/Users
+  '/admin/users/{userId}':
+    $ref: ./paths/users/users.yml#/User-Admin
+  '/admin/users/{userId}/confirm':
+    $ref: ./paths/users/users.yml#/User-Admin-Confirm
+  '/admin/users':
+    $ref: ./paths/users/users.yml#/Users-Admin
+  '/me':
+    $ref: ./paths/users/me.yml#/Me
+  '/me/password':
+    $ref: ./paths/users/me.yml#/Password
+  '/me/avatar':
+    $ref: ./paths/users/me.yml#/Avatar
+  
+  ### GROUPS ###
+  '/groups':
+    $ref: ./paths/groups/groups.yml#/Groups
+  '/groups/{groupId}':
+    $ref: ./paths/groups/groups.yml#/Group
+  '/groups/{groupId}/members':
+    $ref: ./paths/groups/members.yml#/GroupMembers
+  '/groups/{groupId}/members/{userId}':
+    $ref: ./paths/groups/members.yml#/GroupMember
+
   ### OPENAPI DOCUMENTATION ###
   '/docs/specs':
     $ref: './paths/docs/docs.yml#/~1docs~1specs'
@@ -131,7 +173,7 @@ paths:
   '/persons/{personId}/categories/{relationshipId}':
     $ref: './paths/persons/categories.yml#/~1persons~1{personId}~1categories~1{relationshipId}'
 
-  ### TERMES ###
+  ### TERMS ###
   '/terms':
     $ref: './paths/terms/terms.yml#/~1terms'
   '/terms/{termId}':
@@ -224,67 +266,79 @@ paths:
     $ref: './paths/supervising-ministers/supervising-ministers.yml#/~1supervising-ministers'
   '/supervising-ministers/{supervisingMinisterId}':
     $ref: './paths/supervising-ministers/supervising-ministers.yml#/~1supervising-ministers~1{supervisingMinisterId}'
+  
+  ### SEARCH ###
+  '/autocomplete':
+    $ref: './paths/search/autocomplete.yml#/~1autocomplete'
 
 components:
   parameters:
-    filters:
-      $ref: ./parameters/query/filters.yml
-    skip:
-      $ref: ./parameters/query/skip.yml
-    limit:
-      $ref: ./parameters/query/limit.yml
-    sort:
-      $ref: ./parameters/query/sort.yml
+    categoryId:
+      $ref: ./parameters/ids/category-id.yml
     documentId:
       $ref: ./parameters/ids/document-id.yml
     documentTypeId:
       $ref: ./parameters/ids/document-type-id.yml
-    emailTypeId:
-      $ref: ./parameters/ids/email-type-id.yml
     followUpId:
       $ref: ./parameters/ids/followup-id.yml
-    structureId:
-      $ref: ./parameters/ids/structure-id.yml
-    nameId:
-      $ref: ./parameters/ids/name-id.yml
     emailId:
       $ref: ./parameters/ids/email-id.yml
-    logoId:
-      $ref: ./parameters/ids/logo-id.yml
+    emailTypeId:
+      $ref: ./parameters/ids/email-type-id.yml
+    filters:
+      $ref: ./parameters/query/filters.yml
+    groupId:
+      $ref: ./parameters/ids/group-id.yml
     identifierId:
       $ref: ./parameters/ids/identifier-id.yml
-    localisationId:
-      $ref: ./parameters/ids/localisation-id.yml
-    weblinkId:
-      $ref: ./parameters/ids/weblink-id.yml
-    socialmediaId:
-      $ref: ./parameters/ids/social-media-id.yml
-    termId:
-      $ref: ./parameters/ids/term-id.yml
-    categoryId:
-      $ref: ./parameters/ids/category-id.yml
-    relatedCategoryId:
-      $ref: ./parameters/ids/related-category-id.yml
-    relatedLegalCategoryId:
-      $ref: ./parameters/ids/related-legal-category-id.yml
     legalCategoryId:
       $ref: ./parameters/ids/legal-category-id.yml
+    limit:
+      $ref: ./parameters/query/limit.yml
+    localisationId:
+      $ref: ./parameters/ids/localisation-id.yml
+    logoId:
+      $ref: ./parameters/ids/logo-id.yml
+    nameId:
+      $ref: ./parameters/ids/name-id.yml
+    newsId:
+      $ref: ./parameters/ids/news-id.yml
+    officialTextId:
+      $ref: ./parameters/ids/official-text-id.yml
     priceId:
       $ref: ./parameters/ids/price-id.yml
     personId:
       $ref: ./parameters/ids/person-id.yml
     projectId:
       $ref: ./parameters/ids/project-id.yml
-    officialTextId:
-      $ref: ./parameters/ids/official-text-id.yml
-    newsId:
-      $ref: ./parameters/ids/news-id.yml
-    roleId:
-      $ref: ./parameters/ids/role-id.yml
+    query:
+      $ref: ./parameters/query/query.yml
+    relatedCategoryId:
+      $ref: ./parameters/ids/related-category-id.yml
+    relatedLegalCategoryId:
+      $ref: ./parameters/ids/related-legal-category-id.yml
     relationshipId:
       $ref: ./parameters/ids/relationship-id.yml
+    roleId:
+      $ref: ./parameters/ids/role-id.yml
+    skip:
+      $ref: ./parameters/query/skip.yml
+    socialmediaId:
+      $ref: ./parameters/ids/social-media-id.yml
+    sort:
+      $ref: ./parameters/query/sort.yml
+    structureId:
+      $ref: ./parameters/ids/structure-id.yml
     supervisingMinisterId:
       $ref: ./parameters/ids/supervising-minister-id.yml
+    termId:
+      $ref: ./parameters/ids/term-id.yml
+    types:
+      $ref: ./parameters/query/types.yml
+    userId:
+      $ref: ./parameters/ids/user-id.yml
+    weblinkId:
+      $ref: ./parameters/ids/weblink-id.yml
 
   responses:
     BadRequest:
@@ -300,6 +354,8 @@ components:
 
   schemas:
     ### MODELS ###
+    AutocompletionResults:
+      $ref: './schemas/search/autocomplete.yml'
     Category:
       $ref: './schemas/categories/category.yml'
     CategoryIdentifier:
@@ -326,6 +382,10 @@ components:
       $ref: './schemas/followups/followup.yml'
     FollowUpLight:
       $ref: './schemas/followups/followup-light.yml'
+    Group:
+      $ref: ./schemas/groups/group.yml
+    GroupMember:
+      $ref: ./schemas/groups/group-member.yml
     LegalCategory:
       $ref: './schemas/legalcategories/legalcategory.yml'
     LegalCategoryLight:
@@ -336,6 +396,8 @@ components:
       $ref: './schemas/commons/localisation-light.yml'
     Logo:
       $ref: './schemas/commons/logo.yml'
+    Me:
+      $ref: ./schemas/users/me.yml
     OfficialText:
       $ref: './schemas/officialtexts/officialtext.yml'
     OfficialTextLight:
@@ -362,6 +424,10 @@ components:
       $ref: './schemas/roles/role.yml'
     RoleLight:
       $ref: './schemas/roles/role-light.yml'
+    SignInPayload:
+      $ref: ./schemas/auth/signin-payload.yml
+    SignUpPayload:
+      $ref: ./schemas/auth/signup-payload.yml
     SocialMedia:
       $ref: './schemas/commons/social-media.yml'
     Structure:
@@ -398,6 +464,14 @@ components:
       $ref: './schemas/terms/term-light.yml'
     TermWeblink:
       $ref: './schemas/terms/weblink.yml'
+    Tokens:
+      $ref: ./schemas/auth/tokens.yml
+    User:
+      $ref: ./schemas/users/user.yml
+    UserAdmin:
+      $ref: ./schemas/users/user-admin.yml
+    UserLight:
+      $ref: ./schemas/users/user-light.yml
 
 
     ### PAYLOADS ###
@@ -417,6 +491,10 @@ components:
       $ref: './schemas/commons/nomenclature-payload.yml'
     FollowUpPayload:
       $ref: './schemas/followups/followup-payload.yml'
+    GroupMemberPayload:
+      $ref: ./schemas/groups/group-member-payload.yml
+    GroupPayload:
+      $ref: ./schemas/groups/group-payload.yml
     LegalCategoryPayload:
       $ref: './schemas/legalcategories/legalcategory-payload.yml'
     LocalisationPayload:
@@ -465,6 +543,8 @@ components:
       $ref: './schemas/terms/term-payload.yml'
     TermWeblinkPayload:
       $ref: './schemas/terms/weblink-payload.yml'
+    UserAdminPayload:
+      $ref: ./schemas/users/user-admin-payload.yml
 
 
     ### ENUMS ###
@@ -491,7 +571,7 @@ components:
     TermWeblinkTypesEnum:
       $ref: './schemas/terms/enums/weblink-types.yml'
 
-
+    
     ### COMMON MODELS ###
     Error:
       $ref: './schemas/commons/error.yml'

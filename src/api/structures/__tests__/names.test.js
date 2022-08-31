@@ -43,7 +43,7 @@ describe('API > structures > names > create', () => {
     expect(response.body.id).toBeTruthy();
     expect(response.body.officialName).toBe('string');
     expect(response.body.usualName).toBe('string');
-    expect(response.body.createdBy.username).toBe('user');
+    expect(response.body.createdBy.lastName).toBe('user');
     id = response.body.id;
   });
 
@@ -75,6 +75,7 @@ describe('API > structures > names > update', () => {
     expect(body.otherNames).toHaveLength(2);
     expect(body.otherNames).toContain('string2');
   });
+
   it('throws bad request with wrong id', async () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45frK`)
@@ -82,6 +83,7 @@ describe('API > structures > names > update', () => {
       .send({ otherNames: ['string', 'string2'] })
       .expect(400);
   });
+
   it('throws not found with wrong id', async () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
@@ -89,6 +91,7 @@ describe('API > structures > names > update', () => {
       .send({ otherNames: ['string', 'string2'] })
       .expect(404);
   });
+
   it('throws with wrong data', async () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
@@ -96,6 +99,7 @@ describe('API > structures > names > update', () => {
       .send({ startDate: 'string' })
       .expect(400);
   });
+
   it('can empty dates', async () => {
     const { body } = await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
@@ -115,16 +119,18 @@ describe('API > structures > names > read', () => {
     expect(response.body.id).toBeTruthy();
     expect(response.body.officialName).toBe('string');
     expect(response.body.usualName).toBe('string');
-    expect(response.body.createdBy.username).toBe('user');
+    expect(response.body.createdBy.lastName).toBe('user');
     expect(response.body.otherNames).toHaveLength(2);
     expect(response.body.otherNames).toContain('string2');
   });
+
   it('throws bad request with wrong id', async () => {
     await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}/265vty`)
       .set('Authorization', authorization)
       .expect(400);
   });
+
   it('throws not found with unknown id', async () => {
     await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
@@ -161,16 +167,18 @@ describe('API > structures > names > list', () => {
       .send({ ...structureName, usualName: 'string3', startDate: '2017-01-01' })
       .expect(201);
   });
+
   it('can list successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.usualName);
-    expect(docs).toContain('string');
+    expect(docs).toContain('Université');
     expect(docs).toContain('string2');
     expect(docs).toContain('string3');
   });
+
   it('can skip successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}?skip=1`)
@@ -182,6 +190,7 @@ describe('API > structures > names > list', () => {
     expect(docs).toHaveLength(3);
     expect(body.totalCount).toBe(4);
   });
+
   it('can limit successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}?limit=1`)
@@ -192,6 +201,7 @@ describe('API > structures > names > list', () => {
     expect(docs).toHaveLength(1);
     expect(body.totalCount).toBe(4);
   });
+
   it('can sort successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}?sort=usualName`)
@@ -202,6 +212,7 @@ describe('API > structures > names > list', () => {
     expect(docs).toHaveLength(4);
     expect(body.totalCount).toBe(4);
   });
+
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}?sort=-usualName`)
@@ -212,6 +223,7 @@ describe('API > structures > names > list', () => {
     expect(docs).toHaveLength(4);
     expect(body.totalCount).toBe(4);
   });
+
   it('can filter successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}?filters[usualName]=string2`)
@@ -222,6 +234,7 @@ describe('API > structures > names > list', () => {
     expect(docs).toHaveLength(1);
     expect(body.totalCount).toBe(1);
   });
+
   it('returns currentName successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}`)
@@ -259,6 +272,7 @@ describe('API > structures > names > currentName', () => {
       .send({ ...structure, usualName: 'string3' })
       .expect(201);
   });
+
   it('returns currentName successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}`)

@@ -1,20 +1,8 @@
-import storage from 'swift/storage';
-
-import config from '../../config';
-import swift from '../../services/storage.service';
-
-import { NotFoundError, ServerError } from '../commons/http-errors';
-
-const { container } = config.objectStorage;
+import storage from '../../services/storage.service';
 
 async function serveAsset(req, res) {
-  const file = await storage.download(swift, container, req.url.slice(1))
-    .catch(((e) => { throw new NotFoundError(e.message); }));
-  res.setHeader('Content-Type', file.headers['content-type']);
-  res.setHeader('Content-Length', file.headers['content-length']);
+  const file = await storage.download(req.path.slice(1));
   file.pipe(res);
-  file.on('end', () => res.end());
-  file.on('error', () => { throw new ServerError(); });
 }
 
 export { serveAsset };
