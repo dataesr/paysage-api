@@ -1,5 +1,5 @@
 title: TermWeblink
-description: Représentation d'un lien web d'un term
+description: Représentation d'un lien web d'un terme
 allOf: 
   - type: object
     properties:
