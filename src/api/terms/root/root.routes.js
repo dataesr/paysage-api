@@ -1,13 +1,13 @@
 import express from 'express';
 
 import { patchContext, createContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
-import { validatePayload, setDefaultPriorityField } from './root.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import readQuery from '../../commons/queries/terms.query';
+import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
 import elasticQuery from '../../commons/queries/terms.elastic';
+import readQuery from '../../commons/queries/terms.query';
 import { termsRepository as repository } from '../../commons/repositories';
 import { terms as resource } from '../../resources';
+import { setDefaultPriorityField, validatePayload } from './root.middlewares';
 
 const router = new express.Router();
 
@@ -34,7 +34,7 @@ router.route(`/${resource}/:id`)
   ])
   .delete([
     patchContext,
-    controllers.remove(repository),
+    controllers.softDelete(repository),
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ]);

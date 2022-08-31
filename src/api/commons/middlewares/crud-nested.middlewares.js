@@ -56,5 +56,9 @@ const remove = (repository) => async (req, res, next) => {
 };
 
 export default {
-  read, remove, patch, create, list,
+  create,
+  list,
+  patch,
+  read,
+  remove,
 };
