@@ -7,6 +7,7 @@ export default [
         nameFr: '$nameFr',
         nameEn: '$nameEn',
       }],
+      isDeleted: { $ifNull: ['$isDeleted', false] },
       name: { $ifNull: ['$nameFr', null] },
     },
   },

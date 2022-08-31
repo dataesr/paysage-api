@@ -25,8 +25,9 @@ export default [
         otherNames: 1,
         locality: 1,
       },
-      name: { $ifNull: ['$currentName.usualName', null] },
       acronym: { $ifNull: ['$currentName.acronymFr', null] },
+      isDeleted: { $ifNull: ['$isDeleted', false] },
+      name: { $ifNull: ['$currentName.usualName', null] },
     },
   },
 ];

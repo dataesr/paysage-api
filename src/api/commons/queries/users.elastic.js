@@ -7,6 +7,7 @@ export default [
         firstName: '$firstName',
         lastName: '$lastName',
       }],
+      isDeleted: { $ifNull: ['$isDeleted', false] },
       name: { $concat: [{ $ifNull: ['$firstName', null] }, ' ', { $ifNull: ['$lastName', null] }] },
     },
   },

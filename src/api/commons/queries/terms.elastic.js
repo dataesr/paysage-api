@@ -13,8 +13,9 @@ export default [
         otherNamesFr: '$otherNamesFr',
         otherNamesEn: '$otherNamesEn',
       }],
-      name: { $ifNull: ['$usualNameFr', null] },
       acronym: { $ifNull: ['$acronymFr', null] },
+      isDeleted: { $ifNull: ['$isDeleted', false] },
+      name: { $ifNull: ['$usualNameFr', null] },
     },
   },
 ];
