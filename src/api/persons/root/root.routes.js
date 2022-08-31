@@ -1,10 +1,11 @@
 import express from 'express';
+
 import { patchContext, createContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from '../../commons/middlewares/validate.middlewares';
-import readQuery from '../../commons/queries/persons.query';
 import elasticQuery from '../../commons/queries/persons.elastic';
+import readQuery from '../../commons/queries/persons.query';
 import { personsRepository as repository } from '../../commons/repositories';
 import { persons as resource } from '../../resources';
 
@@ -32,7 +33,7 @@ router.route(`/${resource}/:id`)
   ])
   .delete([
     patchContext,
-    controllers.remove(repository),
+    controllers.softDelete(repository),
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ]);

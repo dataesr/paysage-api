@@ -1,14 +1,15 @@
 import express from 'express';
+
 import { createContext, patchContext, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
-import { validatePayload } from '../../commons/middlewares/validate.middlewares';
-import { createStructureResponse, fromPayloadToStructure, storeStructure, validateStructureCreatePayload } from './root.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import { structuresRepository as repository } from '../../commons/repositories';
+import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
+import { requireAuth } from '../../commons/middlewares/rbac.middlewares';
+import { validatePayload } from '../../commons/middlewares/validate.middlewares';
 import elasticQuery from '../../commons/queries/structures.elastic';
 import readQuery from '../../commons/queries/structures.query';
+import { structuresRepository as repository } from '../../commons/repositories';
 import { structures as resource } from '../../resources';
-import { requireAuth } from '../../commons/middlewares/rbac.middlewares';
+import { createStructureResponse, fromPayloadToStructure, storeStructure, validateStructureCreatePayload } from './root.middlewares';
 
 const router = new express.Router();
 
@@ -40,7 +41,7 @@ router.route(`/${resource}/:id`)
   ])
   .delete([
     patchContext,
-    controllers.remove(repository),
+    controllers.softDelete(repository),
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ]);
