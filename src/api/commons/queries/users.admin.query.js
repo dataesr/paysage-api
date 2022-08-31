@@ -14,7 +14,7 @@ export default [
       service: { $ifNull: ['$service', null] },
       position: { $ifNull: ['$position', null] },
       confirmed: 1,
-      deleted: { $ifNull: ['$deleted', false] },
+      isDeleted: { $ifNull: ['$isDeleted', false] },
       createdBy: 1,
       createdAt: 1,
       updatedBy: 1,

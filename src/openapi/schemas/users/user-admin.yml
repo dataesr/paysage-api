@@ -22,7 +22,7 @@ allOf:
         type: string
       confirmed:
         type: boolean
-      deleted:
+      isDeleted:
         type: boolean
       avatar:
         type: string
