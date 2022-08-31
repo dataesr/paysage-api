@@ -29,6 +29,7 @@ export default [
         otherNames: 1,
         locality: 1,
       },
+      isDeleted: { $ifNull: ['$isDeleted', false] },
       currentLocalisation: { $ifNull: ['$currentLocalisation', {}] },
       currentName: { $ifNull: ['$currentName', {}] },
     },

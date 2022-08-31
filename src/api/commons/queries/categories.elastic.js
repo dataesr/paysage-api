@@ -16,6 +16,7 @@ export default [
         otherNamesFr: '$otherNamesFr',
         otherNamesEn: '$otherNamesEn',
       }],
+      isDeleted: { $ifNull: ['$isDeleted', false] },
     },
   },
 ];
