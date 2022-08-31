@@ -9,7 +9,7 @@ export default [
       toindex: [{
         longNameFr: '$longNameFr',
         shortNameFr: '$shortNameFr',
-        acronymeFr: '$acronymeFr',
+        acronymFr: '$acronymFr',
         pluralNameFr: '$pluralNameFr',
         longNameEn: '$longNameEn',
         shortNameEn: '$shortNameEn',
