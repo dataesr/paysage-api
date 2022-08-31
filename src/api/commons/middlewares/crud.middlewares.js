@@ -51,10 +51,22 @@ const remove = (repository) => async (req, res, next) => {
   return next();
 };
 
+const softDelete = (repository) => async (req, res, next) => {
+  const { params } = req;
+  const { id } = params || {};
+  const exists = await repository.get(id);
+  if (!exists) throw new NotFoundError();
+  const { ok } = await repository.patch(id, { isDeleted: true });
+  if (!ok) throw new ServerError();
+  res.status(204).json();
+  return next();
+};
+
 export default {
   create,
   list,
   patch,
   read,
   remove,
+  softDelete,
 };
