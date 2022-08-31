@@ -4,7 +4,7 @@ import { patchContext, createContext, setGeneratedObjectIdInContext } from '../c
 import controllers from '../commons/middlewares/crud.middlewares';
 import { saveInElastic, saveInStore } from '../commons/middlewares/event.middlewares';
 import elasticQuery from '../commons/queries/legal-categories.elastic';
-import readQuery from '../commons/queries/legalcategories.query';
+import readQuery from '../commons/queries/legal-categories.query';
 import { legalcategoriesRepository as repository } from '../commons/repositories';
 import { legalcategories as resource } from '../resources';
 import { validatePayload } from './legalcategories.middlewares';
