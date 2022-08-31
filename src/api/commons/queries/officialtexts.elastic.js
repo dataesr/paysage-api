@@ -6,6 +6,7 @@ export default [
       toindex: [{
         title: '$title',
       }],
+      isDeleted: { $ifNull: ['$isDeleted', false] },
       name: { $ifNull: ['$title', null] },
     },
   },
