@@ -3,7 +3,6 @@ import express from 'express';
 import { createContext, patchContext, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
-import { requireAuth } from '../../commons/middlewares/rbac.middlewares';
 import { validatePayload } from '../../commons/middlewares/validate.middlewares';
 import elasticQuery from '../../commons/queries/structures.elastic';
 import readQuery from '../../commons/queries/structures.query';
@@ -14,7 +13,7 @@ import { createStructureResponse, fromPayloadToStructure, storeStructure, valida
 const router = new express.Router();
 
 router.route(`/${resource}`)
-  .get(requireAuth, controllers.list(repository, readQuery))
+  .get(controllers.list(repository, readQuery))
   .post([
     validateStructureCreatePayload,
     fromPayloadToStructure,

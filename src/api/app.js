@@ -6,9 +6,10 @@ import multer from 'multer';
 import YAML from 'yamljs';
 import * as OAV from 'express-openapi-validator';
 import health from '@cloudnative/health-connect';
-import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 import { authenticate } from './commons/middlewares/authenticate.middlewares';
+import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 
+import { requireAuth } from './commons/middlewares/rbac.middlewares';
 import authRoutes from './auth/auth.routes';
 import assetsRoutes from './assets/assets.routes';
 import categoriesRoutes from './categories/categories.routes';
@@ -76,6 +77,9 @@ app.use(OAV.middleware({
 
 // Authenticate currentUser
 app.use(authenticate);
+
+// Require authentication
+app.use(requireAuth);
 
 // Register api routes
 app.use(authRoutes);
