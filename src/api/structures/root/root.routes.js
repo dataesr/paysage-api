@@ -8,12 +8,11 @@ import { structuresRepository as repository } from '../../commons/repositories';
 import elasticQuery from '../../commons/queries/structures.elastic';
 import readQuery from '../../commons/queries/structures.query';
 import { structures as resource } from '../../resources';
-import { requireAuth } from '../../commons/middlewares/rbac.middlewares';
 
 const router = new express.Router();
 
 router.route(`/${resource}`)
-  .get(requireAuth, controllers.list(repository, readQuery))
+  .get(controllers.list(repository, readQuery))
   .post([
     validateStructureCreatePayload,
     fromPayloadToStructure,
