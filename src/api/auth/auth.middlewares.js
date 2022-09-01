@@ -70,7 +70,7 @@ export const signin = async (req, res, next) => {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       agenda.now('send signin email', { user, otp, ip });
-      const expires = new Date().setMinutes(new Date().getMinutes + 10);
+      const expires = new Date().setMinutes(new Date().getMinutes() + 10);
       const options = {
         year: 'numeric',
         month: 'long',
@@ -82,7 +82,7 @@ export const signin = async (req, res, next) => {
       throw new UnauthorizedError(
         `${reason}.
          Un nouveau code à été envoyé à l'adresse ${user.email}.
-         Code utilisable jusqu'au ${expires.toLocaleString('fr-FR', options)}`,
+         Code utilisable jusqu'au ${new Date(expires).toLocaleString('fr-FR', options)}`,
       );
     }
     throw new UnauthorizedError(reason);
@@ -140,7 +140,7 @@ export const resetPassword = async (req, res, next) => {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       agenda.now('send recovery email', { user, otp, ip });
-      const expires = new Date().setMinutes(new Date().getMinutes + 10);
+      const expires = new Date().setMinutes(new Date().getMinutes() + 10);
       const options = {
         year: 'numeric',
         month: 'long',
@@ -151,7 +151,7 @@ export const resetPassword = async (req, res, next) => {
       };
       throw new UnauthorizedError(
         `Un nouveau code à été envoyé à l'adresse ${user.email}.
-         Code utilisable jusqu'au ${expires.toLocaleString('fr-FR', options)}`,
+         Code utilisable jusqu'au ${new Date(expires).toLocaleString('fr-FR', options)}`,
       );
     }
     throw new UnauthorizedError('Code invalide');
