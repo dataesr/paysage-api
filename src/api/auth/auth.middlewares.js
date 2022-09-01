@@ -102,7 +102,7 @@ export const signin = async (req, res, next) => {
 export const signout = async (req, res, next) => {
   const { currentUser, userAgent } = req;
   await tokensRepository.remove({ userId: currentUser.id, userAgent });
-  res.status(204).json();
+  res.status(204).json({ message: 'Vous êtes déconnecté.' });
   return next();
 };
 
