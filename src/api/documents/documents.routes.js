@@ -36,7 +36,7 @@ router.route(`/${resource}/:id`)
   .delete([
     patchContext,
     deleteFile(resource),
-    controllers.softDelete(repository, readQuery),
+    controllers.remove(repository, readQuery),
     saveInStore(resource),
   ]);
 
