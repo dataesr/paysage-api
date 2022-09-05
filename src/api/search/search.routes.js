@@ -5,7 +5,7 @@ import config from '../../config';
 import { ServerError } from '../commons/http-errors';
 import logger from '../../services/logger.service';
 
-const allowedTypes = ['structures'];
+const allowedTypes = ['structures', 'categories', 'persons'];
 
 const router = new express.Router();
 const { index } = config.elastic;

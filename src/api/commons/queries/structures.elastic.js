@@ -1,15 +1,8 @@
-import metas from './metas.query';
-import currentLocalisationQuery from './current-localisation.query';
-import currentNameQuery from './current-name.query';
-
 export default [
-  ...metas,
-  ...currentLocalisationQuery,
-  ...currentNameQuery,
   {
     $set: {
       toindex: {
-        $concatArrays: ['$names', '$localisations'],
+        $concatArrays: ['$names', { $ifNull: ['$localisations', []] }],
       },
     },
   },
@@ -29,8 +22,6 @@ export default [
         otherNames: 1,
         locality: 1,
       },
-      currentLocalisation: { $ifNull: ['$currentLocalisation', {}] },
-      currentName: { $ifNull: ['$currentName', {}] },
     },
   },
 ];
