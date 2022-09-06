@@ -16,7 +16,7 @@
     "api:start": "NODE_ENV=${npm_config_env} PORT=${npm_config_port} node --experimental-specifier-resolution=node index.js",
     "test": "npm run docs:build && npm run setup:mongo --env=testing && npm run setup:elastic --env=testing && npm run api:test",
     "start": "npm run docs:build && npm run setup:mongo --env=development && npm run setup:elastic --env=development && npm run setup:storage --env=development && npm run api:dev",
-    "start:staging": "npm run docs:build  && npm run api:start --env=staging",
+    "start:staging": "npm run docs:build npm run setup:mongo --env=staging && npm run setup:elastic --env=staging && npm run setup:storage --env=staging && npm run api:start --env=staging",
     "start:production": "npm run docs:build && npm run api:start --env=production"
   },
   "keywords": [
