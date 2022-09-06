@@ -2,7 +2,7 @@ name: types
 in: query
 description: |
   Les types d'objet à retourner, séparés par une virgule.
-  Les types acceptés sont 'structures'.
+  Les types acceptés sont "categories", "legal-categories", "official-texts", "persons", "prices", "projects", "structures", "terms" et "users".
 schema:
   type: string
-  example: '?types=structures,persons'
+  example: '?types=persons,structures'

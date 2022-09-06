@@ -72,7 +72,7 @@ $ curl -X POST -H "Content-Type: application/json" -d { "refreshToken": "<refres
 ```sh
 $ curl -X POST -H "Content-Type: application/json" -H "Authorization: <accessToken>" https://api.paysage.dataesr.ovh/signout
 
-> { "message": "Vous êtes déconecté." }
+> { "message": "Vous êtes déconnecté." }
 ```
 
 

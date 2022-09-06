@@ -4,8 +4,9 @@ import esClient from '../../services/elastic.service';
 import config from '../../config';
 import { ServerError } from '../commons/http-errors';
 import logger from '../../services/logger.service';
+import { categories, legalcategories, officialtexts, persons, prices, projects, structures, terms, users } from '../resources';
 
-const allowedTypes = ['structures'];
+const allowedTypes = [categories, legalcategories, officialtexts, persons, prices, projects, structures, terms, users];
 
 const router = new express.Router();
 const { index } = config.elastic;

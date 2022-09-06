@@ -3,6 +3,7 @@ export const documents = 'documents';
 export const documentTypes = 'document-types';
 export const emails = 'emails';
 export const emailtypes = 'email-types';
+export const followups = 'follow-ups';
 export const groups = 'groups';
 export const groupMembers = 'members';
 export const identifiers = 'identifiers';
