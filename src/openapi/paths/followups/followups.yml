@@ -1,8 +1,8 @@
-/documents:
+/follow-ups:
   get:
     tags:
-      - Documents
-    summary: Lister les documents
+      - Evènements de suivi
+    summary: Lister les évènements de suivi
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -19,7 +19,7 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/Document'
+                    $ref: '../../api.yml#/components/schemas/FollowUp'
                 totalCount:
                   type: integer
       '400':
@@ -33,26 +33,25 @@
 
   post:
     tags:
-      - Documents
-    summary: Créer un nouveau document
+      - Evènements de suivi
+    summary: Créer un nouvel évènement de suivi
     requestBody:
       content:
         multipart/form-data:
           schema:
-            title: DocumentPayLoad
+            title: FollowUpPayload
             type: object
             required:
-              - documentTypeId
-              - file
+              - title
             allOf:
-              - $ref: '../../api.yml#/components/schemas/DocumentPayload'
+              - $ref: '../../api.yml#/components/schemas/FollowUpPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Document'
+              $ref: '../../api.yml#/components/schemas/FollowUp'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -62,20 +61,20 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/documents/{documentId}:
+/follow-ups/{followUpId}:
   get:
     tags:
-      - Documents
-    summary: Obtenir le détail d'un document
+      - Evènements de suivi
+    summary: Obtenir le détail d'un évènement de suivi
     parameters:
-      - $ref: '../../api.yml#/components/parameters/documentId'
+      - $ref: '../../api.yml#/components/parameters/followUpId'
     responses:
       '200':
         description: Success
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Document'
+              $ref: '../../api.yml#/components/schemas/FollowUp'
       '301':
         description: No content
       '400':
@@ -91,24 +90,42 @@
 
   patch:
     tags:
-      - Documents
-    summary: Modifier un document
+      - Evènements de suivi
+    summary: Modifier un évènement de suivi
     parameters:
-      - $ref: '../../api.yml#/components/parameters/documentId'
+      - $ref: '../../api.yml#/components/parameters/followUpId'
     requestBody:
       content:
           mutlipart/form-data:
             schema:
-              $ref: '../../api.yml#/components/schemas/DocumentPayload'
+              $ref: '../../api.yml#/components/schemas/FollowUpPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Document'
+              $ref: '../../api.yml#/components/schemas/FollowUp'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Evènements de suivi
+    summary: Supprimer un évènement de suivi
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/followUpId'
+    responses:
+      '204':
+        description: No content
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
