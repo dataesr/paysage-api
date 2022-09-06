@@ -7,7 +7,7 @@ import elasticQuery from '../../commons/queries/terms.elastic';
 import readQuery from '../../commons/queries/terms.query';
 import { termsRepository as repository } from '../../commons/repositories';
 import { terms as resource } from '../../resources';
-import { setDefaultPriorityField, validatePayload } from './root.middlewares';
+import { canIDelete, setDefaultPriorityField, validatePayload } from './root.middlewares';
 
 const router = new express.Router();
 
@@ -34,6 +34,7 @@ router.route(`/${resource}/:id`)
   ])
   .delete([
     patchContext,
+    canIDelete,
     controllers.softDelete(repository),
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),

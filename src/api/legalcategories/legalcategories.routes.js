@@ -7,7 +7,7 @@ import elasticQuery from '../commons/queries/legal-categories.elastic';
 import readQuery from '../commons/queries/legal-categories.query';
 import { legalcategoriesRepository as repository } from '../commons/repositories';
 import { legalcategories as resource } from '../resources';
-import { validatePayload } from './legalcategories.middlewares';
+import { canIDelete, validatePayload } from './legalcategories.middlewares';
 
 const router = new express.Router();
 
@@ -33,6 +33,7 @@ router.route(`/${resource}/:id`)
   ])
   .delete([
     patchContext,
+    canIDelete,
     controllers.softDelete(repository),
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
