@@ -11,6 +11,7 @@ export const documentTypesRepository = new BaseMongoRepository({ db, collection:
 export const emailsRepository = new BaseMongoRepository({ db, collection: 'emails' });
 export const emailTypesRepository = new BaseMongoRepository({ db, collection: 'emailtypes' });
 export const eventsRepository = new BaseMongoRepository({ db, collection: '_events' });
+export const followUpsRepository = new BaseMongoRepository({ db, collection: 'followups' });
 export const groupsRepository = new BaseMongoRepository({ db, collection: 'groups' });
 export const groupMembersRepository = new BaseMongoRepository({ db, collection: 'groupmembers' });
 export const identifiersRepository = new BaseMongoRepository({ db, collection: 'identifiers' });
