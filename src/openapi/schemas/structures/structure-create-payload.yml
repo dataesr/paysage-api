@@ -61,7 +61,7 @@ properties:
     nullable: true
   creationOfficialTextId:
     type: string
-    pattern: '^[a-zA-Z0-9]{5}$'
+    pattern: '^[a-zA-Z0-9]{15}$'
     description: Identifiant d'un texte officiel
     nullable: true
   closureDate:
@@ -70,7 +70,7 @@ properties:
     nullable: true
   closureOfficialTextId:
     type: string
-    pattern: '^[a-zA-Z0-9]{5}$'
+    pattern: '^[a-zA-Z0-9]{15}$'
     description: Identifiant d'un texte officiel
     nullable: true
   categories:
