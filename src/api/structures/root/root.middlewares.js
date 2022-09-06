@@ -1,11 +1,11 @@
-import { BadRequestError } from '../../commons/http-errors';
+import { BadRequestError, UnauthorizedError } from '../../commons/http-errors';
 import catalog from '../../commons/catalog';
 import readQuery from '../../commons/queries/structures.query';
 import {
   categoriesRepository,
   identifiersRepository,
   officialtextsRepository,
-  structuresRepository,
+  structuresRepository as repository,
 } from '../../commons/repositories';
 import { client } from '../../../services/mongo.service';
 
@@ -22,7 +22,7 @@ export const validateStructureCreatePayload = async (req, res, next) => {
   }
   const { categories: categoryIds, parents: parentIds } = req.body;
   if (parentIds) {
-    const { data: structuresData } = await structuresRepository.find({ filters: { id: { $in: parentIds } } });
+    const { data: structuresData } = await repository.find({ filters: { id: { $in: parentIds } } });
     const savedParents = structuresData.reduce((arr, parent) => [...arr, parent.id], []);
     const notFoundParent = parentIds.filter((x) => savedParents.indexOf(x) === -1);
     if (notFoundParent.length) {
@@ -225,7 +225,7 @@ export const storeStructure = async (req, res, next) => {
   const { id: resourceId } = rest;
   const session = client.startSession();
   await session.withTransaction(async () => {
-    await structuresRepository.create(rest);
+    await repository.create(rest);
     if (identifiers?.length) {
       await identifiers.forEach(async (identifier) => {
         await identifiersRepository.create({ ...identifier, resourceId });
@@ -237,7 +237,17 @@ export const storeStructure = async (req, res, next) => {
 };
 
 export const createStructureResponse = async (req, res, next) => {
-  const resource = await structuresRepository.get(req.body.id, { useQuery: readQuery });
+  const resource = await repository.get(req.body.id, { useQuery: readQuery });
   res.status(201).json(resource);
+  return next();
+};
+
+export const canIDelete = async (req, res, next) => {
+  const resource = await repository.get(req.params.id, { useQuery: readQuery });
+  if (
+    ((resource?.alternativePaysageIds || []).lenght > 0)
+    || (resource?.creationOfficialText?.id || false)
+    || (resource?.closureOfficialText?.id || false)
+  ) throw new UnauthorizedError();
   return next();
 };
