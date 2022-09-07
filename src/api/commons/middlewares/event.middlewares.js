@@ -18,15 +18,14 @@ export function saveInElastic(repository, useQuery, resourceName) {
       fields = fields.concat(Object.values(resource.toindex[i]).flat().filter((n) => n));
     }
     fields = [...new Set(fields)];
-    delete resource.id;
-    delete resource.toindex;
     const actions = [{
       index: { _index: index },
     }, {
-      name: fields.join(' '),
+      search: fields.join(' '),
       type: resourceName,
       id,
-      resource,
+      name: resource.name,
+      acronym: resource.acronym,
     }];
     if (actions.length) {
       await esClient.bulk({ refresh: true, body: actions });

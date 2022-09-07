@@ -33,6 +33,9 @@ router.route('/autocomplete')
           }],
         },
       },
+      _source: {
+        exclude: ['search'],
+      },
     };
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
