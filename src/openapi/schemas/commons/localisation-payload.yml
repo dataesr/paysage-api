@@ -1,5 +1,5 @@
 title: LocalisationPayload
-description: Modèle de création et d'update d'une localisation
+description: Modèle de création et de mise à jour d'une localisation
 type: object
 properties:
   cityId:

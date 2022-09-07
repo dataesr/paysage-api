@@ -1,5 +1,5 @@
 title: DocumentPayload
-description: Modèle de creation et d'update d'un document
+description: Modèle de creation et de mise à jour d'un document
 type: object
 properties:
   documentTypeId:
