@@ -1,5 +1,5 @@
 title: LogoPayload
-description: Modèle de création et d'update d'un logo
+description: Modèle de création et de mise à jour d'un logo
 type: object
 properties:
   legend:

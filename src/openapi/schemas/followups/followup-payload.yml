@@ -1,5 +1,5 @@
 title: FollowUpPayload
-description: Modèle de création et d'update d'un évènement de suivi
+description: Modèle de création et de mise à jour d'un évènement de suivi
 additionalProperties: false
 type: object
 properties:

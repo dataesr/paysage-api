@@ -1,5 +1,5 @@
 title: SocialMediaPayload
-description: Modèle de création et d'update d'un média social
+description: Modèle de création et de mise à jour d'un média social
 type: object
 properties:
   type:
