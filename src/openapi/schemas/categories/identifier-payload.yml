@@ -1,5 +1,5 @@
 title: CategoryIdentifierPayload
-description: Modèle de création et d'update d'un identifiant de catégorie
+description: Modèle de création et de mise à jour d'un identifiant de catégorie
 additionalProperties: false
 type: object
 properties:

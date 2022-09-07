@@ -61,12 +61,6 @@ allOf:
         maximum: 99
         description: |
           Un ordre de priorité d'affichage de la catégorie.
-          La priorité maximal est 1. La priorité minimale est 99.
+          La priorité maximale est 1. La priorité minimale est 99.
           Valeur par default: 99.
-      creationOfficialTextId:
-        type: string
-        nullable: true
-      closureOfficialTextId:
-        type: string
-        nullable: true
   - $ref: '../../api.yml#/components/schemas/Metas'

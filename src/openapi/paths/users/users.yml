@@ -78,7 +78,7 @@ User-Admin:
   patch:
     tags:
       - Utilisateurs
-    summary: Update a user
+    summary: Mise à jour d'un utilisateur
     parameters:
       - $ref: ../../api.yml#/components/parameters/userId
     requestBody:

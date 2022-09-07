@@ -1,5 +1,5 @@
 title: CategoryPayload
-description: Modèle de création et d'update d'une catégorie
+description: Modèle de création et de mise à jour d'une catégorie
 additionalProperties: false
 type: object
 properties:
@@ -53,7 +53,7 @@ properties:
     maximum: 99
     description: |
       Un ordre de priorité d'affichage de la catégorie.
-      La priorité maximal est 1. La priorité minimale est 99.
+      La priorité maximale est 1. La priorité minimale est 99.
       Valeur par default: 99.
   creationOfficialTextId:
     type: string
