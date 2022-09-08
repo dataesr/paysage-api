@@ -52,6 +52,7 @@ describe(`API > ${resource} > create`, () => {
     expect(body.closureOfficialText.id).toBe(textId);
     id = body.id;
   });
+
   it('ignore additionalProperties', async () => {
     await global.superapp
       .post(`/${resource}`)
@@ -70,6 +71,7 @@ describe(`API > ${resource} > create`, () => {
       .send(rest)
       .expect(400);
   });
+
   it('should fail if creationTextId does not exist', async () => {
     const { body } = await global.superapp
       .post(`/${resource}`)
@@ -88,6 +90,7 @@ describe(`API > ${resource} > update`, () => {
       .send(updatePayLoad)
       .expect(404);
   });
+
   it('can update successfully', async () => {
     const { body } = await global.superapp
       .patch(`/${resource}/${id}`)
@@ -99,6 +102,7 @@ describe(`API > ${resource} > update`, () => {
     expect(body.id).toBeTruthy();
     expect(body.createdBy.lastName).toBe('user');
   });
+
   it('ignore additionalProperties', async () => {
     await global.superapp
       .patch(`/${resource}/${id}`)
@@ -106,6 +110,7 @@ describe(`API > ${resource} > update`, () => {
       .send({ arbitrary: 'test' })
       .expect(400);
   });
+
   it('throws with no data', async () => {
     await global.superapp
       .patch(`/${resource}/${id}`)
@@ -113,6 +118,7 @@ describe(`API > ${resource} > update`, () => {
       .send({})
       .expect(400);
   });
+
   it('should fail if creationTextId does not exist', async () => {
     const { body } = await global.superapp
       .patch(`/${resource}/${id}`)
@@ -139,6 +145,7 @@ describe(`API > ${resource} > read`, () => {
     expect(body.creationOfficialText.nature).toBe('Publication au JO');
     expect(body.closureOfficialText.nature).toBe('Publication au JO');
   });
+
   it('throws not found with unknown id', async () => {
     await global.superapp
       .get(`/${resource}/45frK`)
@@ -154,11 +161,23 @@ describe(`API > ${resource} > delete`, () => {
       .set('Authorization', authorization)
       .expect(404);
   });
-  it('can delete successfully', async () => {
+
+  it('is not authorized', async () => {
     await global.superapp
       .delete(`/${resource}/${id}`)
       .set('Authorization', authorization)
-      .expect(204);
+      .expect(401);
+  });
+
+  it('is successful', async () => {
+    await global.superapp
+      .patch(`/${resource}/${id}`)
+      .set('Authorization', authorization)
+      .send({ creationOfficialText: null, closureOfficialText: null });
+    await global.superapp
+      .delete(`/${resource}/${id}`)
+      .set('Authorization', authorization)
+      .expect(401);
   });
 });
 
@@ -181,6 +200,7 @@ describe(`API > ${resource} > list`, () => {
       .send({ ...payload, usualNameFr: 'Name_2' })
       .expect(201);
   });
+
   it('can list successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}`)
@@ -191,6 +211,7 @@ describe(`API > ${resource} > list`, () => {
     expect(docs).toContain('Name_1');
     expect(docs).toContain('Name_2');
   });
+
   it('can skip successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?skip=1`)
@@ -201,6 +222,7 @@ describe(`API > ${resource} > list`, () => {
     expect(docs).toContain('Name_2');
     expect(body.totalCount).toBe(3);
   });
+
   it('can limit successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?limit=1`)
@@ -210,6 +232,7 @@ describe(`API > ${resource} > list`, () => {
     expect(docs).toContain('Name_0');
     expect(body.totalCount).toBe(3);
   });
+
   it('can sort successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?sort=usualNameFr`)
@@ -219,6 +242,7 @@ describe(`API > ${resource} > list`, () => {
     expect(docs[0]).toBe('Name_0');
     expect(body.totalCount).toBe(3);
   });
+
   it('can reversely sort successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?sort=-usualNameFr`)
@@ -228,6 +252,7 @@ describe(`API > ${resource} > list`, () => {
     expect(docs[0]).toBe('Name_2');
     expect(body.totalCount).toBe(3);
   });
+
   it('can filter successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?filters[usualNameFr]=Name_1`)
