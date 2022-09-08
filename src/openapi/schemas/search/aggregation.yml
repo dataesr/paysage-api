@@ -1,0 +1,11 @@
+title: AutocompletionAggregation
+description: Résultat d'une aggrégation en autocomplétion.
+type: array
+items:
+  type: object
+  properties:
+    key:
+      type: string
+    doc_count:
+      type: number
+      format: int32

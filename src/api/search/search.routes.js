@@ -36,6 +36,13 @@ router.route('/autocomplete')
       _source: {
         exclude: ['search'],
       },
+      aggs: {
+        byTypes: {
+          terms: {
+            field: 'type.keyword',
+          },
+        },
+      },
     };
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
@@ -52,7 +59,8 @@ router.route('/autocomplete')
         (prev.map((item) => item.id).includes(current.id)) ? prev : [...prev, current]), [])
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
-    res.json({ data: response });
+    const aggregation = esResults?.body?.aggregations?.byTypes?.buckets || [];
+    res.json({ data: response, aggregation });
     return next();
   });
 
