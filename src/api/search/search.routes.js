@@ -63,7 +63,11 @@ router.route('/autocomplete')
         (prev.map((item) => item.id).includes(current.id)) ? prev : [...prev, current]), [])
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
-    const aggregation = esResults?.body?.aggregations?.byTypes?.buckets || [];
+    const buckets = esResults?.body?.aggregations?.byTypes?.buckets || [];
+    const aggregation = buckets.map((bucket) => ({
+      count: bucket.doc_count,
+      key: bucket.key,
+    }));
     res.json({ data: response, aggregation });
     return next();
   });
