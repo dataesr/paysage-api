@@ -11,6 +11,7 @@ items:
       format: float
     acronym:
       type: string
+      nullable: true
     name:
       type: string
     type:
