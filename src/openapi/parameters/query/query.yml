@@ -1,5 +1,6 @@
 name: query
 in: query
+allowEmptyValue: true
 description: A text to match with.
 schema:
   type: string
