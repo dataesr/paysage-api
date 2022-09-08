@@ -6,6 +6,6 @@ items:
   properties:
     key:
       type: string
-    doc_count:
+    count:
       type: number
       format: int32
