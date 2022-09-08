@@ -356,6 +356,8 @@ components:
     ### MODELS ###
     AutocompletionResults:
       $ref: './schemas/search/autocomplete.yml'
+    AutocompletionAggregation:
+      $ref: './schemas/search/aggregation.yml'
     Category:
       $ref: './schemas/categories/category.yml'
     CategoryIdentifier:
