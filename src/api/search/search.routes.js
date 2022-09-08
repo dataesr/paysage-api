@@ -23,10 +23,6 @@ router.route('/autocomplete')
       query: {
         bool: {
           must: [{
-            match: {
-              name: query,
-            },
-          }, {
             terms: {
               type: requestedTypes,
             },
@@ -48,6 +44,13 @@ router.route('/autocomplete')
         },
       },
     };
+    if (query) {
+      body.query.bool.must.push({
+        match: {
+          name: query,
+        },
+      });
+    }
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
         logger.error(e);
