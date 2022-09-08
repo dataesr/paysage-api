@@ -18,6 +18,8 @@
               properties:
                 data:
                   $ref: '../../api.yml#/components/schemas/AutocompletionResults'
+                aggregation:
+                  $ref: '../../api.yml#/components/schemas/AutocompletionAggregation'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
