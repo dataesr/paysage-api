@@ -22,6 +22,7 @@ export default [
         otherNames: 1,
         locality: 1,
       },
+      isDeleted: { $ifNull: ['$isDeleted', false] },
     },
   },
 ];

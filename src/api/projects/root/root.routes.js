@@ -8,6 +8,7 @@ import readQuery from '../../commons/queries/projects.query';
 import elasticQuery from '../../commons/queries/projects.elastic';
 import { projectsRepository as repository } from '../../commons/repositories';
 import { projects as resource } from '../../resources';
+import { canIDelete } from './root.middlewares';
 
 const router = new express.Router();
 
@@ -33,7 +34,8 @@ router.route(`/${resource}/:id`)
   ])
   .delete([
     patchContext,
-    controllers.remove(repository),
+    canIDelete,
+    controllers.softDelete(repository),
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ]);

@@ -1,5 +1,6 @@
-import { BadRequestError } from '../../commons/http-errors';
-import { officialtextsRepository } from '../../commons/repositories';
+import { BadRequestError, UnauthorizedError } from '../../commons/http-errors';
+import readQuery from '../../commons/queries/categories.query';
+import { categoriesRepository as repository, officialtextsRepository } from '../../commons/repositories';
 
 export async function validatePayload(req, res, next) {
   if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
@@ -21,5 +22,14 @@ export function setDefaultPriorityField(req, res, next) {
   if (!req.body.priority) {
     req.body.priority = 99;
   }
+  return next();
+}
+
+export async function canIDelete(req, res, next) {
+  const resource = await repository.get(req.params.id, { useQuery: readQuery });
+  if (
+    (resource?.creationOfficialText?.id || false)
+    || (resource?.closureOfficialText?.id || false)
+  ) throw new UnauthorizedError();
   return next();
 }

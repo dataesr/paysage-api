@@ -15,6 +15,7 @@ export default [
         shortNameEn: '$shortNameEn',
         otherNames: '$otherNames',
       }],
+      isDeleted: { $ifNull: ['$isDeleted', false] },
     },
   },
 ];

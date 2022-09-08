@@ -14,6 +14,7 @@ export default [
         acronymFr: '$acronymFr',
         acronymEn: '$acronymEn',
       }],
+      isDeleted: { $ifNull: ['$isDeleted', false] },
     },
   },
 ];

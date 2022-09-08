@@ -12,7 +12,7 @@ export function saveInElastic(repository, useQuery, resourceName) {
       index,
       body: { query: { bool: { must: [{ match: { id } }, { term: { type: resourceName } }] } } },
     });
-    const resource = await repository.get(id, { useQuery });
+    const resource = await repository.get(id, { useQuery, keepDeleted: true });
     let fields = [];
     for (let i = 0; i < resource?.toindex?.length || 0; i += 1) {
       fields = fields.concat(Object.values(resource.toindex[i]).flat().filter((n) => n));
@@ -26,6 +26,7 @@ export function saveInElastic(repository, useQuery, resourceName) {
       actions.push({
         name,
         type: resourceName,
+        isDeleted: resource?.isDeleted || false,
         id,
       });
     });
