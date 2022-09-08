@@ -1,8 +1,8 @@
 import express from 'express';
 
 import { createContext, patchContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
-import { saveInElastic, saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
+import { saveInElastic, saveInStore } from '../commons/middlewares/event.middlewares';
 import elasticQuery from '../commons/queries/prices.elastic';
 import readQuery from '../commons/queries/prices.query';
 import { pricesRepository as repository } from '../commons/repositories';

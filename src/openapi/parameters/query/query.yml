@@ -4,3 +4,4 @@ description: A text to match with.
 schema:
   type: string
   example: '?query=Universi'
+  nullable: true

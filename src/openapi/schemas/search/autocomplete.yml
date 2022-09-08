@@ -6,10 +6,12 @@ items:
   properties:
     id:
       type: string
-    name:
-      type: string
     score:
       type: number
       format: float
+    acronym:
+      type: string
+    name:
+      type: string
     type:
       type: string

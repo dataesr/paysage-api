@@ -37,6 +37,16 @@ router.route('/autocomplete')
           }],
         },
       },
+      _source: {
+        exclude: ['search'],
+      },
+      aggs: {
+        byTypes: {
+          terms: {
+            field: 'type.keyword',
+          },
+        },
+      },
     };
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
@@ -53,7 +63,12 @@ router.route('/autocomplete')
         (prev.map((item) => item.id).includes(current.id)) ? prev : [...prev, current]), [])
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
-    res.json({ data: response });
+    const buckets = esResults?.body?.aggregations?.byTypes?.buckets || [];
+    const aggregation = buckets.map((bucket) => ({
+      count: bucket.doc_count,
+      key: bucket.key,
+    }));
+    res.json({ data: response, aggregation });
     return next();
   });
 

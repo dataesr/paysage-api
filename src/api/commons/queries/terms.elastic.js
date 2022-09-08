@@ -1,7 +1,4 @@
-import metas from './metas.query';
-
 export default [
-  ...metas,
   {
     $project: {
       _id: 0,
@@ -16,7 +13,9 @@ export default [
         otherNamesFr: '$otherNamesFr',
         otherNamesEn: '$otherNamesEn',
       }],
+      acronym: { $ifNull: ['$acronymFr', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
+      name: { $ifNull: ['$usualNameFr', null] },
     },
   },
 ];

@@ -1,4 +1,7 @@
+import currentNameQuery from './current-name.query';
+
 export default [
+  ...currentNameQuery,
   {
     $set: {
       toindex: {
@@ -22,7 +25,9 @@ export default [
         otherNames: 1,
         locality: 1,
       },
+      acronym: { $ifNull: ['$currentName.acronymFr', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
+      name: { $ifNull: ['$currentName.usualName', null] },
     },
   },
 ];
