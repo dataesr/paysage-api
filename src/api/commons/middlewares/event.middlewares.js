@@ -18,16 +18,21 @@ export function saveInElastic(repository, useQuery, resourceName) {
       fields = fields.concat(Object.values(resource.toindex[i]).flat().filter((n) => n));
     }
     fields = [...new Set(fields)];
-    const actions = [{
-      index: { _index: index },
-    }, {
-      search: fields.join(' '),
+    const action = {
+      search: fields.join(' ').replace(/[^0-9a-z]/gi, ' '),
       type: resourceName,
       id,
       acronym: resource.acronym,
       isDeleted: resource?.isDeleted || false,
       name: resource.name,
-    }];
+    };
+    if (resourceName === 'structures') {
+      action.creationDate = resource?.creationDate;
+      action.locality = resource?.locality?.[0];
+    }
+    const actions = [{
+      index: { _index: index },
+    }, action];
     await esClient.bulk({ refresh: true, body: actions });
     return next();
   };
