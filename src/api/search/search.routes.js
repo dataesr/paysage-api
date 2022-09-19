@@ -47,7 +47,7 @@ router.route('/autocomplete')
     if (query) {
       body.query.bool.must.push({
         match: {
-          name: query,
+          search: query,
         },
       });
     }
