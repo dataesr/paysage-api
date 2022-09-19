@@ -26,6 +26,10 @@ export function saveInElastic(repository, useQuery, resourceName) {
       isDeleted: resource?.isDeleted || false,
       name: resource.name,
     };
+    if (resourceName === 'structures') {
+      action.creationDate = resource?.creationDate;
+      action.locality = resource?.locality?.[0];
+    }
     const actions = [{
       index: { _index: index },
     }, action];
