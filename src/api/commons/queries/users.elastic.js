@@ -6,6 +6,7 @@ export default [
       toindex: [{
         firstName: '$firstName',
         lastName: '$lastName',
+        email: '$email',
       }],
       isDeleted: { $ifNull: ['$isDeleted', false] },
       name: { $concat: [{ $ifNull: ['$firstName', null] }, ' ', { $ifNull: ['$lastName', null] }] },
