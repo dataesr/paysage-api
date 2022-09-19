@@ -26,8 +26,10 @@ export default [
         locality: 1,
       },
       acronym: { $ifNull: ['$currentName.acronymFr', null] },
+      creationDate: { $ifNull: ['$creationDate', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
       name: { $ifNull: ['$currentName.usualName', null] },
+      locality: { $ifNull: ['$localisations.locality', null] },
     },
   },
 ];
