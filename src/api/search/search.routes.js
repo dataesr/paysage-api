@@ -22,9 +22,9 @@ router.route('/autocomplete')
     const body = {
       query: {
         bool: {
-          must: [{
+          filter: [{
             terms: {
-              type: requestedTypes,
+              'type.keyword': requestedTypes,
             },
           }, {
             term: {
