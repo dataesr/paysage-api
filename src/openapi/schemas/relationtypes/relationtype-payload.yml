@@ -1,0 +1,37 @@
+type: object
+additionalProperties: false
+properties:
+  name:
+    type: string
+  acronym:
+    type: string
+    nullable: true
+    description: Sigle en français
+  pluralName:
+    type: string
+    nullable: true
+    description: Forme du nom au pluriel
+  feminineName:
+    type: string
+    nullable: true
+    description: Forme du nom au féminin
+  otherNames:
+    type: array
+    nullable: true
+    description: Autres intitulés anglais
+    items:
+      type: string
+  for:
+    type: array
+    description: Objects paysage suceptibles de porter ce type de relation
+    items:
+      type: string
+      enum: ["structures", "categories", "persons", "prices", "terms", "legal-categories"]
+  priority:
+    type: integer
+    minimum: 1
+    maximum: 99
+    description: |
+      Un ordre de priorité d'affichage.
+      La priorité maximale est 1. La priorité minimale est 99.
+      Valeur par default: 99.

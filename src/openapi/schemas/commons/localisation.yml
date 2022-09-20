@@ -43,6 +43,8 @@ allOf:
       telephone:
         type: string
         nullable: true
+      current:
+        type: boolean
       coordinates:
         type: object
         nullable: true

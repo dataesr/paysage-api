@@ -1,0 +1,139 @@
+/structures/{structureId}/relations-groups:
+  get:
+    tags:
+      - Structures - Groupes de relations
+    summary: Lister les groupes de relations
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/RelationsGroup'
+                totalCount:
+                  type: number
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Structures - Groupes de relations
+    summary: Ajouter un groupe de relation
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/structureId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: CreateRelationsGroup
+            type: object
+            required:
+              - name
+              - accepts
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/RelationsGroupPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/RelationsGroup'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+/structures/{structureId}/relations-groups/{relationsGroupId}:
+  get:
+    tags:
+      - Structures - Groupes de relations
+    summary: Obtenir le détail d'un groupe de relations
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/RelationsGroup'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Structures - Groupes de relations
+    summary: Supprimer un groupe de relations
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  patch:
+    tags:
+      - Structures - Groupes de relations
+    summary: Modifier un groupe de relation
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+              $ref: '../../api.yml#/components/schemas/RelationsGroupPayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/RelationsGroup'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

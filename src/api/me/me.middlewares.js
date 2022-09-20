@@ -4,6 +4,7 @@ import usersQuery from '../commons/queries/users.query';
 import { usersRepository } from '../commons/repositories';
 
 export async function setUserIdInParams(req, res, next) {
+  if (!req.currentUser.id) throw new UnauthorizedError();
   req.params.id = req.currentUser.id;
   next();
 }
