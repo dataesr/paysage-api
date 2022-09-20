@@ -17,6 +17,47 @@ export default [
     },
   },
   {
+    $group: {
+      _id: null,
+      data: { $push: '$$ROOT' },
+    },
+  },
+  {
+    $set: {
+      currentLocalisation: {
+        $reduce: {
+          input: '$data',
+          initialValue: null,
+          in: {
+            $cond: [
+              { $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this.id', '$$value.id',
+            ],
+          },
+        },
+      },
+    },
+  },
+  {
+    $set: {
+      currentLocalisation: {
+        $ifNull: ['$currentLocalisation', {
+          $reduce: {
+            input: '$data',
+            initialValue: null,
+            in: {
+              $cond: [
+                { $gt: ['$$this.createdAt', '$$value.createdAt'] }, '$$this.id', '$$value.id',
+              ],
+            },
+          },
+        }],
+      },
+    },
+  },
+  { $unwind: '$data' },
+  { $set: { current: { $cond: [{ $eq: ['$currentLocalisation', '$data.id'] }, true, false] } } },
+  { $replaceRoot: { newRoot: { $mergeObjects: ['$$ROOT', '$data'] } } },
+  {
     $project: {
       _id: 0,
       id: 1,
@@ -32,6 +73,7 @@ export default [
       coordinates: 1,
       startDate: { $ifNull: ['$startDate', null] },
       endDate: { $ifNull: ['$endDate', null] },
+      current: 1,
       createdBy: 1,
       createdAt: 1,
       updatedBy: 1,

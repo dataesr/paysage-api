@@ -6,15 +6,13 @@ export async function validatePayload(req, res, next) {
   const { resourceId } = req.params;
   if (resourceId) {
     const exists = await structuresRepository.get(resourceId);
-    if (!exists) {
-      throw new BadRequestError(
-        'Referencing unknown resource id',
-        [{
-          path: '.param.resourceId',
-          message: `Structure '${resourceId}' does not exist`,
-        }],
-      );
-    }
+    if (exists) return next();
   }
-  return next();
+  throw new BadRequestError(
+    'Referencing unknown resource id',
+    [{
+      path: '.param.resourceId',
+      message: `Structure '${resourceId}' does not exist`,
+    }],
+  );
 }

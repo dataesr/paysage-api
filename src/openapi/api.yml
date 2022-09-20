@@ -27,6 +27,7 @@ tags:
   - name: Documents
   - name: Evènements de suivi
   - name: Groupes d'utilisateurs
+  - name: Groupes de relations
   - name: Ministres de tutelle
   - name: Personnes
   - name: Personnes - Catégories
@@ -42,6 +43,7 @@ tags:
   - name: Structures - Catégories
   - name: Structures - Catégories juridiques
   - name: Structures - Emails
+  - name: Structures - Groupes de relations
   - name: Structures - Identifiants
   - name: Structures - Liens web
   - name: Structures - Localisations
@@ -55,6 +57,7 @@ tags:
   - name: Textes officiels
   - name: Types d'email
   - name: Types de document
+  - name: Types de relation
   - name: Utilisateurs
 
 security:
@@ -138,6 +141,14 @@ paths:
     $ref: './paths/structures/names.yml#/~1structures~1{structureId}~1names'
   '/structures/{structureId}/names/{nameId}':
     $ref: './paths/structures/names.yml#/~1structures~1{structureId}~1names~1{nameId}'
+  '/structures/{structureId}/relations-groups':
+    $ref: './paths/structures/relationsgroups.yml#/~1structures~1{structureId}~1relations-groups'
+  '/structures/{structureId}/relations-groups/{relationsGroupId}':
+    $ref: './paths/structures/relationsgroups.yml#/~1structures~1{structureId}~1relations-groups~1{relationsGroupId}'
+  '/structures/{structureId}/relations-groups/{relationsGroupId}/relations':
+    $ref: './paths/structures/relations.yml#/collection'
+  '/structures/{structureId}/relations-groups/{relationsGroupId}/relations/{relationId}':
+    $ref: './paths/structures/relations.yml#/document'
   '/structures/{structureId}/social-medias':
     $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias'
   '/structures/{structureId}/social-medias/{socialmediaId}':
@@ -249,6 +260,12 @@ paths:
   '/projects/{projectId}/localisations/{localisationId}':
     $ref: './paths/projects/localisations.yml#/~1projects~1{projectId}~1localisations~1{localisationId}'
 
+  ### TYPES DE RELATION ###
+  '/relation-types':
+    $ref: './paths/relationtypes/relationtypes.yml#/~1relation-types'
+  '/relation-types/{relationTypeId}':
+    $ref: './paths/relationtypes/relationtypes.yml#/~1relation-types~1{relationTypeId}'
+
   ### TYPES DE DOCUMENT ###
   '/document-types':
     $ref: './paths/document-types/document-types.yml#/~1document-types'
@@ -319,6 +336,12 @@ components:
       $ref: ./parameters/ids/related-legal-category-id.yml
     relationshipId:
       $ref: ./parameters/ids/relationship-id.yml
+    relationId:
+      $ref: ./parameters/ids/relation-id.yml
+    relationsGroupId:
+      $ref: ./parameters/ids/relations-group-id.yml
+    relationTypeId:
+      $ref: ./parameters/ids/relation-type-id.yml
     roleId:
       $ref: ./parameters/ids/role-id.yml
     skip:
@@ -422,6 +445,14 @@ components:
       $ref: './schemas/projects/project-light.yml'
     ProjectWeblink:
       $ref: './schemas/projects/weblink.yml'
+    Relation:
+      $ref: './schemas/commons/relation.yml'
+    RelationType:
+      $ref: './schemas/relationtypes/relationtype.yml'
+    RelationTypeLight:
+      $ref: './schemas/relationtypes/relationtype-light.yml'
+    RelationsGroup:
+      $ref: './schemas/commons/relationsgroup.yml'
     Role:
       $ref: './schemas/roles/role.yml'
     RoleLight:
@@ -517,6 +548,12 @@ components:
       $ref: './schemas/projects/project-payload.yml'
     ProjectWeblinkPayload:
       $ref: './schemas/projects/weblink-payload.yml'
+    RelationPayload:
+      $ref: './schemas/commons/relation-payload.yml'
+    RelationTypePayload:
+      $ref: './schemas/relationtypes/relationtype-payload.yml'
+    RelationsGroupPayload:
+      $ref: './schemas/commons/relationsgroup-payload.yml'
     RolePayload:
       $ref: './schemas/roles/role-payload.yml'
     SocialMediaPayload:
