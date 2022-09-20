@@ -45,11 +45,7 @@ router.route('/autocomplete')
       },
     };
     if (query) {
-      body.query.bool.must.push({
-        match: {
-          search: query,
-        },
-      });
+      body.query.bool.must = [{ match: { search: query } }];
     }
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
