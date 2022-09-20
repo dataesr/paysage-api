@@ -11,12 +11,12 @@ properties:
   startDateOfficialTextId:
     type: string
     pattern: '^[a-zA-Z0-9]{15}$'
-    description: Identifiant d'un texte officiel
+    description: Identifiant d'un texte officiel de creation de relation
     nullable: true
   endDateOfficialTextId:
     type: string
     pattern: '^[a-zA-Z0-9]{15}$'
-    description: Identifiant d'un texte officiel
+    description: Identifiant d'un texte officiel de fin de relation
     nullable: true
   startDate:
     type: string

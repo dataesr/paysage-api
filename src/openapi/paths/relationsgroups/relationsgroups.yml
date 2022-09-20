@@ -111,7 +111,7 @@
   patch:
     tags:
       - Structures - Groupes de relations
-    summary: Modifier un type de relation
+    summary: Modifier un groupe de relation
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/relationsGroupId'

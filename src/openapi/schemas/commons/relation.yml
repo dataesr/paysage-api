@@ -13,13 +13,13 @@ allOf:
         type: object
         description: Objet lié
       relationType:
-        description: Reference the official text that accounts for the relation start
+        description: Type de relation
         $ref: '../../api.yml#/components/schemas/RelationTypeLight'
       startDateOfficialText:
-        description: Reference the official text that accounts for the relation start
+        description: Référence le texte officiel de début de relation
         $ref: '../../api.yml#/components/schemas/OfficialTextLight'
       endDateOfficialText:
-        description: Reference the official text that accounts for the relation end
+        description: Référence le texte officiel de fin de relation
         $ref: '../../api.yml#/components/schemas/OfficialTextLight'
       startDate:
         type: string

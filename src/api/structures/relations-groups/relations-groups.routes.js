@@ -30,7 +30,7 @@ router.route(`/${resource}/:resourceId/${subresource}/:id`)
   .delete([
     patchContext,
     controllers.remove(repository),
-    // delete relations associated
+    // TODO: delete relations associated
     saveInStore(subresource),
   ]);
 

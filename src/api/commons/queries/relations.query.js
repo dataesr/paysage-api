@@ -1,6 +1,6 @@
 import metas from './metas.query';
 import officialtextLightQuery from './officialtexts.light.query';
-import relationTypesLightQuery from './relation-types.light';
+import relationTypesLightQuery from './relation-types.light.query';
 import relatedObjectQuery from './related-object.query';
 
 export default [

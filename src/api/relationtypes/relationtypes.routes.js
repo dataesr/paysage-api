@@ -6,7 +6,6 @@ import { saveInStore } from '../commons/middlewares/event.middlewares';
 import readQuery from '../commons/queries/relation-types.query';
 import { relationTypesRepository as repository } from '../commons/repositories';
 import { relationTypes as resource } from '../resources';
-// import { canIDelete } from './relationtypes.middlewares';
 
 const router = new express.Router();
 
