@@ -5,7 +5,7 @@ import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { setFilters, validatePayload } from './relations.middlewares';
 import readQuery from '../../commons/queries/relations.query';
-import { relationsGroupsRepository as repository } from '../../commons/repositories';
+import { relationshipsRepository as repository } from '../../commons/repositories';
 import { structures as resource, relationsGroups as subresource, relations as subsubresource } from '../../resources';
 
 const router = new express.Router();
