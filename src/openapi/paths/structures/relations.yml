@@ -48,7 +48,6 @@ collection:
             type: object
             required:
               - relatedObjectId
-              - relationTypeId
             allOf:
               - $ref: '../../api.yml#/components/schemas/RelationPayload'
     responses:
