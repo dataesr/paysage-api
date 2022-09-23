@@ -8,6 +8,7 @@ properties:
     type: string
     description: Identifiant unique d'un type de relation
     pattern: '^[a-zA-Z0-9]{15}$'
+    nullable: true
   startDateOfficialTextId:
     type: string
     pattern: '^[a-zA-Z0-9]{15}$'

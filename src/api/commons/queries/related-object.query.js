@@ -15,6 +15,7 @@ export default [
       as: 'relatedCategories',
     },
   },
+  { $addFields: { 'relatedCategories.type': 'category' } },
   {
     $lookup: {
       from: 'terms',
@@ -24,6 +25,7 @@ export default [
       as: 'relatedTerms',
     },
   },
+  { $addFields: { 'relatedTerms.type': 'term' } },
   {
     $lookup: {
       from: 'persons',
@@ -33,6 +35,7 @@ export default [
       as: 'relatedPersons',
     },
   },
+  { $addFields: { 'relatedPersons.type': 'person' } },
   {
     $lookup: {
       from: 'prices',
@@ -42,6 +45,7 @@ export default [
       as: 'relatedPrices',
     },
   },
+  { $addFields: { 'relatedPrices.type': 'price' } },
   {
     $lookup: {
       from: 'projects',
@@ -51,6 +55,7 @@ export default [
       as: 'relatedProjects',
     },
   },
+  { $addFields: { 'relatedProjects.type': 'project' } },
   {
     $lookup: {
       from: 'structures',
@@ -60,6 +65,7 @@ export default [
       as: 'relatedStructures',
     },
   },
+  { $addFields: { 'relatedStructures.type': 'structure' } },
   { $set: { relatedObject: { $concatArrays: [
     '$relatedStructures',
     '$relatedProjects',

@@ -3,7 +3,8 @@ import { structuresRepository, relationTypesRepository, relationsGroupsRepositor
 
 export function setFilters(req, res, next) {
   const { relationsGroupId } = req.params;
-  req.query = { ...req.query, relationsGroupId };
+  if (!req.query.filters) { req.query.filters = {}; }
+  req.query.filters.relationsGroupId = relationsGroupId;
   return next();
 }
 
