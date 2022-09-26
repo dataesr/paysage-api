@@ -9,7 +9,7 @@ const { index } = config.elastic;
 const body = {
   mappings: {
     properties: {
-      name: {
+      search: {
         type: 'text',
         analyzer: 'autocomplete',
       },
