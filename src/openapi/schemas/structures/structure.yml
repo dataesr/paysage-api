@@ -19,12 +19,6 @@ allOf:
         type: array
         items:
           type: string
-      creationOfficialText:
-        description: Reference the official text that accounts for the structure creation
-        $ref: '../../api.yml#/components/schemas/OfficialTextLight'
-      closureOfficialText:
-        description: Reference the official text that accounts for the structure closure
-        $ref: '../../api.yml#/components/schemas/OfficialTextLight'
       structureStatus:
         type: string
         nullable: true
@@ -37,11 +31,20 @@ allOf:
         type: string
         pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
         nullable: true
+      creationOfficialText:
+        description: Reference the official text that accounts for the structure creation
+        $ref: '../../api.yml#/components/schemas/OfficialTextLight'
+      creationReason:
+        type: string
+        nullable: true
       closureDate:
         type: string
         pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
         nullable: true
-      creationReason:
+      closureOfficialText:
+        description: Reference the official text that accounts for the structure closure
+        $ref: '../../api.yml#/components/schemas/OfficialTextLight'
+      closureReason:
         type: string
         nullable: true
       descriptionFr:
