@@ -1,11 +1,11 @@
 import logger from '../services/logger.service';
-import agenda from './agenda';
-import backupData from './data';
+import agenda from '../jobs/agenda';
+import backupData from '../jobs/data';
 import {
   sendAuthenticationEmail,
   sendWelcomeEmail,
   sendPasswordRecoveryEmail,
-} from './emails';
+} from '../jobs/emails';
 
 agenda.define('send welcome email', { shouldSaveResult: true }, sendWelcomeEmail);
 agenda.define('send signin email', { shouldSaveResult: true }, sendAuthenticationEmail);
@@ -26,4 +26,4 @@ process.on('SIGTERM', graceful);
 process.on('SIGINT', graceful);
 
 agenda.start();
-agenda.every('30 seconds', 'backup data');
+agenda.every('1 day', 'backup data');

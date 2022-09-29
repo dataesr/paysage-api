@@ -1,7 +1,7 @@
 import logger from '../services/logger.service';
 import { db } from '../services/mongo.service';
 
-const backupData = async () => {
+const backupData = async (job, done) => {
   const datasets = [{
     url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-operateurs-indicateurs-financiers/download/?format=json&timezone=Europe/Berlin&lang=en',
     field: 'resultat_net_comptable',
@@ -39,10 +39,10 @@ const backupData = async () => {
       await db.collection('keynumbers').bulkWrite(operationsKeyNumbers, { ordered: false });
       await db.collection('structures').bulkWrite(operationsStructures, { ordered: false });
       logger.info('Data setup successful');
-      process.exit(0);
+      done();
     } catch (e) {
       logger.error({ ...e, message: 'Data setup failed' });
-      process.exit(1);
+      done();
     }
   });
 };
