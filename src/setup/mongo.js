@@ -10,6 +10,7 @@ async function setupMongo() {
   await db.collection('emails').createIndex({ id: 1 }, { unique: true });
   await db.collection('emailtypes').createIndex({ id: 1 }, { unique: true });
   await db.collection('identifiers').createIndex({ id: 1 }, { unique: true });
+  await db.collection('keynumbers').createIndex({ id: 1 }, { unique: true });
   await db.collection('legalcategories').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialtexts').createIndex({ id: 1 }, { unique: true });
   await db.collection('persons').createIndex({ id: 1 }, { unique: true });
@@ -27,7 +28,7 @@ async function setupMongo() {
   await db.collection('groups').createIndex({ id: 1 }, { unique: true });
   await db.collection('groupmembers').createIndex({ userId: 1, groupId: 1 }, { unique: true });
   await db.collection('weblinks').createIndex({ id: 1 }, { unique: true });
-  logger.info('Mongodb setup successfull');
+  logger.info('Mongodb setup successful');
   if (client) {
     await client.close();
   }
