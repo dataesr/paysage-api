@@ -26,4 +26,4 @@ process.on('SIGTERM', graceful);
 process.on('SIGINT', graceful);
 
 agenda.start();
-agenda.every('1 hour', 'backup data');
+agenda.every('30 seconds', 'backup data');
