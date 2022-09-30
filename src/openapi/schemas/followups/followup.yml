@@ -14,37 +14,20 @@ allOf:
         type: string
         description: Description de l'évenement
         nullable: true
-      fileUrl:
+      type:
         type: string
-        format: uri
+        enum:
+          - suivi
+          - évènement
+      files:
+        type: array
+        items:
+          $ref: '../../api.yml#/components/schemas/File'
       eventDate:
-        nullable: true
         type: string
         pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
-      relatedStructures:
+      relatedObjects:
         type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/StructureLight
-      relatedCategories:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/CategoryLight
-      relatedPersons:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/PersonLight
-      relatedPrices:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/PriceLight
-      relatedProjects:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/ProjectLight
-      relatedTerms:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/TermLight
       relatesTo:
         type: array
         description: Une liste d'objets Paysage qui sont liés à l'évènement

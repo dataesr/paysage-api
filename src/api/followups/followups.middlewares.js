@@ -6,7 +6,7 @@ import {
 } from '../commons/repositories';
 
 export async function canUserEdit(req, res, next) {
-  const { canEdit, createdBy } = followUpsRepository.find(req.params.id);
+  const { canEdit = [], createdBy } = followUpsRepository.find(req.params.id);
   const { id, groups = [] } = usersRepository.find(req.currentUser.id);
   const permissions = [id, ...groups]
     .filter((x) => [...canEdit, createdBy].indexOf(x) === -1);
