@@ -1,8 +1,6 @@
 title: OfficialTextLight
 description: Représentation simplifiée d'un texte officiel
 type: object
-required:
-  - id
 properties:
   id:
     type: string

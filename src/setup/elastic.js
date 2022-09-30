@@ -9,7 +9,7 @@ const { index } = config.elastic;
 const body = {
   mappings: {
     properties: {
-      name: {
+      search: {
         type: 'text',
         analyzer: 'autocomplete',
       },
@@ -44,7 +44,7 @@ async function setupElasticIndices() {
   if (!exists.body) {
     await esClient.indices.create({ index, body });
   }
-  logger.info('Elasticsearch setup successfull');
+  logger.info('Elasticsearch setup successful');
   process.exit(0);
 }
 

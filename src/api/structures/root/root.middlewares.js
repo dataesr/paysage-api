@@ -54,6 +54,8 @@ export const fromPayloadToStructure = async (req, res, next) => {
   const structure = {
     structureStatus: payload.structureStatus,
     creationDate: payload.creationDate,
+    creationOfficialTextId: payload.creationOfficialTextId,
+    closureOfficialTextId: payload.closureOfficialTextId,
     closureDate: payload.closureDate,
     createdBy: req.currentUser.id,
     createdAt: new Date(),
