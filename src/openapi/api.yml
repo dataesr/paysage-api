@@ -26,6 +26,7 @@ tags:
   - name: Documentation
   - name: Documents
   - name: Evènements de suivi
+  - name: Fichiers
   - name: Groupes d'utilisateurs
   - name: Groupes de relations
   - name: Ministres de tutelle
@@ -64,6 +65,10 @@ security:
   - BearerAuth: []
 
 paths:
+  ### FICHIERS ###
+  '/files':
+    $ref: ./paths/files/files.yml
+
   ### AUTHENTICATION ###
   '/signup':
     $ref: ./paths/auth/signup.yml
@@ -403,10 +408,10 @@ components:
       $ref: './schemas/commons/nomenclature.yml'
     EmailTypeLight:
       $ref: './schemas/commons/nomenclature-light.yml'
+    File:
+      $ref: './schemas/commons/file.yml'
     FollowUp:
       $ref: './schemas/followups/followup.yml'
-    FollowUpLight:
-      $ref: './schemas/followups/followup-light.yml'
     Group:
       $ref: ./schemas/groups/group.yml
     GroupMember:
