@@ -25,6 +25,9 @@ properties:
     description: Unique officialText identifier
     pattern: '^[a-zA-Z0-9]{15}$'
     nullable: true
+  creationReason:
+    type: string
+    nullable: true
   closureDate:
     type: string
     pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
@@ -34,7 +37,7 @@ properties:
     description: Unique officialText identifier
     pattern: '^[a-zA-Z0-9]{15}$'
     nullable: true
-  creationReason:
+  closureReason:
     type: string
     nullable: true
   descriptionFr:
@@ -42,4 +45,17 @@ properties:
     nullable: true
   descriptionEn:
     type: string
+    nullable: true
+  academicYear:
+    type: string
+    nullable: true
+  exercice:
+    type: integer
+    nullable: true
+    pattern: '^[0-9]{4}$'
+  netAccountingResult:
+    type: number
+    nullable: true
+  population:
+    type: integer
     nullable: true
