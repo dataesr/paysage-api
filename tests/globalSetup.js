@@ -5,7 +5,7 @@ import app from '../src/api/app';
 import { clearDB, client, db } from '../src/services/mongo.service';
 import esClient from '../src/services/elastic.service';
 import Utils from './utils';
-import agenda from '../src/jobs/agenda';
+import agenda from '../src/jobs';
 
 beforeAll(() => {
   global.superapp = request(app);

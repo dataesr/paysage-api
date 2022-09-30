@@ -1,6 +1,7 @@
 import app from './app';
 import { client } from '../services/mongo.service';
 import logger from '../services/logger.service';
+import agenda from '../jobs';
 
 let httpServer;
 
@@ -25,5 +26,8 @@ export default async function createAPIServer(port) {
   httpServer = app.listen(port, () => {
     logger.info(`Server started! docs at http://localhost:${port}/docs/api`);
     app.isReady = true;
+    agenda.start();
+    agenda.every('1 day', 'backup data');
+    logger.info('Agenda started up');
   });
 }

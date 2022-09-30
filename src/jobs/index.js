@@ -1,11 +1,19 @@
+import os from 'os';
+import { Agenda } from 'agenda';
 import logger from '../services/logger.service';
-import agenda from '../jobs/agenda';
-import backupData from '../jobs/data';
+import backupData from './data';
 import {
   sendAuthenticationEmail,
   sendWelcomeEmail,
   sendPasswordRecoveryEmail,
-} from '../jobs/emails';
+} from './emails';
+
+import { db } from '../services/mongo.service';
+
+const agenda = new Agenda()
+  .mongo(db, '_jobs')
+  .name(`worker-${os.hostname}-${process.pid}`)
+  .processEvery('30 seconds');
 
 agenda.define('send welcome email', { shouldSaveResult: true }, sendWelcomeEmail);
 agenda.define('send signin email', { shouldSaveResult: true }, sendAuthenticationEmail);
@@ -25,5 +33,4 @@ async function graceful() {
 process.on('SIGTERM', graceful);
 process.on('SIGINT', graceful);
 
-agenda.start();
-agenda.every('1 day', 'backup data');
+export default agenda;
