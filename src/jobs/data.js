@@ -18,7 +18,7 @@ const backupData = async (job, done) => {
   datasets.forEach(async (dataset) => {
     const response = await fetch(dataset.url, { headers: { Authorization: `Apikey ${process.env.ODS_API_KEY}` } });
     const data = await response.json();
-    const operationsKeyNumbers = data.map((item) => ({
+    const operationsKeyNumbers = data && data.map((item) => ({
       updateOne: {
         filter: { etablissement_id_paysage: { $eq: item.fields.etablissement_id_paysage } },
         update: { $set: { ...item.fields, id: item.fields.etablissement_id_paysage, updatedAt: new Date() } },
@@ -26,7 +26,7 @@ const backupData = async (job, done) => {
       },
     }));
     const uniqueStructure = [];
-    const operationsStructures = data
+    const operationsStructures = data && data
       .sort((a, b) => b[dataset.sortField] - a[dataset.sortField])
       .filter((item) => !uniqueStructure.includes(item.fields.etablissement_id_paysage))
       .map((item) => ({
