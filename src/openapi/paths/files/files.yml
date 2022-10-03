@@ -1,0 +1,30 @@
+post:
+  tags:
+    - Fichiers
+  summary: Sauvegarder des fichiers
+  requestBody:
+    content:
+      multipart/form-data:
+        schema:
+          title: FilePayLoad
+          type: object
+          properties:
+            files:
+              type: string
+              format: binary
+          
+  responses:
+    '200':
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+    '400':
+      $ref: '../../api.yml#/components/responses/BadRequest'
+    '401':
+      $ref: '../../api.yml#/components/responses/Unauthorized'
+    '403':
+      $ref: '../../api.yml#/components/responses/Forbidden'
+    '500':
+      $ref: '../../api.yml#/components/responses/ServerError'

@@ -1,9 +1,9 @@
 import metas from './metas.query';
-import relatedElementsQueries from './related-elements.query';
+import relatedObjectsQuery from './related-objects.query';
 
 export default [
   ...metas,
-  ...relatedElementsQueries,
+  ...relatedObjectsQuery,
   {
     $project: {
       _id: 0,
@@ -27,12 +27,7 @@ export default [
       endDate: { $ifNull: ['$endDate', null] },
       textExtract: { $ifNull: ['$textExtract', null] },
       comment: { $ifNull: ['$comment', null] },
-      relatedStructures: 1,
-      relatedCategories: 1,
-      relatedPersons: 1,
-      relatedPrices: 1,
-      relatedProjects: 1,
-      relatedTerms: 1,
+      relatedObjects: 1,
     },
   },
 ];

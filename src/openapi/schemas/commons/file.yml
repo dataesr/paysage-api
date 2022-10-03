@@ -1,0 +1,12 @@
+title: Files
+type: object
+properties:
+  url:
+    type: string
+    format: uri
+  mimetype:
+    type: string
+  originalName:
+    type: string
+  size:
+    type: number

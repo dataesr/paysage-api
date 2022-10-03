@@ -2,37 +2,31 @@ title: DocumentPayload
 description: Modèle de creation et de mise à jour d'un document
 type: object
 properties:
-  documentTypeId:
+  id:
     type: string
-    pattern: ^[a-zA-Z0-9]{15}$
-    description: Un identifiant de type de document
+    pattern: '^[a-zA-Z0-9]{15}$'
+    readOnly: true
   title:
     type: string
+    description: Titre du document
   description:
     type: string
+    description: Description du document
     nullable: true
-  file:
-    writeOnly: true
+  documentTypeId:
     type: string
-    format: binary
+    pattern: '^[a-zA-Z0-9]{15}$'
+  files:
+    type: array
+    items:
+      $ref: '../../api.yml#/components/schemas/File'
   startDate:
-    nullable: true
     type: string
     pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
   endDate:
-    nullable: true
     type: string
-    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))' 
-  canRead:
-    type: array
-    items:
-      type: string
-      description: Une liste d'utilisateur ou de groupe d'utilisateur Paysage authorisés à voir le document
-  canEdit:
-    type: array
-    items:
-      type: string
-      description: Une liste d'utilisateur ou de groupe d'utilisateur Paysage authorisés à éditer le document
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+    nullable: true
   relatesTo:
     type: array
     description: Une liste d'objets Paysage qui sont liés au document
