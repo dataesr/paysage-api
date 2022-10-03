@@ -2,6 +2,7 @@ import logger from '../services/logger.service';
 import { db } from '../services/mongo.service';
 
 const backupData = async (job, done) => {
+  logger.error('Backup data');
   const datasets = [{
     url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-operateurs-indicateurs-financiers/download/?format=json&timezone=Europe/Berlin&lang=en',
     field: 'resultat_net_comptable',
@@ -18,7 +19,7 @@ const backupData = async (job, done) => {
   datasets.forEach(async (dataset) => {
     const response = await fetch(dataset.url, { headers: { Authorization: `Apikey ${process.env.ODS_API_KEY}` } });
     const data = await response.json();
-    const operationsKeyNumbers = data && data.map((item) => ({
+    const operationsKeyNumbers = data?.length && data.map((item) => ({
       updateOne: {
         filter: { etablissement_id_paysage: { $eq: item.fields.etablissement_id_paysage } },
         update: { $set: { ...item.fields, id: item.fields.etablissement_id_paysage, updatedAt: new Date() } },
@@ -26,7 +27,7 @@ const backupData = async (job, done) => {
       },
     }));
     const uniqueStructure = [];
-    const operationsStructures = data && data
+    const operationsStructures = data?.length && data
       .sort((a, b) => b[dataset.sortField] - a[dataset.sortField])
       .filter((item) => !uniqueStructure.includes(item.fields.etablissement_id_paysage))
       .map((item) => ({

@@ -398,8 +398,6 @@ components:
       $ref: './schemas/categories/weblink.yml'
     Document:
       $ref: './schemas/documents/document.yml'
-    DocumentLight:
-      $ref: './schemas/documents/document-light.yml'
     DocumentType:
       $ref: './schemas/commons/nomenclature.yml'
     DocumentTypeLight:

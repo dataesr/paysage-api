@@ -22,9 +22,9 @@ export function saveInElastic(repository, useQuery, resourceName) {
       search: fields.join(' ').replace(/[^0-9a-z]/gi, ' '),
       type: resourceName,
       id,
-      acronym: resource.acronym,
+      acronym: resource?.acronym,
       isDeleted: resource?.isDeleted || false,
-      name: resource.name,
+      name: resource?.name,
     };
     if (resourceName === 'structures') {
       action.creationDate = resource?.creationDate;
