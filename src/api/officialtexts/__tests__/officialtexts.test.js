@@ -133,7 +133,7 @@ describe('API > official texts > read', () => {
     Object.entries(expected).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBe(id);
     expect(body.createdBy.lastName).toBe('user');
-    expect(body.relatedStructures[0].currentName.usualName).toBe('Université');
+    expect(body.relatedObjects[0].currentName.usualName).toBe('Université');
   });
   it('throws not found with unknown id', async () => {
     await global.superapp

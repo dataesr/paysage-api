@@ -56,30 +56,10 @@ allOf:
       textExtract:
         nullable: true
         type: string
-      relatedStructures:
+      relatedObjects:
         type: array
         items:
-          $ref: ../../api.yml#/components/schemas/StructureLight
-      relatedCategories:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/CategoryLight
-      relatedPersons:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/PersonLight
-      relatedPrices:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/PriceLight
-      relatedProjects:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/ProjectLight
-      relatedTerms:
-        type: array
-        items:
-          $ref: ../../api.yml#/components/schemas/TermLight
+          type: object
       comment:
         nullable: true
         type: string

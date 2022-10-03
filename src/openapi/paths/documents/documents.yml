@@ -37,13 +37,15 @@
     summary: Créer un nouveau document
     requestBody:
       content:
-        multipart/form-data:
+        application/json:
           schema:
             title: DocumentPayLoad
             type: object
             required:
+              - title
               - documentTypeId
-              - file
+              - files
+              - startDate
             allOf:
               - $ref: '../../api.yml#/components/schemas/DocumentPayload'
     responses:
@@ -97,7 +99,7 @@
       - $ref: '../../api.yml#/components/parameters/documentId'
     requestBody:
       content:
-          mutlipart/form-data:
+          application/json:
             schema:
               $ref: '../../api.yml#/components/schemas/DocumentPayload'
     responses:

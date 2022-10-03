@@ -37,7 +37,7 @@
     summary: Créer un nouvel évènement de suivi
     requestBody:
       content:
-        multipart/form-data:
+        application/json:
           schema:
             title: FollowUpPayload
             type: object
@@ -96,7 +96,7 @@
       - $ref: '../../api.yml#/components/parameters/followUpId'
     requestBody:
       content:
-          mutlipart/form-data:
+          application/json:
             schema:
               $ref: '../../api.yml#/components/schemas/FollowUpPayload'
     responses:
