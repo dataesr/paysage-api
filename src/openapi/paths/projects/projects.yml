@@ -1,8 +1,8 @@
-/projects:
+collectionMethods:
   get:
     tags:
-      - Projets
-    summary: Lister les projets
+      - Projects
+    summary: List all projects
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Projets
-    summary: Créer un projet
+      - Projects
+    summary: Create a new project
     requestBody:
       content:
         application/json:
@@ -61,11 +61,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/projects/{projectId}:
+documentMethods:
   get:
     tags:
-      - Projets
-    summary: Obtenir le détail d'un projet
+      - Projects
+    summary: Get project by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
     responses:
@@ -86,8 +86,8 @@
 
   delete:
     tags:
-      - Projets
-    summary: Supprimer une projet
+      - Projects
+    summary: Delete a project
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
     responses:
@@ -104,8 +104,8 @@
 
   patch:
     tags:
-      - Projets
-    summary: Modifier une projet
+      - Projects
+    summary: Update a project
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
     requestBody:
@@ -133,8 +133,8 @@
 
   put:
     tags:
-      - Projets
-    summary: Créer une projet avec un identifiant.
+      - Projects
+    summary: Create a new project with ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
     requestBody:

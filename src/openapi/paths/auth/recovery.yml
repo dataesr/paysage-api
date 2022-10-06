@@ -1,8 +1,9 @@
 post:
   tags:
-    - Authentification
-  summary: Reset user password. 
-           Not passing X-Paysage-OTP returns 401 but triggers a new email with OTP.
+    - Authentication
+  summary: Recover a lost/forgotten password.
+  description: |
+    Not passing X-Paysage-OTP returns 202 and triggers a new email with an OTP for the user to allow passord change.
   security: []
   parameters:
     - in: header
@@ -43,6 +44,8 @@ post:
             properties:
               message:
                 type: string
+    '202':
+      description: An email with an OTP has been send.
     '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
     '401':

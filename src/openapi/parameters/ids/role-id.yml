@@ -1,7 +1,0 @@
-name: roleId
-in: path
-schema:
-  type: string
-  pattern: '^[a-zA-Z0-9]{5}$'
-required: true
-description: Unique role id

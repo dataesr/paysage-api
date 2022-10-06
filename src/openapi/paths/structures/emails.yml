@@ -1,8 +1,8 @@
-/structures/{structureId}/emails:
+collectionMethods:
   get:
     tags:
       - Structures - Emails
-    summary: Lister les emails de la structure
+    summary: List all structure emails
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -37,7 +37,7 @@
   post:
     tags:
       - Structures - Emails
-    summary: Ajouter un email à la structure
+    summary: Add an email to the structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -69,11 +69,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/emails/{emailId}:
+documentMethods:
   get:
     tags:
       - Structures - Emails
-    summary: Obtenir le détail d'un email de la structure
+    summary: Get a structure email by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/emailId'
@@ -96,7 +96,7 @@
   delete:
     tags:
       - Structures - Emails
-    summary: Retirer un email de la structure
+    summary: Delete a structure email by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/emailId'
@@ -115,7 +115,7 @@
   patch:
     tags:
       - Structures - Emails
-    summary: Modifier un email de la structure
+    summary: Update a structure email by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/emailId'

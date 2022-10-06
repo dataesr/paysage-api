@@ -1,10 +1,9 @@
-/relations-groups:
+collectionMethods:
   get:
     tags:
-      - Structures - Groupes de relations
-    summary: Lister les groupes de relations
+      - Relations
+    summary: Lister des relations
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
       - $ref: '../../api.yml#/components/parameters/limit'
@@ -20,7 +19,7 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/RelationsGroup'
+                    $ref: '../../api.yml#/components/schemas/Relation'
                 totalCount:
                   type: number
       '400':
@@ -34,28 +33,26 @@
 
   post:
     tags:
-      - Structures - Groupes de relations
-    summary: Ajouter un groupe de relation
-    parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - Relations
+    summary: Ajouter une relation
     requestBody:
       content:
         application/json:
           schema:
-            title: CreateRelationsGroup
+            title: CreateRelation
             type: object
             required:
               - name
               - accepts
             allOf:
-              - $ref: '../../api.yml#/components/schemas/RelationsGroupPayload'
+              - $ref: '../../api.yml#/components/schemas/RelationPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/RelationsGroup'
+              $ref: '../../api.yml#/components/schemas/Relation'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -65,21 +62,20 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/relations-groups/{relationsGroupId}:
+documentMethods:
   get:
     tags:
-      - Structures - Groupes de relations
-    summary: Obtenir le détail d'un groupe de relations
+      - Relations
+    summary: Obtenir le détail d'une relation
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
+      - $ref: '../../api.yml#/components/parameters/relationId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/RelationsGroup'
+              $ref: '../../api.yml#/components/schemas/Relation'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -91,11 +87,10 @@
 
   delete:
     tags:
-      - Structures - Groupes de relations
-    summary: Supprimer un groupe de relations
+      - Relations
+    summary: Supprimer une relation
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
+      - $ref: '../../api.yml#/components/parameters/relationId'
     responses:
       '204':
         description: No content
@@ -110,23 +105,22 @@
 
   patch:
     tags:
-      - Structures - Groupes de relations
-    summary: Modifier un groupe de relation
+      - Relations
+    summary: Modifier une relation
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
+      - $ref: '../../api.yml#/components/parameters/relationId'
     requestBody:
       content:
         application/json:
           schema:
-              $ref: '../../api.yml#/components/schemas/RelationsGroupPayload'
+              $ref: '../../api.yml#/components/schemas/RelationPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/RelationsGroup'
+              $ref: '../../api.yml#/components/schemas/Relation'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

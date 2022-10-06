@@ -1,8 +1,8 @@
-/documents:
+collectionMethods:
   get:
     tags:
       - Documents
-    summary: Lister les documents
+    summary: List all documents
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -34,7 +34,7 @@
   post:
     tags:
       - Documents
-    summary: Créer un nouveau document
+    summary: Create a new document
     requestBody:
       content:
         application/json:
@@ -64,11 +64,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/documents/{documentId}:
+documentMethods:
   get:
     tags:
       - Documents
-    summary: Obtenir le détail d'un document
+    summary: Get a document by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/documentId'
     responses:
@@ -94,7 +94,7 @@
   patch:
     tags:
       - Documents
-    summary: Modifier un document
+    summary: Update a document by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/documentId'
     requestBody:
@@ -109,6 +109,26 @@
           application/json:
             schema:
               $ref: '../../api.yml#/components/schemas/Document'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Documents
+    summary: Delete a document by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/documentId'
+    responses:
+      '204':
+        description: No content
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

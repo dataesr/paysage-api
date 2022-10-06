@@ -1,8 +1,8 @@
-/structures/{structureId}/weblinks:
+collectionMethods:
   get:
     tags:
-      - Structures - Liens web
-    summary: Lister les liens web de la structure
+      - Structures - Weblinks
+    summary: List all structure's weblinks
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Structures - Liens web
-    summary: Ajouter un lien web à la structure
+      - Structures - Weblinks
+    summary: Add a new weblink to the structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -69,11 +69,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/weblinks/{weblinkId}:
+documentMethods:
   get:
     tags:
-      - Structures - Liens web
-    summary: Obtenir le détail d'un lien web de la structure
+      - Structures - Weblinks
+    summary: Get a structure weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -95,8 +95,8 @@
 
   delete:
     tags:
-      - Structures - Liens web
-    summary: Retirer un lien web de la structure
+      - Structures - Weblinks
+    summary: Delete a structure weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -114,8 +114,8 @@
 
   patch:
     tags:
-      - Structures - Liens web
-    summary: Modifier un lien web de la structure
+      - Structures - Weblinks
+    summary: Update a structure weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'

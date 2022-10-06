@@ -1,8 +1,8 @@
-/structures:
+collectionMethods:
   get:
     tags:
       - Structures
-    summary: Lister les structures
+    summary: List all structures
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -34,7 +34,7 @@
   post:
     tags:
       - Structures
-    summary: Créer une nouvelle structure
+    summary: Create a new structure
     requestBody:
       content:
           application/json:
@@ -56,11 +56,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}:
+documentMethods:
   get:
     tags:
       - Structures
-    summary: Obtenir le détail d'une structure
+    summary: Get a structure by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     responses:
@@ -86,7 +86,7 @@
   patch:
     tags:
       - Structures
-    summary: Modifier une structure
+    summary: Update a structure by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -115,9 +115,7 @@
   put:
     tags:
       - Structures
-    summary: Ajouter une structure avec son identifiant
-    description: Permet de créer une structure avec un identifiant.
-                 L'identifiant doit respecter le format des identifiants Paysage.
+    summary: Create a new structure with an ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:

@@ -1,8 +1,8 @@
-/structures/{structureId}/identifiers:
+collectionMethods:
   get:
     tags:
-      - Structures - Identifiants
-    summary: Lister les identifiants d'une structure
+      - Structures - Identifiers
+    summary: List all structure's identifiers
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Structures - Identifiants
-    summary: Ajouter un identifiant à la structure
+      - Structures - Identifiers
+    summary: Add an identifier to the structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -68,11 +68,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/identifiers/{identifierId}:
+documentMethods:
   get:
     tags:
-      - Structures - Identifiants
-    summary: Obtenir le détail d'un identifiant de structure
+      - Structures - Identifiers
+    summary: Get a structure identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/identifierId'
@@ -94,8 +94,8 @@
 
   delete:
     tags:
-      - Structures - Identifiants
-    summary: Retirer un identifiant de la structure
+      - Structures - Identifiers
+    summary: Delete a structure identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/identifierId'
@@ -113,8 +113,8 @@
 
   patch:
     tags:
-      - Structures - Identifiants
-    summary: Modifier un identifiant de la structure
+      - Structures - Identifiers
+    summary: Update a structure identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/identifierId'

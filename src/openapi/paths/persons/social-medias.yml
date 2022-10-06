@@ -1,8 +1,8 @@
-/persons/{personId}/social-medias:
+collectionMethods:
   get:
     tags:
-      - Personnes - Médias sociaux
-    summary: Lister les médias sociaux d'une personne
+      - Persons - SocialMedias
+    summary: List all person's social media
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Personnes - Médias sociaux
-    summary: Ajouter un média social à la personne
+      - Persons - SocialMedias
+    summary: Add a new person's social media
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
     requestBody:
@@ -68,11 +68,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/persons/{personId}/social-medias/{socialmediaId}:
+documentMethods:
   get:
     tags:
-      - Personnes - Médias sociaux
-    summary: Obtenir le détail d'un media social d'une personne
+      - Persons - SocialMedias
+    summary: Get a person's social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
@@ -94,8 +94,8 @@
 
   delete:
     tags:
-      - Personnes - Médias sociaux
-    summary: Retirer un média social de la personne
+      - Persons - SocialMedias
+    summary: Delete a person's social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
@@ -113,8 +113,8 @@
 
   patch:
     tags:
-      - Personnes - Médias sociaux
-    summary: Modifier un média social de la personne
+      - Persons - SocialMedias
+    summary: Update a person's social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'

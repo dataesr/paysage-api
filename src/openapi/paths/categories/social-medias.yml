@@ -1,8 +1,8 @@
-/categories/{categoryId}/social-medias:
+collectionMethods:
   get:
     tags:
-      - Catégories - Médias sociaux
-    summary: Lister les médias sociaux d'une catégorie
+      - Categories - SocialMedias
+    summary: List all category's social medias
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Catégories - Médias sociaux
-    summary: Ajouter un média social à la catégorie
+      - Categories - SocialMedias
+    summary: Add a new social media to the category
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
     requestBody:
@@ -68,11 +68,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/categories/{categoryId}/social-medias/{socialmediaId}:
+documentMethods:
   get:
     tags:
-      - Catégories - Médias sociaux
-    summary: Obtenir le détail d'un media social d'une catégorie
+      - Categories - SocialMedias
+    summary: Get a category's social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
@@ -94,8 +94,8 @@
 
   delete:
     tags:
-      - Catégories - Médias sociaux
-    summary: Retirer un média social de la catégorie
+      - Categories - SocialMedias
+    summary: Delete a category's social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
@@ -113,8 +113,8 @@
 
   patch:
     tags:
-      - Catégories - Médias sociaux
-    summary: Modifier un média social de la catégorie
+      - Categories - SocialMedias
+    summary: Update a category's social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'

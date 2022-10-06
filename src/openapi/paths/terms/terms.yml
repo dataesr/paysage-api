@@ -1,8 +1,8 @@
-/terms:
+collectionMethods:
   get:
     tags:
-      - Termes
-    summary: Lister les termes
+      - Terms
+    summary: List all terms
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Termes
-    summary: Créer un terme
+      - Terms
+    summary: Create a new term
     requestBody:
       content:
         application/json:
@@ -61,11 +61,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/terms/{termId}:
+documentMethods:
   get:
     tags:
-      - Termes
-    summary: Obtenir le détail d'un terme
+      - Terms
+    summary: Get a term by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
     responses:
@@ -86,8 +86,8 @@
 
   delete:
     tags:
-      - Termes
-    summary: Supprimer un terme
+      - Terms
+    summary: Delete a term by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
     responses:
@@ -104,8 +104,8 @@
 
   patch:
     tags:
-      - Termes
-    summary: Modifier un terme
+      - Terms
+    summary: Update a term by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
     requestBody:
@@ -133,8 +133,8 @@
 
   put:
     tags:
-      - Termes
-    summary: Créer un terme avec un identifiant.
+      - Terms
+    summary: Create a new term with an ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
     requestBody:

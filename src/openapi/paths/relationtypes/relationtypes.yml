@@ -1,8 +1,8 @@
-/relation-types:
+collectionMethods:
   get:
     tags:
-      - Types de relation
-    summary: Lister les types de relations
+      - Relation types
+    summary: List all relation types
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Types de relation
-    summary: Créer un type de relation
+      - Relation types
+    summary: Create a new relation type
     requestBody:
       content:
         application/json:
@@ -62,11 +62,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/relation-types/{relationTypeId}:
+documentMethods:
   get:
     tags:
-      - Types de relation
-    summary: Obtenir le détail d'un type de relation
+      - Relation types
+    summary: Get a relation type by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/relationTypeId'
     responses:
@@ -87,8 +87,8 @@
 
   delete:
     tags:
-      - Types de relation
-    summary: Supprimer un type de relation
+      - Relation types
+    summary: Delete a relation type by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/relationTypeId'
     responses:
@@ -105,8 +105,8 @@
 
   patch:
     tags:
-      - Types de relation
-    summary: Modifier un type de relation
+      - Relation types
+    summary: Update a relation type by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/relationTypeId'
     requestBody:

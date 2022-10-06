@@ -1,17 +1,17 @@
-/structures/{structureId}/categories:
+collectionMethods:
   get:
     tags:
-      - Structures - Catégories
-    summary: Lister les catégories de la structure
+      - Persons - Relations groups
+    summary: List all person's relation groups
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
       - $ref: '../../api.yml#/components/parameters/limit'
       - $ref: '../../api.yml#/components/parameters/sort'
     responses:
       '200':
-        description: OK
+        description: Success
         content:
           application/json:
             schema:
@@ -20,64 +20,66 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+                    $ref: '../../api.yml#/components/schemas/RelationsGroup'
                 totalCount:
-                  type: integer
+                  type: number
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
-      '404':
-        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
   post:
     tags:
-      - Structures - Catégories
-    summary: Ajouter une catégorie à la structure
+      - Persons - Relations groups
+    summary: Create a new relation group for the person
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/CategoryRelationshipPayload'
+            title: CreateRelationsGroup
+            type: object
+            required:
+              - name
+              - accepts
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/RelationsGroupPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+              $ref: '../../api.yml#/components/schemas/RelationsGroup'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
-      '404':
-        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/categories/{relatedCategoryId}:
+documentMethods:
   get:
     tags:
-      - Structures - Catégories
-    summary: Obtenir le détail d'une catégorie de structure
+      - Persons - Relations groups
+    summary: Get a person relation group by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
+      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+              $ref: '../../api.yml#/components/schemas/RelationsGroup'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -89,11 +91,11 @@
 
   delete:
     tags:
-      - Structures - Catégories
-    summary: Retirer une catégorie de la structure
+      - Persons - Relations groups
+    summary: Delete a person relation group by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
+      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
     responses:
       '204':
         description: No content
@@ -108,23 +110,23 @@
 
   patch:
     tags:
-      - Structures - Catégories
-    summary: Modifier une catégorie de la structure
+      - Persons - Relations groups
+    summary: Update a person relation group by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
+      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/CategoryRelationshipPayload'
+              $ref: '../../api.yml#/components/schemas/RelationsGroupPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+              $ref: '../../api.yml#/components/schemas/RelationsGroup'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
