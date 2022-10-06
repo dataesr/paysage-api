@@ -11,6 +11,8 @@ export function saveInElastic(repository, useQuery, resourceName) {
     await esClient.deleteByQuery({
       index,
       body: { query: { bool: { must: [{ match: { id } }, { term: { type: resourceName } }] } } },
+      refresh: true,
+      conflicts: 'proceed',
     });
     const resource = await repository.get(id, { useQuery, keepDeleted: true });
     let fields = [];

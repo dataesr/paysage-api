@@ -2,7 +2,7 @@ import logger from '../services/logger.service';
 import { db } from '../services/mongo.service';
 
 const backupData = async (job, done) => {
-  logger.error('Backup data');
+  logger.info('Backup data');
   const datasets = [{
     url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-operateurs-indicateurs-financiers/download/?format=json&timezone=Europe/Berlin&lang=en',
     field: 'resultat_net_comptable',
@@ -26,14 +26,20 @@ const backupData = async (job, done) => {
         upsert: true,
       },
     }));
-    const uniqueStructure = [];
+    const uniqueStructures = [];
     const operationsStructures = data?.length && data
       .sort((a, b) => b[dataset.sortField] - a[dataset.sortField])
-      .filter((item) => !uniqueStructure.includes(item.fields.etablissement_id_paysage))
+      .filter((item) => {
+        if (!uniqueStructures.includes(item.fields.etablissement_id_paysage)) {
+          uniqueStructures.push(item.fields.etablissement_id_paysage);
+          return item;
+        }
+        return false;
+      })
       .map((item) => ({
         updateOne: {
           filter: { etablissement_id_paysage: { $eq: item.fields.etablissement_id_paysage } },
-          update: { $set: { [dataset.field]: item[dataset.field], [dataset.sortField]: item[dataset.sortField] } },
+          update: { $set: { [dataset.field]: item.fields[dataset.field], [dataset.sortField]: item.fields[dataset.sortField] } },
         },
       }));
     try {
