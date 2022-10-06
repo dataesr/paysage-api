@@ -1,8 +1,8 @@
-/follow-ups:
+collectionMethods:
   get:
     tags:
-      - Evènements de suivi
-    summary: Lister les évènements de suivi
+      - Follow-ups
+    summary: List all follow-ups
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Evènements de suivi
-    summary: Créer un nouvel évènement de suivi
+      - Follow-ups
+    summary: Create a new follow-up
     requestBody:
       content:
         application/json:
@@ -61,11 +61,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/follow-ups/{followUpId}:
+documentMethods:
   get:
     tags:
-      - Evènements de suivi
-    summary: Obtenir le détail d'un évènement de suivi
+      - Follow-ups
+    summary: Get a follow-up by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/followUpId'
     responses:
@@ -90,8 +90,8 @@
 
   patch:
     tags:
-      - Evènements de suivi
-    summary: Modifier un évènement de suivi
+      - Follow-ups
+    summary: Update a follow-up by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/followUpId'
     requestBody:
@@ -119,8 +119,8 @@
 
   delete:
     tags:
-      - Evènements de suivi
-    summary: Supprimer un évènement de suivi
+      - Follow-ups
+    summary: Delete a follow-up by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/followUpId'
     responses:

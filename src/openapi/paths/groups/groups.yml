@@ -1,8 +1,8 @@
-Groups:
+collectionMethods:
   get:
     tags:
-      - Groupes d'utilisateurs
-    summary: Lister les groupes d'utilisateurs
+      - User's groups
+    summary: List all user's groups
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@ Groups:
 
   post:
     tags:
-      - Groupes d'utilisateurs
-    summary: Créer un groupe d'utilisateurs
+      - User's groups
+    summary: Create a new user's group
     requestBody:
       content:
         application/json:
@@ -61,11 +61,11 @@ Groups:
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-Group:
+documentMethods:
   get:
     tags:
-      - Groupes d'utilisateurs
-    summary: Obtenir le détail d'un groupe d'utilisateurs
+      - User's groups
+    summary: Get a user's group by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/groupId'
     responses:
@@ -86,10 +86,10 @@ Group:
 
   delete:
     tags:
-      - Groupes d'utilisateurs
-    summary: Supprimer un groupe d'utilisateurs
+      - User's groups
+    summary: Delete a user's group by ID
     description: |
-      L'utilisateur actif doit avoir un role d'owner au sein du groupe pour effectuer cette opération.
+      Current user has to be an admin of the group to perform this operation.
     parameters:
       - $ref: '../../api.yml#/components/parameters/groupId'
     responses:
@@ -106,10 +106,10 @@ Group:
 
   patch:
     tags:
-      - Groupes d'utilisateurs
-    summary: Modifier un groupe d'utilisateurs
+      - User's groups
+    summary: Update a user's group by ID
     description: |
-      L'utilisateur actif doit avoir un role d'admin au sein du groupe pour effectuer cette opération.
+      Current user has to be an admin of the group to perform this operation.
     parameters:
       - $ref: '../../api.yml#/components/parameters/groupId'
     requestBody:

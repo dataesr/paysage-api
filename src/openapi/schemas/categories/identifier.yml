@@ -1,5 +1,3 @@
-title: CategoryIdentifier
-description: Representation d'un identifiant de catégorie
 allOf: 
   - type: object
     properties:

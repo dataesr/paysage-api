@@ -1,5 +1,3 @@
-title: CategoryWeblink
-description: Représentation d'un lien web d'une structure
 allOf: 
   - type: object
     properties:

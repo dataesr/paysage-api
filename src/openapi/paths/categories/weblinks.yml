@@ -1,8 +1,8 @@
-/categories/{categoryId}/weblinks:
+collectionMethods:
   get:
     tags:
-      - Catégories - Liens web
-    summary: Lister les liens web de la catégorie
+      - Categories - Weblinks
+    summary: List all category's weblinks
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Catégories - Liens web
-    summary: Ajouter un lien web à la catégorie
+      - Categories - Weblinks
+    summary: Add a new weblink to the category
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
     requestBody:
@@ -69,11 +69,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/categories/{categoryId}/weblinks/{weblinkId}:
+documentMethods:
   get:
     tags:
-      - Catégories - Liens web
-    summary: Obtenir le détail d'un lien web de la catégorie
+      - Categories - Weblinks
+    summary: Get a category's weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -95,8 +95,8 @@
 
   delete:
     tags:
-      - Catégories - Liens web
-    summary: Retirer un lien web de la catégorie
+      - Categories - Weblinks
+    summary: Delete a category's weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -114,8 +114,8 @@
 
   patch:
     tags:
-      - Catégories - Liens web
-    summary: Modifier un lien web de la catégorie
+      - Categories - Weblinks
+    summary: Update a category's weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'

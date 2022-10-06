@@ -1,8 +1,8 @@
-/persons/{personId}/identifiers:
+collectionMethods:
   get:
     tags:
-      - Personnes - Identifiants
-    summary: Lister les identifiants d'une personne
+      - Personnes - Identifiers
+    summary: List all person's identifiers
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Personnes - Identifiants
-    summary: Ajouter un identifiant à la personne
+      - Personnes - Identifiers
+    summary: Add a new person's identifier
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
     requestBody:
@@ -70,11 +70,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/persons/{personId}/identifiers/{identifierId}:
+documentMethods:
   get:
     tags:
-      - Personnes - Identifiants
-    summary: Obtenir le détail d'un identifiant de personne
+      - Personnes - Identifiers
+    summary: Delete an person's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/identifierId'
@@ -96,8 +96,8 @@
 
   delete:
     tags:
-      - Personnes - Identifiants
-    summary: Retirer un identifiant de la personne
+      - Personnes - Identifiers
+    summary: Delete a person's identifier
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/identifierId'
@@ -115,8 +115,8 @@
 
   patch:
     tags:
-      - Personnes - Identifiants
-    summary: Modifier un identifiant de la personne
+      - Personnes - Identifiers
+    summary: Update a person's identifier
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/identifierId'
