@@ -1,0 +1,4 @@
+title: StructureKeyNumbers
+description: Representation des chiffres clés de structure
+allOf: 
+  - type: object

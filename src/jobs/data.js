@@ -29,7 +29,7 @@ const backupData = async (job, done) => {
       return ids.map((id) => ({
         updateOne: {
           filter: { id: { $eq: id } },
-          update: { $set: { ...item.fields, id, updatedAt: new Date() } },
+          update: { $set: { ...item.fields, id, resourceId: id, updatedAt: new Date() } },
           upsert: true,
         },
       }));
@@ -69,7 +69,8 @@ const backupData = async (job, done) => {
       logger.info('Data setup successful');
       done();
     } catch (e) {
-      logger.error({ ...e, message: 'Data setup failed' });
+      logger.error({ message: 'Data setup failed' });
+      logger.error(e);
       done();
     }
   });
