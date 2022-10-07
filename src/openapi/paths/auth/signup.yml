@@ -1,9 +1,9 @@
 post:
   tags:
-    - Authentification
+    - Authentication
   security: []
   summary: Sign a user up
-  description: Create a user account
+  description: Allow to create a new user account with user informations and credentials
   requestBody:
     description: Required user info for account creation
     content:

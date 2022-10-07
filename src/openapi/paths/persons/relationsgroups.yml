@@ -1,10 +1,10 @@
-/relations-groups:
+collectionMethods:
   get:
     tags:
-      - Structures - Groupes de relations
-    summary: Lister les groupes de relations
+      - Persons - Relations groups
+    summary: List all person's relation groups
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
       - $ref: '../../api.yml#/components/parameters/limit'
@@ -34,10 +34,10 @@
 
   post:
     tags:
-      - Structures - Groupes de relations
-    summary: Ajouter un groupe de relation
+      - Persons - Relations groups
+    summary: Create a new relation group for the person
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
     requestBody:
       content:
         application/json:
@@ -65,13 +65,13 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/relations-groups/{relationsGroupId}:
+documentMethods:
   get:
     tags:
-      - Structures - Groupes de relations
-    summary: Obtenir le détail d'un groupe de relations
+      - Persons - Relations groups
+    summary: Get a person relation group by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/relationsGroupId'
     responses:
       '200':
@@ -91,10 +91,10 @@
 
   delete:
     tags:
-      - Structures - Groupes de relations
-    summary: Supprimer un groupe de relations
+      - Persons - Relations groups
+    summary: Delete a person relation group by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/relationsGroupId'
     responses:
       '204':
@@ -110,10 +110,10 @@
 
   patch:
     tags:
-      - Structures - Groupes de relations
-    summary: Modifier un groupe de relation
+      - Persons - Relations groups
+    summary: Update a person relation group by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/relationsGroupId'
     requestBody:
       content:

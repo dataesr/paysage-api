@@ -1,6 +1,6 @@
 post:
   tags:
-    - Authentification
+    - Authentication
   summary: Sign a user out
   responses:
     '204':

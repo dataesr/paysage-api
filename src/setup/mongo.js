@@ -17,6 +17,10 @@ async function setupMongo() {
   await db.collection('prices').createIndex({ id: 1 }, { unique: true });
   await db.collection('projects').createIndex({ id: 1 }, { unique: true });
   await db.collection('relationships').createIndex({ id: 1 }, { unique: true });
+  await db.collection('relationships').createIndex({ resourceId: 1 });
+  await db.collection('relationships').createIndex({ resourceId: 1, relationTag: 1 });
+  await db.collection('relationships').createIndex({ relatedObjectId: 1 });
+  await db.collection('relationships').createIndex({ relatedObjectId: 1, relationTag: 1 });
   await db.collection('socialmedias').createIndex({ id: 1 }, { unique: true });
   await db.collection('structures').createIndex({ id: 1 }, { unique: true });
   await db.collection('supervisingministers').createIndex({ id: 1 }, { unique: true });

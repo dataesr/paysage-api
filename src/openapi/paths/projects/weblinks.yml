@@ -1,8 +1,8 @@
-/projects/{projectId}/weblinks:
+collectionMethods:
   get:
     tags:
-      - Projets - Liens web
-    summary: Lister les liens web du projet
+      - Projects - Weblinks
+    summary: List all project's websites
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Projets - Liens web
-    summary: Ajouter un lien web au projet
+      - Projects - Weblinks
+    summary: Add a website to a project
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
     requestBody:
@@ -69,11 +69,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/projects/{projectId}/weblinks/{weblinkId}:
+documentMethods:
   get:
     tags:
-      - Projets - Liens web
-    summary: Obtenir le détail d'un lien web du projet
+      - Projects - Weblinks
+    summary: Get a project's website by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -95,8 +95,8 @@
 
   delete:
     tags:
-      - Projets - Liens web
-    summary: Retirer un lien web du projet
+      - Projects - Weblinks
+    summary: Delete a project's website by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -114,8 +114,8 @@
 
   patch:
     tags:
-      - Projets - Liens web
-    summary: Modifier un lien web du projet
+      - Projects - Weblinks
+    summary: Update a project's website by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
