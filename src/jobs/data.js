@@ -17,12 +17,24 @@ const backupData = async (job, done) => {
     field: 'effectif',
     fieldName: 'population',
     paysageIdField: 'etablissement_id_paysage',
-    sortField: 'annee_universitaire',
-    sortFieldName: 'academicYear',
+    sortField: 'annee',
+    sortFieldName: 'year',
   }, {
     url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-patrimoine-immobilier-des-operateurs-de-l-enseignement-superieur/download/?format=json&timezone=Europe/Berlin&lang=en',
     datasetName: 'real-estate',
     paysageIdField: 'paysage_id',
+  }, {
+    url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-cartographie_formations_parcoursup/download/?format=json&timezone=Europe/Berlin&lang=en',
+    datasetName: 'education',
+    paysageIdField: 'etablissement_id_paysage',
+  }, {
+    url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-tmm-donnees-du-portail-dinformation-trouver-mon-master-parcours-de-format/download/?format=json&timezone=Europe/Berlin&lang=en',
+    datasetName: 'master',
+    paysageIdField: 'etablissement_id_paysage',
+  }, {
+    url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-tmm-donnees-du-portail-dinformation-trouver-mon-master-mentions-de-master/download/?format=json&timezone=Europe/Berlin&lang=en',
+    datasetName: 'master-mentions',
+    paysageIdField: 'etablissement_id_paysage',
   }];
   datasets.forEach(async (dataset) => {
     const response = await fetch(dataset.url, { headers: { Authorization: `Apikey ${process.env.ODS_API_KEY}` } });
@@ -45,7 +57,7 @@ const backupData = async (job, done) => {
     if (dataset?.field) {
       const uniqueStructures = [];
       operationsStructures = data?.length && data
-        .sort((a, b) => (parseInt((b.fields[dataset.sortField]).slice(0, 4), 10) - parseInt((a.fields[dataset.sortField]).slice(0, 4), 10)))
+        .sort((a, b) => (b.fields[dataset.sortField] - a.fields[dataset.sortField]))
         .filter((item) => {
           if (!uniqueStructures.includes(item.fields[dataset.paysageIdField])) {
             uniqueStructures.push(item.fields[dataset.paysageIdField]);
