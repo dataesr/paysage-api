@@ -11,11 +11,9 @@ properties:
   descriptionFr:
     type: string
     nullable: true
-    description: Description en français
   descriptionEn:
     type: string
     nullable: true
-    description: Description en français
   displayName:
     type: string
   collection:

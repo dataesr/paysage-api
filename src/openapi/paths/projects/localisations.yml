@@ -94,7 +94,7 @@ documentMethods:
   delete:
     tags:
       - Projects - Localisations
-    summary: Delete project's localisation
+    summary: Delete project's localisation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/localisationId'
