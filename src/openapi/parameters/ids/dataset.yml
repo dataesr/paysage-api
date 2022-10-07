@@ -1,0 +1,7 @@
+name: dataset
+in: path
+schema:
+  type: string
+  enum: ["finance", "population", "real-estate"]
+required: true
+description: Dataset name to collect the keynumbers

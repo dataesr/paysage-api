@@ -15,6 +15,7 @@ export const followUpsRepository = new BaseMongoRepository({ db, collection: 'fo
 export const groupsRepository = new BaseMongoRepository({ db, collection: 'groups' });
 export const groupMembersRepository = new BaseMongoRepository({ db, collection: 'groupmembers' });
 export const identifiersRepository = new BaseMongoRepository({ db, collection: 'identifiers' });
+export const keynumbersRepository = new BaseMongoRepository({ db, collection: 'keynumbers' });
 export const legalcategoriesRepository = new BaseMongoRepository({ db, collection: 'legalcategories' });
 export const officialtextsRepository = new BaseMongoRepository({ db, collection: 'officialtexts' });
 export const personsRepository = new BaseMongoRepository({ db, collection: 'persons' });

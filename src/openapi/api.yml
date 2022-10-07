@@ -43,6 +43,7 @@ tags:
   - name: Structures
   - name: Structures - Catégories
   - name: Structures - Catégories juridiques
+  - name: Structures - Key numbers
   - name: Structures - Emails
   - name: Structures - Groupes de relations
   - name: Structures - Identifiants
@@ -130,6 +131,8 @@ paths:
     $ref: './paths/structures/identifiers.yml#/~1structures~1{structureId}~1identifiers'
   '/structures/{structureId}/identifiers/{identifierId}':
     $ref: './paths/structures/identifiers.yml#/~1structures~1{structureId}~1identifiers~1{identifierId}'
+  '/structures/{structureId}/keynumbers/{dataset}':
+    $ref: './paths/structures/keynumbers.yml#/~1structures~1{structureId}~1keynumbers~1{dataset}'
   '/structures/{structureId}/legal-categories':
     $ref: './paths/structures/legal-categories.yml#/~1structures~1{structureId}~1legal-categories'
   '/structures/{structureId}/legal-categories/{relatedLegalCategoryId}':
@@ -297,6 +300,8 @@ components:
   parameters:
     categoryId:
       $ref: ./parameters/ids/category-id.yml
+    dataset:
+      $ref: ./parameters/ids/dataset.yml
     documentId:
       $ref: ./parameters/ids/document-id.yml
     documentTypeId:
@@ -474,6 +479,8 @@ components:
       $ref: './schemas/structures/email.yml'
     StructureIdentifier:
       $ref: './schemas/structures/identifier.yml'
+    StructureKeyNumbers:
+      $ref: './schemas/structures/keynumbers.yml'
     StructureLegalCategory:
       $ref: './schemas/structures/legalcategory.yml'
     StructureLight:
