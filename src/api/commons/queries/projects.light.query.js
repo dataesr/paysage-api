@@ -8,6 +8,9 @@ export default [
     {
       _id: 0,
       id: 1,
+      displayName: '$nameFr',
+      collection: 'projects',
+      href: { $concat: ['/projects/', '$id'] },
       nameFr: 1,
       acronymFr: { $ifNull: ['$acronymFr', null] },
       description: { $ifNull: ['$description', null] },

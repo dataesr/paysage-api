@@ -41,8 +41,8 @@ tags:
   - name: Search
   - name: Structures
   - name: Structures - Emails
-  - name: Structures - Relations group
-  - name: Structures - Identifiants
+  - name: Structures - Relations groups
+  - name: Structures - Identifiers
   - name: Structures - Weblinks
   - name: Structures - Localisations
   - name: Structures - Logos
@@ -164,6 +164,10 @@ paths:
     $ref: './paths/persons/social-medias.yml#/collectionMethods'
   '/persons/{personId}/social-medias/{socialmediaId}':
     $ref: './paths/persons/social-medias.yml#/documentMethods'
+  '/persons/{personId}/relations-groups':
+    $ref: './paths/persons/relationsgroups.yml#/collectionMethods'
+  '/persons/{personId}/relations-groups/{relationsGroupId}':
+    $ref: './paths/persons/relationsgroups.yml#/documentMethods'
 
   ### TERMS ###
   '/terms':
@@ -246,6 +250,12 @@ paths:
     $ref: './paths/relationtypes/relationtypes.yml#/collectionMethods'
   '/relation-types/{relationTypeId}':
     $ref: './paths/relationtypes/relationtypes.yml#/documentMethods'
+
+  ### RELATIONS ###
+  '/relations':
+    $ref: './paths/relations/relations.yml#/collectionMethods'
+  '/relations/{relationId}':
+    $ref: './paths/relations/relations.yml#/documentMethods'
 
   ### TYPES DE DOCUMENT ###
   '/document-types':

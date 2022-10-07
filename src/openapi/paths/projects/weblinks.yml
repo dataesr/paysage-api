@@ -1,7 +1,7 @@
 collectionMethods:
   get:
     tags:
-      - Projects - Liens web
+      - Projects - Weblinks
     summary: List all project's websites
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
@@ -36,7 +36,7 @@ collectionMethods:
 
   post:
     tags:
-      - Projects - Liens web
+      - Projects - Weblinks
     summary: Add a website to a project
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
@@ -72,7 +72,7 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Projects - Liens web
+      - Projects - Weblinks
     summary: Get a project's website by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
@@ -95,7 +95,7 @@ documentMethods:
 
   delete:
     tags:
-      - Projects - Liens web
+      - Projects - Weblinks
     summary: Delete a project's website by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
@@ -114,7 +114,7 @@ documentMethods:
 
   patch:
     tags:
-      - Projects - Liens web
+      - Projects - Weblinks
     summary: Delete a project's website by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'

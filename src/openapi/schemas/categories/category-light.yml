@@ -16,6 +16,12 @@ properties:
     type: string
     nullable: true
     description: Description en français
+  displayName:
+    type: string
+  collection:
+    type: string
+  href:
+    type: string
   priority:
     type: integer
     minimum: 1
