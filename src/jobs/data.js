@@ -36,7 +36,7 @@ const backupData = async (job, done) => {
         return paysageIds.map((paysageId) => ({
           updateOne: {
             filter: { id: { $eq: item.recordid } },
-            update: { $set: { ...item.fields, dataset: dataset.datasetName, id: item.recordid, resourceId: paysageId, updatedAt: new Date() } },
+            update: { $set: { ...item.fields, id: item.recordid, dataset: dataset.datasetName, resourceId: paysageId, updatedAt: new Date() } },
             upsert: true,
           },
         }));
