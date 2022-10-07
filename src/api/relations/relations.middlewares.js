@@ -1,31 +1,29 @@
 import { BadRequestError } from '../commons/http-errors';
-import { structuresRepository, relationTypesRepository, relationsGroupsRepository } from '../commons/repositories';
+import { catalogRepository, relationTypesRepository, relationsGroupsRepository } from '../commons/repositories';
 
 export function setFilters(req, res, next) {
-  const { relationsGroupId } = req.params;
+  const { filters } = req.params;
   if (!req.query.filters) { req.query.filters = {}; }
-  req.query.filters.relationsGroupId = relationsGroupId;
+  req.query.filters.relationsGroupId = filters;
   return next();
 }
 
 export async function validatePayload(req, res, next) {
   if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
   const errors = [];
-  const { resourceId, relationsGroupId } = req.params;
-  const { relationTypeId } = req.body;
-  const structure = await structuresRepository.get(resourceId);
-  const group = await relationsGroupsRepository.get(relationsGroupId);
-
-  if (!structure) {
+  const { resourceId, relatedObjectId, relationTypeId, relationsGroupId } = req.body;
+  const resource = await catalogRepository.find({ filters: { _id: resourceId } });
+  const related = await catalogRepository.find({ filters: { _id: relatedObjectId } });
+  if (!resource?.totalCount) {
     errors.push({
-      path: '.param.resourceId',
-      message: `Structure '${resourceId}' does not exist`,
+      path: '.body.resourceId',
+      message: `Object '${resourceId}' does not exist`,
     });
   }
-  if (!group) {
+  if (!related?.totalCount) {
     errors.push({
-      path: '.param.relationsGroupId',
-      message: `RelationGroup '${relationsGroupId}' does not exist`,
+      path: '.body.relationsGroupId',
+      message: `Object '${relatedObjectId}' does not exist`,
     });
   }
   if (relationTypeId) {
@@ -34,6 +32,15 @@ export async function validatePayload(req, res, next) {
       errors.push({
         path: '.body.relationTypeId',
         message: `RelationType '${relationTypeId}' does not exist`,
+      });
+    }
+  }
+  if (relationsGroupId) {
+    const group = await relationsGroupsRepository.get(relationsGroupId);
+    if (!group) {
+      errors.push({
+        path: '.body.relationsGroupId',
+        message: `RelationGroup '${relationsGroupId}' does not exist`,
       });
     }
   }

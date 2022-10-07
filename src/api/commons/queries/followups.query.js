@@ -1,9 +1,9 @@
 import metas from './metas.query';
-import relatedObjectsQuery from './related-objects.query';
+import { relatedObjectsListLookup } from './related-object.query';
 
 export default [
   ...metas,
-  ...relatedObjectsQuery,
+  ...relatedObjectsListLookup,
   {
     $project: {
       _id: 0,

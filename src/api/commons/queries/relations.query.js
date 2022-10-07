@@ -1,11 +1,12 @@
 import metas from './metas.query';
 import officialtextLightQuery from './officialtexts.light.query';
 import relationTypesLightQuery from './relation-types.light.query';
-import relatedObjectQuery from './related-object.query';
+import { relatedObjectLookup, resourceLookup } from './related-object.query';
 
 export default [
   ...metas,
-  ...relatedObjectQuery,
+  ...relatedObjectLookup,
+  ...resourceLookup,
   {
     $lookup: {
       from: 'relationtypes',
@@ -41,6 +42,7 @@ export default [
       _id: 0,
       id: 1,
       resourceId: 1,
+      resource: 1,
       relationsGroupId: 1,
       relatedObject: 1,
       relationType: 1,

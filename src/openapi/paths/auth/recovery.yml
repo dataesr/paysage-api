@@ -46,6 +46,13 @@ post:
                 type: string
     '202':
       description: An email with an OTP has been send.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
     '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
     '401':

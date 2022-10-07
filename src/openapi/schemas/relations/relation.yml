@@ -5,6 +5,9 @@ allOf:
         type: string
         description: Identifiant de l'objet parent
         pattern: '^[a-zA-Z0-9]{5}$'
+      resource:
+        type: object
+        description: Parent object
       relationsGroupId:
         type: string
         description: Identifiant du groupe de relations

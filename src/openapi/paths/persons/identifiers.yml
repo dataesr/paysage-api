@@ -1,7 +1,7 @@
 collectionMethods:
   get:
     tags:
-      - Personnes - Identifiers
+      - Persons - Identifiers
     summary: List all person's identifiers
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
@@ -36,7 +36,7 @@ collectionMethods:
 
   post:
     tags:
-      - Personnes - Identifiers
+      - Persons - Identifiers
     summary: Add a new person's identifier
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
@@ -73,7 +73,7 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Personnes - Identifiers
+      - Persons - Identifiers
     summary: Delete an person's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
@@ -96,7 +96,7 @@ documentMethods:
 
   delete:
     tags:
-      - Personnes - Identifiers
+      - Persons - Identifiers
     summary: Delete a person's identifier
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
@@ -115,7 +115,7 @@ documentMethods:
 
   patch:
     tags:
-      - Personnes - Identifiers
+      - Persons - Identifiers
     summary: Update a person's identifier
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'

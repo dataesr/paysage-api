@@ -35,3 +35,9 @@ properties:
   comment:
     type: string
     nullable: true
+  displayName:
+    type: string
+  collection:
+    type: string
+  href:
+    type: string

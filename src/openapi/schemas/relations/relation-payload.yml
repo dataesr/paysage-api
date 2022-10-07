@@ -13,6 +13,10 @@ properties:
     description: Identifiant unique d'un type de relation
     pattern: '^[a-zA-Z0-9]{15}$'
     nullable: true
+  relationsGroupId:
+    type: string
+    description: Identifiant du groupe de relations
+    pattern: '^[a-zA-Z0-9]{15}$'
   relationTag:
     type: string
     nullable: true
