@@ -41,6 +41,7 @@ tags:
   - name: Search
   - name: Structures
   - name: Structures - Emails
+  - name: Structures - Key numbers
   - name: Structures - Relations groups
   - name: Structures - Identifiers
   - name: Structures - Weblinks
@@ -122,6 +123,8 @@ paths:
     $ref: './paths/structures/identifiers.yml#/collectionMethods'
   '/structures/{structureId}/identifiers/{identifierId}':
     $ref: './paths/structures/identifiers.yml#/documentMethods'
+  '/structures/{structureId}/keynumbers/{dataset}':
+    $ref: './paths/structures/keynumbers.yml#/~1structures~1{structureId}~1keynumbers~1{dataset}'
   '/structures/{structureId}/localisations':
     $ref: './paths/structures/localisations.yml#/collectionMethods'
   '/structures/{structureId}/localisations/{localisationId}':
@@ -283,6 +286,8 @@ components:
   parameters:
     categoryId:
       $ref: ./parameters/ids/category-id.yml
+    dataset:
+      $ref: ./parameters/ids/dataset.yml
     documentId:
       $ref: ./parameters/ids/document-id.yml
     documentTypeId:
@@ -454,6 +459,8 @@ components:
       $ref: './schemas/structures/email.yml'
     StructureIdentifier:
       $ref: './schemas/structures/identifier.yml'
+    StructureKeyNumbers:
+      $ref: './schemas/structures/keynumbers.yml'
     StructureLegalCategory:
       $ref: './schemas/structures/legalcategory.yml'
     StructureLight:

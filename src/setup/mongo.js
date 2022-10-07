@@ -10,7 +10,7 @@ async function setupMongo() {
   await db.collection('emails').createIndex({ id: 1 }, { unique: true });
   await db.collection('emailtypes').createIndex({ id: 1 }, { unique: true });
   await db.collection('identifiers').createIndex({ id: 1 }, { unique: true });
-  await db.collection('keynumbers').createIndex({ id: 1 }, { unique: true });
+  await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1 });
   await db.collection('legalcategories').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialtexts').createIndex({ id: 1 }, { unique: true });
   await db.collection('persons').createIndex({ id: 1 }, { unique: true });
