@@ -1,8 +1,8 @@
-/official-texts:
+collectionMethods:
   get:
     tags:
-      - Textes officiels
-    summary: Lister les textes officiels
+      - Official texts
+    summary: List all official texts
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,10 +33,8 @@
 
   post:
     tags:
-      - Textes officiels
-    summary: Ajouter un texte officiel
-    security:
-    - BearerAuth: []
+      - Official texts
+    summary: Create a new official text
     requestBody:
       content:
         application/json:
@@ -65,11 +63,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/official-texts/{officialTextId}:
+documentMethods:
   get:
     tags:
-      - Textes officiels
-    summary: Obtenir le détail d'un texte officiel
+      - Official texts
+    summary: Get an official text by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/officialTextId'
     responses:
@@ -92,10 +90,8 @@
 
   delete:
     tags:
-      - Textes officiels
-    summary: Supprimer un texte officiel
-    security:
-    - BearerAuth: []
+      - Official texts
+    summary: Delete an official text by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/officialTextId'
     responses:
@@ -112,10 +108,8 @@
 
   patch:
     tags:
-      - Textes officiels
-    summary: Modifier un texte officiel
-    security:
-    - BearerAuth: []
+      - Official texts
+    summary: Update an official text by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/officialTextId'
     requestBody:

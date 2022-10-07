@@ -1,5 +1,3 @@
-title: CategoryPayload
-description: Modèle de création et de mise à jour d'une catégorie
 additionalProperties: false
 type: object
 properties:
@@ -11,39 +9,31 @@ properties:
   shortNameEn:
     type: string
     nullable: true
-    description: Nom court en anglais
   shortNameFr:
     type: string
     nullable: true
-    description: Nom court en français
   acronymFr:
     type: string
     nullable: true
-    description: Sigle en français
   pluralNameFr:
     type: string
     nullable: true
-    description: Forme du nom usuel français au pluriel
   otherNamesFr:
     type: array
     nullable: true
-    description: Autres intitulés français
     items:
       type: string
   otherNamesEn:
     type: array
     nullable: true
-    description: Autres intitulés anglais
     items:
       type: string
   descriptionFr:
     type: string
     nullable: true
-    description: Description en français
   descriptionEn:
     type: string
     nullable: true
-    description: Description en français
   comment:
     type: string
     nullable: true
@@ -52,14 +42,14 @@ properties:
     minimum: 1
     maximum: 99
     description: |
-      Un ordre de priorité d'affichage de la catégorie.
-      La priorité maximale est 1. La priorité minimale est 99.
-      Valeur par default: 99.
+      Priority helps ordering categories.
+      Highest priority is 1. Lowest is 99.
+      Defaults to 99.
   creationOfficialTextId:
     type: string
-    description: Identifiant d'un texte officiel justifiant de l'ouverture de la catégorie
+    description: An official text ID that justifies category creation
     pattern: '^[a-zA-Z0-9]{15}$'
   closureOfficialTextId:
     type: string
-    description: Identifiant d'un texte officiel justifiant de la fermeture de la catégorie
+    description: An official text ID that justifies category closure
     pattern: '^[a-zA-Z0-9]{15}$'

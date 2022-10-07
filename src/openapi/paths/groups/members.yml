@@ -1,8 +1,8 @@
-GroupMembers:
+collectionMethods:
   get:
     tags:
-      - Groupes d'utilisateurs
-    summary: Lister les membres d'un groupe d'utilisateurs
+      - User's groups
+    summary: List all group members
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -31,13 +31,13 @@ GroupMembers:
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-GroupMember:
+documentMethods:
   put:
     tags:
-      - Groupes d'utilisateurs
-    summary: Ajouter un utilisateur à un groupe d'utilisateurs
+      - User's groups
+    summary: Add a new user to the group
     description: |
-      L'utilisateur actif doit avoir un role d'admin au sein du groupe pour effectuer cette opération.
+      Current user has to be an admin of the group to perform this operation.
     parameters:
       - $ref: '../../api.yml#/components/parameters/groupId'
       - $ref: '../../api.yml#/components/parameters/userId'
@@ -66,10 +66,10 @@ GroupMember:
 
   delete:
     tags:
-      - Groupes d'utilisateurs
-    summary: Supprimer un utilisateur d'un groupe d'utilisateurs
+      - User's groups
+    summary: Delete a user from the group
     description: |
-      L'utilisateur actif doit avoir un role d'admin au sein du groupe pour effectuer cette opération.
+      Current user has to be an admin of the group to perform this operation.
     parameters:
       - $ref: '../../api.yml#/components/parameters/groupId'
       - $ref: '../../api.yml#/components/parameters/userId'

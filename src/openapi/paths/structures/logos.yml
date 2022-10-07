@@ -1,8 +1,8 @@
-/structures/{structureId}/logos:
+collectionMethods:
   get:
     tags:
       - Structures - Logos
-    summary: Lister les logos de la structure
+    summary: List all structure's logos
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -37,7 +37,7 @@
   post:
     tags:
       - Structures - Logos
-    summary: Ajouter un logo à la structure
+    summary: Add a new logo to the structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -68,11 +68,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/logos/{logoId}:
+documentMethods:
   get:
     tags:
       - Structures - Logos
-    summary: Obtenir le détail d'un logo de structure
+    summary: Get a structure logo by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/logoId'
@@ -96,7 +96,7 @@
   delete:
     tags:
       - Structures - Logos
-    summary: Retirer un logo de la structure
+    summary: Delete a structure logo by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/logoId'
@@ -115,7 +115,7 @@
   patch:
     tags:
       - Structures - Logos
-    summary: Modifier un logo de la structure
+    summary: Update a structure logo by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/logoId'

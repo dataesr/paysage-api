@@ -1,8 +1,8 @@
-/supervising-ministers:
+collectionMethods:
   get:
     tags:
-      - Ministres de tutelle
-    summary: Lister les ministres de tutelle
+      - Supervising ministers
+    summary: List all supervising ministers
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Ministres de tutelle
-    summary: Créer un nouveau ministre de tutelle
+      - Supervising ministers
+    summary: Create a new supervising minister
     requestBody:
       content:
         application/json:
@@ -60,11 +60,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/supervising-ministers/{supervisingMinisterId}:
+documentMethods:
   patch:
     tags:
-      - Ministres de tutelle
-    summary: Modifier un ministre de tutelle
+      - Supervising ministers
+    summary: Update a supervising minister by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/supervisingMinisterId'
     requestBody:
@@ -92,8 +92,8 @@
   
   delete:
     tags:
-      - Ministres de tutelle
-    summary: Supprimer un ministre de tutelle
+      - Supervising ministers
+    summary: Delete a supervising minister by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/supervisingMinisterId'
     responses:

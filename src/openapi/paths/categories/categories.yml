@@ -1,8 +1,8 @@
-/categories:
+collectionMethods:
   get:
     tags:
-      - Catégories
-    summary: Lister les catégories
+      - Categories
+    summary: List all categories
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Catégories
-    summary: Créer une catégorie
+      - Categories
+    summary: Create a new category
     requestBody:
       content:
         application/json:
@@ -61,11 +61,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/categories/{categoryId}:
+documentMethods:
   get:
     tags:
-      - Catégories
-    summary: Obtenir le détail d'une catégorie
+      - Categories
+    summary: Get a category by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
     responses:
@@ -86,8 +86,8 @@
 
   delete:
     tags:
-      - Catégories
-    summary: Supprimer une catégorie
+      - Categories
+    summary: Delete a category by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
     responses:
@@ -104,8 +104,8 @@
 
   patch:
     tags:
-      - Catégories
-    summary: Modifier une catégorie
+      - Categories
+    summary: Update a category by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
     requestBody:
@@ -133,8 +133,8 @@
 
   put:
     tags:
-      - Catégories
-    summary: Créer une catégorie avec un identifiant.
+      - Categories
+    summary: Create a new category with an ID.
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
     requestBody:
