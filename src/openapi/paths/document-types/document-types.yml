@@ -2,7 +2,7 @@ collectionMethods:
   get:
     tags:
       - Document types
-    summary: Lister all document types
+    summary: List all document types
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'

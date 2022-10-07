@@ -60,7 +60,7 @@ documentAdminMethods:
   delete:
     tags:
       - Users
-    summary: Delete a user
+    summary: Delete a user by ID
     parameters:
       - $ref: ../../api.yml#/components/parameters/userId
     responses:
@@ -78,7 +78,7 @@ documentAdminMethods:
   patch:
     tags:
       - Users
-    summary: Mise à jour d'un utilisateur
+    summary: Update a user by ID
     parameters:
       - $ref: ../../api.yml#/components/parameters/userId
     requestBody:
@@ -109,7 +109,7 @@ documentAdminConfirmMethod:
   put:
     tags:
       - Users
-    summary: Activer le compte d'un utilisateur
+    summary: Activate a user account
     parameters:
       - $ref: ../../api.yml#/components/parameters/userId
     responses:

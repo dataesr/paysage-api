@@ -65,7 +65,7 @@ documentMethods:
   get:
     tags:
       - Projects
-    summary: Get project by ID
+    summary: Get a project by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
     responses:
@@ -87,7 +87,7 @@ documentMethods:
   delete:
     tags:
       - Projects
-    summary: Delete a project
+    summary: Delete a project by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
     responses:
@@ -105,7 +105,7 @@ documentMethods:
   patch:
     tags:
       - Projects
-    summary: Update a project
+    summary: Update a project by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
     requestBody:

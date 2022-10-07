@@ -74,7 +74,7 @@ documentMethods:
   get:
     tags:
       - Persons - Identifiers
-    summary: Delete an person's identifier by ID
+    summary: Get a person's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/identifierId'
@@ -97,7 +97,7 @@ documentMethods:
   delete:
     tags:
       - Persons - Identifiers
-    summary: Delete a person's identifier
+    summary: Delete a person's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/identifierId'
@@ -116,7 +116,7 @@ documentMethods:
   patch:
     tags:
       - Persons - Identifiers
-    summary: Update a person's identifier
+    summary: Update a person's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/identifierId'

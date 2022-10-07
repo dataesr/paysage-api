@@ -34,7 +34,7 @@ collectionMethods:
   post:
     tags:
       - Categories
-    summary: Create a new categorie
+    summary: Create a new category
     requestBody:
       content:
         application/json:

@@ -115,7 +115,7 @@ documentMethods:
   patch:
     tags:
       - Projects - Weblinks
-    summary: Delete a project's website by ID
+    summary: Update a project's website by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'

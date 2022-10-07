@@ -45,7 +45,7 @@ post:
               message:
                 type: string
     '202':
-      description: An email with an OTP has been send.
+      description: An email with an OTP has been sent.
       content:
         application/json:
           schema:

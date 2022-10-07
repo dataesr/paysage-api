@@ -66,7 +66,7 @@ documentMethods:
   get:
     tags:
       - Relations
-    summary: Obtenir le détail d'une relation
+    summary: Get a relation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/relationId'
     responses:
@@ -88,7 +88,7 @@ documentMethods:
   delete:
     tags:
       - Relations
-    summary: Supprimer une relation
+    summary: Delete a relation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/relationId'
     responses:
@@ -106,7 +106,7 @@ documentMethods:
   patch:
     tags:
       - Relations
-    summary: Modifier une relation
+    summary: Update a relation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/relationId'
     requestBody:

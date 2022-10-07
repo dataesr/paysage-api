@@ -3,26 +3,21 @@ allOf:
     properties:
       resourceId:
         type: string
-        description: Identifiant de l'objet parent
+        description: Parent object identifier
         pattern: '^[a-zA-Z0-9]{5}$'
       resource:
         type: object
         description: Parent object
       relationsGroupId:
         type: string
-        description: Identifiant du groupe de relations
         pattern: '^[a-zA-Z0-9]{15}$'
       relatedObject:
         type: object
-        description: Objet lié
       relationType:
-        description: Type de relation
         $ref: '../../api.yml#/components/schemas/RelationTypeLight'
       startDateOfficialText:
-        description: Référence le texte officiel de début de relation
         $ref: '../../api.yml#/components/schemas/OfficialTextLight'
       endDateOfficialText:
-        description: Référence le texte officiel de fin de relation
         $ref: '../../api.yml#/components/schemas/OfficialTextLight'
       relationTag:
         type: string

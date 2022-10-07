@@ -78,7 +78,7 @@ export const signin = async (req, res, next) => {
         second: 'numeric',
       };
       res.status(202).json({
-        message: `Un nouveau code à été envoyé à l'adresse ${user.email}.
+        message: `Un nouveau code a été envoyé à l'adresse ${user.email}.
          Code utilisable jusqu'au ${new Date(expires).toLocaleString('fr-FR', options)}`,
       });
       return next();
@@ -153,7 +153,7 @@ export const resetPassword = async (req, res, next) => {
         second: 'numeric',
       };
       res.status(202).json({
-        message: `Un nouveau code à été envoyé à l'adresse ${user.email}.
+        message: `Un nouveau code a été envoyé à l'adresse ${user.email}.
          Code utilisable jusqu'au ${new Date(expires).toLocaleString('fr-FR', options)}`,
       });
       return next();
