@@ -46,6 +46,7 @@ export const signup = async (req, res, next) => {
 
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
+  const userAgent = req.headers['user-agent'];
   const userOtp = req.headers[otpHeader];
   const otpMethod = req.headers[otpMethodHeader];
   const user = await usersRepository.getByEmail(email);
@@ -90,8 +91,8 @@ export const signin = async (req, res, next) => {
   const refreshToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: refreshTokenExpiresIn });
   const expireAt = new Date(jwt.verify(refreshToken, jwtSecret).exp * 1000);
   await tokensRepository.upsert(
-    { userId: user.id, userAgent: req.userAgent },
-    { userId: user.id, userAgent: req.userAgent, refreshToken, expireAt },
+    { userId: user.id, userAgent },
+    { userId: user.id, userAgent, refreshToken, expireAt },
   );
   res.status(200).json({ accessToken, refreshToken });
   return next();
@@ -105,14 +106,15 @@ export const signout = async (req, res, next) => {
 };
 
 export const refreshAccessToken = async (req, res) => {
-  const { body, userAgent } = req;
+  const userAgent = req.headers['user-agent'];
+  const { body } = req;
   const { refreshToken: token } = body;
   jwt.verify(token, jwtSecret, (err) => {
     if (err) throw new UnauthorizedError('Token invalide');
   });
   const savedToken = await tokensRepository.get({ userAgent, refreshToken: token });
-  if (!savedToken.userId) throw new UnauthorizedError('Token invalide');
-  const userId = savedToken;
+  if (!savedToken?.userId) throw new UnauthorizedError('Token invalide');
+  const { userId } = savedToken;
   const tokenUser = await usersRepository.get(userId, { useQuery: userTokenQuery });
   const accessToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: accessTokenExpiresIn });
   const refreshToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: refreshTokenExpiresIn });
