@@ -46,7 +46,7 @@ properties:
   descriptionEn:
     type: string
     nullable: true
-  academicYear:
+  year:
     type: string
     nullable: true
   exercice:

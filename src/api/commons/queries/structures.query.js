@@ -31,7 +31,6 @@ export default [
     $project: {
       _id: 0,
       id: 1,
-      academicYear: { $ifNull: ['$academicYear', null] },
       alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
       closureDate: { $ifNull: ['$closureDate', null] },
       closureOfficialText: { $ifNull: ['$closureOfficialText', {}] },
@@ -51,6 +50,7 @@ export default [
       redirection: { $ifNull: ['$redirection', null] },
       status: { $ifNull: ['$status', null] },
       structureStatus: { $ifNull: ['$structureStatus', null] },
+      year: { $ifNull: ['$year', null] },
       createdBy: 1,
       createdAt: 1,
       updatedBy: 1,
