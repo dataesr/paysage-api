@@ -38,3 +38,26 @@ properties:
     type: string
     pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
     nullable: true
+  mandateTemporary:
+    type: boolean
+    nullable: true
+  mandateReason:
+    type: string
+    enum:
+      - éléction
+      - nomination
+    nullable: true
+  mandateEmail:
+    type: string
+    format: email
+    nullable: true
+  mandatePosition:
+    type: string
+    nullable: true
+    enum:
+      - '1'
+      - '2'
+      - '3+'
+  mandateSpecifications:
+    type: string
+    nullable: true
