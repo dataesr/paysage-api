@@ -194,6 +194,10 @@ paths:
     $ref: './paths/terms/terms.yml#/~1terms'
   '/terms/{termId}':
     $ref: './paths/terms/terms.yml#/~1terms~1{termId}'
+  '/terms/{termId}/identifiers':
+    $ref: './paths/terms/identifiers.yml#/~1terms~1{termId}~1identifiers'
+  '/terms/{termId}/identifiers/{identifierId}':
+    $ref: './paths/terms/identifiers.yml#/~1terms~1{termId}~1identifiers~1{identifierId}'
   '/terms/{termId}/weblinks':
     $ref: './paths/terms/weblinks.yml#/~1terms~1{termId}~1weblinks'
   '/terms/{termId}/weblinks/{weblinkId}':
@@ -496,6 +500,8 @@ components:
       $ref: './schemas/commons/nomenclature-light.yml'
     Term:
       $ref: './schemas/terms/term.yml'
+    TermIdentifier:
+      $ref: './schemas/terms/identifier.yml'
     TermLight:
       $ref: './schemas/terms/term-light.yml'
     TermWeblink:
@@ -583,6 +589,8 @@ components:
       $ref: './schemas/commons/nomenclature-payload.yml'
     TermPayload:
       $ref: './schemas/terms/term-payload.yml'
+    TermIdentifierPayload:
+      $ref: './schemas/terms/identifier-payload.yml'
     TermWeblinkPayload:
       $ref: './schemas/terms/weblink-payload.yml'
     UserAdminPayload:
@@ -612,6 +620,8 @@ components:
       $ref: './schemas/structures/enums/weblink-types.yml'
     TermWeblinkTypesEnum:
       $ref: './schemas/terms/enums/weblink-types.yml'
+    TermIdentifierTypesEnum:
+      $ref: './schemas/terms/enums/identifier-types.yml'
 
     
     ### COMMON MODELS ###

@@ -141,7 +141,7 @@
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/Term'
+            $ref: '../../api.yml#/components/schemas/TermPayload'
     responses:
       '201':
         description: Created
