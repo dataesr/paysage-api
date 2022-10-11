@@ -1,10 +1,13 @@
 post:
   tags:
-    - Authentification
-  summary: Use refresh token to regenerate access token
+    - Authentication
+  summary: |
+    Allows to generate a new pair of access and refresh token by providing a valid refresh token.
+    A new pair of token means a new refresh token whose expiration date is reseted with the configurated validity period.
+    The current validity period of a refresh token is 20 days.
   security: []
   requestBody:
-    description: Required user info for authentication
+    description: A valid refresh token
     content:
       application/json:
         schema:

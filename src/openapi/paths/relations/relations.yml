@@ -1,17 +1,16 @@
-/structures/{structureId}/categories:
+collectionMethods:
   get:
     tags:
-      - Structures - Catégories
-    summary: Lister les catégories de la structure
+      - Relations
+    summary: List all relations
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
       - $ref: '../../api.yml#/components/parameters/limit'
       - $ref: '../../api.yml#/components/parameters/sort'
     responses:
       '200':
-        description: OK
+        description: Success
         content:
           application/json:
             schema:
@@ -20,64 +19,63 @@
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+                    $ref: '../../api.yml#/components/schemas/Relation'
                 totalCount:
-                  type: integer
+                  type: number
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
-      '404':
-        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
   post:
     tags:
-      - Structures - Catégories
-    summary: Ajouter une catégorie à la structure
-    parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
+      - Relations
+    summary: Create a new relation
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/CategoryRelationshipPayload'
+            title: CreateRelation
+            type: object
+            required:
+              - relatedObjectId
+              - resourceId
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/RelationPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+              $ref: '../../api.yml#/components/schemas/Relation'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
-      '404':
-        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/categories/{relatedCategoryId}:
+documentMethods:
   get:
     tags:
-      - Structures - Catégories
-    summary: Obtenir le détail d'une catégorie de structure
+      - Relations
+    summary: Get a relation by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
+      - $ref: '../../api.yml#/components/parameters/relationId'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+              $ref: '../../api.yml#/components/schemas/Relation'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -89,11 +87,10 @@
 
   delete:
     tags:
-      - Structures - Catégories
-    summary: Retirer une catégorie de la structure
+      - Relations
+    summary: Delete a relation by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
+      - $ref: '../../api.yml#/components/parameters/relationId'
     responses:
       '204':
         description: No content
@@ -108,23 +105,22 @@
 
   patch:
     tags:
-      - Structures - Catégories
-    summary: Modifier une catégorie de la structure
+      - Relations
+    summary: Update a relation by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/structureId'
-      - $ref: '../../api.yml#/components/parameters/relatedCategoryId'
+      - $ref: '../../api.yml#/components/parameters/relationId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/CategoryRelationshipPayload'
+              $ref: '../../api.yml#/components/schemas/RelationPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryRelationship'
+              $ref: '../../api.yml#/components/schemas/Relation'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

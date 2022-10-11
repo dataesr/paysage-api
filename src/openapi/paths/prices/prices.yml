@@ -1,8 +1,8 @@
-/prices:
+collectionMethods:
   get:
     tags:
-      - Prix scientifiques
-    summary: Lister les prix scientifiques
+      - Prices
+    summary: List all prices
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Prix scientifiques
-    summary: Créer un nouveau prix scientifique
+      - Prices
+    summary: Create a new price
     requestBody:
       content:
           application/json:
@@ -59,11 +59,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/prices/{priceId}:
+documentMethods:
   get:
     tags:
-      - Prix scientifiques
-    summary: Obtenir le détail d'un prix scientifique
+      - Prices
+    summary: Get a price by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/priceId'
     responses:
@@ -88,8 +88,8 @@
 
   patch:
     tags:
-      - Prix scientifiques
-    summary: Modifier un prix scientifique
+      - Prices
+    summary: Update a price by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/priceId'
     requestBody:
@@ -112,5 +112,50 @@
         $ref: '../../api.yml#/components/responses/Forbidden'
       '404':
         $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Prices
+    summary: Delete a price by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  put:
+    tags:
+      - Prices
+    summary: Create a new price with ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+    requestBody:
+      content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/PricePayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Price'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'

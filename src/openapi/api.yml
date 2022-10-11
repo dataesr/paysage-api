@@ -17,49 +17,46 @@ servers:
     description: Development server
 
 tags:
-  - name: Authentification
-  - name: Catégories
-  - name: Catégories - Identifiants
-  - name: Catégories - Liens web
-  - name: Catégories - Médias sociaux
-  - name: Catégories juridiques
+  - name: Authentication
+  - name: Categories
+  - name: Categories - Identifiers
+  - name: Categories - Weblinks
+  - name: Categories - SocialMedias
+  - name: Legal categories
   - name: Documentation
   - name: Documents
-  - name: Evènements de suivi
-  - name: Fichiers
-  - name: Groupes d'utilisateurs
-  - name: Groupes de relations
-  - name: Ministres de tutelle
-  - name: Personnes
-  - name: Personnes - Catégories
-  - name: Personnes - Identifiants
-  - name: Personnes - Liens web
-  - name: Personnes - Médias sociaux
-  - name: Prix scientifiques
-  - name: Projets
-  - name: Projets - Liens web
-  - name: Projets - Localisations
-  - name: Recherche
+  - name: Follow-ups
+  - name: Files
+  - name: User's groups
+  - name: Relations
+  - name: Supervising ministers
+  - name: Persons
+  - name: Persons - Identifiers
+  - name: Persons - Weblinks
+  - name: Persons - SocialMedias
+  - name: Prices
+  - name: Projects
+  - name: Projects - Weblinks
+  - name: Projects - Localisations
+  - name: Search
   - name: Structures
-  - name: Structures - Catégories
-  - name: Structures - Catégories juridiques
   - name: Structures - Emails
-  - name: Structures - Groupes de relations
-  - name: Structures - Identifiants
-  - name: Structures - Liens web
+  - name: Structures - Key numbers
+  - name: Structures - Relations groups
+  - name: Structures - Identifiers
+  - name: Structures - Weblinks
   - name: Structures - Localisations
   - name: Structures - Logos
-  - name: Structures - Médias sociaux
-  - name: Structures - Ministres de tutelle
-  - name: Structures - Noms
-  - name: Termes
-  - name: Termes - Liens web
-  - name: Termes - Médias sociaux
-  - name: Textes officiels
-  - name: Types d'email
-  - name: Types de document
-  - name: Types de relation
-  - name: Utilisateurs
+  - name: Structures - SocialMedias
+  - name: Structures - Names
+  - name: Terms
+  - name: Terms - Weblinks
+  - name: Terms - SocialMedias
+  - name: Official texts
+  - name: Email types
+  - name: Document types
+  - name: Relation types
+  - name: Users
 
 security:
   - BearerAuth: []
@@ -83,13 +80,13 @@ paths:
 
   ### USERS ###
   '/users':
-    $ref: ./paths/users/users.yml#/Users
+    $ref: ./paths/users/users.yml#/collectionMethods
   '/admin/users/{userId}':
-    $ref: ./paths/users/users.yml#/User-Admin
+    $ref: ./paths/users/users.yml#/documentAdminMethods
   '/admin/users/{userId}/confirm':
-    $ref: ./paths/users/users.yml#/User-Admin-Confirm
+    $ref: ./paths/users/users.yml#/documentAdminConfirmMethod
   '/admin/users':
-    $ref: ./paths/users/users.yml#/Users-Admin
+    $ref: ./paths/users/users.yml#/collectionAdminMethods
   '/me':
     $ref: ./paths/users/me.yml#/Me
   '/me/password':
@@ -99,199 +96,192 @@ paths:
   
   ### GROUPS ###
   '/groups':
-    $ref: ./paths/groups/groups.yml#/Groups
+    $ref: ./paths/groups/groups.yml#/collectionMethods
   '/groups/{groupId}':
-    $ref: ./paths/groups/groups.yml#/Group
+    $ref: ./paths/groups/groups.yml#/documentMethods
   '/groups/{groupId}/members':
-    $ref: ./paths/groups/members.yml#/GroupMembers
+    $ref: ./paths/groups/members.yml#/collectionMethods
   '/groups/{groupId}/members/{userId}':
-    $ref: ./paths/groups/members.yml#/GroupMember
+    $ref: ./paths/groups/members.yml#/documentMethods
 
   ### OPENAPI DOCUMENTATION ###
   '/docs/specs':
-    $ref: './paths/docs/docs.yml#/~1docs~1specs'
+    $ref: './paths/docs/docs.yml#/specs'
   '/docs/enums':
-    $ref: './paths/docs/docs.yml#/~1docs~1enums'
+    $ref: './paths/docs/docs.yml#/enums'
 
   ### STRUCTURES ###
   '/structures':
-    $ref: './paths/structures/structures.yml#/~1structures'
+    $ref: './paths/structures/structures.yml#/collectionMethods'
   '/structures/{structureId}':
-    $ref: './paths/structures/structures.yml#/~1structures~1{structureId}'
-  '/structures/{structureId}/categories':
-    $ref: './paths/structures/categories.yml#/~1structures~1{structureId}~1categories'
-  '/structures/{structureId}/categories/{relatedCategoryId}':
-    $ref: './paths/structures/categories.yml#/~1structures~1{structureId}~1categories~1{relatedCategoryId}'
+    $ref: './paths/structures/structures.yml#/documentMethods'
   '/structures/{structureId}/emails':
-    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails'
+    $ref: './paths/structures/emails.yml#/collectionMethods'
   '/structures/{structureId}/emails/{emailId}':
-    $ref: './paths/structures/emails.yml#/~1structures~1{structureId}~1emails~1{emailId}'
+    $ref: './paths/structures/emails.yml#/documentMethods'
   '/structures/{structureId}/identifiers':
-    $ref: './paths/structures/identifiers.yml#/~1structures~1{structureId}~1identifiers'
+    $ref: './paths/structures/identifiers.yml#/collectionMethods'
   '/structures/{structureId}/identifiers/{identifierId}':
-    $ref: './paths/structures/identifiers.yml#/~1structures~1{structureId}~1identifiers~1{identifierId}'
-  '/structures/{structureId}/legal-categories':
-    $ref: './paths/structures/legal-categories.yml#/~1structures~1{structureId}~1legal-categories'
-  '/structures/{structureId}/legal-categories/{relatedLegalCategoryId}':
-    $ref: './paths/structures/legal-categories.yml#/~1structures~1{structureId}~1legal-categories~1{relatedLegalCategoryId}'
+    $ref: './paths/structures/identifiers.yml#/documentMethods'
+  '/structures/{structureId}/keynumbers/{dataset}':
+    $ref: './paths/structures/keynumbers.yml#/~1structures~1{structureId}~1keynumbers~1{dataset}'
   '/structures/{structureId}/localisations':
-    $ref: './paths/structures/localisations.yml#/~1structures~1{structureId}~1localisations'
+    $ref: './paths/structures/localisations.yml#/collectionMethods'
   '/structures/{structureId}/localisations/{localisationId}':
-    $ref: './paths/structures/localisations.yml#/~1structures~1{structureId}~1localisations~1{localisationId}'
+    $ref: './paths/structures/localisations.yml#/documentMethods'
   '/structures/{structureId}/logos':
-    $ref: './paths/structures/logos.yml#/~1structures~1{structureId}~1logos'
+    $ref: './paths/structures/logos.yml#/collectionMethods'
   '/structures/{structureId}/logos/{logoId}':
-    $ref: './paths/structures/logos.yml#/~1structures~1{structureId}~1logos~1{logoId}'
+    $ref: './paths/structures/logos.yml#/documentMethods'
   '/structures/{structureId}/names':
-    $ref: './paths/structures/names.yml#/~1structures~1{structureId}~1names'
+    $ref: './paths/structures/names.yml#/collectionMethods'
   '/structures/{structureId}/names/{nameId}':
-    $ref: './paths/structures/names.yml#/~1structures~1{structureId}~1names~1{nameId}'
+    $ref: './paths/structures/names.yml#/documentMethods'
   '/structures/{structureId}/relations-groups':
-    $ref: './paths/structures/relationsgroups.yml#/~1structures~1{structureId}~1relations-groups'
+    $ref: './paths/structures/relationsgroups.yml#/collectionMethods'
   '/structures/{structureId}/relations-groups/{relationsGroupId}':
-    $ref: './paths/structures/relationsgroups.yml#/~1structures~1{structureId}~1relations-groups~1{relationsGroupId}'
-  '/structures/{structureId}/relations-groups/{relationsGroupId}/relations':
-    $ref: './paths/structures/relations.yml#/collection'
-  '/structures/{structureId}/relations-groups/{relationsGroupId}/relations/{relationId}':
-    $ref: './paths/structures/relations.yml#/document'
+    $ref: './paths/structures/relationsgroups.yml#/documentMethods'
   '/structures/{structureId}/social-medias':
-    $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias'
+    $ref: './paths/structures/social-medias.yml#/collectionMethods'
   '/structures/{structureId}/social-medias/{socialmediaId}':
-    $ref: './paths/structures/social-medias.yml#/~1structures~1{structureId}~1social-medias~1{socialmediaId}'
-  '/structures/{structureId}/supervising-ministers':
-    $ref: './paths/structures/supervising-ministers.yml#/~1structures~1{structureId}~1supervising-ministers'
-  '/structures/{structureId}/supervising-ministers/{supervisingMinisterId}':
-    $ref: './paths/structures/supervising-ministers.yml#/~1structures~1{structureId}~1supervising-ministers~1{supervisingMinisterId}'
+    $ref: './paths/structures/social-medias.yml#/documentMethods'
   '/structures/{structureId}/weblinks':
-    $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks'
+    $ref: './paths/structures/weblinks.yml#/collectionMethods'
   '/structures/{structureId}/weblinks/{weblinkId}':
-    $ref: './paths/structures/weblinks.yml#/~1structures~1{structureId}~1weblinks~1{weblinkId}'
+    $ref: './paths/structures/weblinks.yml#/documentMethods'
   
   ### PERSONNES ###
   '/persons':
-    $ref: './paths/persons/persons.yml#/~1persons'
+    $ref: './paths/persons/persons.yml#/collectionMethods'
   '/persons/{personId}':
-    $ref: './paths/persons/persons.yml#/~1persons~1{personId}'
+    $ref: './paths/persons/persons.yml#/documentMethods'
   '/persons/{personId}/identifiers':
-    $ref: './paths/persons/identifiers.yml#/~1persons~1{personId}~1identifiers'
+    $ref: './paths/persons/identifiers.yml#/collectionMethods'
   '/persons/{personId}/identifiers/{identifierId}':
-    $ref: './paths/persons/identifiers.yml#/~1persons~1{personId}~1identifiers~1{identifierId}'
+    $ref: './paths/persons/identifiers.yml#/documentMethods'
   '/persons/{personId}/weblinks':
-    $ref: './paths/persons/weblinks.yml#/~1persons~1{personId}~1weblinks'
+    $ref: './paths/persons/weblinks.yml#/collectionMethods'
   '/persons/{personId}/weblinks/{weblinkId}':
-    $ref: './paths/persons/weblinks.yml#/~1persons~1{personId}~1weblinks~1{weblinkId}'
+    $ref: './paths/persons/weblinks.yml#/documentMethods'
   '/persons/{personId}/social-medias':
-    $ref: './paths/persons/social-medias.yml#/~1persons~1{personId}~1social-medias'
+    $ref: './paths/persons/social-medias.yml#/collectionMethods'
   '/persons/{personId}/social-medias/{socialmediaId}':
-    $ref: './paths/persons/social-medias.yml#/~1persons~1{personId}~1social-medias~1{socialmediaId}'
-  '/persons/{personId}/categories':
-    $ref: './paths/persons/categories.yml#/~1persons~1{personId}~1categories'
-  '/persons/{personId}/categories/{relationshipId}':
-    $ref: './paths/persons/categories.yml#/~1persons~1{personId}~1categories~1{relationshipId}'
+    $ref: './paths/persons/social-medias.yml#/documentMethods'
+  '/persons/{personId}/relations-groups':
+    $ref: './paths/persons/relationsgroups.yml#/collectionMethods'
+  '/persons/{personId}/relations-groups/{relationsGroupId}':
+    $ref: './paths/persons/relationsgroups.yml#/documentMethods'
 
   ### TERMS ###
   '/terms':
-    $ref: './paths/terms/terms.yml#/~1terms'
+    $ref: './paths/terms/terms.yml#/collectionMethods'
   '/terms/{termId}':
     $ref: './paths/terms/terms.yml#/~1terms~1{termId}'
   '/terms/{termId}/identifiers':
     $ref: './paths/terms/identifiers.yml#/~1terms~1{termId}~1identifiers'
   '/terms/{termId}/identifiers/{identifierId}':
     $ref: './paths/terms/identifiers.yml#/~1terms~1{termId}~1identifiers~1{identifierId}'
+    $ref: './paths/terms/terms.yml#/documentMethods'
   '/terms/{termId}/weblinks':
-    $ref: './paths/terms/weblinks.yml#/~1terms~1{termId}~1weblinks'
+    $ref: './paths/terms/weblinks.yml#/collectionMethods'
   '/terms/{termId}/weblinks/{weblinkId}':
-    $ref: './paths/terms/weblinks.yml#/~1terms~1{termId}~1weblinks~1{weblinkId}'
+    $ref: './paths/terms/weblinks.yml#/documentMethods'
   '/terms/{termId}/social-medias':
-    $ref: './paths/terms/social-medias.yml#/~1terms~1{termId}~1social-medias'
+    $ref: './paths/terms/social-medias.yml#/collectionMethods'
   '/terms/{termId}/social-medias/{socialmediaId}':
-    $ref: './paths/terms/social-medias.yml#/~1terms~1{termId}~1social-medias~1{socialmediaId}'
+    $ref: './paths/terms/social-medias.yml#/documentMethods'
 
   ### CATEGORIES JURIDIQUES ###
   '/legal-categories':
-    $ref: './paths/legalcategories/legalcategories.yml#/~1legal-categories'
+    $ref: './paths/legalcategories/legalcategories.yml#/collectionMethods'
   '/legal-categories/{legalCategoryId}':
-    $ref: './paths/legalcategories/legalcategories.yml#/~1legal-categories~1{legalCategoryId}'
+    $ref: './paths/legalcategories/legalcategories.yml#/documentMethods'
 
   ### CATEGORIES ###
   '/categories':
-    $ref: './paths/categories/categories.yml#/~1categories'
+    $ref: './paths/categories/categories.yml#/collectionMethods'
   '/categories/{categoryId}':
-    $ref: './paths/categories/categories.yml#/~1categories~1{categoryId}'
+    $ref: './paths/categories/categories.yml#/documentMethods'
   '/categories/{categoryId}/identifiers':
-    $ref: './paths/categories/identifiers.yml#/~1categories~1{categoryId}~1identifiers'
+    $ref: './paths/categories/identifiers.yml#/collectionMethods'
   '/categories/{categoryId}/identifiers/{identifierId}':
-    $ref: './paths/categories/identifiers.yml#/~1categories~1{categoryId}~1identifiers~1{identifierId}'
+    $ref: './paths/categories/identifiers.yml#/documentMethods'
   '/categories/{categoryId}/weblinks':
-    $ref: './paths/categories/weblinks.yml#/~1categories~1{categoryId}~1weblinks'
+    $ref: './paths/categories/weblinks.yml#/collectionMethods'
   '/categories/{categoryId}/weblinks/{weblinkId}':
-    $ref: './paths/categories/weblinks.yml#/~1categories~1{categoryId}~1weblinks~1{weblinkId}'
+    $ref: './paths/categories/weblinks.yml#/documentMethods'
   '/categories/{categoryId}/social-medias':
-    $ref: './paths/categories/social-medias.yml#/~1categories~1{categoryId}~1social-medias'
+    $ref: './paths/categories/social-medias.yml#/collectionMethods'
   '/categories/{categoryId}/social-medias/{socialmediaId}':
-    $ref: './paths/categories/social-medias.yml#/~1categories~1{categoryId}~1social-medias~1{socialmediaId}'
+    $ref: './paths/categories/social-medias.yml#/documentMethods'
   
   ### OFFICIAL TEXTS ###
   '/official-texts':
-    $ref: './paths/officialtexts/officialtexts.yml#/~1official-texts'
+    $ref: './paths/officialtexts/officialtexts.yml#/collectionMethods'
   '/official-texts/{officialTextId}':
-    $ref: './paths/officialtexts/officialtexts.yml#/~1official-texts~1{officialTextId}'
+    $ref: './paths/officialtexts/officialtexts.yml#/documentMethods'
 
   ### OFFICIAL TEXTS ###
   '/follow-ups':
-    $ref: './paths/followups/followups.yml#/~1follow-ups'
+    $ref: './paths/followups/followups.yml#/collectionMethods'
   '/follow-ups/{followUpId}':
-    $ref: './paths/followups/followups.yml#/~1follow-ups~1{followUpId}'
+    $ref: './paths/followups/followups.yml#/documentMethods'
 
   ### DOCUMENTS ###
   '/documents':
-    $ref: './paths/documents/documents.yml#/~1documents'
+    $ref: './paths/documents/documents.yml#/collectionMethods'
   '/documents/{documentId}':
-    $ref: './paths/documents/documents.yml#/~1documents~1{documentId}'
+    $ref: './paths/documents/documents.yml#/documentMethods'
 
   ### PRIX SCIENTIFIQUES ###
   '/prices':
-    $ref: './paths/prices/prices.yml#/~1prices'
+    $ref: './paths/prices/prices.yml#/collectionMethods'
   '/prices/{priceId}':
-    $ref: './paths/prices/prices.yml#/~1prices~1{priceId}'
+    $ref: './paths/prices/prices.yml#/documentMethods'
 
   ### PROJETS ###
   '/projects':
-    $ref: './paths/projects/projects.yml#/~1projects'
+    $ref: './paths/projects/projects.yml#/collectionMethods'
   '/projects/{projectId}':
-    $ref: './paths/projects/projects.yml#/~1projects~1{projectId}'
+    $ref: './paths/projects/projects.yml#/documentMethods'
   '/projects/{projectId}/weblinks':
-    $ref: './paths/projects/weblinks.yml#/~1projects~1{projectId}~1weblinks'
+    $ref: './paths/projects/weblinks.yml#/collectionMethods'
   '/projects/{projectId}/weblinks/{weblinkId}':
-    $ref: './paths/projects/weblinks.yml#/~1projects~1{projectId}~1weblinks~1{weblinkId}'
+    $ref: './paths/projects/weblinks.yml#/documentMethods'
   '/projects/{projectId}/localisations':
-    $ref: './paths/projects/localisations.yml#/~1projects~1{projectId}~1localisations'
+    $ref: './paths/projects/localisations.yml#/collectionMethods'
   '/projects/{projectId}/localisations/{localisationId}':
-    $ref: './paths/projects/localisations.yml#/~1projects~1{projectId}~1localisations~1{localisationId}'
+    $ref: './paths/projects/localisations.yml#/documentMethods'
 
   ### TYPES DE RELATION ###
   '/relation-types':
-    $ref: './paths/relationtypes/relationtypes.yml#/~1relation-types'
+    $ref: './paths/relationtypes/relationtypes.yml#/collectionMethods'
   '/relation-types/{relationTypeId}':
-    $ref: './paths/relationtypes/relationtypes.yml#/~1relation-types~1{relationTypeId}'
+    $ref: './paths/relationtypes/relationtypes.yml#/documentMethods'
+
+  ### RELATIONS ###
+  '/relations':
+    $ref: './paths/relations/relations.yml#/collectionMethods'
+  '/relations/{relationId}':
+    $ref: './paths/relations/relations.yml#/documentMethods'
 
   ### TYPES DE DOCUMENT ###
   '/document-types':
-    $ref: './paths/document-types/document-types.yml#/~1document-types'
+    $ref: './paths/document-types/document-types.yml#/collectionMethods'
   '/document-types/{documentTypeId}':
-    $ref: './paths/document-types/document-types.yml#/~1document-types~1{documentTypeId}'
+    $ref: './paths/document-types/document-types.yml#/documentMethods'
 
   ### TYPES D'EMAIL GENERIQUE ###
   '/email-types':
-    $ref: './paths/email-types/email-types.yml#/~1email-types'
+    $ref: './paths/email-types/email-types.yml#/collectionMethods'
   '/email-types/{emailTypeId}':
-    $ref: './paths/email-types/email-types.yml#/~1email-types~1{emailTypeId}'
+    $ref: './paths/email-types/email-types.yml#/documentMethods'
   
   ### MINISTRES DE TUTELLE ###
   '/supervising-ministers':
-    $ref: './paths/supervising-ministers/supervising-ministers.yml#/~1supervising-ministers'
+    $ref: './paths/supervising-ministers/supervising-ministers.yml#/collectionMethods'
   '/supervising-ministers/{supervisingMinisterId}':
-    $ref: './paths/supervising-ministers/supervising-ministers.yml#/~1supervising-ministers~1{supervisingMinisterId}'
+    $ref: './paths/supervising-ministers/supervising-ministers.yml#/documentMethods'
   
   ### SEARCH ###
   '/autocomplete':
@@ -301,6 +291,8 @@ components:
   parameters:
     categoryId:
       $ref: ./parameters/ids/category-id.yml
+    dataset:
+      $ref: ./parameters/ids/dataset.yml
     documentId:
       $ref: ./parameters/ids/document-id.yml
     documentTypeId:
@@ -351,8 +343,6 @@ components:
       $ref: ./parameters/ids/relations-group-id.yml
     relationTypeId:
       $ref: ./parameters/ids/relation-type-id.yml
-    roleId:
-      $ref: ./parameters/ids/role-id.yml
     skip:
       $ref: ./parameters/query/skip.yml
     socialmediaId:
@@ -460,10 +450,6 @@ components:
       $ref: './schemas/relationtypes/relationtype-light.yml'
     RelationsGroup:
       $ref: './schemas/commons/relationsgroup.yml'
-    Role:
-      $ref: './schemas/roles/role.yml'
-    RoleLight:
-      $ref: './schemas/roles/role-light.yml'
     SignInPayload:
       $ref: ./schemas/auth/signin-payload.yml
     SignUpPayload:
@@ -478,6 +464,8 @@ components:
       $ref: './schemas/structures/email.yml'
     StructureIdentifier:
       $ref: './schemas/structures/identifier.yml'
+    StructureKeyNumbers:
+      $ref: './schemas/structures/keynumbers.yml'
     StructureLegalCategory:
       $ref: './schemas/structures/legalcategory.yml'
     StructureLight:
@@ -563,8 +551,6 @@ components:
       $ref: './schemas/relationtypes/relationtype-payload.yml'
     RelationsGroupPayload:
       $ref: './schemas/commons/relationsgroup-payload.yml'
-    RolePayload:
-      $ref: './schemas/roles/role-payload.yml'
     SocialMediaPayload:
       $ref: './schemas/commons/social-media-payload.yml'
     StructureCreatePayload:

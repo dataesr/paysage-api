@@ -10,13 +10,17 @@ async function setupMongo() {
   await db.collection('emails').createIndex({ id: 1 }, { unique: true });
   await db.collection('emailtypes').createIndex({ id: 1 }, { unique: true });
   await db.collection('identifiers').createIndex({ id: 1 }, { unique: true });
-  await db.collection('keynumbers').createIndex({ id: 1 }, { unique: true });
+  await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1 });
   await db.collection('legalcategories').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialtexts').createIndex({ id: 1 }, { unique: true });
   await db.collection('persons').createIndex({ id: 1 }, { unique: true });
   await db.collection('prices').createIndex({ id: 1 }, { unique: true });
   await db.collection('projects').createIndex({ id: 1 }, { unique: true });
   await db.collection('relationships').createIndex({ id: 1 }, { unique: true });
+  await db.collection('relationships').createIndex({ resourceId: 1 });
+  await db.collection('relationships').createIndex({ resourceId: 1, relationTag: 1 });
+  await db.collection('relationships').createIndex({ relatedObjectId: 1 });
+  await db.collection('relationships').createIndex({ relatedObjectId: 1, relationTag: 1 });
   await db.collection('socialmedias').createIndex({ id: 1 }, { unique: true });
   await db.collection('structures').createIndex({ id: 1 }, { unique: true });
   await db.collection('supervisingministers').createIndex({ id: 1 }, { unique: true });

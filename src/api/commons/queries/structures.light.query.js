@@ -8,6 +8,9 @@ export default [
     $project: {
       _id: 0,
       id: 1,
+      displayName: '$currentName.usualName',
+      collection: 'structures',
+      href: { $concat: ['/structures/', '$id'] },
       structureStatus: { $ifNull: ['$structureStatus', null] },
       creationDate: { $ifNull: ['$creationDate', null] },
       closureDate: { $ifNull: ['$closureDate', null] },

@@ -1,7 +1,7 @@
 post:
   tags:
-    - Fichiers
-  summary: Sauvegarder des fichiers
+    - Files
+  summary: Save sigle or multiple files
   requestBody:
     content:
       multipart/form-data:

@@ -1,8 +1,8 @@
-/structures/{structureId}/social-medias:
+collectionMethods:
   get:
     tags:
-      - Structures - Médias sociaux
-    summary: Lister les médias sociaux d'une structure
+      - Structures - SocialMedias
+    summary: List all structure's social medias
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Structures - Médias sociaux
-    summary: Ajouter un média social à la structure
+      - Structures - SocialMedias
+    summary: Add a new social media to the structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -68,11 +68,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/social-medias/{socialmediaId}:
+documentMethods:
   get:
     tags:
-      - Structures - Médias sociaux
-    summary: Obtenir le détail d'un media social d'une structure
+      - Structures - SocialMedias
+    summary: Get a structure social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
@@ -94,8 +94,8 @@
 
   delete:
     tags:
-      - Structures - Médias sociaux
-    summary: Retirer un média social de la structure
+      - Structures - SocialMedias
+    summary: Delete a structure social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
@@ -113,8 +113,8 @@
 
   patch:
     tags:
-      - Structures - Médias sociaux
-    summary: Modifier un média social de la structure
+      - Structures - SocialMedias
+    summary: Update a structure social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'

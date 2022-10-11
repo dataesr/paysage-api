@@ -1,13 +1,15 @@
 post:
   tags:
-    - Authentification
-  summary: Sign a user in.
-           Not passing X-Paysage-OTP returns 401 but triggers a new email with OTP.
+    - Authentication
+  summary: Sign a user in with credentials.
+  description: |
+    Not passing X-Paysage-OTP returns 202 and triggers a new email with OTP.
+    You may set X-Paysage-OTP-Method to change otp method although paysage only accepts the method 'email'
   security: []
   parameters:
     - in: header
       name: X-Paysage-OTP
-      description: Use X-Paysage-OTP header to provide user's one-time-password
+      description: Use X-Paysage-OTP header to provide user's OTP
       schema:
         type: string
         pattern: '^[0-9]{6}$'
@@ -21,7 +23,7 @@ post:
         enum:
           - 'email'
   requestBody:
-    description: Required user info for signin
+    description: Required user credentials for signing in.
     content:
       application/json:
         schema:
@@ -34,6 +36,15 @@ post:
         application/json:
           schema:
             $ref: '../../api.yml#/components/schemas/Tokens'
+    '202':
+      description: An email with an OTP has been sent.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
     '400':
       $ref: '../../api.yml#/components/responses/BadRequest'
     '401':

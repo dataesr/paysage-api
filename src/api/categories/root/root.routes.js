@@ -32,6 +32,12 @@ router.route(`/${resource}/:id`)
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ])
+  .put([
+    createContext,
+    setPutIdInContext(resource),
+    controllers.create(repository, readQuery),
+    saveInElastic(repository, elasticQuery, resource),
+  ])
   .delete([
     patchContext,
     canIDelete,

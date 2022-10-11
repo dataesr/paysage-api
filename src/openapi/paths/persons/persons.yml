@@ -1,8 +1,8 @@
-/persons:
+collectionMethods:
   get:
     tags:
-      - Personnes
-    summary: Lister les personnes
+      - Persons
+    summary: List all persons
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Personnes
-    summary: Créer une personne
+      - Persons
+    summary: Create a new person
     requestBody:
       content:
         application/json:
@@ -61,11 +61,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/persons/{personId}:
+documentMethods:
   get:
     tags:
-      - Personnes
-    summary: Obtenir le détail d'une personne
+      - Persons
+    summary: Get a person by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
     responses:
@@ -84,28 +84,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-  delete:
-    tags:
-      - Personnes
-    summary: Supprimer une personne
-    parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
-    responses:
-      '204':
-        description: No content
-      '401':
-        $ref: '../../api.yml#/components/responses/Unauthorized'
-      '403':
-        $ref: '../../api.yml#/components/responses/Forbidden'
-      '404':
-        $ref: '../../api.yml#/components/responses/NotFound'
-      '500':
-        $ref: '../../api.yml#/components/responses/ServerError'
 
   patch:
     tags:
-      - Personnes
-    summary: Modifier une personne
+      - Persons
+    summary: Update a person by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
     requestBody:
@@ -131,10 +114,28 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
+  delete:
+    tags:
+      - Persons
+    summary: Delete a person by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/personId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
   put:
     tags:
-      - Personnes
-    summary: Créer une personne avec un identifiant.
+      - Persons
+    summary: Create a new person with ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
     requestBody:

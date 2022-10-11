@@ -7,6 +7,7 @@ export const followups = 'follow-ups';
 export const groups = 'groups';
 export const groupMembers = 'members';
 export const identifiers = 'identifiers';
+export const keynumbers = 'keynumbers';
 export const legalcategories = 'legal-categories';
 export const localisations = 'localisations';
 export const logos = 'logos';

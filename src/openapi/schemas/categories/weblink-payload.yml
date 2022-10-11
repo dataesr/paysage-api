@@ -1,5 +1,3 @@
-title: CategoryWeblinkPayload
-description: Représentation d'un lien web d'une structure
 type: object
 properties:
   type:

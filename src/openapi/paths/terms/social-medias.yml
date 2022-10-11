@@ -1,8 +1,8 @@
-/terms/{termId}/social-medias:
+collectionMethods:
   get:
     tags:
-      - Termes - Médias sociaux
-    summary: Lister les médias sociaux d'un terme
+      - Terms - SocialMedias
+    summary: List all term social media
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Termes - Médias sociaux
-    summary: Ajouter un média social à la terme
+      - Terms - SocialMedias
+    summary: Add a new social media to the term
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
     requestBody:
@@ -68,11 +68,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/terms/{termId}/social-medias/{socialmediaId}:
+documentMethods:
   get:
     tags:
-      - Termes - Médias sociaux
-    summary: Obtenir le détail d'un media social d'un terme
+      - Terms - SocialMedias
+    summary: Get a term social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
@@ -94,8 +94,8 @@
 
   delete:
     tags:
-      - Termes - Médias sociaux
-    summary: Retirer un média social du terme
+      - Terms - SocialMedias
+    summary: Delete a term social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
@@ -113,8 +113,8 @@
 
   patch:
     tags:
-      - Termes - Médias sociaux
-    summary: Modifier un média social de la terme
+      - Terms - SocialMedias
+    summary: Update a term social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
       - $ref: '../../api.yml#/components/parameters/socialmediaId'
