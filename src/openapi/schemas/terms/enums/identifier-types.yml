@@ -1,0 +1,8 @@
+description: Valeurs possibles pour un type d'identifiant d'un terme
+type: string
+enum:
+  - Wikidata
+  - PSUPT
+  - idRef
+  - ISO2
+  - ISO3
