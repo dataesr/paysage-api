@@ -1,10 +1,10 @@
 import metas from './metas.query';
-import relatedObjectsQuery from './related-objects.query';
+import { relatedObjectsListLookup } from './related-object.query';
 import documentTypeLightQuery from './document-types.light.query';
 
 export default [
   ...metas,
-  ...relatedObjectsQuery,
+  ...relatedObjectsListLookup,
   {
     $lookup: {
       from: 'documenttypes',

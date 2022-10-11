@@ -9,3 +9,9 @@ properties:
     type: string
   nameEn:
     type: string
+  displayName:
+    type: string
+  collection:
+    type: string
+  href:
+    type: string

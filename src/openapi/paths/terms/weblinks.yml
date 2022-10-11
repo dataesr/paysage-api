@@ -1,8 +1,8 @@
-/terms/{termId}/weblinks:
+collectionMethods:
   get:
     tags:
-      - Termes - Liens web
-    summary: Lister les liens web du terme
+      - Terms - Weblinks
+    summary: List all term's weblinks
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Termes - Liens web
-    summary: Ajouter un lien web au terme
+      - Terms - Weblinks
+    summary: Add a new weblink to the term
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
     requestBody:
@@ -69,11 +69,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/terms/{termId}/weblinks/{weblinkId}:
+documentMethods:
   get:
     tags:
-      - Termes - Liens web
-    summary: Obtenir le détail d'un lien web du terme
+      - Terms - Weblinks
+    summary: Get a term weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -95,8 +95,8 @@
 
   delete:
     tags:
-      - Termes - Liens web
-    summary: Retirer un lien web du terme
+      - Terms - Weblinks
+    summary: Delete a term weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -114,8 +114,8 @@
 
   patch:
     tags:
-      - Termes - Liens web
-    summary: Modifier un lien web du terme
+      - Terms - Weblinks
+    summary: Update a term weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'

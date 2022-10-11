@@ -1,8 +1,8 @@
-/persons/{personId}/weblinks:
+collectionMethods:
   get:
     tags:
-      - Personnes - Liens web
-    summary: Lister les liens web de la personne
+      - Persons - Weblinks
+    summary: List all person's weblinks
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Personnes - Liens web
-    summary: Ajouter un lien web à la personne
+      - Persons - Weblinks
+    summary: Add a person's weblink
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
     requestBody:
@@ -69,11 +69,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/persons/{personId}/weblinks/{weblinkId}:
+documentMethods:
   get:
     tags:
-      - Personnes - Liens web
-    summary: Obtenir le détail d'un lien web de la personne
+      - Persons - Weblinks
+    summary: Get a person's weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -95,8 +95,8 @@
 
   delete:
     tags:
-      - Personnes - Liens web
-    summary: Retirer un lien web de la personne
+      - Persons - Weblinks
+    summary: Delete a person's weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'
@@ -114,8 +114,8 @@
 
   patch:
     tags:
-      - Personnes - Liens web
-    summary: Modifier un lien web de la personne
+      - Persons - Weblinks
+    summary: Update a person's weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/weblinkId'

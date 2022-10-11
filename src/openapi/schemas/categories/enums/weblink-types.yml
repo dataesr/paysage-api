@@ -1,4 +1,4 @@
-description: Valeurs possibles pour un type de lien web de categorie.
+description: Possible values for category's weblinks
 type: string
 enum:
   - CanalU

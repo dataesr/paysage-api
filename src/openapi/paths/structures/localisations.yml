@@ -1,8 +1,8 @@
-/structures/{structureId}/localisations:
+collectionMethods:
   get:
     tags:
       - Structures - Localisations
-    summary: Lister les localisations d'une structure
+    summary: List all structure's localisations
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -37,7 +37,7 @@
   post:
     tags:
       - Structures - Localisations
-    summary: Ajouter une localisation à la structure
+    summary: Add a new localisation to the structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -67,11 +67,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/localisations/{localisationId}:
+documentMethods:
   get:
     tags:
       - Structures - Localisations
-    summary: Obtenir le détail d'une localisation de structure
+    summary: Get a structure localisation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/localisationId'
@@ -94,7 +94,7 @@
   delete:
     tags:
       - Structures - Localisations
-    summary: Retirer une localisation de la structure
+    summary: Delete a structure localisation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/localisationId'
@@ -113,7 +113,7 @@
   patch:
     tags:
       - Structures - Localisations
-    summary: Modifier une localisation de la structure
+    summary: Update a structure localisation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/localisationId'

@@ -1,8 +1,8 @@
-/legal-categories:
+collectionMethods:
   get:
     tags:
-      - Catégories juridiques
-    summary: Lister les catégories juridiques
+      - Legal categories
+    summary: List all legal categories
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -33,8 +33,8 @@
 
   post:
     tags:
-      - Catégories juridiques
-    summary: Créer une catégorie juridique
+      - Legal categories
+    summary: Create a new legal category
     requestBody:
       content:
         application/json:
@@ -61,11 +61,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/legal-categories/{legalCategoryId}:
+documentMethods:
   get:
     tags:
-      - Catégories juridiques
-    summary: Obtenir le détail d'une catégorie juridique
+      - Legal categories
+    summary: Get a legal category by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/legalCategoryId'
     responses:
@@ -86,8 +86,8 @@
 
   delete:
     tags:
-      - Catégories juridiques
-    summary: Supprimer une catégorie juridique
+      - Legal categories
+    summary: Delete a legal category by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/legalCategoryId'
     responses:
@@ -104,8 +104,8 @@
 
   patch:
     tags:
-      - Catégories juridiques
-    summary: Modifier une catégorie juridique
+      - Legal categories
+    summary: Update a legal category by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/legalCategoryId'
     requestBody:
@@ -133,8 +133,8 @@
 
   put:
     tags:
-      - Catégories juridiques
-    summary: Créer une catégorie juridique avec un identifiant.
+      - Legal categories
+    summary: Create a new legal category with an ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/legalCategoryId'
     requestBody:

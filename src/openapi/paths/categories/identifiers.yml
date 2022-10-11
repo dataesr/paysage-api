@@ -1,8 +1,8 @@
-/categories/{categoryId}/identifiers:
+collectionMethods:
   get:
     tags:
-      - Catégories - Identifiants
-    summary: Lister les identifiants d'une categorie
+      - Categories - Identifiers
+    summary: List all category's identifiers
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Catégories - Identifiants
-    summary: Ajouter un identifiant à la categorie
+      - Categories - Identifiers
+    summary: Add an new identifier to the category
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
     requestBody:
@@ -70,11 +70,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/categories/{categoryId}/identifiers/{identifierId}:
+documentMethods:
   get:
     tags:
-      - Catégories - Identifiants
-    summary: Obtenir le détail d'un identifiant de catégorie
+      - Categories - Identifiers
+    summary: Get a category's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/identifierId'
@@ -96,8 +96,8 @@
 
   delete:
     tags:
-      - Catégories - Identifiants
-    summary: Retirer un identifiant de la catégorie
+      - Categories - Identifiers
+    summary: Delete a category's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/identifierId'
@@ -115,8 +115,8 @@
 
   patch:
     tags:
-      - Catégories - Identifiants
-    summary: Modifier un identifiant de la catégorie
+      - Categories - Identifiers
+    summary: Update a category's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/categoryId'
       - $ref: '../../api.yml#/components/parameters/identifierId'

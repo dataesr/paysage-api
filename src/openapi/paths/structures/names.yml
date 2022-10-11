@@ -1,8 +1,8 @@
-/structures/{structureId}/names:
+collectionMethods:
   get:
     tags:
-      - Structures - Noms
-    summary: Lister les noms d'une structure
+      - Structures - Names
+    summary: List all structure's names
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Structures - Noms
-    summary: Ajouter un nom à la structure
+      - Structures - Names
+    summary: Add a new name to the structure
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
     requestBody:
@@ -68,11 +68,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/structures/{structureId}/names/{nameId}:
+documentMethods:
   get:
     tags:
-      - Structures - Noms
-    summary: Obtenir le détail d'un nom de structure
+      - Structures - Names
+    summary: Get a structure name by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/nameId'
@@ -95,8 +95,8 @@
 
   delete:
     tags:
-      - Structures - Noms
-    summary: Retirer un nom de la structure
+      - Structures - Names
+    summary: Delete a structure name by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/nameId'
@@ -114,8 +114,8 @@
 
   patch:
     tags:
-      - Structures - Noms
-    summary: Modifier un nom de la structure
+      - Structures - Names
+    summary: Update a structure name by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/structureId'
       - $ref: '../../api.yml#/components/parameters/nameId'

@@ -1,7 +1,7 @@
 Me:
   get:
     tags:
-      - Utilisateurs
+      - Users
     summary: Get current user data
     responses:
       '200':
@@ -16,7 +16,7 @@ Me:
         $ref: '../../api.yml#/components/responses/ServerError'
   patch:
     tags:
-      - Utilisateurs
+      - Users
     summary: Update current user data
     requestBody:
       content:
@@ -43,7 +43,7 @@ Me:
         $ref: '../../api.yml#/components/responses/ServerError'
   delete:
     tags:
-      - Utilisateurs
+      - Users
     summary: Delete current user data
     responses:
       '204':
@@ -55,7 +55,7 @@ Me:
 Avatar:
   put:
     tags:
-      - Utilisateurs
+      - Users
     summary: Change user avatar
     requestBody:
       content:
@@ -82,7 +82,7 @@ Avatar:
 
   delete:
     tags:
-      - Utilisateurs
+      - Users
     summary: Delete user avatar
     responses:
       '200':
@@ -95,10 +95,11 @@ Avatar:
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
+
 Password:
   put:
     tags:
-      - Utilisateurs
+      - Users
     summary: Change user password
     requestBody:
       content:

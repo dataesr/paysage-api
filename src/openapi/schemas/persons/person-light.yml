@@ -19,14 +19,9 @@ properties:
       - Femme
       - Autre
       - null
-  birthDate:
+  displayName:
     type: string
-    nullable: true
-    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
-  deathDate:
+  collection:
     type: string
-    nullable: true
-    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
-  activity:
+  href:
     type: string
-    nullable: true

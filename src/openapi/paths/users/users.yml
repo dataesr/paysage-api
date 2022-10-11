@@ -1,8 +1,8 @@
-Users:
+collectionMethods:
   get:
     tags:
-      - Utilisateurs
-    summary: List users
+      - Users
+    summary: List all users
     parameters:
       - $ref: ../../api.yml#/components/parameters/filters
       - $ref: ../../api.yml#/components/parameters/skip
@@ -27,11 +27,11 @@ Users:
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-Users-Admin:
+collectionAdminMethods:
   get:
     tags:
-      - Utilisateurs
-    summary: List users
+      - Users
+    summary: List all users
     parameters:
       - $ref: ../../api.yml#/components/parameters/filters
       - $ref: ../../api.yml#/components/parameters/skip
@@ -56,11 +56,11 @@ Users-Admin:
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-User-Admin:
+documentAdminMethods:
   delete:
     tags:
-      - Utilisateurs
-    summary: Delete a user
+      - Users
+    summary: Delete a user by ID
     parameters:
       - $ref: ../../api.yml#/components/parameters/userId
     responses:
@@ -77,8 +77,8 @@ User-Admin:
 
   patch:
     tags:
-      - Utilisateurs
-    summary: Mise à jour d'un utilisateur
+      - Users
+    summary: Update a user by ID
     parameters:
       - $ref: ../../api.yml#/components/parameters/userId
     requestBody:
@@ -105,11 +105,11 @@ User-Admin:
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-User-Admin-Confirm:
+documentAdminConfirmMethod:
   put:
     tags:
-      - Utilisateurs
-    summary: Activer le compte d'un utilisateur
+      - Users
+    summary: Activate a user account
     parameters:
       - $ref: ../../api.yml#/components/parameters/userId
     responses:

@@ -46,13 +46,12 @@ properties:
   descriptionEn:
     type: string
     nullable: true
-  academicYear:
+  year:
     type: string
     nullable: true
   exercice:
-    type: integer
+    type: string
     nullable: true
-    pattern: '^[0-9]{4}$'
   netAccountingResult:
     type: number
     nullable: true

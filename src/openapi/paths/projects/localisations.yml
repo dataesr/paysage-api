@@ -1,8 +1,8 @@
-/projects/{projectId}/localisations:
+collectionMethods:
   get:
     tags:
-      - Projets - Localisations
-    summary: Lister les localisations d'un projet
+      - Projects - Localisations
+    summary: List all project's localisations
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/filters'
@@ -36,8 +36,8 @@
 
   post:
     tags:
-      - Projets - Localisations
-    summary: Ajouter une localisation au projet
+      - Projects - Localisations
+    summary: Add a new localisation to the project
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
     requestBody:
@@ -67,11 +67,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/projects/{projectId}/localisations/{localisationId}:
+documentMethods:
   get:
     tags:
-      - Projets - Localisations
-    summary: Obtenir le détail d'une localisation de projet
+      - Projects - Localisations
+    summary: Get a project's localisation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/localisationId'
@@ -93,8 +93,8 @@
 
   delete:
     tags:
-      - Projets - Localisations
-    summary: Retirer une localisation du projet
+      - Projects - Localisations
+    summary: Delete project's localisation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/localisationId'
@@ -112,8 +112,8 @@
 
   patch:
     tags:
-      - Projets - Localisations
-    summary: Modifier une localisation du projet
+      - Projects - Localisations
+    summary: Update project's localisation by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/projectId'
       - $ref: '../../api.yml#/components/parameters/localisationId'
