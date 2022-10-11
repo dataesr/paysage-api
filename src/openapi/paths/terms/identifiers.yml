@@ -1,4 +1,4 @@
-/terms/{termId}/identifiers:
+collectionMethods:
   get:
     tags:
       - Termes - Identifiants
@@ -70,11 +70,11 @@
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
-/terms/{termId}/identifiers/{identifierId}:
+documentMethods:
   get:
     tags:
-      - Termes - Identifiants
-    summary: Obtenir le détail d'un identifiant de catégorie
+      - Termes - Identifiers
+    summary: Get a term's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
       - $ref: '../../api.yml#/components/parameters/identifierId'

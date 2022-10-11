@@ -176,12 +176,11 @@ paths:
   '/terms':
     $ref: './paths/terms/terms.yml#/collectionMethods'
   '/terms/{termId}':
-    $ref: './paths/terms/terms.yml#/~1terms~1{termId}'
-  '/terms/{termId}/identifiers':
-    $ref: './paths/terms/identifiers.yml#/~1terms~1{termId}~1identifiers'
-  '/terms/{termId}/identifiers/{identifierId}':
-    $ref: './paths/terms/identifiers.yml#/~1terms~1{termId}~1identifiers~1{identifierId}'
     $ref: './paths/terms/terms.yml#/documentMethods'
+  '/terms/{termId}/identifiers':
+    $ref: './paths/terms/identifiers.yml#/collectionMethods'
+  '/terms/{termId}/identifiers/{identifierId}':
+    $ref: './paths/terms/identifiers.yml#/documentMethods'
   '/terms/{termId}/weblinks':
     $ref: './paths/terms/weblinks.yml#/collectionMethods'
   '/terms/{termId}/weblinks/{weblinkId}':
