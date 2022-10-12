@@ -1,62 +1,99 @@
 import logger from '../services/logger.service';
 import { db } from '../services/mongo.service';
 
+const getODSUrl = (dataset) => `https://data.enseignementsup-recherche.gouv.fr/explore/dataset/${dataset}/download/?format=json`;
+
 const backupData = async (job, done) => {
   logger.info('Backup data');
   const datasets = [{
-    url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-operateurs-indicateurs-financiers/download/?format=json&timezone=Europe/Berlin&lang=en',
-    datasetName: 'finance',
+    id: 'fr-esr-operateurs-indicateurs-financiers',
+    name: 'finance',
     field: 'resultat_net_comptable',
     fieldName: 'netAccountingResult',
-    paysageIdField: 'etablissement_id_paysage',
+    paysageIdField: ['etablissement_id_paysage'],
     sortField: 'exercice',
     sortFieldName: 'exercice',
   }, {
-    url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-statistiques-sur-les-effectifs-d-etudiants-inscrits-par-etablissement-pay/download/?format=json&timezone=Europe/Berlin&lang=en',
-    datasetName: 'population',
+    id: 'fr-esr-statistiques-sur-les-effectifs-d-etudiants-inscrits-par-etablissement-pay',
+    name: 'population',
     field: 'effectif',
     fieldName: 'population',
-    paysageIdField: 'etablissement_id_paysage',
+    paysageIdField: ['etablissement_id_paysage'],
     sortField: 'annee',
     sortFieldName: 'year',
   }, {
-    url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-patrimoine-immobilier-des-operateurs-de-l-enseignement-superieur/download/?format=json&timezone=Europe/Berlin&lang=en',
-    datasetName: 'real-estate',
-    paysageIdField: 'paysage_id',
+    id: 'fr-esr-insertion_professionnelle_widget',
+    name: 'inserpro',
+    paysageIdField: ['id_paysage'],
+    // }, {
+    //   url: 'fr-esr-insertion-professionnelle-des-diplomes-doctorat-par-etablissement',
+    //   name: 'inserpro-phd',
   }, {
-    url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-cartographie_formations_parcoursup/download/?format=json&timezone=Europe/Berlin&lang=en',
-    datasetName: 'education',
-    paysageIdField: 'etablissement_id_paysage',
+    id: 'fr-esr-piaweb',
+    name: 'piaweb',
+    paysageIdField: ['etablissement_id_paysage', 'etablissement_coordinateur'],
   }, {
-    url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-tmm-donnees-du-portail-dinformation-trouver-mon-master-parcours-de-format/download/?format=json&timezone=Europe/Berlin&lang=en',
-    datasetName: 'master',
-    paysageIdField: 'etablissement_id_paysage',
+    id: 'piaweb_paysage',
+    name: 'piaweb-paysage',
+    paysageIdField: ['etablissement_id_paysage'],
   }, {
-    url: 'https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-tmm-donnees-du-portail-dinformation-trouver-mon-master-mentions-de-master/download/?format=json&timezone=Europe/Berlin&lang=en',
-    datasetName: 'master-mentions',
-    paysageIdField: 'etablissement_id_paysage',
+    // Download might fail with "Unexpected end of JSON input" error if not enough RAM
+    id: 'fr-esr-sise-effectifs-d-etudiants-inscrits-esr-public',
+    name: 'population-sise',
+    paysageIdField: ['etablissement_id_paysage'],
+  }, {
+    id: 'fr-esr-statistiques-sur-les-effectifs-d-etudiants-inscrits-par-etablissement',
+    name: 'population-statistics',
+    paysageIdField: ['etablissement_id_paysage'],
+  }, {
+    // Download might fail with "Unexpected end of JSON input" error if not enough RAM
+    id: 'fr-esr-principaux-diplomes-et-formations-prepares-etablissements-publics',
+    name: 'qualifications',
+    paysageIdField: ['etablissement_id_paysage'],
+  }, {
+    id: 'fr-esr-patrimoine-immobilier-des-operateurs-de-l-enseignement-superieur',
+    name: 'real-estate',
+    paysageIdField: ['paysage_id'],
+  }, {
+    id: 'fr-esr-tmm-donnees-du-portail-dinformation-trouver-mon-master-mentions-de-master',
+    name: 'tmm-mentions',
+    paysageIdField: ['etablissement_id_paysage'],
+  }, {
+    id: 'fr-esr-tmm-donnees-du-portail-dinformation-trouver-mon-master-parcours-de-format',
+    name: 'tmm-trainings',
+    paysageIdField: ['etablissement_id_paysage'],
+  }, {
+    id: 'fr-esr-cartographie_formations_parcoursup',
+    name: 'tranings',
+    paysageIdField: ['etablissement_id_paysage', 'composante_id_paysage'],
   }];
   datasets.forEach(async (dataset) => {
-    const response = await fetch(dataset.url, { headers: { Authorization: `Apikey ${process.env.ODS_API_KEY}` } });
-    const data = await response.json();
-    const operationsKeyNumbers = data?.length && data
-      // Check that the paysage id is set
+    const url = getODSUrl(dataset.id);
+    let data = [];
+    try {
+      const response = await fetch(url, { headers: { Authorization: `Apikey ${process.env.ODS_API_KEY}` } });
+      data = await response.json();
+    } catch (e) {
+      console.log(`Error while loading data from ${url}`);
+      console.log(e);
+    }
+    const operationsKeyNumbers = data
       .filter((item) => item?.fields?.[dataset?.paysageIdField])
       .map((item) => {
-        // Split paysage ids if multi-valuated
-        const paysageIds = item.fields[dataset.paysageIdField].split(',');
+        const paysageIds = dataset.paysageIdField.map((field) => item.fields?.[field]).map((id) => id.split(',')).flat();
         return paysageIds.map((paysageId) => ({
           updateOne: {
             filter: { id: { $eq: item.recordid } },
-            update: { $set: { ...item.fields, id: item.recordid, dataset: dataset.datasetName, resourceId: paysageId, updatedAt: new Date() } },
+            update: { $set: { ...item.fields, id: item.recordid, dataset: dataset.name, resourceId: paysageId, updatedAt: new Date() } },
             upsert: true,
           },
         }));
       }).flat();
-    let operationsStructures = false;
+    let operationsStructures = [];
     if (dataset?.field) {
       const uniqueStructures = [];
-      operationsStructures = data?.length && data
+      operationsStructures = data
+        .filter((item) => item?.fields?.[dataset?.sortField])
         .sort((a, b) => (b.fields[dataset.sortField] - a.fields[dataset.sortField]))
         .filter((item) => {
           if (!uniqueStructures.includes(item.fields[dataset.paysageIdField])) {
@@ -81,11 +118,13 @@ const backupData = async (job, done) => {
         });
     }
     try {
-      await db.collection('keynumbers').bulkWrite(operationsKeyNumbers, { ordered: false });
-      if (operationsStructures) {
+      if (operationsKeyNumbers?.length) {
+        await db.collection('keynumbers').bulkWrite(operationsKeyNumbers, { ordered: false });
+      }
+      if (operationsStructures?.length) {
         await db.collection('structures').bulkWrite(operationsStructures, { ordered: false });
       }
-      logger.info('Data setup successful');
+      logger.info(`Data setup successful for dataset ${dataset.name}`);
       done();
     } catch (e) {
       logger.error({ message: 'Data setup failed' });
