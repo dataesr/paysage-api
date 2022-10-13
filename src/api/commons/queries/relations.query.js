@@ -1,12 +1,13 @@
 import metas from './metas.query';
 import officialtextLightQuery from './officialtexts.light.query';
 import relationTypesLightQuery from './relation-types.light.query';
-import { relatedObjectLookup, resourceLookup } from './related-object.query';
+import { relatedObjectLookup, resourceLookup, associatedObjectsListLookup } from './related-object.query';
 
 export default [
-  ...metas,
   ...relatedObjectLookup,
   ...resourceLookup,
+  ...associatedObjectsListLookup,
+  ...metas,
   {
     $lookup: {
       from: 'relationtypes',
@@ -41,6 +42,10 @@ export default [
     $project: {
       _id: 0,
       id: 1,
+      createdBy: 1,
+      updatedBy: 1,
+      createdAt: 1,
+      updatedAt: 1,
       resourceId: 1,
       resource: 1,
       relationsGroupId: 1,
@@ -50,10 +55,13 @@ export default [
       endDateOfficialText: 1,
       startDate: { $ifNull: ['$startDate', null] },
       endDate: { $ifNull: ['$endDate', null] },
-      createdBy: 1,
-      updatedBy: 1,
-      createdAt: 1,
-      updatedAt: 1,
+      mandatePosition: { $ifNull: ['$mandatePosition', null] },
+      mandateReason: { $ifNull: ['$mandateReason', null] },
+      mandateEmail: { $ifNull: ['$mandateEmail', null] },
+      mandateTemporary: { $ifNull: ['$mandateTemporary', null] },
+      mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
+      otherAssociatedObjectIds: { $ifNull: ['$otherAssociatedObjectIds', []] },
+      otherAssociatedObjects: 1,
     },
   },
 ];

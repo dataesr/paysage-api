@@ -1,4 +1,7 @@
 type: object
+required:
+  - relatedObjectId
+  - resourceId
 properties:
   resourceId:
     type: string
@@ -20,6 +23,14 @@ properties:
   relationTag:
     type: string
     nullable: true
+  otherAssociatedObjectIds:
+    type: array
+    items:
+      type: string
+  otherAssociatedObjects:
+    type: array
+    items:
+      type: object
   startDateOfficialTextId:
     type: string
     pattern: '^[a-zA-Z0-9]{15}$'
