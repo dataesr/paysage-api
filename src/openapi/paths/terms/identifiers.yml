@@ -1,16 +1,17 @@
 collectionMethods:
   get:
     tags:
-      - Categories
-    summary: List all categories
+      - Termes - Identifiants
+    summary: Lister les identifiants d'un terme
     parameters:
-        - $ref: '../../api.yml#/components/parameters/filters'
-        - $ref: '../../api.yml#/components/parameters/skip'
-        - $ref: '../../api.yml#/components/parameters/limit'
-        - $ref: '../../api.yml#/components/parameters/sort'
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -19,62 +20,71 @@ collectionMethods:
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/Category'
+                    $ref: '../../api.yml#/components/schemas/TermIdentifier'
                 totalCount:
-                  type: number
+                  type: integer
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
   post:
     tags:
-      - Categories
-    summary: Create a new category
+      - Termes - Identifiants
+    summary: Ajouter un identifiant au terme
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/termId'
     requestBody:
       content:
         application/json:
           schema:
-            title: CreateCategory
+            title: termIdentifierPayLoad
             type: object
             required:
-              - usualNameFr
+              - type
+              - value
+              - active
             allOf:
-              - $ref: '../../api.yml#/components/schemas/CategoryPayload'
+              - $ref: '../../api.yml#/components/schemas/TermIdentifierPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Category'
+              $ref: '../../api.yml#/components/schemas/TermIdentifier'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
         $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
 
 documentMethods:
   get:
     tags:
-      - Categories
-    summary: Get a category by ID
+      - Termes - Identifiers
+    summary: Get a term's identifier by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/categoryId'
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/identifierId'
     responses:
       '200':
-        description: OK
+        description: Success
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Category'
+              $ref: '../../api.yml#/components/schemas/TermIdentifier'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -86,10 +96,11 @@ documentMethods:
 
   delete:
     tags:
-      - Categories
-    summary: Delete a category by ID
+      - Termes - Identifiants
+    summary: Retirer un identifiant du terme
     parameters:
-      - $ref: '../../api.yml#/components/parameters/categoryId'
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/identifierId'
     responses:
       '204':
         description: No content
@@ -104,22 +115,23 @@ documentMethods:
 
   patch:
     tags:
-      - Categories
-    summary: Update a category by ID
+      - Termes - Identifiants
+    summary: Modifier un identifiant du terme
     parameters:
-      - $ref: '../../api.yml#/components/parameters/categoryId'
+      - $ref: '../../api.yml#/components/parameters/termId'
+      - $ref: '../../api.yml#/components/parameters/identifierId'
     requestBody:
       content:
         application/json:
           schema:
-              $ref: '../../api.yml#/components/schemas/CategoryPayload'
+            $ref: '../../api.yml#/components/schemas/TermIdentifierPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Category'
+              $ref: '../../api.yml#/components/schemas/TermIdentifier'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -128,32 +140,5 @@ documentMethods:
         $ref: '../../api.yml#/components/responses/Forbidden'
       '404':
         $ref: '../../api.yml#/components/responses/NotFound'
-      '500':
-        $ref: '../../api.yml#/components/responses/ServerError'
-
-  put:
-    tags:
-      - Categories
-    summary: Create a new category with an ID.
-    parameters:
-      - $ref: '../../api.yml#/components/parameters/categoryId'
-    requestBody:
-      content:
-          application/json:
-            schema:
-              $ref: '../../api.yml#/components/schemas/CategoryPayload'
-    responses:
-      '201':
-        description: Created
-        content:
-          application/json:
-            schema:
-              $ref: '../../api.yml#/components/schemas/Category'
-      '400':
-        $ref: '../../api.yml#/components/responses/BadRequest'
-      '401':
-        $ref: '../../api.yml#/components/responses/Unauthorized'
-      '403':
-        $ref: '../../api.yml#/components/responses/Forbidden'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
