@@ -1,0 +1,144 @@
+collectionMethods:
+  get:
+    tags:
+      - Prices - Identifiers
+    summary: List all price's identifiers
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/PriceIdentifier'
+                totalCount:
+                  type: integer
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Prices - Identifiers
+    summary: Add a new price's identifier
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: PriceIdentifierPayLoad
+            type: object
+            required:
+              - type
+              - value
+              - active
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/PriceIdentifierPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/PriceIdentifier'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+documentMethods:
+  get:
+    tags:
+      - Prices - Identifiers
+    summary: Get a price's identifier by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/identifierId'
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/PriceIdentifier'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Prices - Identifiers
+    summary: Delete a price's identifier by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/identifierId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  patch:
+    tags:
+      - Prices - Identifiers
+    summary: Update a price's identifier by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/identifierId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../../api.yml#/components/schemas/PriceIdentifierPayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/PriceIdentifier'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

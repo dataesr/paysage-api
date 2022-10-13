@@ -1,0 +1,143 @@
+collectionMethods:
+  get:
+    tags:
+      - Prices - Weblinks
+    summary: List all price's weblinks
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/PriceWeblink'
+                totalCount:
+                  type: integer
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Prices - Weblinks
+    summary: Add a price's weblink
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: categoryWeblinkPayLoad
+            type: object
+            required:
+              - type
+              - url
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/PriceWeblinkPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/PriceWeblink'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+documentMethods:
+  get:
+    tags:
+      - Prices - Weblinks
+    summary: Get a price's weblink by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/weblinkId'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/PriceWeblink'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - Prices - Weblinks
+    summary: Delete a price's weblink by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/weblinkId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  patch:
+    tags:
+      - Prices - Weblinks
+    summary: Update a price's weblink by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/weblinkId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../../api.yml#/components/schemas/PriceWeblinkPayload'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/PriceWeblink'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

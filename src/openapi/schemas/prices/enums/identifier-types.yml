@@ -1,0 +1,4 @@
+description: Valeurs possibles pour un type d'identifiant d'un prix
+type: string
+enum:
+  - Wikidata
