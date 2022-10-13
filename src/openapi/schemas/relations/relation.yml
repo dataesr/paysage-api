@@ -19,6 +19,17 @@ allOf:
         $ref: '../../api.yml#/components/schemas/OfficialTextLight'
       endDateOfficialText:
         $ref: '../../api.yml#/components/schemas/OfficialTextLight'
+      otherAssociatedObjectIds:
+        type: array
+        items:
+          type: string
+          description: Associated object identifiers
+          pattern: '^[a-zA-Z0-9]{5}$'
+      otherAssociatedObjects:
+        type: array
+        items:
+          type: object
+          description: Associated objects
       relationTag:
         type: string
         nullable: true
@@ -50,7 +61,8 @@ allOf:
           - '1'
           - '2'
           - '3+'
-      mandateSpecifications:
+          - 'ND'
+      mandatePrecision:
         type: string
         nullable: true
   - $ref: '../../api.yml#/components/schemas/Metas'

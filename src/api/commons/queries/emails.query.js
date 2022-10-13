@@ -19,6 +19,7 @@ export default [
       id: 1,
       resourceId: 1,
       emailType: 1,
+      emailTypeId: 1,
       email: 1,
       createdBy: 1,
       createdAt: 1,
