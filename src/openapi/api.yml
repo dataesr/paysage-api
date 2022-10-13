@@ -237,6 +237,15 @@ paths:
     $ref: './paths/prices/prices.yml#/collectionMethods'
   '/prices/{priceId}':
     $ref: './paths/prices/prices.yml#/documentMethods'
+  '/prices/{priceId}/identifiers':
+    $ref: './paths/prices/identifiers.yml#/collectionMethods'
+  '/prices/{priceId}/identifiers/{identifierId}':
+    $ref: './paths/prices/identifiers.yml#/documentMethods'
+  '/prices/{priceId}/weblinks':
+    $ref: './paths/prices/weblinks.yml#/collectionMethods'
+  '/prices/{priceId}/weblinks/{weblinkId}':
+    $ref: './paths/prices/weblinks.yml#/documentMethods'
+
 
   ### PROJETS ###
   '/projects':
@@ -433,8 +442,12 @@ components:
       $ref: './schemas/persons/weblink.yml'
     Price:
       $ref: './schemas/prices/price.yml'
+    PriceIdentifier:
+      $ref: './schemas/prices/identifier.yml'
     PriceLight:
       $ref: './schemas/prices/price-light.yml'
+    PriceWeblink:
+      $ref: './schemas/prices/weblink.yml'
     Project:
       $ref: './schemas/projects/project.yml'
     ProjectLight:
@@ -540,6 +553,10 @@ components:
       $ref: './schemas/persons/weblink-payload.yml'
     PricePayload:
       $ref: './schemas/prices/price-payload.yml'
+    PriceIdentifierPayload:
+      $ref: './schemas/prices/identifier-payload.yml'
+    PriceWeblinkPayload:
+      $ref: './schemas/prices/weblink-payload.yml'
     ProjectPayload:
       $ref: './schemas/projects/project-payload.yml'
     ProjectWeblinkPayload:
@@ -595,6 +612,10 @@ components:
       $ref: './schemas/persons/enums/identifier-types.yml'
     PersonWeblinkTypesEnum:
       $ref: './schemas/persons/enums/weblink-types.yml'
+    PriceIdentifierTypesEnum:
+      $ref: './schemas/prices/enums/identifier-types.yml'
+    PriceWeblinkTypesEnum:
+      $ref: './schemas/prices/enums/weblink-types.yml'
     ProjectWeblinkTypesEnum:
       $ref: './schemas/projects/enums/weblink-types.yml'
     SocialmediaTypesEnum:
