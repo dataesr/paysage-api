@@ -1,0 +1,19 @@
+title: TermIdentifierPayload
+description: Modèle de création et de mise à jour d'un identifiant d'un terme
+additionalProperties: false
+type: object
+properties:
+  type:
+    $ref: ../../api.yml#/components/schemas/TermIdentifierTypesEnum
+  value:
+    type: string
+  active:
+    type: boolean
+  startDate:
+    type: string
+    nullable: true
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+  endDate:
+    type: string
+    nullable: true
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
