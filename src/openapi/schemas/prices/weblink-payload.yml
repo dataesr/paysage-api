@@ -1,0 +1,14 @@
+title: PriceWeblinkPayload
+description: Représentation d'un lien web d'un prix
+type: object
+properties:
+  type:
+    $ref: ../../api.yml#/components/schemas/PriceWeblinkTypesEnum
+  url:
+    type: string
+    format: uri
+  language:
+    type: string
+    description: Language of the web link on 2 letters
+    pattern: '^[a-zA-Z]{2}$'
+    nullable: true

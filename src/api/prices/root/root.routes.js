@@ -1,14 +1,13 @@
 import express from 'express';
 
-import { patchContext, createContext, setGeneratedObjectIdInContext, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
+import { createContext, patchContext, setGeneratedObjectIdInContext, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
-import { validatePayload } from '../../commons/middlewares/validate.middlewares';
-import elasticQuery from '../../commons/queries/persons.elastic';
-import readQuery from '../../commons/queries/persons.query';
-import { personsRepository as repository } from '../../commons/repositories';
-import { persons as resource } from '../../resources';
-import { canIDelete } from './root.middlewares';
+import elasticQuery from '../../commons/queries/prices.elastic';
+import readQuery from '../../commons/queries/prices.query';
+import { pricesRepository as repository } from '../../commons/repositories';
+import { prices as resource } from '../../resources';
+import { canIDelete, validatePayload } from './root.middlewares';
 
 const router = new express.Router();
 
@@ -25,6 +24,12 @@ router.route(`/${resource}`)
 
 router.route(`/${resource}/:id`)
   .get(controllers.read(repository, readQuery))
+  .put([
+    createContext,
+    setPutIdInContext(resource),
+    controllers.create(repository, readQuery),
+    saveInElastic(repository, elasticQuery, resource),
+  ])
   .patch([
     patchContext,
     validatePayload,
@@ -37,12 +42,6 @@ router.route(`/${resource}/:id`)
     canIDelete,
     controllers.softDelete(repository),
     saveInStore(resource),
-    saveInElastic(repository, elasticQuery, resource),
-  ])
-  .put([
-    createContext,
-    setPutIdInContext(resource),
-    controllers.create(repository, readQuery),
     saveInElastic(repository, elasticQuery, resource),
   ]);
 
