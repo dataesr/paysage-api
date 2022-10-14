@@ -28,6 +28,10 @@ export default [
       files: 1,
       relatedObjects: 1,
       relatesTo: 1,
+      createdBy: 1,
+      updatedBy: 1,
+      createdAt: 1,
+      updatedAt: 1,
     },
   },
 ];

@@ -27,5 +27,7 @@ post:
             $ref: '../../api.yml#/components/schemas/Tokens'
     '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
+    '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
     '500':
       $ref: '../../api.yml#/components/responses/ServerError'

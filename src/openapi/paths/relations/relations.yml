@@ -39,13 +39,7 @@ collectionMethods:
       content:
         application/json:
           schema:
-            title: CreateRelation
-            type: object
-            required:
-              - relatedObjectId
-              - resourceId
-            allOf:
-              - $ref: '../../api.yml#/components/schemas/RelationPayload'
+              $ref: '../../api.yml#/components/schemas/RelationPayload'
     responses:
       '201':
         description: Created
