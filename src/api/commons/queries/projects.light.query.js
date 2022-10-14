@@ -1,8 +1,6 @@
-import metas from './metas.query';
 import currentLocalisationQuery from './current-localisation.query';
 
 export default [
-  ...metas,
   ...currentLocalisationQuery,
   { $project:
     {
@@ -17,9 +15,5 @@ export default [
       startDate: { $ifNull: ['$startDate', null] },
       endDate: { $ifNull: ['$endDate', null] },
       currentLocalisation: 1,
-      createdBy: 1,
-      updatedBy: 1,
-      createdAt: 1,
-      updatedAt: 1,
     } },
 ];
