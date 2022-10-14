@@ -34,7 +34,7 @@ router.route('/autocomplete')
         },
       },
       _source: {
-        exclude: ['search'],
+        excludes: ['search'],
       },
       aggs: {
         byTypes: {
