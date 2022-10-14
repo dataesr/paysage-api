@@ -18,7 +18,7 @@ const ALLOWED_COLLECTIONS = [
   'structures',
   'persons',
   'terms',
-  'catgories',
+  'categories',
   'prices',
   'projects',
 ];
