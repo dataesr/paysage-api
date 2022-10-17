@@ -2,15 +2,15 @@ import parseSortParams from '../../commons/libs/helpers';
 import { db } from '../../../services/mongo.service';
 
 export function setFilters(req, res, next) {
-  const { dataset } = req.params;
+  const { dataset, resourceId } = req.params;
   if (!req.query.filters) { req.query.filters = {}; }
   req.query.filters.dataset = dataset;
+  req.query.filters.resourceId = resourceId;
   return next();
 }
 
 export async function find(req, res, next) {
-  const { query } = req;
-  const { filters = [], limit = 20, skip = 0, sort = null } = query;
+  const { filters = [], limit = 20, skip = 0, sort = null } = req?.query || {};
   const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
   const queryPipeline = [
     { $match: filters },
