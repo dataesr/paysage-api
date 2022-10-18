@@ -2,8 +2,8 @@ name: types
 in: query
 allowEmptyValue: true
 description: |
-  Les types d'objet à retourner, séparés par une virgule.
-  Les types acceptés sont "categories", "legal-categories", "official-texts", "persons", "prices", "projects", "structures", "terms" et "users".
+  Object types to filter on, comma separated.
+  Accepted types are: "categories", "legal-categories", "official-texts", "persons", "prices", "projects", "structures", "terms" and "users".
 schema:
   type: string
   example: '?types=persons,structures'

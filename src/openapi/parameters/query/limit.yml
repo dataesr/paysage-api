@@ -1,6 +1,6 @@
 name: limit
 in: query
-description: max records to return
+description: Maximum records to return
 schema:
   type: integer
   format: int32
