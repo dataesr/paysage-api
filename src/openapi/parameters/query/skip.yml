@@ -1,6 +1,6 @@
 name: skip
 in: query
-description: number of items to skip
+description: Number of items to skip
 schema:
   type: integer
   format: int32
