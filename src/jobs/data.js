@@ -77,7 +77,7 @@ const backupData = async (job, done) => {
       console.log(`Error while loading data from ${url}`);
       console.log(e);
     }
-    const operationsKeyNumbers = data
+    const operationsKeyNumbers = data?.length && data
       .filter((item) => item?.fields?.[dataset?.paysageIdField])
       .map((item) => {
         const paysageIds = dataset.paysageIdField.map((field) => item.fields?.[field]).map((id) => id.split(',')).flat();

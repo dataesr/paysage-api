@@ -38,4 +38,11 @@ allOf:
         items:
           type: string
           pattern: ^[a-zA-Z0-9]{5}$
+      isPublic:
+        type: boolean
+      canAccess:
+        type: array
+        items:
+          type: string
+          pattern: ^[a-zA-Z0-9]{15}$
   - $ref: '../../api.yml#/components/schemas/Metas'
