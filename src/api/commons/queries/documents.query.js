@@ -27,6 +27,8 @@ export default [
       documentTypeId: 1,
       files: 1,
       relatedObjects: 1,
+      isPublic: 1,
+      canAccess: 1,
       relatesTo: 1,
       createdBy: 1,
       updatedBy: 1,
