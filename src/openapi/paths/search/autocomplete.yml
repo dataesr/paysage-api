@@ -7,6 +7,7 @@
     parameters:
       - $ref: '../../api.yml#/components/parameters/limit'
       - $ref: '../../api.yml#/components/parameters/query'
+      - $ref: '../../api.yml#/components/parameters/start'
       - $ref: '../../api.yml#/components/parameters/types'
     responses:
       '200':
