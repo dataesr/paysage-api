@@ -20,42 +20,42 @@ tags:
   - name: Authentication
   - name: Categories
   - name: Categories - Identifiers
-  - name: Categories - Weblinks
   - name: Categories - SocialMedias
-  - name: Legal categories
+  - name: Categories - Weblinks
   - name: Documentation
   - name: Documents
-  - name: Follow-ups
+  - name: Document types
+  - name: Email types
   - name: Files
-  - name: User's groups
-  - name: Relations
-  - name: Supervising ministers
+  - name: Follow-ups
+  - name: Legal categories
+  - name: Official texts
   - name: Persons
   - name: Persons - Identifiers
-  - name: Persons - Weblinks
   - name: Persons - SocialMedias
+  - name: Persons - Weblinks
   - name: Prices
   - name: Projects
-  - name: Projects - Weblinks
   - name: Projects - Localisations
+  - name: Projects - Weblinks
+  - name: Relations
+  - name: Relation types
   - name: Search
   - name: Structures
   - name: Structures - Emails
-  - name: Structures - Key numbers
-  - name: Structures - Relations groups
   - name: Structures - Identifiers
-  - name: Structures - Weblinks
+  - name: Structures - Key numbers
   - name: Structures - Localisations
   - name: Structures - Logos
-  - name: Structures - SocialMedias
   - name: Structures - Names
+  - name: Structures - Relations groups
+  - name: Structures - SocialMedias
+  - name: Structures - Weblinks
+  - name: Supervising ministers
   - name: Terms
-  - name: Terms - Weblinks
   - name: Terms - SocialMedias
-  - name: Official texts
-  - name: Email types
-  - name: Document types
-  - name: Relation types
+  - name: Terms - Weblinks
+  - name: User's groups
   - name: Users
 
 security:
@@ -305,14 +305,14 @@ components:
       $ref: ./parameters/ids/document-id.yml
     documentTypeId:
       $ref: ./parameters/ids/document-type-id.yml
-    followUpId:
-      $ref: ./parameters/ids/followup-id.yml
     emailId:
       $ref: ./parameters/ids/email-id.yml
     emailTypeId:
       $ref: ./parameters/ids/email-type-id.yml
     filters:
       $ref: ./parameters/query/filters.yml
+    followUpId:
+      $ref: ./parameters/ids/followup-id.yml
     groupId:
       $ref: ./parameters/ids/group-id.yml
     identifierId:
@@ -331,10 +331,10 @@ components:
       $ref: ./parameters/ids/news-id.yml
     officialTextId:
       $ref: ./parameters/ids/official-text-id.yml
-    priceId:
-      $ref: ./parameters/ids/price-id.yml
     personId:
       $ref: ./parameters/ids/person-id.yml
+    priceId:
+      $ref: ./parameters/ids/price-id.yml
     projectId:
       $ref: ./parameters/ids/project-id.yml
     query:
@@ -343,12 +343,12 @@ components:
       $ref: ./parameters/ids/related-category-id.yml
     relatedLegalCategoryId:
       $ref: ./parameters/ids/related-legal-category-id.yml
-    relationshipId:
-      $ref: ./parameters/ids/relationship-id.yml
     relationId:
       $ref: ./parameters/ids/relation-id.yml
     relationsGroupId:
       $ref: ./parameters/ids/relations-group-id.yml
+    relationshipId:
+      $ref: ./parameters/ids/relationship-id.yml
     relationTypeId:
       $ref: ./parameters/ids/relation-type-id.yml
     skip:
@@ -357,6 +357,8 @@ components:
       $ref: ./parameters/ids/social-media-id.yml
     sort:
       $ref: ./parameters/query/sort.yml
+    start:
+      $ref: ./parameters/query/start.yml
     structureId:
       $ref: ./parameters/ids/structure-id.yml
     supervisingMinisterId:
@@ -384,10 +386,10 @@ components:
 
   schemas:
     ### MODELS ###
-    AutocompletionResults:
-      $ref: './schemas/search/autocomplete.yml'
     AutocompletionAggregation:
       $ref: './schemas/search/aggregation.yml'
+    AutocompletionResults:
+      $ref: './schemas/search/autocomplete.yml'
     Category:
       $ref: './schemas/categories/category.yml'
     CategoryIdentifier:
@@ -515,7 +517,6 @@ components:
     UserLight:
       $ref: ./schemas/users/user-light.yml
 
-
     ### PAYLOADS ###
     CategoryIdentifierPayload:
       $ref: './schemas/categories/identifier-payload.yml'
@@ -598,7 +599,6 @@ components:
     UserAdminPayload:
       $ref: ./schemas/users/user-admin-payload.yml
 
-
     ### ENUMS ###
     CategoryIdentifierTypesEnum:
       $ref: './schemas/categories/enums/identifier-types.yml'
@@ -629,7 +629,6 @@ components:
     TermIdentifierTypesEnum:
       $ref: './schemas/terms/enums/identifier-types.yml'
 
-    
     ### COMMON MODELS ###
     Error:
       $ref: './schemas/commons/error.yml'

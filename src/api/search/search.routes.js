@@ -13,7 +13,7 @@ const { index } = config.elastic;
 
 router.route('/autocomplete')
   .get(async (req, res, next) => {
-    const { query, types = '', limit = 10 } = req.query;
+    const { limit = 10, query, start = 0, types = '' } = req.query;
     const parsedTypes = types
       .split(',')
       .map((type) => type.trim())
@@ -34,7 +34,7 @@ router.route('/autocomplete')
         },
       },
       _source: {
-        exclude: ['search'],
+        excludes: ['search'],
       },
       aggs: {
         byTypes: {
@@ -43,6 +43,8 @@ router.route('/autocomplete')
           },
         },
       },
+      from: start,
+      size: limit,
     };
     if (query) {
       body.query.bool.must = [{ match: { search: query } }];
@@ -59,9 +61,7 @@ router.route('/autocomplete')
         ...hit._source,
       }))
       .reduce((prev, current) => (
-        (prev.map((item) => item.id).includes(current.id)) ? prev : [...prev, current]), [])
-      .sort((a, b) => b.score - a.score)
-      .slice(0, limit);
+        (prev.map((item) => item.id).includes(current.id)) ? prev : [...prev, current]), []);
     const buckets = esResults?.body?.aggregations?.byTypes?.buckets || [];
     const aggregation = buckets.map((bucket) => ({
       count: bucket.doc_count,

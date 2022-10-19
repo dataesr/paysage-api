@@ -1,0 +1,8 @@
+name: start
+in: query
+description: Offset
+schema:
+  type: integer
+  format: int32
+  default: 0
+  description: '?start=42'

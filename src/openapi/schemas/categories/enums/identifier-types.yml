@@ -2,3 +2,4 @@ description: Possible values for category's identifiers
 type: string
 enum:
   - Wikidata
+  - PSUPT
