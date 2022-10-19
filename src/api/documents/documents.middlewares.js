@@ -1,21 +1,34 @@
 import {
   BadRequestError,
-  // ForbiddenError
+  ForbiddenError,
 } from '../commons/http-errors';
 import {
   catalogRepository,
-  // documentsRepository,
+  documentsRepository,
   documentTypesRepository,
-  // usersRepository,
+  groupMembersRepository,
 } from '../commons/repositories';
 
-// export async function canUserEdit(req, res, next) {
-//   const { canEdit } = documentsRepository.find(req.params.id);
-//   const { id, groups = [] } = usersRepository.find(req.currentUser.id);
-//   const permissions = [id, ...groups].filter((x) => canEdit.indexOf(x) === -1);
-//   if (permissions.length) return next();
-//   throw new ForbiddenError();
-// }
+// TODO: authorize access for admins
+export async function forbidUnauthorizedUser(req, res, next) {
+  const { canAccess = [] } = await documentsRepository.find(req.params.id);
+  if (!canAccess.length) return next();
+  const groups = await groupMembersRepository.find({ userId: req.currentUser.id });
+  const groupsIds = groups?.map(((group) => group.groupId)) || [];
+  const permissions = groupsIds.filter((x) => canAccess.indexOf(x) === -1);
+  if (permissions.length) return next();
+  throw new ForbiddenError();
+}
+export async function setViewerFilter(req, res, next) {
+  const groups = await groupMembersRepository.find({ filters: { userId: req.currentUser.id } });
+  const groupsIds = (groups.data && groups?.data?.length) ? groups?.data?.map((group) => group.groupId) : [];
+  const viewerFilter = {
+    $or: [{ isPublic: true }, { canAccess: { $in: groupsIds } }],
+  };
+  req.query.filters = { $and: [viewerFilter, req.query.filters] };
+  return next();
+}
+
 export async function validatePayload(req, res, next) {
   if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
   const errors = [];

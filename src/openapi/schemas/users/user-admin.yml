@@ -34,4 +34,15 @@ allOf:
         enum:
           - user
           - admin
+      groups:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            acronym:
+              type: string
   - $ref: '../../api.yml#/components/schemas/Metas'
