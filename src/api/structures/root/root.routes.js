@@ -28,6 +28,7 @@ router.route(`/${resource}/:id`)
   .put([
     createContext,
     setPutIdInContext(resource),
+    fromPayloadToStructure,
     controllers.create(repository, readQuery),
     saveInElastic(repository, elasticQuery, resource),
   ])
