@@ -67,6 +67,7 @@ const backupData = async (job, done) => {
     name: 'tranings',
     paysageIdField: ['etablissement_id_paysage', 'composante_id_paysage'],
   }];
+
   datasets.forEach(async (dataset) => {
     const url = getODSUrl(dataset.id);
     let data = [];
@@ -74,8 +75,8 @@ const backupData = async (job, done) => {
       const response = await fetch(url, { headers: { Authorization: `Apikey ${process.env.ODS_API_KEY}` } });
       data = await response.json();
     } catch (e) {
-      console.log(`Error while loading data from ${url}`);
-      console.log(e);
+      logger.error(`Error while loading data from ${url}`);
+      logger.error(e);
     }
     const operationsKeyNumbers = data?.length && data
       .filter((item) => item?.fields?.[dataset?.paysageIdField])
@@ -92,7 +93,7 @@ const backupData = async (job, done) => {
     let operationsStructures = [];
     if (dataset?.field) {
       const uniqueStructures = [];
-      operationsStructures = data
+      operationsStructures = data?.length && data
         .filter((item) => item?.fields?.[dataset?.sortField])
         .sort((a, b) => (b.fields[dataset.sortField] - a.fields[dataset.sortField]))
         .filter((item) => {
