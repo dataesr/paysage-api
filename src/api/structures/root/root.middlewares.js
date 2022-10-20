@@ -118,7 +118,6 @@ export const fromPayloadToStructure = async (req, res, next) => {
       id: await catalog.getUniqueId('weblinks', 15),
     });
   }
-  const structureParents = [];
   const structureIdentifiers = [];
   if (payload.idref) {
     structureIdentifiers.push({
@@ -202,7 +201,6 @@ export const fromPayloadToStructure = async (req, res, next) => {
       id: await catalog.getUniqueId('social-medias', 15),
     });
   }
-  const structureCategories = [];
   if (structureWebsites.length) {
     structure.websites = structureWebsites;
   }
@@ -211,12 +209,6 @@ export const fromPayloadToStructure = async (req, res, next) => {
   }
   if (structureIdentifiers.length) {
     structure.identifiers = structureIdentifiers;
-  }
-  if (structureCategories.length) {
-    structure.categories = structureCategories;
-  }
-  if (structureParents.length) {
-    structure.parents = structureParents;
   }
   req.body = structure;
   return next();
