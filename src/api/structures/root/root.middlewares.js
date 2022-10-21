@@ -5,7 +5,9 @@ import {
   categoriesRepository,
   identifiersRepository,
   officialtextsRepository,
+  socialmediasRepository,
   structuresRepository as repository,
+  weblinksRepository,
 } from '../../commons/repositories';
 import { client } from '../../../services/mongo.service';
 
@@ -216,7 +218,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
 };
 
 export const storeStructure = async (req, res, next) => {
-  const { identifiers, ...rest } = req.body;
+  const { identifiers, socials, websites, ...rest } = req.body;
   const { id: resourceId } = rest;
   const session = client.startSession();
   await session.withTransaction(async () => {
@@ -224,6 +226,16 @@ export const storeStructure = async (req, res, next) => {
     if (identifiers?.length) {
       await identifiers.forEach(async (identifier) => {
         await identifiersRepository.create({ ...identifier, resourceId });
+      });
+    }
+    if (socials?.length) {
+      await socials.forEach(async (social) => {
+        await socialmediasRepository.create({ ...social, resourceId });
+      });
+    }
+    if (websites?.length) {
+      await websites.forEach(async (website) => {
+        await weblinksRepository.create({ ...website, resourceId });
       });
     }
     await session.endSession();
