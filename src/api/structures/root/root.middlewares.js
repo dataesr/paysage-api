@@ -5,7 +5,9 @@ import {
   categoriesRepository,
   identifiersRepository,
   officialtextsRepository,
+  socialmediasRepository,
   structuresRepository as repository,
+  weblinksRepository,
 } from '../../commons/repositories';
 import { client } from '../../../services/mongo.service';
 
@@ -51,6 +53,7 @@ export const validateStructureCreatePayload = async (req, res, next) => {
 
 export const fromPayloadToStructure = async (req, res, next) => {
   const payload = req.body;
+  const structureId = req?.context?.id || await catalog.getUniqueId('structures', 5);
   const structure = {
     structureStatus: payload.structureStatus,
     creationDate: payload.creationDate,
@@ -59,7 +62,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
     closureDate: payload.closureDate,
     createdBy: req.currentUser.id,
     createdAt: new Date(),
-    id: await catalog.getUniqueId('structures', 5),
+    id: structureId,
   };
   const structureName = {
     officialName: payload.officialName,
@@ -118,7 +121,6 @@ export const fromPayloadToStructure = async (req, res, next) => {
       id: await catalog.getUniqueId('weblinks', 15),
     });
   }
-  const structureParents = [];
   const structureIdentifiers = [];
   if (payload.idref) {
     structureIdentifiers.push({
@@ -202,7 +204,6 @@ export const fromPayloadToStructure = async (req, res, next) => {
       id: await catalog.getUniqueId('social-medias', 15),
     });
   }
-  const structureCategories = [];
   if (structureWebsites.length) {
     structure.websites = structureWebsites;
   }
@@ -212,18 +213,12 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (structureIdentifiers.length) {
     structure.identifiers = structureIdentifiers;
   }
-  if (structureCategories.length) {
-    structure.categories = structureCategories;
-  }
-  if (structureParents.length) {
-    structure.parents = structureParents;
-  }
   req.body = structure;
   return next();
 };
 
 export const storeStructure = async (req, res, next) => {
-  const { identifiers, ...rest } = req.body;
+  const { identifiers, socials, websites, ...rest } = req.body;
   const { id: resourceId } = rest;
   const session = client.startSession();
   await session.withTransaction(async () => {
@@ -231,6 +226,16 @@ export const storeStructure = async (req, res, next) => {
     if (identifiers?.length) {
       await identifiers.forEach(async (identifier) => {
         await identifiersRepository.create({ ...identifier, resourceId });
+      });
+    }
+    if (socials?.length) {
+      await socials.forEach(async (social) => {
+        await socialmediasRepository.create({ ...social, resourceId });
+      });
+    }
+    if (websites?.length) {
+      await websites.forEach(async (website) => {
+        await weblinksRepository.create({ ...website, resourceId });
       });
     }
     await session.endSession();
