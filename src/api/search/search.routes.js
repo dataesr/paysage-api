@@ -47,7 +47,7 @@ router.route('/autocomplete')
       size: limit,
     };
     if (query) {
-      body.query.bool.must = [{ match: { search: query } }];
+      body.query.bool.must = [{ wildcard: { search: `*${query}*` } }];
     }
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
