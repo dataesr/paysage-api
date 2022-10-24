@@ -10,7 +10,7 @@ const backupData = async (job, done) => {
     name: 'finance',
     field: 'resultat_net_comptable',
     fieldName: 'netAccountingResult',
-    paysageIdField: ['etablissement_id_paysage'],
+    paysageIdFields: ['etablissement_id_paysage'],
     sortField: 'exercice',
     sortFieldName: 'exercice',
   }, {
@@ -18,54 +18,58 @@ const backupData = async (job, done) => {
     name: 'population',
     field: 'effectif',
     fieldName: 'population',
-    paysageIdField: ['etablissement_id_paysage'],
+    paysageIdFields: ['etablissement_id_paysage'],
     sortField: 'annee',
     sortFieldName: 'year',
   }, {
     id: 'fr-esr-insertion_professionnelle_widget',
     name: 'inserpro',
-    paysageIdField: ['id_paysage'],
+    paysageIdFields: ['id_paysage'],
     // }, {
     //   url: 'fr-esr-insertion-professionnelle-des-diplomes-doctorat-par-etablissement',
     //   name: 'inserpro-phd',
   }, {
     id: 'fr-esr-piaweb',
     name: 'piaweb',
-    paysageIdField: ['etablissement_id_paysage', 'etablissement_coordinateur'],
+    paysageIdFields: ['etablissement_id_paysage', 'etablissement_coordinateur'],
   }, {
     id: 'piaweb_paysage',
     name: 'piaweb-paysage',
-    paysageIdField: ['etablissement_id_paysage'],
+    paysageIdFields: ['etablissement_id_paysage'],
   }, {
     // Download might fail with "Unexpected end of JSON input" error if not enough RAM
     id: 'fr-esr-sise-effectifs-d-etudiants-inscrits-esr-public',
     name: 'population-sise',
-    paysageIdField: ['etablissement_id_paysage'],
+    paysageIdFields: ['etablissement_id_paysage'],
   }, {
     id: 'fr-esr-statistiques-sur-les-effectifs-d-etudiants-inscrits-par-etablissement',
     name: 'population-statistics',
-    paysageIdField: ['etablissement_id_paysage'],
+    paysageIdFields: ['etablissement_id_paysage'],
   }, {
     // Download might fail with "Unexpected end of JSON input" error if not enough RAM
     id: 'fr-esr-principaux-diplomes-et-formations-prepares-etablissements-publics',
     name: 'qualifications',
-    paysageIdField: ['etablissement_id_paysage'],
+    paysageIdFields: ['etablissement_id_paysage'],
   }, {
     id: 'fr-esr-patrimoine-immobilier-des-operateurs-de-l-enseignement-superieur',
     name: 'real-estate',
-    paysageIdField: ['paysage_id'],
+    paysageIdFields: ['paysage_id'],
   }, {
     id: 'fr-esr-tmm-donnees-du-portail-dinformation-trouver-mon-master-mentions-de-master',
     name: 'tmm-mentions',
-    paysageIdField: ['etablissement_id_paysage'],
+    paysageIdFields: ['etablissement_id_paysage'],
   }, {
     id: 'fr-esr-tmm-donnees-du-portail-dinformation-trouver-mon-master-parcours-de-format',
     name: 'tmm-trainings',
-    paysageIdField: ['etablissement_id_paysage'],
+    paysageIdFields: ['etablissement_id_paysage'],
   }, {
     id: 'fr-esr-cartographie_formations_parcoursup',
     name: 'tranings',
-    paysageIdField: ['etablissement_id_paysage', 'composante_id_paysage'],
+    paysageIdFields: ['etablissement_id_paysage', 'composante_id_paysage'],
+  }, {
+    id: 'fr-esr-personnels-biatss-etablissements-publics',
+    name: 'biatss',
+    paysageIdFields: ['etablissement_id_paysage', 'etablissement_id_paysage_actuel'],
   }];
 
   datasets.forEach(async (dataset) => {
@@ -79,9 +83,8 @@ const backupData = async (job, done) => {
       logger.error(e);
     }
     const operationsKeyNumbers = data?.length && data
-      .filter((item) => item?.fields?.[dataset?.paysageIdField])
       .map((item) => {
-        const paysageIds = dataset.paysageIdField.map((field) => item.fields?.[field]).map((id) => id.split(',')).flat();
+        const paysageIds = dataset.paysageIdFields.map((field) => item.fields?.[field]).map((id) => id?.split(',')).flat();
         return paysageIds.map((paysageId) => ({
           updateOne: {
             filter: { id: { $eq: item.recordid } },
@@ -97,8 +100,8 @@ const backupData = async (job, done) => {
         .filter((item) => item?.fields?.[dataset?.sortField])
         .sort((a, b) => (b.fields[dataset.sortField] - a.fields[dataset.sortField]))
         .filter((item) => {
-          if (!uniqueStructures.includes(item.fields[dataset.paysageIdField])) {
-            uniqueStructures.push(item.fields[dataset.paysageIdField]);
+          if (!uniqueStructures.includes(item.fields[dataset.paysageIdFields])) {
+            uniqueStructures.push(item.fields[dataset.paysageIdFields]);
             return item;
           }
           return false;
@@ -110,7 +113,7 @@ const backupData = async (job, done) => {
           if (Object.keys(set).length > 0) {
             return {
               updateOne: {
-                filter: { id: { $eq: item.fields[dataset.paysageIdField] } },
+                filter: { id: { $eq: item.fields[dataset.paysageIdFields] } },
                 update: { $set: set },
               },
             };
