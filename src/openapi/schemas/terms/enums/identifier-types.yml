@@ -6,3 +6,5 @@ enum:
   - idRef
   - ISO2
   - ISO3
+  - PSUP
+  - PSUPC

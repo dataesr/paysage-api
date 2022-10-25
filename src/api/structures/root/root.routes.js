@@ -30,6 +30,7 @@ router.route(`/${resource}/:id`)
     setPutIdInContext(resource),
     fromPayloadToStructure,
     controllers.create(repository, readQuery),
+    saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ])
   .patch([
