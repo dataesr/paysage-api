@@ -43,6 +43,7 @@ collectionMethods:
             type: object
             required:
               - name
+              - acronym
             allOf:
               - $ref: '../../api.yml#/components/schemas/GroupPayload'
     responses:
