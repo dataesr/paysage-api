@@ -21,7 +21,7 @@ export function saveInElastic(repository, useQuery, resourceName) {
     }
     fields = [...new Set(fields)];
     const action = {
-      search: fields.join(' ').replace(/[^0-9a-z]/gi, ' '),
+      search: fields.join(' '),
       type: resourceName,
       id,
       acronym: resource?.acronym,
