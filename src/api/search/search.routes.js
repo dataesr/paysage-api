@@ -31,6 +31,34 @@ router.route('/autocomplete')
               isDeleted: false,
             },
           }],
+          should: [{
+            constant_score: {
+              filter: {
+                term: {
+                  type: 'categories',
+                },
+              },
+              boost: 4,
+            },
+          }, {
+            constant_score: {
+              filter: {
+                term: {
+                  type: 'structures',
+                },
+              },
+              boost: 3,
+            },
+          }, {
+            constant_score: {
+              filter: {
+                term: {
+                  type: 'persons',
+                },
+              },
+              boost: 2,
+            },
+          }],
         },
       },
       _source: {
@@ -47,7 +75,7 @@ router.route('/autocomplete')
       size: limit,
     };
     if (query) {
-      body.query.bool.must = [{ match: { search: query } }];
+      body.query.bool.must = [{ wildcard: { search: `*${query}*` } }];
     }
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
