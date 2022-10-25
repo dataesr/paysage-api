@@ -4,6 +4,30 @@ import esClient from '../../../services/elastic.service';
 
 const { index } = config.elastic;
 
+const getDescriptionByType = (type, resource) => {
+  const texts = [];
+  if (type === 'structures') {
+    // Structures : Nom usuel + sigle ou nom court > Catégorie principale > Localisation > date de création
+    texts.push(resource?.acronym);
+    texts.push(resource?.locality?.join(' '));
+    texts.push(resource?.creationDate);
+  } else if (type === 'persons') {
+    // Personnes : Prénom, nom > dernier mandat renseigné ou activité récupérée de wikidata > structure associée au mandat
+    texts.push(resource?.name);
+  } else if (type === 'categories' || type === 'terms') {
+    // Catégories & termes : Nom usuel
+    texts.push(resource?.name);
+  } else if (type === 'official-texts') {
+    // Textes officiels : Libellé du texte officiel > structures associées
+    texts.push(resource?.name);
+  } else if (type === 'projects') {
+    // Projet : Nom usuel + sigle ou nom court du projet > Catégorie principale > Localisation > Date de création
+    texts.push(resource?.name);
+    texts.push(resource?.acronym);
+  }
+  return texts.filter((item) => ![null, ''].includes(item)).join(' > ');
+};
+
 export function saveInElastic(repository, useQuery, resourceName) {
   return async (req, res, next) => {
     const { body, params } = req || {};
@@ -27,6 +51,7 @@ export function saveInElastic(repository, useQuery, resourceName) {
       acronym: resource?.acronym,
       isDeleted: resource?.isDeleted || false,
       name: resource?.name,
+      description: getDescriptionByType(resourceName, resource),
     };
     if (resourceName === 'structures') {
       action.creationDate = resource?.creationDate;
