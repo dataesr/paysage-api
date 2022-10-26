@@ -14,6 +14,7 @@ export default [
       acronym: { $ifNull: ['$acronymFr', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
       name: { $ifNull: ['$nameFr', null] },
+      startDate: { $ifNull: ['$startDate', null] },
     },
   },
 ];
