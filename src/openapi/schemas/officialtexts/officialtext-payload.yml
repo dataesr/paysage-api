@@ -27,7 +27,7 @@ properties:
   joId:
     type: string
     description: le numéro du décret ou de l’arrêté
-    pattern: '^\d{3,4}-\d{4}$'
+    pattern: '^\d{2,4}-\d{1,4}$'
     nullable: true
   publicationDate:
     nullable: true
