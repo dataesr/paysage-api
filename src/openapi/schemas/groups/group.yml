@@ -13,7 +13,6 @@ allOf:
         description: Nom du groupe
       acronym:
         type: string
-        nullable: true
         description: Acronyme du groupe
       otherNames:
         type: array
