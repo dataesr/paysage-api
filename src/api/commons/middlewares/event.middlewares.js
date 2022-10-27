@@ -45,9 +45,9 @@ export function saveInStore() {
       createdAt: new Date(),
       userId,
       resourceType: splitted?.[1],
-      resourceId: splitted?.[2],
+      resourceId: splitted?.[2] || req.context?.id,
       subResourceType: splitted?.[3],
-      surResourceId: splitted?.[4],
+      surResourceId: splitted?.[4] || req.context?.id,
       path,
       method,
     });
