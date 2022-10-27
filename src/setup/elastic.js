@@ -13,6 +13,10 @@ const body = {
         type: 'text',
         analyzer: 'autocomplete',
       },
+      name: {
+        type: 'text',
+        analyzer: 'light',
+      },
     },
   },
   settings: {
@@ -24,15 +28,44 @@ const body = {
           min_gram: 1,
           max_gram: 20,
         },
+        french_elision: {
+          type: 'elision',
+          articles: [
+            'l',
+            'm',
+            't',
+            'qu',
+            'n',
+            's',
+            'j',
+            'd',
+            'c',
+            'jusqu',
+            'quoiqu',
+            'lorsqu',
+            'puisqu',
+          ],
+          articles_case: true,
+        },
       },
       analyzer: {
         autocomplete: {
-          type: 'custom',
-          tokenizer: 'standard',
           filter: [
             'lowercase',
+            'french_elision',
+            'icu_folding',
             'autocomplete_filter',
           ],
+          tokenizer: 'icu_tokenizer',
+          type: 'custom',
+        },
+        light: {
+          filter: [
+            'lowercase',
+            'french_elision',
+            'icu_folding',
+          ],
+          tokenizer: 'icu_tokenizer',
         },
       },
     },
