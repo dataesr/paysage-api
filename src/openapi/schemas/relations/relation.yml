@@ -49,6 +49,7 @@ allOf:
         enum:
           - éléction
           - nomination
+          - null
         nullable: true
       mandateEmail:
         type: string
@@ -62,6 +63,7 @@ allOf:
           - '2'
           - '3+'
           - 'ND'
+          - null
       mandatePrecision:
         type: string
         nullable: true
