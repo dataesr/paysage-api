@@ -30,12 +30,8 @@ export function saveInElastic(repository, useQuery, resourceName) {
   return async (req, res, next) => {
     const { body, params } = req || {};
     const id = params?.resourceId || params?.id || body?.id || req.context.id || undefined;
-    await esClient.deleteByQuery({
-      index,
-      body: { query: { bool: { must: [{ match: { id } }, { term: { type: resourceName } }] } } },
-      refresh: true,
-      conflicts: 'proceed',
-    });
+    const esData = await esClient.search({ index, body: { query: { match: { id } } } });
+    const _id = esData?.body?.hits?.hits?.[0]?._id;
     const resource = await repository.get(id, { useQuery, keepDeleted: true });
     let fields = [];
     for (let i = 0; i < resource?.toindex?.length || 0; i += 1) {
@@ -55,9 +51,12 @@ export function saveInElastic(repository, useQuery, resourceName) {
       action.creationDate = resource?.creationDate;
       action.locality = resource?.locality?.[0];
     }
-    const actions = [{
-      index: { _index: index },
-    }, action];
+    const actions = [];
+    if (_id) {
+      actions.push({ delete: { _index: index, _id } });
+    }
+    actions.push({ index: { _index: index } });
+    actions.push(action);
     await esClient.bulk({ refresh: true, body: actions });
     return next();
   };
