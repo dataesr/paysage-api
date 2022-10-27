@@ -9,11 +9,11 @@ import { saveInElastic } from '../commons/middlewares/event.middlewares';
 import elasticQuery from '../commons/queries/users.elastic';
 import { usersRepository as repository } from '../commons/repositories';
 import {
-  signup,
-  signin,
-  signout,
   refreshAccessToken,
   resetPassword,
+  signin,
+  signout,
+  signup,
 } from './auth.middlewares';
 import { users as resource } from '../resources';
 
@@ -22,7 +22,7 @@ const authRoutes = new express.Router();
 const maxRequestsPerHour = (max) => rateLimit({
   windowMs: 60 * 60 * 1000,
   max,
-  message: 'Trop de requètes, essayez à nouveau dans une heure.',
+  message: 'Trop de requêtes, essayez à nouveau dans une heure.',
 });
 
 authRoutes.post('/signup', [

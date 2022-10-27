@@ -30,8 +30,8 @@ class BaseMongoCatalog {
     throw new Error('Too many retries ...');
   };
 
-  setUniqueId = async (id, objectCollection) => {
-    const { acknowledged } = await this._collection.insertOne({ _id: id, objectCollection });
+  setUniqueId = async (id, collection) => {
+    const { acknowledged } = await this._collection.insertOne({ _id: id, collection });
     if (acknowledged) { return id; }
     throw new Error(`Cannot insert ID ${id}`);
   };
