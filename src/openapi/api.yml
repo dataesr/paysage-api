@@ -38,6 +38,7 @@ tags:
   - name: Projects
   - name: Projects - Localisations
   - name: Projects - Weblinks
+  - name: Projects - Identifiers
   - name: Relations
   - name: Relation types
   - name: Search
@@ -260,6 +261,10 @@ paths:
     $ref: './paths/projects/localisations.yml#/collectionMethods'
   '/projects/{projectId}/localisations/{localisationId}':
     $ref: './paths/projects/localisations.yml#/documentMethods'
+  '/projects/{projectId}/identifiers':
+    $ref: './paths/projects/identifiers.yml#/collectionMethods'
+  '/projects/{projectId}/identifiers/{identifierId}':
+    $ref: './paths/projects/identifiers.yml#/documentMethods'
 
   ### TYPES DE RELATION ###
   '/relation-types':
@@ -454,6 +459,8 @@ components:
       $ref: './schemas/projects/project.yml'
     ProjectLight:
       $ref: './schemas/projects/project-light.yml'
+    ProjectIdentifier:
+      $ref: './schemas/projects/identifier.yml'
     ProjectWeblink:
       $ref: './schemas/projects/weblink.yml'
     Relation:
@@ -562,6 +569,8 @@ components:
       $ref: './schemas/projects/project-payload.yml'
     ProjectWeblinkPayload:
       $ref: './schemas/projects/weblink-payload.yml'
+    ProjectIdentifierPayload:
+      $ref: './schemas/projects/identifier-payload.yml'
     RelationPayload:
       $ref: './schemas/commons/relation-payload.yml'
     RelationTypePayload:
@@ -618,6 +627,8 @@ components:
       $ref: './schemas/prices/enums/weblink-types.yml'
     ProjectWeblinkTypesEnum:
       $ref: './schemas/projects/enums/weblink-types.yml'
+    ProjectIdentifierTypesEnum:
+      $ref: './schemas/projects/enums/identifier-types.yml'
     SocialmediaTypesEnum:
       $ref: './schemas/commons/enums/social-media-types.yml'
     StructureIdentifierTypesEnum:

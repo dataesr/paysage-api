@@ -1,0 +1,5 @@
+description: Values for project's identifiers
+type: string
+enum:
+  - Wikidata
+  - Source
