@@ -24,9 +24,23 @@ export function saveInElastic(repository, useQuery, resourceName) {
       isDeleted: resource?.isDeleted || false,
       name: resource?.name,
     };
-    if (resourceName === 'structures') {
-      action.creationDate = resource?.creationDate;
-      action.locality = resource?.locality?.[0];
+    switch (resourceName) {
+      case 'structures':
+        action.creationDate = resource?.creationDate;
+        action.locality = resource?.locality?.[0];
+        break;
+      case 'projects':
+        action.startDate = resource?.startDate;
+        break;
+      case 'persons':
+        break;
+      case 'categories':
+        break;
+      case 'terms':
+        break;
+      case 'official-texts':
+        break;
+      default:
     }
     const actions = [];
     actions.push(_id ? { index: { _index: index, _id } } : { index: { _index: index } });
