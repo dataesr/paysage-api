@@ -464,7 +464,7 @@ components:
     ProjectWeblink:
       $ref: './schemas/projects/weblink.yml'
     Relation:
-      $ref: './schemas/commons/relation.yml'
+      $ref: './schemas/relations/relation.yml'
     RelationType:
       $ref: './schemas/relationtypes/relationtype.yml'
     RelationTypeLight:
@@ -572,7 +572,7 @@ components:
     ProjectIdentifierPayload:
       $ref: './schemas/projects/identifier-payload.yml'
     RelationPayload:
-      $ref: './schemas/commons/relation-payload.yml'
+      $ref: './schemas/relations/relation-payload.yml'
     RelationTypePayload:
       $ref: './schemas/relationtypes/relationtype-payload.yml'
     RelationsGroupPayload:
