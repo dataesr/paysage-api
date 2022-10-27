@@ -62,16 +62,21 @@ export function saveInElastic(repository, useQuery, resourceName) {
   };
 }
 
-export function saveInStore(collection) {
+export function saveInStore() {
   return async (req, res, next) => {
-    const { context, event, path } = req;
-    if (event) {
-      const { user } = context || {};
-      const nextState = event?.nextState || {};
-      const previousState = event?.previousState || {};
-      const eventToStore = { ...event, ...{ actor: user, collection, nextState, previousState, resource: path } };
-      eventsRepository.create(eventToStore);
-    }
+    const { path, method } = req;
+    const userId = req.currentUser.id;
+    const splitted = req.path.split('/');
+    eventsRepository.create({
+      createdAt: new Date(),
+      userId,
+      resourceType: splitted?.[1],
+      resourceId: splitted?.[2],
+      subResourceType: splitted?.[3],
+      surResourceId: splitted?.[4],
+      path,
+      method,
+    });
     return next();
   };
 }
