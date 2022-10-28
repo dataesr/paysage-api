@@ -5,9 +5,9 @@ import {
 } from '../../resources';
 
 let authorization;
+let emailTypeId;
 let id;
 let resourceId;
-let emailTypeId;
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
