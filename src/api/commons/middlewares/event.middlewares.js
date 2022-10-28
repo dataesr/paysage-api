@@ -15,6 +15,7 @@ export function saveInElastic(repository, useQuery, resourceName) {
     for (let i = 0; i < resource?.toindex?.length || 0; i += 1) {
       fields = fields.concat(Object.values(resource.toindex[i]).flat().filter((n) => n));
     }
+    fields.push(id);
     fields = [...new Set(fields)];
     const action = {
       search: fields.join(' '),

@@ -5,7 +5,6 @@ export default [
       id: 1,
       toindex: [{
         firstName: 1,
-        id: 1,
         lastName: 1,
         otherNames: 1,
       }],
