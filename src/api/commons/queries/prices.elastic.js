@@ -4,8 +4,8 @@ export default [
       _id: 0,
       id: 1,
       toindex: [{
-        nameEn: 1,
-        nameFr: 1,
+        nameEn: { $ifNull: ['$nameEn', false] },
+        nameFr: { $ifNull: ['$nameFr', false] },
       }],
       isDeleted: { $ifNull: ['$isDeleted', false] },
       name: { $ifNull: ['$nameFr', null] },
