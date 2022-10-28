@@ -18,7 +18,6 @@ export default [
         acronymFr: 1,
         acronymLocal: 1,
         brandName: 1,
-        id: 1,
         locality: 1,
         nameEn: 1,
         officialName: 1,

@@ -5,7 +5,6 @@ export default [
       id: 1,
       toindex: [{
         acronymFr: 1,
-        id: 1,
         longNameEn: 1,
         longNameFr: 1,
         otherNames: 1,

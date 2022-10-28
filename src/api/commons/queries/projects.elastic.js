@@ -8,7 +8,6 @@ export default [
         acronymFr: 1,
         fullNameEn: 1,
         fullNameFr: 1,
-        id: 1,
         nameEn: 1,
         nameFr: 1,
       }],
