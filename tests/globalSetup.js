@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { jest } from '@jest/globals';
 import 'dotenv/config';
 import request from 'supertest';
 
@@ -6,6 +8,8 @@ import { clearDB, client, db } from '../src/services/mongo.service';
 import esClient from '../src/services/elastic.service';
 import Utils from './utils';
 import agenda from '../src/jobs';
+
+jest.setTimeout(60000);
 
 beforeAll(() => {
   global.superapp = request(app);
