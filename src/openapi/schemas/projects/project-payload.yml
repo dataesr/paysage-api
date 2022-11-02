@@ -21,7 +21,10 @@ properties:
   acronymEn:
     type: string
     nullable: true
-  description:
+  descriptionEn:
+    type: string
+    nullable: true
+  descriptionFr:
     type: string
     nullable: true
   startDate:
@@ -34,6 +37,9 @@ properties:
     pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
   grantPart:
     type: string
+    nullable: true
+  funding:
+    type: number
     nullable: true
   comment:
     type: string
