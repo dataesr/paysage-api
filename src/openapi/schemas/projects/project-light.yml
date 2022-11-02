@@ -23,6 +23,9 @@ properties:
   grantPart:
     type: string
     nullable: true
+  funding:
+    type: number
+    nullable: true
   displayName:
     type: string
   collection:

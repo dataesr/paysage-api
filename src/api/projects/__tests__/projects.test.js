@@ -10,10 +10,11 @@ const payload = {
   fullNameEn: 'Test',
   acronymFr: 'Test',
   acronymEn: 'Test',
-  description: 'Test',
+  descriptionFr: 'Test',
   startDate: '2000',
   endDate: '2001',
   grantPart: 'Test',
+  funding: 1000,
   comment: 'Test',
 };
 const updatePayLoad = { fullNameFr: 'TestTestTest', fullNameEn: null };

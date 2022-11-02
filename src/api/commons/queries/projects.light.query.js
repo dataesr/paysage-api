@@ -11,9 +11,10 @@ export default [
       href: { $concat: ['/projects/', '$id'] },
       nameFr: 1,
       acronymFr: { $ifNull: ['$acronymFr', null] },
-      description: { $ifNull: ['$description', null] },
       startDate: { $ifNull: ['$startDate', null] },
       endDate: { $ifNull: ['$endDate', null] },
+      grantPart: { $ifNull: ['$grantPart', null] },
+      funding: { $ifNull: ['$funding', null] },
       currentLocalisation: 1,
     } },
 ];
