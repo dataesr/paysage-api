@@ -95,4 +95,16 @@ describe('API > search', () => {
     expect(body.data[0].name).toBe('centrale marseille');
     expect(body.data[0].type).toBe('structures');
   });
+
+  it('should search all the terms of the query and not only one of it', async () => {
+    const { body } = await global.superapp
+      .get('/autocomplete?query=univ keri')
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(1);
+    expect(body.data[0].acronym).toBe('UK');
+    expect(body.data[0].isDeleted).toBeFalsy();
+    expect(body.data[0].name).toBe('Université de Kerivach');
+    expect(body.data[0].type).toBe('structures');
+  });
 });
