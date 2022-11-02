@@ -83,4 +83,16 @@ describe('API > search', () => {
     expect(body.data[0].name).toBe('université épicée');
     expect(body.data[0].type).toBe('structures');
   });
+
+  it('should search a 2 words query', async () => {
+    const { body } = await global.superapp
+      .get('/autocomplete?query=centr mars')
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(1);
+    expect(body.data[0].acronym).toBe('CM');
+    expect(body.data[0].isDeleted).toBeFalsy();
+    expect(body.data[0].name).toBe('centrale marseille');
+    expect(body.data[0].type).toBe('structures');
+  });
 });
