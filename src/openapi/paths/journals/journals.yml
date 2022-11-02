@@ -1,0 +1,32 @@
+collectionMethods:
+  get:
+    tags:
+      - Journal
+    summary: List all journaling events
+    parameters:
+        - $ref: '../../api.yml#/components/parameters/filters'
+        - $ref: '../../api.yml#/components/parameters/skip'
+        - $ref: '../../api.yml#/components/parameters/limit'
+        - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                totalCount:
+                  type: number
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

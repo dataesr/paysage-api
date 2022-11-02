@@ -39,6 +39,7 @@ tags:
   - name: Projects - Localisations
   - name: Projects - Weblinks
   - name: Projects - Identifiers
+  - name: Projects - SocialMedias
   - name: Relations
   - name: Relation types
   - name: Search
@@ -265,6 +266,10 @@ paths:
     $ref: './paths/projects/identifiers.yml#/collectionMethods'
   '/projects/{projectId}/identifiers/{identifierId}':
     $ref: './paths/projects/identifiers.yml#/documentMethods'
+  '/projects/{projectId}/social-medias':
+    $ref: './paths/projects/social-medias.yml#/collectionMethods'
+  '/projects/{projectId}/social-medias/{socialmediaId}':
+    $ref: './paths/projects/social-medias.yml#/documentMethods'
 
   ### TYPES DE RELATION ###
   '/relation-types':
@@ -299,6 +304,10 @@ paths:
   ### SEARCH ###
   '/autocomplete':
     $ref: './paths/search/autocomplete.yml#/~1autocomplete'
+
+  ### JOURNAL ###
+  '/journal':
+    $ref: './paths/journals/journals.yml#/collectionMethods'
 
 components:
   parameters:
