@@ -75,7 +75,7 @@ router.route('/autocomplete')
       size: limit,
     };
     if (query) {
-      body.query.bool.must = [{ match_phrase: { search: query } }];
+      body.query.bool.must = [{ match: { search: { query, operator: 'and' } } }];
     }
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
