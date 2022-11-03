@@ -1,8 +1,6 @@
 title: StructureBulkInsertPayload
 description: Liste 
 additionalProperties: false
-required:
-  - usualName
 type: object
 properties:
   officialName:
