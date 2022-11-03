@@ -152,7 +152,7 @@ paths:
   '/structures/{structureId}/weblinks/{weblinkId}':
     $ref: './paths/structures/weblinks.yml#/documentMethods'
   
-  ### PERSONNES ###
+  ### PERSONS ###
   '/persons':
     $ref: './paths/persons/persons.yml#/collectionMethods'
   '/persons/{personId}':

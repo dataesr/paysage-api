@@ -22,7 +22,6 @@
 
 ### Docker
 
-:warning: As our auth app "paysage-auth" is private, you need to be logged to ghcr.io to use this docker-compose file.
 
 To run the full app in a Docker container :
 
