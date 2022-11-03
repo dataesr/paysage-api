@@ -4,6 +4,7 @@ import personLightQuery from './persons.light.query';
 import priceLightQuery from './prices.light.query';
 import projectLightQuery from './projects.light.query';
 import structureLightQuery from './structures.light.query';
+import supervisingMinistersLightQuery from './supervising-ministers.light.query';
 import termsLightQuery from './terms.light.query';
 
 function getRelatedObject(localField) {
@@ -72,6 +73,15 @@ function getRelatedObject(localField) {
       },
     },
     {
+      $lookup: {
+        from: 'supervisingministers',
+        localField,
+        foreignField: 'id',
+        pipeline: supervisingMinistersLightQuery,
+        as: 'relatedMinisters',
+      },
+    },
+    {
       $set: {
         related: {
           $concatArrays: [
@@ -82,6 +92,7 @@ function getRelatedObject(localField) {
             '$relatedPersons',
             '$relatedTerms',
             '$relatedCategories',
+            '$relatedMinisters',
           ],
         },
       },
