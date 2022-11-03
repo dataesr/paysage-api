@@ -39,7 +39,12 @@ collectionMethods:
       content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/StructureCreatePayload'
+              title: CreateStructurePayload
+              type: object
+              required:
+                - usualName
+              allOf:
+                - $ref: '../../api.yml#/components/schemas/StructureCreatePayload'
     responses:
       '201':
         description: Created
