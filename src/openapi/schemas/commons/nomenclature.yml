@@ -6,7 +6,7 @@ allOf:
     properties:
       id:
         type: string
-        pattern: '^[a-zA-Z0-9]{15}$'
+        pattern: '(^[a-zA-Z0-9]{15}$)|(^[a-zA-Z0-9]{5}$)'
       usualName:
         type: string
       otherNames:

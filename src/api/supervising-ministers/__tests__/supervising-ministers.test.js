@@ -50,7 +50,7 @@ describe('API > supervising ministers > create', () => {
 describe('API > supervising ministers > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/${resource}/45frK45frK45frK`)
+      .patch(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(404);
@@ -111,7 +111,7 @@ describe('API > supervising ministers > read', () => {
 describe('API > supervising ministers > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete(`/${resource}/45frK45frK45frK`)
+      .delete(`/${resource}/45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });

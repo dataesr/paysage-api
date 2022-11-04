@@ -1,5 +1,5 @@
 import express from 'express';
-import { patchContext, createContext, setGeneratedInternalIdInContext } from '../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import { validatePayload } from './supervising-ministers.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
@@ -15,7 +15,7 @@ router.route(`/${resource}`)
   .post([
     validatePayload,
     createContext,
-    setGeneratedInternalIdInContext(resource),
+    setGeneratedObjectIdInContext(resource),
     controllers.create(repository, readQuery),
     saveInStore(resource),
   ]);
