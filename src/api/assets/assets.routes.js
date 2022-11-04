@@ -33,7 +33,7 @@ router.post(
   '/files',
   async (req, res, next) => {
     const { id = 'user' } = req.currentUser;
-    const baseUrl = `${req.protocol}://${req.headers.host}`;
+    const baseUrl = `${req.secure ? 'https' : 'http'}://${req.headers.host}`;
     if (!req.files || !req.files.length) { return next(); }
     const promises = req.files.map((file) => saveFile(file, id, baseUrl));
     const resolved = await Promise.all(promises);
