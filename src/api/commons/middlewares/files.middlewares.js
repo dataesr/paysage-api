@@ -9,7 +9,7 @@ function setFileInfo(resource) {
     const path = `assets/${resource}/${id}`;
     req.context = {
       ...req.context,
-      url: `${req.protocol}://${req.headers.host}/${path}`,
+      url: `${req.secure ? 'https' : 'http'}://${req.headers.host}/${path}`,
       path,
       mimetype: req.file.mimetype,
       originalName: req.file.originalname,
