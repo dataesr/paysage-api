@@ -11,14 +11,13 @@ export function saveInElastic(repository, useQuery, resourceName) {
     const esData = await esClient.search({ index, body: { query: { match: { id } } } });
     const _id = esData?.body?.hits?.hits?.[0]?._id;
     const resource = await repository.get(id, { useQuery, keepDeleted: true });
-    let fields = [];
+    let search = '';
     for (let i = 0; i < resource?.toindex?.length || 0; i += 1) {
-      fields = fields.concat(Object.values(resource.toindex[i]).flat().filter((n) => n));
+      search += ` ${Object.values(resource.toindex[i]).flat().filter((n) => n).join(' ')}`;
     }
-    fields.push(id);
-    fields = [...new Set(fields)];
+    search += ` ${id}`;
     const action = {
-      search: fields.join(' '),
+      search: [...new Set(search.split(' '))].join(' ').trim(),
       type: resourceName,
       id,
       acronym: resource?.acronym,
@@ -29,6 +28,7 @@ export function saveInElastic(repository, useQuery, resourceName) {
       case 'structures':
         action.creationDate = resource?.creationDate;
         action.locality = resource?.locality?.[0];
+        action.shortName = resource?.shortName;
         break;
       case 'projects':
         action.startDate = resource?.startDate;
