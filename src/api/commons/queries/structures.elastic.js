@@ -30,6 +30,7 @@ export default [
       isDeleted: { $ifNull: ['$isDeleted', false] },
       locality: { $ifNull: ['$localisations.locality', null] },
       name: { $ifNull: ['$currentName.usualName', null] },
+      shortName: { $ifNull: ['$currentName.shortName', null] },
     },
   },
 ];
