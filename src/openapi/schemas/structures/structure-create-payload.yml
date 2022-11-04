@@ -32,6 +32,9 @@ properties:
     nullable: true
     items:
       type: string
+  motto:
+    type: string
+    nullable: true
   article:
     type: string
     nullable: true

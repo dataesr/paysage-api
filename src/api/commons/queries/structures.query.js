@@ -45,6 +45,7 @@ export default [
       descriptionEn: { $ifNull: ['$descriptionEn', null] },
       descriptionFr: { $ifNull: ['$descriptionFr', null] },
       exercice: { $ifNull: ['$exercice', null] },
+      motto: { $ifNull: ['$motto', null] },
       netAccountingResult: { $ifNull: ['$netAccountingResult', null] },
       population: { $ifNull: ['$population', null] },
       redirection: { $ifNull: ['$redirection', null] },
