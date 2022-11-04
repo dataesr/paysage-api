@@ -47,6 +47,9 @@ allOf:
       closureReason:
         type: string
         nullable: true
+      motto:
+        type: string
+        nullable: true
       descriptionFr:
         type: string
         nullable: true
