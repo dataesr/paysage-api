@@ -6,6 +6,7 @@ export default [
       name: 1,
       acronym: { $ifNull: ['$acronym', null] },
       pluralName: { $ifNull: ['$pluralName', null] },
+      maleName: { $ifNull: ['$maleName', null] },
       feminineName: { $ifNull: ['$feminineName', null] },
       priority: 1,
     },
