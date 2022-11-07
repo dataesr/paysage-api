@@ -21,6 +21,10 @@ allOf:
         type: string
         nullable: true
         description: Forme du nom au féminin
+      maleName:
+        type: string
+        nullable: true
+        description: Forme du nom au masculin
       otherNames:
         type: array
         nullable: true
