@@ -150,7 +150,7 @@ documentMethods:
             allOf:
               - $ref: '../../api.yml#/components/schemas/RelationTypePayload'
     responses:
-      '200':
+      '201':
         description: OK
         content:
           application/json:
