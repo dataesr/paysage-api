@@ -8,6 +8,7 @@ export default [
       id: 1,
       name: 1,
       acronym: { $ifNull: ['$acronym', null] },
+      maleName: { $ifNull: ['$maleName', null] },
       pluralName: { $ifNull: ['$pluralName', null] },
       feminineName: { $ifNull: ['$feminineName', null] },
       otherNames: { $ifNull: ['$otherNames', []] },
