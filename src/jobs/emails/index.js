@@ -21,6 +21,15 @@ export const sendWelcomeEmail = (job) => mailer.sendEmail({
   },
 });
 
+export const sendAccountConfirmedEmail = (job) => mailer.sendEmail({
+  to: [{ email: job.attrs?.data?.user?.email }],
+  templateId: 202,
+  params: {
+    PRENOM: job.attrs?.data?.user?.firstName,
+    NOM: job.attrs?.data?.user?.lastName,
+  },
+});
+
 export const sendPasswordRecoveryEmail = (job) => mailer.sendEmail({
   to: [{ email: job.attrs?.data?.user?.email }],
   templateId: 200,
