@@ -27,7 +27,7 @@ router.route(`/admin/${resource}/:id/confirm`)
     patchContext,
     setConfirmToContext,
     controllers.patch(repository, adminQuery),
-    notifyUser(),
+    notifyUser,
     saveInStore(resource),
   ]);
 
