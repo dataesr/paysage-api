@@ -20,6 +20,10 @@ properties:
     type: string
     nullable: true
     description: Forme du nom au féminin
+  maleName:
+    type: string
+    nullable: true
+    description: Forme du nom au masculin
   priority:
     type: integer
     minimum: 1
