@@ -67,4 +67,7 @@ allOf:
       mandatePrecision:
         type: string
         nullable: true
+      current:
+        type: boolean
+        nullable: true
   - $ref: '../../api.yml#/components/schemas/Metas'
