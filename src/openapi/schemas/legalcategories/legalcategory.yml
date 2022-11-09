@@ -6,7 +6,7 @@ allOf:
     properties:
       id:
         type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
+        pattern: '^[a-zA-Z0-9]{15}$'
       inseeCode:
         type: string
         nullable: true

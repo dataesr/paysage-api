@@ -90,6 +90,39 @@ documentMethods:
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
   
+  put:
+    tags:
+      - Document types
+    summary: create a document type with ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/documentTypeId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: DocumentTypePayload
+            required:
+              - usualName
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/DocumentTypePayload'
+    responses:
+      '201':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/DocumentType'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
   delete:
     tags:
       - Document types
