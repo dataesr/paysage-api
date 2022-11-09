@@ -68,6 +68,6 @@ properties:
       - '3+'
       - 'ND'
       - null
-  mandateSpecifications:
+  mandatePrecision:
     type: string
     nullable: true
