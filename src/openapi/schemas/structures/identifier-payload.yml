@@ -1,5 +1,5 @@
 title: StructureIdentifierPayload
-description: Modèle de creation et de mise à jour d'un identifiant de structure
+description: Modèle de création et de mise à jour d'un identifiant de structure
 type: object
 properties:
   type:
