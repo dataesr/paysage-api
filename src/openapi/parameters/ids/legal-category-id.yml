@@ -2,6 +2,6 @@ name: legalCategoryId
 in: path
 schema:
   type: string
-  pattern: '^[a-zA-Z0-9]{5}$'
+  pattern: '^[a-zA-Z0-9]{15}$'
 required: true
 description: Unique legal category id
