@@ -42,6 +42,8 @@ router.route(`/${resource}/:id`)
     createContext,
     setPutIdInContext(resource),
     controllers.create(repository, readQuery),
+    saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
   ]);
 
 export default router;
