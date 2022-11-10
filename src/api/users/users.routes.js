@@ -1,5 +1,4 @@
 import express from 'express';
-
 import { patchContext } from '../commons/middlewares/context.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 import { saveInElastic, saveInStore } from '../commons/middlewares/event.middlewares';
@@ -9,7 +8,7 @@ import elasticQuery from '../commons/queries/users.elastic';
 import readQuery from '../commons/queries/users.query';
 import { usersRepository as repository } from '../commons/repositories';
 import { users as resource } from '../resources';
-import { setConfirmToContext } from './users.middlewares';
+import { setConfirmToContext, notifyUser } from './users.middlewares';
 
 const router = new express.Router();
 
@@ -28,6 +27,7 @@ router.route(`/admin/${resource}/:id/confirm`)
     patchContext,
     setConfirmToContext,
     controllers.patch(repository, adminQuery),
+    notifyUser,
     saveInStore(resource),
   ]);
 

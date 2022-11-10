@@ -6,6 +6,7 @@ import {
   sendAuthenticationEmail,
   sendWelcomeEmail,
   sendPasswordRecoveryEmail,
+  sendAccountConfirmedEmail,
 } from './emails';
 
 import { db } from '../services/mongo.service';
@@ -16,6 +17,7 @@ const agenda = new Agenda()
   .processEvery('30 seconds');
 
 agenda.define('send welcome email', { shouldSaveResult: true }, sendWelcomeEmail);
+agenda.define('send confirmed email', { shouldSaveResult: true }, sendAccountConfirmedEmail);
 agenda.define('send signin email', { shouldSaveResult: true }, sendAuthenticationEmail);
 agenda.define('send recovery email', { shouldSaveResult: true }, sendPasswordRecoveryEmail);
 agenda.define('backup data', { shouldSaveResult: true }, backupData);

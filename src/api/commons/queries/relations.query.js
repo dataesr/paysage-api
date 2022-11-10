@@ -48,7 +48,7 @@ export default [
       updatedAt: 1,
       resourceId: 1,
       resource: 1,
-      relationsGroupId: 1,
+      relationsGroupId: { $ifNull: ['$relationsGroupId', null] },
       relatedObject: 1,
       relationType: 1,
       startDateOfficialText: 1,
@@ -62,6 +62,7 @@ export default [
       mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
       otherAssociatedObjectIds: { $ifNull: ['$otherAssociatedObjectIds', []] },
       otherAssociatedObjects: 1,
+      active: { $ifNull: ['$active', null] },
     },
   },
 ];
