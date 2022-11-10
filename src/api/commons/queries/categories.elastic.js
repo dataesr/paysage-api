@@ -1,5 +1,23 @@
 export default [
   {
+    $lookup: {
+      from: 'identifiers',
+      localField: 'id',
+      foreignField: 'resourceId',
+      as: 'identifiers',
+      pipeline: [{
+        $match: {
+          $expr: {
+            $and: [
+              { $eq: ['$active', true] },
+              { $in: ['$type', ['Wikidata']] },
+            ],
+          },
+        },
+      }],
+    },
+  },
+  {
     $project: {
       _id: 0,
       id: 1,
