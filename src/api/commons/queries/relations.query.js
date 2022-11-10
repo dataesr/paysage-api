@@ -62,7 +62,7 @@ export default [
       mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
       otherAssociatedObjectIds: { $ifNull: ['$otherAssociatedObjectIds', []] },
       otherAssociatedObjects: 1,
-      current: { $ifNull: ['$current', null] },
+      active: { $ifNull: ['$active', null] },
     },
   },
 ];

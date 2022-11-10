@@ -71,6 +71,6 @@ properties:
   mandatePrecision:
     type: string
     nullable: true
-  current:
+  active:
     type: boolean
     nullable: true
