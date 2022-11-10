@@ -74,6 +74,12 @@ properties:
     pattern: '^[a-zA-Z0-9]{15}$'
     description: Identifiant d'un texte officiel
     nullable: true
+  creationReason:
+    type: string
+    nullable: true
+  closureReason:
+    type: string
+    nullable: true
   categories:
     type: array
     items:
