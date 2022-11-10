@@ -10,6 +10,24 @@ export default [
     },
   },
   {
+    $lookup: {
+      from: 'identifiers',
+      localField: 'id',
+      foreignField: 'resourceId',
+      as: 'identifiers',
+      pipeline: [{
+        $match: {
+          $expr: {
+            $and: [
+              { $eq: ['$active', true] },
+              { $in: ['$type', ['idRef', 'RNSR', 'Siret', 'UAI', 'Wikidata']] },
+            ],
+          },
+        },
+      }],
+    },
+  },
+  {
     $project: {
       _id: 0,
       id: 1,
@@ -18,6 +36,7 @@ export default [
         acronymFr: { $ifNull: ['$currentName.acronymFr', null] },
         acronymLocal: { $ifNull: ['$currentName.acronymLocal', null] },
         brandName: { $ifNull: ['$currentName.brandName', null] },
+        identifiers: { $ifNull: ['$identifiers.value', null] },
         locality: { $ifNull: ['$localisations.locality', null] },
         nameEn: { $ifNull: ['$currentName.nameEn', null] },
         officialName: { $ifNull: ['$currentName.officialName', null] },
