@@ -1,34 +1,34 @@
 description: Valeurs possibles pour un type d'identifiant de personne
 type: string
 enum:
-  - Wikidata
+  - Code Insee
+  - cvHal
+  - dataESR
+  - fundref
+  - GA OAD
+  - GRID
+  - Id unité CNRS
   - Identifiant BnF
-  - idRef
-  - ORCID Id
+  - Identifiant CTI de l'école
   - idHal
+  - idRef
+  - ISIL
+  - isni
+  - Numéro d'ED
   - Numéro national de Thèse
+  - OpenCorporates ID
+  - ORCID
+  - ORCID Id
+  - orgref
+  - PIC (Participant Identification Code)
+  - RCR
+  - Référence projet PIA (ANR)
+  - RNA
+  - ROR
+  - Siret
+  - These
+  - UAI
   - Univ-droit jurist ID
   - Web of Science Researcher ID
-  - UAI
-  - Siret
-  - GRID
-  - dataESR
-  - orgref
-  - isni
-  - fundref
-  - OpenCorporates ID
-  - PIC (Participant Identification Code)
-  - Référence projet PIA (ANR)
-  - Identifiant CTI de l'école
-  - ROR
-  - RNA
-  - Id unité CNRS
-  - RCR
-  - ISIL
-  - Numéro d'ED
-  - GA OAD
-  - Code Insee
-  - ORCID
-  - These
-  - cvHal
+  - Wikidata
   - WOS
