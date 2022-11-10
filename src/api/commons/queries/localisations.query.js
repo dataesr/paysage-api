@@ -74,6 +74,7 @@ export default [
       startDate: { $ifNull: ['$startDate', null] },
       endDate: { $ifNull: ['$endDate', null] },
       current: 1,
+      active: { $ifNull: ['$active', null] },
       createdBy: 1,
       createdAt: 1,
       updatedBy: 1,

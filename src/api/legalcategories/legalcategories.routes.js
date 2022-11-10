@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { patchContext, createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
+import { patchContext, createContext, setGeneratedInternalIdInContext, setPutIdInContext } from '../commons/middlewares/context.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 import { saveInElastic, saveInStore } from '../commons/middlewares/event.middlewares';
 import elasticQuery from '../commons/queries/legal-categories.elastic';
@@ -16,7 +16,7 @@ router.route(`/${resource}`)
   .post([
     validatePayload,
     createContext,
-    setGeneratedObjectIdInContext(resource),
+    setGeneratedInternalIdInContext(resource),
     controllers.create(repository, readQuery),
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
@@ -35,6 +35,13 @@ router.route(`/${resource}/:id`)
     patchContext,
     canIDelete,
     controllers.softDelete(repository),
+    saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
+  ])
+  .put([
+    createContext,
+    setPutIdInContext(resource),
+    controllers.create(repository, readQuery),
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ]);
