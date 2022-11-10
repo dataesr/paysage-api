@@ -24,6 +24,9 @@ properties:
     example: La Défense
   country:
     type: string
+  active:
+    type: boolean
+    nullable: true
   coordinates:
     type: object
     nullable: true
