@@ -11,6 +11,7 @@ allOf:
       relationsGroupId:
         type: string
         pattern: '^[a-zA-Z0-9]{15}$'
+        nullable: true
       relatedObject:
         type: object
       relationType:
