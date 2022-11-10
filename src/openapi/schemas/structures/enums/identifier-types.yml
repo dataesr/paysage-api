@@ -1,4 +1,4 @@
-description: Accepted values of the identifier type of a structure
+description: Accepted values of identifier type for a structure
 type: string
 enum:
   - ALId

@@ -1,4 +1,4 @@
-description: Possible values for category's identifiers
+description: Accepted values of identifier type for a category
 type: string
 enum:
   - PSUPT
