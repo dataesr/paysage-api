@@ -34,7 +34,7 @@ export default [
       }],
       acronym: { $ifNull: ['$acronymFr', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
-      name: { $ifNull: ['$usualNameFr', null] },
+      name: { $ifNull: ['$pluralNameFr', '$usualNameFr', null] },
     },
   },
 ];
