@@ -23,6 +23,7 @@ export default [
       id: 1,
       toindex: [{
         acronymFr: { $ifNull: ['$acronymFr', null] },
+        identifiers: { $ifNull: ['$identifiers.value', null] },
         otherNamesEn: { $ifNull: ['$otherNamesEn', null] },
         otherNamesFr: { $ifNull: ['$otherNamesFr', null] },
         pluralNameFr: { $ifNull: ['$pluralNameFr', null] },
