@@ -3,5 +3,5 @@ in: path
 schema:
   type: string
   pattern: '^[a-zA-Z0-9]{15}$'
-required: true
+required: false
 description: Unique relations group id
