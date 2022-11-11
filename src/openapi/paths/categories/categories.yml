@@ -141,7 +141,12 @@ documentMethods:
       content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/CategoryPayload'
+              title: CreateCategory
+              type: object
+              required:
+                - usualNameFr
+              allOf:
+                - $ref: '../../api.yml#/components/schemas/CategoryPayload'
     responses:
       '201':
         description: Created
