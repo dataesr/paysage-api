@@ -53,6 +53,9 @@ allOf:
             type: number
           lng:
             type: number
+      active:
+        type: boolean
+        nullable: true
       startDate:
         type: string
         nullable: true
