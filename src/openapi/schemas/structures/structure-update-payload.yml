@@ -49,15 +49,3 @@ properties:
   descriptionEn:
     type: string
     nullable: true
-  year:
-    type: string
-    nullable: true
-  exercice:
-    type: string
-    nullable: true
-  netAccountingResult:
-    type: number
-    nullable: true
-  population:
-    type: integer
-    nullable: true

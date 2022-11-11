@@ -55,7 +55,7 @@ describe('API > legal categories > create', () => {
 describe('API > legal categories > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .patch(`/${resource}/45frK`)
+      .patch(`/${resource}/45frK45frK45frK`)
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(404);
@@ -107,7 +107,7 @@ describe('API > legal categories > read', () => {
   });
   it('throws not found with unknown id', async () => {
     await global.superapp
-      .get(`/${resource}/45frK`)
+      .get(`/${resource}/45frK45frK45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });
@@ -116,7 +116,7 @@ describe('API > legal categories > read', () => {
 describe('API > legal categories > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
-      .delete(`/${resource}/45frK`)
+      .delete(`/${resource}/45frK45frK45frK`)
       .set('Authorization', authorization)
       .expect(404);
   });

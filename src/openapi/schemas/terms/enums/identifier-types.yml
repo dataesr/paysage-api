@@ -1,10 +1,10 @@
-description: Valeurs possibles pour un type d'identifiant d'un terme
+description: Accepted values of identifier type for a term
 type: string
 enum:
-  - Wikidata
-  - PSUPT
   - idRef
   - ISO2
   - ISO3
   - PSUP
   - PSUPC
+  - PSUPT
+  - Wikidata

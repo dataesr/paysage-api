@@ -1,5 +1,5 @@
-description: Values for project's identifiers
+description: Accepted values of identifier type for a project
 type: string
 enum:
-  - Wikidata
   - Source
+  - Wikidata
