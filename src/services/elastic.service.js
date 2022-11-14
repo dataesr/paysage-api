@@ -1,11 +1,11 @@
 import { Client } from '@elastic/elasticsearch';
 
-import config from '../config';
+import config from '../config.js';
 
-const { node, username, password } = config.elastic;
+const { node, password, username } = config.elastic;
 
 const esConfig = { node };
-if (username && password) {
+if (password && username) {
   esConfig.auth = { username, password };
 }
 

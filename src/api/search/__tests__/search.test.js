@@ -1,11 +1,11 @@
-import esClient from "../../../services/elastic.service";
-import config from "../../../config";
+import config from '../../../config';
+import esClient from '../../../services/elastic.service';
 
 let authorization;
 const { index } = config.elastic;
 
 beforeAll(async () => {
-  authorization = await global.utils.createUser("user");
+  authorization = await global.utils.createUser('user');
   // Delete all indexed documents
   await esClient.deleteByQuery({
     index,
@@ -19,110 +19,110 @@ beforeAll(async () => {
   await esClient.index({
     index,
     body: {
-      acronym: "UK",
+      acronym: 'UK',
       isDeleted: false,
-      name: "Université de Kerivach",
-      search: "Université de Kerivach UK",
-      type: "structures",
+      name: 'Université de Kerivach',
+      search: 'Université de Kerivach UK',
+      type: 'structures',
     },
     refresh: true,
   });
   await esClient.index({
     index,
     body: {
-      acronym: "CM",
+      acronym: 'CM',
       isDeleted: false,
-      name: "centrale marseille",
-      search: "centrale marseille CM",
-      type: "structures",
+      name: 'centrale marseille',
+      search: 'centrale marseille CM',
+      type: 'structures',
     },
     refresh: true,
   });
   await esClient.index({
     index,
     body: {
-      acronym: "UE",
+      acronym: 'UE',
       isDeleted: false,
-      name: "université épicée",
-      search: "université épicée UE",
-      type: "structures",
+      name: 'université épicée',
+      search: 'université épicée UE',
+      type: 'structures',
     },
     refresh: true,
   });
   await esClient.index({
     index,
     body: {
-      acronym: "UL",
+      acronym: 'UL',
       isDeleted: true,
-      name: "université longjumeau",
-      search: "université longjumeau",
-      type: "structures",
+      name: 'université longjumeau',
+      search: 'université longjumeau',
+      type: 'structures',
     },
     refresh: true,
   });
 });
 
-describe("API > search", () => {
-  it("should find all indexed documents", async () => {
+describe('API > search', () => {
+  it('should find all indexed documents', async () => {
     const { body } = await global.superapp
-      .get("/autocomplete")
-      .set("Authorization", authorization)
+      .get('/autocomplete')
+      .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(3);
   });
 
-  it("should autocomplete", async () => {
+  it('should autocomplete', async () => {
     const { body } = await global.superapp
-      .get("/autocomplete?query=centra")
-      .set("Authorization", authorization)
+      .get('/autocomplete?query=centra')
+      .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(1);
-    expect(body.data[0].acronym).toBe("CM");
+    expect(body.data[0].acronym).toBe('CM');
     expect(body.data[0].isDeleted).toBeFalsy();
-    expect(body.data[0].name).toBe("centrale marseille");
-    expect(body.data[0].type).toBe("structures");
+    expect(body.data[0].name).toBe('centrale marseille');
+    expect(body.data[0].type).toBe('structures');
   });
 
-  it("should find accentuated characters", async () => {
+  it('should find accentuated characters', async () => {
     const { body } = await global.superapp
-      .get("/autocomplete?query=épice")
-      .set("Authorization", authorization)
+      .get('/autocomplete?query=épice')
+      .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(1);
-    expect(body.data[0].acronym).toBe("UE");
+    expect(body.data[0].acronym).toBe('UE');
     expect(body.data[0].isDeleted).toBeFalsy();
-    expect(body.data[0].name).toBe("université épicée");
-    expect(body.data[0].type).toBe("structures");
+    expect(body.data[0].name).toBe('université épicée');
+    expect(body.data[0].type).toBe('structures');
   });
 
-  it("should search a 2 words query", async () => {
+  it('should search a 2 words query', async () => {
     const { body } = await global.superapp
-      .get("/autocomplete?query=centr mars")
-      .set("Authorization", authorization)
+      .get('/autocomplete?query=centr mars')
+      .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(1);
-    expect(body.data[0].acronym).toBe("CM");
+    expect(body.data[0].acronym).toBe('CM');
     expect(body.data[0].isDeleted).toBeFalsy();
-    expect(body.data[0].name).toBe("centrale marseille");
-    expect(body.data[0].type).toBe("structures");
+    expect(body.data[0].name).toBe('centrale marseille');
+    expect(body.data[0].type).toBe('structures');
   });
 
-  it("should search all the terms of the query and not only one of it", async () => {
+  it('should search all the terms of the query and not only one of it', async () => {
     const { body } = await global.superapp
-      .get("/autocomplete?query=univ keri")
-      .set("Authorization", authorization)
+      .get('/autocomplete?query=univ keri')
+      .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(1);
-    expect(body.data[0].acronym).toBe("UK");
+    expect(body.data[0].acronym).toBe('UK');
     expect(body.data[0].isDeleted).toBeFalsy();
-    expect(body.data[0].name).toBe("Université de Kerivach");
-    expect(body.data[0].type).toBe("structures");
+    expect(body.data[0].name).toBe('Université de Kerivach');
+    expect(body.data[0].type).toBe('structures');
   });
 
-  it("should be deleted", async () => {
+  it('should be deleted', async () => {
     const { body } = await global.superapp
-      .get("/autocomplete?query=longjumeau")
-      .set("Authorization", authorization)
+      .get('/autocomplete?query=longjumeau')
+      .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(0);
   });

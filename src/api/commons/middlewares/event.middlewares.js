@@ -17,12 +17,12 @@ export function saveInElastic(repository, useQuery, resourceName) {
     }
     search += ` ${id}`;
     const action = {
-      search: [...new Set(search.split(' '))].join(' ').trim(),
-      type: resourceName,
-      id,
       acronym: resource?.acronym,
+      id,
       isDeleted: resource?.isDeleted || false,
       name: resource?.name,
+      search: [...new Set(search.split(' '))].join(' ').trim(),
+      type: resourceName,
     };
     switch (resourceName) {
       case 'structures':
