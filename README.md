@@ -49,4 +49,11 @@ To acess the paysage-auth from outside, use host : `http://localhost:3004/`.
 
 To see the API docs, see : http://localhost:3003/docs/api/.
 
-## Route
+## Documentation
+
+https://dataesr.stoplight.io/docs/paysage-api-1/95201cd74824d-bienvenue-sur-la-documentation-paysage
+
+
+## Run script to init ES
+
+`NODE_ENV=development ES_NODE=http://localhost:9200 MONGO_URI=mongodb://mongodb:27017 node es-init.js`
