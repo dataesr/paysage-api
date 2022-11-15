@@ -7,27 +7,10 @@ import logger from '../services/logger.service';
 const { index } = config.elastic;
 
 const body = {
-  mappings: {
-    properties: {
-      search: {
-        type: 'text',
-        analyzer: 'autocomplete',
-      },
-      name: {
-        type: 'text',
-        analyzer: 'light',
-      },
-    },
-  },
   settings: {
     number_of_shards: 1,
     analysis: {
       filter: {
-        autocomplete_filter: {
-          type: 'edge_ngram',
-          min_gram: 1,
-          max_gram: 20,
-        },
         french_elision: {
           type: 'elision',
           articles: [
@@ -49,17 +32,7 @@ const body = {
         },
       },
       analyzer: {
-        autocomplete: {
-          filter: [
-            'lowercase',
-            'french_elision',
-            'icu_folding',
-            'autocomplete_filter',
-          ],
-          tokenizer: 'icu_tokenizer',
-          type: 'custom',
-        },
-        light: {
+        default: {
           filter: [
             'lowercase',
             'french_elision',
