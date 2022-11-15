@@ -22,6 +22,10 @@ properties:
     type: string
     nullable: true
     example: La Défense
+  city:
+    type: string
+    nullable: true
+    example: Puteau
   country:
     type: string
   active:

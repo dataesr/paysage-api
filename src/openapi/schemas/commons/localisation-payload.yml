@@ -7,6 +7,10 @@ properties:
     nullable: true
     description: Code d'identification de la commune (code insee pour la france)
     example: 67482
+  city:
+    type: string
+    nullable: true
+    example: Puteau
   distributionStatement:
     type: string
     nullable: true

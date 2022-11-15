@@ -55,6 +55,7 @@ export default [
       endDateOfficialText: 1,
       startDate: { $ifNull: ['$startDate', null] },
       endDate: { $ifNull: ['$endDate', null] },
+      endDatePrevisional: { $ifNull: ['$endDatePrevisional', null] },
       mandatePosition: { $ifNull: ['$mandatePosition', null] },
       mandateReason: { $ifNull: ['$mandateReason', null] },
       mandateEmail: { $ifNull: ['$mandateEmail', null] },
