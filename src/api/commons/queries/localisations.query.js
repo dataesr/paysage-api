@@ -63,6 +63,7 @@ export default [
       id: 1,
       address: 1,
       cityId: { $ifNull: ['$cityId', null] },
+      city: { $ifNull: ['$city', null] },
       distributionStatement: { $ifNull: ['$distributionStatement', null] },
       country: 1,
       postOfficeBoxNumber: { $ifNull: ['$postOfficeBoxNumber', null] },
