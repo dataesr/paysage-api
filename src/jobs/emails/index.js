@@ -2,7 +2,7 @@ import mailer from '../../services/mailer.service';
 
 export const sendAuthenticationEmail = (job) => mailer.sendEmail({
   to: [{ email: job.attrs?.data?.user?.email }],
-  templateId: 167,
+  templateId: 203,
   params: {
     PRENOM: job.attrs?.data?.user?.firstName,
     NOM: job.attrs?.data?.user?.lastName,
