@@ -7,6 +7,18 @@ import logger from '../services/logger.service';
 const { index } = config.elastic;
 
 const body = {
+  mappings: {
+    properties: {
+      search: {
+        type: 'text',
+        analyzer: 'light',
+      },
+      name: {
+        type: 'text',
+        analyzer: 'light',
+      },
+    },
+  },
   settings: {
     number_of_shards: 1,
     analysis: {
@@ -40,6 +52,14 @@ const body = {
           ],
           tokenizer: 'icu_tokenizer',
         },
+        light: {
+          filter: [
+            'lowercase',
+            'french_elision',
+            'icu_folding',
+          ],
+          tokenizer: 'icu_tokenizer',
+        },
       },
     },
   },
@@ -48,6 +68,7 @@ const body = {
 async function setupElasticIndices() {
   const exists = await esClient.indices.exists({ index });
   if (!exists.body) {
+    logger.info('Elasticsearch index creation');
     await esClient.indices.create({ index, body });
   }
   logger.info('Elasticsearch setup successful');
