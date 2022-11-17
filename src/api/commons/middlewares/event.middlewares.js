@@ -11,41 +11,11 @@ export function saveInElastic(repository, useQuery, resourceName) {
     const esData = await esClient.search({ index, body: { query: { match: { id } } } });
     const _id = esData?.body?.hits?.hits?.[0]?._id;
     const resource = await repository.get(id, { useQuery, keepDeleted: true });
-    let search = '';
-    for (let i = 0; i < resource?.toindex?.length || 0; i += 1) {
-      search += ` ${Object.values(resource.toindex[i]).flat().filter((n) => n).join(' ')}`;
-    }
-    search += ` ${id}`;
-    const action = {
-      acronym: resource?.acronym,
-      id,
-      isDeleted: resource?.isDeleted || false,
-      name: resource?.name,
-      search: [...new Set(search.split(' '))].join(' ').trim(),
-      type: resourceName,
-    };
-    switch (resourceName) {
-      case 'structures':
-        action.creationDate = resource?.creationDate;
-        action.locality = resource?.locality?.[0];
-        action.shortName = resource?.shortName;
-        break;
-      case 'projects':
-        action.startDate = resource?.startDate;
-        break;
-      case 'persons':
-        break;
-      case 'categories':
-        break;
-      case 'terms':
-        break;
-      case 'official-texts':
-        break;
-      default:
-    }
+    resource.isDeleted = resource?.isDeleted || false;
+    resource.type = resourceName;
     const actions = [];
     actions.push(_id ? { index: { _index: index, _id } } : { index: { _index: index } });
-    actions.push(action);
+    actions.push(resource);
     await esClient.bulk({ refresh: true, body: actions });
     return next();
   };

@@ -9,11 +9,19 @@ const { index } = config.elastic;
 const body = {
   mappings: {
     properties: {
-      search: {
+      locality: {
         type: 'text',
         analyzer: 'light',
       },
       name: {
+        type: 'text',
+        analyzer: 'light',
+      },
+      names: {
+        type: 'text',
+        analyzer: 'light',
+      },
+      shortName: {
         type: 'text',
         analyzer: 'light',
       },

@@ -22,7 +22,6 @@ beforeAll(async () => {
       acronym: 'UK',
       isDeleted: false,
       name: 'Université de Kerivach',
-      search: 'Université de Kerivach UK',
       type: 'structures',
     },
     refresh: true,
@@ -33,7 +32,6 @@ beforeAll(async () => {
       acronym: 'CM',
       isDeleted: false,
       name: 'centrale marseille',
-      search: 'centrale marseille CM',
       type: 'structures',
     },
     refresh: true,
@@ -44,7 +42,6 @@ beforeAll(async () => {
       acronym: 'UE',
       isDeleted: false,
       name: 'université épicée',
-      search: 'université épicée UE',
       type: 'structures',
     },
     refresh: true,
@@ -55,7 +52,6 @@ beforeAll(async () => {
       acronym: 'UL',
       isDeleted: true,
       name: 'université longjumeau',
-      search: 'université longjumeau',
       type: 'structures',
     },
     refresh: true,
@@ -73,7 +69,7 @@ describe('API > search', () => {
 
   it('should autocomplete', async () => {
     const { body } = await global.superapp
-      .get('/autocomplete?query=centra')
+      .get('/autocomplete?query=centrale')
       .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(1);
