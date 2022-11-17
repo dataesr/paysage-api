@@ -50,7 +50,7 @@ export default [
       resource: 1,
       relationsGroupId: { $ifNull: ['$relationsGroupId', null] },
       relatedObject: 1,
-      relationType: 1,
+      relationType: { $ifNull: ['$relationType', { priority: 99 }] },
       startDateOfficialText: 1,
       endDateOfficialText: 1,
       startDate: { $ifNull: ['$startDate', null] },
