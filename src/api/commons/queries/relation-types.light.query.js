@@ -8,7 +8,7 @@ export default [
       pluralName: { $ifNull: ['$pluralName', null] },
       maleName: { $ifNull: ['$maleName', null] },
       feminineName: { $ifNull: ['$feminineName', null] },
-      priority: 1,
+      priority: { $ifNull: ['$priority', 99] },
     },
   },
 ];
