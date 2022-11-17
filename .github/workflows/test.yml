@@ -18,7 +18,6 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - uses: dataesr/slack-notifier-action@v1
         with:
           deployment_url: ${{ env.DEPLOYMENT_URL }}
