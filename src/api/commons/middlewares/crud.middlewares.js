@@ -26,7 +26,7 @@ const create = (repository, useQuery) => async (req, res, next) => {
   // TODO: For migration, next lines are commented. Reuse it after migration
   // const resource = await repository.get(insertedId, { useQuery });
   // res.status(201).json(resource);
-  res.status(201);
+  res.status(201).json({ ok: 1 });
   return next();
 };
 
