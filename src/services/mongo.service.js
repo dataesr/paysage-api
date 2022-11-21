@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 import config from '../config';
 import logger from './logger.service';
 
-const { mongoUri, mongoDbName } = config.mongo;
+const { mongoDbName, mongoUri } = config.mongo;
 
 const client = new MongoClient(mongoUri, { directConnection: true });
 

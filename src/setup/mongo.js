@@ -6,10 +6,16 @@ import { client, db } from '../services/mongo.service';
 async function setupMongo() {
   await db.collection('categories').createIndex({ id: 1 }, { unique: true });
   await db.collection('documents').createIndex({ id: 1 }, { unique: true });
+  await db.collection('documents').createIndex({ id: 1, relatesTo: 1 });
   await db.collection('documenttypes').createIndex({ id: 1 }, { unique: true });
   await db.collection('emails').createIndex({ id: 1 }, { unique: true });
   await db.collection('emails').createIndex({ resourceId: 1 });
   await db.collection('emailtypes').createIndex({ id: 1 }, { unique: true });
+  await db.collection('followups').createIndex({ id: 1 }, { unique: true });
+  await db.collection('followups').createIndex({ id: 1, relatesTo: 1 });
+  await db.collection('groups').createIndex({ id: 1 }, { unique: true });
+  await db.collection('groupmembers').createIndex({ userId: 1, groupId: 1 }, { unique: true });
+  await db.collection('groupmembers').createIndex({ userId: 1 });
   await db.collection('identifiers').createIndex({ id: 1 }, { unique: true });
   await db.collection('identifiers').createIndex({ resourceId: 1 });
   await db.collection('identifiers').createIndex({ resourceId: 1, type: 1 });
@@ -17,10 +23,6 @@ async function setupMongo() {
   await db.collection('legalcategories').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialtexts').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialtexts').createIndex({ id: 1, relatesTo: 1 });
-  await db.collection('followups').createIndex({ id: 1 }, { unique: true });
-  await db.collection('followups').createIndex({ id: 1, relatesTo: 1 });
-  await db.collection('documents').createIndex({ id: 1 }, { unique: true });
-  await db.collection('documents').createIndex({ id: 1, relatesTo: 1 });
   await db.collection('persons').createIndex({ id: 1 }, { unique: true });
   await db.collection('prices').createIndex({ id: 1 }, { unique: true });
   await db.collection('projects').createIndex({ id: 1 }, { unique: true });
@@ -42,9 +44,6 @@ async function setupMongo() {
   await db.collection('tokens').createIndex({ token: 1, userAgent: 1 });
   await db.collection('users').createIndex({ email: 1 }, { unique: true });
   await db.collection('users').createIndex({ id: 1 }, { unique: true });
-  await db.collection('groups').createIndex({ id: 1 }, { unique: true });
-  await db.collection('groupmembers').createIndex({ userId: 1, groupId: 1 }, { unique: true });
-  await db.collection('groupmembers').createIndex({ userId: 1 });
   await db.collection('weblinks').createIndex({ id: 1 }, { unique: true });
   await db.collection('weblinks').createIndex({ resourceId: 1 });
   logger.info('Mongodb setup successful');

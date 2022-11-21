@@ -20,6 +20,10 @@
 
 `npm run docker:test`
 
+### Reindex / sync the Mongo database into ES
+
+`npm run reindex`
+
 ### Docker
 
 
