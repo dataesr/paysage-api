@@ -3,13 +3,6 @@ import currentNameQuery from './current-name.query';
 export default [
   ...currentNameQuery,
   {
-    $set: {
-      toindex: {
-        $concatArrays: ['$names', { $ifNull: ['$localisations', []] }],
-      },
-    },
-  },
-  {
     $lookup: {
       from: 'identifiers',
       localField: 'id',

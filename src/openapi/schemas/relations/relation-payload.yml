@@ -10,7 +10,7 @@ properties:
   relatedObjectId:
     type: string
     description: Identifiant unique de l'objet paysage à lier
-    pattern: '^[a-zA-Z0-9]{5}$'
+    pattern: '((^[a-zA-Z0-9]{5}$)|(^[a-zA-Z0-9]{15}$))'
   relationTypeId:
     type: string
     description: Identifiant unique d'un type de relation
