@@ -17,10 +17,6 @@ const body = {
         type: 'text',
         analyzer: 'light',
       },
-      names: {
-        type: 'text',
-        analyzer: 'light',
-      },
       shortName: {
         type: 'text',
         analyzer: 'light',
