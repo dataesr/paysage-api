@@ -56,9 +56,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: publish-ghcr
     steps:
-      - name: Check Out Repo
-        uses: actions/checkout@v3
-
       - name: Deploy to Cluster
         id: kubectl-deploy
         uses: dataesr/kubectl-deploy@v1.1

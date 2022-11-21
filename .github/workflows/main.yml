@@ -17,7 +17,7 @@ jobs:
     name: Publish docker image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Log into registry
         run: docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
@@ -44,7 +44,7 @@ jobs:
     needs: publish-ghcr
     steps:
       - name: Check Out Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Get version
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Build docs
         run: |
           npm i swagger-cli
@@ -86,9 +86,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: release
     steps:
-      - name: Check Out Repo
-        uses: actions/checkout@v2
-
       - name: Deploy to Cluster
         id: kubectl-deploy
         uses: dataesr/kubectl-deploy@v1.1
@@ -103,7 +100,6 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - uses: dataesr/slack-notifier-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
