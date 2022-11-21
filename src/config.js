@@ -15,7 +15,7 @@ const production = {
     node: process.env.ES_NODE,
     username: process.env.ES_USERNAME,
     password: process.env.ES_PASSWORD,
-    index: 'paysage-prod',
+    index: 'paysage',
   },
   objectStorage: {
     credentials: {

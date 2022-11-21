@@ -1,4 +1,5 @@
 import winston from 'winston';
+
 import config from '../config';
 
 const { combine, printf, colorize, timestamp, errors } = winston.format;
