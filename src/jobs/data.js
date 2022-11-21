@@ -36,20 +36,24 @@ const backupData = async (job, done) => {
     id: 'piaweb_paysage',
     name: 'piaweb-paysage',
     paysageIdFields: ['etablissement_id_paysage'],
+  /*
   }, {
     // Download might fail with "Unexpected end of JSON input" error if not enough RAM
     id: 'fr-esr-sise-effectifs-d-etudiants-inscrits-esr-public',
     name: 'population-sise',
     paysageIdFields: ['etablissement_id_paysage'],
+  */
   }, {
     id: 'fr-esr-statistiques-sur-les-effectifs-d-etudiants-inscrits-par-etablissement',
     name: 'population-statistics',
     paysageIdFields: ['etablissement_id_paysage'],
+  /*
   }, {
     // Download might fail with "Unexpected end of JSON input" error if not enough RAM
     id: 'fr-esr-principaux-diplomes-et-formations-prepares-etablissements-publics',
     name: 'qualifications',
     paysageIdFields: ['etablissement_id_paysage'],
+  */
   }, {
     id: 'fr-esr-patrimoine-immobilier-des-operateurs-de-l-enseignement-superieur',
     name: 'real-estate',
