@@ -31,8 +31,7 @@ router.route(`/${resource}/:id`)
     fromPayloadToStructure,
     controllers.create(repository, readQuery),
     saveInStore(resource),
-    // TODO: decide if it should remain. Not used in migration and route should be deleted after that
-    // saveInElastic(repository, elasticQuery, resource),
+    saveInElastic(repository, elasticQuery, resource),
   ])
   .patch([
     validatePayload,

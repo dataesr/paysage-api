@@ -12,6 +12,7 @@ enum:
   - hceres
   - IUF
   - jorfsearch
+  - LeMonde
   - mooc
   - OE1
   - OE2
@@ -24,6 +25,13 @@ enum:
   - Page rapport d'activité
   - Photothèque
   - POpenData
+  - rankingLeiden
+  - rankingQs
+  - rankingScimago
+  - rankingShanghai
+  - rankingThe
+  - rankingUmultirank
+  - rankingWebometrics
   - scanR
   - Service communication
   - ServicePublic
@@ -37,10 +45,3 @@ enum:
   - websiteOrganizationChart
   - websiteRss
   - Wikipedia
-  - rankingShanghai
-  - rankingThe
-  - rankingScimago
-  - rankingQs
-  - rankingUmultirank
-  - rankingLeiden
-  - rankingWebometrics
