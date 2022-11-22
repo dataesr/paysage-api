@@ -1,6 +1,6 @@
 import { BadRequestError, UnauthorizedError } from '../commons/http-errors';
 // import { catalogRepository } from '../commons/repositories';
-import readQuery from '../commons/queries/officialtexts.query';
+import readQuery from '../commons/queries/official-texts.query';
 import { officialtextsRepository as repository } from '../commons/repositories';
 
 export async function validatePayload(req, res, next) {

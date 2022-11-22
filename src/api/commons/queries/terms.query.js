@@ -1,5 +1,5 @@
 import metas from './metas.query';
-import officialtextLightQuery from './officialtexts.light.query';
+import officialtextLightQuery from './official-texts.light.query';
 
 export default [
   ...metas,
