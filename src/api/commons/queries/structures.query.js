@@ -1,7 +1,7 @@
 import metas from './metas.query';
 import currentLocalisationQuery from './current-localisation.query';
 import currentNameQuery from './current-name.query';
-import officialtextLightQuery from './officialtexts.light.query';
+import officialtextLightQuery from './official-texts.light.query';
 
 export default [
   ...metas,

@@ -1,5 +1,5 @@
 import metas from './metas.query';
-import officialtextLightQuery from './officialtexts.light.query';
+import officialtextLightQuery from './official-texts.light.query';
 import relationTypesLightQuery from './relation-types.light.query';
 import { relatedObjectLookup, resourceLookup, associatedObjectsListLookup } from './related-object.query';
 

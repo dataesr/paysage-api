@@ -4,8 +4,8 @@ import { patchContext, createContext, setGeneratedInternalIdInContext, setPutIdI
 import { saveInElastic, saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 import { validatePayload } from './officialtext.middlewares';
-import elasticQuery from '../commons/queries/officialtexts.elastic';
-import readQuery from '../commons/queries/officialtexts.query';
+import elasticQuery from '../commons/queries/official-texts.elastic';
+import readQuery from '../commons/queries/official-texts.query';
 import { officialtextsRepository as repository } from '../commons/repositories';
 import { officialtexts as resource } from '../resources';
 
