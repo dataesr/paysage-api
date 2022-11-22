@@ -21,14 +21,12 @@ export default [
     $project: {
       _id: 0,
       id: 1,
-      toindex: [{
-        firstName: { $ifNull: ['$firstName', false] },
-        identifiers: { $ifNull: ['$identifiers.value', null] },
-        lastName: { $ifNull: ['$lastName', false] },
-        otherNames: { $ifNull: ['$otherNames', false] },
-      }],
+      firstName: { $ifNull: ['$firstName', false] },
+      identifiers: { $ifNull: ['$identifiers.value', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
-      name: { $concat: [{ $ifNull: ['$firstName', null] }, ' ', '$lastName'] },
+      lastName: { $ifNull: ['$lastName', false] },
+      name: { $concat: [{ $ifNull: ['$firstName', null] }, ' ', { $ifNull: ['$lastName', null] }] },
+      otherNames: { $ifNull: ['$otherNames', false] },
     },
   },
 ];
