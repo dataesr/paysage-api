@@ -22,7 +22,9 @@
 
 ### Reindex / sync the Mongo database into ES
 
-`npm run reindex`
+`npm run reindex [TYPE]`
+
+Where type could be omitted, or be one value between "categories", "legal-categories", "official-texts", "persons", "prices", "projects", "structures", "terms", "users".
 
 ### Docker
 

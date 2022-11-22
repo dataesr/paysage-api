@@ -5,13 +5,13 @@ import esClient from './src/services/elastic.service';
 import { client, db } from './src/services/mongo.service';
 
 const { index } = config.elastic;
-const allowedTypes = ['categories', 'legal-categories', 'officialtexts', 'persons', 'prices', 'projects', 'structures', 'terms', 'users'];
+const allowedTypes = ['categories', 'legal-categories', 'official-texts', 'persons', 'prices', 'projects', 'structures', 'terms', 'users'];
 
 const load = async (paysageObject) => {
   const { default: query } = await import(`./src/api/commons/queries/${paysageObject}.elastic.js`);
   // Collect all Paysage objects from Mongo
   const body = [];
-  const objects = db.collection(paysageObject).aggregate(query);
+  const objects = db.collection(paysageObject.replace('-', '')).aggregate(query);
   await objects.forEach((object) => {
     body.push({ index: { _index: index } });
     body.push({ ...object, isDeleted: object?.isDeleted || false, type: paysageObject });
@@ -32,7 +32,7 @@ const load = async (paysageObject) => {
   });
 
   // Index all Paysage objects in ES
-  await esClient.bulk({ refresh: true, body });
+  if (body.length) await esClient.bulk({ refresh: true, body });
 };
 
 if (process.argv.length === 2) {
