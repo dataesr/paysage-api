@@ -1,0 +1,48 @@
+title: Press
+description: Représentation d'un article de presse
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+        readOnly: true
+      alertId:
+        type: string
+        pattern: '^[0-9]{6}$'
+        readOnly: true
+      sourceUrl:
+        type: string
+      sourceName:
+        type: string
+        nullable: true
+      title:
+        type: string
+      summary:
+        type: string
+        nullable: true
+      text:
+        type: string
+        nullable: true
+      publicationDate:
+        type: string
+        pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+      crawlDate:
+        type: string
+        pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+        nullable: true
+      relatedObjects:
+        type: array
+        items:
+          type: object
+      matchedWith:
+        type: array
+        items:
+          type: object
+      excluded:
+        type: array
+        items:
+          type: object
+      treated:
+        type: boolean
+  - $ref: '../../api.yml#/components/schemas/Metas'

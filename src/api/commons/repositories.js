@@ -18,6 +18,7 @@ export const identifiersRepository = new BaseMongoRepository({ db, collection: '
 export const legalcategoriesRepository = new BaseMongoRepository({ db, collection: 'legalcategories' });
 export const officialtextsRepository = new BaseMongoRepository({ db, collection: 'officialtexts' });
 export const personsRepository = new BaseMongoRepository({ db, collection: 'persons' });
+export const pressRepository = new BaseMongoRepository({ db, collection: 'press' });
 export const pricesRepository = new BaseMongoRepository({ db, collection: 'prices' });
 export const projectLocalisationsRepository = new NestedMongoRepository({ db, collection: 'projects', field: 'localisations' });
 export const projectsRepository = new BaseMongoRepository({ db, collection: 'projects' });

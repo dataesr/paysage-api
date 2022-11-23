@@ -6,8 +6,8 @@ export async function validatePayload(req, res, next) {
   const errors = [];
   const { emailTypesId } = req.body;
   if (emailTypesId) {
-    const emailType = await emailTypesRepository.get(emailTypesId);
-    if (!emailType?.id) { errors.push({ path: '.body.emailTypesId', message: `emailType ${emailTypesId} does not exist` }); }
+    const emailType = await emailTypesRepository._collection.findOne({ id: emailTypesId });
+    if (!emailType) { errors.push({ path: '.body.emailTypesId', message: `emailType ${emailTypesId} does not exist` }); }
   }
   if (errors.length) throw new BadRequestError('Validation failed', errors);
   return next();

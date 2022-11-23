@@ -1,0 +1,44 @@
+title: PressPayload
+description: Modèle de creation et de mise à jour d'un document
+type: object
+properties:
+  alertId:
+    type: string
+    pattern: '^[0-9]{6}$'
+  sourceUrl:
+    type: string
+  sourceName:
+    type: string
+    nullable: true
+  title:
+    type: string
+  summary:
+    type: string
+    nullable: true
+  text:
+    type: string
+    nullable: true
+  publicationDate:
+    type: string
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+  crawlDate:
+    type: string
+    pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+    nullable: true
+  relatesTo:
+    type: array
+    items:
+      type: string
+      pattern: ^(([a-zA-Z0-9]{5})|([a-zA-Z0-9]{15}))$
+  matchedWith:
+    type: array
+    items:
+      type: string
+      pattern: ^(([a-zA-Z0-9]{5})|([a-zA-Z0-9]{15}))$
+  excluded:
+    type: array
+    items:
+      type: string
+      pattern: ^(([a-zA-Z0-9]{5})|([a-zA-Z0-9]{15}))$
+  treated:
+    type: boolean

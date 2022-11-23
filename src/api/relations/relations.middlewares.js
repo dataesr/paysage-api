@@ -12,17 +12,17 @@ export async function validatePayload(req, res, next) {
   if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
   const errors = [];
   const { resourceId, relatedObjectId, relationTypeId, relationsGroupId } = req.body;
-  const resource = await catalogRepository.find({ filters: { _id: resourceId } });
-  const related = await catalogRepository.find({ filters: { _id: relatedObjectId } });
-  if (!resource?.totalCount) {
+  const resource = await catalogRepository._collection.findOne({ _id: resourceId });
+  const related = await catalogRepository._collection.findOne({ _id: relatedObjectId });
+  if (!resource) {
     errors.push({
       path: '.body.resourceId',
       message: `Object '${resourceId}' does not exist`,
     });
   }
-  if (!related?.totalCount) {
+  if (!related) {
     errors.push({
-      path: '.body.relationsGroupId',
+      path: '.body.relatedObjectId',
       message: `Object '${relatedObjectId}' does not exist`,
     });
   }
