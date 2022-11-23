@@ -34,6 +34,7 @@ tags:
   - name: Persons - Identifiers
   - name: Persons - SocialMedias
   - name: Persons - Weblinks
+  - name: Press
   - name: Prices
   - name: Projects
   - name: Projects - Localisations
@@ -234,6 +235,12 @@ paths:
   '/documents/{documentId}':
     $ref: './paths/documents/documents.yml#/documentMethods'
 
+  ### PRESS ###
+  '/press':
+    $ref: './paths/press/press.yml#/collectionMethods'
+  '/press/{pressId}':
+    $ref: './paths/press/press.yml#/documentMethods'
+
   ### PRIX SCIENTIFIQUES ###
   '/prices':
     $ref: './paths/prices/prices.yml#/collectionMethods'
@@ -347,6 +354,8 @@ components:
       $ref: ./parameters/ids/official-text-id.yml
     personId:
       $ref: ./parameters/ids/person-id.yml
+    pressId:
+      $ref: ./parameters/ids/press-id.yml
     priceId:
       $ref: ./parameters/ids/price-id.yml
     projectId:
@@ -456,6 +465,8 @@ components:
       $ref: './schemas/persons/person-light.yml'
     PersonWeblink:
       $ref: './schemas/persons/weblink.yml'
+    Press:
+      $ref: './schemas/press/press.yml'
     Price:
       $ref: './schemas/prices/price.yml'
     PriceIdentifier:
@@ -568,6 +579,8 @@ components:
       $ref: './schemas/persons/person-payload.yml'
     PersonWeblinkPayload:
       $ref: './schemas/persons/weblink-payload.yml'
+    PressPayload:
+      $ref: './schemas/press/press-payload.yml'
     PricePayload:
       $ref: './schemas/prices/price-payload.yml'
     PriceIdentifierPayload:

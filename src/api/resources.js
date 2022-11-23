@@ -15,6 +15,7 @@ export const me = 'me';
 export const names = 'names';
 export const officialtexts = 'official-texts';
 export const persons = 'persons';
+export const press = 'press';
 export const prices = 'prices';
 export const projects = 'projects';
 export const relations = 'relations';

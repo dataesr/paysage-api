@@ -113,6 +113,14 @@ export const relatedObjectsListLookup = [
   ...getRelatedObject('relatesTo'),
   { $set: { relatedObjects: '$related' } },
 ];
+export const matchedWithListLookup = [
+  ...getRelatedObject('matchedWith'),
+  { $set: { matchedWith: '$related' } },
+];
+export const excludedObjectsListLookup = [
+  ...getRelatedObject('excluded'),
+  { $set: { excluded: '$related' } },
+];
 export const associatedObjectsListLookup = [
   ...getRelatedObject('otherAssociatedObjectIds'),
   { $set: { otherAssociatedObjects: '$related' } },
