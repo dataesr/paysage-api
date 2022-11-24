@@ -7,6 +7,9 @@ allOf:
       id:
         type: string
         pattern: '^[a-zA-Z0-9]{15}$'
+      resourceId:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
       name:
         type: string
       otherNames:
@@ -20,7 +23,7 @@ allOf:
         description: Objects paysage suceptibles d'apartenir au groupe de relation
         items:
           type: string
-          enum: ["structures", "categories", "persons", "prices", "terms", "legal-categories"]
+          enum: ["structures", "categories", "persons", "prices", "terms", "projects"]
       priority:
         type: integer
         minimum: 1

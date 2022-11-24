@@ -27,7 +27,7 @@ export async function validatePayload(req, res, next) {
     });
   }
   if (relationTypeId) {
-    const type = await relationTypesRepository.get(relationTypeId);
+    const type = await relationTypesRepository._collection.findOne({ id: relationTypeId });
     if (!type) {
       errors.push({
         path: '.body.relationTypeId',
@@ -36,7 +36,7 @@ export async function validatePayload(req, res, next) {
     }
   }
   if (relationsGroupId) {
-    const group = await relationsGroupsRepository.get(relationsGroupId);
+    const group = await relationsGroupsRepository._collection.findOne({ id: relationsGroupId });
     if (!group) {
       errors.push({
         path: '.body.relationsGroupId',
@@ -47,5 +47,3 @@ export async function validatePayload(req, res, next) {
   if (!errors.length) return next();
   throw new BadRequestError('Referencing unknown resources', errors);
 }
-
-// TODO check if resourceID and relatedId exists with catalog

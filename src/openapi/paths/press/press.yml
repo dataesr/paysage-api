@@ -45,7 +45,6 @@ collectionMethods:
               - title
               - publicationDate
               - sourceUrl
-              - alertId
             allOf:
               - $ref: '../../api.yml#/components/schemas/PressPayload'
     responses:

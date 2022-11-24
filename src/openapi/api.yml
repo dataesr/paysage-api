@@ -42,6 +42,7 @@ tags:
   - name: Projects - Identifiers
   - name: Projects - SocialMedias
   - name: Relations
+  - name: Relations groups
   - name: Relation types
   - name: Search
   - name: Structures
@@ -51,7 +52,6 @@ tags:
   - name: Structures - Localisations
   - name: Structures - Logos
   - name: Structures - Names
-  - name: Structures - Relations groups
   - name: Structures - SocialMedias
   - name: Structures - Weblinks
   - name: Supervising ministers
@@ -140,10 +140,6 @@ paths:
     $ref: './paths/structures/names.yml#/collectionMethods'
   '/structures/{structureId}/names/{nameId}':
     $ref: './paths/structures/names.yml#/documentMethods'
-  '/structures/{structureId}/relations-groups':
-    $ref: './paths/structures/relationsgroups.yml#/collectionMethods'
-  '/structures/{structureId}/relations-groups/{relationsGroupId}':
-    $ref: './paths/structures/relationsgroups.yml#/documentMethods'
   '/structures/{structureId}/social-medias':
     $ref: './paths/structures/social-medias.yml#/collectionMethods'
   '/structures/{structureId}/social-medias/{socialmediaId}':
@@ -170,10 +166,6 @@ paths:
     $ref: './paths/persons/social-medias.yml#/collectionMethods'
   '/persons/{personId}/social-medias/{socialmediaId}':
     $ref: './paths/persons/social-medias.yml#/documentMethods'
-  '/persons/{personId}/relations-groups':
-    $ref: './paths/persons/relationsgroups.yml#/collectionMethods'
-  '/persons/{personId}/relations-groups/{relationsGroupId}':
-    $ref: './paths/persons/relationsgroups.yml#/documentMethods'
 
   ### TERMS ###
   '/terms':
@@ -240,6 +232,12 @@ paths:
     $ref: './paths/press/press.yml#/collectionMethods'
   '/press/{pressId}':
     $ref: './paths/press/press.yml#/documentMethods'
+
+  ### RELATION GROUPS ###
+  '/relations-groups':
+    $ref: './paths/relationsgroups/relationsgroups.yml#/collectionMethods'
+  '/relations-groups/{relationsGroupId}':
+    $ref: './paths/relationsgroups/relationsgroups.yml#/documentMethods'
 
   ### PRIX SCIENTIFIQUES ###
   '/prices':
@@ -490,7 +488,7 @@ components:
     RelationTypeLight:
       $ref: './schemas/relationtypes/relationtype-light.yml'
     RelationsGroup:
-      $ref: './schemas/commons/relationsgroup.yml'
+      $ref: './schemas/relationsgroups/relationsgroup.yml'
     SignInPayload:
       $ref: ./schemas/auth/signin-payload.yml
     SignUpPayload:
@@ -598,7 +596,7 @@ components:
     RelationTypePayload:
       $ref: './schemas/relationtypes/relationtype-payload.yml'
     RelationsGroupPayload:
-      $ref: './schemas/commons/relationsgroup-payload.yml'
+      $ref: './schemas/relationsgroups/relationsgroup-payload.yml'
     SocialMediaPayload:
       $ref: './schemas/commons/social-media-payload.yml'
     StructureCreatePayload:

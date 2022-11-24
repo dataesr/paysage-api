@@ -4,7 +4,7 @@ type: object
 properties:
   alertId:
     type: string
-    pattern: '^[0-9]{6}$'
+    nullable: true
   sourceUrl:
     type: string
   sourceName:
