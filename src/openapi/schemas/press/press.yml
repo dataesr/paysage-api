@@ -9,8 +9,7 @@ allOf:
         readOnly: true
       alertId:
         type: string
-        pattern: '^[0-9]{6}$'
-        readOnly: true
+        nullable: true
       sourceUrl:
         type: string
       sourceName:

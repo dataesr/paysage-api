@@ -1,10 +1,9 @@
 collectionMethods:
   get:
     tags:
-      - Persons - Relations groups
-    summary: List all person's relation groups
+      - Relations groups
+    summary: List all relation groups
     parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
       - $ref: '../../api.yml#/components/parameters/limit'
@@ -34,10 +33,8 @@ collectionMethods:
 
   post:
     tags:
-      - Persons - Relations groups
-    summary: Create a new relation group for the person
-    parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
+      - Relations groups
+    summary: Create a new relation group
     requestBody:
       content:
         application/json:
@@ -68,10 +65,9 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Persons - Relations groups
-    summary: Get a person relation group by ID
+      - Relations groups
+    summary: Get a relation group by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/relationsGroupId'
     responses:
       '200':
@@ -91,10 +87,9 @@ documentMethods:
 
   delete:
     tags:
-      - Persons - Relations groups
-    summary: Delete a person relation group by ID
+      - Relations groups
+    summary: Delete a relation group by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/relationsGroupId'
     responses:
       '204':
@@ -110,10 +105,9 @@ documentMethods:
 
   patch:
     tags:
-      - Persons - Relations groups
-    summary: Update a person relation group by ID
+      - Relations groups
+    summary: Update a relation group by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/personId'
       - $ref: '../../api.yml#/components/parameters/relationsGroupId'
     requestBody:
       content:
@@ -135,5 +129,32 @@ documentMethods:
         $ref: '../../api.yml#/components/responses/Forbidden'
       '404':
         $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  put:
+    tags:
+      - Relations groups
+    summary: Create a new relation group with ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/relationsGroupId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+              $ref: '../../api.yml#/components/schemas/RelationsGroupPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/RelationsGroup'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
