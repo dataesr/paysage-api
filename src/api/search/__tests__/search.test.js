@@ -40,7 +40,7 @@ beforeAll(async () => {
     index,
     body: {
       acronym: 'UE',
-      id: '12345',
+      identifiers: ['12345'],
       isDeleted: false,
       name: 'université épicée',
       type: 'structures',
@@ -104,7 +104,7 @@ describe('API > search', () => {
     expect(body.data[0].type).toBe('structures');
   });
 
-  it.skip('should search multiple partial words', async () => {
+  it('should search multiple partial words', async () => {
     const { body } = await global.superapp
       .get('/autocomplete?query=univ keri')
       .set('Authorization', authorization)
@@ -116,7 +116,7 @@ describe('API > search', () => {
     expect(body.data[0].type).toBe('structures');
   });
 
-  it('should search in id field', async () => {
+  it('should search in identifiers field', async () => {
     const { body } = await global.superapp
       .get('/autocomplete?query=12345')
       .set('Authorization', authorization)
