@@ -72,11 +72,8 @@ router.route('/autocomplete')
       size: limit,
     };
     if (query) {
-      body.query.bool.must = [{ bool: { minimum_should_match: 1,
-        should: [
-          { multi_match: { query, operator: 'and', fields: ['name', 'id'] } },
-          { wildcard: { name: { value: `${query}*` } } },
-        ] } }];
+      body.query.bool.must = { query_string: { query: `*${query}*`,
+        fields: ['acronym', 'firstName', 'id', 'identifiers', 'lastName', 'locality', 'name', 'names', 'otherNames'] } };
     }
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
