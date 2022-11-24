@@ -61,9 +61,6 @@ router.route('/autocomplete')
           }],
         },
       },
-      _source: {
-        excludes: ['search'],
-      },
       aggs: {
         byTypes: {
           terms: {
@@ -75,7 +72,11 @@ router.route('/autocomplete')
       size: limit,
     };
     if (query) {
-      body.query.bool.must = [{ match: { names: { query, operator: 'and', analyzer: 'light' } } }];
+      body.query.bool.must = [{ bool: { minimum_should_match: 1,
+        should: [
+          { multi_match: { query, operator: 'and', fields: ['name', 'id'] } },
+          { wildcard: { name: { value: `${query}*` } } },
+        ] } }];
     }
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
