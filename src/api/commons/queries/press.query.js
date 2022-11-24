@@ -20,6 +20,7 @@ export default [
       updatedAt: 1,
       alertId: 1,
       title: 1,
+      summary: { $ifNull: ['$summary', null] },
       publicationDate: 1,
       sourceUrl: 1,
       sourceName: { $ifNull: ['$sourceName', null] },
