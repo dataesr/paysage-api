@@ -42,7 +42,7 @@ collectionMethods:
             title: DocumentPayLoad
             type: object
             required:
-              - title
+              # - title
               - documentTypeId
               - files
               - startDate

@@ -10,6 +10,7 @@ allOf:
       title:
         type: string
         description: Titre du document
+        nullable: true
       description:
         type: string
         description: Description du document
