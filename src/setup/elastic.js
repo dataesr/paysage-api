@@ -11,15 +11,15 @@ const body = {
     properties: {
       locality: {
         type: 'text',
-        analyzer: 'light',
       },
       name: {
         type: 'text',
-        analyzer: 'light',
+      },
+      otherNames: {
+        type: 'text',
       },
       shortName: {
         type: 'text',
-        analyzer: 'light',
       },
     },
   },

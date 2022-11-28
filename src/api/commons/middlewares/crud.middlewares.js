@@ -23,10 +23,8 @@ const create = (repository, useQuery) => async (req, res, next) => {
   const { body, context, params } = req;
   const insertedId = await repository.create({ ...body, ...params, ...context });
   if (!insertedId) throw new ServerError();
-  // TODO: For migration, next lines are commented. Reuse it after migration
-  // const resource = await repository.get(insertedId, { useQuery });
-  // res.status(201).json(resource);
-  res.status(201).json({ ok: 1 });
+  const resource = await repository.get(insertedId, { useQuery });
+  res.status(201).json(resource);
   return next();
 };
 
