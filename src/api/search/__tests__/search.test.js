@@ -43,6 +43,9 @@ beforeAll(async () => {
       identifiers: ['12345'],
       isDeleted: false,
       name: 'université épicée',
+      names: [{
+        otherNames: ['other'],
+      }],
       type: 'structures',
     },
     refresh: true,
@@ -57,6 +60,16 @@ beforeAll(async () => {
     },
     refresh: true,
   });
+  await esClient.index({
+    index,
+    body: {
+      acronym: 'UL',
+      isDeleted: false,
+      name: 'université épicée de kerivach',
+      type: 'structures',
+    },
+    refresh: true,
+  });
 });
 
 describe('API > search', () => {
@@ -65,7 +78,7 @@ describe('API > search', () => {
       .get('/autocomplete')
       .set('Authorization', authorization)
       .expect(200);
-    expect(body.data).toHaveLength(3);
+    expect(body.data).toHaveLength(4);
   });
 
   it('should search partial word', async () => {
@@ -85,7 +98,7 @@ describe('API > search', () => {
       .get('/autocomplete?query=épice')
       .set('Authorization', authorization)
       .expect(200);
-    expect(body.data).toHaveLength(1);
+    expect(body.data).toHaveLength(2);
     expect(body.data[0].acronym).toBe('UE');
     expect(body.data[0].isDeleted).toBeFalsy();
     expect(body.data[0].name).toBe('université épicée');
@@ -104,7 +117,7 @@ describe('API > search', () => {
     expect(body.data[0].type).toBe('structures');
   });
 
-  it('should search multiple partial words', async () => {
+  it.skip('should search multiple partial words', async () => {
     const { body } = await global.superapp
       .get('/autocomplete?query=univ keri')
       .set('Authorization', authorization)
@@ -134,5 +147,23 @@ describe('API > search', () => {
       .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(0);
+  });
+
+  it('should search into nested fields', async () => {
+    const { body } = await global.superapp
+      .get('/autocomplete?query=other')
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(1);
+    expect(body.data[0].name).toBe('université épicée');
+  });
+
+  it('should search with an AND operator', async () => {
+    const { body } = await global.superapp
+      .get('/autocomplete?query=épicée kerivach')
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(1);
+    expect(body.data[0].name).toBe('université épicée de kerivach');
   });
 });

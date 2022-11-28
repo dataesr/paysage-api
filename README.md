@@ -26,6 +26,9 @@
 
 Where type could be omitted, or be one value between "categories", "legal-categories", "official-texts", "persons", "prices", "projects", "structures", "terms", "users".
 
+Example: `NODE_ENV=local ES_NODE=http://localhost:9200 MONGO_URI="mongodb://mongo:27017" ES_USERNAME=elastic-user ES_PASSWORD=eslatic-password npm run reindex structures`
+
+
 ### Docker
 
 

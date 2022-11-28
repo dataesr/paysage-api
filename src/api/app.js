@@ -76,7 +76,7 @@ app.use(OAV.middleware({
   validateRequests: {
     removeAdditional: true,
   },
-  validateResponses: false,
+  validateResponses: true,
   fileUploader: { storage: multer.memoryStorage() },
   ignoreUndocumented: true,
 }));

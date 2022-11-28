@@ -73,7 +73,9 @@ router.route('/autocomplete')
     };
     if (query) {
       body.query.bool.must = { query_string: { query: `*${query}*`,
-        fields: ['acronym', 'firstName', 'id', 'identifiers', 'lastName', 'locality', 'name', 'names', 'otherNames'] } };
+        default_operator: 'AND',
+        fields: ['acronym', 'firstName', 'id', 'identifiers', 'lastName', 'locality', 'name', 'names', 'names.otherNames', 'names.usualName',
+          'names.shortName', 'names.acronymFr', 'names.id', 'otherNames'] } };
     }
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
