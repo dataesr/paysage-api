@@ -5,22 +5,21 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "api:dev": "NODE_ENV=development PORT=${npm_config_port} nodemon --experimental-specifier-resolution=node index.js",
+    "api:start": "NODE_ENV=${npm_config_env} PORT=${npm_config_port} node --experimental-specifier-resolution=node index.js",
+    "api:test": "NODE_ENV=testing node --expose-gc --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --runInBand --logHeapUsage",
     "deploy": "npm version ${npm_config_level}",
     "docker:test": "docker-compose -f docker-compose-test.yml up --build --exit-code-from paysage-api",
     "docker:start": "docker-compose up --build",
+    "docs:build": "swagger-cli bundle src/openapi/api.yml --outfile docs/reference/api.yml --type yaml",
     "setup:elastic": "NODE_ENV=${npm_config_env} node --experimental-specifier-resolution=node src/setup/elastic.js",
     "setup:mongo": "NODE_ENV=${npm_config_env} node --experimental-specifier-resolution=node src/setup/mongo.js",
     "setup:storage": "NODE_ENV=${npm_config_env} node --experimental-specifier-resolution=node src/setup/storage.js",
-    "docs:build": "swagger-cli bundle src/openapi/api.yml --outfile docs/reference/api.yml --type yaml",
-    "api:test": "NODE_ENV=testing node --expose-gc --experimental-specifier-resolution=node --experimental-vm-modules node_modules/.bin/jest --runInBand --logHeapUsage",
-    "api:dev": "NODE_ENV=development PORT=${npm_config_port} nodemon --experimental-specifier-resolution=node index.js",
-    "api:start": "NODE_ENV=${npm_config_env} PORT=${npm_config_port} node --experimental-specifier-resolution=node index.js",
-    "test": "npm run docs:build && npm run setup:mongo --env=testing && npm run setup:elastic --env=testing && npm run api:test",
-    "reindex": "node --experimental-specifier-resolution=node es-reindex.js",
     "start": "npm run docs:build && npm run setup:mongo --env=development && npm run setup:elastic --env=development && npm run setup:storage --env=development && npm run api:dev",
+    "start:production": "npm run docs:build && npm run setup:mongo --env=production && npm run setup:elastic --env=production && npm run setup:storage --env=production && npm run api:start --env=production",
     "start:staging": "npm run docs:build && npm run setup:mongo --env=staging && npm run setup:elastic --env=staging && npm run setup:storage --env=staging && npm run api:start --env=staging",
-    "start:develop": "npm run docs:build && npm run setup:mongo --env=develop && npm run setup:elastic --env=develop && npm run setup:storage --env=develop && npm run api:start --env=develop",
-    "start:production": "npm run docs:build && npm run setup:mongo --env=production && npm run setup:elastic --env=production && npm run setup:storage --env=production && npm run api:start --env=production"
+    "reindex": "node --experimental-specifier-resolution=node es-reindex.js",
+    "test": "npm run docs:build && npm run setup:mongo --env=testing && npm run setup:elastic --env=testing && npm run api:test"
   },
   "keywords": [
     "paysage"
