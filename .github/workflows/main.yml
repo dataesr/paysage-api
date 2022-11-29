@@ -34,9 +34,9 @@ jobs:
           IMAGE_ID=ghcr.io/${{ github.repository }}
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
           docker tag ${{ github.repository }} $IMAGE_ID:latest
-          docker tag ${{ github.repository }} $IMAGE_ID:${{ steps.version.outputs.version }}
+          docker tag ${{ github.repository }} $IMAGE_ID:${{ steps.version.outputs.tag }}
           docker push $IMAGE_ID:latest
-          docker push $IMAGE_ID:${{ steps.version.outputs.version }}
+          docker push $IMAGE_ID:${{ steps.version.outputs.tag }}
 
   release:
     name: Release new version
@@ -66,7 +66,7 @@ jobs:
           release_name: ${{ steps.version.outputs.tag }}
           body: "${{ steps.changelog.outputs.changes }}"
 
-  deploy-docs :
+  deploy-docs:
     name: Deploy documentation
     runs-on: ubuntu-latest
     steps:
@@ -96,7 +96,9 @@ jobs:
           restart: ${{ env.DEPLOYMENT }}
 
   notify:
-    needs: deploy
+    needs:
+    - deploy
+    - deploy-docs
     if: always()
     runs-on: ubuntu-latest
     steps:
