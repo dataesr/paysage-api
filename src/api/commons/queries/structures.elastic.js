@@ -49,7 +49,7 @@ export default [
       creationDate: { $ifNull: ['$creationDate', null] },
       identifiers: { $ifNull: ['$identifiers.value', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
-      locality: { $ifNull: ['$localisations.locality', null] },
+      locality: { $ifNull: ['$localisations.locality', '$localisations.city', null] },
       name: { $ifNull: ['$currentName.usualName', null] },
       names: { $ifNull: ['$names', null] },
       shortName: { $ifNull: ['$currentName.shortName', null] },
