@@ -25,7 +25,7 @@ properties:
   city:
     type: string
     nullable: true
-    example: Puteau
+    example: Puteaux
   country:
     type: string
   active:

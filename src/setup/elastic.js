@@ -15,6 +15,9 @@ const body = {
       name: {
         type: 'text',
       },
+      nameEn: {
+        type: 'text',
+      },
       otherNames: {
         type: 'text',
       },

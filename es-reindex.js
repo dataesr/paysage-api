@@ -32,7 +32,24 @@ const load = async (paysageObject) => {
   });
 
   // Index all Paysage objects in ES
-  if (body.length) await esClient.bulk({ refresh: true, body });
+  if (body.length) {
+    const bulkResponse = await esClient.bulk({ refresh: true, body });
+    if (bulkResponse.body.errors) {
+      const erroredDocuments = [];
+      bulkResponse.body.items.forEach((action, i) => {
+        const operation = Object.keys(action)[0];
+        if (action[operation].error) {
+          erroredDocuments.push({
+            status: action[operation].status,
+            error: action[operation].error,
+            operation: body[i * 2],
+            document: body[i * 2 + 1],
+          });
+        }
+      });
+      console.log(erroredDocuments);
+    }
+  }
 };
 
 if (process.argv.length === 2) {
