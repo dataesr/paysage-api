@@ -3,7 +3,7 @@ name: Tests
 on: push
 env:
   DEPLOYMENT_URL: https://docs.paysage.dataesr.ovh/docs/paysage-api-1
-  SLACK_NOTIFICATION_CHANNEL: '#paysage-bot'
+  MM_NOTIFICATION_CHANNEL: 'paysage-bot'
 
 jobs:
   tests:
@@ -18,9 +18,9 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: dataesr/slack-notifier-action@v1
+      - uses: dataesr/mm-notifier-action@v1
         with:
-          deployment_url: ${{ env.DEPLOYMENT_URL }}
           github_token: ${{ secrets.GITHUB_TOKEN}}
-          slack_channel: ${{ env.SLACK_NOTIFICATION_CHANNEL}}
-          slack_token: ${{ secrets.SLACK_TOKEN }}
+          mattermost_webhook_url: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          mattermost_channel: ${{ env.MM_NOTIFICATION_CHANNEL}}
+          deployment_url: ${{ env.DEPLOYMENT_URL }}

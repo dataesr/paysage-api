@@ -53,23 +53,6 @@ const staging = {
   hostname: 'https://api.paysage.staging.dataesr.ovh',
 };
 
-const develop = {
-  ...production,
-  objectStorage: {
-    ...production.objectStorage,
-    container: 'paysage-develop',
-  },
-  elastic: {
-    ...production.elastic,
-    index: 'paysage-develop',
-  },
-  mongo: {
-    ...production.mongo,
-    mongoDbName: 'paysage-develop',
-  },
-  hostname: 'https://api.paysage.develop.dataesr.ovh',
-};
-
 const testing = {
   ...production,
   jwtSecret: 'VerYvErySecrREt',
@@ -114,7 +97,6 @@ const development = {
 };
 
 const configs = {
-  develop,
   development,
   production,
   staging,

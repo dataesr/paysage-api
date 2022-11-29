@@ -1,7 +1,7 @@
 import { ForbiddenError, UnauthorizedError } from '../http-errors';
 
 export function requireAuth(req, res, next) {
-  if (['testing', 'development'].includes(process.env.NODE_ENV)) return next();
+  if (['development', 'testing'].includes(process.env.NODE_ENV)) return next();
   if (['/signup', '/signin', '/token', '/recovery/password'].includes(req.path)) return next();
   if (req.path.startsWith('/assets/avatars')) return next();
   if (req.path.startsWith('/assets/logos')) return next();
