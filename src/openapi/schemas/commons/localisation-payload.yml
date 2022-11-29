@@ -10,7 +10,7 @@ properties:
   city:
     type: string
     nullable: true
-    example: Puteau
+    example: Puteaux
   distributionStatement:
     type: string
     nullable: true
