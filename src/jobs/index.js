@@ -1,12 +1,14 @@
-import os from 'os';
 import { Agenda } from 'agenda';
+import os from 'os';
+
 import logger from '../services/logger.service';
 import backupData from './data';
 import {
-  sendAuthenticationEmail,
-  sendWelcomeEmail,
-  sendPasswordRecoveryEmail,
   sendAccountConfirmedEmail,
+  sendAuthenticationEmail,
+  sendContactEmail,
+  sendPasswordRecoveryEmail,
+  sendWelcomeEmail,
 } from './emails';
 
 import { db } from '../services/mongo.service';
@@ -20,6 +22,7 @@ agenda.define('send welcome email', { shouldSaveResult: true }, sendWelcomeEmail
 agenda.define('send confirmed email', { shouldSaveResult: true }, sendAccountConfirmedEmail);
 agenda.define('send signin email', { shouldSaveResult: true }, sendAuthenticationEmail);
 agenda.define('send recovery email', { shouldSaveResult: true }, sendPasswordRecoveryEmail);
+agenda.define('send contact email', { shouldSaveResult: true }, sendContactEmail);
 agenda.define('backup data', { shouldSaveResult: true }, backupData);
 
 agenda
