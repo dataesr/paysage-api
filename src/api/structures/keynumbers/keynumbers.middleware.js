@@ -10,7 +10,7 @@ export function setFilters(req, res, next) {
 }
 
 export async function find(req, res, next) {
-  const { filters = [], limit = 5000, skip = 0, sort = null } = req?.query || {};
+  const { filters = [], limit = 20, skip = 0, sort = null } = req?.query || {};
   const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
   const queryPipeline = [
     { $match: filters },
