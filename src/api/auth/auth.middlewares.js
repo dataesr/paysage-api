@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { authenticator, totp } from 'otplib';
+
 import agenda from '../../jobs';
 import config from '../../config';
 import { usersRepository, tokensRepository } from '../commons/repositories';
