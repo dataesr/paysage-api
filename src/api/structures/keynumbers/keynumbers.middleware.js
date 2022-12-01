@@ -17,7 +17,7 @@ export async function find(req, res, next) {
     { $skip: skip },
   ];
   if (sort) { queryPipeline.push({ $sort: parseSortParams(sort) }); }
-  queryPipeline.push({ $limit: limit });
+  if (limit && limit > 0) { queryPipeline.push({ $limit: limit }); }
   const data = await db.collection('keynumbers').aggregate([
     { $facet: { data: queryPipeline, total: countPipeline } },
     { $project: { data: 1, total: { $arrayElemAt: ['$total', 0] } } },
