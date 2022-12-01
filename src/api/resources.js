@@ -1,4 +1,5 @@
 export const categories = 'categories';
+export const contacts = 'contacts';
 export const documents = 'documents';
 export const documentTypes = 'document-types';
 export const emails = 'emails';

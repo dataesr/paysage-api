@@ -13,7 +13,7 @@ import { requireAuth } from './commons/middlewares/rbac.middlewares';
 import authRoutes from './auth/auth.routes';
 import assetsRoutes from './assets/assets.routes';
 import categoriesRoutes from './categories/categories.routes';
-import contactRoutes from './contact/contact.routes';
+import contactRoutes from './contacts/contacts.routes';
 import documentsRoutes from './documents/documents.routes';
 import documentTypesRoutes from './document-types/document-types.routes';
 import emailTypesRoutes from './email-types/email-types.routes';
