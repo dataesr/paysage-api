@@ -5,6 +5,7 @@ import { client, db } from '../services/mongo.service';
 
 async function setupMongo() {
   await db.collection('categories').createIndex({ id: 1 }, { unique: true });
+  await db.collection('contact').createIndex({ id: 1 }, { unique: true });
   await db.collection('documents').createIndex({ id: 1 }, { unique: true });
   await db.collection('documents').createIndex({ relatesTo: 1 });
   await db.collection('documenttypes').createIndex({ id: 1 }, { unique: true });

@@ -6,6 +6,7 @@ import TokensMongoRepository from './libs/base.mongo.tokens';
 
 export const catalogRepository = new BaseMongoRepository({ db, collection: '_catalog' });
 export const categoriesRepository = new BaseMongoRepository({ db, collection: 'categories' });
+export const contactRepository = new BaseMongoRepository({ db, collection: 'contact' });
 export const documentsRepository = new BaseMongoRepository({ db, collection: 'documents' });
 export const documentTypesRepository = new BaseMongoRepository({ db, collection: 'documenttypes' });
 export const emailsRepository = new BaseMongoRepository({ db, collection: 'emails' });
