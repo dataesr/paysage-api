@@ -7,6 +7,8 @@ export function setGeoJSON(req, res, next) {
   if (coordinates?.lat && coordinates?.lng) {
     const geometry = { type: 'Point', coordinates: [coordinates.lng, coordinates.lat] };
     req.body = { geometry, ...rest };
+  } else {
+    req.body = { ...rest };
   }
   if ((coordinates?.lat && !coordinates?.lng) || (coordinates?.lng && !coordinates?.lat)) {
     throw new BadRequestError('Validation error', [{ path: '.body.coordinates', message: 'lat and lng must be set together' }]);
