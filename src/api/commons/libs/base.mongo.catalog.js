@@ -18,9 +18,10 @@ class BaseMongoCatalog {
     let _id;
     for (let retries = 0; retries < 100; retries += 1) {
       _id = BaseMongoCatalog.generateId(idLength);
+      const uppercaseId = _id.toUpperCase();
       // eslint-disable-next-line no-await-in-loop
-      const exists = await this._collection.findOne({ _id });
-      if (!exists) { break; }
+      const exists = await this._collection.aggregate([{ $match: { $expr: { $eq: [{ $toUpper: '$_id' }, uppercaseId] } }}]).toArray();
+      if (!exists?.length) { break; }
     }
 
     const { acknowledged } = await this._collection
