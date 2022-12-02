@@ -17,6 +17,7 @@ class BaseMongoRepository {
     const countPipeline = [{ $match: _filters }, { $count: 'totalCount' }];
     const queryPipeline = [
       { $match: _filters },
+      { $sort: { _id: -1 }},
       { $skip: skip },
       { $limit: limit },
       ...useQuery,
