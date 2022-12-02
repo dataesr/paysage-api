@@ -53,7 +53,7 @@ export const validateStructureCreatePayload = async (req, res, next) => {
 
 export const fromPayloadToStructure = async (req, res, next) => {
   const payload = req.body;
-  const structureId = req?.context?.id || await catalog.getUniqueId('structures', 5);
+  const structureId = req?.context?.id;
   const structure = {
     structureStatus: payload.structureStatus,
     creationDate: payload.creationDate,

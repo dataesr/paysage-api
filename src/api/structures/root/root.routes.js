@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { createContext, patchContext, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
+import { createContext, patchContext, setPutIdInContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
 import { validatePayload } from '../../commons/middlewares/validate.middlewares';
@@ -16,6 +16,7 @@ router.route(`/${resource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     validateStructureCreatePayload,
+    setGeneratedObjectIdInContext(resource),
     fromPayloadToStructure,
     storeStructure,
     createStructureResponse,
