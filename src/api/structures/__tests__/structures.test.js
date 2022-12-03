@@ -137,7 +137,7 @@ describe('API > structures > structures > list', () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.structureStatus);
     expect(docs).toContain('inactive');
-    expect(docs).toContain('forthcoming');
+    expect(docs).toContain('active');
     expect(body.totalCount).toBe(3);
   });
   it('can limit successfully', async () => {
@@ -146,7 +146,7 @@ describe('API > structures > structures > list', () => {
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.structureStatus);
-    expect(docs).toContain('active');
+    expect(docs).toContain('forthcoming');
     expect(body.totalCount).toBe(3);
   });
   it('can sort successfully', async () => {

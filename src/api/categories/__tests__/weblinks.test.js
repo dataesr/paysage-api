@@ -229,51 +229,6 @@ describe('API > categories > weblinks > list', () => {
     expect(docs).toContain('https://url_03');
   });
 
-  it('should skip weblinks in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?skip=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.url);
-    expect(docs).toHaveLength(2);
-    expect(docs).toContain('https://url_02');
-    expect(docs).toContain('https://url_01');
-    expect(body.totalCount).toBe(3);
-  });
-
-  it('should limit weblinks in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?limit=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.url);
-    expect(docs).toHaveLength(1);
-    expect(docs).toContain('https://url_03');
-    expect(body.totalCount).toBe(3);
-  });
-
-  it('should sort weblinks in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?sort=url`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.url);
-    expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('https://url_01');
-    expect(body.totalCount).toBe(3);
-  });
-
-  it('should reversely sort weblinks in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?sort=-url`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.url);
-    expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('https://url_03');
-    expect(body.totalCount).toBe(3);
-  });
-
   it('should filter weblinks in list', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}?filters[type]=website&filters[url]=https://url_01`)

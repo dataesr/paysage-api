@@ -213,48 +213,4 @@ describe('API > structures > emails > list', () => {
     expect(docs).toContain('secretariat2@univ.fr');
   });
 
-  it('should skip emails in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?skip=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.email);
-    expect(docs).toHaveLength(2);
-    expect(docs).toContain('secretariat1@univ.fr');
-    expect(docs).toContain('secretariat2@univ.fr');
-    expect(body.totalCount).toBe(3);
-  });
-
-  it('should limit emails in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?limit=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.email);
-    expect(docs).toHaveLength(1);
-    expect(docs).toContain('secretariat@univ.fr');
-    expect(body.totalCount).toBe(3);
-  });
-
-  it('should sort emails in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?sort=email`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.email);
-    expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('secretariat1@univ.fr');
-    expect(body.totalCount).toBe(3);
-  });
-
-  it('should reversely sort emails in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?sort=-email`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.email);
-    expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('secretariat@univ.fr');
-    expect(body.totalCount).toBe(3);
-  });
 });

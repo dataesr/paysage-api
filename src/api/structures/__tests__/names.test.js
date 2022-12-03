@@ -179,62 +179,6 @@ describe('API > structures > names > list', () => {
     expect(docs).toContain('string3');
   });
 
-  it('can skip successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?skip=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.usualName);
-    expect(docs).toContain('string2');
-    expect(docs).toContain('string3');
-    expect(docs).toHaveLength(3);
-    expect(body.totalCount).toBe(4);
-  });
-
-  it('can limit successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?limit=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.usualName);
-    expect(docs).toContain('Université');
-    expect(docs).toHaveLength(1);
-    expect(body.totalCount).toBe(4);
-  });
-
-  it('can sort successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?sort=usualName`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.usualName);
-    expect(docs[0]).toBe('Université');
-    expect(docs).toHaveLength(4);
-    expect(body.totalCount).toBe(4);
-  });
-
-  it('can reversely sort successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?sort=-usualName`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.usualName);
-    expect(docs[0]).toBe('string3');
-    expect(docs).toHaveLength(4);
-    expect(body.totalCount).toBe(4);
-  });
-
-  it('can filter successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?filters[usualName]=string2`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.usualName);
-    expect(docs).toContain('string2');
-    expect(docs).toHaveLength(1);
-    expect(body.totalCount).toBe(1);
-  });
-
   it('returns currentName successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}`)

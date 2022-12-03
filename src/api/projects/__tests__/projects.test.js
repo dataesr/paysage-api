@@ -153,43 +153,6 @@ describe(`API > ${resource} > list`, () => {
     expect(docs).toContain('Test1');
     expect(docs).toContain('Test2');
   });
-  it('can skip successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}?skip=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.fullNameFr);
-    expect(docs).toContain('Test1');
-    expect(docs).toContain('Test2');
-    expect(body.totalCount).toBe(3);
-  });
-  it('can limit successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}?limit=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.fullNameFr);
-    expect(docs).toContain('Test');
-    expect(body.totalCount).toBe(3);
-  });
-  it('can sort successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}?sort=fullNameFr`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.fullNameFr);
-    expect(docs[0]).toBe('Test');
-    expect(body.totalCount).toBe(3);
-  });
-  it('can reversely sort successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}?sort=-fullNameFr`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.fullNameFr);
-    expect(docs[0]).toBe('Test2');
-    expect(body.totalCount).toBe(3);
-  });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?filters[fullNameFr]=Test`)
