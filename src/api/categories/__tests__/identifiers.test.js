@@ -222,50 +222,6 @@ describe('API > persons > identifiers > list', () => {
     expect(docs).toContain('Wikidata');
   });
 
-  it('should skip identifiers in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?skip=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.type);
-    expect(docs).toHaveLength(2);
-    expect(docs).toContain('Wikidata');
-    expect(body.totalCount).toBe(3);
-  });
-
-  it('should limit identifiers in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?limit=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.type);
-    expect(docs).toHaveLength(1);
-    expect(docs).toContain('Wikidata');
-    expect(body.totalCount).toBe(3);
-  });
-
-  it('should sort identifiers in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?sort=value`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.value);
-    expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('id_01');
-    expect(body.totalCount).toBe(3);
-  });
-
-  it('should reversely sort identifiers in list', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?sort=-value`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.value);
-    expect(docs).toHaveLength(3);
-    expect(docs[0]).toBe('id_03');
-    expect(body.totalCount).toBe(3);
-  });
-
   it('should filter identifiers in list', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}?filters[type]=Wikidata&filters[value]=id_02`)

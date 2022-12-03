@@ -160,43 +160,6 @@ describe('API > document types > list', () => {
     expect(docs).toContain('od2');
     expect(docs).toContain('od3');
   });
-  it('can skip successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}?skip=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.usualName);
-    expect(docs).toContain('od2');
-    expect(docs).toContain('od3');
-    expect(body.totalCount).toBe(3);
-  });
-  it('can limit successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}?limit=1`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.usualName);
-    expect(docs).toContain('od1');
-    expect(body.totalCount).toBe(3);
-  });
-  it('can sort successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}?sort=usualName`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.usualName);
-    expect(docs[0]).toBe('od1');
-    expect(body.totalCount).toBe(3);
-  });
-  it('can reversely sort successfully', async () => {
-    const { body } = await global.superapp
-      .get(`/${resource}?sort=-usualName`)
-      .set('Authorization', authorization)
-      .expect(200);
-    const docs = body.data.map((doc) => doc.usualName);
-    expect(docs[0]).toBe('od3');
-    expect(body.totalCount).toBe(3);
-  });
   it('can filter successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?filters[usualName]=od1`)
