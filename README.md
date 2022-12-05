@@ -61,8 +61,9 @@ To see the API docs, see : http://localhost:3003/docs/api/.
 ## Documentation
 
 https://dataesr.stoplight.io/docs/paysage-api-1/95201cd74824d-bienvenue-sur-la-documentation-paysage
+ 
+## Deploy in prod
 
+To deploy in production, create a new release and push on the main branch. Github workflow will do the rest !
 
-## Run script to init ES
-
-`NODE_ENV=development ES_NODE=http://localhost:9200 MONGO_URI=mongodb://mongodb:27017 node es-init.js`
+`npm version patch && git push origin main --tags`
