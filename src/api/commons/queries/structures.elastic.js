@@ -13,7 +13,7 @@ export default [
           $expr: {
             $and: [
               { $eq: ['$active', true] },
-              { $in: ['$type', ['idRef', 'RNSR', 'Siret', 'UAI', 'Wikidata']] },
+              { $in: ['$type', ['GRID', 'idRef', 'RNSR', 'ROR', 'Siret', 'UAI', 'Wikidata']] },
             ],
           },
         },
