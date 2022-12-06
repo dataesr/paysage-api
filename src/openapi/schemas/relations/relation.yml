@@ -52,7 +52,7 @@ allOf:
       mandateReason:
         type: string
         enum:
-          - éléction
+          - election
           - nomination
           - null
         nullable: true
