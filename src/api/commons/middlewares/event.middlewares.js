@@ -23,7 +23,7 @@ export function saveInElastic(repository, useQuery, resourceName) {
 
 export function saveInStore() {
   return async (req, res, next) => {
-    const { path, method, body, params } = req;
+    const { path, method } = req;
     const userId = req.currentUser.id;
     const splitted = req.path.split('/');
     eventsRepository.create({
@@ -32,7 +32,7 @@ export function saveInStore() {
       resourceType: splitted?.[1],
       resourceId: splitted?.[2] || req.context?.id,
       subResourceType: splitted?.[3],
-      subResourceId: (splitted?.[3]) && splitted?.[4] || req.context?.id,
+      subResourceId: ((splitted?.[3]) && splitted?.[4]) || req.context?.id,
       objects: req.context?.obbjects,
       path,
       method,
