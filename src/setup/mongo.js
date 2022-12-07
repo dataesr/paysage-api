@@ -21,6 +21,8 @@ async function setupMongo() {
   await db.collection('identifiers').createIndex({ resourceId: 1 });
   await db.collection('identifiers').createIndex({ resourceId: 1, type: 1 });
   await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1 });
+  await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1, annee: 1 }, { sparse: true });
+  await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1, rentree: 1 }, { sparse: true });
   await db.collection('legalcategories').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialtexts').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialtexts').createIndex({ relatesTo: 1 });
