@@ -19,7 +19,7 @@ const backupData = async (job, done) => {
     field: 'effectif',
     fieldName: 'population',
     paysageIdFields: ['etablissement_id_paysage'],
-    sortField: 'annee',
+    sortField: 'annee_universitaire',
     sortFieldName: 'year',
   }, {
     id: 'fr-esr-insertion_professionnelle_widget',
