@@ -54,6 +54,7 @@ export default [
       name: { $ifNull: ['$currentName.usualName', null] },
       names: { $ifNull: ['$names', null] },
       shortName: { $ifNull: ['$currentName.shortName', null] },
+      structureStatus: { $ifNull: ['$structureStatus', ''] },
     },
   },
 ];

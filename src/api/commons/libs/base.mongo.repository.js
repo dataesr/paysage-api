@@ -1,4 +1,4 @@
-import parseSortParams from './helpers';
+import { parseSortParams, parseFilters } from './helpers';
 
 class BaseMongoRepository {
   constructor({ db, collection }) {
@@ -11,25 +11,26 @@ class BaseMongoRepository {
   }
 
   find = async ({
-    filters = {}, skip = 0, limit = 10000, sort = "-createdAt", useQuery = [], keepDeleted = false,
+    filters = {}, skip = 0, limit = 10000, sort = '-createdAt', useQuery = [], keepDeleted = false,
   } = {}) => {
-    const _filters = keepDeleted ? filters : { $and: [{ isDeleted: { $ne: true } }, filters] };
+    const _filters = keepDeleted ? parseFilters(filters) : { $and: [{ isDeleted: { $ne: true } }, parseFilters(filters)] };
+
     const pipeline = [
       { $match: _filters },
       ...useQuery,
-      { $setWindowFields: { output: {totalCount: { $count: {}}}}},
+      { $setWindowFields: { output: { totalCount: { $count: {} } } } },
       { $sort: parseSortParams(sort) },
       { $skip: skip },
       { $limit: limit },
-      { $group: { _id: null, data: { $push: "$$ROOT" }, totalCount: { $max: "$totalCount" } } },
-      { $project: { _id: 0, 'data.totalCount': 0 } }
+      { $group: { _id: null, data: { $push: '$$ROOT' }, totalCount: { $max: '$totalCount' } } },
+      { $project: { _id: 0, 'data.totalCount': 0 } },
     ];
     const data = await this._collection.aggregate(pipeline).toArray();
     return data?.[0]?.data ? data[0] : { data: [], totalCount: 0 };
   };
 
   get = async (id, { useQuery = [], keepDeleted = false } = {}) => {
-    const filters = keepDeleted ? { id } : { $and: [{ isDeleted: { $ne: true } }, { id }] }
+    const filters = keepDeleted ? { id } : { $and: [{ isDeleted: { $ne: true } }, { id }] };
     const data = await this._collection.aggregate([
       { $match: filters },
       { $limit: 1 },

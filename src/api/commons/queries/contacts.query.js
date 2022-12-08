@@ -8,13 +8,13 @@ export default [
       id: 1,
       name: 1,
       email: 1,
-      organization: { $ifNull: ['$organization', null]},
-      fonction: { $ifNull: ['$fonction', null]},
+      organization: { $ifNull: ['$organization', null] },
+      fonction: { $ifNull: ['$fonction', null] },
       message: 1,
       createdBy: 1,
       updatedBy: 1,
       createdAt: 1,
       updatedAt: 1,
-    }
+    },
   },
 ];
