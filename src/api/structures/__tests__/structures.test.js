@@ -184,4 +184,13 @@ describe('API > structures > structures > list', () => {
     expect(docs).toContain('active');
     expect(body.totalCount).toBe(1);
   });
+  it('can filter successfully dates', async () => {
+    const { body } = await global.superapp
+      .get(`/${resource}?filters[structureStatus]=active&filters[createdAt][$gte]=2022-11-28T22:31:57.703Z`)
+      .set('Authorization', authorization)
+      .expect(200);
+    const docs = body.data.map((doc) => doc.structureStatus);
+    expect(docs).toContain('active');
+    expect(body.totalCount).toBe(1);
+  });
 });

@@ -1,4 +1,4 @@
-import parseSortParams from './helpers';
+import { parseSortParams, parseFilters } from './helpers';
 
 class NestedMongoRepository {
   constructor({ db, collection, field, queries = {} }) {
@@ -26,15 +26,15 @@ class NestedMongoRepository {
       { $unwind: { path: `$${this._field}` } },
       { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
       { $replaceRoot: { newRoot: `$${this._field}` } },
-      { $match: filters },
+      { $match: parseFilters(filters) },
       { $set: { resourceId } },
       ...useQuery,
       { $setWindowFields: { output: { totalCount: { $count: {} } } } },
       { $sort: parseSortParams(sort) },
       { $skip: skip },
       { $limit: limit },
-      { $group: { _id: null, data: { $push: "$$ROOT" }, totalCount: { $max: "$totalCount" } } },
-      { $project: { _id: 0, 'data.totalCount': 0 } }
+      { $group: { _id: null, data: { $push: '$$ROOT' }, totalCount: { $max: '$totalCount' } } },
+      { $project: { _id: 0, 'data.totalCount': 0 } },
     ];
     const data = await this._collection.aggregate(pipeline).toArray();
     return data?.[0]?.data ? data[0] : { data: [], totalCount: 0 };
