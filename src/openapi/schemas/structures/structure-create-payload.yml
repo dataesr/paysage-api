@@ -157,7 +157,3 @@ properties:
   linkedIn:
     type: string
     nullable: true
-  parents:
-    type: array
-    items:
-      type: string

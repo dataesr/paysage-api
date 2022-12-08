@@ -22,18 +22,7 @@ export const validateStructureCreatePayload = async (req, res, next) => {
     const text = await officialtextsRepository.get(closureOfficialTextId);
     if (!text?.id) { errors.push({ path: '.body.closureOfficialTextId', message: `official text ${closureOfficialTextId} does not exist` }); }
   }
-  const { categories: categoryIds, parents: parentIds } = req.body;
-  if (parentIds) {
-    const { data: structuresData } = await repository.find({ filters: { id: { $in: parentIds } } });
-    const savedParents = structuresData.reduce((arr, parent) => [...arr, parent.id], []);
-    const notFoundParent = parentIds.filter((x) => savedParents.indexOf(x) === -1);
-    if (notFoundParent.length) {
-      notFoundParent.forEach((parent, i) => (errors.push({
-        path: `.body.parents[${i}]`,
-        message: `parent '${parent}' does not exist`,
-      })));
-    }
-  }
+  const { categories: categoryIds } = req.body;
   if (categoryIds) {
     const { data: categoriesData } = await categoriesRepository.find({ filters: { id: { $in: categoryIds } } });
     const savedCategories = categoriesData.reduce((arr, parent) => [...arr, parent.id], []);
