@@ -17,32 +17,27 @@ class NestedMongoRepository {
     resourceId,
     filters = {},
     skip = 0,
-    limit = 20,
-    sort = null,
+    limit = 10000,
+    sort = '-createdAt',
     useQuery = [],
   } = {}) => {
-    const _pipeline = [
+    const pipeline = [
       { $match: { id: resourceId } },
       { $unwind: { path: `$${this._field}` } },
       { $match: { [this._field]: { $exists: true, $not: { $type: 'array' }, $type: 'object' } } },
       { $replaceRoot: { newRoot: `$${this._field}` } },
       { $match: filters },
       { $set: { resourceId } },
-    ];
-    const queryPipeline = [
-      ..._pipeline,
-      { $skip: skip || 0 },
-      { $limit: limit || 20 },
       ...useQuery,
+      { $setWindowFields: { output: { totalCount: { $count: {} } } } },
+      { $sort: parseSortParams(sort) },
+      { $skip: skip },
+      { $limit: limit },
+      { $group: { _id: null, data: { $push: "$$ROOT" }, totalCount: { $max: "$totalCount" } } },
+      { $project: { _id: 0, 'data.totalCount': 0 } }
     ];
-    if (sort) queryPipeline.push({ $sort: parseSortParams(sort) });
-    const countPipeline = [..._pipeline, { $count: 'totalCount' }];
-    const data = await this._collection.aggregate([
-      { $facet: { data: queryPipeline, total: countPipeline } },
-      { $project: { data: 1, total: { $arrayElemAt: ['$total', 0] } } },
-      { $project: { data: 1, totalCount: '$total.totalCount' } },
-    ]).toArray();
-    return data[0];
+    const data = await this._collection.aggregate(pipeline).toArray();
+    return data?.[0]?.data ? data[0] : { data: [], totalCount: 0 };
   };
 
   get = async (resourceId, id, { useQuery } = []) => {

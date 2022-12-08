@@ -97,10 +97,6 @@ describe('find method', () => {
     expect(result.totalCount).toBe(4);
     expect(result.data).toHaveLength(4);
     const firstResultElement = result.data[0];
-    expect(firstResultElement.id).toBe(data[3].id);
-    expect(firstResultElement.name).toBe(data[3].name);
-    expect(firstResultElement.number).toBeFalsy();
-    expect(firstResultElement.createdBy.id).toBe(userId);
     expect(firstResultElement.createdBy.username).toBe(fakeUser);
   });
 
