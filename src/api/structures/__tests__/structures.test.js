@@ -130,6 +130,14 @@ describe('API > structures > structures > list', () => {
     expect(docs).toContain('active');
     expect(docs).toContain('inactive');
   });
+  it('can list empty results', async () => {
+    const { body } = await global.superapp
+      .get(`/${resource}?filters[structureStatus]=empty`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(0);
+    expect(body.totalCount).toBe(0);
+  });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?skip=1`)
