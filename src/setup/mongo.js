@@ -23,6 +23,8 @@ async function setupMongo() {
   await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1 });
   await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1, annee: 1 }, { sparse: true });
   await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1, rentree: 1 }, { sparse: true });
+  await db.collection('keynumbers').createIndex({ annee_universitaire: 1 }, { sparse: true });
+  await db.collection('keynumbers').createIndex({ exercice: 1 }, { sparse: true });
   await db.collection('legalcategories').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialtexts').createIndex({ id: 1 }, { unique: true });
   await db.collection('officialtexts').createIndex({ relatesTo: 1 });
