@@ -11,18 +11,19 @@ export function setFilters(req, res, next) {
 
 export async function find(req, res, next) {
   const { filters = [], limit = 20, skip = 0, sort = null } = req?.query || {};
-  const countPipeline = [{ $match: filters }, { $count: 'totalCount' }];
   const queryPipeline = [
     { $match: filters },
-    { $skip: skip },
+    { $setWindowFields: { output: { totalCount: { $count: {} } } } },
   ];
   if (sort) { queryPipeline.push({ $sort: parseSortParams(sort) }); }
+  if (skip) { queryPipeline.push({ $skip: skip }); }
   if (limit && limit > 0) { queryPipeline.push({ $limit: limit }); }
-  const data = await db.collection('keynumbers').aggregate([
-    { $facet: { data: queryPipeline, total: countPipeline } },
-    { $project: { data: 1, total: { $arrayElemAt: ['$total', 0] } } },
-    { $project: { data: 1, totalCount: '$total.totalCount' } },
-  ]).toArray();
-  res.status(200).json(data[0]);
+  const pipeline = [
+    ...queryPipeline,
+    { $group: { _id: null, data: { $push: "$$ROOT" }, totalCount: { $max: "$totalCount" } } },
+    { $project: { _id: 0, 'data.totalCount': 0 } }
+  ]
+  const data = await db.collection('keynumbers').aggregate(pipeline).toArray();
+  res.status(200).json(data?.[0]?.data ? data[0] : { data: [], totalCount: 0 });
   return next();
 }
