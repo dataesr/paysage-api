@@ -14,6 +14,14 @@ export async function validatePayload(req, res, next) {
   const { resourceId, relatedObjectId, relationTypeId, relationsGroupId } = req.body;
   const resource = await catalogRepository._collection.findOne({ _id: resourceId });
   const related = await catalogRepository._collection.findOne({ _id: relatedObjectId });
+
+  // TODO: Handle overlapping dates
+  // const exists = await relationshipsRepository._collection.findOne({ resourceId, relatedObjectId });
+  // if (exists) {
+  //   const { startDate: newStartDate, endDate: newEndDate } = req.body;
+  //   const { startDate: oldStartDate, endDate: oldEndDate } = exists;
+  // }
+
   if (!resource) {
     errors.push({
       path: '.body.resourceId',
