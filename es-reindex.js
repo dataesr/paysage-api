@@ -18,6 +18,7 @@ const load = async (paysageObject) => {
       object?.city?.join(' '),
       object?.identifiers?.join(' '),
       object?.name,
+      object?.names?.shortName,
       object?.names?.otherNames?.join(' '),
       object?.shortName,
     ].join(' ');
