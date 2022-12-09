@@ -1,9 +1,9 @@
-/autocomplete:
+/search:
   get:
     tags:
       - Search
     summary: |
-      Autocompletion allows to search paysage objects.
+      Search paysage objects.
     parameters:
       - $ref: '../../api.yml#/components/parameters/limit'
       - $ref: '../../api.yml#/components/parameters/query'
