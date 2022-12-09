@@ -20,9 +20,9 @@ export async function find(req, res, next) {
   if (limit && limit > 0) { queryPipeline.push({ $limit: limit }); }
   const pipeline = [
     ...queryPipeline,
-    { $group: { _id: null, data: { $push: "$$ROOT" }, totalCount: { $max: "$totalCount" } } },
-    { $project: { _id: 0, 'data.totalCount': 0 } }
-  ]
+    { $group: { _id: null, data: { $push: '$$ROOT' }, totalCount: { $max: '$totalCount' } } },
+    { $project: { _id: 0, 'data.totalCount': 0 } },
+  ];
   const data = await db.collection('keynumbers').aggregate(pipeline).toArray();
   res.status(200).json(data?.[0]?.data ? data[0] : { data: [], totalCount: 0 });
   return next();
