@@ -309,6 +309,8 @@ paths:
   ### SEARCH ###
   '/autocomplete':
     $ref: './paths/search/autocomplete.yml#/~1autocomplete'
+  '/search':
+    $ref: './paths/search/search.yml#/~1search'
 
   ### JOURNAL ###
   '/journal':
@@ -407,10 +409,6 @@ components:
 
   schemas:
     ### MODELS ###
-    AutocompletionAggregation:
-      $ref: './schemas/search/aggregation.yml'
-    AutocompletionResults:
-      $ref: './schemas/search/autocomplete.yml'
     Category:
       $ref: './schemas/categories/category.yml'
     CategoryIdentifier:
@@ -489,6 +487,10 @@ components:
       $ref: './schemas/relationtypes/relationtype-light.yml'
     RelationsGroup:
       $ref: './schemas/relationsgroups/relationsgroup.yml'
+    SearchAggregation:
+      $ref: './schemas/search/aggregation.yml'
+    SearchResults:
+      $ref: './schemas/search/autocomplete.yml'
     SignInPayload:
       $ref: ./schemas/auth/signin-payload.yml
     SignUpPayload:
