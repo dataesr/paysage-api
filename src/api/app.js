@@ -10,6 +10,7 @@ import { authenticate } from './commons/middlewares/authenticate.middlewares';
 import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 
 import { requireAuth } from './commons/middlewares/rbac.middlewares';
+import apiKeysRoutes from './apikeys/apikeys.routes';
 import authRoutes from './auth/auth.routes';
 import assetsRoutes from './assets/assets.routes';
 import categoriesRoutes from './categories/categories.routes';
@@ -90,6 +91,7 @@ app.use(authenticate);
 app.use(requireAuth);
 
 // Register api routes
+app.use(apiKeysRoutes);
 app.use(authRoutes);
 app.use(assetsRoutes);
 app.use(categoriesRoutes);
