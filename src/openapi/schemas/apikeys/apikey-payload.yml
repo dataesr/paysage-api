@@ -1,0 +1,10 @@
+type: object
+properties:
+  name:
+    type: string
+  role:
+    type: string
+    default: reader
+  userId:
+    type: string
+    pattern: '^[a-zA-Z0-9]{5}$'
