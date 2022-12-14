@@ -43,7 +43,6 @@ collectionMethods:
             type: object
             required:
               - name
-              - userId
             allOf:
               - $ref: '../../api.yml#/components/schemas/ApiKeyPayload'
     responses:

@@ -13,3 +13,10 @@ export function setApiKeyInContext(req, res, next) {
   req.context.apiKey = `xkeypsg-${str}`;
   return next();
 }
+
+export function setUserIdInContext(req, res, next) {
+  if (req?.body?.userId) return next();
+  const { id } = req.currentUser;
+  req.context.userId = id;
+  return next();
+}

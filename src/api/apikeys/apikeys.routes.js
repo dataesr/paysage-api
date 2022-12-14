@@ -4,7 +4,7 @@ import { saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
 import { requireRoles } from '../commons/middlewares/rbac.middlewares';
 import { onCreateApiKeyQuery, onListApiKeyQuery } from '../commons/queries/apikeys.query';
-import { setApiKeyInContext } from './apikeys.middlewares';
+import { setApiKeyInContext, setUserIdInContext } from './apikeys.middlewares';
 import { apiKeysRepository as repository } from '../commons/repositories';
 import { apikeys as resource } from '../resources';
 
@@ -16,6 +16,7 @@ router.route(`/admin/${resource}`)
     requireRoles(['admin']),
     createContext,
     setGeneratedInternalIdInContext(resource),
+    setUserIdInContext,
     setApiKeyInContext,
     controllers.create(repository, onCreateApiKeyQuery),
     saveInStore(resource),
