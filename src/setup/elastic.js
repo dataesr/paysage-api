@@ -24,6 +24,10 @@ const body = {
       shortName: {
         type: 'text',
       },
+      search: {
+        type: 'text',
+        analyzer: 'autocomplete',
+      },
     },
   },
   settings: {
@@ -49,6 +53,11 @@ const body = {
           ],
           articles_case: true,
         },
+        autocomplete_filter: {
+          type: 'edge_ngram',
+          min_gram: 3,
+          max_gram: 10,
+        },
       },
       analyzer: {
         default: {
@@ -64,6 +73,15 @@ const body = {
             'lowercase',
             'french_elision',
             'icu_folding',
+          ],
+          tokenizer: 'icu_tokenizer',
+        },
+        autocomplete: {
+          filter: [
+            'lowercase',
+            'french_elision',
+            'icu_folding',
+            'autocomplete_filter',
           ],
           tokenizer: 'icu_tokenizer',
         },
