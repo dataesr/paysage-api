@@ -22,6 +22,7 @@ beforeAll(async () => {
       acronym: 'UK',
       isDeleted: false,
       name: 'Université de Kerivach',
+      search: 'Université de Kerivach UK',
       type: 'structures',
     },
     refresh: true,
@@ -32,6 +33,7 @@ beforeAll(async () => {
       acronym: 'CM',
       isDeleted: false,
       name: 'centrale marseille',
+      search: 'centrale marseille CM',
       type: 'structures',
     },
     refresh: true,
@@ -40,12 +42,12 @@ beforeAll(async () => {
     index,
     body: {
       acronym: 'UE',
-      identifiers: ['12345'],
       isDeleted: false,
       name: 'université épicée',
       names: [{
-        otherNames: ['other'],
+        otherNames: 'other',
       }],
+      search: 'université épicée UE other',
       type: 'structures',
     },
     refresh: true,
@@ -56,16 +58,7 @@ beforeAll(async () => {
       acronym: 'UL',
       isDeleted: true,
       name: 'université longjumeau',
-      type: 'structures',
-    },
-    refresh: true,
-  });
-  await esClient.index({
-    index,
-    body: {
-      acronym: 'UEK',
-      isDeleted: false,
-      name: 'université épicée de kerivach',
+      search: 'université longjumeau UL',
       type: 'structures',
     },
     refresh: true,
@@ -76,6 +69,7 @@ beforeAll(async () => {
       acronym: 'PGG',
       isDeleted: false,
       name: 'lycée Pierre-Gilles de Gennes',
+      search: 'lycée Pierre-Gilles de Gennes PGG',
       type: 'structures',
     },
     refresh: true,
@@ -83,17 +77,9 @@ beforeAll(async () => {
 });
 
 describe('API > search', () => {
-  it('should find all indexed documents', async () => {
+  it('should autocomplete partial word', async () => {
     const { body } = await global.superapp
-      .get('/search')
-      .set('Authorization', authorization)
-      .expect(200);
-    expect(body.data).toHaveLength(5);
-  });
-
-  it.only('should search partial word', async () => {
-    const { body } = await global.superapp
-      .get('/search?query=centr')
+      .get('/autocomplete?query=centr')
       .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(1);
@@ -103,71 +89,50 @@ describe('API > search', () => {
     expect(body.data[0].type).toBe('structures');
   });
 
-  it('should find accentuated characters', async () => {
+  it('should autocomplete accentuated characters', async () => {
     const { body } = await global.superapp
-      .get('/search?query=épice')
+      .get('/autocomplete?query=épic')
       .set('Authorization', authorization)
       .expect(200);
-    expect(body.data).toHaveLength(2);
+    expect(body.data).toHaveLength(1);
     expect(body.data[0].acronym).toBe('UE');
     expect(body.data[0].isDeleted).toBeFalsy();
     expect(body.data[0].name).toBe('université épicée');
     expect(body.data[0].type).toBe('structures');
   });
 
-  it('should search a 2 words query', async () => {
+  it('should autocomplete a 2 words query', async () => {
     const { body } = await global.superapp
-      .get('/search?query=centrale marseille')
+      .get('/autocomplete?query=centrale mars')
       .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(1);
     expect(body.data[0].acronym).toBe('CM');
     expect(body.data[0].isDeleted).toBeFalsy();
     expect(body.data[0].name).toBe('centrale marseille');
-    expect(body.data[0].type).toBe('structures');
-  });
-
-  it('should search in identifiers field', async () => {
-    const { body } = await global.superapp
-      .get('/search?query=12345')
-      .set('Authorization', authorization)
-      .expect(200);
-    expect(body.data).toHaveLength(1);
-    expect(body.data[0].acronym).toBe('UE');
-    expect(body.data[0].isDeleted).toBeFalsy();
-    expect(body.data[0].name).toBe('université épicée');
     expect(body.data[0].type).toBe('structures');
   });
 
   it('should be deleted', async () => {
     const { body } = await global.superapp
-      .get('/search?query=longjumeau')
+      .get('/autocomplete?query=longjumeau')
       .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(0);
   });
 
-  it('should search into nested fields', async () => {
+  it('should autocomplete into nested fields', async () => {
     const { body } = await global.superapp
-      .get('/search?query=other')
+      .get('/autocomplete?query=othe')
       .set('Authorization', authorization)
       .expect(200);
     expect(body.data).toHaveLength(1);
     expect(body.data[0].name).toBe('université épicée');
   });
 
-  it('should search with an AND operator', async () => {
-    const { body } = await global.superapp
-      .get('/search?query=épicée kerivach')
-      .set('Authorization', authorization)
-      .expect(200);
-    expect(body.data).toHaveLength(1);
-    expect(body.data[0].name).toBe('université épicée de kerivach');
-  });
-
-  it('should match query with special characters', async () => {
+  it('should autocomplete with special characters like hyphen', async () => {
     const { body: body1 } = await global.superapp
-      .get('/search?query=Pierre-Gilles')
+      .get('/autocomplete?query=Pierre-Gil')
       .set('Authorization', authorization)
       .expect(200);
     expect(body1.data).toHaveLength(1);
@@ -177,7 +142,7 @@ describe('API > search', () => {
     expect(body1.data[0].type).toBe('structures');
 
     const { body: body2 } = await global.superapp
-      .get('/search?query=Pierre Gilles')
+      .get('/autocomplete?query=Pierre Gil')
       .set('Authorization', authorization)
       .expect(200);
     expect(body2.data).toHaveLength(1);
