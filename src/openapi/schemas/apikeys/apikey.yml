@@ -16,5 +16,5 @@ allOf:
         type: string
       userId:
         type: string
-        pattern: '^[a-zA-Z0-9]{5}$'  
+        pattern: '^[a-zA-Z0-9]{15}$'  
   - $ref: '../../api.yml#/components/schemas/Metas'
