@@ -13,16 +13,15 @@ import { client } from '../../../services/mongo.service';
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
-  const { creationOfficialTextId, closureOfficialTextId } = req.body;
+  const { categories: categoryIds, closureOfficialTextId, creationOfficialTextId, iso3 } = req.body;
   if (creationOfficialTextId) {
     const text = await officialtextsRepository.get(creationOfficialTextId);
-    if (!text?.id) { errors.push({ path: '.body.creationOfficialTextId', message: `official text ${creationOfficialTextId} does not exist` }); }
+    if (!text?.id) { errors.push({ path: '.body.creationOfficialTextId', message: `Official text ${creationOfficialTextId} does not exist` }); }
   }
   if (closureOfficialTextId) {
     const text = await officialtextsRepository.get(closureOfficialTextId);
-    if (!text?.id) { errors.push({ path: '.body.closureOfficialTextId', message: `official text ${closureOfficialTextId} does not exist` }); }
+    if (!text?.id) { errors.push({ path: '.body.closureOfficialTextId', message: `Official text ${closureOfficialTextId} does not exist` }); }
   }
-  const { categories: categoryIds } = req.body;
   if (categoryIds) {
     const { data: categoriesData } = await categoriesRepository.find({ filters: { id: { $in: categoryIds } } });
     const savedCategories = categoriesData.reduce((arr, parent) => [...arr, parent.id], []);
@@ -30,8 +29,16 @@ export const validateStructureCreatePayload = async (req, res, next) => {
     if (notFoundCategories.length) {
       notFoundCategories.forEach((category, i) => (errors.push({
         path: `.body.categories[${i}]`,
-        message: `category '${category}' does not exist`,
+        message: `Category '${category}' does not exist`,
       })));
+    }
+  }
+  if (iso3) {
+    if (!iso3.toString().toUpperCase().match(/^[A-Z]{3}$/)) {
+      errors.push({
+        path: '.body.iso3',
+        message: 'iso3 for structure should be 3 letters in uppercase',
+      });
     }
   }
   if (errors.length) {
@@ -72,20 +79,21 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structure.names = [structureName];
   }
   const structureLocalisation = {
-    cityId: payload.cityId,
-    distributionStatement: payload.distributionStatement,
     address: payload.address,
-    postOfficeBoxNumber: payload.postOfficeBoxNumber,
-    postalCode: payload.postalCode,
+    cityId: payload.cityId,
+    coordinates: payload.coordinates,
+    country: payload.country,
+    distributionStatement: payload.distributionStatement,
+    iso3: payload?.iso3?.toString()?.toUpperCase(),
     locality: payload.locality,
     place: payload.place,
-    country: payload.country,
     phonenumber: payload.phonenumber,
-    coordinates: payload.coordinates,
+    postalCode: payload.postalCode,
+    postOfficeBoxNumber: payload.postOfficeBoxNumber,
   };
   if (Object.values(structureLocalisation).filter((value) => value).length) {
-    structureLocalisation.createdBy = req.currentUser.id;
     structureLocalisation.createdAt = new Date();
+    structureLocalisation.createdBy = req.currentUser.id;
     structureLocalisation.id = await catalog.getUniqueId('localisations', 15);
     structure.localisations = [structureLocalisation];
   }
