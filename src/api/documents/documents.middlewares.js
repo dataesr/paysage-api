@@ -20,7 +20,7 @@ export async function forbidUnauthorizedUser(req, res, next) {
   throw new ForbiddenError();
 }
 export async function setViewerFilter(req, res, next) {
-  if (req.currentUser.role === 'admin') return next();
+  if (req.currentUser.role === "admin") return next();
   const groups = await groupMembersRepository.find({ filters: { userId: req.currentUser.id } });
   const groupsIds = (groups.data && groups?.data?.length) ? groups?.data?.map((group) => group.groupId) : [];
   const viewerFilter = {
