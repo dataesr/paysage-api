@@ -70,6 +70,16 @@ beforeAll(async () => {
     },
     refresh: true,
   });
+  await esClient.index({
+    index,
+    body: {
+      acronym: 'PGG',
+      isDeleted: false,
+      name: 'Lycée Pierre-Gilles de Gennes',
+      type: 'structures',
+    },
+    refresh: true,
+  });
 });
 
 describe('API > search', () => {
@@ -78,7 +88,7 @@ describe('API > search', () => {
       .get('/autocomplete')
       .set('Authorization', authorization)
       .expect(200);
-    expect(body.data).toHaveLength(4);
+    expect(body.data).toHaveLength(5);
   });
 
   it('should search partial word', async () => {
@@ -153,5 +163,23 @@ describe('API > search', () => {
       .expect(200);
     expect(body.data).toHaveLength(1);
     expect(body.data[0].name).toBe('université épicée de kerivach');
+  });
+
+  it('should search dash separated word', async () => {
+    const { body } = await global.superapp
+      .get('/autocomplete?query=pierre-gil')
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(1);
+    expect(body.data[0].name).toBe('Lycée Pierre-Gilles de Gennes');
+  });
+
+  it('should search dash separated word 2', async () => {
+    const { body } = await global.superapp
+      .get('/autocomplete?query=pierre gil')
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(1);
+    expect(body.data[0].name).toBe('Lycée Pierre-Gilles de Gennes');
   });
 });
