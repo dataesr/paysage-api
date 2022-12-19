@@ -13,17 +13,8 @@ const load = async (paysageObject) => {
   const body = [];
   const objects = db.collection(paysageObject.replace('-', '')).aggregate(query);
   await objects.forEach((object) => {
-    const search = [
-      object?.acronym,
-      object?.city?.join(' '),
-      object?.identifiers?.join(' '),
-      object?.name,
-      object?.names?.shortName,
-      object?.names?.otherNames?.join(' '),
-      object?.shortName,
-    ].join(' ');
     body.push({ index: { _index: index } });
-    body.push({ ...object, isDeleted: object?.isDeleted || false, type: paysageObject, search });
+    body.push({ ...object, isDeleted: object?.isDeleted || false, type: paysageObject });
   });
   console.log(`${body.length / 2} ${paysageObject} indexed`);
 
