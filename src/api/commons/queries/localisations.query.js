@@ -70,7 +70,7 @@ export default [
       postalCode: { $ifNull: ['$postalCode', null] },
       locality: { $ifNull: ['$locality', null] },
       place: { $ifNull: ['$place', null] },
-      telephone: { $ifNull: ['$telephone', null] },
+      phonenumber: { $ifNull: ['$phonenumber', null] },
       coordinates: 1,
       startDate: { $ifNull: ['$startDate', null] },
       endDate: { $ifNull: ['$endDate', null] },

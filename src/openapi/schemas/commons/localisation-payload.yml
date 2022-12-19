@@ -33,7 +33,7 @@ properties:
     description: Lieu-dit
   country:
     type: string
-  telephone:
+  phonenumber:
     type: string
     nullable: true
   coordinates:
