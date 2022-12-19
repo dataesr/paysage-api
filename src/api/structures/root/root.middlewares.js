@@ -150,7 +150,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.rnsr) {
     structureIdentifiers.push({
       value: payload.rnsr,
-      type: 'Répertoire National des Sructures de Recherche (RNSR)',
+      type: 'RNSR',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
