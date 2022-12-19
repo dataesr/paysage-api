@@ -13,12 +13,9 @@ export function saveInElastic(repository, useQuery, type) {
     let resource = await repository.get(id, { useQuery, keepDeleted: true });
     resource = { ...resource, isDeleted: resource?.isDeleted || false, type };
     resource.search = [
-      resource?.acronym,
-      resource?.city?.join(' '),
-      resource?.identifiers?.join(' '),
       resource?.name,
+      resource?.identifiers?.join(' '),
       resource?.names?.otherNames?.join(' '),
-      resource?.shortName,
     ].join(' ');
     const document = { index, body: resource, refresh: true };
     if (_id) document._id = _id;
