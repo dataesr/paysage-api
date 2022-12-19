@@ -9,8 +9,7 @@ export async function authenticate(req, res, next) {
   req.currentUser = {};
   if (xApiKey) {
     const apiKey = await apiKeysRepository._collection.findOne({ apiKey: xApiKey });
-    if (apiKey.userId) req.currentUser = { id: apiKey.userId, role: apiKey.role };
-    console.log(req.currentUser);
+    if (apiKey?.userId) req.currentUser = { id: apiKey.userId, role: apiKey.role };
     return next();
   }
   if (authorization) {
