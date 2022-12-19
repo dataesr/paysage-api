@@ -80,7 +80,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
     locality: payload.locality,
     place: payload.place,
     country: payload.country,
-    telephone: payload.telephone,
+    phonenumber: payload.phonenumber,
     coordinates: payload.coordinates,
   };
   if (Object.values(structureLocalisation).filter((value) => value).length) {

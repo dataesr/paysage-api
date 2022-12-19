@@ -15,11 +15,14 @@ export function setGeoJSON(req, res, next) {
 }
 export async function validatePhoneNumber(req, res, next) {
   const phoneRegex = /^\+33[0-9]{9}$/;
-  const { resourceId, id } = req.params;
-  const { telephone, country } = req.body;
+  const { id, resourceId } = req.params;
+  const { country, phonenumber } = req.body;
   const nextCountry = country || await projectLocalisationsRepository.get(resourceId, id, { useQuery: readQuery }).country;
-  if (telephone && nextCountry === 'France' && !telephone.match(phoneRegex)) {
-    throw new BadRequestError('Validation error', [{ path: '.body.telephone', message: 'Phone numbers from france should match pattern' }]);
+  if (phonenumber && nextCountry === 'France' && !phonenumber.match(phoneRegex)) {
+    throw new BadRequestError('Validation error', [{
+      path: '.body.phonenumber',
+      message: `Phone number from France should match pattern ${phoneRegex}`,
+    }]);
   }
   return next();
 }
