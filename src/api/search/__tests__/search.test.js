@@ -63,7 +63,7 @@ beforeAll(async () => {
   await esClient.index({
     index,
     body: {
-      acronym: 'UL',
+      acronym: 'UEK',
       isDeleted: false,
       name: 'université épicée de kerivach',
       type: 'structures',
@@ -114,18 +114,6 @@ describe('API > search', () => {
     expect(body.data[0].acronym).toBe('CM');
     expect(body.data[0].isDeleted).toBeFalsy();
     expect(body.data[0].name).toBe('centrale marseille');
-    expect(body.data[0].type).toBe('structures');
-  });
-
-  it.skip('should search multiple partial words', async () => {
-    const { body } = await global.superapp
-      .get('/autocomplete?query=univ keri')
-      .set('Authorization', authorization)
-      .expect(200);
-    expect(body.data).toHaveLength(1);
-    expect(body.data[0].acronym).toBe('UK');
-    expect(body.data[0].isDeleted).toBeFalsy();
-    expect(body.data[0].name).toBe('Université de Kerivach');
     expect(body.data[0].type).toBe('structures');
   });
 
