@@ -17,7 +17,6 @@ export function saveInElastic(repository, useQuery, type) {
       resource?.city?.join(' '),
       resource?.identifiers?.join(' '),
       resource?.name,
-      resource?.names?.shortName,
       resource?.names?.otherNames?.join(' '),
       resource?.shortName,
     ].join(' ');
