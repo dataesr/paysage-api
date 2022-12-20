@@ -24,7 +24,7 @@
 
 `npm run reindex [TYPE]`
 
-Where type could be omitted, or be one value between "categories", "legal-categories", "official-texts", "persons", "prices", "projects", "structures", "terms", "users".
+Where type could be omitted, or be one value between "categories", "legal-categories", "official-texts", "persons", "prizes", "projects", "structures", "terms", "users".
 
 Example: `NODE_ENV=development ES_NODE=http://localhost:9200 MONGO_URI="mongodb://localhost:27017" ES_USERNAME= ES_PASSWORD= npm run reindex`
 

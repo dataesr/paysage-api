@@ -19,7 +19,7 @@ const ALLOWED_COLLECTIONS = [
   'persons',
   'terms',
   'categories',
-  'prices',
+  'prizes',
   'projects',
 ];
 

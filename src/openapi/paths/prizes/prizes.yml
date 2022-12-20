@@ -1,8 +1,8 @@
 collectionMethods:
   get:
     tags:
-      - Prices
-    summary: List all prices
+      - Prizes
+    summary: List all prizes
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
@@ -19,7 +19,7 @@ collectionMethods:
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/Price'
+                    $ref: '../../api.yml#/components/schemas/Prize'
                 totalCount:
                   type: integer
       '400':
@@ -33,14 +33,14 @@ collectionMethods:
 
   post:
     tags:
-      - Prices
-    summary: Create a new price
+      - Prizes
+    summary: Create a new prize
     requestBody:
       content:
           application/json:
             schema:
               allOf:
-                - $ref: '../../api.yml#/components/schemas/PricePayload'
+                - $ref: '../../api.yml#/components/schemas/PrizePayload'
                 - required:
                   - nameFr
     responses:
@@ -49,7 +49,7 @@ collectionMethods:
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Price'
+              $ref: '../../api.yml#/components/schemas/Prize'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -62,17 +62,17 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Prices
-    summary: Get a price by ID
+      - Prizes
+    summary: Get a prize by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/prizeId'
     responses:
       '200':
         description: Success
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Price'
+              $ref: '../../api.yml#/components/schemas/Prize'
       '301':
         description: No content
       '400':
@@ -88,22 +88,22 @@ documentMethods:
 
   patch:
     tags:
-      - Prices
-    summary: Update a price by ID
+      - Prizes
+    summary: Update a prize by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/prizeId'
     requestBody:
       content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/PricePayload'
+              $ref: '../../api.yml#/components/schemas/PrizePayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Price'
+              $ref: '../../api.yml#/components/schemas/Prize'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -117,10 +117,10 @@ documentMethods:
 
   delete:
     tags:
-      - Prices
-    summary: Delete a price by ID
+      - Prizes
+    summary: Delete a prize by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/prizeId'
     responses:
       '204':
         description: No content
@@ -135,22 +135,22 @@ documentMethods:
 
   put:
     tags:
-      - Prices
-    summary: Create a new price with ID
+      - Prizes
+    summary: Create a new prize with ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/prizeId'
     requestBody:
       content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/PricePayload'
+              $ref: '../../api.yml#/components/schemas/PrizePayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/Price'
+              $ref: '../../api.yml#/components/schemas/Prize'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

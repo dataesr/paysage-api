@@ -28,7 +28,7 @@ export async function canIDelete(req, res, next) {
     ((resource?.relatedStructures || []).lenght > 0)
       || ((resource?.relatedCategories || []).lenght > 0)
       || ((resource?.relatedPersons || []).lenght > 0)
-      || ((resource?.relatedPrices || []).lenght > 0)
+      || ((resource?.relatedPrizes || []).lenght > 0)
       || ((resource?.relatedProjects || []).lenght > 0)
       || ((resource?.relatedTerms || []).lenght > 0)
   ) throw new UnauthorizedError();

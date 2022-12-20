@@ -36,7 +36,7 @@ allOf:
         description: Objects paysage suceptibles de porter ce type de relation
         items:
           type: string
-          enum: ["structures", "categories", "persons", "prices", "terms", "legal-categories", "projects"]
+          enum: ["structures", "categories", "persons", "prizes", "terms", "legal-categories", "projects"]
       priority:
         type: integer
         minimum: 1
