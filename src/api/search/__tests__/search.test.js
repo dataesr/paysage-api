@@ -63,9 +63,19 @@ beforeAll(async () => {
   await esClient.index({
     index,
     body: {
-      acronym: 'UL',
+      acronym: 'UEK',
       isDeleted: false,
       name: 'université épicée de kerivach',
+      type: 'structures',
+    },
+    refresh: true,
+  });
+  await esClient.index({
+    index,
+    body: {
+      acronym: 'PGG',
+      isDeleted: false,
+      name: 'Lycée Pierre-Gilles de Gennes',
       type: 'structures',
     },
     refresh: true,
@@ -78,7 +88,7 @@ describe('API > search', () => {
       .get('/autocomplete')
       .set('Authorization', authorization)
       .expect(200);
-    expect(body.data).toHaveLength(4);
+    expect(body.data).toHaveLength(5);
   });
 
   it('should search partial word', async () => {
@@ -114,18 +124,6 @@ describe('API > search', () => {
     expect(body.data[0].acronym).toBe('CM');
     expect(body.data[0].isDeleted).toBeFalsy();
     expect(body.data[0].name).toBe('centrale marseille');
-    expect(body.data[0].type).toBe('structures');
-  });
-
-  it.skip('should search multiple partial words', async () => {
-    const { body } = await global.superapp
-      .get('/autocomplete?query=univ keri')
-      .set('Authorization', authorization)
-      .expect(200);
-    expect(body.data).toHaveLength(1);
-    expect(body.data[0].acronym).toBe('UK');
-    expect(body.data[0].isDeleted).toBeFalsy();
-    expect(body.data[0].name).toBe('Université de Kerivach');
     expect(body.data[0].type).toBe('structures');
   });
 
@@ -165,5 +163,23 @@ describe('API > search', () => {
       .expect(200);
     expect(body.data).toHaveLength(1);
     expect(body.data[0].name).toBe('université épicée de kerivach');
+  });
+
+  it('should search dash separated word', async () => {
+    const { body } = await global.superapp
+      .get('/autocomplete?query=pierre-gil')
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(1);
+    expect(body.data[0].name).toBe('Lycée Pierre-Gilles de Gennes');
+  });
+
+  it('should search dash separated word 2', async () => {
+    const { body } = await global.superapp
+      .get('/autocomplete?query=pierre gil')
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(1);
+    expect(body.data[0].name).toBe('Lycée Pierre-Gilles de Gennes');
   });
 });

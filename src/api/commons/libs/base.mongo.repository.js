@@ -1,4 +1,4 @@
-import parseSortParams from './helpers';
+import { parseSortParams, parseFilters } from './helpers';
 
 class BaseMongoRepository {
   constructor({ db, collection }) {
@@ -11,29 +11,32 @@ class BaseMongoRepository {
   }
 
   find = async ({
-    filters = {}, skip = 0, limit = 20, sort = null, useQuery = [], keepDeleted = false,
+    filters = {}, skip = 0, limit = 10000, sort = '-createdAt', useQuery = [], keepDeleted = false,
   } = {}) => {
-    const _filters = keepDeleted ? filters : { $and: [{ isDeleted: { $ne: true } }, filters] };
-    const countPipeline = [{ $match: _filters }, { $count: 'totalCount' }];
-    const queryPipeline = [
+    const _filters = keepDeleted ? parseFilters(filters) : { $and: [{ isDeleted: { $ne: true } }, parseFilters(filters)] };
+
+    const pipeline = [
       { $match: _filters },
-      { $sort: { _id: -1 }},
+      ...useQuery,
+      { $setWindowFields: { output: { totalCount: { $count: {} } } } },
+      { $sort: parseSortParams(sort) },
       { $skip: skip },
       { $limit: limit },
-      ...useQuery,
+      { $group: { _id: null, data: { $push: '$$ROOT' }, totalCount: { $max: '$totalCount' } } },
+      { $project: { _id: 0, 'data.totalCount': 0 } },
     ];
-    if (sort) { queryPipeline.push({ $sort: parseSortParams(sort) }); }
-    const data = await this._collection.aggregate([
-      { $facet: { data: queryPipeline, total: countPipeline } },
-      { $project: { data: 1, total: { $arrayElemAt: ['$total', 0] } } },
-      { $project: { data: 1, totalCount: '$total.totalCount' } },
-    ]).toArray();
-    return data[0];
+    const data = await this._collection.aggregate(pipeline).toArray();
+    return data?.[0]?.data ? data[0] : { data: [], totalCount: 0 };
   };
 
-  get = async (id, { useQuery, keepDeleted = false } = {}) => {
-    const { data } = await this.find({ filters: { id }, limit: 1, useQuery, keepDeleted });
-    return data ? data[0] : null;
+  get = async (id, { useQuery = [], keepDeleted = false } = {}) => {
+    const filters = keepDeleted ? { id } : { $and: [{ isDeleted: { $ne: true } }, { id }] };
+    const data = await this._collection.aggregate([
+      { $match: filters },
+      { $limit: 1 },
+      ...useQuery,
+    ]).toArray();
+    return data?.[0];
   };
 
   create = async (data) => {

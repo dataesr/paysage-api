@@ -113,7 +113,7 @@ properties:
     description: Lieu-dit
   country:
     type: string
-  telephone:
+  phonenumber:
     type: string
     nullable: true
   coordinates:
@@ -157,7 +157,7 @@ properties:
   linkedIn:
     type: string
     nullable: true
-  parents:
-    type: array
-    items:
-      type: string
+  iso3:
+    type: string
+    nullable: true
+    pattern: '^[A-Z]{3}$'

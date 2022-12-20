@@ -1,0 +1,81 @@
+collectionMethods:
+  get:
+    tags:
+      - Api keys
+    summary: List all api keys
+    parameters:
+        - $ref: '../../api.yml#/components/parameters/filters'
+        - $ref: '../../api.yml#/components/parameters/skip'
+        - $ref: '../../api.yml#/components/parameters/limit'
+        - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/ApiKey'
+                totalCount:
+                  type: number
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Api keys
+    summary: Create a new api key
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: CreateApiKey
+            type: object
+            required:
+              - name
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/ApiKeyPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/ApiKey'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+documentMethods:
+  delete:
+    tags:
+      - Api keys
+    summary: Delete a api key
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/apiKeyId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

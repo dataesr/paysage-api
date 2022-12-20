@@ -63,6 +63,7 @@ tags:
 
 security:
   - BearerAuth: []
+  - ApiKeyAuth: []
 
 paths:
   ### FICHIERS ###
@@ -305,6 +306,13 @@ paths:
     $ref: './paths/supervising-ministers/supervising-ministers.yml#/collectionMethods'
   '/supervising-ministers/{supervisingMinisterId}':
     $ref: './paths/supervising-ministers/supervising-ministers.yml#/documentMethods'
+
+
+  ### API KEYS ###
+  '/admin/api-keys':
+    $ref: './paths/apikeys/apikeys.yml#/collectionMethods'
+  '/admin/api-keys/{apiKeyId}':
+    $ref: './paths/apikeys/apikeys.yml#/documentMethods'
   
   ### SEARCH ###
   '/autocomplete':
@@ -316,6 +324,8 @@ paths:
 
 components:
   parameters:
+    apiKeyId:
+      $ref: ./parameters/ids/apikey-id.yml
     categoryId:
       $ref: ./parameters/ids/category-id.yml
     dataset:
@@ -407,6 +417,8 @@ components:
 
   schemas:
     ### MODELS ###
+    ApiKey:
+      $ref: './schemas/apikeys/apikey.yml'
     AutocompletionAggregation:
       $ref: './schemas/search/aggregation.yml'
     AutocompletionResults:
@@ -543,6 +555,8 @@ components:
       $ref: ./schemas/users/user-light.yml
 
     ### PAYLOADS ###
+    ApiKeyPayload:
+      $ref: './schemas/apikeys/apikey-payload.yml'
     CategoryIdentifierPayload:
       $ref: './schemas/categories/identifier-payload.yml'
     CategoryPayload:
@@ -671,3 +685,7 @@ components:
       type: http
       scheme: bearer
       description: Authentication with a Bearer token.
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

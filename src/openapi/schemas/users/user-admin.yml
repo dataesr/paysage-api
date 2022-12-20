@@ -34,6 +34,7 @@ allOf:
         enum:
           - user
           - admin
+          - reader
       groups:
         type: array
         items:

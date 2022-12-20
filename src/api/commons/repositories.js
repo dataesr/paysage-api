@@ -4,6 +4,7 @@ import NestedMongoRepository from './libs/nested.mongo.repository';
 import UsersMongoRepository from './libs/users.mongo.repository';
 import TokensMongoRepository from './libs/base.mongo.tokens';
 
+export const apiKeysRepository = new BaseMongoRepository({ db, collection: 'apikeys' });
 export const catalogRepository = new BaseMongoRepository({ db, collection: '_catalog' });
 export const categoriesRepository = new BaseMongoRepository({ db, collection: 'categories' });
 export const contactRepository = new BaseMongoRepository({ db, collection: 'contact' });

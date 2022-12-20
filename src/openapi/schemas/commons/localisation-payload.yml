@@ -1,5 +1,6 @@
 title: LocalisationPayload
 description: Modèle de création et de mise à jour d'une localisation
+additionalProperties: false
 type: object
 properties:
   cityId:
@@ -33,7 +34,7 @@ properties:
     description: Lieu-dit
   country:
     type: string
-  telephone:
+  phonenumber:
     type: string
     nullable: true
   coordinates:
@@ -55,3 +56,7 @@ properties:
     type: string
     nullable: true
     pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+  iso3:
+    type: string
+    nullable: true
+    pattern: '^[A-Z]{3}$'

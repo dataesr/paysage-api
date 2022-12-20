@@ -10,5 +10,6 @@ properties:
     enum:
       - user
       - admin
+      - reader
   isDeleted:
     type: boolean
