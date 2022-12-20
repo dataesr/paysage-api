@@ -76,6 +76,7 @@ export default [
       endDate: { $ifNull: ['$endDate', null] },
       current: 1,
       active: { $ifNull: ['$active', null] },
+      iso3: { $ifNull: ['$iso3', null] },
       createdBy: 1,
       createdAt: 1,
       updatedBy: 1,
