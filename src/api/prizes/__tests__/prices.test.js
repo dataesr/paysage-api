@@ -1,10 +1,10 @@
-import { prices as resource } from '../../resources';
+import { prizes as resource } from '../../resources';
 
 let authorization;
 let id;
 const payload = {
   nameFr: 'Prix A',
-  nameEn: 'Price A',
+  nameEn: 'Prize A',
   startDate: '2020',
   endDate: '2021',
 };
@@ -14,7 +14,7 @@ beforeAll(async () => {
   authorization = await global.utils.createUser('user');
 });
 
-describe('API > prices > create', () => {
+describe('API > prizes > create', () => {
   it('can create successfully', async () => {
     const { body } = await global.superapp
       .post(`/${resource}`)
@@ -45,7 +45,7 @@ describe('API > prices > create', () => {
   });
 });
 
-describe('API > prices > update', () => {
+describe('API > prizes > update', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
       .patch(`/${resource}/45frK`)
@@ -79,7 +79,7 @@ describe('API > prices > update', () => {
   });
 });
 
-describe('API > prices > read', () => {
+describe('API > prizes > read', () => {
   it('can read successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${id}`)
@@ -98,7 +98,7 @@ describe('API > prices > read', () => {
   });
 });
 
-describe('API > prices > delete', () => {
+describe('API > prizes > delete', () => {
   it('throws not found with wrong id', async () => {
     await global.superapp
       .delete(`/${resource}/45frK`)
@@ -115,7 +115,7 @@ describe('API > prices > delete', () => {
 
 describe('API > structures > structures > list', () => {
   beforeAll(async () => {
-    await global.utils.db.collection('prices').deleteMany({});
+    await global.utils.db.collection('prizes').deleteMany({});
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)

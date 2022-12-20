@@ -3,10 +3,10 @@ import express from 'express';
 import { createContext, patchContext, setGeneratedObjectIdInContext, setPutIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
-import elasticQuery from '../../commons/queries/prices.elastic';
-import readQuery from '../../commons/queries/prices.query';
-import { pricesRepository as repository } from '../../commons/repositories';
-import { prices as resource } from '../../resources';
+import elasticQuery from '../../commons/queries/prizes.elastic';
+import readQuery from '../../commons/queries/prizes.query';
+import { prizesRepository as repository } from '../../commons/repositories';
+import { prizes as resource } from '../../resources';
 import { canIDelete, validatePayload } from './root.middlewares';
 
 const router = new express.Router();

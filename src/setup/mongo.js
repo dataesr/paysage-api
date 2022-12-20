@@ -48,8 +48,8 @@ async function setupMongo() {
   await db.collection('press').createIndex({ relatesTo: 1 });
   await db.collection('press').createIndex({ matchedWith: 1 });
   await db.collection('press').createIndex({ excluded: 1 });
-  await db.collection('prices').createIndex({ id: 1 }, { unique: true });
-  await db.collection('prices').createIndex({ createdAt: 1 });
+  await db.collection('prizes').createIndex({ id: 1 }, { unique: true });
+  await db.collection('prizes').createIndex({ createdAt: 1 });
   await db.collection('projects').createIndex({ id: 1 }, { unique: true });
   await db.collection('projects').createIndex({ createdAt: 1 });
   await db.collection('relationships').createIndex({ id: 1 }, { unique: true });

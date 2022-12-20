@@ -1,9 +1,9 @@
-title: PriceIdentifierPayload
+title: PrizeIdentifierPayload
 description: Représentation simplifiée d'un identifiant d'un prix
 additionalProperties: false
 properties:
   type:
-    $ref: ../../api.yml#/components/schemas/PriceIdentifierTypesEnum
+    $ref: ../../api.yml#/components/schemas/PrizeIdentifierTypesEnum
   value:
     type: string
   active:

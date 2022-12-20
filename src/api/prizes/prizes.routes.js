@@ -1,12 +1,12 @@
 import express from 'express';
 
-import prices from './root/root.routes';
+import prizes from './root/root.routes';
 import identifiers from './identifiers/identifiers.routes';
 import weblinks from './weblinks/weblinks.routes';
 
 const router = new express.Router();
 
-router.use(prices);
+router.use(prizes);
 router.use(identifiers);
 router.use(weblinks);
 

@@ -5,7 +5,7 @@ import esClient from './src/services/elastic.service';
 import { client, db } from './src/services/mongo.service';
 
 const { index } = config.elastic;
-const allowedTypes = ['categories', 'legal-categories', 'official-texts', 'persons', 'prices', 'projects', 'structures', 'terms', 'users'];
+const allowedTypes = ['categories', 'legal-categories', 'official-texts', 'persons', 'prizes', 'projects', 'structures', 'terms', 'users'];
 
 const load = async (paysageObject) => {
   const { default: query } = await import(`./src/api/commons/queries/${paysageObject}.elastic.js`);
