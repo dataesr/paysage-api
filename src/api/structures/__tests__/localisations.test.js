@@ -12,7 +12,7 @@ const payload = {
   postalCode: 'string',
   locality: 'string',
   country: 'France',
-  telephone: '+33665984565',
+  phonenumber: '+33665984565',
   coordinates: {
     lat: 12.48965321,
     lng: 24.258481,
@@ -110,7 +110,7 @@ describe('API > structures > localisations > update', () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
-      .send({ telephone: { lat: 45.462168 } })
+      .send({ phonenumber: { lat: 45.462168 } })
       .expect(400);
   });
 });

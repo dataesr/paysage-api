@@ -15,16 +15,24 @@ export function setGeoJSON(req, res, next) {
   }
   return next();
 }
-export async function validatePhoneNumber(req, res, next) {
+export async function validatePhoneNumberAndIso3(req, res, next) {
   const phoneRegex = /^\+33[0-9]{9}$/;
-  const { resourceId, id } = req.params;
-  const { telephone, country } = req.body;
+  const { id, resourceId } = req.params;
+  const { country, iso3, phonenumber } = req.body;
   const nextCountry = country || await structureLocalisationsRepository.get(resourceId, id, { useQuery: readQuery }).country;
-  if (telephone && nextCountry === 'France' && !telephone.match(phoneRegex)) {
+  if (phonenumber && nextCountry === 'France' && !phonenumber.match(phoneRegex)) {
     throw new BadRequestError('Validation error', [{
-      path: '.body.telephone',
-      message: `Phone numbers from France should match pattern ${phoneRegex}`,
+      path: '.body.phonenumber',
+      message: `Phone number from France should match pattern ${phoneRegex}`,
     }]);
+  }
+  if (iso3) {
+    if (!iso3.toString().toUpperCase().match(/^[A-Z]{3}$/)) {
+      throw new BadRequestError('Validation error', [{
+        path: '.body.iso3',
+        message: 'iso3 for structure should be 3 letters in uppercase',
+      }]);
+    }
   }
   return next();
 }

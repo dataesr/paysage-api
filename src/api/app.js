@@ -10,6 +10,7 @@ import { authenticate } from './commons/middlewares/authenticate.middlewares';
 import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 
 import { requireAuth } from './commons/middlewares/rbac.middlewares';
+import apiKeysRoutes from './apikeys/apikeys.routes';
 import authRoutes from './auth/auth.routes';
 import assetsRoutes from './assets/assets.routes';
 import categoriesRoutes from './categories/categories.routes';
@@ -21,6 +22,7 @@ import followUpsRoutes from './followups/followups.routes';
 import journalRoutes from './journal/journal.routes';
 import legalCategoriesRoutes from './legalcategories/legalcategories.routes';
 import meRoutes from './me/me.routes';
+import metadataRoutes from './metadata/metadata.routes';
 import officialTextsRoutes from './officialtexts/officialtexts.routes';
 import personsRoutes from './persons/persons.routes';
 import pressRoutes from './press/press.routes';
@@ -89,6 +91,7 @@ app.use(authenticate);
 app.use(requireAuth);
 
 // Register api routes
+app.use(apiKeysRoutes);
 app.use(authRoutes);
 app.use(assetsRoutes);
 app.use(categoriesRoutes);
@@ -100,6 +103,7 @@ app.use(followUpsRoutes);
 app.use(journalRoutes);
 app.use(legalCategoriesRoutes);
 app.use(meRoutes);
+app.use(metadataRoutes);
 app.use(officialTextsRoutes);
 app.use(personsRoutes);
 app.use(pressRoutes);

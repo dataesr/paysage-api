@@ -4,26 +4,24 @@ import esClient from '../../../services/elastic.service';
 
 const { index } = config.elastic;
 
-export function saveInElastic(repository, useQuery, resourceName) {
+export function saveInElastic(repository, useQuery, type) {
   return async (req, res, next) => {
     const { body, params } = req || {};
     const id = params?.resourceId || params?.id || body?.id || req.context.id || undefined;
     const esData = await esClient.search({ index, body: { query: { match: { id } } } });
     const _id = esData?.body?.hits?.hits?.[0]?._id;
-    const resource = await repository.get(id, { useQuery, keepDeleted: true });
-    resource.isDeleted = resource?.isDeleted || false;
-    resource.type = resourceName;
-    const actions = [];
-    actions.push(_id ? { index: { _index: index, _id } } : { index: { _index: index } });
-    actions.push(resource);
-    await esClient.bulk({ refresh: true, body: actions });
+    let resource = await repository.get(id, { useQuery, keepDeleted: true });
+    resource = { ...resource, isDeleted: resource?.isDeleted || false, type };
+    const document = { index, body: resource, refresh: true };
+    if (_id) document._id = _id;
+    await esClient.index(document);
     return next();
   };
 }
 
 export function saveInStore() {
   return async (req, res, next) => {
-    const { path, method } = req;
+    const { method, path } = req;
     const userId = req.currentUser.id;
     const splitted = req.path.split('/');
     eventsRepository.create({
@@ -33,7 +31,7 @@ export function saveInStore() {
       resourceId: splitted?.[2] || req.context?.id,
       subResourceType: splitted?.[3],
       subResourceId: ((splitted?.[3]) && splitted?.[4]) || req.context?.id,
-      objects: req.context?.obbjects,
+      objects: req.context?.objects,
       path,
       method,
     });

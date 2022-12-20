@@ -130,6 +130,14 @@ describe('API > structures > structures > list', () => {
     expect(docs).toContain('active');
     expect(docs).toContain('inactive');
   });
+  it('can list empty results', async () => {
+    const { body } = await global.superapp
+      .get(`/${resource}?filters[structureStatus]=empty`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.data).toHaveLength(0);
+    expect(body.totalCount).toBe(0);
+  });
   it('can skip successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?skip=1`)
@@ -170,6 +178,15 @@ describe('API > structures > structures > list', () => {
   it('can filter successfully', async () => {
     const { body } = await global.superapp
       .get(`/${resource}?filters[structureStatus]=active`)
+      .set('Authorization', authorization)
+      .expect(200);
+    const docs = body.data.map((doc) => doc.structureStatus);
+    expect(docs).toContain('active');
+    expect(body.totalCount).toBe(1);
+  });
+  it('can filter successfully dates', async () => {
+    const { body } = await global.superapp
+      .get(`/${resource}?filters[structureStatus]=active&filters[createdAt][$gte]=2022-11-28T22:31:57.703Z`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.structureStatus);

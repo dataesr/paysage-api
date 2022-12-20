@@ -72,6 +72,9 @@ allOf:
       mandatePrecision:
         type: string
         nullable: true
+      laureatePrecision:
+        type: string
+        nullable: true
       active:
         type: boolean
         nullable: true

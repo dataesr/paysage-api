@@ -1,0 +1,20 @@
+type: object
+required:
+  - name
+  - role
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+      apiKey:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+      userId:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'  
+  - $ref: '../../api.yml#/components/schemas/Metas'

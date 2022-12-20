@@ -6,7 +6,7 @@ import controllers from '../../commons/middlewares/crud-nested.middlewares';
 import { structureLocalisationsRepository as repository, structuresRepository } from '../../commons/repositories';
 import elasticQuery from '../../commons/queries/structures.elastic';
 import readQuery from '../../commons/queries/localisations.query';
-import { setGeoJSON, validatePhoneNumber } from './localisations.middlewares';
+import { setGeoJSON, validatePhoneNumberAndIso3 } from './localisations.middlewares';
 import { structures as resource, localisations as subresource } from '../../resources';
 
 const router = new express.Router();
@@ -16,7 +16,7 @@ router.route(`/${resource}/:resourceId/${subresource}`)
   .post([
     createContext,
     setGeoJSON,
-    validatePhoneNumber,
+    validatePhoneNumberAndIso3,
     setGeneratedInternalIdInContext(subresource),
     controllers.create(repository, readQuery),
     saveInStore(subresource),
@@ -28,7 +28,7 @@ router.route(`/${resource}/:resourceId/${subresource}/:id`)
   .patch([
     patchContext,
     setGeoJSON,
-    validatePhoneNumber,
+    validatePhoneNumberAndIso3,
     controllers.patch(repository, readQuery),
     saveInStore(subresource),
     saveInElastic(structuresRepository, elasticQuery, resource),

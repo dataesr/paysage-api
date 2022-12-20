@@ -61,6 +61,7 @@ export default [
       mandateEmail: { $ifNull: ['$mandateEmail', null] },
       mandateTemporary: { $ifNull: ['$mandateTemporary', null] },
       mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
+      laureatePrecision: { $ifNull: ['$laureatePrecision', null] },
       otherAssociatedObjectIds: { $ifNull: ['$otherAssociatedObjectIds', []] },
       otherAssociatedObjects: 1,
       active: { $ifNull: ['$active', null] },

@@ -1,3 +1,4 @@
+export const apikeys = 'api-keys';
 export const categories = 'categories';
 export const contacts = 'contacts';
 export const documents = 'documents';
