@@ -1,17 +1,19 @@
 import express from 'express';
 
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import { identifiersRepository as repository } from '../../commons/repositories';
-import readQuery from '../../commons/queries/identifiers.query';
-import { prices as resource, identifiers as subresource } from '../../resources';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
+import readQuery from '../../commons/queries/weblinks.query';
+import { validatePayload } from './weblinks.middlewares';
+import { weblinksRepository as repository } from '../../commons/repositories';
+import { prizes as resource, weblinks as subresource } from '../../resources';
 
 const router = new express.Router();
 
 router.route(`/${resource}/:resourceId/${subresource}`)
   .get(controllers.list(repository, readQuery))
   .post([
+    validatePayload,
     createContext,
     setGeneratedInternalIdInContext(subresource),
     controllers.create(repository, readQuery),
@@ -19,15 +21,16 @@ router.route(`/${resource}/:resourceId/${subresource}`)
   ]);
 
 router.route(`/${resource}/:resourceId/${subresource}/:id`)
-  .get(controllers.read(repository, readQuery))
-  .patch([
-    patchContext,
-    controllers.patch(repository, readQuery),
-    saveInStore(subresource),
-  ])
   .delete([
     patchContext,
     controllers.remove(repository),
+    saveInStore(subresource),
+  ])
+  .get(controllers.read(repository, readQuery))
+  .patch([
+    validatePayload,
+    patchContext,
+    controllers.patch(repository, readQuery),
     saveInStore(subresource),
   ]);
 

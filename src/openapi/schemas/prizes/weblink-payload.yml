@@ -1,9 +1,9 @@
-title: PriceWeblinkPayload
+title: PrizeWeblinkPayload
 description: Représentation d'un lien web d'un prix
 type: object
 properties:
   type:
-    $ref: ../../api.yml#/components/schemas/PriceWeblinkTypesEnum
+    $ref: ../../api.yml#/components/schemas/PrizeWeblinkTypesEnum
   url:
     type: string
     format: uri

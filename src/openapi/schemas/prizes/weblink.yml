@@ -1,4 +1,4 @@
-title: PriceWeblink
+title: PrizeWeblink
 description: Représentation d'un lien web d'un prix
 allOf: 
   - type: object
@@ -14,7 +14,7 @@ allOf:
         description: Unique parent resource identifier
         pattern: '^[a-zA-Z0-9]{5}$'
       type:
-        $ref: ../../api.yml#/components/schemas/PriceWeblinkTypesEnum
+        $ref: ../../api.yml#/components/schemas/PrizeWeblinkTypesEnum
       url:
         type: string
       language:

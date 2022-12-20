@@ -23,7 +23,7 @@ allOf:
         readOnly: true
         description: Représentation simplifiée des parents du prix scientifique
         items:
-          $ref: ../../api.yml#/components/schemas/PriceLight
+          $ref: ../../api.yml#/components/schemas/PrizeLight
       startDate:
         type: string
         nullable: true
