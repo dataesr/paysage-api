@@ -3,7 +3,7 @@ in: query
 allowEmptyValue: true
 description: |
   Object types to filter on, comma separated.
-  Accepted types are: "categories", "legal-categories", "official-texts", "persons", "prices", "projects", "structures", "terms" and "users".
+  Accepted types are: "categories", "legal-categories", "official-texts", "persons", "prizes", "projects", "structures", "terms" and "users".
 schema:
   type: string
   example: '?types=persons,structures'

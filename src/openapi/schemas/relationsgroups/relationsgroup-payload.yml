@@ -17,7 +17,7 @@ properties:
     description: Objects paysage suceptibles d'apartenir au groupe de relation
     items:
       type: string
-      enum: ["structures", "categories", "persons", "prices", "terms", "projects"]
+      enum: ["structures", "categories", "persons", "prizes", "terms", "projects"]
   priority:
     type: integer
     minimum: 1

@@ -1,7 +1,7 @@
 import categoryLightQuery from './categories.light.query';
 import legalCategoryLightQuery from './legal-categories.light.query';
 import personLightQuery from './persons.light.query';
-import priceLightQuery from './prices.light.query';
+import prizeLightQuery from './prizes.light.query';
 import projectLightQuery from './projects.light.query';
 import structureLightQuery from './structures.light.query';
 import supervisingMinistersLightQuery from './supervising-ministers.light.query';
@@ -47,11 +47,11 @@ function getRelatedObject(localField) {
     },
     {
       $lookup: {
-        from: 'prices',
+        from: 'prizes',
         localField,
         foreignField: 'id',
-        pipeline: priceLightQuery,
-        as: 'relatedPrices',
+        pipeline: prizeLightQuery,
+        as: 'relatedPrizes',
       },
     },
     {
@@ -88,7 +88,7 @@ function getRelatedObject(localField) {
             '$relatedLegalCategories',
             '$relatedStructures',
             '$relatedProjects',
-            '$relatedPrices',
+            '$relatedPrizes',
             '$relatedPersons',
             '$relatedTerms',
             '$relatedCategories',

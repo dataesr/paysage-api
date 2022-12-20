@@ -1,10 +1,10 @@
 collectionMethods:
   get:
     tags:
-      - Prices - Weblinks
-    summary: List all price's weblinks
+      - Prizes - Identifiers
+    summary: List all prize's identifiers
     parameters:
-      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/prizeId'
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
       - $ref: '../../api.yml#/components/parameters/limit'
@@ -20,7 +20,7 @@ collectionMethods:
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/PriceWeblink'
+                    $ref: '../../api.yml#/components/schemas/PrizeIdentifier'
                 totalCount:
                   type: integer
       '400':
@@ -36,28 +36,29 @@ collectionMethods:
 
   post:
     tags:
-      - Prices - Weblinks
-    summary: Add a price's weblink
+      - Prizes - Identifiers
+    summary: Add a new prize's identifier
     parameters:
-      - $ref: '../../api.yml#/components/parameters/priceId'
+      - $ref: '../../api.yml#/components/parameters/prizeId'
     requestBody:
       content:
         application/json:
           schema:
-            title: categoryWeblinkPayLoad
+            title: PrizeIdentifierPayLoad
             type: object
             required:
               - type
-              - url
+              - value
+              - active
             allOf:
-              - $ref: '../../api.yml#/components/schemas/PriceWeblinkPayload'
+              - $ref: '../../api.yml#/components/schemas/PrizeIdentifierPayload'
     responses:
       '201':
         description: Created
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/PriceWeblink'
+              $ref: '../../api.yml#/components/schemas/PrizeIdentifier'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -72,18 +73,18 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Prices - Weblinks
-    summary: Get a price's weblink by ID
+      - Prizes - Identifiers
+    summary: Get a prize's identifier by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/priceId'
-      - $ref: '../../api.yml#/components/parameters/weblinkId'
+      - $ref: '../../api.yml#/components/parameters/prizeId'
+      - $ref: '../../api.yml#/components/parameters/identifierId'
     responses:
       '200':
-        description: OK
+        description: Success
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/PriceWeblink'
+              $ref: '../../api.yml#/components/schemas/PrizeIdentifier'
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '403':
@@ -95,11 +96,11 @@ documentMethods:
 
   delete:
     tags:
-      - Prices - Weblinks
-    summary: Delete a price's weblink by ID
+      - Prizes - Identifiers
+    summary: Delete a prize's identifier by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/priceId'
-      - $ref: '../../api.yml#/components/parameters/weblinkId'
+      - $ref: '../../api.yml#/components/parameters/prizeId'
+      - $ref: '../../api.yml#/components/parameters/identifierId'
     responses:
       '204':
         description: No content
@@ -114,23 +115,23 @@ documentMethods:
 
   patch:
     tags:
-      - Prices - Weblinks
-    summary: Update a price's weblink by ID
+      - Prizes - Identifiers
+    summary: Update a prize's identifier by ID
     parameters:
-      - $ref: '../../api.yml#/components/parameters/priceId'
-      - $ref: '../../api.yml#/components/parameters/weblinkId'
+      - $ref: '../../api.yml#/components/parameters/prizeId'
+      - $ref: '../../api.yml#/components/parameters/identifierId'
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '../../api.yml#/components/schemas/PriceWeblinkPayload'
+            $ref: '../../api.yml#/components/schemas/PrizeIdentifierPayload'
     responses:
       '200':
         description: OK
         content:
           application/json:
             schema:
-              $ref: '../../api.yml#/components/schemas/PriceWeblink'
+              $ref: '../../api.yml#/components/schemas/PrizeIdentifier'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

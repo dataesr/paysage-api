@@ -1,10 +1,10 @@
 import { BadRequestError, NotFoundError } from '../../commons/http-errors';
-import { pricesRepository } from '../../commons/repositories';
+import { prizesRepository } from '../../commons/repositories';
 
 export async function validatePayload(req, res, next) {
   if (!Object.keys(req.body).length) throw new BadRequestError('Payload missing');
   if (req.params.resourceId) {
-    const exists = await pricesRepository._collection.findOne({ id: req.params.resourceId });
+    const exists = await prizesRepository._collection.findOne({ id: req.params.resourceId });
     if (!exists) {
       throw new NotFoundError(
         'Referencing unknown resource id',

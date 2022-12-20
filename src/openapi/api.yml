@@ -35,7 +35,7 @@ tags:
   - name: Persons - SocialMedias
   - name: Persons - Weblinks
   - name: Press
-  - name: Prices
+  - name: Prizes
   - name: Projects
   - name: Projects - Localisations
   - name: Projects - Weblinks
@@ -241,18 +241,18 @@ paths:
     $ref: './paths/relationsgroups/relationsgroups.yml#/documentMethods'
 
   ### PRIX SCIENTIFIQUES ###
-  '/prices':
-    $ref: './paths/prices/prices.yml#/collectionMethods'
-  '/prices/{priceId}':
-    $ref: './paths/prices/prices.yml#/documentMethods'
-  '/prices/{priceId}/identifiers':
-    $ref: './paths/prices/identifiers.yml#/collectionMethods'
-  '/prices/{priceId}/identifiers/{identifierId}':
-    $ref: './paths/prices/identifiers.yml#/documentMethods'
-  '/prices/{priceId}/weblinks':
-    $ref: './paths/prices/weblinks.yml#/collectionMethods'
-  '/prices/{priceId}/weblinks/{weblinkId}':
-    $ref: './paths/prices/weblinks.yml#/documentMethods'
+  '/prizes':
+    $ref: './paths/prizes/prizes.yml#/collectionMethods'
+  '/prizes/{prizeId}':
+    $ref: './paths/prizes/prizes.yml#/documentMethods'
+  '/prizes/{prizeId}/identifiers':
+    $ref: './paths/prizes/identifiers.yml#/collectionMethods'
+  '/prizes/{prizeId}/identifiers/{identifierId}':
+    $ref: './paths/prizes/identifiers.yml#/documentMethods'
+  '/prizes/{prizeId}/weblinks':
+    $ref: './paths/prizes/weblinks.yml#/collectionMethods'
+  '/prizes/{prizeId}/weblinks/{weblinkId}':
+    $ref: './paths/prizes/weblinks.yml#/documentMethods'
 
 
   ### PROJETS ###
@@ -364,8 +364,8 @@ components:
       $ref: ./parameters/ids/person-id.yml
     pressId:
       $ref: ./parameters/ids/press-id.yml
-    priceId:
-      $ref: ./parameters/ids/price-id.yml
+    prizeId:
+      $ref: ./parameters/ids/prize-id.yml
     projectId:
       $ref: ./parameters/ids/project-id.yml
     query:
@@ -477,14 +477,14 @@ components:
       $ref: './schemas/persons/weblink.yml'
     Press:
       $ref: './schemas/press/press.yml'
-    Price:
-      $ref: './schemas/prices/price.yml'
-    PriceIdentifier:
-      $ref: './schemas/prices/identifier.yml'
-    PriceLight:
-      $ref: './schemas/prices/price-light.yml'
-    PriceWeblink:
-      $ref: './schemas/prices/weblink.yml'
+    Prize:
+      $ref: './schemas/prizes/prize.yml'
+    PrizeIdentifier:
+      $ref: './schemas/prizes/identifier.yml'
+    PrizeLight:
+      $ref: './schemas/prizes/prize-light.yml'
+    PrizeWeblink:
+      $ref: './schemas/prizes/weblink.yml'
     Project:
       $ref: './schemas/projects/project.yml'
     ProjectLight:
@@ -593,12 +593,12 @@ components:
       $ref: './schemas/persons/weblink-payload.yml'
     PressPayload:
       $ref: './schemas/press/press-payload.yml'
-    PricePayload:
-      $ref: './schemas/prices/price-payload.yml'
-    PriceIdentifierPayload:
-      $ref: './schemas/prices/identifier-payload.yml'
-    PriceWeblinkPayload:
-      $ref: './schemas/prices/weblink-payload.yml'
+    PrizePayload:
+      $ref: './schemas/prizes/prize-payload.yml'
+    PrizeIdentifierPayload:
+      $ref: './schemas/prizes/identifier-payload.yml'
+    PrizeWeblinkPayload:
+      $ref: './schemas/prizes/weblink-payload.yml'
     ProjectPayload:
       $ref: './schemas/projects/project-payload.yml'
     ProjectWeblinkPayload:
@@ -655,10 +655,10 @@ components:
       $ref: './schemas/persons/enums/identifier-types.yml'
     PersonWeblinkTypesEnum:
       $ref: './schemas/persons/enums/weblink-types.yml'
-    PriceIdentifierTypesEnum:
-      $ref: './schemas/prices/enums/identifier-types.yml'
-    PriceWeblinkTypesEnum:
-      $ref: './schemas/prices/enums/weblink-types.yml'
+    PrizeIdentifierTypesEnum:
+      $ref: './schemas/prizes/enums/identifier-types.yml'
+    PrizeWeblinkTypesEnum:
+      $ref: './schemas/prizes/enums/weblink-types.yml'
     ProjectWeblinkTypesEnum:
       $ref: './schemas/projects/enums/weblink-types.yml'
     ProjectIdentifierTypesEnum:

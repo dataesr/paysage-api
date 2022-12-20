@@ -1,4 +1,0 @@
-description: Accepted values of identifier type for a price
-type: string
-enum:
-  - Wikidata
