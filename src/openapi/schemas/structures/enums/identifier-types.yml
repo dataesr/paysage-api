@@ -5,6 +5,7 @@ enum:
   - BibId
   - Code Insee
   - dataESR
+  - ESGBU
   - ETER
   - EtId
   - fundref
