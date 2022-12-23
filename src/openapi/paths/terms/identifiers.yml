@@ -73,7 +73,7 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Termes - Identifiers
+      - Termes - Identifiants
     summary: Get a term's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'

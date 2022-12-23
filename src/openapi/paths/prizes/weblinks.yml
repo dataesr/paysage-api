@@ -1,7 +1,7 @@
 collectionMethods:
   get:
     tags:
-      - Prizes - Weblinks
+      - Prix - Weblinks
     summary: List all prize's weblinks
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'
@@ -36,7 +36,7 @@ collectionMethods:
 
   post:
     tags:
-      - Prizes - Weblinks
+      - Prix - Weblinks
     summary: Add a prize's weblink
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'
@@ -72,7 +72,7 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Prizes - Weblinks
+      - Prix - Weblinks
     summary: Get a prize's weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'
@@ -95,7 +95,7 @@ documentMethods:
 
   delete:
     tags:
-      - Prizes - Weblinks
+      - Prix - Weblinks
     summary: Delete a prize's weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'
@@ -114,7 +114,7 @@ documentMethods:
 
   patch:
     tags:
-      - Prizes - Weblinks
+      - Prix - Weblinks
     summary: Update a prize's weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'
