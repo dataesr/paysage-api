@@ -1,7 +1,7 @@
 collectionMethods:
   get:
     tags:
-      - Prizes - Identifiers
+      - Prix - Identifiants
     summary: List all prize's identifiers
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'
@@ -36,7 +36,7 @@ collectionMethods:
 
   post:
     tags:
-      - Prizes - Identifiers
+      - Prix - Identifiants
     summary: Add a new prize's identifier
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'
@@ -73,7 +73,7 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Prizes - Identifiers
+      - Prix - Identifiants
     summary: Get a prize's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'
@@ -96,7 +96,7 @@ documentMethods:
 
   delete:
     tags:
-      - Prizes - Identifiers
+      - Prix - Identifiants
     summary: Delete a prize's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'
@@ -115,7 +115,7 @@ documentMethods:
 
   patch:
     tags:
-      - Prizes - Identifiers
+      - Prix - Identifiants
     summary: Update a prize's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/prizeId'

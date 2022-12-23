@@ -62,6 +62,6 @@ if (process.argv.length === 2) {
     console.error(`${type} n'est pas un type autorisé, merci de choisir parmi ${allowedTypes.join(', ')}.`);
   }
 } else {
-  console.error('Utilisation incorrecte : `node es-init.js [TYPE]`');
+  console.error('Utilisation incorrecte : `npm run reindex [TYPE]`');
 }
 client.close();
