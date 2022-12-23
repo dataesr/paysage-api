@@ -17,6 +17,7 @@ servers:
     description: Development server
 
 tags:
+  - name: Api keys
   - name: Authentication
   - name: Categories
   - name: Categories - Identifiers
@@ -28,6 +29,7 @@ tags:
   - name: Email types
   - name: Files
   - name: Follow-ups
+  - name: Journal
   - name: Legal categories
   - name: Official texts
   - name: Persons
@@ -35,7 +37,9 @@ tags:
   - name: Persons - SocialMedias
   - name: Persons - Weblinks
   - name: Press
-  - name: Prizes
+  - name: Prix
+  - name: Prix - Identifiants
+  - name: Prix - Weblinks
   - name: Projects
   - name: Projects - Localisations
   - name: Projects - Weblinks
@@ -55,15 +59,16 @@ tags:
   - name: Structures - SocialMedias
   - name: Structures - Weblinks
   - name: Supervising ministers
-  - name: Terms
-  - name: Terms - SocialMedias
-  - name: Terms - Weblinks
+  - name: Termes
+  - name: Termes - Identifiants
+  - name: Termes - SocialMedias
+  - name: Termes - Weblinks
   - name: User's groups
   - name: Users
 
 security:
-  - BearerAuth: []
   - ApiKeyAuth: []
+  - BearerAuth: []
 
 paths:
   ### FICHIERS ###
