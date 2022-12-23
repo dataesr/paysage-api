@@ -29,6 +29,7 @@ tags:
   - name: Email types
   - name: Files
   - name: Follow-ups
+  - name: Import
   - name: Journal
   - name: Legal categories
   - name: Official texts
@@ -71,7 +72,7 @@ security:
   - BearerAuth: []
 
 paths:
-  ### FICHIERS ###
+  ### FILES ###
   '/files':
     $ref: ./paths/files/files.yml
 
@@ -221,7 +222,7 @@ paths:
   '/official-texts/{officialTextId}':
     $ref: './paths/officialtexts/officialtexts.yml#/documentMethods'
 
-  ### OFFICIAL TEXTS ###
+  ### FOLLOW UP ###
   '/follow-ups':
     $ref: './paths/followups/followups.yml#/collectionMethods'
   '/follow-ups/{followUpId}':
@@ -259,8 +260,7 @@ paths:
   '/prizes/{prizeId}/weblinks/{weblinkId}':
     $ref: './paths/prizes/weblinks.yml#/documentMethods'
 
-
-  ### PROJETS ###
+  ### PROJECTS ###
   '/projects':
     $ref: './paths/projects/projects.yml#/collectionMethods'
   '/projects/{projectId}':
@@ -312,7 +312,6 @@ paths:
   '/supervising-ministers/{supervisingMinisterId}':
     $ref: './paths/supervising-ministers/supervising-ministers.yml#/documentMethods'
 
-
   ### API KEYS ###
   '/admin/api-keys':
     $ref: './paths/apikeys/apikeys.yml#/collectionMethods'
@@ -326,6 +325,11 @@ paths:
   ### JOURNAL ###
   '/journal':
     $ref: './paths/journals/journals.yml#/collectionMethods'
+
+  ### IMPORT ###
+  '/import':
+    $ref: ./paths/import/import.yml
+
 
 components:
   parameters:
