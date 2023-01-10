@@ -30,8 +30,7 @@ export function requireRoles(roles) {
   };
 }
 
-export function forbidReadersToWrite() {
-  return (req, res, next) => {
+export function forbidReadersToWrite(req, res, next) {
     if (['development', 'testing'].includes(process.env.NODE_ENV)) return next();
     if ([
       '/signup',
