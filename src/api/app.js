@@ -9,7 +9,7 @@ import health from '@cloudnative/health-connect';
 import { authenticate } from './commons/middlewares/authenticate.middlewares';
 import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 
-import { requireAuth } from './commons/middlewares/rbac.middlewares';
+import { requireAuth, forbidReadersToWrite } from './commons/middlewares/rbac.middlewares';
 import apiKeysRoutes from './apikeys/apikeys.routes';
 import authRoutes from './auth/auth.routes';
 import assetsRoutes from './assets/assets.routes';
@@ -89,6 +89,7 @@ app.use(authenticate);
 
 // Require authentication
 app.use(requireAuth);
+app.use(forbidReadersToWrite);
 
 // Register api routes
 app.use(apiKeysRoutes);

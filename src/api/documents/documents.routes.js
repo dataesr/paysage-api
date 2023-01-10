@@ -11,7 +11,10 @@ import { documents as resource } from '../resources';
 const router = new express.Router();
 
 router.route(`/${resource}`)
-  .get(setViewerFilter, controllers.list(repository, readQuery))
+  .get([
+    setViewerFilter,
+    controllers.list(repository, readQuery),
+  ])
   .post([
     validatePayload,
     createContext,
@@ -21,7 +24,10 @@ router.route(`/${resource}`)
   ]);
 
 router.route(`/${resource}/:id`)
-  .get(forbidUnauthorizedUser, controllers.read(repository, readQuery))
+  .get([
+    forbidUnauthorizedUser,
+    controllers.read(repository, readQuery),
+  ])
   .patch([
     setViewerFilter,
     validatePayload,
