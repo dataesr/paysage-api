@@ -29,3 +29,20 @@ export function requireRoles(roles) {
     return next();
   };
 }
+
+export function forbidReadersToWrite(req, res, next) {
+  if (['development', 'testing'].includes(process.env.NODE_ENV)) return next();
+  if ([
+    '/signup',
+    '/signin',
+    '/token',
+    '/recovery/password',
+    '/me',
+    '/me/password',
+    '/me/avatar',
+  ].includes(req.path)) return next();
+  if (req.currentUser.role === 'reader' && req.method !== 'GET') {
+    throw new ForbiddenError('Insufficient user rights');
+  }
+  return next();
+}
