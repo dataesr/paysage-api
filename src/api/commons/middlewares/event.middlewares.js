@@ -1,6 +1,7 @@
 import config from '../../../config';
 import { eventsRepository } from '../repositories';
 import esClient from '../../../services/elastic.service';
+import logger from '../../../services/logger.service';
 
 const { index } = config.elastic;
 
@@ -21,7 +22,7 @@ export function saveInElastic(repository, useQuery, type) {
         await esClient.index(document);
       }
     } catch (error) {
-      console.error(JSON.stringify(error, null, 4));
+      logger.error(JSON.stringify(error, null, 4));
     }
     return next();
   };

@@ -11,8 +11,9 @@ const load = async (paysageObject) => {
   const { default: query } = await import(`./src/api/commons/queries/${paysageObject}.elastic.js`);
   // Collect all Paysage objects from Mongo
   const body = [];
-  const objects = db.collection(paysageObject.replace('-', '')).aggregate(query);
-  await objects.forEach((object) => {
+  const objects = await db.collection(paysageObject.replace('-', '')).aggregate(query).toArray();
+  console.log(objects.length);
+  objects.forEach((object) => {
     body.push({ index: { _index: index } });
     body.push({ ...object, isDeleted: object?.isDeleted || false, type: paysageObject });
   });
