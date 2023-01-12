@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-// NODE_ENV=development node --experimental-specifier-resolution=node bulk-import-structures.js AjoutEnMasseStructure.csv
+// NODE_ENV=development node --experimental-specifier-resolution=node bulk-import-structures.js ~/Downloads/AjoutEnMasseStructureTest.csv
 import axios from 'axios';
 import { parse } from 'csv-parse/sync';
 import 'dotenv/config';
@@ -10,7 +10,7 @@ import config from './src/config';
 const CSV_DELIMITER = ';';
 const INPUT_FILE_PATH = process.argv[2];
 // eslint-disable-next-line max-len
-const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoicGF5c2FnZUBlbnNlaWduZW1lbnRzdXAuZ291di5mciIsImlkIjoiWG1oU3Z4MWg1RFhtemJJIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY3MTYyODkwMiwiZXhwIjoxNjcyNDkyOTAyfQ.EErjxIt66Wmy_lagoznY7rY9EF2qeNqrXwcay20nZSU';
+const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoiYW5uZS5saG90ZUBlbnNlaWduZW1lbnRzdXAuZ291di5mciIsImlkIjoieVlRUWc1cHZsTEVtQ01oIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY3MzUzNTU0NSwiZXhwIjoxNjc0Mzk5NTQ1fQ.4yX6iq7-s3kYvCkTlJr3B_DJ_9HyUkt1e4gz4M73LK0';
 
 const statusMapping = {
   O: 'active',
@@ -31,6 +31,11 @@ const chunkArray = (array, chunkSize) => array.reduce((resultArray, item, index)
 // eslint-disable-next-line no-promise-executor-return
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const getIso3 = (item) => {
+  const iso3 = item?.['Nom du pays en français {rechercher le libellé ou le code ISO}']?.toUpperCase();
+  return iso3.length ? iso3 : null;
+};
+
 // 1. Extract data from file
 const parseOptions = {
   delimiter: CSV_DELIMITER,
@@ -39,10 +44,15 @@ const parseOptions = {
 };
 const file = fs.readFileSync(INPUT_FILE_PATH, 'utf8');
 const data = parse(file, parseOptions);
-const api = axios.create({
-  baseURL: config.hostname,
-  headers: { Authorization: bearer },
-});
+let api;
+try {
+  api = axios.create({
+    baseURL: config.hostname,
+    headers: { Authorization: bearer },
+  });
+} catch (error) {
+  console.error('Error while creating axios connection', error);
+}
 
 const structures = [];
 for (let i = 0; i < data.length; i += 1) {
@@ -71,7 +81,7 @@ try {
     const chunkedIds = await axios.all(chunkedData[i]).catch((err) => console.error('ERROR STRUCTURES', err?.response?.data));
     structureIds = structureIds.concat(chunkedIds.map((item) => item.data.id));
   }
-  console.log(`${structureIds.length} structures added.`);
+  console.log(`${structureIds.length} structure(s) added.`);
 } catch (err) {
   console.log('Try catch error', err?.response?.data);
 }
@@ -161,7 +171,7 @@ for (let i = 0; i < data.length; i += 1) {
     cityId: item['Code commune {rechercher le code}'],
     country,
     distributionStatement: item['Mention de distribution :'],
-    iso3: item['Nom du pays en français {rechercher le libellé ou le code ISO}'],
+    iso3: getIso3(item),
     locality: item["Localité d'acheminement :"],
     place: item['Lieu dit :'],
     postalCode: item['Code postal :'],
@@ -173,7 +183,7 @@ for (let i = 0; i < data.length; i += 1) {
       lng: parseFloat(item['Coordonnées GPS [-12.34,5.6789]']?.split(',')[1]),
     };
   } else {
-    console.error(`Error for latlng for structure ${item.name}`);
+    console.error(`Error for latlng for structure ${item['Nom usuel en français']}`);
   }
   localisations.push(api.post(`${config.hostname}/structures/${structureId}/localisations`, localisation));
   // RELATIONS
@@ -240,31 +250,31 @@ try {
     await sleep(2000);
     await axios.all(chunkedData[i]).catch((err) => console.error('ERROR IDENTIFIER', err?.response?.data));
   }
-  console.log(`${identifiers.length} identifiers added.`);
+  console.log(`${identifiers.length} identifier(s) added.`);
   chunkedData = chunkArray(localisations, 20);
   for (let i = 0; i < chunkedData.length; i += 1) {
     await sleep(2000);
     await axios.all(chunkedData[i]).catch((err) => console.error('ERROR LOCALISATION', err?.response?.data));
   }
-  console.log(`${localisations.length} localisations added.`);
+  console.log(`${localisations.length} localisation(s) added.`);
   chunkedData = chunkArray(relations, 20);
   for (let i = 0; i < chunkedData.length; i += 1) {
     await sleep(2000);
     await axios.all(chunkedData[i]).catch((err) => console.error('ERROR RELATIONS', err?.response?.data));
   }
-  console.log(`${relations.length} relations added.`);
+  console.log(`${relations.length} relation(s) added.`);
   chunkedData = chunkArray(socialmedias, 20);
   for (let i = 0; i < chunkedData.length; i += 1) {
     await sleep(2000);
     await axios.all(chunkedData[i]).catch((err) => console.error('ERROR SOCIAL MEDIAS', err?.response?.data));
   }
-  console.log(`${socialmedias.length} social medias added.`);
+  console.log(`${socialmedias.length} social media(s) added.`);
   chunkedData = chunkArray(weblinks, 20);
   for (let i = 0; i < chunkedData.length; i += 1) {
     await sleep(2000);
     await axios.all(chunkedData[i]).catch((err) => console.error('ERROR WEBLINKS', err?.response?.data));
   }
-  console.log(`${weblinks.length} weblinks added.`);
+  console.log(`${weblinks.length} weblink(s) added.`);
 } catch (err) {
   console.log('Try catch error', err?.response?.data);
 }
