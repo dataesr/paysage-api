@@ -1,12 +1,11 @@
 import express from 'express';
 
-import { bulkImportStructures, validatePayload } from './import.middlewares';
+import { bulkImportStructures } from './import.middlewares';
 
 const router = new express.Router();
 
-router.route('/import')
+router.route('/import/structures')
   .post([
-    validatePayload,
     bulkImportStructures,
   ]);
 

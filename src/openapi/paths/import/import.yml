@@ -1,7 +1,7 @@
 post:
   tags:
     - Import
-  summary: Mass import structures
+  summary: Bulk import structures
   requestBody:
     content:
       multipart/form-data:
@@ -15,16 +15,17 @@ post:
           
   responses:
     '200':
-      description: Ok
+      description: Success
       content:
         application/json:
           schema:
             type: object
-    '400':
-      $ref: '../../api.yml#/components/responses/BadRequest'
-    '401':
-      $ref: '../../api.yml#/components/responses/Unauthorized'
-    '403':
-      $ref: '../../api.yml#/components/responses/Forbidden'
-    '500':
-      $ref: '../../api.yml#/components/responses/ServerError'
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
