@@ -25,6 +25,7 @@ export default [
       endDate: { $ifNull: ['$endDate', null] },
       documentType: 1,
       documentTypeId: 1,
+      documentUrl: { $ifNull: ['$documentUrl', null] },
       files: 1,
       relatedObjects: 1,
       isPublic: 1,
