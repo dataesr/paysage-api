@@ -33,7 +33,7 @@ post:
               type: string
             password:
               type: string
-              pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&:_])[A-Za-z\d@$!%*#?&:_]{8,}$'
+              pattern: ^(?=.*[A-Za-z])(?=.*\d)(?=.*[!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]{8,}$
   responses:
     '200':
       description: Success
@@ -61,3 +61,4 @@ post:
       $ref: '../../api.yml#/components/responses/NotFound'
     '500':
       $ref: '../../api.yml#/components/responses/ServerError'
+
