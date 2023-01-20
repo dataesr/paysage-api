@@ -1,6 +1,7 @@
 import config from '../../../config';
 import { eventsRepository } from '../repositories';
 import esClient from '../../../services/elastic.service';
+import logger from '../../../services/logger.service';
 
 const { index } = config.elastic;
 
@@ -12,9 +13,17 @@ export function saveInElastic(repository, useQuery, type) {
     const _id = esData?.body?.hits?.hits?.[0]?._id;
     let resource = await repository.get(id, { useQuery, keepDeleted: true });
     resource = { ...resource, isDeleted: resource?.isDeleted || false, type };
-    const document = { index, body: resource, refresh: true };
-    if (_id) document._id = _id;
-    await esClient.index(document);
+    try {
+      if (_id) {
+        const document = { index, body: { doc: resource }, id: _id, refresh: true };
+        await esClient.update(document);
+      } else {
+        const document = { index, body: resource, refresh: true };
+        await esClient.index(document);
+      }
+    } catch (error) {
+      logger.error(JSON.stringify(error, null, 4));
+    }
     return next();
   };
 }

@@ -74,7 +74,7 @@ router.route('/autocomplete')
     if (query) {
       body.query.bool.must = { query_string: { query: `*${query.replace(/-/g, ' ')}*`,
         default_operator: 'AND',
-        fields: ['acronym', 'city', 'firstName', 'id', 'identifiers', 'lastName', 'name', 'names', 'names.acronymFr',
+        fields: ['acronym^5', 'city', 'firstName', 'id', 'identifiers', 'lastName', 'name', 'names', 'names.acronymFr^5',
           'names.id', 'names.nameEn', 'names.officialName', 'names.otherNames', 'names.shortName', 'names.usualName',
           'otherNames'] } };
     }
