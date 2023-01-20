@@ -21,6 +21,7 @@ export default [
     $project: {
       _id: 0,
       id: 1,
+      activity: { $ifNull: ['$activity', null] },
       firstName: { $ifNull: ['$firstName', false] },
       identifiers: { $ifNull: ['$identifiers.value', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
