@@ -43,11 +43,12 @@ export default [
   {
     $project: {
       _id: 0,
-      id: 1,
       acronym: { $ifNull: ['$currentName.acronymFr', null] },
       category: { $ifNull: ['$category.usualNameFr', null] },
       city: { $ifNull: ['$localisations.city', null] },
+      closureDate: { $ifNull: ['$closureDate', null] },
       creationDate: { $ifNull: ['$creationDate', null] },
+      id: 1,
       identifiers: { $ifNull: ['$identifiers.value', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
       locality: { $ifNull: ['$localisations.locality', null] },
