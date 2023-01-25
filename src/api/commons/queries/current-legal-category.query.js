@@ -12,6 +12,6 @@ export default function currentLegalCategoryQuery(local = 'id') {
         ],
       },
     },
-    { $set: { legalcategory: { $arrayElemAt: ['$legalcategories', 0] } } },
+    { $set: { legalcategory: { $arrayElemAt: ['$cjs', 0] } } },
   ];
 }
