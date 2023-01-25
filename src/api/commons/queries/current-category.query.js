@@ -1,22 +1,24 @@
-export default [
-  {
-    $lookup: {
-      from: 'relationships',
-      localField: 'id',
-      foreignField: 'resourceId',
-      as: 'categories',
-      pipeline: [{ $match: { relationTag: 'structure-categorie' } }],
+export default function currentCategoryQuery(local = 'id') {
+  return [
+    {
+      $lookup: {
+        from: 'relationships',
+        localField: local,
+        foreignField: 'resourceId',
+        as: 'categories',
+        pipeline: [{ $match: { relationTag: 'structure-categorie' } }],
+      },
     },
-  },
-  { $set: { categories: '$relationships.relatedObjectId' } },
-  {
-    $lookup: {
-      from: 'categories',
-      localField: 'categories',
-      foreignField: 'id',
-      as: 'categories',
-      pipeline: [{ $sort: { priority: 1 } }],
+    { $set: { categories: '$relationships.relatedObjectId' } },
+    {
+      $lookup: {
+        from: 'categories',
+        localField: 'categories',
+        foreignField: 'id',
+        as: 'categories',
+        pipeline: [{ $sort: { priority: 1 } }],
+      },
     },
-  },
-  { $set: { category: { $arrayElemAt: ['$categories', 0] } } },
-];
+    { $set: { category: { $arrayElemAt: ['$categories', 0] } } },
+  ];
+}
