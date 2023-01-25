@@ -1,4 +1,5 @@
 import currentCategoryQuery from './current-category.query';
+import currentIdentifiersQuery from './current-identifiers.query';
 import currentLegalCategoryQuery from './current-legal-category.query';
 import currentLocalisationQuery from './current-localisation.query';
 import currentNameQuery from './current-name.query';
@@ -8,6 +9,7 @@ export default [
   ...currentLocalisationQuery,
   ...currentLegalCategoryQuery,
   ...currentCategoryQuery,
+  ...currentIdentifiersQuery,
   {
     $project: {
       _id: 0,
