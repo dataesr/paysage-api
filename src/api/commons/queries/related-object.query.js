@@ -3,7 +3,7 @@ import legalCategoryLightQuery from './legal-categories.light.query';
 import personLightQuery from './persons.light.query';
 import prizeLightQuery from './prizes.light.query';
 import projectLightQuery from './projects.light.query';
-import { getLightStructure } from './structures.light.query';
+import structuresLightQuery from './structures.light.query';
 import supervisingMinistersLightQuery from './supervising-ministers.light.query';
 import termsLightQuery from './terms.light.query';
 
@@ -68,7 +68,7 @@ function getRelatedObject(localField) {
         from: 'structures',
         localField,
         foreignField: 'id',
-        pipeline: getLightStructure(localField),
+        pipeline: structuresLightQuery,
         as: 'relatedStructures',
       },
     },
