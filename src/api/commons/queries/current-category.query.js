@@ -9,7 +9,7 @@ export default [
       as: 'categories',
     },
   },
-  { $set: { category: '$categories.relatedObjectId' } },
+  { $set: { categories: '$categories.relatedObjectId' } },
   {
     $lookup: {
       from: 'categories',

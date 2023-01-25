@@ -10,5 +10,17 @@ export default [
       as: 'legalcategories',
     },
   },
-  { $set: { legalcategory: { $arrayElemAt: ['$cjs', 0] } } },
+  { $set: { legalcategories: '$legalcategories.relatedObjectId' } },
+  {
+    $lookup: {
+      from: 'legalcategories',
+      let: { legalcategoryIds: '$legalcategories' },
+      as: 'legalcategories',
+      pipeline: [
+        { $match: { $expr: { $in: ['$id', '$$legalcategoryIds'] } } },
+        { $sort: { startDate: -1 } },
+      ],
+    },
+  },
+  { $set: { legalcategory: { $arrayElemAt: ['$legalcategories', 0] } } },
 ];

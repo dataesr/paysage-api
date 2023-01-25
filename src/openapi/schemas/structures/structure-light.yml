@@ -15,6 +15,10 @@ properties:
     type: object
   legalcategory:
     type: object
+  legalcategories:
+    type: array
+  identifiers:
+    type: array
   currentName:
     description: currentName is computed using the most recent startDate. If startDate is never present, it returns the name with the most recent createdAt value.
     $ref: ../../api.yml#/components/schemas/StructureNameLight
