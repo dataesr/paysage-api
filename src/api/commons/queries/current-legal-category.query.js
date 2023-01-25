@@ -1,15 +1,17 @@
-export default [
-  {
-    $lookup: {
-      from: 'relationships',
-      localField: 'id',
-      foreignField: 'resourceId',
-      as: 'cjs',
-      pipeline: [
-        { $match: { relationTag: 'structure-categorie-juridique' } },
-        { $sort: { startDate: 1 } },
-      ],
+export default function currentLegalCategoryQuery(local = 'id') {
+  return [
+    {
+      $lookup: {
+        from: 'relationships',
+        localField: local,
+        foreignField: 'resourceId',
+        as: 'cjs',
+        pipeline: [
+          { $match: { relationTag: 'structure-categorie-juridique' } },
+          { $sort: { startDate: 1 } },
+        ],
+      },
     },
-  },
-  { $set: { legalcategory: { $arrayElemAt: ['$legalcategories', 0] } } },
-];
+    { $set: { legalcategory: { $arrayElemAt: ['$legalcategories', 0] } } },
+  ];
+}
