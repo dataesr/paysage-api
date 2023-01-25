@@ -1,9 +1,13 @@
+import currentCategoryQuery from './current-category.query';
+import currentLegalCategoryQuery from './current-legal-category.query';
 import currentLocalisationQuery from './current-localisation.query';
 import currentNameQuery from './current-name.query';
 
 export default [
   ...currentNameQuery,
   ...currentLocalisationQuery,
+  ...currentLegalCategoryQuery,
+  ...currentCategoryQuery,
   {
     $project: {
       _id: 0,
@@ -16,6 +20,9 @@ export default [
       closureDate: { $ifNull: ['$closureDate', null] },
       currentName: { $ifNull: ['$currentName', {}] },
       currentLocalisation: { $ifNull: ['$currentLocalisation', {}] },
+      categories: { $ifNull: ['$categories', []] },
+      category: { $ifNull: ['$category', null] },
+      legalcategory: { $ifNull: ['$legalcategory', null] },
     },
   },
 ];

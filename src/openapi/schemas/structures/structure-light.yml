@@ -9,6 +9,12 @@ properties:
     type: string
     description: Unique identifier
     pattern: '^[a-zA-Z0-9]{5}$'
+  categories:
+    type: array
+  category:
+    type: object
+  legalcategory:
+    type: object
   currentName:
     description: currentName is computed using the most recent startDate. If startDate is never present, it returns the name with the most recent createdAt value.
     $ref: ../../api.yml#/components/schemas/StructureNameLight
