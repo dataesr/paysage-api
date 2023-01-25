@@ -9,7 +9,7 @@ export default function currentCategoryQuery(local = 'id') {
         pipeline: [{ $match: { relationTag: 'structure-categorie' } }],
       },
     },
-    { $set: { categories: '$relationships.relatedObjectId' } },
+    { $set: { categories: '$categories.relatedObjectId' } },
     {
       $lookup: {
         from: 'categories',
