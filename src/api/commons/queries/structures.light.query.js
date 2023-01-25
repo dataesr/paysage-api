@@ -24,7 +24,9 @@ export default [
       currentLocalisation: { $ifNull: ['$currentLocalisation', {}] },
       categories: { $ifNull: ['$categories', []] },
       category: { $ifNull: ['$category', {}] },
+      legalcategories: { $ifNull: ['$legalcategories', []] },
       legalcategory: { $ifNull: ['$legalcategory', {}] },
+      identifiers: { $ifNull: ['$identifiers', []] },
     },
   },
 ];
