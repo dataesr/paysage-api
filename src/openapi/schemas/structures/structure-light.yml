@@ -19,6 +19,10 @@ properties:
     type: array
   identifiers:
     type: array
+  emails:
+    type: array
+  websites:
+    type: array
   currentName:
     description: currentName is computed using the most recent startDate. If startDate is never present, it returns the name with the most recent createdAt value.
     $ref: ../../api.yml#/components/schemas/StructureNameLight

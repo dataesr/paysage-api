@@ -1,10 +1,14 @@
 import currentCategoryQuery from './current-category.query';
+import currentEmailsQuery from './current-emails.query';
 import currentIdentifiersQuery from './current-identifiers.query';
 import currentLegalCategoryQuery from './current-legal-category.query';
 import currentLocalisationQuery from './current-localisation.query';
 import currentNameQuery from './current-name.query';
+import currentWebsitesQuery from './current-websites.query';
 
 export default [
+  ...currentWebsitesQuery,
+  ...currentEmailsQuery,
   ...currentNameQuery,
   ...currentLocalisationQuery,
   ...currentLegalCategoryQuery,
@@ -27,6 +31,8 @@ export default [
       legalcategories: { $ifNull: ['$legalcategories', []] },
       legalcategory: { $ifNull: ['$legalcategory', {}] },
       identifiers: { $ifNull: ['$identifiers', []] },
+      websites: { $ifNull: ['$websites', []] },
+      emails: { $ifNull: ['$emails', []] },
     },
   },
 ];
