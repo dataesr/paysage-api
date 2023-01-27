@@ -1,7 +1,7 @@
 export default [
   {
     $lookup: {
-      from: 'websites',
+      from: 'weblinks',
       let: { item: '$id' },
       pipeline: [
         { $match: { $expr: { $and: [{ $eq: ['$resourceId', '$$item'] }, { $eq: ['$type', 'website'] }] } } },
