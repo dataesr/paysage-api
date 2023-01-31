@@ -1,4 +1,7 @@
+import currentIdentifiersQuery from './current-identifiers.query';
+
 export default [
+  ...currentIdentifiersQuery,
   {
     $project: {
       _id: 0,
