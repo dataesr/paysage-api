@@ -12,6 +12,7 @@ export default [
       lastName: 1,
       firstName: { $ifNull: ['$firstName', null] },
       gender: { $ifNull: ['$gender', null] },
+      identifiers: { $ifNull: ['$identifiers', []] },
     },
   },
 ];
