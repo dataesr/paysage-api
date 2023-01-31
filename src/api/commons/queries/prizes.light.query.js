@@ -7,5 +7,7 @@ export default [{
     href: { $concat: ['/prizes/', '$id'] },
     nameFr: { $ifNull: ['$nameFr', null] },
     nameEn: { $ifNull: ['$nameEn', null] },
+    descriptionFr: { $ifNull: ['$descriptionFr', null] },
+    descriptionEn: { $ifNull: ['$descriptionEn', null] },
   },
 }];
