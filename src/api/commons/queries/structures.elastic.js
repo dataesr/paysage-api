@@ -12,7 +12,6 @@ export default [
         $match: {
           $expr: {
             $and: [
-              { $eq: ['$active', true] },
               { $in: ['$type', ['GRID', 'idRef', 'RNSR', 'ROR', 'Siret', 'UAI', 'Wikidata']] },
             ],
           },
