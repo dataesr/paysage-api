@@ -1,7 +1,6 @@
 description: Accepted values of identifier type for a structure
 type: string
 enum:
-  - ALId
   - BibId
   - Code Insee
   - dataESR
