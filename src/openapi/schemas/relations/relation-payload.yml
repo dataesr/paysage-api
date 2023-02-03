@@ -64,6 +64,14 @@ properties:
     type: string
     format: email
     nullable: true
+  personalEmail:
+    type: string
+    format: email
+    nullable: true
+  mandatePhonenumber:
+    type: string
+    format: email
+    nullable: true
   mandatePosition:
     type: string
     nullable: true
