@@ -70,7 +70,6 @@ properties:
     nullable: true
   mandatePhonenumber:
     type: string
-    format: email
     nullable: true
   mandatePosition:
     type: string
