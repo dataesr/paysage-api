@@ -42,7 +42,10 @@ export default [
   {
     $project: {
       _id: 0,
-      acronym: { $ifNull: ['$currentName.acronymFr', null] },
+      acronymEn: { $ifNull: ['$currentName.acronymEn', null] },
+      acronymFr: { $ifNull: ['$currentName.acronymFr', null] },
+      acronymLocal: { $ifNull: ['$currentName.acronymLocal', null] },
+      brandName: { $ifNull: ['$currentName.brandName', null] },
       category: { $ifNull: ['$category.usualNameFr', null] },
       city: { $ifNull: ['$localisations.city', null] },
       closureDate: { $ifNull: ['$closureDate', null] },
@@ -52,7 +55,10 @@ export default [
       isDeleted: { $ifNull: ['$isDeleted', false] },
       locality: { $ifNull: ['$localisations.locality', null] },
       name: { $ifNull: ['$currentName.usualName', null] },
+      nameEn: { $ifNull: ['$currentName.nameEn', null] },
       names: { $ifNull: ['$names', null] },
+      officialName: { $ifNull: ['$currentName.officialName', null] },
+      otherNames: { $ifNull: ['$currentName.otherNames', null] },
       shortName: { $ifNull: ['$currentName.shortName', null] },
       structureStatus: { $ifNull: ['$structureStatus', ''] },
     },
