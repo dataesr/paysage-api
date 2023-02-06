@@ -1,4 +1,7 @@
+import currentIdentifiersQuery from './current-identifiers.query';
+
 export default [
+  ...currentIdentifiersQuery,
   {
     $project: {
       _id: 0,
@@ -9,6 +12,7 @@ export default [
       lastName: 1,
       firstName: { $ifNull: ['$firstName', null] },
       gender: { $ifNull: ['$gender', null] },
+      identifiers: { $ifNull: ['$identifiers', []] },
     },
   },
 ];

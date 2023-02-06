@@ -9,6 +9,10 @@ properties:
     type: string
   nameEn:
     type: string
+  descriptionFr:
+    type: string
+  descriptionEn:
+    type: string
   displayName:
     type: string
   collection:
