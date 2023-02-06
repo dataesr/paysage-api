@@ -23,5 +23,7 @@ properties:
     type: string
   collection:
     type: string
+  identifiers:
+    type: array
   href:
     type: string

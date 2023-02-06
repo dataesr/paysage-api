@@ -60,6 +60,8 @@ export default [
       mandatePosition: { $ifNull: ['$mandatePosition', null] },
       mandateReason: { $ifNull: ['$mandateReason', null] },
       mandateEmail: { $ifNull: ['$mandateEmail', null] },
+      personalEmail: { $ifNull: ['$personalEmail', null] },
+      mandatePhonenumber: { $ifNull: ['$mandatePhonenumber', null] },
       mandateTemporary: { $ifNull: ['$mandateTemporary', null] },
       mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
       laureatePrecision: { $ifNull: ['$laureatePrecision', null] },

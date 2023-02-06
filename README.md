@@ -28,6 +28,8 @@ Where type could be omitted, or be one value between "categories", "legal-catego
 
 Example: `NODE_ENV=development ES_NODE=http://localhost:9200 MONGO_URI="mongodb://localhost:27017" ES_USERNAME= ES_PASSWORD= npm run reindex`
 
+:warning: Keep in mind that our wifi network "la-boucherie-Sanzot" can not connect to our MongoDB prod right now. Please make sure that your are on another wifi network before reindexing in production.
+
 
 ### Docker
 
@@ -39,6 +41,10 @@ To run the full app in a Docker container :
 To stop the docker container :
 
 `docker-compose down`
+
+To run the app being sure that everythiing else is down :
+
+`docker-compose down && docker system prune -f && docker-compose up --build`
 
 This run a docker container, with a MongoDB inside, the paysage-auth app and the paysage-api app.
 
@@ -62,8 +68,12 @@ To see the API docs, see : http://localhost:3003/docs/api/.
 
 https://dataesr.stoplight.io/docs/paysage-api-1/95201cd74824d-bienvenue-sur-la-documentation-paysage
  
-## Deploy in prod
+## Deployment
 
-To deploy in production, create a new release and push on the main branch. Github workflow will do the rest !
+To deploy in production, simply run this command from your staging branch :
 
-`npm version patch && git push origin main --tags`
+```sh
+npm run deploy --level=[patch|minor|major]
+```
+
+:warning: Obviously, only members of the [dataesr organization](https://github.com/dataesr/) have rights to push on the repo.

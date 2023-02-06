@@ -60,6 +60,13 @@ allOf:
         type: string
         format: email
         nullable: true
+      personalEmail:
+        type: string
+        format: email
+        nullable: true
+      mandatePhonenumber:
+        type: string
+        nullable: true
       mandatePosition:
         type: string
         nullable: true
