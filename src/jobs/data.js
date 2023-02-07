@@ -19,7 +19,7 @@ const backupData = async (job, done) => {
     field: 'effectif',
     fieldName: 'population',
     paysageIdFields: ['etablissement_id_paysage'],
-    sortField: 'annee_universitaire',
+    sortField: '-annee_universitaire',
     sortFieldName: 'year',
   }, {
     id: 'fr-esr-insertion_professionnelle_widget',
@@ -102,7 +102,9 @@ const backupData = async (job, done) => {
       const uniqueStructures = [];
       operationsStructures = data?.length && data
         .filter((item) => item?.fields?.[dataset?.sortField])
-        .sort((a, b) => (b.fields[dataset.sortField] - a.fields[dataset.sortField]))
+        .sort((a, b) => ((dataset?.sortField?.[0] === '-')
+          ? (a.fields[dataset.sortField] - b.fields[dataset.sortField])
+          : (b.fields[dataset.sortField] - a.fields[dataset.sortField])))
         .filter((item) => {
           if (!uniqueStructures.includes(item.fields[dataset.paysageIdFields])) {
             uniqueStructures.push(item.fields[dataset.paysageIdFields]);
