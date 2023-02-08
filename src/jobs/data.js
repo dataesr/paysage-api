@@ -129,6 +129,7 @@ const backupData = async (job, done) => {
     }
     try {
       if (operationsKeyNumbers?.length) {
+        await db.collection('keynumbers').deleteMany({ dataset: dataset.name });
         await db.collection('keynumbers').bulkWrite(operationsKeyNumbers, { ordered: false });
       }
       if (operationsStructures?.length) {
