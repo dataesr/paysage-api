@@ -50,6 +50,9 @@ const staging = {
     ...production.elastic,
     index: 'paysage-staging',
   },
+  logger: {
+    logLevel: 'debug',
+  },
   hostname: 'https://api.paysage.staging.dataesr.ovh',
 };
 
