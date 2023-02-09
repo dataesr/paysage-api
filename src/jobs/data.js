@@ -4,7 +4,7 @@ import { db } from '../services/mongo.service';
 const getODSUrl = (dataset) => `https://data.enseignementsup-recherche.gouv.fr/explore/dataset/${dataset}/download/?format=json`;
 
 const backupData = async (job, done) => {
-  logger.info('Backup data');
+  logger.error('Backup data');
   const datasets = [{
     id: 'fr-esr-operateurs-indicateurs-financiers',
     name: 'finance',
