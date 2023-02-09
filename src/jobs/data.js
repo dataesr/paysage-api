@@ -134,6 +134,8 @@ const backupData = async (job, done) => {
       }
       if (operationsStructures?.length) {
         logger.error('operationsStructure');
+        logger.error(operationsStructures.length);
+        logger.error(JSON.stringify(operationsStructures?.[0]));
         logger.error(JSON.stringify(operationsStructures?.filter((item) => item?.updateOne?.filter?.id?.$eq === 'u79ZJ')?.[0]));
         await db.collection('structures').bulkWrite(operationsStructures, { ordered: false });
       }
