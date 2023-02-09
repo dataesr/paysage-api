@@ -133,7 +133,7 @@ const backupData = async (job, done) => {
         await db.collection('keynumbers').bulkWrite(operationsKeyNumbers, { ordered: false });
       }
       if (operationsStructures?.length) {
-        console.log(JSON.stringify(operationsStructures?.filter((item) => item?.updateOne?.filter?.id?.$eq === 'u79ZJ')?.[0]));
+        logger.error(JSON.stringify(operationsStructures?.filter((item) => item?.updateOne?.filter?.id?.$eq === 'u79ZJ')?.[0]));
         await db.collection('structures').bulkWrite(operationsStructures, { ordered: false });
       }
       logger.info(`Data setup successful for dataset ${dataset.name}`);
