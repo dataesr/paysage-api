@@ -11,7 +11,7 @@ const backupData = async (job, done) => {
     field: 'resultat_net_comptable',
     fieldName: 'netAccountingResult',
     paysageIdFields: ['etablissement_id_paysage'],
-    sortField: 'exercice',
+    sortField: '-exercice',
     sortFieldName: 'exercice',
   }, {
     id: 'fr-esr-statistiques-sur-les-effectifs-d-etudiants-inscrits-par-etablissement-pay',
