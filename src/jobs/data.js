@@ -99,12 +99,16 @@ const backupData = async (job, done) => {
       }).flat();
     let operationsStructures = [];
     if (dataset?.field) {
+      const sortField = (dataset?.sortField[0] === '-') ? dataset?.sortField.slice(1) : dataset?.sortField;
       const uniqueStructures = [];
       operationsStructures = data?.length && data
-        .filter((item) => item?.fields?.[dataset?.sortField])
+        .filter((item) => item?.fields?.[sortField])
+        // eslint-disable-next-line no-nested-ternary
         .sort((a, b) => ((dataset?.sortField?.[0] === '-')
-          ? (a.fields[dataset.sortField] - b.fields[dataset.sortField])
-          : (b.fields[dataset.sortField] - a.fields[dataset.sortField])))
+          // eslint-disable-next-line no-nested-ternary
+          ? ((b.fields[sortField] > a.fields[sortField]) ? 1 : ((a.fields[sortField] > b.fields[sortField]) ? -1 : 0))
+          // eslint-disable-next-line no-nested-ternary
+          : ((a.fields[sortField] > b.fields[sortField]) ? 1 : ((b.fields[sortField] > a.fields[sortField]) ? -1 : 0))))
         .filter((item) => {
           if (!uniqueStructures.includes(item.fields[dataset.paysageIdFields])) {
             uniqueStructures.push(item.fields[dataset.paysageIdFields]);
@@ -115,7 +119,7 @@ const backupData = async (job, done) => {
         .map((item) => {
           const set = {};
           if (dataset && dataset?.field && item && item?.fields?.[dataset.field]) set[dataset.fieldName] = item.fields[dataset.field];
-          if (dataset && dataset?.sortField && item && item?.fields?.[dataset.sortField]) set[dataset.sortFieldName] = item.fields[dataset.sortField];
+          if (dataset && dataset?.sortField && item && item?.fields?.[sortField]) set[dataset.sortFieldName] = item.fields[sortField];
           if (Object.keys(set).length > 0) {
             return {
               updateOne: {
@@ -133,12 +137,6 @@ const backupData = async (job, done) => {
         await db.collection('keynumbers').bulkWrite(operationsKeyNumbers, { ordered: false });
       }
       if (operationsStructures?.length) {
-        logger.info('operationsStructure');
-        logger.info(operationsStructures.length);
-        logger.info(JSON.stringify(operationsStructures?.[0]));
-        logger.info(JSON.stringify(operationsStructures?.[0]?.updateOne?.filter?.id?.$eq));
-        logger.info(operationsStructures?.filter((item) => item?.updateOne?.filter?.id?.$eq === 'u79ZJ')?.[0]);
-        logger.info(JSON.stringify(operationsStructures?.filter((item) => item?.updateOne?.filter?.id?.$eq === 'u79ZJ')?.[0]));
         await db.collection('structures').bulkWrite(operationsStructures, { ordered: false });
       }
       logger.info(`Data setup successful for dataset ${dataset.name}`);
