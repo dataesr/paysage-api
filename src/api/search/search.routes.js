@@ -94,7 +94,6 @@ router.route('/autocomplete')
         },
       }];
     }
-    console.log(JSON.stringify(body));
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
         logger.error(e);
