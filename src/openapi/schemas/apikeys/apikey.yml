@@ -17,4 +17,6 @@ allOf:
       userId:
         type: string
         pattern: '^[a-zA-Z0-9]{15}$'  
+      user:
+        $ref: '../../api.yml#/components/schemas/UserLight'
   - $ref: '../../api.yml#/components/schemas/Metas'
