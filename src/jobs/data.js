@@ -13,6 +13,7 @@ const backupData = async (job, done) => {
     paysageIdFields: ['etablissement_id_paysage'],
     sortField: '-exercice',
     sortFieldName: 'exercice',
+    extraField: 'source',
   }, {
     id: 'fr-esr-statistiques-sur-les-effectifs-d-etudiants-inscrits-par-etablissement-pay',
     name: 'population',
@@ -120,6 +121,8 @@ const backupData = async (job, done) => {
           const set = {};
           if (dataset && dataset?.field && item && item?.fields?.[dataset.field]) set[dataset.fieldName] = item.fields[dataset.field];
           if (dataset && dataset?.sortField && item && item?.fields?.[sortField]) set[dataset.sortFieldName] = item.fields[sortField];
+          // eslint-disable-next-line max-len
+          if (dataset && dataset?.extraField && item && item?.fields?.[dataset?.extraField]) set[dataset.extraField] = item.fields[dataset.extraField];
           if (Object.keys(set).length > 0) {
             return {
               updateOne: {
