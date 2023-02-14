@@ -72,11 +72,27 @@ router.route('/autocomplete')
       size: limit,
     };
     if (query) {
-      body.query.bool.must = { query_string: { query: `*${query.replace(/-/g, ' ')}*`,
-        default_operator: 'AND',
-        fields: ['acronym^5', 'acronymFr^5', 'acronymEn^5', 'acronymLocal^5', 'brandName', 'category', 'city', 'firstName', 'id', 'identifiers',
-          'lastName', 'locality', 'name', 'nameEn', 'names', 'names.acronymFr^5', 'names.id', 'names.nameEn', 'names.officialName',
-          'names.otherNames', 'names.shortName', 'names.usualName', 'officialName', 'otherNames', 'shortName'] } };
+      body.query.bool.must = [{
+        bool: {
+          should: [{
+            query_string: {
+              query: `*"${query.replace(/-/g, ' ')}"*`,
+              default_operator: 'AND',
+              fields: ['acronym^5', 'acronymFr^5', 'acronymEn^5', 'acronymLocal^5', 'brandName', 'category', 'city', 'firstName', 'id', 'identifiers',
+                'lastName', 'locality', 'name', 'nameEn', 'names', 'names.acronymFr^5', 'names.id', 'names.nameEn', 'names.officialName',
+                'names.otherNames', 'names.shortName', 'names.usualName', 'officialName', 'otherNames', 'shortName'],
+            },
+          }, {
+            query_string: {
+              query: `*${query.replace(/-/g, ' ')}*`,
+              default_operator: 'AND',
+              fields: ['acronym^5', 'acronymFr^5', 'acronymEn^5', 'acronymLocal^5', 'brandName', 'category', 'city', 'firstName', 'id', 'identifiers',
+                'lastName', 'locality', 'name', 'nameEn', 'names', 'names.acronymFr^5', 'names.id', 'names.nameEn', 'names.officialName',
+                'names.otherNames', 'names.shortName', 'names.usualName', 'officialName', 'otherNames', 'shortName'],
+            },
+          }],
+        },
+      }];
     }
     const esResults = await esClient.search({ index, body })
       .catch((e) => {
