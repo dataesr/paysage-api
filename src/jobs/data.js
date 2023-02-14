@@ -11,8 +11,9 @@ const backupData = async (job, done) => {
     field: 'resultat_net_comptable',
     fieldName: 'netAccountingResult',
     paysageIdFields: ['etablissement_id_paysage'],
-    sortField: 'exercice',
+    sortField: '-exercice',
     sortFieldName: 'exercice',
+    extraField: 'source',
   }, {
     id: 'fr-esr-statistiques-sur-les-effectifs-d-etudiants-inscrits-par-etablissement-pay',
     name: 'population',
@@ -99,12 +100,16 @@ const backupData = async (job, done) => {
       }).flat();
     let operationsStructures = [];
     if (dataset?.field) {
+      const sortField = (dataset?.sortField[0] === '-') ? dataset?.sortField.slice(1) : dataset?.sortField;
       const uniqueStructures = [];
       operationsStructures = data?.length && data
-        .filter((item) => item?.fields?.[dataset?.sortField])
+        .filter((item) => item?.fields?.[sortField])
+        // eslint-disable-next-line no-nested-ternary
         .sort((a, b) => ((dataset?.sortField?.[0] === '-')
-          ? (a.fields[dataset.sortField] - b.fields[dataset.sortField])
-          : (b.fields[dataset.sortField] - a.fields[dataset.sortField])))
+          // eslint-disable-next-line no-nested-ternary
+          ? ((b.fields[sortField] > a.fields[sortField]) ? 1 : ((a.fields[sortField] > b.fields[sortField]) ? -1 : 0))
+          // eslint-disable-next-line no-nested-ternary
+          : ((a.fields[sortField] > b.fields[sortField]) ? 1 : ((b.fields[sortField] > a.fields[sortField]) ? -1 : 0))))
         .filter((item) => {
           if (!uniqueStructures.includes(item.fields[dataset.paysageIdFields])) {
             uniqueStructures.push(item.fields[dataset.paysageIdFields]);
@@ -115,7 +120,9 @@ const backupData = async (job, done) => {
         .map((item) => {
           const set = {};
           if (dataset && dataset?.field && item && item?.fields?.[dataset.field]) set[dataset.fieldName] = item.fields[dataset.field];
-          if (dataset && dataset?.sortField && item && item?.fields?.[dataset.sortField]) set[dataset.sortFieldName] = item.fields[dataset.sortField];
+          if (dataset && dataset?.sortField && item && item?.fields?.[sortField]) set[dataset.sortFieldName] = item.fields[sortField];
+          // eslint-disable-next-line max-len
+          if (dataset && dataset?.extraField && item && item?.fields?.[dataset?.extraField]) set[dataset.extraField] = item.fields[dataset.extraField];
           if (Object.keys(set).length > 0) {
             return {
               updateOne: {
@@ -129,6 +136,7 @@ const backupData = async (job, done) => {
     }
     try {
       if (operationsKeyNumbers?.length) {
+        await db.collection('keynumbers').deleteMany({ dataset: dataset.name });
         await db.collection('keynumbers').bulkWrite(operationsKeyNumbers, { ordered: false });
       }
       if (operationsStructures?.length) {
