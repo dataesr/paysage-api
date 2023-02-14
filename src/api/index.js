@@ -27,7 +27,7 @@ export default async function createAPIServer(port) {
     logger.info(`Server started! docs at http://localhost:${port}/docs/api`);
     app.isReady = true;
     agenda.start();
-    agenda.every('1 day', 'backup data');
+    agenda.every('0 2 * * *', 'backup data');
     logger.info('Agenda started up');
   });
 }
