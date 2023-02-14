@@ -49,6 +49,7 @@ export default [
       netAccountingResult: { $ifNull: ['$netAccountingResult', null] },
       population: { $ifNull: ['$population', null] },
       redirection: { $ifNull: ['$redirection', null] },
+      source: { $ifNull: ['$source', null] },
       status: { $ifNull: ['$status', null] },
       structureStatus: { $ifNull: ['$structureStatus', null] },
       year: { $ifNull: ['$year', null] },
