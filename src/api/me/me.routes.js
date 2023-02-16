@@ -1,11 +1,13 @@
 import express from 'express';
+
 import { patchContext } from '../commons/middlewares/context.middlewares';
-import { saveInStore } from '../commons/middlewares/event.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
+import { saveInElastic, saveInStore } from '../commons/middlewares/event.middlewares';
 import { setFileInfo, saveFile, deleteFile } from '../commons/middlewares/files.middlewares';
-import { setUserIdInParams, setAvatarData, unsetAvatarData, updatePassword } from './me.middlewares';
+import elasticQuery from '../commons/queries/users.elastic';
 import readQuery from '../commons/queries/me.query';
 import { usersRepository as repository } from '../commons/repositories';
+import { setUserIdInParams, setAvatarData, unsetAvatarData, updatePassword } from './me.middlewares';
 import { me as resource } from '../resources';
 
 const router = new express.Router();
@@ -17,6 +19,7 @@ router.route(`/${resource}`)
     patchContext,
     controllers.patch(repository, readQuery),
     saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
   ]);
 
 router.route(`/${resource}/avatar`)
