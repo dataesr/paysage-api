@@ -7,6 +7,7 @@ enum:
   - ESGBU
   - ETER
   - EtId
+  - finess
   - fundref
   - GA OAD
   - GRID
