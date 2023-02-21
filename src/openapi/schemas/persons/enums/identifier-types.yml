@@ -2,7 +2,6 @@ description: Accepted values of identifier type for a person
 type: string
 enum:
   - Code Insee
-  - cvHal
   - dataESR
   - fundref
   - GA OAD
