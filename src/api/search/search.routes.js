@@ -80,7 +80,7 @@ router.route('/autocomplete')
               default_operator: 'AND',
               fields: ['acronym', 'acronymFr', 'acronymEn', 'acronymLocal', 'brandName', 'category', 'city', 'firstName', 'id', 'identifiers',
                 'lastName', 'locality', 'name', 'nameEn', 'names', 'names.acronymFr', 'names.id', 'names.nameEn', 'names.officialName',
-                'names.otherNames', 'names.shortName', 'names.usualName', 'officialName', 'otherNames', 'shortName'],
+                'names.otherNames', 'names.shortName', 'names.usualName', 'officialName', 'otherNames', 'otherNamesEn', 'otherNamesFr', 'shortName'],
             },
           }, {
             query_string: {
@@ -88,7 +88,7 @@ router.route('/autocomplete')
               default_operator: 'AND',
               fields: ['acronym', 'acronymFr', 'acronymEn', 'acronymLocal', 'brandName', 'category', 'city', 'firstName', 'id', 'identifiers',
                 'lastName', 'locality', 'name', 'nameEn', 'names', 'names.acronymFr', 'names.id', 'names.nameEn', 'names.officialName',
-                'names.otherNames', 'names.shortName', 'names.usualName', 'officialName', 'otherNames', 'shortName'],
+                'names.otherNames', 'names.shortName', 'names.usualName', 'officialName', 'otherNames', 'otherNamesEn', 'otherNamesFr', 'shortName'],
             },
           }],
         },
