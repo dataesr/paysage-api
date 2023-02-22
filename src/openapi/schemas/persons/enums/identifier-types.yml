@@ -1,32 +1,13 @@
 description: Accepted values of identifier type for a person
 type: string
 enum:
-  - Code Insee
-  - dataESR
-  - fundref
-  - GA OAD
-  - GRID
-  - Id unité CNRS
   - Identifiant BnF
-  - Identifiant CTI de l'école
   - idHal
   - idRef
-  - ISIL
   - isni
-  - Numéro d'ED
   - Numéro national de Thèse
-  - OpenCorporates ID
   - ORCID Id
-  - orgref
-  - PIC (Participant Identification Code)
-  - RCR
-  - Référence projet PIA (ANR)
-  - RNA
-  - ROR
-  - Siret
-  - These
-  - UAI
+  - scopus
   - Univ-droit jurist ID
-  - Web of Science Researcher ID
   - Wikidata
   - WOS
