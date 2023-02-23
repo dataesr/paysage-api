@@ -2,6 +2,6 @@ name: dataset
 in: path
 schema:
   type: string
-  enum: ["biatss", "education", "finance", "master", "master-mentions", "population", "real-estate"]
+  enum: ["biatss", "education", "finance", "inserpro", "master", "master-mentions", "piaweb", "piaweb-paysage", "population", "population-statistics", "real-estate", "tmm-mentions", "tmm-trainings", "tranings"]
 required: true
 description: Dataset name to collect the keynumbers
