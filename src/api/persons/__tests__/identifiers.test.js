@@ -179,8 +179,8 @@ describe('API > persons > identifiers > list', () => {
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
-        type: 'Siret',
-        value: 'siretID',
+        type: 'scopus',
+        value: 'scopusID',
         active: true,
         startDate: '2012-01-01',
         endDate: '2014-12-31',
@@ -200,7 +200,7 @@ describe('API > persons > identifiers > list', () => {
       .set('Authorization', authorization)
       .send({
         type: 'idRef',
-        value: 'idrefID',
+        value: 'idRefID',
         active: true,
         startDate: '2012-01-01',
         endDate: '2014-12-31',
@@ -221,7 +221,7 @@ describe('API > persons > identifiers > list', () => {
       .set('Authorization', authorization);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(3);
-    expect(docs).toContain('Siret');
+    expect(docs).toContain('scopus');
     expect(docs).toContain('Wikidata');
     expect(docs).toContain('idRef');
   });
