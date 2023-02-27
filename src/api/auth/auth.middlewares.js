@@ -62,7 +62,7 @@ export const signin = async (req, res, next) => {
   const { password: _password } = user;
   const isMatch = await bcrypt.compare(password, _password);
   if (!isMatch) throw new BadRequestError('Mauvaise combinaison utilisateur/mot de passe');
-  totp.options = { window: [20, 0] };
+  totp.options = { window: [60, 0] };
   if (!userOtp) {
     res.setHeader(otpHeader, 'required');
     res.setHeader(otpMethodHeader, 'email;');
@@ -70,7 +70,7 @@ export const signin = async (req, res, next) => {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       agenda.now('send signin email', { user, otp, ip });
-      const expires = new Date().setMinutes(new Date().getMinutes() + 10);
+      const expires = new Date().setMinutes(new Date().getMinutes() + 15);
       const options = {
         year: 'numeric',
         month: 'long',
@@ -138,7 +138,7 @@ export const resetPassword = async (req, res, next) => {
   const otpMethod = req.headers[otpMethodHeader];
   const user = await usersRepository.getByEmail(email);
   if (!user) throw new NotFoundError();
-  totp.options = { window: [20, 0] };
+  totp.options = { window: [60, 0] };
   if (!userOtp) {
     res.setHeader(otpHeader, 'required');
     res.setHeader(otpMethodHeader, 'email;');
@@ -146,7 +146,7 @@ export const resetPassword = async (req, res, next) => {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       agenda.now('send recovery email', { user, otp, ip });
-      const expires = new Date().setMinutes(new Date().getMinutes() + 10);
+      const expires = new Date().setMinutes(new Date().getMinutes() + 15);
       const options = {
         year: 'numeric',
         month: 'long',
