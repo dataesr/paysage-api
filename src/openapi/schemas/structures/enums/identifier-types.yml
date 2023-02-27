@@ -2,11 +2,9 @@ description: Accepted values of identifier type for a structure
 type: string
 enum:
   - BibId
-  - Code Insee
-  - dataESR
-  - ESGBU
   - ETER
   - EtId
+  - finess
   - fundref
   - GA OAD
   - GRID
@@ -19,22 +17,16 @@ enum:
   - ISIL
   - isni
   - Numéro d'ED
-  - Numéro national de Thèse
-  - OAD
-  - OC 
   - OpenCorporates ID
-  - ORCID Id
   - orgref
   - PIC (Participant Identification Code)
   - RCR
   - Référence projet PIA (ANR)
+  - ringgold
   - RNA
   - RNSR
   - ROR
   - SdId
   - Siret
   - UAI
-  - Univ-droit jurist ID
-  - Web of Science Researcher ID
   - Wikidata
-  - WOS
