@@ -31,6 +31,9 @@ properties:
     items:
       type: string
       enum: ["structures", "categories", "persons", "prizes", "terms", "legal-categories", "projects"]
+  mandateTypeGroup:
+    type: string
+    nullable: true
   priority:
     type: integer
     minimum: 1
