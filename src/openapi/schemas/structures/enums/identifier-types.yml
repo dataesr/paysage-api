@@ -10,10 +10,10 @@ enum:
   - GRID
   - id annelis
   - Id unité CNRS
-  - Identifiant BnF
+  - bnf
   - Identifiant CTI de l'école
-  - idHal
-  - idRef
+  - idhal
+  - idref
   - ISIL
   - isni
   - Numéro d'ED
@@ -29,4 +29,4 @@ enum:
   - SdId
   - Siret
   - UAI
-  - Wikidata
+  - wikidata
