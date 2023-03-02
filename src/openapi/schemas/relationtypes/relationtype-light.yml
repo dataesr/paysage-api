@@ -21,6 +21,9 @@ properties:
     type: string
     nullable: true
     description: Forme du nom au masculin
+  mandateTypeGroup:
+    type: string
+    nullable: true
   priority:
     type: integer
     minimum: 1
