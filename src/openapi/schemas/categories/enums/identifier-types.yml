@@ -3,4 +3,4 @@ type: string
 enum:
   - PSUP
   - PSUPT
-  - Wikidata
+  - wikidata

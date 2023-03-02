@@ -10,7 +10,7 @@ export default [
           $expr: {
             $and: [
               { $eq: ['$active', true] },
-              { $in: ['$type', ['Wikidata']] },
+              { $in: ['$type', ['wikidata']] },
             ],
           },
         },

@@ -122,7 +122,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.idref) {
     structureIdentifiers.push({
       value: payload.idref,
-      type: 'idRef',
+      type: 'idref',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('weblinks', 15),
@@ -131,7 +131,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.wikidata) {
     structureIdentifiers.push({
       value: payload.wikidata,
-      type: 'Wikidata',
+      type: 'wikidata',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('weblinks', 15),

@@ -8,7 +8,7 @@ const payload = {
   active: true,
   endDate: '2024-05-17',
   startDate: '2022-01-12',
-  type: 'Wikidata',
+  type: 'wikidata',
   value: 'category_id',
 };
 
@@ -79,7 +79,7 @@ describe('API > persons > identifiers > create', () => {
 
 describe('API > persons > identifiers > update', () => {
   it('should update an existing identifier', async () => {
-    const type = 'Wikidata';
+    const type = 'wikidata';
     const { body } = await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
@@ -92,7 +92,7 @@ describe('API > persons > identifiers > update', () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45frK`)
       .set('Authorization', authorization)
-      .send({ type: 'Wikidata' })
+      .send({ type: 'wikidata' })
       .expect(400);
   });
 
@@ -100,7 +100,7 @@ describe('API > persons > identifiers > update', () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
-      .send({ type: 'Wikidata' })
+      .send({ type: 'wikidata' })
       .expect(404);
   });
 
@@ -108,7 +108,7 @@ describe('API > persons > identifiers > update', () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
-      .send({ startDate: 'Wikidata' })
+      .send({ startDate: 'wikidata' })
       .expect(400);
   });
 
@@ -177,7 +177,7 @@ describe('API > persons > identifiers > list', () => {
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
-        type: 'Wikidata',
+        type: 'wikidata',
         value: 'id_01',
         active: true,
         startDate: '2012-01-01',
@@ -187,7 +187,7 @@ describe('API > persons > identifiers > list', () => {
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
-        type: 'Wikidata',
+        type: 'wikidata',
         value: 'id_02',
         active: true,
         startDate: '2012-01-01',
@@ -197,7 +197,7 @@ describe('API > persons > identifiers > list', () => {
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
-        type: 'Wikidata',
+        type: 'wikidata',
         value: 'id_03',
         active: true,
         startDate: '2012-01-01',
@@ -219,12 +219,12 @@ describe('API > persons > identifiers > list', () => {
       .set('Authorization', authorization);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(3);
-    expect(docs).toContain('Wikidata');
+    expect(docs).toContain('wikidata');
   });
 
   it('should filter identifiers in list', async () => {
     const { body } = await global.superapp
-      .get(`/${resource}/${resourceId}/${subresource}?filters[type]=Wikidata&filters[value]=id_02`)
+      .get(`/${resource}/${resourceId}/${subresource}?filters[type]=wikidata&filters[value]=id_02`)
       .set('Authorization', authorization)
       .expect(200);
     const docs = body.data.map((doc) => doc.value);
