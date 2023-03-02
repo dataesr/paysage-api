@@ -9,8 +9,7 @@ export default [
         $match: {
           $expr: {
             $and: [
-              { $eq: ['$active', true] },
-              { $in: ['$type', ['idRef', 'ORCID', 'Wikidata']] },
+              { $in: ['$type', ['idref', 'orcid', 'wikidata']] },
             ],
           },
         },
