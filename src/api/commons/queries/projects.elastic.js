@@ -9,7 +9,6 @@ export default [
         $match: {
           $expr: {
             $and: [
-              { $eq: ['$active', true] },
               { $in: ['$type', ['wikidata']] },
             ],
           },
