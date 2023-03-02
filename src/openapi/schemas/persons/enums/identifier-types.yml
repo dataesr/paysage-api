@@ -1,13 +1,13 @@
 description: Accepted values of identifier type for a person
 type: string
 enum:
-  - Identifiant BnF
-  - idHal
-  - idRef
+  - bnf
+  - idhal
+  - idref
   - isni
-  - Numéro national de Thèse
-  - ORCID Id
+  - nnt
+  - orcid
   - scopus
-  - Univ-droit jurist ID
-  - Wikidata
-  - WOS
+  - univ-droit
+  - wikidata
+  - wos

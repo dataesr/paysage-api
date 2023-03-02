@@ -81,7 +81,7 @@ describe('API > structures > identifiers > create', () => {
 
 describe('API > structures > identifiers > update', () => {
   it('should update an existing identifier', async () => {
-    const type = 'Wikidata';
+    const type = 'wikidata';
     const { body } = await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
@@ -94,7 +94,7 @@ describe('API > structures > identifiers > update', () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45frK`)
       .set('Authorization', authorization)
-      .send({ type: 'Wikidata' })
+      .send({ type: 'wikidata' })
       .expect(400);
   });
 
@@ -102,7 +102,7 @@ describe('API > structures > identifiers > update', () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
       .set('Authorization', authorization)
-      .send({ type: 'Wikidata' })
+      .send({ type: 'wikidata' })
       .expect(404);
   });
 
@@ -110,7 +110,7 @@ describe('API > structures > identifiers > update', () => {
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
-      .send({ startDate: 'Wikidata' })
+      .send({ startDate: 'wikidata' })
       .expect(400);
   });
 
@@ -189,7 +189,7 @@ describe('API > structures > identifiers > list', () => {
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
-        type: 'Wikidata',
+        type: 'wikidata',
         value: 'wikidataID',
         active: true,
         startDate: '2012-01-01',
@@ -199,7 +199,7 @@ describe('API > structures > identifiers > list', () => {
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
-        type: 'idRef',
+        type: 'idref',
         value: 'idrefID',
         active: true,
         startDate: '2012-01-01',
@@ -222,7 +222,7 @@ describe('API > structures > identifiers > list', () => {
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(3);
     expect(docs).toContain('Siret');
-    expect(docs).toContain('Wikidata');
-    expect(docs).toContain('idRef');
+    expect(docs).toContain('wikidata');
+    expect(docs).toContain('idref');
   });
 });

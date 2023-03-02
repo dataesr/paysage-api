@@ -1,10 +1,10 @@
 description: Accepted values of identifier type for a term
 type: string
 enum:
-  - idRef
+  - idref
   - ISO2
   - ISO3
   - PSUP
   - PSUPC
   - PSUPT
-  - Wikidata
+  - wikidata
