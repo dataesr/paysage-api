@@ -140,7 +140,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.uai) {
     structureIdentifiers.push({
       value: payload.uai,
-      type: 'UAI',
+      type: 'uai',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
@@ -149,7 +149,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.siret) {
     structureIdentifiers.push({
       value: payload.siret,
-      type: 'Siret',
+      type: 'siret',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
@@ -158,7 +158,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.rnsr) {
     structureIdentifiers.push({
       value: payload.rnsr,
-      type: 'RNSR',
+      type: 'rnsr',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
@@ -167,7 +167,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.ed) {
     structureIdentifiers.push({
       value: payload.ed,
-      type: "Numéro d'ED",
+      type: 'ed',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
@@ -176,7 +176,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.ror) {
     structureIdentifiers.push({
       value: payload.ror,
-      type: 'ROR',
+      type: 'ror',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),

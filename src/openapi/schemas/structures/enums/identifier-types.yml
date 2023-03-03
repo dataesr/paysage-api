@@ -1,32 +1,32 @@
 description: Accepted values of identifier type for a structure
 type: string
 enum:
-  - BibId
-  - ETER
-  - EtId
+  - annelis
+  - bibid
+  - bnf
+  - cnrs-unit
+  - cti
+  - ed
+  - eter
+  - etid
   - finess
   - fundref
-  - GA OAD
-  - GRID
-  - id annelis
-  - Id unité CNRS
-  - bnf
-  - Identifiant CTI de l'école
+  - grid
   - idhal
   - idref
-  - ISIL
+  - isil
   - isni
-  - Numéro d'ED
-  - OpenCorporates ID
+  - oc
   - orgref
-  - PIC (Participant Identification Code)
-  - RCR
-  - Référence projet PIA (ANR)
+  - pia
+  - pic
+  - rcr
   - ringgold
-  - RNA
-  - RNSR
-  - ROR
-  - SdId
-  - Siret
-  - UAI
+  - rna
+  - rnsr
+  - ror
+  - rtoad
+  - sdid
+  - siret
+  - uai
   - wikidata

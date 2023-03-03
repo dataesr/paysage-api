@@ -45,7 +45,7 @@ export function isSirenValid(siren) {
 export function isSiretValid(siret) {
   const strParam = siret.toString();
   if (!strParam.match(/^[0-9]{14}$/)) {
-    throw new Error('Parameter siret must be 14-digits');
+    throw new Error('Parameter Siret must be 14-digits');
   }
   const nums = [];
   for (let i = 0; i < strParam.length; i += 1) {
