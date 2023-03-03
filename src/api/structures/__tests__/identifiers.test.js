@@ -8,7 +8,7 @@ const payload = {
   active: false,
   endDate: '2014-12-31',
   startDate: '2012-01-01',
-  type: 'Siret',
+  type: 'siret',
   value: '12345678912345',
 };
 
@@ -179,7 +179,7 @@ describe('API > structures > identifiers > list', () => {
       .post(`/${resource}/${resourceId}/${subresource}/`)
       .set('Authorization', authorization)
       .send({
-        type: 'Siret',
+        type: 'siret',
         value: 'siretID',
         active: true,
         startDate: '2012-01-01',
@@ -221,7 +221,7 @@ describe('API > structures > identifiers > list', () => {
       .set('Authorization', authorization);
     const docs = body.data.map((doc) => doc.type);
     expect(docs).toHaveLength(3);
-    expect(docs).toContain('Siret');
+    expect(docs).toContain('siret');
     expect(docs).toContain('wikidata');
     expect(docs).toContain('idref');
   });

@@ -12,7 +12,7 @@ export default [
         $match: {
           $expr: {
             $and: [
-              { $in: ['$type', ['finess', 'GRID', 'idref', 'ringgold', 'RNSR', 'ROR', 'Siret', 'UAI', 'wikidata']] },
+              { $in: ['$type', ['finess', 'grid', 'idref', 'ringgold', 'rnsr', 'ror', 'siret', 'uai', 'wikidata']] },
             ],
           },
         },
