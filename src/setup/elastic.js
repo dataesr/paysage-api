@@ -9,7 +9,7 @@ const { index } = config.elastic;
 const body = {
   mappings: {
     properties: {
-      localisation: {
+      coordinates: {
         type: 'geo_point',
       },
       locality: {
