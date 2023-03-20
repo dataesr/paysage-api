@@ -81,7 +81,8 @@ export const fromPayloadToStructure = async (req, res, next) => {
   const structureLocalisation = {
     address: payload.address,
     cityId: payload.cityId,
-    coordinates: payload.coordinates,
+    geometry: (payload?.coordinates?.lat && payload?.coordinates?.lng)
+      ? { type: 'Point', coordinates: [payload.coordinates.lng, payload.coordinates.lat] } : null,
     country: payload.country,
     distributionStatement: payload.distributionStatement,
     iso3: payload?.iso3?.toString()?.toUpperCase(),
