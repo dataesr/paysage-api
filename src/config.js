@@ -34,7 +34,7 @@ const production = {
     container: 'paysage',
   },
   logger: {
-    logLevel: 'error',
+    logLevel: 'info',
   },
   hostname: 'https://api.paysage.dataesr.ovh',
 };
