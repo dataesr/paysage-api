@@ -81,7 +81,8 @@ export const fromPayloadToStructure = async (req, res, next) => {
   const structureLocalisation = {
     address: payload.address,
     cityId: payload.cityId,
-    coordinates: payload.coordinates,
+    geometry: (payload?.coordinates?.lat && payload?.coordinates?.lng)
+      ? { type: 'Point', coordinates: [payload.coordinates.lng, payload.coordinates.lat] } : null,
     country: payload.country,
     distributionStatement: payload.distributionStatement,
     iso3: payload?.iso3?.toString()?.toUpperCase(),
@@ -122,7 +123,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.idref) {
     structureIdentifiers.push({
       value: payload.idref,
-      type: 'idRef',
+      type: 'idref',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('weblinks', 15),
@@ -131,7 +132,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.wikidata) {
     structureIdentifiers.push({
       value: payload.wikidata,
-      type: 'Wikidata',
+      type: 'wikidata',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('weblinks', 15),
@@ -140,7 +141,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.uai) {
     structureIdentifiers.push({
       value: payload.uai,
-      type: 'UAI',
+      type: 'uai',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
@@ -149,7 +150,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.siret) {
     structureIdentifiers.push({
       value: payload.siret,
-      type: 'Siret',
+      type: 'siret',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
@@ -158,7 +159,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.rnsr) {
     structureIdentifiers.push({
       value: payload.rnsr,
-      type: 'RNSR',
+      type: 'rnsr',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
@@ -167,7 +168,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.ed) {
     structureIdentifiers.push({
       value: payload.ed,
-      type: "Numéro d'ED",
+      type: 'ed',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
@@ -176,7 +177,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.ror) {
     structureIdentifiers.push({
       value: payload.ror,
-      type: 'ROR',
+      type: 'ror',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('identifiers', 15),
@@ -186,7 +187,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.twitter) {
     structureSocialMedias.push({
       value: payload.twitter,
-      type: 'twitter',
+      type: 'Twitter',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('social-medias', 15),
@@ -195,7 +196,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.linkedIn) {
     structureSocialMedias.push({
       value: payload.linkedIn,
-      type: 'linkedIn',
+      type: 'Linkedin',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('social-medias', 15),

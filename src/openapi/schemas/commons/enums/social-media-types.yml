@@ -1,6 +1,7 @@
 description: Accepted values of social media's type for a structure
 type: string
 enum:
+  - academia
   - Dailymotion
   - Facebook
   - Flickr
@@ -10,9 +11,11 @@ enum:
   - Instagram
   - Linkedin
   - Pinterest
+  - researchgate
   - Scoopit
   - Scribd
   - Snapchat
+  - soundcloud
   - Tiktok
   - Tumblr
   - Twitch

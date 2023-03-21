@@ -1,4 +1,4 @@
 description: Accepted values of identifier type for a prize
 type: string
 enum:
-  - Wikidata
+  - wikidata

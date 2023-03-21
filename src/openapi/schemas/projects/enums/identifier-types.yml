@@ -2,4 +2,4 @@ description: Accepted values of identifier type for a project
 type: string
 enum:
   - Source
-  - Wikidata
+  - wikidata

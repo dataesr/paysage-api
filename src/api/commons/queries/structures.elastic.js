@@ -1,6 +1,8 @@
+import currentLocalisationQuery from './current-localisation.query';
 import currentNameQuery from './current-name.query';
 
 export default [
+  ...currentLocalisationQuery,
   ...currentNameQuery,
   {
     $lookup: {
@@ -12,7 +14,7 @@ export default [
         $match: {
           $expr: {
             $and: [
-              { $in: ['$type', ['finess', 'GRID', 'idRef', 'ringgold', 'RNSR', 'ROR', 'Siret', 'UAI', 'Wikidata']] },
+              { $in: ['$type', ['finess', 'grid', 'idref', 'ringgold', 'rnsr', 'ror', 'siret', 'uai', 'wikidata']] },
             ],
           },
         },
@@ -53,6 +55,9 @@ export default [
       id: 1,
       identifiers: { $ifNull: ['$identifiers.value', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
+      localisation: { $ifNull: ['$localisations.coordinates', null] },
+      'coordinates.lat': { $arrayElemAt: ['$currentLocalisation.geometry.coordinates', 0] },
+      'coordinates.lon': { $arrayElemAt: ['$currentLocalisation.geometry.coordinates', 1] },
       locality: { $ifNull: ['$localisations.locality', null] },
       name: { $ifNull: ['$currentName.usualName', null] },
       nameEn: { $ifNull: ['$currentName.nameEn', null] },
