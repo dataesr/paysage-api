@@ -9,6 +9,7 @@ export default [
       maleName: { $ifNull: ['$maleName', null] },
       feminineName: { $ifNull: ['$feminineName', null] },
       priority: { $ifNull: ['$priority', 99] },
+      mandateTypeGroup: { $ifNull: ['$mandateTypeGroup', 'Autres fonctions'] },
     },
   },
 ];

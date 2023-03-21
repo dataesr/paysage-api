@@ -9,6 +9,9 @@ const { index } = config.elastic;
 const body = {
   mappings: {
     properties: {
+      coordinates: {
+        type: 'geo_point',
+      },
       locality: {
         type: 'text',
       },

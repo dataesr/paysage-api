@@ -13,6 +13,7 @@ export default [
       feminineName: { $ifNull: ['$feminineName', null] },
       otherNames: { $ifNull: ['$otherNames', []] },
       for: 1,
+      mandateTypeGroup: { $ifNull: ['$mandateTypeGroup', 'Autres fonctions'] },
       priority: { $ifNull: ['$priority', 99] },
       createdBy: 1,
       updatedBy: 1,
