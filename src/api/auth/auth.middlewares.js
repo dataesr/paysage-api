@@ -67,7 +67,7 @@ export const signin = async (req, res, next) => {
   if (user.isOtpRequired && !userOtp) {
     res.setHeader(otpHeader, 'required');
     res.setHeader(otpMethodHeader, 'email;');
-    if (otpMethod === 'email') {
+    if (!otpMethod || otpMethod === 'email') {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       agenda.now('send signin email', { user, otp, ip });
