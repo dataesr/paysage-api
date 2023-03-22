@@ -187,7 +187,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.twitter) {
     structureSocialMedias.push({
       value: payload.twitter,
-      type: 'twitter',
+      type: 'Twitter',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('social-medias', 15),
@@ -196,7 +196,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (payload.linkedIn) {
     structureSocialMedias.push({
       value: payload.linkedIn,
-      type: 'linkedIn',
+      type: 'Linkedin',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
       id: await catalog.getUniqueId('social-medias', 15),
