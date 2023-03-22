@@ -88,6 +88,9 @@ export const signin = async (req, res, next) => {
     }
   }
   if (user.isOtpRequired && !totp.check(userOtp, user.otpSecret)) throw new UnauthorizedError('Code invalide');
+  if (user.isOtpRequired) {
+    await usersRepository.setOtpRequired(user.id, false);
+  }
   const userForToken = await usersRepository.getByEmail(email, { useQuery: userTokenQuery });
   const { isOtpRequired, ...tokenUser } = userForToken;
   const accessToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: accessTokenExpiresIn });
