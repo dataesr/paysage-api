@@ -10,4 +10,9 @@ export default class UsersMongoRepository extends BaseMongoRepository {
     const { modifiedCount } = await this._collection.updateOne({ id }, { $set: { password } });
     return { ok: !!modifiedCount };
   };
+
+  setOtpRequired = async (id, isOtpRequired) => {
+    const { modifiedCount } = await this._collection.updateOne({ id }, { $set: { isOtpRequired } });
+    return { ok: !!modifiedCount };
+  };
 }

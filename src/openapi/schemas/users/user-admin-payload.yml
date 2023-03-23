@@ -13,3 +13,5 @@ properties:
       - reader
   isDeleted:
     type: boolean
+  isOtpRequired:
+    type: boolean

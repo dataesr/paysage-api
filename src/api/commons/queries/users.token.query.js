@@ -4,5 +4,6 @@ export default [
     id: 1,
     email: 1,
     role: 1,
+    isOtpRequired: 1,
   } },
 ];
