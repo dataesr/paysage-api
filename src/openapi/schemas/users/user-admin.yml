@@ -24,6 +24,8 @@ allOf:
         type: boolean
       isDeleted:
         type: boolean
+      isOtpRequired:
+        type: boolean
       avatar:
         type: string
         nullable: true

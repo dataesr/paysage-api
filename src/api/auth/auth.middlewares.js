@@ -89,7 +89,6 @@ export const signin = async (req, res, next) => {
     }
   }
   if (user.isOtpRequired && !totp.check(userOtp, user.otpSecret)) throw new UnauthorizedError('Code invalide');
-  logger.warn(user);
   if (user.isOtpRequired) {
     await usersRepository.setOtpRequired(user.id, false).catch((e) => logger.error(e));
   }

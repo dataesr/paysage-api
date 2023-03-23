@@ -50,6 +50,7 @@ export default [
       position: { $ifNull: ['$position', null] },
       confirmed: 1,
       isDeleted: { $ifNull: ['$isDeleted', false] },
+      isOtpRequired: 1,
       groups: 1,
       createdBy: 1,
       createdAt: 1,
