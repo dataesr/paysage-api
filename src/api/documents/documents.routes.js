@@ -36,6 +36,7 @@ router.route(`/${resource}/:id`)
     saveInStore(resource),
   ])
   .delete([
+    forbidUnauthorizedUser,
     patchContext,
     controllers.remove(repository, readQuery),
     saveInStore(resource),

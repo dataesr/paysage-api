@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { authenticator, totp } from 'otplib';
 
+import logger from '../../services/logger.service';
 import agenda from '../../jobs';
 import config from '../../config';
 import { usersRepository, tokensRepository } from '../commons/repositories';
@@ -32,6 +33,7 @@ export const signup = async (req, res, next) => {
     confirmed: defaultAccountConfirmation,
     createdAt: new Date(),
     createdBy: context.id,
+    isOtpRequired: true,
     otpSecret,
     password,
     role: 'user',
@@ -41,7 +43,7 @@ export const signup = async (req, res, next) => {
   const id = await usersRepository.create(userData);
   if (!id) throw new ServerError();
   agenda.now('send welcome email', { user: { id: userData.id, ...body } });
-  res.status(201).json({ message: 'Compte crée. Veuillez vous connecter.' });
+  res.status(201).json({ message: 'Compte crée.' });
   return next();
 };
 
@@ -63,10 +65,10 @@ export const signin = async (req, res, next) => {
   const isMatch = await bcrypt.compare(password, _password);
   if (!isMatch) throw new BadRequestError('Mauvaise combinaison utilisateur/mot de passe');
   totp.options = { window: [60, 0] };
-  if (!userOtp) {
+  if (user.isOtpRequired && !userOtp) {
     res.setHeader(otpHeader, 'required');
     res.setHeader(otpMethodHeader, 'email;');
-    if (otpMethod === 'email') {
+    if (!otpMethod || otpMethod === 'email') {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       agenda.now('send signin email', { user, otp, ip });
@@ -86,8 +88,12 @@ export const signin = async (req, res, next) => {
       return next();
     }
   }
-  if (!totp.check(userOtp, user.otpSecret)) throw new UnauthorizedError('Code invalide');
-  const tokenUser = await usersRepository.getByEmail(email, { useQuery: userTokenQuery });
+  if (user.isOtpRequired && !totp.check(userOtp, user.otpSecret)) throw new UnauthorizedError('Code invalide');
+  if (user.isOtpRequired) {
+    await usersRepository.setOtpRequired(user.id, false).catch((e) => logger.error(e));
+  }
+  const userForToken = await usersRepository.getByEmail(email, { useQuery: userTokenQuery });
+  const { isOtpRequired, ...tokenUser } = userForToken;
   const accessToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: accessTokenExpiresIn });
   const refreshToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: refreshTokenExpiresIn });
   const expireAt = new Date(jwt.verify(refreshToken, jwtSecret).exp * 1000);
@@ -116,7 +122,9 @@ export const refreshAccessToken = async (req, res) => {
   const savedToken = await tokensRepository.get({ userAgent, refreshToken: token });
   if (!savedToken?.userId) throw new UnauthorizedError('Token invalide');
   const { userId } = savedToken;
-  const tokenUser = await usersRepository.get(userId, { useQuery: userTokenQuery });
+  const user = await usersRepository.get(userId, { useQuery: userTokenQuery });
+  const { isOtpRequired, ...tokenUser } = user;
+  if (isOtpRequired) throw new UnauthorizedError('La verification du compte est requise. Reconnectez-vous');
   const accessToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: accessTokenExpiresIn });
   const refreshToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: refreshTokenExpiresIn });
   const expireAt = new Date(jwt.verify(refreshToken, jwtSecret).exp * 1000);
