@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { authenticator, totp } from 'otplib';
 
+import logger from '../../services/logger.service';
 import agenda from '../../jobs';
 import config from '../../config';
 import { usersRepository, tokensRepository } from '../commons/repositories';
@@ -88,8 +89,9 @@ export const signin = async (req, res, next) => {
     }
   }
   if (user.isOtpRequired && !totp.check(userOtp, user.otpSecret)) throw new UnauthorizedError('Code invalide');
+  logger.warn(user);
   if (user.isOtpRequired) {
-    await usersRepository.setOtpRequired(user.id, false);
+    await usersRepository.setOtpRequired(user.id, false).catch((e) => logger.error(e));
   }
   const userForToken = await usersRepository.getByEmail(email, { useQuery: userTokenQuery });
   const { isOtpRequired, ...tokenUser } = userForToken;
