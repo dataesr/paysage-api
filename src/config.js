@@ -9,7 +9,7 @@ const production = {
   systemName: 'paysage',
   mongo: {
     mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017',
-    mongoDbName: 'paysage',
+    mongoDbName: process.env.MONGO_DBNAME || 'paysage',
   },
   elastic: {
     node: process.env.ES_NODE,
