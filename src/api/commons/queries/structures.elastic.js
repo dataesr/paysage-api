@@ -55,7 +55,6 @@ export default [
       id: 1,
       identifiers: { $ifNull: ['$identifiers.value', null] },
       isDeleted: { $ifNull: ['$isDeleted', false] },
-      // localisation: { $ifNull: ['$localisations.coordinates', null] },
       coordinates: { $ifNull: ['$currentLocalisation.geometry.coordinates', null] },
       locality: { $ifNull: ['$localisations.locality', null] },
       name: { $ifNull: ['$currentName.usualName', null] },
