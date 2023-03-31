@@ -3,9 +3,9 @@ import express from 'express';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import { saveInStore } from '../../commons/middlewares/event.middlewares';
-import readQuery from '../../commons/queries/weblinks.query';
-import { validatePayload } from './weblinks.middlewares';
+import { readQuery, readQueryWithLookup } from '../../commons/queries/weblinks.query';
 import { weblinksRepository as repository } from '../../commons/repositories';
+import { validatePayload } from './weblinks.middlewares';
 
 const collection = 'structures';
 const field = 'weblinks';
@@ -18,16 +18,16 @@ router.route(`/${collection}/:resourceId/${field}`)
     validatePayload,
     createContext,
     setGeneratedInternalIdInContext(field),
-    controllers.create(repository, readQuery),
+    controllers.create(repository, readQueryWithLookup),
     saveInStore(field),
   ]);
 
 router.route(`/${collection}/:resourceId/${field}/:id`)
-  .get(controllers.read(repository, readQuery))
+  .get(controllers.read(repository, readQueryWithLookup))
   .patch([
     validatePayload,
     patchContext,
-    controllers.patch(repository, readQuery),
+    controllers.patch(repository, readQueryWithLookup),
     saveInStore(field),
   ])
   .delete([

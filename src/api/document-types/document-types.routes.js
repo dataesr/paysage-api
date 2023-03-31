@@ -3,7 +3,6 @@ import { patchContext, createContext, setGeneratedInternalIdInContext, setPutIdI
 import { saveInStore } from '../commons/middlewares/event.middlewares';
 import { validatePayload, canDelete } from './document-types.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';
-
 import readQuery from '../commons/queries/document-types.query';
 import { documentTypesRepository as repository } from '../commons/repositories';
 import { documentTypes as resource } from '../resources';
