@@ -11,6 +11,8 @@ import {
   sendWelcomeEmail,
 } from './emails';
 
+import reindex from './search';
+
 import { db } from '../services/mongo.service';
 
 const agenda = new Agenda()
@@ -24,6 +26,7 @@ agenda.define('send signin email', { shouldSaveResult: true }, sendAuthenticatio
 agenda.define('send recovery email', { shouldSaveResult: true }, sendPasswordRecoveryEmail);
 agenda.define('send contact email', { shouldSaveResult: true }, sendContactEmail);
 agenda.define('backup data', { shouldSaveResult: true }, backupData);
+agenda.define('reindex', { shouldSaveResult: true }, reindex);
 
 agenda
   .on('ready', () => { logger.info('Agenda connected to mongodb'); })

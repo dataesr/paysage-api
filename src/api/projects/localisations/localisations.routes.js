@@ -1,12 +1,12 @@
 import express from 'express';
 
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
+import { readQuery, readQueryWithLookup } from '../../commons/queries/localisations.query';
 import { projectLocalisationsRepository as repository } from '../../commons/repositories';
-import readQuery from '../../commons/queries/localisations.query';
+import { localisations as subresource, projects as resource } from '../../resources';
 import { setGeoJSON, validatePhoneNumberAndIso3 } from './localisations.middlewares';
-import { projects as resource, localisations as subresource } from '../../resources';
 
 const router = new express.Router();
 
@@ -17,7 +17,7 @@ router.route(`/${resource}/:resourceId/${subresource}`)
     setGeoJSON,
     validatePhoneNumberAndIso3,
     setGeneratedInternalIdInContext(subresource),
-    controllers.create(repository, readQuery),
+    controllers.create(repository, readQueryWithLookup),
     saveInStore(subresource),
   ]);
 
@@ -27,12 +27,12 @@ router.route(`/${resource}/:resourceId/${subresource}/:id`)
     controllers.remove(repository),
     saveInStore(subresource),
   ])
-  .get(controllers.read(repository, readQuery))
+  .get(controllers.read(repository, readQueryWithLookup))
   .patch([
     patchContext,
     setGeoJSON,
     validatePhoneNumberAndIso3,
-    controllers.patch(repository, readQuery),
+    controllers.patch(repository, readQueryWithLookup),
     saveInStore(subresource),
   ]);
 

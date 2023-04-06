@@ -1,6 +1,7 @@
 import metas from './metas.query';
+import { resourceLookup } from './related-object.query';
 
-export default [
+const base = [
   ...metas,
   {
     $set: {
@@ -57,30 +58,36 @@ export default [
   { $unwind: '$data' },
   { $set: { current: { $cond: [{ $eq: ['$currentLocalisation.id', '$data.id'] }, true, false] } } },
   { $replaceRoot: { newRoot: { $mergeObjects: ['$$ROOT', '$data'] } } },
-  {
-    $project: {
-      _id: 0,
-      active: { $ifNull: ['$active', null] },
-      address: 1,
-      city: { $ifNull: ['$city', null] },
-      cityId: { $ifNull: ['$cityId', null] },
-      coordinates: 1,
-      country: 1,
-      createdAt: 1,
-      createdBy: 1,
-      current: 1,
-      distributionStatement: { $ifNull: ['$distributionStatement', null] },
-      endDate: { $ifNull: ['$endDate', null] },
-      id: 1,
-      iso3: { $ifNull: ['$iso3', null] },
-      locality: { $ifNull: ['$locality', null] },
-      phonenumber: { $ifNull: ['$phonenumber', null] },
-      place: { $ifNull: ['$place', null] },
-      postalCode: { $ifNull: ['$postalCode', null] },
-      postOfficeBoxNumber: { $ifNull: ['$postOfficeBoxNumber', null] },
-      startDate: { $ifNull: ['$startDate', null] },
-      updatedAt: 1,
-      updatedBy: 1,
-    },
-  },
 ];
+
+const project = {
+  $project: {
+    _id: 0,
+    resourceId: 1,
+    resource: 1,
+    active: { $ifNull: ['$active', null] },
+    address: 1,
+    city: { $ifNull: ['$city', null] },
+    cityId: { $ifNull: ['$cityId', null] },
+    coordinates: 1,
+    country: 1,
+    createdAt: 1,
+    createdBy: 1,
+    current: 1,
+    distributionStatement: { $ifNull: ['$distributionStatement', null] },
+    endDate: { $ifNull: ['$endDate', null] },
+    id: 1,
+    iso3: { $ifNull: ['$iso3', null] },
+    locality: { $ifNull: ['$locality', null] },
+    phonenumber: { $ifNull: ['$phonenumber', null] },
+    place: { $ifNull: ['$place', null] },
+    postalCode: { $ifNull: ['$postalCode', null] },
+    postOfficeBoxNumber: { $ifNull: ['$postOfficeBoxNumber', null] },
+    startDate: { $ifNull: ['$startDate', null] },
+    updatedAt: 1,
+    updatedBy: 1,
+  },
+};
+
+export const readQuery = [...base, project];
+export const readQueryWithLookup = [...base, ...resourceLookup, project];

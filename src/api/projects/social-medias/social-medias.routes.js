@@ -1,11 +1,11 @@
 import express from 'express';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import { validatePayload } from './social-medias.middlewares';
-import readQuery from '../../commons/queries/social-medias.query';
+import { saveInStore } from '../../commons/middlewares/event.middlewares';
+import { readQuery, readQueryWithLookup } from '../../commons/queries/social-medias.query';
 import { socialmediasRepository as repository } from '../../commons/repositories';
 import { projects as resource, socialmedias as subresource } from '../../resources';
+import { validatePayload } from './social-medias.middlewares';
 
 const router = new express.Router();
 
@@ -15,15 +15,15 @@ router.route(`/${resource}/:resourceId/${subresource}`)
     validatePayload,
     createContext,
     setGeneratedInternalIdInContext(subresource),
-    controllers.create(repository, readQuery),
+    controllers.create(repository, readQueryWithLookup),
     saveInStore(subresource),
   ]);
 
 router.route(`/${resource}/:resourceId/${subresource}/:id`)
-  .get(controllers.read(repository, readQuery))
+  .get(controllers.read(repository, readQueryWithLookup))
   .patch([
     patchContext,
-    controllers.patch(repository, readQuery),
+    controllers.patch(repository, readQueryWithLookup),
     saveInStore(subresource),
   ])
   .delete([
