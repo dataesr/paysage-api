@@ -1,7 +1,7 @@
 import config from '../../../config';
-import { eventsRepository } from '../repositories';
 import esClient from '../../../services/elastic.service';
 import logger from '../../../services/logger.service';
+import { eventsRepository } from '../repositories';
 
 const { index } = config.elastic;
 
@@ -24,6 +24,19 @@ export function saveInElastic(repository, useQuery, type) {
     } catch (error) {
       logger.error(JSON.stringify(error, null, 4));
     }
+    return next();
+  };
+}
+
+export function deleteFromElastic() {
+  return async (req, res, next) => {
+    const { body, params } = req || {};
+    const id = params?.resourceId || params?.id || body?.id || req.context.id || undefined;
+    await esClient.deleteByQuery({
+      index,
+      body: { query: { match: { id } } },
+      refresh: true,
+    });
     return next();
   };
 }
