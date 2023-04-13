@@ -124,6 +124,8 @@ paths:
     $ref: './paths/structures/structures.yml#/collectionMethods'
   '/structures/{structureId}':
     $ref: './paths/structures/structures.yml#/documentMethods'
+  '/structures/{structureId}/alternative-ids/{alternativeId}':
+    $ref: './paths/structures/alternative-ids.yml#/methods'
   '/structures/{structureId}/emails':
     $ref: './paths/structures/emails.yml#/collectionMethods'
   '/structures/{structureId}/emails/{emailId}':
@@ -160,6 +162,8 @@ paths:
     $ref: './paths/persons/persons.yml#/collectionMethods'
   '/persons/{personId}':
     $ref: './paths/persons/persons.yml#/documentMethods'
+  '/persons/{personId}/alternative-ids/{alternativeId}':
+    $ref: './paths/persons/alternative-ids.yml#/methods'
   '/persons/{personId}/identifiers':
     $ref: './paths/persons/identifiers.yml#/collectionMethods'
   '/persons/{personId}/identifiers/{identifierId}':
@@ -331,6 +335,8 @@ components:
   parameters:
     apiKeyId:
       $ref: ./parameters/ids/apikey-id.yml
+    alternativeId:
+      $ref: ./parameters/ids/alternative-id.yml
     categoryId:
       $ref: ./parameters/ids/category-id.yml
     dataset:

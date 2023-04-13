@@ -1,0 +1,46 @@
+methods:
+  delete:
+    tags:
+      - Persons
+    summary: Delete an alternative paysage ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/alternativeId'
+    responses:
+      '204':
+        description: DELETED
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+  put:
+    tags:
+      - Persons
+    summary: Add an alternative paysage ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/personId'
+      - $ref: '../../api.yml#/components/parameters/alternativeId'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/Person'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
