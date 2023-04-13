@@ -14,6 +14,7 @@ export default [
       deathDate: { $ifNull: ['$deathDate', null] },
       activity: { $ifNull: ['$activity', null] },
       comment: { $ifNull: ['$comment', null] },
+      alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
       createdBy: 1,
       updatedBy: 1,
       createdAt: 1,

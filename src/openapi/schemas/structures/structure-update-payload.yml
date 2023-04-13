@@ -49,7 +49,3 @@ properties:
   descriptionEn:
     type: string
     nullable: true
-  iso3:
-    type: string
-    nullable: true
-    pattern: '^[A-Z]{3}$'

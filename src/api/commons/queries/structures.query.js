@@ -1,6 +1,6 @@
-import metas from './metas.query';
 import currentLocalisationQuery from './current-localisation.query';
 import currentNameQuery from './current-name.query';
+import metas from './metas.query';
 import officialtextLightQuery from './official-texts.light.query';
 
 export default [
@@ -48,7 +48,6 @@ export default [
       motto: { $ifNull: ['$motto', null] },
       netAccountingResult: { $ifNull: ['$netAccountingResult', null] },
       population: { $ifNull: ['$population', null] },
-      redirection: { $ifNull: ['$redirection', null] },
       source: { $ifNull: ['$source', null] },
       status: { $ifNull: ['$status', null] },
       structureStatus: { $ifNull: ['$structureStatus', null] },

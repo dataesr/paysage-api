@@ -1,15 +1,15 @@
-import { BadRequestError, UnauthorizedError } from '../../commons/http-errors';
+import { client, db } from '../../../services/mongo.service';
 import catalog from '../../commons/catalog';
+import { BadRequestError } from '../../commons/http-errors';
 import readQuery from '../../commons/queries/structures.query';
 import {
   categoriesRepository,
   identifiersRepository,
   officialtextsRepository,
-  socialmediasRepository,
   structuresRepository as repository,
+  socialmediasRepository,
   weblinksRepository,
 } from '../../commons/repositories';
-import { client } from '../../../services/mongo.service';
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
@@ -247,12 +247,26 @@ export const createStructureResponse = async (req, res, next) => {
   return next();
 };
 
-export const canIDelete = async (req, res, next) => {
-  const resource = await repository.get(req.params.id, { useQuery: readQuery });
-  if (
-    ((resource?.alternativePaysageIds || []).lenght > 0)
-    || (resource?.creationOfficialText?.id || false)
-    || (resource?.closureOfficialText?.id || false)
-  ) throw new UnauthorizedError();
+export const deleteStructure = async (req, res, next) => {
+  const { id: resourceId } = req.params;
+  const session = client.startSession();
+  await session.withTransaction(async () => {
+    await db.collection('identifiers').deleteMany({ resourceId });
+    await db.collection('socialmedias').deleteMany({ resourceId });
+    await db.collection('weblinks').deleteMany({ resourceId });
+    await db.collection('emails').deleteMany({ resourceId });
+    await db.collection('relationships').deleteMany({ $or: [{ resourceId }, { relatedObjectId: resourceId }] });
+    await db.collection('relationships').updateMany({ otherAssociatedObjectIds: resourceId }, { $pull: { otherAssociatedObjectIds: resourceId } });
+    await db.collection('documents').updateMany({ relatesTo: resourceId }, { $pull: { relatesTo: resourceId } });
+    await db.collection('followups').updateMany({ relatesTo: resourceId }, { $pull: { relatesTo: resourceId } });
+    await db.collection('officialtexts').updateMany({ relatesTo: resourceId }, { $pull: { relatesTo: resourceId } });
+    await db.collection('press').updateMany(
+      { $or: [{ relatesTo: resourceId }, { matchedWith: resourceId }] },
+      { $pull: { relatesTo: resourceId, matchedWith: resourceId } },
+    );
+    await db.collection('structures').deleteOne({ id: resourceId });
+    await session.endSession();
+  });
+  res.status(204).json();
   return next();
 };

@@ -39,4 +39,9 @@ allOf:
       comment:
         type: string
         nullable: true
+      alternativePaysageIds:
+        description: Aggregates all persons ids redirected to the current structure
+        type: array
+        items:
+          type: string
   - $ref: '../../api.yml#/components/schemas/Metas'
