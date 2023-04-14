@@ -1,12 +1,42 @@
 import express from 'express';
 
-import esClient from '../../services/elastic.service';
 import config from '../../config';
-import { ServerError } from '../commons/http-errors';
+import esClient from '../../services/elastic.service';
 import logger from '../../services/logger.service';
+import { ServerError } from '../commons/http-errors';
 import { categories, legalcategories, officialtexts, persons, prizes, projects, structures, terms, users } from '../resources';
 
 const allowedTypes = [categories, legalcategories, officialtexts, persons, prizes, projects, structures, terms, users];
+const searchedFields = [
+  'acronym',
+  'acronymFr',
+  'acronymEn',
+  'acronymLocal',
+  'brandName',
+  'category',
+  'city',
+  'firstName',
+  'id',
+  'identifiers',
+  'alternativePaysageIds',
+  'lastName',
+  'locality',
+  'name',
+  'nameEn',
+  'names',
+  'names.acronymFr',
+  'names.id',
+  'names.nameEn',
+  'names.officialName',
+  'names.otherNames',
+  'names.shortName',
+  'names.usualName',
+  'officialName',
+  'otherNames',
+  'otherNamesEn',
+  'otherNamesFr',
+  'shortName',
+];
 
 const router = new express.Router();
 const { index } = config.elastic;
@@ -78,17 +108,13 @@ router.route('/autocomplete')
             query_string: {
               query: `*"${query.replace(/-/g, ' ')}"*`,
               default_operator: 'AND',
-              fields: ['acronym', 'acronymFr', 'acronymEn', 'acronymLocal', 'brandName', 'category', 'city', 'firstName', 'id', 'identifiers',
-                'lastName', 'locality', 'name', 'nameEn', 'names', 'names.acronymFr', 'names.id', 'names.nameEn', 'names.officialName',
-                'names.otherNames', 'names.shortName', 'names.usualName', 'officialName', 'otherNames', 'otherNamesEn', 'otherNamesFr', 'shortName'],
+              fields: searchedFields,
             },
           }, {
             query_string: {
               query: `*${query.replace(/-/g, ' ')}*`,
               default_operator: 'AND',
-              fields: ['acronym', 'acronymFr', 'acronymEn', 'acronymLocal', 'brandName', 'category', 'city', 'firstName', 'id', 'identifiers',
-                'lastName', 'locality', 'name', 'nameEn', 'names', 'names.acronymFr', 'names.id', 'names.nameEn', 'names.officialName',
-                'names.otherNames', 'names.shortName', 'names.usualName', 'officialName', 'otherNames', 'otherNamesEn', 'otherNamesFr', 'shortName'],
+              fields: searchedFields,
             },
           }],
         },
