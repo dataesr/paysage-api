@@ -1,7 +1,11 @@
 import { client, db } from '../../../services/mongo.service';
+import { NotFoundError } from '../../commons/http-errors';
+import { personsRepository } from '../../commons/repositories';
 
 export const deletePerson = async (req, res, next) => {
   const { id: resourceId } = req.params;
+  const resource = await personsRepository.get(resourceId);
+  if (!resource?.id) throw new NotFoundError();
   const session = client.startSession();
   await session.withTransaction(async () => {
     await db.collection('identifiers').deleteMany({ resourceId });
