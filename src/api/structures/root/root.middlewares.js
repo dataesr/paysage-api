@@ -1,6 +1,6 @@
 import { client, db } from '../../../services/mongo.service';
 import catalog from '../../commons/catalog';
-import { BadRequestError } from '../../commons/http-errors';
+import { BadRequestError, NotFoundError } from '../../commons/http-errors';
 import readQuery from '../../commons/queries/structures.query';
 import {
   categoriesRepository,
@@ -249,6 +249,8 @@ export const createStructureResponse = async (req, res, next) => {
 
 export const deleteStructure = async (req, res, next) => {
   const { id: resourceId } = req.params;
+  const resource = await repository.get(resourceId);
+  if (!resource?.id) throw new NotFoundError();
   const session = client.startSession();
   await session.withTransaction(async () => {
     await db.collection('identifiers').deleteMany({ resourceId });
