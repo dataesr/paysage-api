@@ -596,6 +596,8 @@ components:
       $ref: './schemas/commons/logo-payload.yml'
     OfficialTextPayload:
       $ref: './schemas/officialtexts/officialtext-payload.yml'
+    PersonBulkInsertPayload:
+      $ref: './schemas/persons/person-create-payload.yml'
     PersonIdentifierPayload:
       $ref: './schemas/persons/identifier-payload.yml'
     PersonPayload:

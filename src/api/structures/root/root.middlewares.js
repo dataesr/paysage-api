@@ -5,7 +5,9 @@ import readQuery from '../../commons/queries/structures.query';
 import {
   categoriesRepository,
   identifiersRepository,
+  legalcategoriesRepository,
   officialtextsRepository,
+  relationshipsRepository,
   structuresRepository as repository,
   socialmediasRepository,
   weblinksRepository,
@@ -13,7 +15,7 @@ import {
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
-  const { categories: categoryIds, closureOfficialTextId, creationOfficialTextId, iso3 } = req.body;
+  const { categories: categoryIds, closureOfficialTextId, creationOfficialTextId, iso3, legalCategory } = req.body;
   if (creationOfficialTextId) {
     const text = await officialtextsRepository.get(creationOfficialTextId);
     if (!text?.id) { errors.push({ path: '.body.creationOfficialTextId', message: `Official text ${creationOfficialTextId} does not exist` }); }
@@ -21,6 +23,10 @@ export const validateStructureCreatePayload = async (req, res, next) => {
   if (closureOfficialTextId) {
     const text = await officialtextsRepository.get(closureOfficialTextId);
     if (!text?.id) { errors.push({ path: '.body.closureOfficialTextId', message: `Official text ${closureOfficialTextId} does not exist` }); }
+  }
+  if (legalCategory) {
+    const legal = await legalcategoriesRepository.get(legalCategory);
+    if (!legal?.id) { errors.push({ path: '.body.legalCategory', message: `Legal category ${creationOfficialTextId} does not exist` }); }
   }
   if (categoryIds) {
     const { data: categoriesData } = await categoriesRepository.find({ filters: { id: { $in: categoryIds } } });
@@ -98,6 +104,21 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structureLocalisation.id = await catalog.getUniqueId('localisations', 15);
     structure.localisations = [structureLocalisation];
   }
+  const categories = [];
+  payload?.categories?.forEach(async (category) => categories.push({
+    relatedObjectId: category,
+    relationTag: 'structure-categorie',
+    createdBy: req.currentUser.id,
+    createdAt: new Date(),
+    id: await catalog.getUniqueId('relations', 15),
+  }));
+  const legalCategory = {
+    relatedObjectId: payload.legalCategory,
+    relationTag: 'structure-categorie-juridique',
+    createdBy: req.currentUser.id,
+    createdAt: new Date(),
+    id: await catalog.getUniqueId('relations', 15),
+  };
   const structureWebsites = [];
   if (payload.websiteFr) {
     structureWebsites.push({
@@ -126,7 +147,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'idref',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await catalog.getUniqueId('weblinks', 15),
+      id: await catalog.getUniqueId('identifiers', 15),
     });
   }
   if (payload.wikidata) {
@@ -135,7 +156,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'wikidata',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await catalog.getUniqueId('weblinks', 15),
+      id: await catalog.getUniqueId('identifiers', 15),
     });
   }
   if (payload.uai) {
@@ -205,6 +226,12 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (structureWebsites.length) {
     structure.websites = structureWebsites;
   }
+  if (categories.length) {
+    structure.categories = categories;
+  }
+  if (legalCategory?.id) {
+    structure.legalCategory = legalCategory;
+  }
   if (structureSocialMedias.length) {
     structure.socials = structureSocialMedias;
   }
@@ -216,7 +243,9 @@ export const fromPayloadToStructure = async (req, res, next) => {
 };
 
 export const storeStructure = async (req, res, next) => {
-  const { identifiers, socials, websites, ...rest } = req.body;
+  const {
+    identifiers, socials, websites, categories, legalCategory, ...rest
+  } = req.body;
   const { id: resourceId } = rest;
   const session = client.startSession();
   await session.withTransaction(async () => {
@@ -235,6 +264,14 @@ export const storeStructure = async (req, res, next) => {
       await websites.forEach(async (website) => {
         await weblinksRepository.create({ ...website, resourceId });
       });
+    }
+    if (categories?.length) {
+      await categories.forEach(async (category) => {
+        await relationshipsRepository.create({ ...category, resourceId });
+      });
+    }
+    if (legalCategory) {
+      await relationshipsRepository.create({ ...legalCategory, resourceId });
     }
     await session.endSession();
   });
