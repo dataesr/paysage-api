@@ -10,17 +10,18 @@ import elasticQuery from '../../commons/queries/persons.elastic';
 import readQuery from '../../commons/queries/persons.query';
 import { personsRepository as repository } from '../../commons/repositories';
 import { persons as resource } from '../../resources';
-import { deletePerson } from './root.middlewares';
+import { createPersonResponse, deletePerson, fromPayloadToPerson, storePerson, validatePersonCreatePayload } from './root.middlewares';
 
 const router = new express.Router();
 
 router.route(`/${resource}`)
   .get(controllers.list(repository, readQuery))
   .post([
-    validatePayload,
-    createContext,
+    validatePersonCreatePayload,
     setGeneratedObjectIdInContext(resource),
-    controllers.create(repository, readQuery),
+    fromPayloadToPerson,
+    storePerson,
+    createPersonResponse,
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ]);
