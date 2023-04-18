@@ -208,9 +208,7 @@ describe(`API > ${resource} > list`, () => {
       .expect(200);
     const docs = body.data.map((doc) => doc.usualNameFr);
     expect(docs).toHaveLength(3);
-
   });
-
 
   it('can filter successfully', async () => {
     const { body } = await global.superapp
