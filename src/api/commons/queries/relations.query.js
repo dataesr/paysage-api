@@ -1,7 +1,7 @@
 import metas from './metas.query';
 import officialtextLightQuery from './official-texts.light.query';
+import { associatedObjectsListLookup, relatedObjectLookup, resourceLookup } from './related-object.query';
 import relationTypesLightQuery from './relation-types.light.query';
-import { relatedObjectLookup, resourceLookup, associatedObjectsListLookup } from './related-object.query';
 
 export default [
   ...relatedObjectLookup,
@@ -50,6 +50,7 @@ export default [
       resource: 1,
       relationsGroupId: { $ifNull: ['$relationsGroupId', null] },
       relatedObject: 1,
+      relatedObjectId: 1,
       relationType: { $ifNull: ['$relationType', { priority: 99 }] },
       relationTag: { $ifNull: ['$relationTag', null] },
       startDateOfficialText: 1,

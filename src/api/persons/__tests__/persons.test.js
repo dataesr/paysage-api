@@ -2,16 +2,26 @@ import { persons as resource } from '../../resources';
 
 let authorization;
 let id;
+let cid;
+
+const categoryPayload = { usualNameFr: 'Catégorie' };
 
 const payload = {
   lastName: 'Dupond',
   firstName: 'Jean',
   gender: 'Femme',
+  wikidata: 'Q45635',
 };
 const updatePayLoad = { lastName: 'Dupont', firstName: null };
 
 beforeAll(async () => {
-  authorization = await global.utils.createUser('user');
+  authorization = await global.utils.createUser('admin');
+  const { body } = await global.superapp
+    .post('/categories')
+    .set('Authorization', authorization)
+    .send(categoryPayload)
+    .expect(201);
+  cid = body.id;
 });
 
 describe('API > persons > create', () => {
@@ -19,12 +29,29 @@ describe('API > persons > create', () => {
     const { body } = await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
-      .send(payload)
+      .send({ ...payload, categories: [cid] })
       .expect(201);
-    Object.entries(payload).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
+    const { wikidata, ...toCheck } = payload;
+    Object.entries(toCheck).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBeTruthy();
     expect(body.createdBy.lastName).toBe('user');
     id = body.id;
+  });
+  it('has an identifier', async () => {
+    const { body } = await global.superapp
+      .get(`/${resource}/${id}/identifiers`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.totalCount).toBe(1);
+  });
+  it('has an category', async () => {
+    const { body } = await global.superapp
+      .get(`/relations?filters[resourceId]=${id}`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.totalCount).toBe(1);
+    expect(body.data[0].relationTag).toBe('personne-categorie');
+    expect(body.data[0].relatedObjectId).toBe(cid);
   });
   it('ignore additionalProperties', async () => {
     await global.superapp
@@ -60,7 +87,8 @@ describe('API > persons > update', () => {
       .set('Authorization', authorization)
       .send(updatePayLoad)
       .expect(200);
-    const updated = { ...payload, ...updatePayLoad };
+    const { wikidata, ...rest } = payload;
+    const updated = { ...rest, ...updatePayLoad };
     Object.entries(updated).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBeTruthy();
     expect(body.createdBy.lastName).toBe('user');
@@ -87,7 +115,8 @@ describe('API > persons > read', () => {
       .get(`/${resource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
-    const expected = { ...payload, ...updatePayLoad };
+    const { wikidata, ...rest } = payload;
+    const expected = { ...rest, ...updatePayLoad };
     Object.entries(expected).map((entry) => expect(body[entry[0]]).toBe(entry[1]));
     expect(body.id).toBe(id);
     expect(body.createdBy.lastName).toBe('user');
