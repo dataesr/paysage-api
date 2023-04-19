@@ -86,6 +86,15 @@ export const fromPayloadToPerson = async (req, res, next) => {
       id: await catalog.getUniqueId('identifiers', 15),
     });
   }
+  if (payload.researchgate) {
+    identifiers.push({
+      value: payload.researchgate,
+      type: 'researchgate',
+      createdBy: req.currentUser.id,
+      createdAt: new Date(),
+      id: await catalog.getUniqueId('identifiers', 15),
+    });
+  }
   if (payload.wikidata) {
     identifiers.push({
       value: payload.wikidata,
