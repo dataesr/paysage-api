@@ -47,6 +47,9 @@ properties:
   orcid:
     type: string
     nullable: true
+  researchgate:
+    type: string
+    nullable: true
   websiteEn:
     type: string
     nullable: true
