@@ -2,5 +2,5 @@ name: alternativeId
 in: path
 schema:
   type: string
-  pattern: '^[a-zA-Z0-9]{5}$'
+  pattern: '^[a-zA-Z0-9]{5}$|^[a-zA-Z0-9]{15}$'
 required: true
