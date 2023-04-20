@@ -1,7 +1,6 @@
-import { BadRequestError, UnauthorizedError } from '../commons/http-errors';
-// import { catalogRepository } from '../commons/repositories';
-import readQuery from '../commons/queries/official-texts.query';
-import { officialtextsRepository as repository } from '../commons/repositories';
+import { client, db } from '../../services/mongo.service';
+import { BadRequestError, NotFoundError } from '../commons/http-errors';
+import { officialtextsRepository } from '../commons/repositories';
 
 export async function validatePayload(req, res, next) {
   if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
@@ -22,15 +21,24 @@ export async function validatePayload(req, res, next) {
   return next();
 }
 
-export async function canIDelete(req, res, next) {
-  const resource = await repository.get(req.params.id, { useQuery: readQuery });
-  if (
-    ((resource?.relatedStructures || []).lenght > 0)
-      || ((resource?.relatedCategories || []).lenght > 0)
-      || ((resource?.relatedPersons || []).lenght > 0)
-      || ((resource?.relatedPrizes || []).lenght > 0)
-      || ((resource?.relatedProjects || []).lenght > 0)
-      || ((resource?.relatedTerms || []).lenght > 0)
-  ) throw new UnauthorizedError();
+export async function deleteOfficialText(req, res, next) {
+  const { id: resourceId } = req.params;
+  const resource = await officialtextsRepository.get(resourceId);
+  if (!resource?.id) throw new NotFoundError();
+  const session = client.startSession();
+  await session.withTransaction(async () => {
+    await db.collection('relationships').updateMany({ startDateOfficialTextId: resourceId }, { $unset: { startDateOfficialTextId: '' } });
+    await db.collection('relationships').updateMany({ endDateOfficialTextId: resourceId }, { $unset: { endDateOfficialTextId: '' } });
+    await db.collection('structures').updateMany({ creationOfficialTextId: resourceId }, { $unset: { creationOfficialTextId: '' } });
+    await db.collection('structures').updateMany({ closureOfficialTextId: resourceId }, { $unset: { closureOfficialTextId: '' } });
+    await db.collection('categories').updateMany({ creationOfficialTextId: resourceId }, { $unset: { creationOfficialTextId: '' } });
+    await db.collection('categories').updateMany({ closureOfficialTextId: resourceId }, { $unset: { closureOfficialTextId: '' } });
+    await db.collection('terms').updateMany({ creationOfficialTextId: resourceId }, { $unset: { creationOfficialTextId: '' } });
+    await db.collection('terms').updateMany({ closureOfficialTextId: resourceId }, { $unset: { closureOfficialTextId: '' } });
+    await db.collection('legalcategories').updateMany({ officialTextId: resourceId }, { $unset: { officialTextId: '' } });
+    await db.collection('officialtexts').deleteOne({ id: resourceId });
+    await session.endSession();
+  });
+  res.status(204).json();
   return next();
 }
