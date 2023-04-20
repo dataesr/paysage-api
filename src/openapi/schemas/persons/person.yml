@@ -40,7 +40,6 @@ allOf:
         type: string
         nullable: true
       alternativePaysageIds:
-        description: Aggregates all persons ids redirected to the current structure
         type: array
         items:
           type: string
