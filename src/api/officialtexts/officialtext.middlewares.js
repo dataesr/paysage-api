@@ -36,6 +36,13 @@ export async function deleteOfficialText(req, res, next) {
     await db.collection('terms').updateMany({ creationOfficialTextId: resourceId }, { $unset: { creationOfficialTextId: '' } });
     await db.collection('terms').updateMany({ closureOfficialTextId: resourceId }, { $unset: { closureOfficialTextId: '' } });
     await db.collection('legalcategories').updateMany({ officialTextId: resourceId }, { $unset: { officialTextId: '' } });
+    await db.collection('documents').updateMany({ relatesTo: resourceId }, { $pull: { relatesTo: resourceId } });
+    await db.collection('followups').updateMany({ relatesTo: resourceId }, { $pull: { relatesTo: resourceId } });
+    await db.collection('officialtexts').updateMany({ relatesTo: resourceId }, { $pull: { relatesTo: resourceId } });
+    await db.collection('press').updateMany(
+      { $or: [{ relatesTo: resourceId }, { matchedWith: resourceId }] },
+      { $pull: { relatesTo: resourceId, matchedWith: resourceId } },
+    );
     await db.collection('officialtexts').deleteOne({ id: resourceId });
     await session.endSession();
   });
