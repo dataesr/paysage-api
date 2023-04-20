@@ -7,6 +7,7 @@ export default [
       publicationDate: { $ifNull: ['$publicationDate', ''] },
       name: { $ifNull: ['$title', ''] },
       title: { $ifNull: ['$title', ''] },
+      alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
     },
   },
 ];

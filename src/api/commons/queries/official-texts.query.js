@@ -28,6 +28,7 @@ export default [
       textExtract: { $ifNull: ['$textExtract', null] },
       comment: { $ifNull: ['$comment', null] },
       relatedObjects: 1,
+      alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
     },
   },
 ];
