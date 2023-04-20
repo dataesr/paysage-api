@@ -1,5 +1,4 @@
 import express from 'express';
-
 import { deleteAlternative, setAlternative } from '../commons/middlewares/alternative-ids.middlewares';
 import { createContext, patchContext, setGeneratedInternalIdInContext, setPutIdInContext } from '../commons/middlewares/context.middlewares';
 import controllers from '../commons/middlewares/crud.middlewares';

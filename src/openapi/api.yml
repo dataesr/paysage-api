@@ -224,6 +224,8 @@ paths:
     $ref: './paths/officialtexts/officialtexts.yml#/collectionMethods'
   '/official-texts/{officialTextId}':
     $ref: './paths/officialtexts/officialtexts.yml#/documentMethods'
+  '/official-texts/{officialTextId}/alternative-ids/{alternativeId}':
+    $ref: './paths/officialtexts/alternative-ids.yml#/methods'
 
   ### OFFICIAL TEXTS ###
   '/follow-ups':
