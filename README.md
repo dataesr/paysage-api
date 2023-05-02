@@ -28,7 +28,7 @@
 
 `npm run reindex [TYPE]`
 
-Where type could be omitted, or be one value between "categories", "legal-categories", "official-texts", "persons", "prizes", "projects", "structures", "terms", "users".
+Where TYPE could be omitted, or be one value between "categories", "legal-categories", "official-texts", "persons", "prizes", "projects", "structures", "terms", "users".
 
 Example: `NODE_ENV=development ES_NODE=http://localhost:9200 MONGO_URI="mongodb://localhost:27017" ES_USERNAME= ES_PASSWORD= npm run reindex`
 
@@ -48,7 +48,7 @@ To run the app being sure that everythiing else is down :
 
 `docker-compose down && docker system prune -f && docker-compose up --build`
 
-This run a docker container, with a MongoDB inside, the paysage-auth app and the paysage-api app.
+This run a docker container, with a MongoDB inside and the paysage-api app.
 
 To acces the MongoDB from inside, use host : `mongodb://mongo:27017`.
 
@@ -61,8 +61,6 @@ To access the Elasticsearch from outside, use host : `http://localhost:9200/`.
 To access the paysage-api from inside, use host : `http://localhost:3000/`.
 
 To access the paysage-api from outside, use host : `http://localhost:3003/`.
-
-To acess the paysage-auth from outside, use host : `http://localhost:3004/`.
 
 To see the API docs, see : http://localhost:3003/docs/api/.
 
