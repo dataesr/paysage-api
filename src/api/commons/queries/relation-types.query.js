@@ -15,6 +15,7 @@ export default [
       for: 1,
       mandateTypeGroup: { $ifNull: ['$mandateTypeGroup', 'Autres fonctions'] },
       priority: { $ifNull: ['$priority', 99] },
+      annelisId: 1,
       createdBy: 1,
       updatedBy: 1,
       createdAt: 1,

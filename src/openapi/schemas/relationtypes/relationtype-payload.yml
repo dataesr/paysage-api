@@ -34,6 +34,9 @@ properties:
   mandateTypeGroup:
     type: string
     nullable: true
+  annelisId:
+    type: string
+    nullable: true
   priority:
     type: integer
     minimum: 1
