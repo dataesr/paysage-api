@@ -333,6 +333,10 @@ paths:
   '/journal':
     $ref: './paths/journals/journals.yml#/collectionMethods'
 
+  ### JOBS ###
+  '/jobs':
+    $ref: './paths/jobs/jobs.yml#/collectionMethods'
+
 components:
   parameters:
     apiKeyId:
