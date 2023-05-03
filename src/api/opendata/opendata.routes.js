@@ -7,7 +7,7 @@ const router = new express.Router();
 const OPTIONS = { projection: { _id: 0, dataset: 0 } };
 
 const FILTERS = {
-  'fr-esr-annelis-paysage-gouvernance': { annelis: 'Y', dataset: 'fr-esr-annelis-paysage-gouvernance' },
+  'fr-esr-annelis-paysage-gouvernance': { annelis: 'Y', dataset: 'fr-esr-paysage-fonctions-gouvernance' },
   'fr-esr-paysage-fonctions-gouvernance': { dataset: 'fr-esr-paysage-fonctions-gouvernance' },
 };
 
