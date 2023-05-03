@@ -2,17 +2,17 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { authenticator, totp } from 'otplib';
 
-import logger from '../../services/logger.service';
-import agenda from '../../jobs';
 import config from '../../config';
-import { usersRepository, tokensRepository } from '../commons/repositories';
-import userTokenQuery from '../commons/queries/users.token.query';
+import agenda from '../../jobs';
+import logger from '../../services/logger.service';
 import {
   BadRequestError,
   NotFoundError,
   ServerError,
   UnauthorizedError,
 } from '../commons/http-errors';
+import userTokenQuery from '../commons/queries/users.token.query';
+import { tokensRepository, usersRepository } from '../commons/repositories';
 
 const {
   defaultAccountConfirmation,
@@ -42,7 +42,8 @@ export const signup = async (req, res, next) => {
   if (exists) throw new BadRequestError('Un compte existe déja');
   const id = await usersRepository.create(userData);
   if (!id) throw new ServerError();
-  agenda.now('send welcome email', { user: { id: userData.id, ...body } });
+  const { firstName, lastName, email } = body;
+  agenda.now('send welcome email', { user: { firstName, lastName, email } });
   res.status(201).json({ message: 'Compte crée.' });
   return next();
 };
@@ -71,7 +72,8 @@ export const signin = async (req, res, next) => {
     if (!otpMethod || otpMethod === 'email') {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-      agenda.now('send signin email', { user, otp, ip });
+      const { firstName, lastName } = user;
+      agenda.now('send signin email', { user: { firstName, lastName, email }, otp, ip });
       const expires = new Date().setMinutes(new Date().getMinutes() + 15);
       const options = {
         year: 'numeric',
@@ -153,7 +155,8 @@ export const resetPassword = async (req, res, next) => {
     if (otpMethod === 'email') {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-      agenda.now('send recovery email', { user, otp, ip });
+      const { firstName, lastName } = user;
+      agenda.now('send recovery email', { user: { firstName, lastName, email }, otp, ip });
       const expires = new Date().setMinutes(new Date().getMinutes() + 15);
       const options = {
         year: 'numeric',
