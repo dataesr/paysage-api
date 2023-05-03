@@ -9,21 +9,10 @@ export function saveInElastic(repository, useQuery, type) {
   return async (req, res, next) => {
     const { body, params } = req || {};
     const id = params?.resourceId || params?.id || body?.id || req.context.id || undefined;
-    const esData = await esClient.search({ index, body: { query: { match: { id } } } });
-    const _id = esData?.body?.hits?.hits?.[0]?._id;
     let resource = await repository.get(id, { useQuery, keepDeleted: true });
     resource = { ...resource, isDeleted: resource?.isDeleted || false, type };
-    try {
-      if (_id) {
-        const document = { index, body: { doc: resource }, id: _id, refresh: true };
-        await esClient.update(document);
-      } else {
-        const document = { index, body: resource, refresh: true };
-        await esClient.index(document);
-      }
-    } catch (error) {
-      logger.error(JSON.stringify(error, null, 4));
-    }
+    const document = { index, body: { doc: resource }, id, refresh: true };
+    await esClient.update(document).catch((e) => logger.error(JSON.stringify(e, null, 4)));
     return next();
   };
 }
@@ -32,11 +21,8 @@ export function deleteFromElastic() {
   return async (req, res, next) => {
     const { body, params } = req || {};
     const id = params?.resourceId || params?.id || body?.id || req.context.id || undefined;
-    await esClient.deleteByQuery({
-      index,
-      body: { query: { match: { id } } },
-      refresh: true,
-    });
+    if (!id) return next();
+    await esClient.delete({ index, id }).catch((e) => logger.error(JSON.stringify(e, null, 4)));
     return next();
   };
 }

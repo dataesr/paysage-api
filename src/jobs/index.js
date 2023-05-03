@@ -2,7 +2,6 @@ import { Agenda } from 'agenda';
 import os from 'os';
 
 import logger from '../services/logger.service';
-import backupData from './data';
 import {
   sendAccountConfirmedEmail,
   sendAuthenticationEmail,
@@ -10,8 +9,9 @@ import {
   sendPasswordRecoveryEmail,
   sendWelcomeEmail,
 } from './emails';
+import updateKeyNumbers from './key-numbers';
 
-import reindex from './search';
+import reindex from './indexer';
 
 import { db } from '../services/mongo.service';
 
@@ -25,12 +25,31 @@ agenda.define('send confirmed email', { shouldSaveResult: true }, sendAccountCon
 agenda.define('send signin email', { shouldSaveResult: true }, sendAuthenticationEmail);
 agenda.define('send recovery email', { shouldSaveResult: true }, sendPasswordRecoveryEmail);
 agenda.define('send contact email', { shouldSaveResult: true }, sendContactEmail);
-agenda.define('backup data', { shouldSaveResult: true }, backupData);
+agenda.define('update key numbers', { shouldSaveResult: true }, updateKeyNumbers);
 agenda.define('reindex', { shouldSaveResult: true }, reindex);
 
 agenda
   .on('ready', () => { logger.info('Agenda connected to mongodb'); })
   .on('error', () => { logger.info('Agenda connexion to mongodb failed'); });
+
+agenda.on('complete', async (job) => {
+  if (job.attrs?.type !== 'single') return null;
+  const {
+    _id,
+    repeatInterval,
+    repeatTimezone,
+    skipDays,
+    startDate,
+    endDate,
+    nextRunAt,
+    ...rest
+  } = job.attrs;
+  return db.collection('_jobs')
+    .insertOne({
+      ...rest,
+      type: 'normal',
+    });
+});
 
 async function graceful() {
   logger.info('Gracefully stopping agenda');
