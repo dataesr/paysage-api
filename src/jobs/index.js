@@ -1,6 +1,5 @@
 import { Agenda } from 'agenda';
 import os from 'os';
-
 import logger from '../services/logger.service';
 import {
   sendAccountConfirmedEmail,
@@ -10,10 +9,9 @@ import {
   sendWelcomeEmail,
 } from './emails';
 import updateKeyNumbers from './key-numbers';
-
 import reindex from './indexer';
-
 import { db } from '../services/mongo.service';
+import { exportFrEsrPaysageFonctionsGourvernance } from './opendata';
 
 const agenda = new Agenda()
   .mongo(db, '_jobs')
@@ -27,6 +25,7 @@ agenda.define('send recovery email', { shouldSaveResult: true }, sendPasswordRec
 agenda.define('send contact email', { shouldSaveResult: true }, sendContactEmail);
 agenda.define('update key numbers', { shouldSaveResult: true }, updateKeyNumbers);
 agenda.define('reindex', { shouldSaveResult: true }, reindex);
+agenda.define('export fr-esr-paysage-fonctions-gourvernance', { shouldSaveResult: true }, exportFrEsrPaysageFonctionsGourvernance);
 
 agenda
   .on('ready', () => { logger.info('Agenda connected to mongodb'); })
