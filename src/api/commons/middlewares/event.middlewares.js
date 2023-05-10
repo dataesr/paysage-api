@@ -11,7 +11,7 @@ export function saveInElastic(repository, useQuery, type) {
     const id = params?.resourceId || params?.id || body?.id || req.context.id || undefined;
     let resource = await repository.get(id, { useQuery, keepDeleted: true });
     resource = { ...resource, isDeleted: resource?.isDeleted || false, type };
-    const document = { index, body: { doc: resource }, id, refresh: true };
+    const document = { index, body: { doc: resource, doc_as_upsert: true }, id, refresh: true };
     await esClient.update(document).catch((e) => logger.error(JSON.stringify(e, null, 4)));
     return next();
   };

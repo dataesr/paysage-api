@@ -31,6 +31,7 @@ export default [
       legalcategories: { $ifNull: ['$legalcategories', []] },
       legalcategory: { $ifNull: ['$legalcategory', {}] },
       identifiers: { $ifNull: ['$identifiers', []] },
+      socialmedias: { $ifNull: ['$socialmedias', []] },
       websites: { $ifNull: ['$websites', []] },
       emails: { $ifNull: ['$emails', []] },
     },
