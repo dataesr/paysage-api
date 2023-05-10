@@ -34,6 +34,7 @@ export default [
       websiteEn: { $ifNull: ['$websiteEn', null] },
       comment: { $ifNull: ['$comment', null] },
       officialText: 1,
+      annelisId: 1,
       createdBy: 1,
       updatedBy: 1,
       createdAt: 1,
