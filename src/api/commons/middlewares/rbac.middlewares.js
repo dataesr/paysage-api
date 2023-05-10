@@ -4,6 +4,7 @@ export function requireAuth(req, res, next) {
   if (['development', 'testing'].includes(process.env.NODE_ENV)) return next();
   if (['/signup', '/signin', '/token', '/recovery/password'].includes(req.path)) return next();
   if (req.path.startsWith('/opendata')) return next();
+  if (req.path.startsWith('/curiexplore')) return next();
   if (req.path.startsWith('/assets/avatars')) return next();
   if (req.path.startsWith('/assets/logos')) return next();
   if (!req?.currentUser?.id) {
