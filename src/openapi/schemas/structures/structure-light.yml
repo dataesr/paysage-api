@@ -19,6 +19,8 @@ properties:
     type: array
   identifiers:
     type: array
+  socialmedias:
+    type: array
   emails:
     type: array
   websites:

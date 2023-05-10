@@ -36,6 +36,16 @@ export function getCivilityArticle(gender) {
       return null;
   }
 }
+export function getRelationTypeLabel(gender = null) {
+  switch (gender) {
+    case 'Femme':
+      return 'feminineName';
+    case 'Homme':
+      return 'maleName';
+    default:
+      return 'name';
+  }
+}
 
 export function getCivilityAddress(relation, person) {
   const annuaire = relation.mandatePrecision || relation.relationType?.[getRelationTypeLabel(person.gender)];
@@ -46,15 +56,4 @@ export function getCivilityAddress(relation, person) {
   const civility = getCivility(person.gender);
   if (['a', 'e', 'i', 'o', 'u', 'y'].includes(annuaire[0].toLowerCase())) { article = "l'"; }
   return `${civility} ${article}${annuaire}${interim}`;
-}
-
-export function getRelationTypeLabel(gender = null) {
-  switch (gender) {
-    case 'Femme':
-      return 'feminineName';
-    case 'Homme':
-      return 'maleName';
-    default:
-      return 'name';
-  }
 }
