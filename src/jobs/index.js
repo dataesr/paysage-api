@@ -11,7 +11,12 @@ import {
 import updateKeyNumbers from './key-numbers';
 import reindex from './indexer';
 import { db } from '../services/mongo.service';
-import { exportFrEsrPaysageFonctionsGourvernance } from './opendata';
+import {
+  exportFrEsrPaysageFonctionsGourvernance,
+  exportFrEsrAnnelisPaysageEtablissements,
+} from './opendata';
+import syncronizeFrEsrReferentielGeographique from './syncronize/fr-esr-referentiel-geographique';
+import syncronizeCuriexploreActors from './syncronize/curiexplore-actors';
 
 const agenda = new Agenda()
   .mongo(db, '_jobs')
@@ -26,6 +31,9 @@ agenda.define('send contact email', { shouldSaveResult: true }, sendContactEmail
 agenda.define('update key numbers', { shouldSaveResult: true }, updateKeyNumbers);
 agenda.define('reindex', { shouldSaveResult: true }, reindex);
 agenda.define('export fr-esr-paysage-fonctions-gourvernance', { shouldSaveResult: true }, exportFrEsrPaysageFonctionsGourvernance);
+agenda.define('export fr-esr-annelis-paysage-etablissements', { shouldSaveResult: true }, exportFrEsrAnnelisPaysageEtablissements);
+agenda.define('syncronize fr-esr-referentiel-geographique', { shouldSaveResult: true }, syncronizeFrEsrReferentielGeographique);
+agenda.define('syncronize curiexplore actors', { shouldSaveResult: true }, syncronizeCuriexploreActors);
 
 agenda
   .on('ready', () => { logger.info('Agenda connected to mongodb'); })

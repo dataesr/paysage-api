@@ -69,4 +69,7 @@ allOf:
       comment:
         type: string
         nullable: true
+      annelisId:
+        type: string
+        nullable: true
   - $ref: '../../api.yml#/components/schemas/Metas'
