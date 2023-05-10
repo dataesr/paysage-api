@@ -1,53 +1,23 @@
-import structuresLightQuery from '../../api/commons/queries/structures.light.query';
 import { client, db } from '../../services/mongo.service';
-import { formatDateToString } from './utils';
+import { addInterim, formatDateToString, getCivility, getCivilityAddress, getRelationTypeLabel, isFinished } from './utils';
+import readQuery from '../../api/commons/queries/relations.query';
 
 const dataset = 'fr-esr-paysage-fonctions-gouvernance';
 
 export default async function exportFrEsrPaysageFonctionsGourvernance() {
   const data = await db.collection('relationships').aggregate([
-    { $match: { relationTag: 'gouvernance' } },
-    {
-      $lookup: {
-        from: 'structures',
-        localField: 'resourceId',
-        foreignField: 'id',
-        pipeline: structuresLightQuery,
-        as: 'structure',
-      },
-    },
-    { $set: { structure: { $arrayElemAt: ['$structure', 0] } } },
-    {
-      $lookup: {
-        from: 'persons',
-        localField: 'relatedObjectId',
-        foreignField: 'id',
-        pipeline: [],
-        as: 'person',
-      },
-    },
-    { $set: { person: { $arrayElemAt: ['$person', 0] } } },
-    {
-      $lookup: {
-        from: 'relationtypes',
-        localField: 'relationTypeId',
-        foreignField: 'id',
-        pipeline: [],
-        as: 'relationType',
-      },
-    },
-    { $set: { relationType: { $arrayElemAt: ['$relationType', 0] } } },
+    { $match: { relationTag: 'gouvernance' } }, ...readQuery,
   ]).toArray();
-  const json = data.map(({ structure = {}, person = {}, relationType = {}, ...relationship }) => {
-    const startDate = new Date(relationship.startDate);
-    const endDate = new Date(relationship.endDate);
-    const previsionalEndDate = new Date(relationship.endDatePrevisional);
+  const json = data.map(({ resource: structure = {}, relatedObject: person = {}, relationType = {}, ...relation }) => {
+    const startDate = new Date(relation.startDate);
+    const endDate = new Date(relation.endDate);
+    const previsionalEndDate = new Date(relation.endDatePrevisional);
     let state;
-    if (!relationship.startDate && !relationship.endDate) { state = 'Sans date'; }
-    if (relationship.startDate && startDate > new Date()) { state = 'Futur'; }
-    if (relationship.startDate && startDate <= new Date()) { state = 'Actif'; }
-    if (relationship.endDate && endDate < new Date()) { state = 'Passé'; }
-    if (relationship.active === false) { state = 'Passé'; }
+    if (!relation.startDate && !relation.endDate) { state = 'Sans date'; }
+    if (relation.startDate && startDate > new Date()) { state = 'Futur'; }
+    if (relation.startDate && startDate <= new Date()) { state = 'Actif'; }
+    if (relation.endDate && endDate < new Date()) { state = 'Passé'; }
+    if (relation.active === false) { state = 'Passé'; }
     const annelis = (structure?.identifiers?.find((i) => i.type === 'annelis')?.value
       && relationType.annelisId
       && ['Futur', 'Actif'].includes(state)
@@ -55,32 +25,77 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
     const row = {
       dataset,
       etat: state,
-      liaison_id_paysage: relationship.id,
+      liaison_id_paysage: relation.id,
       eta_cat: structure.category?.usualNameFr,
       eta_cat_jur: structure.legalcategory?.longNameFr,
       eta_cat_act: structure.categories.map((cat) => cat?.usualNameFr).join(';'),
-      eta_id: structure?.identifiers?.find((i) => i.type === 'annelis')?.value,
-      eta_uai: structure?.identifiers?.find((i) => i.type === 'uai')?.value,
+      eta_address: [
+        structure.currentLocalisation?.distributionStatement,
+        structure.currentLocalisation?.address,
+        structure.currentLocalisation?.place,
+      ].map((a) => a).join('\n').trim(),
+      eta_cp: structure.currentLocalisation?.postalCode,
+      eta_ville: structure.currentLocalisation?.locality,
       eta_id_paysage: structure.id,
       eta_lib: structure.currentName?.usualName,
+      eta_scd_esgbu: structure.identifiers?.filter((i) => (i.type === 'sdid'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      eta_wikidata: structure.identifiers?.filter((i) => (i.type === 'wikidata'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      eta_idref: structure.identifiers?.filter((i) => (i.type === 'idref'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      eta_uai: structure.identifiers?.filter((i) => (i.type === 'uai'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      'eta_siret de la structure': structure.identifiers?.filter((i) => (i.type === 'siret'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      'eta_grid de la structure': structure.identifiers?.filter((i) => (i.type === 'grid'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      'eta_ror de la structure': structure.identifiers?.filter((i) => (i.type === 'ror'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      eta_annelis: structure.identifiers?.filter((i) => (i.type === 'annelis'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      eta_esgbu: structure.identifiers?.filter((i) => (i.type === 'etid'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      eta_bib_esgbu: structure.identifiers?.filter((i) => (i.type === 'bibid'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      eta_ed_id: structure.identifiers?.filter((i) => (i.type === 'ed'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
       personne_id_paysage: person?.id,
       genre: person.gender?.[0],
+      civilite: getCivility(person.gender),
+      civilité_adresse_lettre: getCivilityAddress(relation, person),
+      titre: addInterim(relation.mandatePrecision || relation.relationType?.[getRelationTypeLabel(person.gender)], relation.mandateTemporary),
       prenom: person.firstName,
       nom: person.lastName,
+      idref: person.identifiers?.filter((i) => (i.type === 'idref'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      orcid: person.identifiers?.filter((i) => (i.type === 'orcid'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
+      wikidata: person.identifiers?.filter((i) => (i.type === 'wikidata'))
+        .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null,
       fonction_cat_id_paysage: relationType.id,
       fonction_cat_id: relationType.annelisId,
-      interim: (relationship.mandateTemporary === true) ? 'O' : 'N',
+      interim: (relation.mandateTemporary === true) ? 'O' : 'N',
       fonction_cat_lib: (person.gender === 'Femme') ? relationType.feminineName : relationType.maleName,
       fonction_cat_lib_U: relationType.name,
-      fonction_cat_lib_exact: relationship.mandatePrecision || (person.gender === 'Femme') ? relationType.feminineName : relationType.maleName,
+      fonction_cat_lib_exact: relation.mandatePrecision || (person.gender === 'Femme') ? relationType.feminineName : relationType.maleName,
       fonction_groupe: relationType.mandateTypeGroup,
-      email_generique: relationship.mandateEmail,
-      email_nominatif: relationship.personalEmail,
-      telephone: relationship.mandatePhonenumber,
+      email_generique: relation.mandateEmail,
+      email_nominatif: relation.personalEmail,
+      telephone: relation.mandatePhonenumber,
+      position: (relation.mandatePosition !== 'ND') ? relation.mandatePosition : null,
+      raison: relation.mandateReason,
       date_debut: (!Number.isNaN(startDate.getTime())) ? formatDateToString(startDate) : undefined,
       date_fin: (!Number.isNaN(endDate.getTime())) ? formatDateToString(endDate) : undefined,
       date_fin_prevue: (!Number.isNaN(previsionalEndDate.getTime())) ? formatDateToString(previsionalEndDate) : undefined,
-      date_maj: relationship.updatedAt ? formatDateToString(relationship.updatedAt) : formatDateToString(relationship.createdAt),
+      date_maj: relation.updatedAt ? formatDateToString(relation.updatedAt) : formatDateToString(relation.createdAt),
+      date_fin_inconnue: (isFinished(relation) && !relation.endDate) ? 'Oui' : null,
+      texte_officiel_debut_id_paysage: relation.startDateOfficialText?.id,
+      texte_officiel_debut_lib: relation.startDateOfficialText?.title,
+      texte_officiel_debut_lien: relation.startDateOfficialText?.pageUrl,
+      texte_officiel_fin_id_paysage: relation.endDateOfficialText?.id,
+      texte_officiel_fin_lib: relation.endDateOfficialText?.title,
+      texte_officiel_fin_lien: relation.endDateOfficialText?.pageUrl,
       annelis,
     };
     return row;
