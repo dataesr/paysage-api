@@ -30,7 +30,7 @@ export default async function syncronizeCuriexploreActors(job) {
     { $set: { iso3: '$currentLocalisation.iso3' } },
     { $project: { structure: 0, _id: 0 } },
     { $out: 'curiexploreactors' },
-  ]).catch((e) => {
+  ]).toArray().catch((e) => {
     job.fail(`La syncronisation a échouée: ${e.message}`);
     result = null;
   });
