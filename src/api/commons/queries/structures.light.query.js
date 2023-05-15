@@ -22,6 +22,8 @@ export default [
       collection: 'structures',
       href: { $concat: ['/structures/', '$id'] },
       structureStatus: { $ifNull: ['$structureStatus', null] },
+      descriptionEn: { $ifNull: ['$descriptionEn', null] },
+      descriptionFr: { $ifNull: ['$descriptionFr', null] },
       creationDate: { $ifNull: ['$creationDate', null] },
       closureDate: { $ifNull: ['$closureDate', null] },
       currentName: { $ifNull: ['$currentName', {}] },
