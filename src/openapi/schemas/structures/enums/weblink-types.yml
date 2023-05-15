@@ -2,6 +2,7 @@ description: Accepted values of the web link type of a structure
 type: string
 enum:
   - Actualités
+  - BSO
   - CanalU
   - Catalogue de formations
   - DataGouvFr
