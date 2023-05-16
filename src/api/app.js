@@ -58,7 +58,11 @@ if (process.env.NODE_ENV === 'production') {
   console.log('IN PRODUCTION');
 }
 
-app.use((req, res, next) => { console.log(req.ip); return next(); });
+app.use((req, res, next) => {
+  console.log(req);
+  console.log(req.ip);
+  return next();
+});
 
 // Health checker
 const healthcheck = new health.HealthChecker();
