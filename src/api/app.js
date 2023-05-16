@@ -53,6 +53,11 @@ app.disable('x-powered-by');
 if (process.env.NODE_ENV === 'development') {
   app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'] }));
 }
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', true);
+}
+
+app.use((req, res, next) => { console.log(req.ip); return next(); });
 
 // Health checker
 const healthcheck = new health.HealthChecker();
