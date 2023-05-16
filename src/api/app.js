@@ -54,7 +54,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'] }));
 }
 if (process.env.NODE_ENV === 'production') {
-  app.set('trust proxy', true);
+  app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
+  console.log('IN PRODUCTION');
 }
 
 app.use((req, res, next) => { console.log(req.ip); return next(); });
