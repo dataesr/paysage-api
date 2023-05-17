@@ -57,6 +57,12 @@ if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', true);
 }
 
+app.use((req, res, next) => {
+  console.log(req);
+  console.log(req.ip);
+  return next();
+});
+
 // Health checker
 const healthcheck = new health.HealthChecker();
 const isReady = async (expressApp) => {
