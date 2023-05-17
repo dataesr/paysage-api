@@ -229,7 +229,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (categories.length) {
     structure.categories = categories;
   }
-  if (legalCategory?.id) {
+  if (legalCategory?.id && legalCategory?.relatedObjectId) {
     structure.legalCategory = legalCategory;
   }
   if (structureSocialMedias.length) {
