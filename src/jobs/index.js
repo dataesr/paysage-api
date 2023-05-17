@@ -17,6 +17,8 @@ import {
 } from './opendata';
 import syncronizeFrEsrReferentielGeographique from './syncronize/fr-esr-referentiel-geographique';
 import syncronizeCuriexploreActors from './syncronize/curiexplore-actors';
+import askForEmailRevalidation from './ask-for-email-validation';
+import deletePassedGouvernancePersonnalInformation from './treatments/delete-passed-gouvernance-personal-infos';
 
 const agenda = new Agenda()
   .mongo(db, '_jobs')
@@ -34,6 +36,8 @@ agenda.define('export fr-esr-paysage-fonctions-gourvernance', { shouldSaveResult
 agenda.define('export fr-esr-annelis-paysage-etablissements', { shouldSaveResult: true }, exportFrEsrAnnelisPaysageEtablissements);
 agenda.define('syncronize fr-esr-referentiel-geographique', { shouldSaveResult: true }, syncronizeFrEsrReferentielGeographique);
 agenda.define('syncronize curiexplore actors', { shouldSaveResult: true }, syncronizeCuriexploreActors);
+agenda.define('ask for email revalidation with otp', { shouldSaveResult: true }, askForEmailRevalidation);
+agenda.define('delete passed gouvernance personal info', { shouldSaveResult: true }, deletePassedGouvernancePersonnalInformation);
 
 agenda
   .on('ready', () => { logger.info('Agenda connected to mongodb'); })

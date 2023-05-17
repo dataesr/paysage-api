@@ -175,8 +175,11 @@ export const resetPassword = async (req, res, next) => {
   }
   if (!totp.check(userOtp, user.otpSecret)) throw new UnauthorizedError('Code invalide');
   if (!password) throw new BadRequestError('Un nouveau mot de passe est requis.');
-  const _password = await bcrypt.hash(password, 10);
-  await usersRepository.setPassword(user.id, _password);
+  const { password: _password } = user;
+  const isMatch = await bcrypt.compare(password, _password);
+  if (isMatch) throw new BadRequestError('Vous devez modifier votre mot de passe');
+  const __password = await bcrypt.hash(password, 10);
+  await usersRepository.setPassword(user.id, __password);
   res.status(200).json({ message: 'Mot de passe modifié. Vous pouvez vous connecter.' });
   return next();
 };
