@@ -44,7 +44,7 @@ describe('API > persons > create', () => {
       .expect(200);
     expect(body.totalCount).toBe(1);
   });
-  it('has an category', async () => {
+  it('has a category', async () => {
     const { body } = await global.superapp
       .get(`/relations?filters[resourceId]=${id}`)
       .set('Authorization', authorization)
@@ -62,7 +62,6 @@ describe('API > persons > create', () => {
     const dbData = await global.db.collection('persons').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
   });
-
   it('should fail if lastName is missing', async () => {
     const { lastName, ...rest } = payload;
     await global.superapp
