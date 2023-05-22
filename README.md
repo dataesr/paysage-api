@@ -24,16 +24,6 @@
 
 `npm run docker:test`
 
-### Reindex / sync the Mongo database into ES
-
-`npm run reindex [TYPE]`
-
-Where TYPE could be omitted, or be one value between "categories", "legal-categories", "official-texts", "persons", "prizes", "projects", "structures", "terms", "users".
-
-Example: `NODE_ENV=development ES_NODE=http://localhost:9200 MONGO_URI="mongodb://localhost:27017" ES_USERNAME= ES_PASSWORD= npm run reindex`
-
-:warning: Keep in mind that our wifi network "la-boucherie-Sanzot" can not connect to our MongoDB prod right now. Please make sure that your are on another wifi network before reindexing in production.
-
 ### Docker
 
 To run the full app in a Docker container :
