@@ -63,7 +63,7 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
       personne_id_paysage: person?.id,
       genre: person.gender?.[0],
       civilite: getCivility(person.gender),
-      civilité_adresse_lettre: getCivilityAddress(relation, person),
+      civilité_adresse_lettre: getCivilityAddress(relation, relationType, person),
       titre: addInterim(relation.mandatePrecision || relationType?.[getRelationTypeLabel(person.gender)], relation.mandateTemporary),
       prenom: person.firstName,
       nom: person.lastName,
