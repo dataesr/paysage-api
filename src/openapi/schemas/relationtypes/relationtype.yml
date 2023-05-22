@@ -37,6 +37,9 @@ allOf:
         items:
           type: string
           enum: ["structures", "categories", "persons", "prizes", "terms", "legal-categories", "projects"]
+      annelisId:
+        type: string
+        nullable: true
       mandateTypeGroup:
         type: string
         nullable: true

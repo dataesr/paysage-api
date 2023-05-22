@@ -63,4 +63,8 @@ allOf:
       comment:
         nullable: true
         type: string
+      alternativePaysageIds:
+        type: array
+        items:
+          type: string
   - $ref: '../../api.yml#/components/schemas/Metas'

@@ -8,6 +8,7 @@ export const setConfirmToContext = (req, res, next) => {
 export const notifyUser = async (req, res, next) => {
   const { id } = req.params;
   const user = await usersRepository.get(id);
-  agenda.now('send confirmed email', { user });
+  const { firstName, lastName, email } = user;
+  agenda.now('send confirmed email', { user: { firstName, lastName, email } });
   return next();
 };

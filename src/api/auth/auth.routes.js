@@ -32,7 +32,7 @@ authRoutes.post('/signup', [
   signup,
   saveInElastic(repository, elasticQuery, resource),
 ]);
-authRoutes.post('/signin', [maxRequestsPerHour(1000), signin]);
+authRoutes.post('/signin', [maxRequestsPerHour(30), signin]);
 authRoutes.post('/signout', [signout]);
 authRoutes.post('/token', [refreshAccessToken]);
 authRoutes.post('/recovery/password', [maxRequestsPerHour(6), resetPassword]);

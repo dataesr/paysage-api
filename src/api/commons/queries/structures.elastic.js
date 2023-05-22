@@ -64,6 +64,7 @@ export default [
       otherNames: { $ifNull: ['$currentName.otherNames', null] },
       shortName: { $ifNull: ['$currentName.shortName', null] },
       structureStatus: { $ifNull: ['$structureStatus', ''] },
+      alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
     },
   },
 ];

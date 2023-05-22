@@ -44,7 +44,7 @@ collectionMethods:
             required:
               - lastName
             allOf:
-              - $ref: '../../api.yml#/components/schemas/PersonPayload'
+              - $ref: '../../api.yml#/components/schemas/PersonBulkInsertPayload'
     responses:
       '201':
         description: Created

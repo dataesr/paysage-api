@@ -1,7 +1,7 @@
-import app from './app';
-import { client } from '../services/mongo.service';
-import logger from '../services/logger.service';
 import agenda from '../jobs';
+import logger from '../services/logger.service';
+import { client } from '../services/mongo.service';
+import app from './app';
 
 let httpServer;
 
@@ -27,7 +27,6 @@ export default async function createAPIServer(port) {
     logger.info(`Server started! docs at http://localhost:${port}/docs/api`);
     app.isReady = true;
     agenda.start();
-    agenda.every('0 2 * * *', 'backup data');
     logger.info('Agenda started up');
   });
 }

@@ -8,7 +8,8 @@ const { container: containerName } = config.objectStorage;
 
 client.createContainer({ name: containerName }, (err, container) => {
   if (err) {
-    logger.error({ ...err, message: 'ObjectStorage setup container failed' });
+    logger.error('ObjectStorage setup container failed');
+    logger.error(err);
     process.exit(1);
   }
   logger.info(`ObjectStorage ${container.name} container setup successful`);

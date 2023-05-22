@@ -27,6 +27,7 @@ export default [
       lastName: { $ifNull: ['$lastName', false] },
       name: { $concat: [{ $ifNull: ['$firstName', null] }, ' ', { $ifNull: ['$lastName', null] }] },
       otherNames: { $ifNull: ['$otherNames', false] },
+      alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
     },
   },
 ];

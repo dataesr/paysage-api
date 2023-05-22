@@ -41,6 +41,7 @@ export default [
     closureOfficialText: 1,
     creationOfficialTextId: 1,
     closureOfficialTextId: 1,
+    annelisId: 1,
     priority: 1,
     createdBy: 1,
     updatedBy: 1,

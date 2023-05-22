@@ -1,19 +1,21 @@
-import { BadRequestError, UnauthorizedError } from '../../commons/http-errors';
+import { client, db } from '../../../services/mongo.service';
 import catalog from '../../commons/catalog';
+import { BadRequestError, NotFoundError } from '../../commons/http-errors';
 import readQuery from '../../commons/queries/structures.query';
 import {
   categoriesRepository,
   identifiersRepository,
+  legalcategoriesRepository,
   officialtextsRepository,
-  socialmediasRepository,
+  relationshipsRepository,
   structuresRepository as repository,
+  socialmediasRepository,
   weblinksRepository,
 } from '../../commons/repositories';
-import { client } from '../../../services/mongo.service';
 
 export const validateStructureCreatePayload = async (req, res, next) => {
   const errors = [];
-  const { categories: categoryIds, closureOfficialTextId, creationOfficialTextId, iso3 } = req.body;
+  const { categories: categoryIds, closureOfficialTextId, creationOfficialTextId, iso3, legalCategory } = req.body;
   if (creationOfficialTextId) {
     const text = await officialtextsRepository.get(creationOfficialTextId);
     if (!text?.id) { errors.push({ path: '.body.creationOfficialTextId', message: `Official text ${creationOfficialTextId} does not exist` }); }
@@ -21,6 +23,10 @@ export const validateStructureCreatePayload = async (req, res, next) => {
   if (closureOfficialTextId) {
     const text = await officialtextsRepository.get(closureOfficialTextId);
     if (!text?.id) { errors.push({ path: '.body.closureOfficialTextId', message: `Official text ${closureOfficialTextId} does not exist` }); }
+  }
+  if (legalCategory) {
+    const legal = await legalcategoriesRepository.get(legalCategory);
+    if (!legal?.id) { errors.push({ path: '.body.legalCategory', message: `Legal category ${creationOfficialTextId} does not exist` }); }
   }
   if (categoryIds) {
     const { data: categoriesData } = await categoriesRepository.find({ filters: { id: { $in: categoryIds } } });
@@ -98,6 +104,21 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structureLocalisation.id = await catalog.getUniqueId('localisations', 15);
     structure.localisations = [structureLocalisation];
   }
+  const categories = [];
+  payload?.categories?.forEach(async (category) => categories.push({
+    relatedObjectId: category,
+    relationTag: 'structure-categorie',
+    createdBy: req.currentUser.id,
+    createdAt: new Date(),
+    id: await catalog.getUniqueId('relations', 15),
+  }));
+  const legalCategory = {
+    relatedObjectId: payload.legalCategory,
+    relationTag: 'structure-categorie-juridique',
+    createdBy: req.currentUser.id,
+    createdAt: new Date(),
+    id: await catalog.getUniqueId('relations', 15),
+  };
   const structureWebsites = [];
   if (payload.websiteFr) {
     structureWebsites.push({
@@ -126,7 +147,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'idref',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await catalog.getUniqueId('weblinks', 15),
+      id: await catalog.getUniqueId('identifiers', 15),
     });
   }
   if (payload.wikidata) {
@@ -135,7 +156,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
       type: 'wikidata',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
-      id: await catalog.getUniqueId('weblinks', 15),
+      id: await catalog.getUniqueId('identifiers', 15),
     });
   }
   if (payload.uai) {
@@ -205,6 +226,12 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (structureWebsites.length) {
     structure.websites = structureWebsites;
   }
+  if (categories.length) {
+    structure.categories = categories;
+  }
+  if (legalCategory?.id) {
+    structure.legalCategory = legalCategory;
+  }
   if (structureSocialMedias.length) {
     structure.socials = structureSocialMedias;
   }
@@ -216,7 +243,9 @@ export const fromPayloadToStructure = async (req, res, next) => {
 };
 
 export const storeStructure = async (req, res, next) => {
-  const { identifiers, socials, websites, ...rest } = req.body;
+  const {
+    identifiers, socials, websites, categories, legalCategory, ...rest
+  } = req.body;
   const { id: resourceId } = rest;
   const session = client.startSession();
   await session.withTransaction(async () => {
@@ -236,6 +265,14 @@ export const storeStructure = async (req, res, next) => {
         await weblinksRepository.create({ ...website, resourceId });
       });
     }
+    if (categories?.length) {
+      await categories.forEach(async (category) => {
+        await relationshipsRepository.create({ ...category, resourceId });
+      });
+    }
+    if (legalCategory) {
+      await relationshipsRepository.create({ ...legalCategory, resourceId });
+    }
     await session.endSession();
   });
   return next();
@@ -247,12 +284,28 @@ export const createStructureResponse = async (req, res, next) => {
   return next();
 };
 
-export const canIDelete = async (req, res, next) => {
-  const resource = await repository.get(req.params.id, { useQuery: readQuery });
-  if (
-    ((resource?.alternativePaysageIds || []).lenght > 0)
-    || (resource?.creationOfficialText?.id || false)
-    || (resource?.closureOfficialText?.id || false)
-  ) throw new UnauthorizedError();
+export const deleteStructure = async (req, res, next) => {
+  const { id: resourceId } = req.params;
+  const resource = await repository.get(resourceId);
+  if (!resource?.id) throw new NotFoundError();
+  const session = client.startSession();
+  await session.withTransaction(async () => {
+    await db.collection('identifiers').deleteMany({ resourceId });
+    await db.collection('socialmedias').deleteMany({ resourceId });
+    await db.collection('weblinks').deleteMany({ resourceId });
+    await db.collection('emails').deleteMany({ resourceId });
+    await db.collection('relationships').deleteMany({ $or: [{ resourceId }, { relatedObjectId: resourceId }] });
+    await db.collection('relationships').updateMany({ otherAssociatedObjectIds: resourceId }, { $pull: { otherAssociatedObjectIds: resourceId } });
+    await db.collection('documents').updateMany({ relatesTo: resourceId }, { $pull: { relatesTo: resourceId } });
+    await db.collection('followups').updateMany({ relatesTo: resourceId }, { $pull: { relatesTo: resourceId } });
+    await db.collection('officialtexts').updateMany({ relatesTo: resourceId }, { $pull: { relatesTo: resourceId } });
+    await db.collection('press').updateMany(
+      { $or: [{ relatesTo: resourceId }, { matchedWith: resourceId }] },
+      { $pull: { relatesTo: resourceId, matchedWith: resourceId } },
+    );
+    await db.collection('structures').deleteOne({ id: resourceId });
+    await session.endSession();
+  });
+  res.status(204).json();
   return next();
 };
