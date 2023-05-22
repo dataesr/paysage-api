@@ -5,7 +5,7 @@ class BaseMongoCatalog {
   }
 
   static generateId = (length) => {
-    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let id = '';
     for (let i = 0; i < length; i += 1) {
       id += chars.charAt(Math.floor(Math.random() * chars.length));

@@ -47,8 +47,8 @@ export function getRelationTypeLabel(gender = null) {
   }
 }
 
-export function getCivilityAddress(relation, person) {
-  const annuaire = relation.mandatePrecision || relation.relationType?.[getRelationTypeLabel(person.gender)];
+export function getCivilityAddress(relation, relationType, person) {
+  const annuaire = relation.mandatePrecision || relationType?.[getRelationTypeLabel(person.gender)];
   if (!annuaire) return '';
   const interim = relation.mandateTemporary ? ' par interim' : '';
   if (!['Homme', 'Femme'].includes(person.gender)) return `${annuaire}${interim}`;

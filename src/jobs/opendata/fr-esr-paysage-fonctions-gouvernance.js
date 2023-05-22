@@ -63,7 +63,7 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
       personne_id_paysage: person?.id,
       genre: person.gender?.[0],
       civilite: getCivility(person.gender),
-      civilité_adresse_lettre: getCivilityAddress(relation, person),
+      civilité_adresse_lettre: getCivilityAddress(relation, relationType, person),
       titre: addInterim(relation.mandatePrecision || relationType?.[getRelationTypeLabel(person.gender)], relation.mandateTemporary),
       prenom: person.firstName,
       nom: person.lastName,
@@ -85,9 +85,15 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
       telephone: relation.mandatePhonenumber,
       position: (relation.mandatePosition !== 'ND') ? relation.mandatePosition : null,
       raison: relation.mandateReason,
+<<<<<<< HEAD
       date_debut: (!startDate.getTime()) ? formatDateToString(startDate) : undefined,
       date_fin: (!endDate.getTime()) ? formatDateToString(endDate) : undefined,
       date_fin_prevue: (!previsionalEndDate.getTime()) ? formatDateToString(previsionalEndDate) : undefined,
+=======
+      date_debut: (startDate.getTime()) ? formatDateToString(startDate) : undefined,
+      date_fin: (endDate.getTime()) ? formatDateToString(endDate) : undefined,
+      date_fin_prevue: (previsionalEndDate.getTime()) ? formatDateToString(previsionalEndDate) : undefined,
+>>>>>>> staging
       date_maj: relation.updatedAt ? formatDateToString(relation.updatedAt) : formatDateToString(relation.createdAt),
       date_fin_inconnue: (isFinished(relation) && !relation.endDate) ? 'Oui' : null,
       texte_officiel_debut_id_paysage: relation.startDateOfficialText?.id,
