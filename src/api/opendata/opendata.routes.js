@@ -16,7 +16,6 @@ router.route('/opendata/:datasetId')
   .get(async (req, res) => {
     const { datasetId } = req.params;
     const query = FILTERS[datasetId];
-    console.log(datasetId, query);
     if (!query) throw new BadRequestError('Unknown dataset');
     const data = await db.collection('opendata').find(query, OPTIONS).toArray();
     res.status(200).json(data);

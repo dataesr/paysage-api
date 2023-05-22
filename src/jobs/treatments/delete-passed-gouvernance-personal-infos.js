@@ -11,6 +11,6 @@ export default async function deletePassedGouvernancePersonnalInformation() {
   return db.collection('relationships')
     .updateMany(
       { $and: [{ endDate: { $ne: '' } }, { endDate: { $lt: dateFilter } }] },
-      { $unset: { mandateEmail: '', personalEmail: '', mandatePhonenumber: '' } },
+      { $unset: { personalEmail: '', mandatePhonenumber: '' } },
     );
 }
