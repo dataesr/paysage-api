@@ -1,0 +1,13 @@
+type: object
+required:
+  - geographicalCategoryId
+allOf:
+  - type: object
+    properties:
+      geographicalCategoryId:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      resourceId:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+  - $ref: '../../api.yml#/components/schemas/Metas'

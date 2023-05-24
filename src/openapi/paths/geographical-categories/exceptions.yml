@@ -1,0 +1,91 @@
+collectionMethods:
+  get:
+    tags:
+      - Geographical Categories - Exceptions
+    summary: List all geographical category's exceptions
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/geographicalCategoryId'
+      - $ref: '../../api.yml#/components/parameters/filters'
+      - $ref: '../../api.yml#/components/parameters/skip'
+      - $ref: '../../api.yml#/components/parameters/limit'
+      - $ref: '../../api.yml#/components/parameters/sort'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/GeographicalCategoryException'
+                totalCount:
+                  type: integer
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+  post:
+    tags:
+      - Geographical categories - Exceptions
+    summary: Add an new exception to the geographical category
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/geographicalCategoryId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: geographicalCategoryExceptionPayLoad
+            type: object
+            required:
+              - geographicalCategoryId
+              - resourceId
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/geographicalCategoryExceptionPayLoad'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/GeographicalCategoryException'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+documentMethods:
+  delete:
+    tags:
+      - Geographical Category - Exceptions
+    summary: Delete a geographical category's exception
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/geographicalCategoryId'
+      - $ref: '../../api.yml#/components/parameters/resourceId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
