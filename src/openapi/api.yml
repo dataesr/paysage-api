@@ -23,13 +23,13 @@ tags:
   - name: Categories - Identifiers
   - name: Categories - SocialMedias
   - name: Categories - Weblinks
-  - name: Geographical categories
   - name: Documentation
   - name: Documents
   - name: Document types
   - name: Email types
   - name: Files
   - name: Follow-ups
+  - name: Geographical categories
   - name: Journal
   - name: Legal categories
   - name: Official texts
@@ -220,13 +220,13 @@ paths:
   '/categories/{categoryId}/social-medias/{socialmediaId}':
     $ref: './paths/categories/social-medias.yml#/documentMethods'
   
-  ### GEOGRAPHICAL-CATEGORIES ###
+  ### GEOGRAPHICAL CATEGORIES ###
   '/geographical-categories':
-    $ref: './paths/geographical-categories/geographical-categories.yml#/collectionMethods'
+    $ref: './paths/geographicalcategories/geographicalcategories.yml#/collectionMethods'
   '/geographical-categories/{categoryId}':
-    $ref: './paths/geographical-categories/geographical-categories.yml#/documentMethods'
+    $ref: './paths/geographicalcategories/geographicalcategories.yml#/documentMethods'
   '/geographical-categories/{categoryId}/exceptions':
-    $ref: './paths/geographical-categories/exceptions.yml#/collectionMethods'
+    $ref: './paths/geographicalcategories/exceptions.yml#/collectionMethods'
     
   ### OFFICIAL TEXTS ###
   '/official-texts':
@@ -368,6 +368,8 @@ components:
       $ref: ./parameters/query/filters.yml
     followUpId:
       $ref: ./parameters/ids/followup-id.yml
+    geographicalCategoryId:
+      $ref: ./parameters/ids/geographical-category-id.yml
     groupId:
       $ref: ./parameters/ids/group-id.yml
     identifierId:
@@ -451,8 +453,6 @@ components:
       $ref: './schemas/search/autocomplete.yml'
     Category:
       $ref: './schemas/categories/category.yml'
-    GeographicalCategory:
-      $ref: './schemas/geographical-categories/geographical-category.yml'
     CategoryIdentifier:
       $ref: './schemas/categories/identifier.yml'
     CategoryLight:
@@ -475,6 +475,10 @@ components:
       $ref: './schemas/commons/file.yml'
     FollowUp:
       $ref: './schemas/followups/followup.yml'
+    GeographicalCategory:
+      $ref: ./schemas/geographicalcategories/geographicalcategory.yml
+    GeographicalCategoryException:
+      $ref: ./schemas/geographicalcategories/exception.yml
     Group:
       $ref: ./schemas/groups/group.yml
     GroupMember:
@@ -589,8 +593,6 @@ components:
       $ref: './schemas/categories/identifier-payload.yml'
     CategoryPayload:
       $ref: './schemas/categories/category-payload.yml'
-    GeographicalCategoryPayload:
-      $ref: './schemas/geographical-categories/geographical-category-payload.yml'
     CategoryRelationshipPayload:
       $ref: './schemas/commons/category-relationship-payload.yml'
     CategoryWeblinkPayload:
@@ -603,6 +605,10 @@ components:
       $ref: './schemas/commons/nomenclature-payload.yml'
     FollowUpPayload:
       $ref: './schemas/followups/followup-payload.yml'
+    GeographicalCategoryPayload:
+      $ref: './schemas/geographicalcategories/geographicalcategory-payload.yml'
+    GeographicalCategoryExceptionPayload:
+      $ref: './schemas/geographicalcategories/exception-payload.yml'
     GroupMemberPayload:
       $ref: ./schemas/groups/group-member-payload.yml
     GroupPayload:

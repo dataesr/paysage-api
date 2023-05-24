@@ -2,7 +2,7 @@ collectionMethods:
   get:
     tags:
       - Geographical categories
-    summary: List all geographcal categories
+    summary: List all geographical categories
     parameters:
         - $ref: '../../api.yml#/components/parameters/filters'
         - $ref: '../../api.yml#/components/parameters/skip'
@@ -19,7 +19,7 @@ collectionMethods:
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/Geographical-categories'
+                    $ref: '../../api.yml#/components/schemas/GeographicalCategory'
                 totalCount:
                   type: number
       '400':
@@ -42,7 +42,7 @@ collectionMethods:
             title: CreateGeographicalCategory
             type: object
             required:
-              - name
+              - nameFr
             allOf:
               - $ref: '../../api.yml#/components/schemas/GeographicalCategoryPayload'
     responses:
@@ -65,7 +65,7 @@ documentMethods:
   get:
     tags:
       - Geographical categories
-    summary: Get a geographical gategory by ID
+    summary: Get a geographical category by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/geographicalCategoryId'
     responses:
@@ -144,7 +144,7 @@ documentMethods:
               title: CreateGeographicalCategory
               type: object
               required:
-                - name
+                - nameFr
               allOf:
                 - $ref: '../../api.yml#/components/schemas/GeographicalCategoryPayload'
     responses:

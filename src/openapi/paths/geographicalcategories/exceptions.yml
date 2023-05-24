@@ -44,13 +44,13 @@ collectionMethods:
       content:
         application/json:
           schema:
-            title: geographicalCategoryExceptionPayLoad
+            title: geographicalCategoryExceptionPayload
             type: object
             required:
               - geographicalCategoryId
               - resourceId
             allOf:
-              - $ref: '../../api.yml#/components/schemas/geographicalCategoryExceptionPayLoad'
+              - $ref: '../../api.yml#/components/schemas/GeographicalCategoryExceptionPayload'
     responses:
       '201':
         description: Created

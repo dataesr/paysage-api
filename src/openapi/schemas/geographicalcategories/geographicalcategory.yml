@@ -1,0 +1,42 @@
+type: object
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{5}$'
+      nameFr:
+        type: string
+      nameEn:
+        type: string
+        nullable: true
+      originalId:
+        type: string
+        nullable: true
+      geometry:
+        type: object
+        nullable: true
+      level:
+        type: string
+        nullable: true
+        enum:
+          - country
+          - region
+          - academy
+          - department
+          - city
+      descriptionFr:
+        type: string
+        nullable: true
+      priority:
+        type: number
+        nullable: true
+      closestParent:
+        type: string
+        nullable: true
+      academyParent:
+        type: string
+        nullable: true
+  - $ref: '../../api.yml#/components/schemas/Metas'
