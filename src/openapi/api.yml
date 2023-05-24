@@ -23,6 +23,7 @@ tags:
   - name: Categories - Identifiers
   - name: Categories - SocialMedias
   - name: Categories - Weblinks
+  - name: Geographical categories
   - name: Documentation
   - name: Documents
   - name: Document types
@@ -219,6 +220,14 @@ paths:
   '/categories/{categoryId}/social-medias/{socialmediaId}':
     $ref: './paths/categories/social-medias.yml#/documentMethods'
   
+  ### GEOGRAPHICAL-CATEGORIES ###
+  '/geographical-categories':
+    $ref: './paths/geographical-categories/geographical-categories.yml#/collectionMethods'
+  '/geographical-categories/{categoryId}':
+    $ref: './paths/geographical-categories/geographical-categories.yml#/documentMethods'
+  '/geographical-categories/{categoryId}/exceptions':
+    $ref: './paths/geographical-categories/exceptions.yml#/collectionMethods'
+    
   ### OFFICIAL TEXTS ###
   '/official-texts':
     $ref: './paths/officialtexts/officialtexts.yml#/collectionMethods'
@@ -442,6 +451,8 @@ components:
       $ref: './schemas/search/autocomplete.yml'
     Category:
       $ref: './schemas/categories/category.yml'
+    GeographicalCategory:
+      $ref: './schemas/geographical-categories/geographical-category.yml'
     CategoryIdentifier:
       $ref: './schemas/categories/identifier.yml'
     CategoryLight:
@@ -578,6 +589,8 @@ components:
       $ref: './schemas/categories/identifier-payload.yml'
     CategoryPayload:
       $ref: './schemas/categories/category-payload.yml'
+    GeographicalCategoryPayload:
+      $ref: './schemas/geographical-categories/geographical-category-payload.yml'
     CategoryRelationshipPayload:
       $ref: './schemas/commons/category-relationship-payload.yml'
     CategoryWeblinkPayload:
