@@ -225,13 +225,9 @@ paths:
     $ref: './paths/geographicalcategories/geographicalcategories.yml#/collectionMethods'
   '/geographical-categories/{geographicalCategoryId}':
     $ref: './paths/geographicalcategories/geographicalcategories.yml#/documentMethods'
-<<<<<<< Updated upstream
-  '/geographical-categories/{geographicalCategoryId}/exceptions':
-=======
 
   ### GEOGRAPHICAL CATEGORIES ###
   '/geographical-exception':
->>>>>>> Stashed changes
     $ref: './paths/geographicalcategories/exceptions.yml#/collectionMethods'
   '/geographical-exception/{geographicalExceptionId}':
     $ref: './paths/geographicalcategories/exceptions.yml#/documentMethods'
