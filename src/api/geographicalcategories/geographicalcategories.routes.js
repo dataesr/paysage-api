@@ -4,12 +4,19 @@ import { geographicalCategories as resource } from '../resources';
 import { geographicalCategoriesRepository as repository } from '../commons/repositories';
 import controllers from '../commons/middlewares/crud.middlewares';
 import readQuery from '../commons/queries/geographical-categories.query';
+// import { validatePayload } from './geographicalcategories.middlewares';
+import { createContext, setGeneratedObjectIdInContext } from '../commons/middlewares/context.middlewares';
+import { saveInStore } from '../commons/middlewares/event.middlewares';
 
 const router = new express.Router();
 
 router.route(`/${resource}`)
   .get(controllers.list(repository, readQuery))
-  .post();
+  .post([createContext,
+    setGeneratedObjectIdInContext(resource),
+    controllers.create(repository, readQuery),
+    saveInStore,
+  ]);
 
 router.route(`/${resource}/:id`)
   .get()
