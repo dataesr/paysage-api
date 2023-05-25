@@ -1,15 +1,9 @@
 title: GeographicalCategoryPayload
 description: Modèle de création et de mise à jour d'une catégorie géographique
-additionalProperties: false
 type: object
-required:
-  - id
 allOf:
   - type: object
     properties:
-      id:
-        type: string
-        pattern: '^[a-zA-Z0-9]{5}$'
       nameFr:
         type: string
       nameEn:
