@@ -15,6 +15,7 @@ export const emailTypesRepository = new BaseMongoRepository({ db, collection: 'e
 export const eventsRepository = new BaseMongoRepository({ db, collection: '_events' });
 export const followUpsRepository = new BaseMongoRepository({ db, collection: 'followups' });
 export const geographicalCategoriesRepository = new BaseMongoRepository({ db, collection: 'geographicalcategories' });
+export const geographicalCategoriesExceptionsRepository = new BaseMongoRepository({ db, collection: 'geographicalexceptions' });
 export const groupsRepository = new BaseMongoRepository({ db, collection: 'groups' });
 export const groupMembersRepository = new BaseMongoRepository({ db, collection: 'groupmembers' });
 export const identifiersRepository = new BaseMongoRepository({ db, collection: 'identifiers' });
