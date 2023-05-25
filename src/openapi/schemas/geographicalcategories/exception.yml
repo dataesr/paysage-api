@@ -4,6 +4,9 @@ required:
 allOf:
   - type: object
     properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
       geographicalCategoryId:
         type: string
         pattern: '^[a-zA-Z0-9]{5}$'
