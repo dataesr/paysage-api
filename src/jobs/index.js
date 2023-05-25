@@ -15,8 +15,8 @@ import {
   exportFrEsrPaysageFonctionsGourvernance,
   exportFrEsrAnnelisPaysageEtablissements,
 } from './opendata';
-import syncronizeFrEsrReferentielGeographique from './syncronize/fr-esr-referentiel-geographique';
-import syncronizeCuriexploreActors from './syncronize/curiexplore-actors';
+import synchronizeFrEsrReferentielGeographique from './synchronize/fr-esr-referentiel-geographique';
+import synchronizeCuriexploreActors from './synchronize/curiexplore-actors';
 import askForEmailRevalidation from './ask-for-email-validation';
 import deletePassedGouvernancePersonnalInformation from './treatments/delete-passed-gouvernance-personal-infos';
 
@@ -34,8 +34,8 @@ agenda.define('update key numbers', { shouldSaveResult: true }, updateKeyNumbers
 agenda.define('reindex', { shouldSaveResult: true }, reindex);
 agenda.define('export fr-esr-paysage-fonctions-gourvernance', { shouldSaveResult: true }, exportFrEsrPaysageFonctionsGourvernance);
 agenda.define('export fr-esr-annelis-paysage-etablissements', { shouldSaveResult: true }, exportFrEsrAnnelisPaysageEtablissements);
-agenda.define('syncronize fr-esr-referentiel-geographique', { shouldSaveResult: true }, syncronizeFrEsrReferentielGeographique);
-agenda.define('syncronize curiexplore actors', { shouldSaveResult: true }, syncronizeCuriexploreActors);
+agenda.define('synchronize fr-esr-referentiel-geographique', { shouldSaveResult: true }, synchronizeFrEsrReferentielGeographique);
+agenda.define('synchronize curiexplore actors', { shouldSaveResult: true }, synchronizeCuriexploreActors);
 agenda.define('ask for email revalidation with otp', { shouldSaveResult: true }, askForEmailRevalidation);
 agenda.define('delete passed gouvernance personal info', { shouldSaveResult: true }, deletePassedGouvernancePersonnalInformation);
 

@@ -1,13 +1,13 @@
 import structuresLightQuery from '../../api/commons/queries/structures.light.query';
 import { db } from '../../services/mongo.service';
 
-export default async function syncronizeCuriexploreActors(job) {
+export default async function synchronizeCuriexploreActors(job) {
   const curie = await db.collection('relationships')
     .find({ relationTag: 'categorie-parent', relatedObjectId: 'qC5q7' })
     .toArray();
 
   const curixploreCategories = curie.map((rel) => rel.resourceId);
-  let result = "La syncronisation s'est terminée avec succès";
+  let result = "La synchronisation s'est terminée avec succès";
   await db.collection('relationships').aggregate([
     { $match: { relationTag: 'structure-categorie', relatedObjectId: { $in: curixploreCategories } } },
     {
@@ -31,7 +31,7 @@ export default async function syncronizeCuriexploreActors(job) {
     { $project: { structure: 0, _id: 0 } },
     { $out: 'curiexploreactors' },
   ]).toArray().catch((e) => {
-    job.fail(`La syncronisation a échouée: ${e.message}`);
+    job.fail(`La synchronisation a échouée: ${e.message}`);
     result = null;
   });
   return result;

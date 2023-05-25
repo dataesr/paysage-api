@@ -10,17 +10,17 @@ async function downloadDataset() {
   } catch { return []; }
 }
 
-export default async function syncronizeFrEsrReferentielGeographique(job) {
+export default async function synchronizeFrEsrReferentielGeographique(job) {
   const data = await downloadDataset();
-  if (!data?.length) return 'La syncronisation a échouée: Echec du téléchargement des données';
-  let result = "La syncronisation s'est terminée avec succès";
+  if (!data?.length) return 'La synchronisation a échouée: Echec du téléchargement des données';
+  let result = "La synchronisation s'est terminée avec succès";
   const session = client.startSession();
   await session.withTransaction(async () => {
     await db.collection('geocodes').deleteMany({});
     await db.collection('geocodes').insertMany(data);
     await session.endSession();
   }).catch((e) => {
-    job.fail(`La syncronisation a échouée: ${e.message}`);
+    job.fail(`La synchronisation a échouée: ${e.message}`);
     result = null;
   });
   return result;
