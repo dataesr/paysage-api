@@ -19,7 +19,7 @@ router.route(`/${resource}`)
   ]);
 
 router.route(`/${resource}/:id`)
-  .get()
+  .get(controllers.read(repository, readQuery))
   .patch()
   .delete();
 
