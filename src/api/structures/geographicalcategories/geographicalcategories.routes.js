@@ -6,8 +6,6 @@ import { structures as resource, geographicalCategories as subresource } from '.
 const router = new express.Router();
 
 router.route(`/${resource}/:id/${subresource}`)
-  .get([
-    listGeographicalCategories,
-  ]);
+  .get(listGeographicalCategories);
 
 export default router;
