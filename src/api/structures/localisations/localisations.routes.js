@@ -6,7 +6,7 @@ import { saveInElastic, saveInStore } from '../../commons/middlewares/event.midd
 import { readQuery, readQueryWithLookup } from '../../commons/queries/localisations.query';
 import elasticQuery from '../../commons/queries/structures.elastic';
 import { structureLocalisationsRepository as repository, structuresRepository } from '../../commons/repositories';
-import { localisations as subresource, structures as resource } from '../../resources';
+import { structures as resource, localisations as subresource } from '../../resources';
 import { setGeoJSON, validatePhoneNumberAndIso3 } from './localisations.middlewares';
 
 const router = new express.Router();
