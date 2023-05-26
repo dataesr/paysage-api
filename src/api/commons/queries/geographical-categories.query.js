@@ -14,6 +14,10 @@ export default [
       priority: { $ifNull: ['$priority', null] },
       closestParent: { $ifNull: ['$closestParent', null] },
       academyParent: { $ifNull: ['$academyParent', null] },
+      createdBy: 1,
+      createdAt: 1,
+      updatedBy: 1,
+      updatedAt: 1,
     },
   },
 ];
