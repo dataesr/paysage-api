@@ -3,8 +3,6 @@ collectionMethods:
     tags:
       - Geographical categories - Exceptions
     summary: Add an new exception to the geographical category
-    parameters:
-      - $ref: '../../api.yml#/components/parameters/geographicalExceptionId'
     requestBody:
       content:
         application/json:
