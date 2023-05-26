@@ -2,7 +2,7 @@ import { BadRequestError } from '../../commons/http-errors';
 import { readQuery } from '../../commons/queries/localisations.query';
 import { structureLocalisationsRepository } from '../../commons/repositories';
 
-export function setGeoJSON(req, res, next) {
+export const setGeoJSON = (req, res, next) => {
   const { coordinates, ...rest } = req.body;
   if (coordinates?.lat && coordinates?.lng) {
     const geometry = { type: 'Point', coordinates: [coordinates.lng, coordinates.lat] };
@@ -14,7 +14,7 @@ export function setGeoJSON(req, res, next) {
     throw new BadRequestError('Validation error', [{ path: '.body.coordinates', message: 'lat and lng must be set together' }]);
   }
   return next();
-}
+};
 export async function validatePhoneNumberAndIso3(req, res, next) {
   const phoneRegex = /^(\+(?:\d{1,3}))?[-. ]?\(?(\d{1,4})\)?[-. ]?(\d{1,4})[-. ]?(\d{1,4})[-. ]?(\d{1,9})$/;
   const { id, resourceId } = req.params;

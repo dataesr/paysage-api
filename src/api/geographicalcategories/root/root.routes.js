@@ -13,7 +13,9 @@ const router = new express.Router();
 
 router.route(`/${resource}`)
   .get(controllers.list(repository, readQuery))
-  .post([validatePayload, createContext,
+  .post([
+    validatePayload,
+    createContext,
     setGeneratedObjectIdInContext(resource),
     controllers.create(repository, readQuery),
     saveInStore,

@@ -52,6 +52,7 @@ tags:
   - name: Search
   - name: Structures
   - name: Structures - Emails
+  - name: Structures - Geographical categories
   - name: Structures - Identifiers
   - name: Structures - Key numbers
   - name: Structures - Localisations
@@ -131,6 +132,8 @@ paths:
     $ref: './paths/structures/emails.yml#/collectionMethods'
   '/structures/{structureId}/emails/{emailId}':
     $ref: './paths/structures/emails.yml#/documentMethods'
+  '/structures/{structureId}/geographical-categories':
+    $ref: './paths/structures/geographical-categories.yml#/collectionMethods'
   '/structures/{structureId}/identifiers':
     $ref: './paths/structures/identifiers.yml#/collectionMethods'
   '/structures/{structureId}/identifiers/{identifierId}':
