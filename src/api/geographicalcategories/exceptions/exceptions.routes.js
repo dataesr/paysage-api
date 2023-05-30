@@ -10,18 +10,18 @@ import { geographicalExceptions as resource } from '../../resources';
 const router = new express.Router();
 
 router.route(`/${resource}`)
-    .post([
-        createContext,
-        setGeneratedInternalIdInContext(resource),
-        controllers.create(repository, readQuery),
-        saveInStore(resource),
-    ]);
+  .post([
+    createContext,
+    setGeneratedInternalIdInContext(resource),
+    controllers.create(repository, readQuery),
+    saveInStore(resource),
+  ]);
 
 router.route(`/${resource}/:id`)
-    .delete([
-        patchContext,
-        controllers.remove(repository),
-        saveInStore(resource),
-    ]);
+  .delete([
+    patchContext,
+    controllers.remove(repository),
+    saveInStore(resource),
+  ]);
 
 export default router;
