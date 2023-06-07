@@ -22,8 +22,12 @@ async function setupMongo() {
   await db.collection('followups').createIndex({ createdAt: 1 });
   await db.collection('followups').createIndex({ relatesTo: 1 });
   await db.collection('geographicalcategories').createIndex({ id: 1 }, { unique: true });
+  await db.collection('geographicalcategories').createIndex({ originalId: 1 }, { unique: true });
   await db.collection('geographicalexceptions').createIndex({ geographicalCategoryId: 1 });
   await db.collection('geographicalexceptions').createIndex({ resourceId: 1 });
+  await db.collection('geographicalexceptions').createIndex({ geographicalCategoryId: 1, resourceId: 1 }, { unique: true });
+  await db.collection('groups').createIndex({ id: 1 }, { unique: true });
+  await db.collection('groups').createIndex({ createdAt: 1 });
   await db.collection('groupmembers').createIndex({ userId: 1, groupId: 1 }, { unique: true });
   await db.collection('groupmembers').createIndex({ userId: 1 });
   await db.collection('groupmembers').createIndex({ createdAt: 1 });
