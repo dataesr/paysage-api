@@ -3,16 +3,16 @@ import express from 'express';
 import { createContext, patchContext, setGeneratedInternalIdInContext } from '../../commons/middlewares/context.middlewares';
 import controllers from '../../commons/middlewares/crud-nested.middlewares';
 import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
-import { readQuery, readQueryWithLookup } from '../../commons/queries/localisations.query';
+import { readQueryWithLookup } from '../../commons/queries/localisations.query';
 import elasticQuery from '../../commons/queries/structures.elastic';
 import { structureLocalisationsRepository as repository, structuresRepository } from '../../commons/repositories';
 import { structures as resource, localisations as subresource } from '../../resources';
-import { setGeoJSON, validatePhoneNumberAndIso3 } from './localisations.middlewares';
+import { listLocalisations, setGeoJSON, validatePhoneNumberAndIso3 } from './localisations.middlewares';
 
 const router = new express.Router();
 
 router.route(`/${resource}/:resourceId/${subresource}`)
-  .get(controllers.list(repository, readQuery))
+  .get(listLocalisations)
   .post([
     createContext,
     setGeoJSON,
