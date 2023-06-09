@@ -1,3 +1,4 @@
+import { db } from '../../../services/mongo.service';
 import { BadRequestError } from '../../commons/http-errors';
 import { readQuery } from '../../commons/queries/localisations.query';
 import { structureLocalisationsRepository } from '../../commons/repositories';
@@ -36,3 +37,30 @@ export async function validatePhoneNumberAndIso3(req, res, next) {
   }
   return next();
 }
+
+export const listLocalisations = async (req, res, next) => {
+  const { resourceId } = req.params;
+  const localisations = await structureLocalisationsRepository.find({ resourceId, useQuery: readQuery });
+  const queries = localisations?.data?.map((el) => {
+    if (el?.coordinates?.lng && el?.coordinates?.lat) {
+      return db.collection('geographicalcategories')
+        .find({
+          geometry: {
+            $geoIntersects: {
+              $geometry: { type: 'Point', coordinates: [el?.coordinates?.lng, el?.coordinates?.lat] },
+            },
+          },
+        })
+        .toArray();
+    }
+    return [];
+  });
+  const result = await Promise.all(queries);
+  const data = localisations?.data?.reduce((acc, current, i) => {
+    const newLoc = { ...current, geoCategories: result[i] };
+    return [...acc, newLoc];
+  }, []);
+
+  res.status(200).json({ data, totalCount: localisations.totalCount });
+  return next();
+};
