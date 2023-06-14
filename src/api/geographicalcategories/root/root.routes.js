@@ -4,10 +4,11 @@ import { geographicalCategories as resource } from '../../resources';
 import { geographicalCategoriesRepository as repository } from '../../commons/repositories';
 import controllers from '../../commons/middlewares/crud.middlewares';
 import readQuery from '../../commons/queries/geographical-categories.query';
+import elasticQuery from '../../commons/queries/geographical-categories.elastic';
 
 import { getGeographicalCategoryById, getStructureFromGeoCategory, validatePayload } from './root.middlewares';
 import { createContext, patchContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
-import { saveInStore } from '../../commons/middlewares/event.middlewares';
+import { saveInElastic, saveInStore } from '../../commons/middlewares/event.middlewares';
 import { canIDelete } from '../../legalcategories/legalcategories.middlewares';
 
 const router = new express.Router();
@@ -19,7 +20,8 @@ router.route(`/${resource}`)
     createContext,
     setGeneratedObjectIdInContext(resource),
     controllers.create(repository, readQuery),
-    saveInStore,
+    saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
   ]);
 
 router.route(`/${resource}/:id`)
@@ -28,13 +30,15 @@ router.route(`/${resource}/:id`)
     patchContext,
     validatePayload,
     controllers.patch(repository, readQuery),
-    saveInStore,
+    saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
   ])
   .delete([
     patchContext,
     canIDelete,
     controllers.softDelete(repository),
     saveInStore(resource),
+    saveInElastic(repository, elasticQuery, resource),
   ]);
 
 router.route(`/${resource}/:id/structures`)
