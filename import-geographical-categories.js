@@ -2,6 +2,7 @@
 // https://www.data.gouv.fr/fr/datasets/contours-des-communes-de-france-simplifie-avec-regions-et-departement-doutre-mer-rapproches/
 import 'dotenv/config';
 
+import fetch from 'node-fetch';
 import { client, db } from './src/services/mongo.service';
 import BaseMongoCatalog from './src/api/commons/libs/base.mongo.catalog';
 
@@ -11,19 +12,22 @@ const catalog = new BaseMongoCatalog({ db, collection: '_catalog' });
 
 console.log('--- START ---');
 
-const configs = [{
-  letter: 'R',
-  level: 'region',
-  sourceIdField: 'reg_id',
-  sourceNameField: 'reg_nom',
-  url: 'https://www.data.gouv.fr/fr/datasets/r/d993e112-848f-4446-b93b-0a9d5997c4a4',
-// }, {
-//   letter: 'D',
-//   level: 'department',
-//   sourceIdField: 'dep_id',
-//   sourceNameField: 'dep_nom',
-//   url: 'https://www.data.gouv.fr/fr/datasets/r/00c0c560-3ad1-4a62-9a29-c34c98c3701e',
-}];
+const configs = [
+  {
+    letter: 'R',
+    level: 'region',
+    sourceIdField: 'reg_id',
+    sourceNameField: 'reg_nom',
+    url: 'https://www.data.gouv.fr/fr/datasets/r/d993e112-848f-4446-b93b-0a9d5997c4a4',
+  },
+  // {
+  //   letter: 'D',
+  //   level: 'department',
+  //   sourceIdField: 'dep_id',
+  //   sourceNameField: 'dep_nom',
+  //   url: 'https://www.data.gouv.fr/fr/datasets/r/00c0c560-3ad1-4a62-9a29-c34c98c3701e',
+  // },
+];
 
 await Promise.all(configs.map(async (config) => {
   // Load all geojson
@@ -39,8 +43,10 @@ await Promise.all(configs.map(async (config) => {
   const allIds = await Promise.all(
     uniqueGeos.map(() => catalog.getUniqueId(MONGO_TARGET_COLLECTION_NAME, 5)),
   );
-  console.log(uniqueGeos[0]);
-  console.log(geojsons[0].properties);
+  console.log(data);
+  // console.log(uniqueGeos[0]);
+  // console.log(geojsons[0].properties);
+
   const promises = uniqueGeos.map((geo, index) => ({
     geometry: geojsons.find((geojson) => `${config.letter}${geojson.properties.reg}` === geo[config.sourceIdField])?.geometry || null,
     id: allIds[index],

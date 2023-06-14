@@ -6,6 +6,7 @@ const { index } = config.elastic;
 
 const TYPES = [
   'categories',
+  'geographical-categories',
   'legal-categories',
   'official-texts',
   'persons',

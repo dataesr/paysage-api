@@ -4,9 +4,10 @@ import config from '../../config';
 import esClient from '../../services/elastic.service';
 import logger from '../../services/logger.service';
 import { ServerError } from '../commons/http-errors';
-import { categories, legalcategories, officialtexts, persons, prizes, projects, structures, terms, users } from '../resources';
+import { categories, geographicalCategories,
+  legalcategories, officialtexts, persons, prizes, projects, structures, terms, users } from '../resources';
 
-const allowedTypes = [categories, legalcategories, officialtexts, persons, prizes, projects, structures, terms, users];
+const allowedTypes = [categories, geographicalCategories, legalcategories, officialtexts, persons, prizes, projects, structures, terms, users];
 const searchedFields = [
   'acronym',
   'acronymFr',
@@ -67,6 +68,15 @@ router.route('/autocomplete')
               filter: {
                 term: {
                   type: 'categories',
+                },
+              },
+              boost: 4,
+            },
+          }, {
+            constant_score: {
+              filter: {
+                term: {
+                  type: 'geographical-categories',
                 },
               },
               boost: 4,

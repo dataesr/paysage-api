@@ -80,7 +80,7 @@ const development = {
   defaultAccountConfirmation: true,
   mongo: {
     ...production.mongo,
-    mongoDbName: process.env.MONGO_DBNAME || 'paysage-dev',
+    mongoDbName: process.env.MONGO_DBNAME || 'paysage',
   },
   elastic: {
     ...production.elastic,
