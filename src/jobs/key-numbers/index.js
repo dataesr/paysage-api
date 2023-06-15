@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
+import logger from '../../services/logger.service';
 import { client, db } from '../../services/mongo.service';
 import datasets from './datasets';
 
@@ -12,26 +13,26 @@ async function downloadDataset(datasetId) {
   return response;
 }
 
-function extractKeyNumbersUpdateOperations({ paysageIdFields, name }, data) {
+function extractKeyNumbers({ paysageIdFields, name }, data) {
   if (!data || !data.length) return [];
   return data
-    .map((item) => {
-      const paysageIds = paysageIdFields.map((field) => item.fields?.[field]).map((id) => id?.split(',')).flat();
+    .flatMap((item) => {
+      const paysageIds = paysageIdFields.map((field) => item.fields?.[field]).flatMap((id) => id?.split(','));
       return paysageIds.map((paysageId) => ({
-        updateOne: {
-          filter: { id: { $eq: item.recordid } },
-          update: { $set: { ...item.fields, id: item.recordid, dataset: name, resourceId: paysageId, updatedAt: new Date() } },
-          upsert: true,
-        },
+        ...item.fields,
+        id: item.recordid,
+        dataset: name,
+        resourceId: paysageId,
+        updatedAt: new Date()
       }));
-    }).flat();
+    });
 }
 function extractStructuresUpdateOperations(dataset, data) {
   if (!data || !data.length) return [];
   if (!dataset.field) return [];
   const sortField = (dataset?.sortField[0] === '-') ? dataset?.sortField.slice(1) : dataset?.sortField;
   const uniqueStructures = [];
-  return data?.length && data
+  const operations = data?.length && data
     .filter((item) => item?.fields?.[sortField])
     .sort((a, b) => ((dataset?.sortField?.[0] === '-')
       ? ((b.fields[sortField] > a.fields[sortField]) ? 1 : ((a.fields[sortField] > b.fields[sortField]) ? -1 : 0))
@@ -45,13 +46,13 @@ function extractStructuresUpdateOperations(dataset, data) {
     })
     .map((item) => {
       const set = {};
-      if (dataset && dataset?.field && item && item?.fields?.[dataset.field]) {
+      if (dataset?.field && item && item?.fields?.[dataset.field]) {
         set[dataset.fieldName] = item.fields[dataset.field];
       }
-      if (dataset && dataset?.sortField && item && item?.fields?.[sortField]) {
+      if (dataset?.sortField && item && item?.fields?.[sortField]) {
         set[dataset.sortFieldName] = item.fields[sortField];
       }
-      if (dataset && dataset?.extraField && item && item?.fields?.[dataset?.extraField]) {
+      if (dataset?.extraField && item && item?.fields?.[dataset?.extraField]) {
         set[dataset.extraField] = item.fields[dataset.extraField];
       }
       if (Object.keys(set).length > 0) {
@@ -64,20 +65,23 @@ function extractStructuresUpdateOperations(dataset, data) {
       }
       return {};
     });
+  return operations;
 }
 
 export default async function updateKeyNumbers(job) {
   const results = [];
   for (const dataset of datasets) {
     try {
-      const data = await downloadDataset(dataset.id);
-      const operationsKeyNumbers = extractKeyNumbersUpdateOperations(dataset, data);
+      const { data } = await downloadDataset(dataset.id);
+      const keyNumbers = extractKeyNumbers(dataset, data);
       const operationsStructures = extractStructuresUpdateOperations(dataset, data);
       const session = client.startSession();
       await session.withTransaction(async () => {
-        if (operationsKeyNumbers?.length) {
+        if (keyNumbers?.length) {
+          logger.info(`Updating dataset ${dataset.name} with ${keyNumbers.length} key numbers operations`);
           await db.collection('keynumbers').deleteMany({ dataset: dataset.name });
-          await db.collection('keynumbers').bulkWrite(operationsKeyNumbers, { ordered: false });
+          await db.collection('keynumbers').insertMany(keyNumbers);
+          logger.info(`Dataset ${dataset.name} updated`);
         }
         if (operationsStructures?.length) {
           await db.collection('structures').bulkWrite(operationsStructures, { ordered: false });
