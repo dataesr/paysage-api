@@ -80,4 +80,5 @@ export default [
     id: 'fr-esr-personnels-biatss-etablissements-publics',
     name: 'biatss',
     paysageIdFields: ['etablissement_id_paysage', 'etablissement_id_paysage_actuel'],
-  }];
+  }
+];
