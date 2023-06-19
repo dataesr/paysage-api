@@ -1,6 +1,6 @@
 {
   "name": "paysage-api",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "API Paysage",
   "main": "index.js",
   "type": "module",
