@@ -38,7 +38,7 @@ async function treatment() {
   const promises = worldGeoJSON.features.map((country, index) => ({
     geometry: country.geometry,
     id: countriesToUpgrade.find((item) => item.originalId === country.properties.iso_a3)?.id || ids[index],
-    level: 'pays',
+    level: 'country',
     nameFr: country.properties.name_fr,
     originalId: country.properties.iso_a3,
   })).map((geo) => (
