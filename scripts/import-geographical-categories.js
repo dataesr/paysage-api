@@ -1,12 +1,10 @@
-/* eslint-disable max-len */
-/* eslint-disable no-console */
 // Example : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node import-geographical-categories.js
 // https://www.data.gouv.fr/fr/datasets/contours-des-communes-de-france-simplifie-avec-regions-et-departement-doutre-mer-rapproches/
 import 'dotenv/config';
 
 import fetch from 'node-fetch';
-import { client, db } from '../src/services/mongo.service';
-import BaseMongoCatalog from '../src/api/commons/libs/base.mongo.catalog';
+import { client, db } from './src/services/mongo.service';
+import BaseMongoCatalog from './src/api/commons/libs/base.mongo.catalog';
 
 const MONGO_SOURCE_COLLECTION_NAME = 'geocodes';
 const MONGO_TARGET_COLLECTION_NAME = 'geographicalcategories';
