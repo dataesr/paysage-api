@@ -20,10 +20,10 @@ export const readQuery = [
       from: 'geographicalcategories',
       localField: 'geographicalCategoryId',
       foreignField: 'id',
-      as: 'geographiCalcategory',
+      as: 'geographicalCategory',
     },
   },
-  { $set: { geographiCalcategory: { $arrayElemAt: ['$geographiCalcategory', 0] } } },
+  { $set: { geographicalCategory: { $arrayElemAt: ['$geographicalCategory', 0] } } },
 
   {
     $project: {
@@ -32,7 +32,7 @@ export const readQuery = [
       geographicalCategoryId: 1,
       resourceId: 1,
       resource: 1,
-      geographiCalcategory: 1,
+      geographicalCategory: 1,
       createdBy: 1,
       createdAt: 1,
       updatedBy: 1,
