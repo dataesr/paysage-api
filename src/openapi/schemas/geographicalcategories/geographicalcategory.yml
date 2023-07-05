@@ -39,4 +39,7 @@ allOf:
       academyParent:
         type: string
         nullable: true
-  - $ref: '../../api.yml#/components/schemas/Metas'
+      wikidata:
+        type: string
+        nullable: true
+  # - $ref: '../../api.yml#/components/schemas/Metas'
