@@ -7,7 +7,7 @@
 3. Pour chaque pays du fichier pays.geo.json, s'il existe dans la collection geographicalcategories, mettre à jour sinon ajouter
 */
 
-// Lancement : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node import-geographical-categories-countries.js
+// Lancement : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node scripts/import-geographical-categories-countries.js
 import 'dotenv/config';
 import worldGeoJSON from './countries.geo.json' assert { type: "json" };
 
