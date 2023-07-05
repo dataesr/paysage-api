@@ -9,7 +9,7 @@
 
 // Lancement : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node import-geographical-categories-countries.js
 import 'dotenv/config';
-import worldGeoJSON from './custom.geo.json' assert { type: "json" };
+import worldGeoJSON from './countries.geo.json' assert { type: "json" };
 
 import { client, db } from '../src/services/mongo.service';
 import BaseMongoCatalog from '../src/api/commons/libs/base.mongo.catalog';
