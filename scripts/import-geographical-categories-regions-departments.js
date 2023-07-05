@@ -3,8 +3,8 @@
 import 'dotenv/config';
 
 import fetch from 'node-fetch';
-import { client, db } from './src/services/mongo.service';
-import BaseMongoCatalog from './src/api/commons/libs/base.mongo.catalog';
+import { client, db } from '../src/services/mongo.service';
+import BaseMongoCatalog from '../src/api/commons/libs/base.mongo.catalog';
 
 const MONGO_SOURCE_COLLECTION_NAME = 'geocodes';
 const MONGO_TARGET_COLLECTION_NAME = 'geographicalcategories';
@@ -20,13 +20,13 @@ const configs = [
     sourceNameField: 'reg_nom',
     url: 'https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions-avec-outre-mer.geojson',
   },
-  // {
-  //   prefix: 'D',
-  //   level: 'department',
-  //   sourceIdField: 'dep_id',
-  //   sourceNameField: 'dep_nom',
-  //   url: 'https://www.data.gouv.fr/fr/datasets/r/00c0c560-3ad1-4a62-9a29-c34c98c3701e',
-  // },
+  {
+    prefix: 'D',
+    level: 'department',
+    sourceIdField: 'dep_id',
+    sourceNameField: 'dep_nom',
+    url: 'https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-avec-outre-mer.geojson',
+  },
 ];
 
 await Promise.all(configs.map(async (config) => {
@@ -43,10 +43,9 @@ await Promise.all(configs.map(async (config) => {
   const allIds = await Promise.all(
     uniqueGeos.map(() => catalog.getUniqueId(MONGO_TARGET_COLLECTION_NAME, 5)),
   );
-  console.log(data);
 
   const promises = uniqueGeos.map((geo, index) => ({
-    geometry: geojsons.find((geojson) => `${config.prefix}${geojson.properties.code}` === geo[config.sourceIdField])?.geometry || null,
+    geometry: geojsons.find((geojson) => `${config.prefix}${geojson.properties.code.length === 2 ? '0' : ''}${geojson.properties.code}` === geo[config.sourceIdField])?.geometry || null,
     id: allIds[index],
     level: config.level,
     nameFr: geo[config.sourceNameField],
@@ -59,7 +58,6 @@ client.close();
 console.log('--- END ---');
 
 // TODO
-// Ajouter les pays
 // Ajouter les geojson
 // Ajouter le parent direct
 // Modifier l'API pour autoriser l'urban unitf
@@ -68,4 +66,3 @@ console.log('--- END ---');
 // pour une fiche pays ajouter ls groupes d'appartenance (Bologne, UE27, EURO blabla)
 
 // description
-// indexer les caté geo
