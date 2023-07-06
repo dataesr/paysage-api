@@ -17,6 +17,7 @@ const configs = [
     level: 'region',
     prefix: 'R',
     sourceIdField: 'reg_id',
+    sourceIdLength: 2,
     sourceNameField: 'reg_nom',
     url: 'https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions-avec-outre-mer.geojson',
   },
@@ -25,6 +26,7 @@ const configs = [
     parentIdField: 'reg_id',
     prefix: 'D',
     sourceIdField: 'dep_id',
+    sourceIdLength: 3,
     sourceNameField: 'dep_nom',
     url: 'https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-avec-outre-mer.geojson',
   },
@@ -45,9 +47,8 @@ await Promise.all(configs.map(async (config) => {
     uniqueGeos.map(() => catalog.getUniqueId(MONGO_TARGET_COLLECTION_NAME, 5)),
   );
 
-  console.log(JSON.stringify(uniqueGeos, null, 4));
   const promises = uniqueGeos.map((geo, index) => ({
-    geometry: geojsons.find((geojson) => `${config.prefix}${geojson.properties.code.length === 2 ? '0' : ''}${geojson.properties.code}` === geo[config.sourceIdField])?.geometry || null,
+    geometry: geojsons.find((geojson) => `${config.prefix}${geojson.properties.code.length < config.sourceIdLength ? '0' : ''}${geojson.properties.code}` === geo[config.sourceIdField])?.geometry || null,
     id: allIds[index],
     level: config.level,
     nameFr: geo[config.sourceNameField],
