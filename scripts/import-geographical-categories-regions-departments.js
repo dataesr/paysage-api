@@ -1,4 +1,4 @@
-// Example : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node scripts/import-geographical-categories.js
+// Example : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node scripts/import-geographical-categories-regions-departments.js
 // https://www.data.gouv.fr/fr/datasets/contours-des-communes-de-france-simplifie-avec-regions-et-departement-doutre-mer-rapproches/
 import 'dotenv/config';
 
@@ -14,15 +14,16 @@ console.log('--- START ---');
 
 const configs = [
   {
-    prefix: 'R',
     level: 'region',
+    prefix: 'R',
     sourceIdField: 'reg_id',
     sourceNameField: 'reg_nom',
     url: 'https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions-avec-outre-mer.geojson',
   },
   {
-    prefix: 'D',
     level: 'department',
+    parentIdField: 'reg_id',
+    prefix: 'D',
     sourceIdField: 'dep_id',
     sourceNameField: 'dep_nom',
     url: 'https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-avec-outre-mer.geojson',
@@ -44,12 +45,14 @@ await Promise.all(configs.map(async (config) => {
     uniqueGeos.map(() => catalog.getUniqueId(MONGO_TARGET_COLLECTION_NAME, 5)),
   );
 
+  console.log(JSON.stringify(uniqueGeos, null, 4));
   const promises = uniqueGeos.map((geo, index) => ({
     geometry: geojsons.find((geojson) => `${config.prefix}${geojson.properties.code.length === 2 ? '0' : ''}${geojson.properties.code}` === geo[config.sourceIdField])?.geometry || null,
     id: allIds[index],
     level: config.level,
     nameFr: geo[config.sourceNameField],
     originalId: geo[config.sourceIdField],
+    parentOriginalId: config.level === 'region' ? 'FRA' : geo[config.parentIdField],
   })).map((geo) => db.collection(MONGO_TARGET_COLLECTION_NAME).updateOne({ originalId: geo.originalId }, { $set: geo }, { upsert: true }));
   await Promise.all(promises);
 }));
