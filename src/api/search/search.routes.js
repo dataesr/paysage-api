@@ -49,7 +49,7 @@ router.route('/autocomplete')
       .map((type) => type.trim())
       .filter((type) => allowedTypes.includes(type));
     // By default, search in all types but users
-    const requestedTypes = parsedTypes.length ? parsedTypes : allowedTypes.filter((type) => type !== 'user');
+    const requestedTypes = parsedTypes.length ? parsedTypes : allowedTypes.filter((type) => type !== users);
     const body = {
       query: {
         bool: {
