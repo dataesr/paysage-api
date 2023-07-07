@@ -1,64 +1,68 @@
 // Example : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node scripts/import-geographical-categories-regions-departments.js
-// https://www.data.gouv.fr/fr/datasets/contours-des-communes-de-france-simplifie-avec-regions-et-departement-doutre-mer-rapproches/
+// source regions: https://data.opendatasoft.com/explore/dataset/georef-france-region%40public/export/?disjunctive.reg_name
+// Source departments: https://data.opendatasoft.com/explore/dataset/georef-france-departement%40public/table/?disjunctive.reg_name&disjunctive.dep_name&sort=year
 import 'dotenv/config';
 
-import fetch from 'node-fetch';
 import { client, db } from '../src/services/mongo.service';
 import BaseMongoCatalog from '../src/api/commons/libs/base.mongo.catalog';
 
 const MONGO_SOURCE_COLLECTION_NAME = 'geocodes';
 const MONGO_TARGET_COLLECTION_NAME = 'geographicalcategories';
-const catalog = new BaseMongoCatalog({ db, collection: '_catalog' });
 
-console.log('--- START ---');
+import regions from './regions.geo.json' assert { type: "json" };
+import departments from './departments.geo.json' assert { type: "json" };
 
 const configs = [
   {
+    data: regions,
+    geoCodeField: 'reg_code',
     level: 'region',
     prefix: 'R',
     sourceIdField: 'reg_id',
     sourceIdLength: 2,
     sourceNameField: 'reg_nom',
-    url: 'https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions-avec-outre-mer.geojson',
   },
   {
+    data: departments,
+    geoCodeField: 'dep_code',
     level: 'department',
     parentIdField: 'reg_id',
     prefix: 'D',
     sourceIdField: 'dep_id',
     sourceIdLength: 3,
     sourceNameField: 'dep_nom',
-    url: 'https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-avec-outre-mer.geojson',
   },
 ];
 
-await Promise.all(configs.map(async (config) => {
-  // Load all geojson
-  const response = await fetch(config.url);
-  const data = await response.json();
-  const geojsons = data?.features || [];
-  // Load uniq from Mongo geocodes
-  const uniqueGeoIds = await db.collection(MONGO_SOURCE_COLLECTION_NAME).distinct(config.sourceIdField);
-  const uniqueGeos = await Promise.all(
-    uniqueGeoIds.map((uniqueRegionId) => db.collection(MONGO_SOURCE_COLLECTION_NAME).findOne({ [config.sourceIdField]: uniqueRegionId })),
-  );
-  // Generate as many ids as needed
-  const allIds = await Promise.all(
-    uniqueGeos.map(() => catalog.getUniqueId(MONGO_TARGET_COLLECTION_NAME, 5)),
-  );
-
-  const promises = uniqueGeos.map((geo, index) => ({
-    geometry: geojsons.find((geojson) => `${config.prefix}${geojson.properties.code.length < config.sourceIdLength ? '0' : ''}${geojson.properties.code}` === geo[config.sourceIdField])?.geometry || null,
-    id: allIds[index],
-    level: config.level,
-    nameFr: geo[config.sourceNameField],
-    originalId: geo[config.sourceIdField],
-    parentOriginalId: config.level === 'region' ? 'FRA' : geo[config.parentIdField],
-  })).map((geo) => db.collection(MONGO_TARGET_COLLECTION_NAME).updateOne({ originalId: geo.originalId }, { $set: geo }, { upsert: true }));
+async function treatment() {
+  const promises = configs.map(async (config) => {
+    const data = config.data;
+    // Load uniq from Mongo geocodes
+    const uniqueGeoIds = await db.collection(MONGO_SOURCE_COLLECTION_NAME).distinct(config.sourceIdField);
+    const uniqueGeos = await Promise.all(
+      uniqueGeoIds.map((uniqueRegionId) => db.collection(MONGO_SOURCE_COLLECTION_NAME).findOne({ [config.sourceIdField]: uniqueRegionId })),
+    );
+    // Generate as many ids as needed
+    const catalog = new BaseMongoCatalog({ db, collection: '_catalog' });
+    const allIds = await Promise.all(
+      uniqueGeos.map(() => catalog.getUniqueId(MONGO_TARGET_COLLECTION_NAME, 5)),
+    );
+    const p = uniqueGeos.map((geo, index) => ({
+      geometry: data.features.find((geojson) => `${config.prefix}${geojson.properties[config.geoCodeField][0].length < config.sourceIdLength ? '0' : ''}${geojson.properties[config.geoCodeField][0]}` === geo[config.sourceIdField])?.geometry || null,
+      id: allIds[index],
+      level: config.level,
+      nameFr: geo[config.sourceNameField],
+      originalId: geo[config.sourceIdField],
+      parentOriginalId: config.level === 'region' ? 'FRA' : geo[config.parentIdField],
+    })).map((geo) => db.collection(MONGO_TARGET_COLLECTION_NAME).updateOne({ originalId: geo.originalId }, { $set: geo }, { upsert: true }));
+    await Promise.all(p);
+  });
   await Promise.all(promises);
-}));
+}
 
-client.close();
+console.log('--- START ---');
+await treatment();
+await client.close();
 console.log('--- END ---');
 
 // TODO
