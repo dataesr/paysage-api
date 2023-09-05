@@ -32,6 +32,13 @@ const configs = [
     sourceIdLength: 3,
     sourceNameField: 'dep_nom',
   },
+  // {
+  //   prefix: 'C',
+  //   level: 'department',
+  //   sourceIdField: 'uucr_id',
+  //   sourceNameField: 'uucr_nom',
+  //   url: '    ',
+  // },
 ];
 
 async function treatment() {
@@ -71,6 +78,6 @@ console.log('--- END ---');
 // Modifier l'API pour autoriser l'urban unitf
 // Pays : https://data.enseignementsup-recherche.gouv.fr/explore/dataset/curiexplore-pays/table/?disjunctive.iso3&sort=iso3
 // + ajouter lien vers la fichecurie
-// pour une fiche pays ajouter ls groupes d'appartenance (Bologne, UE27, EURO blabla)
+// pour une fiche pays ajouter les groupes d'appartenance (Bologne, UE27, EURO blabla)
 
 // description
