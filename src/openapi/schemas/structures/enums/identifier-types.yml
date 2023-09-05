@@ -5,7 +5,6 @@ enum:
   - bibid
   - bnf
   - cnrs-unit
-  - crossrefFunderId
   - crunchbase
   - cti
   - dealroom
