@@ -1,4 +1,5 @@
 import metas from './metas.query';
+import { refreshTokenExpiresIn } from '../../../config';
 
 export default [
   ...metas,
@@ -43,10 +44,10 @@ export default [
       localField: 'id',
       foreignField: 'userId',
       pipeline: [
-        { $sort: { _id: -1 } },
+        { $sort: { expireAt: -1 } },
         {
           $project: {
-            date: { $toDate: "$_id" },
+            date: { $dateSubstract: { startDate: "$expireAt", unit: 'days', amount: refreshTokenExpiresIn } },
           },
         },
       ],
