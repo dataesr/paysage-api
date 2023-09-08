@@ -30,6 +30,12 @@ allOf:
         type: string
         nullable: true
         readOnly: true
+      lastLogin:
+        type: string
+        format: date-time
+      lastVisit:
+        type: string
+        format: date-time
       role:
         type: string
         description: User role
@@ -48,4 +54,4 @@ allOf:
               type: string
             acronym:
               type: string
-  - $ref: '../../api.yml#/components/schemas/Metas'
+  - $ref: "../../api.yml#/components/schemas/Metas"
