@@ -7,6 +7,7 @@ import {
   sendContactEmail,
   sendPasswordRecoveryEmail,
   sendWelcomeEmail,
+  sendNewUserNotificationEmail,
 } from './emails';
 import updateKeyNumbers from './key-numbers';
 import reindex from './indexer';
@@ -25,6 +26,7 @@ const agenda = new Agenda()
   .name(`worker-${os.hostname}-${process.pid}`)
   .processEvery('30 seconds');
 
+agenda.define('send user creation notification email', { shouldSaveResult: true }, sendNewUserNotificationEmail);
 agenda.define('send welcome email', { shouldSaveResult: true }, sendWelcomeEmail);
 agenda.define('send confirmed email', { shouldSaveResult: true }, sendAccountConfirmedEmail);
 agenda.define('send signin email', { shouldSaveResult: true }, sendAuthenticationEmail);
