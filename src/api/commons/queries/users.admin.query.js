@@ -38,6 +38,23 @@ export default [
     },
   },
   {
+    $lookup: {
+      from: 'tokens',
+      localField: 'id',
+      foreignField: 'userId',
+      pipeline: [
+        { $sort: { _id: -1 } },
+        {
+          $project: {
+            date: { $toDate: "$_id" },
+          },
+        },
+      ],
+      as: 'lastVisit',
+    },
+  },
+  { $set: { lastVisit: { $arrayElemAt: ['$lastVisit', 0] } } },
+  {
     $project: {
       _id: 0,
       id: 1,
@@ -52,6 +69,7 @@ export default [
       confirmed: 1,
       isDeleted: { $ifNull: ['$isDeleted', false] },
       isOtpRequired: 1,
+      lastVisit: '$lastVisit.date',
       groups: 1,
       createdBy: 1,
       createdAt: 1,
