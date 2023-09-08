@@ -45,6 +45,7 @@ export default [
       role: 1,
       firstName: 1,
       lastName: 1,
+      lastLogin: 1,
       avatar: { $ifNull: ['$avatar', null] },
       service: { $ifNull: ['$service', null] },
       position: { $ifNull: ['$position', null] },
