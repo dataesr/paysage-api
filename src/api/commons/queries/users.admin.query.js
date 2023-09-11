@@ -1,5 +1,7 @@
 import metas from './metas.query';
-import { refreshTokenExpiresIn } from '../../../config';
+import config from '../../../config';
+
+const {refreshTokenExpiresIn } = config
 
 export default [
   ...metas,
