@@ -44,6 +44,10 @@ class BaseMongoRepository {
     return data.id;
   };
 
+  findOne = async (filters) => {
+    return this._collection.findOne(filters); 
+  }
+
   patch = async (id, data) => {
     const unset = Object.keys(data).reduce((arr, field) => ([null, ''].includes(data[field]) ? ([...arr, field]) : arr), []);
     const set = Object.keys(data).reduce(
