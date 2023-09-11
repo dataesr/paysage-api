@@ -44,6 +44,7 @@ export default [
       email: 1,
       firstName: 1,
       lastName: 1,
+      lastLogin: 1,
       avatar: { $ifNull: ['$avatar', null] },
       groups: 1,
       createdBy: 1,
