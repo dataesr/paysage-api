@@ -1,7 +1,7 @@
 import metas from './metas.query';
 import config from '../../../config';
 
-const {refreshTokenExpiresIn } = config
+const refreshTokenExpiresIn = parseInt(config.refreshTokenExpiresIn, 10);
 
 export default [
   ...metas,
@@ -42,14 +42,14 @@ export default [
   },
   {
     $lookup: {
-      from: 'tokens',
+         from: 'tokens',
       localField: 'id',
       foreignField: 'userId',
       pipeline: [
         { $sort: { expireAt: -1 } },
         {
           $project: {
-            date: { $dateSubstract: { startDate: "$expireAt", unit: 'days', amount: refreshTokenExpiresIn } },
+            date: { $dateSubtract: { startDate: "$expireAt", unit: 'day', amount: refreshTokenExpiresIn } },
           },
         },
       ],
