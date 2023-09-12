@@ -4,34 +4,18 @@ import { officialtextsRepository,catalogRepository } from '../commons/repositori
 
 export async function validatePayload(req, res, next) {
   if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
-  const { relatesTo, jorftext } = req.body; 
-  if (!relatesTo) return next();
-
-  const { data } = await catalogRepository.find({ filters: { _id: { $in: relatesTo } } });
-  const exists = data.reduce((arr, obj) => [...arr, obj._id], []);
-  const notFound = relatesTo.filter((x) => exists.indexOf(x) === -1);
-
-  const jorftextFromDB = await officialtextsRepository.findOne({ jorftext });
+  const { jorftext } = req.body; 
+  const { id }= req.params
+  if (!jorftext) return next()
+  const jorftextFromDB = await officialtextsRepository.findOne({id: { $ne: id }, jorftext: jorftext})
 
   if (jorftextFromDB?.jorftext && typeof jorftextFromDB === 'object') {
     throw new BadRequestError(
       `Reference error: '${jorftext}' already exists`
     );
 }
-
-  if (notFound.length) {
-    throw new BadRequestError(
-      'Referencing unknown resource',
-      notFound.map((obj, i) => ({
-        path: `.body.relatesTo[${i}]`,
-        message: `Reference error: '${obj}' does not exist`,
-      })),
-    );
-  }
   return next();
 }
-
-
 
 export async function deleteOfficialText(req, res, next) {
   const { id: resourceId } = req.params;
