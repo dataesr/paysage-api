@@ -1,6 +1,6 @@
 import { client, db } from '../../services/mongo.service';
 import { BadRequestError, NotFoundError } from '../commons/http-errors';
-import { officialtextsRepository,catalogRepository } from '../commons/repositories';
+import { officialtextsRepository } from '../commons/repositories';
 
 export async function validatePayload(req, res, next) {
   if (!req.body || !Object.keys(req.body).length) throw new BadRequestError('Payload missing');
