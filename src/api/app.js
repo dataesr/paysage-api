@@ -9,6 +9,7 @@ import YAML from 'yamljs';
 import { authenticate } from './commons/middlewares/authenticate.middlewares';
 import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 
+import annuaireRoutes from './annuaire/annuaire.routes';
 import apiKeysRoutes from './apikeys/apikeys.routes';
 import assetsRoutes from './assets/assets.routes';
 import authRoutes from './auth/auth.routes';
@@ -96,6 +97,7 @@ app.use(requireAuth);
 app.use(forbidReadersToWrite);
 
 // Register api routes
+app.use(annuaireRoutes);
 app.use(apiKeysRoutes);
 app.use(authRoutes);
 app.use(assetsRoutes);
