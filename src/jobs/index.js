@@ -18,6 +18,7 @@ import {
 } from './opendata';
 import synchronizeFrEsrReferentielGeographique from './synchronize/fr-esr-referentiel-geographique';
 import synchronizeCuriexploreActors from './synchronize/curiexplore-actors';
+import synchronizeAnnuaireCollection from './synchronize/annuaire-collection';
 import askForEmailRevalidation from './ask-for-email-validation';
 import deletePassedGouvernancePersonnalInformation from './treatments/delete-passed-gouvernance-personal-infos';
 
@@ -40,6 +41,7 @@ agenda.define('synchronize fr-esr-referentiel-geographique', { shouldSaveResult:
 agenda.define('synchronize curiexplore actors', { shouldSaveResult: true }, synchronizeCuriexploreActors);
 agenda.define('ask for email revalidation with otp', { shouldSaveResult: true }, askForEmailRevalidation);
 agenda.define('delete passed gouvernance personal info', { shouldSaveResult: true }, deletePassedGouvernancePersonnalInformation);
+agenda.define('Syncronize governance collection', { shouldSaveResult: true }, synchronizeAnnuaireCollection);
 
 agenda
   .on('ready', () => { logger.info('Agenda connected to mongodb'); })
