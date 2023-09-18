@@ -13,12 +13,12 @@ const lightProjection = {
   endDate: 1,
   status: 1,
   active: 1,
-  previsionalEndDate: 1,
+  endDatePrevisional: 1,
   mandateEmail: 1,
   personalEmail: 1,
   mandatePhonenumber: 1,
   personId: "$relatedObject.id",
-  structureId: "resource.id",
+  structureId: "$resource.id",
   relationType: "$relationType.name",
 }
 
