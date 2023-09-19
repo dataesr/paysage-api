@@ -20,6 +20,7 @@ const lightProjection = {
   mandateTemporary: 1,
   personalEmail: 1,
   mandatePhonenumber: 1,
+  mandatePrecision: 1,
   personId: "$relatedObject.id",
   structureId: "$resource.id",
   relationType: {
@@ -59,7 +60,7 @@ router.get('/annuaire', async (req, res) => {
     ...(mandateTypeGroup && { "relationType.mandateTypeGroup": { $in: mandateTypeGroup.split(',') } }),
   };
   const data = (parseInt(limit, 10) > 0)
-    ? await annuaire.find(filters).project(lightProjection).skip(parseInt(skip, 10)).limit(parseInt(limit, 10)).toArray()
+    ? await annuaire.find(filters).project(lightProjection).skip(parseInt(skip, 10)).limit(parseInt(limit, 10)).sort({ startDate: -1 }).toArray()
     : [];
   const totalCount = await annuaire.countDocuments(filters);
   return res.json({ data, totalCount });
