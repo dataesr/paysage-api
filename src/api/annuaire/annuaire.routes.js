@@ -3,6 +3,7 @@ import { db } from '../../services/mongo.service';
 
 const annuaire = db.collection('annuaire');
 const rt = db.collection('relationtypes');
+
 const router = new express.Router();
 
 const lightProjection = {
