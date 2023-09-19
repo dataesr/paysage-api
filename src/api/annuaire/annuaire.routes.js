@@ -29,7 +29,7 @@ const lightProjection = {
       then: "$relationType.maleName",
       else: {
         $cond: {
-          if: { $eq: ["$relatedObject.gender", 'Homme'] },
+          if: { $eq: ["$relatedObject.gender", 'Femme'] },
           then: "$relationType.feminineName",
           else: "$relationType.name"
         }
