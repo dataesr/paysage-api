@@ -39,7 +39,6 @@ const lightProjection = {
   },
 }
 
-
 router.get('/annuaire/aggregations', async (req, res) => {
   const relationTypesDocs = await rt
     .find({ for: "persons" })
