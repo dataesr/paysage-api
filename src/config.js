@@ -50,7 +50,7 @@ const staging = {
     ...production.elastic,
     index: 'paysage-staging',
   },
-  hostname: 'https://api.paysage.staging.dataesr.ovh',
+  hostname: 'https://paysage-api.staging.dataesr.ovh',
 };
 
 const testing = {

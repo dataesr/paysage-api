@@ -9,7 +9,7 @@ info:
     url: 'https://github.com/dataesr/paysage-api/LICENCE.md'
   version: 1.0.0
 servers:
-  - url: 'https://api.paysage.staging.dataesr.ovh/'
+  - url: 'https://paysage-api.staging.dataesr.ovh/'
     description: Staging server
   - url: 'https://api.paysage.dataesr.ovh/'
     description: Production server
