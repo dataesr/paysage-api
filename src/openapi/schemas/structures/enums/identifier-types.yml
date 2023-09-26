@@ -23,6 +23,8 @@ enum:
   - oc
   - orgref
   - pia
+  - piaweb-organization
+  - piaweb-project
   - pic
   - rcr
   - ringgold

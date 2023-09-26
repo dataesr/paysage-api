@@ -1,6 +1,6 @@
 # Les resources de Paysage
 
-L'accès aux resources se fait à l'adresse `api.paysage.staging.dataesr.ovh`, uniquement via le protocol HTTPS.
+L'accès aux resources se fait à l'adresse `paysage-api.staging.dataesr.ovh`, uniquement via le protocol HTTPS.
 Les requètes et les réponses se font toutes au format JSON.
 Les routes suivent les principes de l'architecture REpresentational State Transfer (REST) et sont documentées via un document OpenAPI.
 
