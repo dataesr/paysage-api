@@ -24,7 +24,7 @@ async function getPaysageIds(existingIdsCount) {
 }
 
 async function getCountriesToUpgrade() {
-  return db.collection(MONGO_TARGET_COLLECTION_NAME).find({ level: 'pays' }).toArray();
+  return db.collection(MONGO_TARGET_COLLECTION_NAME).find({ level: 'country' }).toArray();
 }
 
 async function treatment() {
@@ -43,7 +43,7 @@ async function treatment() {
     db.collection(MONGO_TARGET_COLLECTION_NAME).updateOne({ originalId: geo.originalId }, { $set: geo }, { upsert: true })
   ));
 
-  await Promise.all(promises);  
+  await Promise.all(promises);
 }
 
 console.log('--- START ---');
