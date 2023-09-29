@@ -23,6 +23,7 @@ allOf:
           - region
           - academy
           - department
+          - urbanUnity
           - city
       descriptionFr:
         type: string
