@@ -5,8 +5,16 @@ import esClient from '../../services/elastic.service';
 import logger from '../../services/logger.service';
 import { ServerError } from '../commons/http-errors';
 import {
-  categories, geographicalCategories,
-  legalcategories, officialtexts, persons, prizes, projects, structures, terms, users
+  categories,
+  geographicalCategories,
+  legalcategories,
+  officialtexts,
+  persons,
+  prizes,
+  projects,
+  structures,
+  terms,
+  users,
 } from '../resources';
 
 const allowedTypes = [categories, geographicalCategories, legalcategories, officialtexts, persons, prizes, projects, structures, terms, users];
