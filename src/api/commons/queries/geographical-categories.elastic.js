@@ -8,6 +8,7 @@ export default [
       id: 1,
       nameFr: 1,
       level: 1,
+      isDeleted: { $ifNull: ['$isDeleted', false] },
     },
   },
 ];
