@@ -69,6 +69,7 @@ export default [
       otherAssociatedObjectIds: { $ifNull: ['$otherAssociatedObjectIds', []] },
       otherAssociatedObjects: 1,
       active: { $ifNull: ['$active', null] },
+      comment: { $ifNull: ['$comment', null] },
     },
   },
 ];
