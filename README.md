@@ -28,15 +28,15 @@
 
 To run the full app in a Docker container :
 
-`docker-compose up --build`
+`docker compose up --build`
 
 To stop the docker container :
 
-`docker-compose down`
+`docker compose down`
 
 To run the app being sure that everythiing else is down :
 
-`docker-compose down && docker system prune -f && docker-compose up --build`
+`docker compose down && docker system prune -f && docker compose up --build`
 
 This run a docker container, with a MongoDB inside and the paysage-api app.
 
