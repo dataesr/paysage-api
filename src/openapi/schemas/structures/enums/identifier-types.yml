@@ -5,13 +5,17 @@ enum:
   - bibid
   - bnf
   - cnrs-unit
+  - crunchbase
   - cti
+  - dealroom
   - ed
+  - euTransparency
   - eter
   - etid
   - finess
   - fundref
   - grid
+  - hatvp
   - idhal
   - idref
   - isil
@@ -19,6 +23,8 @@ enum:
   - oc
   - orgref
   - pia
+  - piaweb-organization
+  - piaweb-project
   - pic
   - rcr
   - ringgold

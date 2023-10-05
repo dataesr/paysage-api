@@ -8,6 +8,10 @@ properties:
   nameEn:
     type: string
     nullable: true
+  categories:
+    type: array
+    items:
+      type: string
   descriptionFr:
     type: string
     nullable: true
@@ -25,7 +29,20 @@ properties:
     type: string
     nullable: true
     pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+  structures:
+    type: array
+    items:
+      type: string
   endDate:
     type: string
     nullable: true
     pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
+  websiteEn:
+    type: string
+    nullable: true
+  websiteFr:
+    type: string
+    nullable: true
+  wikidata:
+    type: string
+    nullable: true

@@ -1,0 +1,39 @@
+title: GeographicalCategoryPayload
+description: Modèle de création et de mise à jour d'une catégorie géographique
+type: object
+allOf:
+  - type: object
+    properties:
+      nameFr:
+        type: string
+      nameEn:
+        type: string
+        nullable: true
+      originalId:
+        type: string
+        nullable: true
+      geometry:
+        type: object
+        nullable: true
+      level:
+        type: string
+        nullable: true
+        enum:
+          - country
+          - region
+          - academy
+          - department
+          - urbanUnity
+          - city
+      descriptionFr:
+        type: string
+        nullable: true
+      priority:
+        type: number
+        nullable: true
+      closestParent:
+        type: string
+        nullable: true
+      academyParent:
+        type: string
+        nullable: true

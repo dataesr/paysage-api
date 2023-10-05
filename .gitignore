@@ -7,6 +7,7 @@
 
 # misc
 .env*
+.DS_Store
 
 # production
 yarn.lock

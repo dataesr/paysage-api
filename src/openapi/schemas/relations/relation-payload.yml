@@ -89,6 +89,3 @@ properties:
   active:
     type: boolean
     nullable: true
-  comment:
-    type: string
-    nullable: true

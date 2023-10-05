@@ -9,6 +9,7 @@ import YAML from 'yamljs';
 import { authenticate } from './commons/middlewares/authenticate.middlewares';
 import { handleErrors } from './commons/middlewares/handle-errors.middlewares';
 
+import annuaireRoutes from './annuaire/annuaire.routes';
 import apiKeysRoutes from './apikeys/apikeys.routes';
 import assetsRoutes from './assets/assets.routes';
 import authRoutes from './auth/auth.routes';
@@ -20,7 +21,7 @@ import documentTypesRoutes from './document-types/document-types.routes';
 import documentsRoutes from './documents/documents.routes';
 import emailTypesRoutes from './email-types/email-types.routes';
 import followUpsRoutes from './followups/followups.routes';
-import usersGroupsRoutes from './groups/groups.routes';
+import geographicalcategoriesRoutes from './geographicalcategories/geographicalcategories.routes';
 import jobsRoutes from './jobs/jobs.routes';
 import journalRoutes from './journal/journal.routes';
 import legalCategoriesRoutes from './legalcategories/legalcategories.routes';
@@ -39,6 +40,7 @@ import searchRoutes from './search/search.routes';
 import structuresRoutes from './structures/structures.routes';
 import supervisingMinistersRoutes from './supervising-ministers/supervising-ministers.routes';
 import termsRoutes from './terms/terms.routes';
+import usersGroupsRoutes from './groups/groups.routes';
 import usersRoutes from './users/users.routes';
 
 // Load API specifications
@@ -96,9 +98,10 @@ app.use(requireAuth);
 app.use(forbidReadersToWrite);
 
 // Register api routes
+app.use(annuaireRoutes);
 app.use(apiKeysRoutes);
-app.use(authRoutes);
 app.use(assetsRoutes);
+app.use(authRoutes);
 app.use(categoriesRoutes);
 app.use(contactRoutes);
 app.use(curiexploreRoutes);
@@ -106,8 +109,9 @@ app.use(documentsRoutes);
 app.use(documentTypesRoutes);
 app.use(emailTypesRoutes);
 app.use(followUpsRoutes);
-app.use(journalRoutes);
+app.use(geographicalcategoriesRoutes);
 app.use(jobsRoutes);
+app.use(journalRoutes);
 app.use(legalCategoriesRoutes);
 app.use(meRoutes);
 app.use(metadataRoutes);
@@ -117,15 +121,15 @@ app.use(personsRoutes);
 app.use(pressRoutes);
 app.use(prizesRoutes);
 app.use(projectsRoutes);
-app.use(relationsRoutes);
 app.use(relationsGroupsRoutes);
+app.use(relationsRoutes);
 app.use(relationTypesRoutes);
-app.use(structuresRoutes);
 app.use(searchRoutes);
+app.use(structuresRoutes);
 app.use(supervisingMinistersRoutes);
 app.use(termsRoutes);
-app.use(usersRoutes);
 app.use(usersGroupsRoutes);
+app.use(usersRoutes);
 
 // Error handler
 app.use(handleErrors);

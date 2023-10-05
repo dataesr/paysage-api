@@ -6,7 +6,6 @@ import TokensMongoRepository from './libs/base.mongo.tokens';
 
 export const apiKeysRepository = new BaseMongoRepository({ db, collection: 'apikeys' });
 export const catalogRepository = new BaseMongoRepository({ db, collection: '_catalog' });
-export const jobsRepository = new BaseMongoRepository({ db, collection: '_jobs' });
 export const categoriesRepository = new BaseMongoRepository({ db, collection: 'categories' });
 export const contactRepository = new BaseMongoRepository({ db, collection: 'contact' });
 export const documentsRepository = new BaseMongoRepository({ db, collection: 'documents' });
@@ -15,9 +14,12 @@ export const emailsRepository = new BaseMongoRepository({ db, collection: 'email
 export const emailTypesRepository = new BaseMongoRepository({ db, collection: 'emailtypes' });
 export const eventsRepository = new BaseMongoRepository({ db, collection: '_events' });
 export const followUpsRepository = new BaseMongoRepository({ db, collection: 'followups' });
+export const geographicalCategoriesRepository = new BaseMongoRepository({ db, collection: 'geographicalcategories' });
+export const geographicalCategoriesExceptionsRepository = new BaseMongoRepository({ db, collection: 'geographicalexceptions' });
 export const groupsRepository = new BaseMongoRepository({ db, collection: 'groups' });
 export const groupMembersRepository = new BaseMongoRepository({ db, collection: 'groupmembers' });
 export const identifiersRepository = new BaseMongoRepository({ db, collection: 'identifiers' });
+export const jobsRepository = new BaseMongoRepository({ db, collection: '_jobs' });
 export const legalcategoriesRepository = new BaseMongoRepository({ db, collection: 'legalcategories' });
 export const officialtextsRepository = new BaseMongoRepository({ db, collection: 'officialtexts' });
 export const personsRepository = new BaseMongoRepository({ db, collection: 'persons' });

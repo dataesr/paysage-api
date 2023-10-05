@@ -1,0 +1,9 @@
+additionalProperties: false
+type: object
+properties:
+  id:
+    type: string
+  geographicalCategoryId:
+    type: string
+  resourceId:
+    type: string

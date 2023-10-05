@@ -14,7 +14,7 @@ export function setGeoJSON(req, res, next) {
   return next();
 }
 export async function validatePhoneNumberAndIso3(req, res, next) {
-  const phoneRegex = /^\+33[0-9]{9}$/;
+  const phoneRegex = /^(\+(?:\d{1,3}))?[-. ]?\(?(\d{1,4})\)?[-. ]?(\d{1,4})[-. ]?(\d{1,4})[-. ]?(\d{1,9})$/;
   const { id, iso3, resourceId } = req.params;
   const { country, phonenumber } = req.body;
   const nextCountry = country || await projectLocalisationsRepository.get(resourceId, id, { useQuery: readQuery }).country;

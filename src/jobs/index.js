@@ -7,6 +7,7 @@ import {
   sendContactEmail,
   sendPasswordRecoveryEmail,
   sendWelcomeEmail,
+  sendNewUserNotificationEmail,
 } from './emails';
 import updateKeyNumbers from './key-numbers';
 import reindex from './indexer';
@@ -15,8 +16,9 @@ import {
   exportFrEsrPaysageFonctionsGourvernance,
   exportFrEsrAnnelisPaysageEtablissements,
 } from './opendata';
-import syncronizeFrEsrReferentielGeographique from './syncronize/fr-esr-referentiel-geographique';
-import syncronizeCuriexploreActors from './syncronize/curiexplore-actors';
+import synchronizeAnnuaireCollection from './synchronize/annuaire-collection';
+import synchronizeCuriexploreActors from './synchronize/curiexplore-actors';
+import synchronizeFrEsrReferentielGeographique from './synchronize/fr-esr-referentiel-geographique';
 import askForEmailRevalidation from './ask-for-email-validation';
 import deletePassedGouvernancePersonnalInformation from './treatments/delete-passed-gouvernance-personal-infos';
 
@@ -25,6 +27,7 @@ const agenda = new Agenda()
   .name(`worker-${os.hostname}-${process.pid}`)
   .processEvery('30 seconds');
 
+agenda.define('send user creation notification email', { shouldSaveResult: true }, sendNewUserNotificationEmail);
 agenda.define('send welcome email', { shouldSaveResult: true }, sendWelcomeEmail);
 agenda.define('send confirmed email', { shouldSaveResult: true }, sendAccountConfirmedEmail);
 agenda.define('send signin email', { shouldSaveResult: true }, sendAuthenticationEmail);
@@ -34,10 +37,11 @@ agenda.define('update key numbers', { shouldSaveResult: true }, updateKeyNumbers
 agenda.define('reindex', { shouldSaveResult: true }, reindex);
 agenda.define('export fr-esr-paysage-fonctions-gourvernance', { shouldSaveResult: true }, exportFrEsrPaysageFonctionsGourvernance);
 agenda.define('export fr-esr-annelis-paysage-etablissements', { shouldSaveResult: true }, exportFrEsrAnnelisPaysageEtablissements);
-agenda.define('syncronize fr-esr-referentiel-geographique', { shouldSaveResult: true }, syncronizeFrEsrReferentielGeographique);
-agenda.define('syncronize curiexplore actors', { shouldSaveResult: true }, syncronizeCuriexploreActors);
+agenda.define('synchronize fr-esr-referentiel-geographique', { shouldSaveResult: true }, synchronizeFrEsrReferentielGeographique);
+agenda.define('synchronize curiexplore actors', { shouldSaveResult: true }, synchronizeCuriexploreActors);
 agenda.define('ask for email revalidation with otp', { shouldSaveResult: true }, askForEmailRevalidation);
 agenda.define('delete passed gouvernance personal info', { shouldSaveResult: true }, deletePassedGouvernancePersonnalInformation);
+agenda.define('syncronize governance collection', { shouldSaveResult: true }, synchronizeAnnuaireCollection);
 
 agenda
   .on('ready', () => { logger.info('Agenda connected to mongodb'); })
