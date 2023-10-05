@@ -9,7 +9,7 @@ info:
     url: 'https://github.com/dataesr/paysage-api/LICENCE.md'
   version: 1.0.0
 servers:
-  - url: 'https://api.paysage.staging.dataesr.ovh/'
+  - url: 'https://paysage-api.staging.dataesr.ovh/'
     description: Staging server
   - url: 'https://api.paysage.dataesr.ovh/'
     description: Production server
@@ -29,6 +29,7 @@ tags:
   - name: Email types
   - name: Files
   - name: Follow-ups
+  - name: Geographical categories
   - name: Journal
   - name: Legal categories
   - name: Official texts
@@ -51,6 +52,7 @@ tags:
   - name: Search
   - name: Structures
   - name: Structures - Emails
+  - name: Structures - Geographical categories
   - name: Structures - Identifiers
   - name: Structures - Key numbers
   - name: Structures - Localisations
@@ -130,6 +132,8 @@ paths:
     $ref: './paths/structures/emails.yml#/collectionMethods'
   '/structures/{structureId}/emails/{emailId}':
     $ref: './paths/structures/emails.yml#/documentMethods'
+  '/structures/{structureId}/geographical-categories':
+    $ref: './paths/structures/geographical-categories.yml#/collectionMethods'
   '/structures/{structureId}/identifiers':
     $ref: './paths/structures/identifiers.yml#/collectionMethods'
   '/structures/{structureId}/identifiers/{identifierId}':
@@ -219,6 +223,18 @@ paths:
   '/categories/{categoryId}/social-medias/{socialmediaId}':
     $ref: './paths/categories/social-medias.yml#/documentMethods'
   
+  ### GEOGRAPHICAL CATEGORIES ###
+  '/geographical-categories':
+    $ref: './paths/geographicalcategories/geographicalcategories.yml#/collectionMethods'
+  '/geographical-categories/{geographicalCategoryId}':
+    $ref: './paths/geographicalcategories/geographicalcategories.yml#/documentMethods'
+
+  ### GEOGRAPHICAL CATEGORIES ###
+  '/geographical-exception':
+    $ref: './paths/geographicalcategories/exceptions.yml#/collectionMethods'
+  '/geographical-exception/{geographicalExceptionId}':
+    $ref: './paths/geographicalcategories/exceptions.yml#/documentMethods'
+    
   ### OFFICIAL TEXTS ###
   '/official-texts':
     $ref: './paths/officialtexts/officialtexts.yml#/collectionMethods'
@@ -359,6 +375,10 @@ components:
       $ref: ./parameters/query/filters.yml
     followUpId:
       $ref: ./parameters/ids/followup-id.yml
+    geographicalCategoryId:
+      $ref: ./parameters/ids/geographical-category-id.yml
+    geographicalExceptionId:
+      $ref: ./parameters/ids/geographical-exception-id.yml
     groupId:
       $ref: ./parameters/ids/group-id.yml
     identifierId:
@@ -464,6 +484,10 @@ components:
       $ref: './schemas/commons/file.yml'
     FollowUp:
       $ref: './schemas/followups/followup.yml'
+    GeographicalCategory:
+      $ref: ./schemas/geographicalcategories/geographicalcategory.yml
+    GeographicalCategoryException:
+      $ref: ./schemas/geographicalcategories/exception.yml
     Group:
       $ref: ./schemas/groups/group.yml
     GroupMember:
@@ -590,6 +614,10 @@ components:
       $ref: './schemas/commons/nomenclature-payload.yml'
     FollowUpPayload:
       $ref: './schemas/followups/followup-payload.yml'
+    GeographicalCategoryPayload:
+      $ref: './schemas/geographicalcategories/geographicalcategory-payload.yml'
+    GeographicalCategoryExceptionPayload:
+      $ref: './schemas/geographicalcategories/exception-payload.yml'
     GroupMemberPayload:
       $ref: ./schemas/groups/group-member-payload.yml
     GroupPayload:

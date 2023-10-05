@@ -5,8 +5,8 @@ export default [
       id: 1,
       isDeleted: { $ifNull: ['$isDeleted', false] },
       name: { $ifNull: ['$nameFr', null] },
-      nameEn: { $ifNull: ['$nameEn', false] },
-      nameFr: { $ifNull: ['$nameFr', false] },
+      nameEn: { $ifNull: ['$nameEn', null] },
+      nameFr: { $ifNull: ['$nameFr', null] },
     },
   },
 ];

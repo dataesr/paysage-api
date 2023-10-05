@@ -60,3 +60,14 @@ export const sendContactEmail = (job) => mailer.sendEmail({
     ORGANISATION: job?.attrs?.data?.organization,
   },
 });
+export const sendNewUserNotificationEmail = (job) => mailer.sendEmail({
+  to: [{
+    email: process.env.SEND_IN_BLUE_CONTACT,
+    name: 'Paysage',
+  }],
+  templateId: 199,
+  params: {
+    PRENOM: job.attrs?.data?.user?.firstName,
+    NOM: job.attrs?.data?.user?.lastName,
+  },
+});

@@ -1,0 +1,53 @@
+collectionMethods:
+  post:
+    tags:
+      - Geographical categories - Exceptions
+    summary: Add an new exception to the geographical category
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: geographicalCategoryExceptionPayload
+            type: object
+            required:
+              - geographicalCategoryId
+              - resourceId
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/GeographicalCategoryExceptionPayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/GeographicalCategoryException'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+documentMethods:
+  delete:
+    tags:
+      - Geographical Category - Exceptions
+    summary: Delete a geographical category's exception
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/geographicalExceptionId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+

@@ -44,6 +44,7 @@ export const signup = async (req, res, next) => {
   if (!id) throw new ServerError();
   const { firstName, lastName, email } = body;
   agenda.now('send welcome email', { user: { firstName, lastName, email } });
+  agenda.now('send user creation notification email', { user: { firstName, lastName } });
   res.status(201).json({ message: 'Compte crée.' });
   return next();
 };
@@ -103,6 +104,7 @@ export const signin = async (req, res, next) => {
     { userId: user.id, userAgent },
     { userId: user.id, userAgent, refreshToken, expireAt },
   );
+  await usersRepository.setLastLogin(user.id);
   res.status(200).json({ accessToken, refreshToken });
   return next();
 };

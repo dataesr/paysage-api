@@ -4,9 +4,21 @@ import config from '../../config';
 import esClient from '../../services/elastic.service';
 import logger from '../../services/logger.service';
 import { ServerError } from '../commons/http-errors';
-import { categories, legalcategories, officialtexts, persons, prizes, projects, structures, terms, users } from '../resources';
+import {
+  categories,
+  geographicalCategories,
+  legalcategories,
+  officialtexts,
+  persons,
+  prizes,
+  projects,
+  structures,
+  terms,
+  users,
+} from '../resources';
 
-const allowedTypes = [categories, legalcategories, officialtexts, persons, prizes, projects, structures, terms, users];
+const allowedTypes = [categories, geographicalCategories, legalcategories, officialtexts, persons, prizes, projects, structures, terms, users];
+
 const searchedFields = [
   'acronym',
   'acronymFr',
@@ -23,6 +35,7 @@ const searchedFields = [
   'locality',
   'name',
   'nameEn',
+  'nameFr',
   'names',
   'names.acronymFr',
   'names.id',
@@ -48,7 +61,8 @@ router.route('/autocomplete')
       .split(',')
       .map((type) => type.trim())
       .filter((type) => allowedTypes.includes(type));
-    const requestedTypes = parsedTypes.length ? parsedTypes : allowedTypes;
+    // By default, search in all types but users
+    const requestedTypes = parsedTypes.length ? parsedTypes : allowedTypes.filter((type) => type !== users);
     const body = {
       query: {
         bool: {
@@ -66,6 +80,15 @@ router.route('/autocomplete')
               filter: {
                 term: {
                   type: 'categories',
+                },
+              },
+              boost: 4,
+            },
+          }, {
+            constant_score: {
+              filter: {
+                term: {
+                  type: 'geographical-categories',
                 },
               },
               boost: 4,
