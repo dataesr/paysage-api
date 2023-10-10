@@ -56,7 +56,7 @@ describe('API > official texts > create', () => {
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
-      .send({ ...payload, arbitrary: 'test' })
+      .send({ ...payload, arbitrary: 'test', jorftext: '12345' })
       .expect(201);
     const dbData = await global.db.collection('officialtexts').findOne({ id });
     expect(dbData.arbitrary).toBe(undefined);
@@ -164,17 +164,17 @@ describe('API > official texts > list', () => {
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
-      .send({ ...payload, title: 'od1' })
+      .send({ ...payload, title: 'od1', jorftext: '23456' })
       .expect(201);
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
-      .send({ ...payload, title: 'od2' })
+      .send({ ...payload, title: 'od2', jorftext: '23457' })
       .expect(201);
     await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
-      .send({ ...payload, title: 'od3' })
+      .send({ ...payload, title: 'od3', jorftext: '23458' })
       .expect(201);
   });
   it('can list successfully', async () => {
