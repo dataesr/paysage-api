@@ -1,7 +1,7 @@
 import { client } from '../../../services/mongo.service';
 import catalog from '../../commons/catalog';
 import { BadRequestError, UnauthorizedError } from '../../commons/http-errors';
-import readQuery from '../../commons/queries/prizes.elastic';
+import readQuery from '../../commons/queries/prizes.query';
 import {
   categoriesRepository,
   identifiersRepository,
@@ -40,8 +40,8 @@ export async function validatePayload(req, res, next) {
 
 export const fromPayloadToPrizes = async (req, res, next) => {
   const payload = req.body;
-  const priceId = req?.context?.id;
-  const price = {
+  const prizeId = req?.context?.id;
+  const prize = {
     nameFr: payload.nameFr,
     nameEn: payload.nameEn,
     descriptionFr: payload.descriptionFr,
@@ -51,7 +51,7 @@ export const fromPayloadToPrizes = async (req, res, next) => {
     endDate: payload.endDate,
     createdBy: req.currentUser.id,
     createdAt: new Date(),
-    id: priceId,
+    id: prizeId,
   };
 
   const structures = [];
@@ -104,28 +104,22 @@ export const fromPayloadToPrizes = async (req, res, next) => {
     });
   }
   if (structures.length) {
-    price.structures = structures;
+    prize.structures = structures;
   }
   if (categories.length) {
-    price.categories = categories;
+    prize.categories = categories;
   }
   if (prizesIdentifiers.length) {
-    price.identifiers = prizesIdentifiers;
+    prize.identifiers = prizesIdentifiers;
   }
   if (prizesWebsites.length) {
-    price.websites = prizesWebsites;
+    prize.websites = prizesWebsites;
   }
-  req.body = price;
+  req.body = prize;
   return next();
 };
 
-export const createPriceResponse = async (req, res, next) => {
-  const resource = await repository.get(req.body.id, { useQuery: readQuery });
-  res.status(201).json(resource);
-  return next();
-};
-
-export const storePrice = async (req, res, next) => {
+export const storePrize = async (req, res, next) => {
   const { identifiers, websites, categories, structures, ...rest } = req.body;
   const { id: resourceId } = rest;
   const session = client.startSession();
@@ -153,6 +147,12 @@ export const storePrice = async (req, res, next) => {
     }
     await session.endSession();
   });
+  return next();
+};
+
+export const createPrizeResponse = async (req, res, next) => {
+  const resource = await repository.get(req.body.id, { useQuery: readQuery });
+  res.status(201).json(resource);
   return next();
 };
 
