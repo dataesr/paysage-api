@@ -7,7 +7,7 @@ import elasticQuery from '../../commons/queries/prizes.elastic';
 import readQuery from '../../commons/queries/prizes.query';
 import { prizesRepository as repository } from '../../commons/repositories';
 import { prizes as resource } from '../../resources';
-import { canIDelete, createPriceResponse, fromPayloadToPrizes, storePrice, validatePayload } from './root.middlewares';
+import { canIDelete, createPrizeResponse, fromPayloadToPrizes, storePrize, validatePayload } from './root.middlewares';
 
 const router = new express.Router();
 
@@ -15,11 +15,11 @@ router.route(`/${resource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
-    createContext,
+    // createContext,
     setGeneratedObjectIdInContext(resource),
     fromPayloadToPrizes,
-    storePrice,
-    createPriceResponse,
+    storePrize,
+    createPrizeResponse,
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ]);
