@@ -45,7 +45,7 @@ export default [
     $project: {
       _id: 0,
       academyParent: { $ifNull: ['$academyParent', null] },
-      children: { $ifNull: ['$parent', null] },
+      children: { $ifNull: ['$children', null] },
       geometry: { $ifNull: ['$geometry', null] },
       id: 1,
       level: { $ifNull: ['$level', null] },
