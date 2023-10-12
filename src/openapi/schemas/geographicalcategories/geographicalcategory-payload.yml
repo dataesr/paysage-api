@@ -37,3 +37,6 @@ allOf:
       parent:
         type: object
         nullable: true
+      children:
+        type: object
+        nullable: true
