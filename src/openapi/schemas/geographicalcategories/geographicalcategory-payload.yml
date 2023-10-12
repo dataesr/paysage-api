@@ -31,9 +31,9 @@ allOf:
       priority:
         type: number
         nullable: true
-      closestParent:
-        type: string
-        nullable: true
       academyParent:
         type: string
+        nullable: true
+      parent:
+        type: object
         nullable: true

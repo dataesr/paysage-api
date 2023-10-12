@@ -1,5 +1,3 @@
-import fs from 'fs';
-
 import 'dotenv/config';
 import refUU from './data/referentiel-geographique-francais-communes-unites-urbaines-aires-urbaines-depart.json' assert { type: "json" };
 
