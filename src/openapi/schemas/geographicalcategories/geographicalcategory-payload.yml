@@ -38,5 +38,5 @@ allOf:
         type: object
         nullable: true
       children:
-        type: object
+        type: array
         nullable: true

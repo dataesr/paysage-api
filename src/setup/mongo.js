@@ -23,6 +23,7 @@ async function setupMongo() {
   await db.collection('followups').createIndex({ relatesTo: 1 });
   await db.collection('geographicalcategories').createIndex({ id: 1 }, { unique: true });
   await db.collection('geographicalcategories').createIndex({ originalId: 1 }, { unique: true });
+  await db.collection('geographicalcategories').createIndex({ parentOriginalId: 1 });
   await db.collection('geographicalexceptions').createIndex({ geographicalCategoryId: 1 });
   await db.collection('geographicalexceptions').createIndex({ resourceId: 1 });
   await db.collection('geographicalexceptions').createIndex({ geographicalCategoryId: 1, resourceId: 1 }, { unique: true });
