@@ -34,13 +34,12 @@ allOf:
       priority:
         type: number
         nullable: true
-      closestParent:
-        type: string
-        nullable: true
       academyParent:
         type: string
         nullable: true
       wikidata:
         type: string
         nullable: true
-  # - $ref: '../../api.yml#/components/schemas/Metas'
+      parent:
+        type: object
+        nullable: true

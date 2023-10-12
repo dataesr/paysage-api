@@ -2,14 +2,14 @@
 /* eslint-disable no-console */
 
 /*
-1. Récupérer toutes les catégories de level "pays" dans la collection geographicalcategories
+1. Récupérer toutes les catégories de level "country" dans la collection geographicalcategories
 2. Récupérer tous les pays dans le fichier countries.geo.json
 3. Pour chaque pays du fichier countries.geo.json, s'il existe dans la collection geographicalcategories, mettre à jour sinon ajouter
 */
 
 // Lancement : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node scripts/import-geographical-categories-countries.js
 import 'dotenv/config';
-import worldGeoJSON from './countries.geo.json' assert { type: "json" };
+import worldGeoJSON from './data/countries.geo.json' assert { type: "json" };
 
 import { client, db } from '../src/services/mongo.service';
 import BaseMongoCatalog from '../src/api/commons/libs/base.mongo.catalog';
