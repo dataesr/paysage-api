@@ -62,3 +62,15 @@ properties:
     type: string
     description: Identifiant d'un texte officiel justifiant de la fermeture de la catégorie
     pattern: '^[a-zA-Z0-9]{15}$'
+  websiteEn:
+    type: string
+    nullable: true
+  websiteFr:
+    type: string
+    nullable: true
+  rncp:
+    type: string
+    nullable: true
+  wikidata:
+    type: string
+    nullable: true

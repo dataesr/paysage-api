@@ -7,7 +7,7 @@ import elasticQuery from '../../commons/queries/terms.elastic';
 import readQuery from '../../commons/queries/terms.query';
 import { termsRepository as repository } from '../../commons/repositories';
 import { terms as resource } from '../../resources';
-import { canIDelete, setDefaultPriorityField, validatePayload } from './root.middlewares';
+import { canIDelete, createTermsResponse, fromPayloadToTerms, setDefaultPriorityField, storeTerms, validatePayload } from './root.middlewares';
 
 const router = new express.Router();
 
@@ -16,9 +16,10 @@ router.route(`/${resource}`)
   .post([
     validatePayload,
     setDefaultPriorityField,
-    createContext,
     setGeneratedObjectIdInContext(resource),
-    controllers.create(repository, readQuery),
+    fromPayloadToTerms,
+    storeTerms,
+    createTermsResponse,
     saveInStore(resource),
     saveInElastic(repository, elasticQuery, resource),
   ]);
