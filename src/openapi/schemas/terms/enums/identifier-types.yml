@@ -7,4 +7,5 @@ enum:
   - PSUP
   - PSUPC
   - PSUPT
+  - rncp
   - wikidata

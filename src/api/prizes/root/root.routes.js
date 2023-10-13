@@ -15,7 +15,6 @@ router.route(`/${resource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     validatePayload,
-    // createContext,
     setGeneratedObjectIdInContext(resource),
     fromPayloadToPrizes,
     storePrize,
