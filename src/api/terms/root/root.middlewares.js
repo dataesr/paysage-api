@@ -37,6 +37,7 @@ export const fromPayloadToTerms = async (req, res, next) => {
     priority: payload.priority,
     creationOfficialTextId: payload.creationOfficialTextId,
     closureOfficialTextId: payload.closureOfficialTextId,
+    comment: payload.comment,
     createdBy: req.currentUser.id,
     createdAt: new Date(),
     id: termsId,
@@ -93,6 +94,7 @@ export const fromPayloadToTerms = async (req, res, next) => {
   }
 
   req.body = terms;
+  console.log(terms)
   return next();
 };
 
