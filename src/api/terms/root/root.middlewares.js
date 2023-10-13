@@ -94,7 +94,6 @@ export const fromPayloadToTerms = async (req, res, next) => {
   }
 
   req.body = terms;
-  console.log(terms)
   return next();
 };
 
