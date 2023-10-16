@@ -85,4 +85,7 @@ allOf:
       active:
         type: boolean
         nullable: true
+      comment:
+        type: string
+        nullable: true
   - $ref: '../../api.yml#/components/schemas/Metas'
