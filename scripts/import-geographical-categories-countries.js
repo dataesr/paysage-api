@@ -33,7 +33,7 @@ async function treatment() {
   // Get paysage ids
   const ids = await getPaysageIds(countriesToUpgrade.length);
 
-  const promises = worldGeoJSON.features.map((country, index) => ({
+  const promises = worldGeoJSON.features.filter((country) => country.properties.iso_a3 !== "-99").map((country, index) => ({
     geometry: country.geometry,
     id: countriesToUpgrade.find((item) => item.originalId === country.properties.iso_a3)?.id || ids[index],
     level: 'country',

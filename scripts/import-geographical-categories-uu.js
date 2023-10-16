@@ -42,7 +42,6 @@ async function treatment() {
 
     // Get paysage ids
     const ids = await getPaysageIds(uUToUpgrade.length, allUu);
-    console.log(ids);
     const promises = Object.keys(allUu).map((urbanUnity, index) => ({
         geometry: { coordinates: allUu[urbanUnity].list.map((commune) => commune.geometry.coordinates[0]), type: "MultiPolygon" },
         id: uUToUpgrade.find((item) => item.originalId === urbanUnity)?.id || ids[index],
@@ -60,19 +59,3 @@ console.log('--- START ---');
 await treatment();
 await client.close();
 console.log('--- END ---');
-
-
-// {
-//     uu_code: {
-//         list: [
-//             {
-//                 code_com: "ghjhg"
-//                 geometry: {}
-//             }
-//         ],
-//         uucr_nom:
-//     }
-// }
-
-
-// urbanUnity
