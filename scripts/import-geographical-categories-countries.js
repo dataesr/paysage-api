@@ -8,6 +8,7 @@
 */
 
 // Lancement : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node scripts/import-geographical-categories-countries.js
+
 import 'dotenv/config';
 import worldGeoJSON from './data/countries.geo.json' assert { type: "json" };
 
@@ -27,14 +28,29 @@ async function getCountriesToUpgrade() {
   return db.collection(MONGO_TARGET_COLLECTION_NAME).find({ level: 'country' }).toArray();
 }
 
+function parseAllFloats(coordinates) {
+  if (!Array.isArray(coordinates)) return null;
+  if (Array.isArray(coordinates[0])) {
+    return coordinates.map((coord) => parseAllFloats(coord));
+  }
+  return coordinates.map((coord) => {
+    const float = (parseFloat(coord) > 180) ? (-360 + parseFloat(coord)) : parseFloat(coord);
+    if (Number.isNaN(float)) console.log('coord', coord);
+    return float;
+  });
+}
+
 async function treatment() {
   const countriesToUpgrade = await getCountriesToUpgrade();
 
   // Get paysage ids
   const ids = await getPaysageIds(countriesToUpgrade.length);
 
-  const promises = worldGeoJSON.features.filter((country) => country.properties.iso_a3 !== "-99").map((country, index) => ({
-    geometry: country.geometry,
+  const promises = worldGeoJSON.features.filter((country) => country.properties.iso_a3 !== '-99').map((country, index) => ({
+    geometry: {
+      type: country.geometry.type,
+      coordinates: parseAllFloats(country.geometry.coordinates),
+    },
     id: countriesToUpgrade.find((item) => item.originalId === country.properties.iso_a3)?.id || ids[index],
     level: 'country',
     nameFr: country.properties.name_fr,
