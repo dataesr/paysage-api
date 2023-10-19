@@ -1,3 +1,4 @@
+// Example : NODE_ENV=development MONGO_URI="mongodb://localhost:27017" MONGO_DBNAME="paysage" node --experimental-specifier-resolution=node scripts/import-geographical-categories-uu.js
 import 'dotenv/config';
 import refUU from './data/referentiel-geographique-francais-communes-unites-urbaines-aires-urbaines-depart.json' assert { type: "json" };
 
@@ -40,7 +41,7 @@ async function treatment() {
 
     const uUToUpgrade = await getUUToUpgrade();
 
-    // Get paysage ids
+    // Get Paysage ids
     const ids = await getPaysageIds(uUToUpgrade.length, allUu);
     const promises = Object.keys(allUu).map((urbanUnity, index) => ({
         geometry: { coordinates: allUu[urbanUnity].list.map((commune) => commune.geometry.coordinates[0]), type: "MultiPolygon" },
