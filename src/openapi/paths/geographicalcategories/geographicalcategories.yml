@@ -87,7 +87,7 @@ documentMethods:
   delete:
     tags:
       - Geographical categories
-    summary: Delete a geograhical category by ID
+    summary: Delete a geographical category by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/geographicalCategoryId'
     responses:
