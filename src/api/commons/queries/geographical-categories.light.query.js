@@ -43,7 +43,6 @@ export default [
       _id: 0,
       academyParent: { $ifNull: ['$academyParent', null] },
       children: { $ifNull: ['$children', null] },
-      geometry: { $ifNull: ['$children', null] },
       id: 1,
       level: { $ifNull: ['$level', null] },
       nameEn: { $ifNull: ['$nameEn', null] },
