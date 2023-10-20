@@ -1,7 +1,4 @@
-import metas from './metas.query';
-
 export default [
-  ...metas,
   {
     $lookup: {
       from: 'geographicalcategories',
@@ -46,7 +43,7 @@ export default [
       _id: 0,
       academyParent: { $ifNull: ['$academyParent', null] },
       children: { $ifNull: ['$children', null] },
-      geometry: { $ifNull: ['$geometry', null] },
+      // geometry: { $ifNull: ['$geometry', null] },
       id: 1,
       level: { $ifNull: ['$level', null] },
       nameEn: { $ifNull: ['$nameEn', null] },
@@ -55,10 +52,6 @@ export default [
       parent: { $ifNull: ['$parent', null] },
       priority: { $ifNull: ['$priority', null] },
       wikidata: { $ifNull: ['$wikidata', null] },
-      createdBy: 1,
-      createdAt: 1,
-      updatedBy: 1,
-      updatedAt: 1,
     },
   },
 ];
