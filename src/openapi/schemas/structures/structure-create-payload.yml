@@ -124,6 +124,9 @@ properties:
         type: number
       lng:
         type: number
+  parentId:
+    type: string
+    nullable: true
   idref:
     type: string
     nullable: true
