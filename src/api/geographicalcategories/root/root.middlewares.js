@@ -1,6 +1,6 @@
 import { BadRequestError } from '../../commons/http-errors';
 import { geographicalCategoriesRepository as repository, structuresRepository } from '../../commons/repositories';
-import readQuery from '../../commons/queries/structures.query';
+import readQuery from '../../commons/queries/structures.light.query';
 
 export async function validatePayload(req, res, next) {
   if (Object.keys(req.body).length === 0) {
