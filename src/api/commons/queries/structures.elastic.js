@@ -14,7 +14,8 @@ export default [
         $match: {
           $expr: {
             $and: [
-              { $in: ['$type', ['finess', 'grid', 'idref', 'piaweb-organization', 'piaweb-project', 'ringgold', 'rnsr', 'ror', 'siret', 'uai', 'wikidata']] },
+              { $in: ['$type', ['finess', 'googleScholar', 'grid', 'idref', 'piaweb-organization',
+                'piaweb-project', 'ringgold', 'rnsr', 'ror', 'siret', 'uai', 'wikidata']] },
             ],
           },
         },

@@ -2,6 +2,7 @@ description: Accepted values of identifier type for a person
 type: string
 enum:
   - bnf
+  - googleScholar
   - idhal
   - idref
   - isni
