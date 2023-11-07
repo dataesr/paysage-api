@@ -47,4 +47,6 @@ enum:
   - websiteGovernance
   - websiteOrganizationChart
   - websiteRss
+  - websiteRechercheData
+  - websiteDataWarehouse
   - Wikipedia
