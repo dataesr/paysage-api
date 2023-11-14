@@ -132,6 +132,15 @@ export const fromPayloadToPerson = async (req, res, next) => {
       id: await catalog.getUniqueId('social-medias', 15),
     });
   }
+  if (payload.researchgate) {
+    socialMedias.push({
+      value: payload.researchgate,
+      type: 'researchgate',
+      createdBy: req.currentUser.id,
+      createdAt: new Date(),
+      id: await catalog.getUniqueId('social-medias', 15),
+    });
+  }
   if (websites.length) {
     person.websites = websites;
   }

@@ -15,3 +15,4 @@ yarn.lock
 docs/reference
 dumps
 scripts/data
+scripts/countries.csv

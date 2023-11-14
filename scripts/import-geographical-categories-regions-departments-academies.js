@@ -88,13 +88,3 @@ console.log('--- START ---');
 await treatment();
 await client.close();
 console.log('--- END ---');
-
-// TODO
-// Ajouter les geojson
-// Ajouter le parent direct
-// Modifier l'API pour autoriser l'urban unitf
-// Pays : https://data.enseignementsup-recherche.gouv.fr/explore/dataset/curiexplore-pays/table/?disjunctive.iso3&sort=iso3
-// + ajouter lien vers la fichecurie
-// pour une fiche pays ajouter les groupes d'appartenance (Bologne, UE27, EURO blabla)
-
-// description

@@ -3,8 +3,9 @@ import express from 'express';
 import { geographicalCategories as resource } from '../../resources';
 import { geographicalCategoriesRepository as repository } from '../../commons/repositories';
 import controllers from '../../commons/middlewares/crud.middlewares';
-import readQuery from '../../commons/queries/geographical-categories.query';
 import elasticQuery from '../../commons/queries/geographical-categories.elastic';
+import lightQuery from '../../commons/queries/geographical-categories.light.query';
+import readQuery from '../../commons/queries/geographical-categories.query';
 
 import { getGeographicalCategoryById, getStructureFromGeoCategory, validatePayload } from './root.middlewares';
 import { createContext, patchContext, setGeneratedObjectIdInContext } from '../../commons/middlewares/context.middlewares';
@@ -14,7 +15,7 @@ import { canIDelete } from '../../legalcategories/legalcategories.middlewares';
 const router = new express.Router();
 
 router.route(`/${resource}`)
-  .get(controllers.list(repository, readQuery))
+  .get(controllers.list(repository, lightQuery))
   .post([
     validatePayload,
     createContext,

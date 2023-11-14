@@ -1,3 +1,4 @@
+allowReserved: true
 name: query
 in: query
 allowEmptyValue: true
