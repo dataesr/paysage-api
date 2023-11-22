@@ -119,15 +119,18 @@ export const fromPayloadToStructure = async (req, res, next) => {
     createdAt: new Date(),
     id: await catalog.getUniqueId('relations', 15),
   };
-  const parentStructure = {
-    relatedObjectId: structureId,
-    resourceId: payload.parentId,
-    relationTag : 'structure-interne',
-    createdBy: req.currentUser.id,
-    createdAt: new Date(),
-    id: await catalog.getUniqueId('relations', 15),
+  if (payload.parentId) {
+    const parentStructure = {
+      relatedObjectId: structureId,
+      resourceId: payload.parentId,
+      relationTag: 'structure-interne',
+      createdBy: req.currentUser.id,
+      createdAt: new Date(),
+      id: await catalog.getUniqueId('relations', 15),
+    };
+    structure.parentStructure = parentStructure;
   }
-  
+
   const structureWebsites = [];
   if (payload.websiteFr) {
     structureWebsites.push({
@@ -247,16 +250,13 @@ export const fromPayloadToStructure = async (req, res, next) => {
   if (structureIdentifiers.length) {
     structure.identifiers = structureIdentifiers;
   }
-  if (parentStructure?.id) {
-    structure.parentStructure = parentStructure;
-  }
   req.body = structure;
   return next();
 };
 
 export const storeStructure = async (req, res, next) => {
   const {
-    identifiers, socials, websites, categories, legalCategory, parentStructure,structureId, ...rest
+    identifiers, socials, websites, categories, legalCategory, parentStructure, structureId, ...rest
   } = req.body;
   const { id: resourceId } = rest;
   const session = client.startSession();
@@ -277,7 +277,7 @@ export const storeStructure = async (req, res, next) => {
         await weblinksRepository.create({ ...website, resourceId });
       });
     }
-   if (parentStructure) {
+    if (parentStructure) {
       await relationshipsRepository.create({ ...parentStructure, structureId });
     }
     if (categories?.length) {
