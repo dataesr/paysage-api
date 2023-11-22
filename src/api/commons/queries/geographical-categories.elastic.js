@@ -55,6 +55,7 @@ export default [
       parent: { $ifNull: ['$parent', null] },
       priority: { $ifNull: ['$priority', null] },
       wikidata: { $ifNull: ['$wikidata', null] },
+      groups: { $ifNull: ['$groups', []] },
     },
   },
 ];

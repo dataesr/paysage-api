@@ -12,6 +12,11 @@ allOf:
       originalId:
         type: string
         nullable: true
+      groups: 
+        type: array
+        nullable: true 
+        items:
+          type: string
       geometry:
         type: object
         nullable: true
