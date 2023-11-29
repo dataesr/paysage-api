@@ -2,11 +2,9 @@
 
 import 'dotenv/config';
 
-import { db } from '../src/services/mongo.service';
+import { client, db } from '../src/services/mongo.service';
 
 const MONGO_SOURCE_COLLECTION_NAME = 'structures';
-
-console.log('Début du script');
 
 async function getAndUpdateLocalisationStatus() {
   const currentDate = new Date();
@@ -18,5 +16,8 @@ async function getAndUpdateLocalisationStatus() {
   );
   console.log(`Nombre de documents mis à jour : ${result.modifiedCount}`);
 }
+console.log('Début du script');
 
 getAndUpdateLocalisationStatus();
+// client moved to close script
+await client.close();
