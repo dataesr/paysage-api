@@ -10,7 +10,7 @@ env:
   DEPLOYMENT: paysage-api
   DEPLOYMENT_NAMESPACE: paysage
   DEPLOYMENT_URL: https://docs.paysage.dataesr.ovh/docs/paysage-api-1
-  MM_NOTIFICATION_CHANNEL: 'paysage-bot'
+  MM_NOTIFICATION_CHANNEL: 'bots'
 
 jobs:
   publish-ghcr:
