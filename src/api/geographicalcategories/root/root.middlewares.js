@@ -16,27 +16,38 @@ export async function getGeographicalCategoryById(req, res, next) {
     if (!geographicalCategory) {
       return res.status(404).json({ error: 'Geographical category not found' });
     }
-    req.geographicalCategory = geographicalCategory;
+
+    if (geographicalCategory.nameFr === 'France') {
+      const { geometry, ...categoryWithoutGeometry } = geographicalCategory;
+      req.geographicalCategory = categoryWithoutGeometry;
+    } else {
+      req.geographicalCategory = geographicalCategory;
+    }
+
     return next();
   } catch (error) {
     return res.status(500).json({ error: 'An error occurred while fetching data' });
   }
 }
-
 export async function getStructureFromGeoCategory(req, res, next) {
   try {
     const { geographicalCategory } = req;
 
-    const filters = {
-      'localisations.geometry': {
+    const localisationsFilter = {};
+    if (geographicalCategory.nameFr === 'France') {
+      localisationsFilter['localisations.geometry'] = { $exists: false };
+    } else {
+      localisationsFilter['localisations.geometry'] = {
         $geoWithin: {
           $geometry: geographicalCategory.geometry,
         },
-      },
-      'localisations.active': true,
-    };
+      };
+    }
 
-    filters['localisations.active'] = { $ne: false };
+    const filters = {
+      ...localisationsFilter,
+      'localisations.active': { $ne: false },
+    };
 
     const { data } = await structuresRepository.find({ filters, useQuery: readQuery });
     res.status(200).json({ data, totalCount: data.length });
