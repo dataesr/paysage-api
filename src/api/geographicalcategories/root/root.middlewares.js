@@ -17,12 +17,7 @@ export async function getGeographicalCategoryById(req, res, next) {
       return res.status(404).json({ error: 'Geographical category not found' });
     }
 
-    if (geographicalCategory.nameFr === 'France') {
-      const { geometry, ...categoryWithoutGeometry } = geographicalCategory;
-      req.geographicalCategory = categoryWithoutGeometry;
-    } else {
-      req.geographicalCategory = geographicalCategory;
-    }
+    req.geographicalCategory = geographicalCategory;
 
     return next();
   } catch (error) {
@@ -33,23 +28,20 @@ export async function getStructureFromGeoCategory(req, res, next) {
   try {
     const { geographicalCategory } = req;
 
-    const localisationsFilter = {};
-    if (geographicalCategory.nameFr === 'France') {
-      localisationsFilter['localisations.geometry'] = { $exists: false };
-    } else {
-      localisationsFilter['localisations.geometry'] = {
+    const { limit, skip } = req.query;
+
+    const filters = {
+      'localisations.geometry': {
         $geoWithin: {
           $geometry: geographicalCategory.geometry,
         },
-      };
-    }
-
-    const filters = {
-      ...localisationsFilter,
-      'localisations.active': { $ne: false },
+      },
+      'localisations.active': true,
     };
 
-    const { data } = await structuresRepository.find({ filters, useQuery: readQuery });
+    filters['localisations.active'] = { $ne: false };
+
+    const { data } = await structuresRepository.find({ filters, useQuery: readQuery, limit, skip });
     res.status(200).json({ data, totalCount: data.length });
     next();
   } catch (error) {
