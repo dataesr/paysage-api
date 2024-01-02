@@ -229,6 +229,8 @@ paths:
     $ref: './paths/geographicalcategories/geographicalcategories.yml#/collectionMethods'
   '/geographical-categories/{geographicalCategoryId}':
     $ref: './paths/geographicalcategories/geographicalcategories.yml#/documentMethods'
+  '/geographical-categories/{geographicalCategoryId}/structures':
+    $ref: './paths/geographicalcategories/structures-from-categories.yml#/collectionMethods'
 
   ### GEOGRAPHICAL CATEGORIES ###
   '/geographical-exception':

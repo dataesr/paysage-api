@@ -129,13 +129,13 @@ router.route('/autocomplete')
         bool: {
           should: [{
             query_string: {
-              query: `*"${query.replace(/-/g, ' ')}"*`,
+              query: `*"${query.replace(/[-_]/g, ' ')}"*`,
               default_operator: 'AND',
               fields: searchedFields,
             },
           }, {
             query_string: {
-              query: `*${query.replace(/-/g, ' ')}*`,
+              query: `*${query.replace(/[-_]/g, ' ')}*`,
               default_operator: 'AND',
               fields: searchedFields,
             },
