@@ -16,16 +16,19 @@ export async function getGeographicalCategoryById(req, res, next) {
     if (!geographicalCategory) {
       return res.status(404).json({ error: 'Geographical category not found' });
     }
+
     req.geographicalCategory = geographicalCategory;
+
     return next();
   } catch (error) {
     return res.status(500).json({ error: 'An error occurred while fetching data' });
   }
 }
-
 export async function getStructureFromGeoCategory(req, res, next) {
   try {
     const { geographicalCategory } = req;
+
+    const { limit, skip } = req.query;
 
     const filters = {
       'localisations.geometry': {
@@ -38,7 +41,7 @@ export async function getStructureFromGeoCategory(req, res, next) {
 
     filters['localisations.active'] = { $ne: false };
 
-    const { data } = await structuresRepository.find({ filters, useQuery: readQuery });
+    const { data } = await structuresRepository.find({ filters, useQuery: readQuery, limit, skip });
     res.status(200).json({ data, totalCount: data.length });
     next();
   } catch (error) {
