@@ -3,7 +3,7 @@ collectionMethods:
   get:
     tags:
       - Geographical categories - Structures
-    summary: List structures from a geographical categories
+    summary: List structures from a geographical category
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
