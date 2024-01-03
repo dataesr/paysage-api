@@ -1,7 +1,7 @@
 collectionMethods:
   get:
     tags:
-      - Termes - Weblinks
+      - Terms - Weblinks
     summary: List all term's weblinks
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -36,7 +36,7 @@ collectionMethods:
 
   post:
     tags:
-      - Termes - Weblinks
+      - Terms - Weblinks
     summary: Add a new weblink to the term
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -72,7 +72,7 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Termes - Weblinks
+      - Terms - Weblinks
     summary: Get a term weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -95,7 +95,7 @@ documentMethods:
 
   delete:
     tags:
-      - Termes - Weblinks
+      - Terms - Weblinks
     summary: Delete a term weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -114,7 +114,7 @@ documentMethods:
 
   patch:
     tags:
-      - Termes - Weblinks
+      - Terms - Weblinks
     summary: Update a term weblink by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'

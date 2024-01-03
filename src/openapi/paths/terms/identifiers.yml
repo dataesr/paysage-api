@@ -1,7 +1,7 @@
 collectionMethods:
   get:
     tags:
-      - Termes - Identifiants
+      - Terms - Identifiants
     summary: Lister les identifiants d'un terme
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -36,7 +36,7 @@ collectionMethods:
 
   post:
     tags:
-      - Termes - Identifiants
+      - Terms - Identifiants
     summary: Ajouter un identifiant au terme
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -73,7 +73,7 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Termes - Identifiants
+      - Terms - Identifiants
     summary: Get a term's identifier by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -96,7 +96,7 @@ documentMethods:
 
   delete:
     tags:
-      - Termes - Identifiants
+      - Terms - Identifiants
     summary: Retirer un identifiant du terme
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -115,7 +115,7 @@ documentMethods:
 
   patch:
     tags:
-      - Termes - Identifiants
+      - Terms - Identifiants
     summary: Modifier un identifiant du terme
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
