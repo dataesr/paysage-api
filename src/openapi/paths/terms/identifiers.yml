@@ -80,7 +80,7 @@ documentMethods:
       - $ref: '../../api.yml#/components/parameters/identifierId'
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:

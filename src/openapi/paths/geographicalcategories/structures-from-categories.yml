@@ -5,10 +5,10 @@ collectionMethods:
       - Geographical categories - Structures
     summary: List structures from a geographical category
     parameters:
-      - $ref: '../../api.yml#/components/parameters/filters'
-      - $ref: '../../api.yml#/components/parameters/skip'
-      - $ref: '../../api.yml#/components/parameters/limit'
-      - $ref: '../../api.yml#/components/parameters/sort'
+        - $ref: '../../api.yml#/components/parameters/filters'
+        - $ref: '../../api.yml#/components/parameters/skip'
+        - $ref: '../../api.yml#/components/parameters/limit'
+        - $ref: '../../api.yml#/components/parameters/sort'
     responses:
       '200':
         description: OK

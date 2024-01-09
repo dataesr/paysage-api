@@ -4,7 +4,7 @@ post:
   summary: Sign a user out
   responses:
     '204':
-      description: Success
+      description: OK
       content:
         application/json:
           schema:

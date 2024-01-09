@@ -22,7 +22,7 @@ collectionMethods:
                   items:
                     $ref: '../../api.yml#/components/schemas/Localisation'
                 totalCount:
-                  type: number
+                  type: integer
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
