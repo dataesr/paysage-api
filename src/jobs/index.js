@@ -41,7 +41,7 @@ agenda.define('synchronize fr-esr-referentiel-geographique', { shouldSaveResult:
 agenda.define('synchronize curiexplore actors', { shouldSaveResult: true }, synchronizeCuriexploreActors);
 agenda.define('ask for email revalidation with otp', { shouldSaveResult: true }, askForEmailRevalidation);
 agenda.define('delete passed gouvernance personal info', { shouldSaveResult: true }, deletePassedGouvernancePersonnalInformation);
-agenda.define('syncronize governance collection', { shouldSaveResult: true }, synchronizeAnnuaireCollection);
+agenda.define('synchronize governance collection', { shouldSaveResult: true }, synchronizeAnnuaireCollection);
 
 agenda
   .on('ready', () => { logger.info('Agenda connected to mongodb'); })
