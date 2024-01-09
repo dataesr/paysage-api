@@ -1,8 +1,8 @@
 import { parseSortParams, parseFilters } from './helpers';
 
 class BaseMongoRepository {
-  constructor({ db, collection }) {
-    if (!collection) { throw new Error("Parameter 'collection' must be specified"); }
+  constructor({ collection, db }) {
+    if (!collection) { throw new Error('Parameter "collection" must be specified'); }
     if (!(typeof collection === 'string' && Object.prototype.toString.call(collection) === '[object String]')) {
       throw new Error("Parameter 'collection' must be a string");
     }
