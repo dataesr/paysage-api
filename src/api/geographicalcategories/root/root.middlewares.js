@@ -27,21 +27,18 @@ export async function getGeographicalCategoryById(req, res, next) {
 export async function getStructureFromGeoCategory(req, res, next) {
   try {
     const { geographicalCategory } = req;
-
-    const { limit, skip } = req.query;
-
-    const filters = {
+    const { filters, limit, skip } = req.query;
+    const filtersTmp = {
+      ...filters,
       'localisations.geometry': {
         $geoWithin: {
           $geometry: geographicalCategory.geometry,
         },
       },
-      'localisations.active': true,
+      'localisations.active': { $ne: false },
     };
 
-    filters['localisations.active'] = { $ne: false };
-
-    const { data } = await structuresRepository.find({ filters, useQuery: readQuery, limit, skip });
+    const { data } = await structuresRepository.find({ filters: filtersTmp, useQuery: readQuery, limit, skip });
     res.status(200).json({ data, totalCount: data.length });
     next();
   } catch (error) {
