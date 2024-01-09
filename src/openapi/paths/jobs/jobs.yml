@@ -10,7 +10,7 @@ collectionMethods:
         - $ref: '../../api.yml#/components/parameters/sort'
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -21,7 +21,7 @@ collectionMethods:
                 aggregations:
                   type: object
                 totalCount:
-                  type: number
+                  type: integer
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
@@ -30,131 +30,3 @@ collectionMethods:
         $ref: '../../api.yml#/components/responses/Forbidden'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
-
-#   post:
-#     tags:
-#       - Job
-#     summary: Create a new person
-#     requestBody:
-#       content:
-#         application/json:
-#           schema:
-#             title: CreatePerson
-#             type: object
-#             required:
-#               - lastName
-#             allOf:
-#               - $ref: '../../api.yml#/components/schemas/PersonBulkInsertPayload'
-#     responses:
-#       '201':
-#         description: Created
-#         content:
-#           application/json:
-#             schema:
-#               $ref: '../../api.yml#/components/schemas/Person'
-#       '400':
-#         $ref: '../../api.yml#/components/responses/BadRequest'
-#       '401':
-#         $ref: '../../api.yml#/components/responses/Unauthorized'
-#       '403':
-#         $ref: '../../api.yml#/components/responses/Forbidden'
-#       '500':
-#         $ref: '../../api.yml#/components/responses/ServerError'
-
-# documentMethods:
-#   get:
-#     tags:
-#       - Persons
-#     summary: Get a person by ID
-#     parameters:
-#       - $ref: '../../api.yml#/components/parameters/personId'
-#     responses:
-#       '200':
-#         description: OK
-#         content:
-#           application/json:
-#             schema:
-#               $ref: '../../api.yml#/components/schemas/Person'
-#       '401':
-#         $ref: '../../api.yml#/components/responses/Unauthorized'
-#       '403':
-#         $ref: '../../api.yml#/components/responses/Forbidden'
-#       '404':
-#         $ref: '../../api.yml#/components/responses/NotFound'
-#       '500':
-#         $ref: '../../api.yml#/components/responses/ServerError'
-
-
-#   patch:
-#     tags:
-#       - Persons
-#     summary: Update a person by ID
-#     parameters:
-#       - $ref: '../../api.yml#/components/parameters/personId'
-#     requestBody:
-#       content:
-#         application/json:
-#           schema:
-#               $ref: '../../api.yml#/components/schemas/PersonPayload'
-#     responses:
-#       '200':
-#         description: OK
-#         content:
-#           application/json:
-#             schema:
-#               $ref: '../../api.yml#/components/schemas/Person'
-#       '400':
-#         $ref: '../../api.yml#/components/responses/BadRequest'
-#       '401':
-#         $ref: '../../api.yml#/components/responses/Unauthorized'
-#       '403':
-#         $ref: '../../api.yml#/components/responses/Forbidden'
-#       '404':
-#         $ref: '../../api.yml#/components/responses/NotFound'
-#       '500':
-#         $ref: '../../api.yml#/components/responses/ServerError'
-
-#   delete:
-#     tags:
-#       - Persons
-#     summary: Delete a person by ID
-#     parameters:
-#       - $ref: '../../api.yml#/components/parameters/personId'
-#     responses:
-#       '204':
-#         description: No content
-#       '401':
-#         $ref: '../../api.yml#/components/responses/Unauthorized'
-#       '403':
-#         $ref: '../../api.yml#/components/responses/Forbidden'
-#       '404':
-#         $ref: '../../api.yml#/components/responses/NotFound'
-#       '500':
-#         $ref: '../../api.yml#/components/responses/ServerError'
-
-#   put:
-#     tags:
-#       - Persons
-#     summary: Create a new person with ID
-#     parameters:
-#       - $ref: '../../api.yml#/components/parameters/personId'
-#     requestBody:
-#       content:
-#           application/json:
-#             schema:
-#               $ref: '../../api.yml#/components/schemas/PersonPayload'
-#     responses:
-#       '201':
-#         description: Created
-#         content:
-#           application/json:
-#             schema:
-#               $ref: '../../api.yml#/components/schemas/Person'
-#       '400':
-#         $ref: '../../api.yml#/components/responses/BadRequest'
-#       '401':
-#         $ref: '../../api.yml#/components/responses/Unauthorized'
-#       '403':
-#         $ref: '../../api.yml#/components/responses/Forbidden'
-#       '500':
-#         $ref: '../../api.yml#/components/responses/ServerError'

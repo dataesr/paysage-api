@@ -70,7 +70,7 @@ documentMethods:
       - $ref: '../../api.yml#/components/parameters/structureId'
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
