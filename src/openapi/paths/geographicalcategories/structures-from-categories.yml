@@ -9,6 +9,7 @@ collectionMethods:
         - $ref: '../../api.yml#/components/parameters/skip'
         - $ref: '../../api.yml#/components/parameters/limit'
         - $ref: '../../api.yml#/components/parameters/sort'
+        - $ref: '../../api.yml#/components/parameters/geographicalCategoryId'
     responses:
       '200':
         description: OK
