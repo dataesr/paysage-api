@@ -5,7 +5,7 @@ Me:
     summary: Get current user data
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -30,7 +30,7 @@ Me:
                 type: string
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -70,7 +70,7 @@ Avatar:
                 format: binary
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -86,7 +86,7 @@ Avatar:
     summary: Delete user avatar
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -118,7 +118,7 @@ Password:
                 pattern: ^(?=.*[A-Za-z])(?=.*\d)(?=.*[!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~])[A-Za-z\d!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]{8,}$
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:

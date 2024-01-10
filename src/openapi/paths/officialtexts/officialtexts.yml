@@ -21,7 +21,7 @@ collectionMethods:
                   items:
                     $ref: '../../api.yml#/components/schemas/OfficialText'
                 totalCount:
-                  type: number
+                  type: integer
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

@@ -1,7 +1,7 @@
 collectionMethods:
   post:
     tags:
-      - Geographical categories - Exceptions
+      - Geographical exceptions
     summary: Add an new exception to the geographical category
     requestBody:
       content:
@@ -35,7 +35,7 @@ collectionMethods:
 documentMethods:
   delete:
     tags:
-      - Geographical categories - Exceptions
+      - Geographical exceptions
     summary: Delete a geographical category's exception
     parameters:
       - $ref: '../../api.yml#/components/parameters/geographicalExceptionId'

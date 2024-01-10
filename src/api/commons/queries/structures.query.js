@@ -5,8 +5,8 @@ import officialtextLightQuery from './official-texts.light.query';
 
 export default [
   ...metas,
-  ...currentNameQuery,
   ...currentLocalisationQuery,
+  ...currentNameQuery,
   {
     $lookup: {
       from: 'officialtexts',

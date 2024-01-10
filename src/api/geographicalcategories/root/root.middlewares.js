@@ -24,24 +24,22 @@ export async function getGeographicalCategoryById(req, res, next) {
     return res.status(500).json({ error: 'An error occurred while fetching data' });
   }
 }
+
 export async function getStructureFromGeoCategory(req, res, next) {
   try {
-    const { geographicalCategory } = req;
-
-    const { limit, skip } = req.query;
-
-    const filters = {
+    const { geographicalCategory, query } = req;
+    const { filters, limit, skip, sort } = query;
+    const filtersTmp = {
+      ...filters,
       'localisations.geometry': {
         $geoWithin: {
           $geometry: geographicalCategory.geometry,
         },
       },
-      'localisations.active': true,
+      'localisations.active': { $ne: false },
     };
 
-    filters['localisations.active'] = { $ne: false };
-
-    const { data } = await structuresRepository.find({ filters, useQuery: readQuery, limit, skip });
+    const { data } = await structuresRepository.find({ filters: filtersTmp, limit, skip, sort, useQuery: readQuery });
     res.status(200).json({ data, totalCount: data.length });
     next();
   } catch (error) {

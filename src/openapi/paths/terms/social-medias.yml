@@ -1,7 +1,7 @@
 collectionMethods:
   get:
     tags:
-      - Termes - SocialMedias
+      - Terms - SocialMedias
     summary: List all term social media
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -36,7 +36,7 @@ collectionMethods:
 
   post:
     tags:
-      - Termes - SocialMedias
+      - Terms - SocialMedias
     summary: Add a new social media to the term
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -71,7 +71,7 @@ collectionMethods:
 documentMethods:
   get:
     tags:
-      - Termes - SocialMedias
+      - Terms - SocialMedias
     summary: Get a term social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -94,7 +94,7 @@ documentMethods:
 
   delete:
     tags:
-      - Termes - SocialMedias
+      - Terms - SocialMedias
     summary: Delete a term social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'
@@ -113,7 +113,7 @@ documentMethods:
 
   patch:
     tags:
-      - Termes - SocialMedias
+      - Terms - SocialMedias
     summary: Update a term social media by ID
     parameters:
       - $ref: '../../api.yml#/components/parameters/termId'

@@ -30,7 +30,9 @@ tags:
   - name: Files
   - name: Follow-ups
   - name: Geographical categories
-  - name: Geographical categories - Exceptions
+  - name: Geographical categories - Structures
+  - name: Geographical exceptions
+  - name: Jobs
   - name: Journal
   - name: Legal categories
   - name: Official texts
@@ -39,9 +41,9 @@ tags:
   - name: Persons - SocialMedias
   - name: Persons - Weblinks
   - name: Press
-  - name: Prix
-  - name: Prix - Identifiants
-  - name: Prix - Weblinks
+  - name: Prizes
+  - name: Prizes - Identifiants
+  - name: Prizes - Weblinks
   - name: Projects
   - name: Projects - Localisations
   - name: Projects - Weblinks
@@ -62,10 +64,10 @@ tags:
   - name: Structures - SocialMedias
   - name: Structures - Weblinks
   - name: Supervising ministers
-  - name: Termes
-  - name: Termes - Identifiants
-  - name: Termes - SocialMedias
-  - name: Termes - Weblinks
+  - name: Terms
+  - name: Terms - Identifiants
+  - name: Terms - SocialMedias
+  - name: Terms - Weblinks
   - name: User's groups
   - name: Users
 
