@@ -23,6 +23,7 @@ export default [
       categories: { $ifNull: ['$categories', []] },
       category: { $ifNull: ['$category', {}] },
       closureDate: { $ifNull: ['$closureDate', null] },
+      createdAt: 1,
       creationDate: { $ifNull: ['$creationDate', null] },
       collection: 'structures',
       currentLocalisation: { $ifNull: ['$currentLocalisation', {}] },
