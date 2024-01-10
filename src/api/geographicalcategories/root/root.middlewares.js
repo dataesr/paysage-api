@@ -28,7 +28,7 @@ export async function getGeographicalCategoryById(req, res, next) {
 export async function getStructureFromGeoCategory(req, res, next) {
   try {
     const { geographicalCategory, query } = req;
-    const { filters, limit, skip } = query;
+    const { filters, limit, skip, sort } = query;
     const filtersTmp = {
       ...filters,
       'localisations.geometry': {
@@ -39,7 +39,7 @@ export async function getStructureFromGeoCategory(req, res, next) {
       'localisations.active': { $ne: false },
     };
 
-    const { data } = await structuresRepository.find({ filters: filtersTmp, limit, skip, useQuery: readQuery });
+    const { data } = await structuresRepository.find({ filters: filtersTmp, limit, skip, sort, useQuery: readQuery });
     res.status(200).json({ data, totalCount: data.length });
     next();
   } catch (error) {
