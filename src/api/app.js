@@ -42,6 +42,7 @@ import supervisingMinistersRoutes from './supervising-ministers/supervising-mini
 import termsRoutes from './terms/terms.routes';
 import usersGroupsRoutes from './groups/groups.routes';
 import usersRoutes from './users/users.routes';
+import identifiersRoutes from './identifiers/identifier.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/api.yml');
@@ -130,6 +131,7 @@ app.use(supervisingMinistersRoutes);
 app.use(termsRoutes);
 app.use(usersGroupsRoutes);
 app.use(usersRoutes);
+app.use(identifiersRoutes);
 
 // Error handler
 app.use(handleErrors);

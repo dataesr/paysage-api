@@ -15,6 +15,7 @@ import { db } from '../services/mongo.service';
 import {
   exportFrEsrPaysageFonctionsGourvernance,
   exportFrEsrAnnelisPaysageEtablissements,
+  exportFrEsrStructureIdentifiers,
 } from './opendata';
 import synchronizeAnnuaireCollection from './synchronize/annuaire-collection';
 import synchronizeCuriexploreActors from './synchronize/curiexplore-actors';
@@ -35,6 +36,7 @@ agenda.define('send recovery email', { shouldSaveResult: true }, sendPasswordRec
 agenda.define('send contact email', { shouldSaveResult: true }, sendContactEmail);
 agenda.define('update key numbers', { shouldSaveResult: true }, updateKeyNumbers);
 agenda.define('reindex', { shouldSaveResult: true }, reindex);
+agenda.define('export fr-esr-paysage_structures_identifiants', { shouldSaveResult: true }, exportFrEsrStructureIdentifiers);
 agenda.define('export fr-esr-paysage-fonctions-gourvernance', { shouldSaveResult: true }, exportFrEsrPaysageFonctionsGourvernance);
 agenda.define('export fr-esr-annelis-paysage-etablissements', { shouldSaveResult: true }, exportFrEsrAnnelisPaysageEtablissements);
 agenda.define('synchronize fr-esr-referentiel-geographique', { shouldSaveResult: true }, synchronizeFrEsrReferentielGeographique);
