@@ -10,7 +10,7 @@ collectionMethods:
       - $ref: '../../api.yml#/components/parameters/sort'
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -21,7 +21,7 @@ collectionMethods:
                   items:
                     $ref: '../../api.yml#/components/schemas/RelationsGroup'
                 totalCount:
-                  type: number
+                  type: integer
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':

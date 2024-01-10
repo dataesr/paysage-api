@@ -10,7 +10,7 @@ collectionMethods:
       - $ref: ../../api.yml#/components/parameters/sort
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -21,7 +21,7 @@ collectionMethods:
                   items:
                     $ref: '../../api.yml#/components/schemas/User'
                 totalCount:
-                  type: number
+                  type: integer
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
@@ -39,7 +39,7 @@ collectionAdminMethods:
       - $ref: ../../api.yml#/components/parameters/sort
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -50,7 +50,7 @@ collectionAdminMethods:
                   items:
                     $ref: '../../api.yml#/components/schemas/UserAdmin'
                 totalCount:
-                  type: number
+                  type: integer
       '401':
         $ref: '../../api.yml#/components/responses/Unauthorized'
       '500':
@@ -89,7 +89,7 @@ documentAdminMethods:
             $ref: ../../api.yml#/components/schemas/UserAdminPayload
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:
@@ -114,7 +114,7 @@ documentAdminConfirmMethod:
       - $ref: ../../api.yml#/components/parameters/userId
     responses:
       '200':
-        description: Success
+        description: OK
         content:
           application/json:
             schema:

@@ -31,7 +31,7 @@ export default async function synchronizeCuriexploreActors(job) {
     { $project: { structure: 0, _id: 0 } },
     { $out: 'curiexploreactors' },
   ]).toArray().catch((e) => {
-    job.fail(`La synchronisation a échouée: ${e.message}`);
+    job.fail(`La synchronisation a échoué: ${e.message}`);
     result = null;
   });
   return result;
