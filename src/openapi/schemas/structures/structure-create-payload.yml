@@ -148,6 +148,12 @@ properties:
   ed:
     type: string
     nullable: true
+  crunchbase:
+    type: string
+    nullable: true
+  dealroom:
+    type: string
+    nullable: true
   websiteEn:
     type: string
     nullable: true
