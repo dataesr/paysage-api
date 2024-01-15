@@ -207,6 +207,24 @@ export const fromPayloadToStructure = async (req, res, next) => {
       id: await catalog.getUniqueId('identifiers', 15),
     });
   }
+  if (payload.crunchbase) {
+    structureIdentifiers.push({
+      value: payload.crunchbase,
+      type: 'crunchbase',
+      createdBy: req.currentUser.id,
+      createdAt: new Date(),
+      id: await catalog.getUniqueId('identifiers', 15),
+    });
+  }
+  if (payload.dealroom) {
+    structureIdentifiers.push({
+      value: payload.dealroom,
+      type: 'dealroom',
+      createdBy: req.currentUser.id,
+      createdAt: new Date(),
+      id: await catalog.getUniqueId('identifiers', 15),
+    });
+  }
   if (payload.ror) {
     structureIdentifiers.push({
       value: payload.ror,

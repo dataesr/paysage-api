@@ -1,30 +1,30 @@
-import structuresLightQuery from '../../api/commons/queries/structures.light.query';
+import personsLightQuery from '../../api/commons/queries/persons.light.query';
 import { client, db } from '../../services/mongo.service';
 
-const dataset = 'fr-esr-paysage_structures_identifiants';
+const dataset = 'fr-esr-paysage_personnes_identifiants';
 
-export default async function exportFrEsrStructureIdentifiers() {
+export default async function exportFrEsrPersonIdentifiers() {
   const data = await db.collection('identifiers').aggregate([
     {
       $lookup: {
-        from: 'structures',
+        from: 'persons',
         localField: 'resourceId',
         foreignField: 'id',
-        pipeline: structuresLightQuery,
-        as: 'structure',
+        pipeline: personsLightQuery,
+        as: 'person',
       },
     },
-    { $set: { structure: { $arrayElemAt: ['$structure', 0] } } },
+    { $set: { person: { $arrayElemAt: ['$person', 0] } } },
   ]).toArray();
-  const json = data.map(({ structure, ...identifier }) => {
-    if (!structure || !structure.id || !identifier || !identifier.id) {
+  const json = data.map(({ person, ...identifier }) => {
+    if (!person || !person.id || !identifier || !identifier.id) {
       return null;
     }
 
     const row = {
       dataset,
       id: identifier.value,
-      id_structure_paysage: structure.id,
+      id_person_paysage: person.id,
       id_type: identifier.type,
       active: identifier.active,
       id_startDate: identifier.startDate,
