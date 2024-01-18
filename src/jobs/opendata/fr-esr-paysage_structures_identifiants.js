@@ -24,6 +24,7 @@ export default async function exportFrEsrStructureIdentifiers() {
     const row = {
       dataset,
       id: identifier.value,
+      internal_id: identifier.id,
       id_structure_paysage: structure.id,
       id_type: identifier.type,
       active: identifier.active,
