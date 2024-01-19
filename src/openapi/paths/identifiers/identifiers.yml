@@ -19,7 +19,7 @@ collectionMethods:
                 data:
                   type: array
                   items:
-                    $ref: '../../api.yml#/components/schemas/idenfitiers'
+                    $ref: '../../api.yml#/components/schemas/Identifiers'
                 totalCount:
                   type: integer
       '400':
