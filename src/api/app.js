@@ -43,6 +43,7 @@ import termsRoutes from './terms/terms.routes';
 import usersGroupsRoutes from './groups/groups.routes';
 import usersRoutes from './users/users.routes';
 import identifiersRoutes from './identifiers/identifier.routes';
+import weblinksRoutes from './weblinks/weblinks.routes';
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), 'docs/reference/api.yml');
@@ -111,6 +112,7 @@ app.use(documentTypesRoutes);
 app.use(emailTypesRoutes);
 app.use(followUpsRoutes);
 app.use(geographicalcategoriesRoutes);
+app.use(identifiersRoutes);
 app.use(jobsRoutes);
 app.use(journalRoutes);
 app.use(legalCategoriesRoutes);
@@ -131,7 +133,7 @@ app.use(supervisingMinistersRoutes);
 app.use(termsRoutes);
 app.use(usersGroupsRoutes);
 app.use(usersRoutes);
-app.use(identifiersRoutes);
+app.use(weblinksRoutes);
 
 // Error handler
 app.use(handleErrors);
