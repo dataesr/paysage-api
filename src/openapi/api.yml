@@ -363,6 +363,10 @@ paths:
   '/jobs':
     $ref: './paths/jobs/jobs.yml#/collectionMethods'
 
+  ### WEBLINKS ###
+  '/weblinks':
+    $ref: './paths/weblinks/weblinks.yml#/collectionMethods'
+
 components:
   parameters:
     apiKeyId:
@@ -606,6 +610,8 @@ components:
       $ref: ./schemas/users/user-admin.yml
     UserLight:
       $ref: ./schemas/users/user-light.yml
+    Weblinks:
+      $ref: './schemas/weblinks/weblinks.yml'
 
     ### PAYLOADS ###
     ApiKeyPayload:
@@ -734,6 +740,8 @@ components:
       $ref: './schemas/terms/enums/weblink-types.yml'
     TermIdentifierTypesEnum:
       $ref: './schemas/terms/enums/identifier-types.yml'
+    WeblinksEnum:
+      $ref: './schemas/weblinks/enums/type.yml'
 
     ### COMMON MODELS ###
     Error:
