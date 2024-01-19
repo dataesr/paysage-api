@@ -710,6 +710,8 @@ components:
       $ref: './schemas/officialtexts/enums/nature.yml'
     OfficialTextTypesEnum:
       $ref: './schemas/officialtexts/enums/type.yml'
+    IdentifiersEnum:
+      $ref: './schemas/identifiers/enums/type.yml'
     PersonIdentifierTypesEnum:
       $ref: './schemas/persons/enums/identifier-types.yml'
     PersonWeblinkTypesEnum:
