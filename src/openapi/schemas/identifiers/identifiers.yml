@@ -14,7 +14,7 @@ allOf:
         description: Unique resource identifier
         pattern: '^[a-zA-Z0-9]{5}$'
       type:
-        $ref: '../../api.yml#/components/schemas/identifiers'
+        $ref: '../../api.yml#/components/schemas/Identifiers'
       value:
         type: string
       active:
