@@ -2,7 +2,7 @@ collectionMethods:
   get:
     tags:
       - Identifiers
-    summary: List all idenfitiers
+    summary: List all identifiers
     parameters:
       - $ref: '../../api.yml#/components/parameters/filters'
       - $ref: '../../api.yml#/components/parameters/skip'
