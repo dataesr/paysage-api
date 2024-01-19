@@ -32,6 +32,7 @@ tags:
   - name: Geographical categories
   - name: Geographical categories - Structures
   - name: Geographical exceptions
+  - name: Identifiers
   - name: Jobs
   - name: Journal
   - name: Legal categories
@@ -259,6 +260,10 @@ paths:
     $ref: './paths/documents/documents.yml#/collectionMethods'
   '/documents/{documentId}':
     $ref: './paths/documents/documents.yml#/documentMethods'
+
+  ### IDENFITIANTS ###
+  '/identifiers':
+    $ref: './paths/idenfitiers/identifiers.yml#/collectionMethods'
 
   ### PRESS ###
   '/press':
@@ -497,6 +502,8 @@ components:
       $ref: ./schemas/groups/group.yml
     GroupMember:
       $ref: ./schemas/groups/group-member.yml
+    Idenfitiers:
+      $ref: './schemas/identifiers/identifiers.yml'
     LegalCategory:
       $ref: './schemas/legalcategories/legalcategory.yml'
     LegalCategoryLight:
