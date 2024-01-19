@@ -261,9 +261,9 @@ paths:
   '/documents/{documentId}':
     $ref: './paths/documents/documents.yml#/documentMethods'
 
-  ### IDENFITIANTS ###
+  ### IDENTIFIANTS ###
   '/identifiers':
-    $ref: './paths/idenfitiers/identifiers.yml#/collectionMethods'
+    $ref: './paths/identifiers/identifiers.yml#/collectionMethods'
 
   ### PRESS ###
   '/press':
@@ -502,7 +502,7 @@ components:
       $ref: ./schemas/groups/group.yml
     GroupMember:
       $ref: ./schemas/groups/group-member.yml
-    Idenfitiers:
+    Identifiers:
       $ref: './schemas/identifiers/identifiers.yml'
     LegalCategory:
       $ref: './schemas/legalcategories/legalcategory.yml'
