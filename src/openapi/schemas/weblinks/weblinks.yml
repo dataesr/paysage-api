@@ -11,20 +11,15 @@ allOf:
       resourceId:
         type: string
         readOnly: true
-        description: Unique resource identifier
+        description: Unique parent resource identifier
         pattern: '^[a-zA-Z0-9]{5}$'
       type:
         $ref: ../../api.yml#/components/schemas/WeblinksEnum
-      value:
+      url:
         type: string
-      active:
-        type: boolean
-      startDate:
+      language:
         type: string
+        description: Language of the web link on 2 letters
+        pattern: '^[a-zA-Z]{2}$'
         nullable: true
-        pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
-      endDate:
-        type: string
-        nullable: true
-        pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
   - $ref: '../../api.yml#/components/schemas/Metas'
