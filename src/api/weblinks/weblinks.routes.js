@@ -1,8 +1,8 @@
 import express from 'express';
 import controllers from '../commons/middlewares/crud.middlewares';
-import { identifiersRepository as repository } from '../commons/repositories';
-import { identifiers as resource } from '../resources';
-import { readQuery } from '../commons/queries/identifiers.query';
+import { weblinksRepository as repository } from '../commons/repositories';
+import { weblinks as resource } from '../resources';
+import { readQuery } from '../commons/queries/weblinks.query';
 
 const router = new express.Router();
 
