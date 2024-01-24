@@ -51,6 +51,7 @@ export default [
       level: { $ifNull: ['$level', null] },
       nameEn: { $ifNull: ['$nameEn', null] },
       nameFr: 1,
+      isDeleted: { $ifNull: ['$isDeleted', false] },
       originalId: { $ifNull: ['$originalId', null] },
       parent: { $ifNull: ['$parent', null] },
       priority: { $ifNull: ['$priority', null] },
