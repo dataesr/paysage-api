@@ -32,6 +32,7 @@ tags:
   - name: Geographical categories
   - name: Geographical categories - Structures
   - name: Geographical exceptions
+  - name: Identifiers
   - name: Jobs
   - name: Journal
   - name: Legal categories
@@ -260,6 +261,10 @@ paths:
   '/documents/{documentId}':
     $ref: './paths/documents/documents.yml#/documentMethods'
 
+  ### IDENTIFIANTS ###
+  '/identifiers':
+    $ref: './paths/identifiers/identifiers.yml#/collectionMethods'
+
   ### PRESS ###
   '/press':
     $ref: './paths/press/press.yml#/collectionMethods'
@@ -357,6 +362,10 @@ paths:
   ### JOBS ###
   '/jobs':
     $ref: './paths/jobs/jobs.yml#/collectionMethods'
+
+  ### WEBLINKS ###
+  '/weblinks':
+    $ref: './paths/weblinks/weblinks.yml#/collectionMethods'
 
 components:
   parameters:
@@ -497,6 +506,8 @@ components:
       $ref: ./schemas/groups/group.yml
     GroupMember:
       $ref: ./schemas/groups/group-member.yml
+    Identifiers:
+      $ref: './schemas/identifiers/identifiers.yml'
     LegalCategory:
       $ref: './schemas/legalcategories/legalcategory.yml'
     LegalCategoryLight:
@@ -599,6 +610,8 @@ components:
       $ref: ./schemas/users/user-admin.yml
     UserLight:
       $ref: ./schemas/users/user-light.yml
+    Weblinks:
+      $ref: './schemas/weblinks/weblinks.yml'
 
     ### PAYLOADS ###
     ApiKeyPayload:
@@ -703,6 +716,8 @@ components:
       $ref: './schemas/officialtexts/enums/nature.yml'
     OfficialTextTypesEnum:
       $ref: './schemas/officialtexts/enums/type.yml'
+    IdentifiersEnum:
+      $ref: './schemas/identifiers/enums/type.yml'
     PersonIdentifierTypesEnum:
       $ref: './schemas/persons/enums/identifier-types.yml'
     PersonWeblinkTypesEnum:
@@ -725,6 +740,8 @@ components:
       $ref: './schemas/terms/enums/weblink-types.yml'
     TermIdentifierTypesEnum:
       $ref: './schemas/terms/enums/identifier-types.yml'
+    WeblinksEnum:
+      $ref: './schemas/weblinks/enums/type.yml'
 
     ### COMMON MODELS ###
     Error:

@@ -24,6 +24,7 @@ export default async function exportFrEsrPersonIdentifiers() {
     const row = {
       dataset,
       id: identifier.value,
+      internal_id: identifier.id,
       id_person_paysage: person.id,
       id_type: identifier.type,
       active: identifier.active,

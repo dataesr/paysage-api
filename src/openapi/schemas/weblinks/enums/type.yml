@@ -1,0 +1,53 @@
+type: string
+enum:
+  - Actualités
+  - BSO
+  - CanalU
+  - Catalogue de formations
+  - DataGouvFr
+  - EdCF
+  - EducPros
+  - Espace presse
+  - Hal
+  - hceres
+  - IUF
+  - jorfsearch
+  - LeMonde
+  - Lieux inspirants
+  - mooc
+  - OE1
+  - OE2
+  - OE3
+  - official
+  - Onisep
+  - Page avec le lien vers l'organigramme
+  - Page bilan social
+  - Page histoire
+  - Page liste des composantes
+  - Page rapport d'activité
+  - personal
+  - Photothèque
+  - PiaWEB
+  - POpenData
+  - rankingLeiden
+  - rankingQs
+  - rankingScimago
+  - rankingShanghai
+  - rankingThe
+  - rankingUmultirank
+  - rankingWebometrics
+  - scanR
+  - Service communication
+  - ServicePublic
+  - Services généraux
+  - TalentCNRS
+  - TheConversation
+  - website
+  - websiteCatForm
+  - websiteDirectory
+  - websiteGovernance
+  - websiteOrganizationChart
+  - websiteRss
+  - websiteRechercheData
+  - websiteDataWarehouse
+  - Wikipedia
