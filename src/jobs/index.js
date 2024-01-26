@@ -17,6 +17,7 @@ import {
   exportFrEsrAnnelisPaysageEtablissements,
   exportFrEsrStructureIdentifiers,
   exportFrEsrPersonIdentifiers,
+  exportFrEsrStructureWebsites,
 } from './opendata';
 import synchronizeAnnuaireCollection from './synchronize/annuaire-collection';
 import synchronizeCuriexploreActors from './synchronize/curiexplore-actors';
@@ -41,6 +42,7 @@ agenda.define('export fr-esr-paysage_structures_identifiants', { shouldSaveResul
 agenda.define('export fr-esr-paysage_personnes_identifiants', { shouldSaveResult: true }, exportFrEsrPersonIdentifiers);
 agenda.define('export fr-esr-paysage-fonctions-gourvernance', { shouldSaveResult: true }, exportFrEsrPaysageFonctionsGourvernance);
 agenda.define('export fr-esr-annelis-paysage-etablissements', { shouldSaveResult: true }, exportFrEsrAnnelisPaysageEtablissements);
+agenda.define('export fr-esr-paysage_structures_websites', { shouldSaveResult: true }, exportFrEsrStructureWebsites);
 agenda.define('synchronize fr-esr-referentiel-geographique', { shouldSaveResult: true }, synchronizeFrEsrReferentielGeographique);
 agenda.define('synchronize curiexplore actors', { shouldSaveResult: true }, synchronizeCuriexploreActors);
 agenda.define('ask for email revalidation with otp', { shouldSaveResult: true }, askForEmailRevalidation);
