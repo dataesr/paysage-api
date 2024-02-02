@@ -154,6 +154,9 @@ properties:
   dealroom:
     type: string
     nullable: true
+  openAlexStructId:
+    type: string
+    nullable: true
   websiteEn:
     type: string
     nullable: true
