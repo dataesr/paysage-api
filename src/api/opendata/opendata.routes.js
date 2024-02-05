@@ -12,6 +12,9 @@ const FILTERS = {
   'fr-esr-annelis-paysage-etablissements': { dataset: 'fr-esr-annelis-paysage-etablissements' },
   'fr-esr-paysage_structures_identifiants': { dataset: 'fr-esr-paysage_structures_identifiants' },
   'fr-esr-paysage_personnes_identifiants': { dataset: 'fr-esr-paysage_personnes_identifiants' },
+  'fr-esr-paysage_structures_websites': { dataset: 'fr-esr-paysage_structures_websites' },
+  'fr-esr-paysage_prix': { dataset: 'fr-esr-paysage_prix' },
+
 };
 
 router.route('/opendata/:datasetId')
