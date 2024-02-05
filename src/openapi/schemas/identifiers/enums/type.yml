@@ -21,6 +21,7 @@ enum:
   - isil
   - isni
   - oc
+  - openAlexStructId
   - orgref
   - pia
   - piaweb-organization
