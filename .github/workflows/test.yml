@@ -9,7 +9,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run tests
         run: docker-compose -f docker-compose-test.yml up --build --exit-code-from paysage-api
 
@@ -18,7 +18,7 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: dataesr/mm-notifier-action@v1
+      - uses: dataesr/mm-notifier-action@v1.0.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
           mattermost_webhook_url: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
