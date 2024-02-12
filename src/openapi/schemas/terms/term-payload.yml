@@ -57,11 +57,11 @@ properties:
   creationOfficialTextId:
     type: string
     description: Identifiant d'un texte officiel justifiant de l'ouverture de la catégorie
-    pattern: '^[a-zA-Z0-9]{15}$'
+    pattern: "^[a-zA-Z0-9]{15}$"
   closureOfficialTextId:
     type: string
     description: Identifiant d'un texte officiel justifiant de la fermeture de la catégorie
-    pattern: '^[a-zA-Z0-9]{15}$'
+    pattern: "^[a-zA-Z0-9]{15}$"
   websiteEn:
     type: string
     nullable: true
@@ -69,6 +69,9 @@ properties:
     type: string
     nullable: true
   rncp:
+    type: string
+    nullable: true
+  openAlexTermId:
     type: string
     nullable: true
   wikidata:

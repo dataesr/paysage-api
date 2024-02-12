@@ -10,6 +10,7 @@ enum:
   - orcid
   - scopus
   - univ-droit
+  - openAlexPersonId
   - wikidata
   - wos
   - researchgate
