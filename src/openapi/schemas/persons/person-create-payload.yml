@@ -1,5 +1,5 @@
 title: PersonBulkInsertPayload
-description: Liste 
+description: Liste
 additionalProperties: false
 type: object
 properties:
@@ -45,6 +45,9 @@ properties:
     type: string
     nullable: true
   orcid:
+    type: string
+    nullable: true
+  openAlexPersonId:
     type: string
     nullable: true
   researchgate:

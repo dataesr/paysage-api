@@ -4,6 +4,7 @@ enum:
   - idref
   - ISO2
   - ISO3
+  - openAlexTermId
   - PSUP
   - PSUPC
   - PSUPT
