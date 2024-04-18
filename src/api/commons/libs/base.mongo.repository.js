@@ -1,4 +1,4 @@
-import { parseSortParams, parseFilters } from './helpers';
+import { parseSortParams, parseFilters, mongoFilters } from './helpers';
 
 class BaseMongoRepository {
   constructor({ collection, db }) {
@@ -13,10 +13,10 @@ class BaseMongoRepository {
   find = async ({
     filters = {}, skip = 0, limit = 10000, sort = '-createdAt', useQuery = [], keepDeleted = false,
   } = {}) => {
-    const _filters = keepDeleted ? parseFilters(filters) : { $and: [{ isDeleted: { $ne: true } }, parseFilters(filters)] };
-
+    const _filters = mongoFilters(parseFilters(filters));
+    const match = keepDeleted ? _filters : { $and: [{ isDeleted: { $ne: true } }, _filters] };
     const pipeline = [
-      { $match: _filters },
+      { $match: match },
       ...useQuery,
       { $setWindowFields: { output: { totalCount: { $count: {} } } } },
       { $sort: parseSortParams(sort) },
