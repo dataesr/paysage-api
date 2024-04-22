@@ -6,35 +6,37 @@ on:
       - staging
 
 env:
-  # Must match k8s deployment name
-  DEPLOYMENT: paysage-api
-  DEPLOYMENT_NAMESPACE: paysage
+  DEPLOYMENT: paysage-api # Must match k8s deployment name
+  DEPLOYMENT_NAMESPACE: paysage # Must match k8s deployment namespace
   DEPLOYMENT_URL: https://docs.paysage.dataesr.ovh/docs/paysage-api-1
-  MM_NOTIFICATION_CHANNEL: 'bots'
+  MM_NOTIFICATION_CHANNEL: bots
 
 jobs:
   publish-ghcr:
-    name: Publish docker image
+    name: Publish Docker image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: 🏁 Checkout
+        uses: actions/checkout@v4
 
-      - name: Log into registry
+      - name: 🔑 Login ghcr.io
         run: docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build image
-        run: docker build -f Dockerfile -t ${{ github.repository }} .
-
-      - name: Get Tag
-        id: version
+      
+      - name: 🏷️ Get tag
+        id: tag
         run: echo "tag=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+  
+      - name: 🐋 Build Docker image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository }}
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          docker build -t $IMAGE_ID:${{ steps.tag.outputs.tag }} .
 
       - name: Push image
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository }}
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          docker tag ${{ github.repository }} $IMAGE_ID:${{ steps.version.outputs.tag }}
-          docker push $IMAGE_ID:${{ steps.version.outputs.tag }}
+          docker push --all-tags $IMAGE_ID
 
   deploy-docs :
     name: Deploy documentation
