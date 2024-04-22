@@ -6,64 +6,67 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
 env:
-  # Must match k8s deployment name
-  DEPLOYMENT: paysage-api
-  DEPLOYMENT_NAMESPACE: paysage
+  DEPLOYMENT: paysage-api # Must match k8s deployment name
+  DEPLOYMENT_NAMESPACE: paysage # Must match k8s deployment namespace
   DEPLOYMENT_URL: https://docs.paysage.dataesr.ovh
-  MM_NOTIFICATION_CHANNEL: 'bots'
+  MM_NOTIFICATION_CHANNEL: bots
 
 jobs:
   publish-ghcr:
-    name: Publish docker image
+    name: Publish Docker image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: 🏁 Checkout
+        uses: actions/checkout@v4
 
-      - name: Log into registry
+      - name: 🔑 Log into ghcr.io
         run: docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build image
-        run: docker build -f Dockerfile -t ${{ github.repository }} .
-
-      - name: Get Tag
-        id: version
+        
+      - name: 🏷️ Get tag
+        id: tag
         run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
-      - name: Push image
+      - name: 🐋 Build Docker image
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository }}
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          docker tag ${{ github.repository }} $IMAGE_ID:latest
-          docker tag ${{ github.repository }} $IMAGE_ID:${{ steps.version.outputs.tag }}
-          docker push $IMAGE_ID:latest
-          docker push $IMAGE_ID:${{ steps.version.outputs.tag }}
+          docker build -t $IMAGE_ID:${{ steps.tag.outputs.tag }} -t $IMAGE_ID:latest .
+
+      - name: 📦 Push Docker image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository }}
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          docker push --all-tags $IMAGE_ID
 
   release:
-    name: Release new version
+    name: Create new Github release
     runs-on: ubuntu-latest
     needs: publish-ghcr
     steps:
-      - name: Check Out Repo
+      - name: 🏁 Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Get version
-        id: version
+
+      - name: 🏷️ Get tag
+        id: tag
         run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
       - name: Create changelog text
         id: changelog
         uses: loopwerk/tag-changelog@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config_file: .github/config/changelog.cjs
-      - name: Create Release
+
+      - name: 📦 Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.version.outputs.tag }}
-          release_name: ${{ steps.version.outputs.tag }}
+          tag_name: ${{ steps.tag.outputs.tag }}
+          release_name: ${{ steps.tag.outputs.tag }}
           body: "${{ steps.changelog.outputs.changes }}"
 
   deploy-docs:
