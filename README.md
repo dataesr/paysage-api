@@ -1,5 +1,9 @@
 # Paysage API
 
+![license](https://img.shields.io/github/license/dataesr/paysage-api)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/dataesr/paysage-api)
+[![Production deployment](https://github.com/dataesr/paysage-api/actions/workflows/main.yml/badge.svg)](https://github.com/dataesr/paysage-api/actions/workflows/main.yml)
+
 ## Developpement
 
 ### Install
