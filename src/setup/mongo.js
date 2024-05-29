@@ -96,6 +96,7 @@ async function setupMongo() {
 }
 
 setupMongo().catch((e) => {
-  logger.error({ ...e, message: 'Mongodb setup failed' });
+  logger.error('Mongodb setup failed');
+  logger.error(e);
   process.exit(1);
 });
