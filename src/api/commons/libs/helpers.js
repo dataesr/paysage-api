@@ -33,3 +33,18 @@ export function parseFilters(filters = {}) {
   });
   return newObj;
 }
+
+export function mongoFilters(filters = {}) {
+  if (filters !== Object(filters)) return filters;
+
+  const newObj = Object.entries(filters).reduce((acc, [key, value]) => {
+    if (Array.isArray(value) && value.every((v) => typeof v !== 'object')) {
+      acc[key] = { $in: value };
+    } else {
+      acc[key] = value;
+    }
+    return acc;
+  }, {});
+
+  return newObj;
+}
