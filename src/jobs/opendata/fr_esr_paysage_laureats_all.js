@@ -69,6 +69,7 @@ export default async function exportFrEsrPaysageLaureatAll() {
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null;
         const otherAssociatedObjectIdentifiers = e.otherAssociatedObjects?.flatMap((i) => i.identifiers)
         return {
+            dataset,
             prix_laureat_identifiant: e.id,
             prix_annee: e.startDate,
             prix_identifiant: e.resourceId,
