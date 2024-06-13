@@ -51,23 +51,25 @@ router.route('/jobs')
             data: [{ $match: filters }, { $sort: parseSortParams(sort) }, { $skip: skip }, { $limit: limit }],
             activity: [
               { $match: statusFilter },
-              { $addFields: {
-                duration: {
-                  $round: [
-                    {
-                      $divide: [
-                        {
-                          $subtract: [
-                            '$lastFinishedAt',
-                            '$lastRunAt',
-                          ],
-                        },
-                        1000,
-                      ],
-                    },
-                  ],
-                },
-              } },
+              {
+                $addFields: {
+                  duration: {
+                    $round: [
+                      {
+                        $divide: [
+                          {
+                            $subtract: [
+                              '$lastFinishedAt',
+                              '$lastRunAt',
+                            ],
+                          },
+                          1000,
+                        ],
+                      },
+                    ],
+                  },
+                }
+              },
               { $set: { duration: { $cond: [{ $eq: ['$status', 'scheduled'] }, 0, '$duration'] } } },
               { $set: { duration: { $cond: [{ $eq: ['$status', 'running'] }, 0, '$duration'] } } },
               {
@@ -84,12 +86,14 @@ router.route('/jobs')
               },
               { $match: { date: { $gte: getDateXDaysBefore(7) } } },
               { $match: { date: { $lte: getDateXDaysAfter(1) } } },
-              { $project: {
-                status: 1,
-                date: { $toLong: '$date' },
-                duration: { $ifNull: ['$duration', 0] },
-                name: 1,
-              } },
+              {
+                $project: {
+                  status: 1,
+                  date: { $toLong: '$date' },
+                  duration: { $ifNull: ['$duration', 0] },
+                  name: 1,
+                }
+              },
             ],
             status: [
               { $match: statusFilter },
@@ -101,17 +105,19 @@ router.route('/jobs')
           },
         },
         { $set: { totalCount: { $arrayElemAt: ['$totalCount', 0] } } },
-        { $project: {
-          totalCount: { $ifNull: ['$totalCount.totalCount', 0] },
-          data: 1,
-          statuses: 1,
-          aggregations: {
-            definitions: Object.keys(agenda._definitions).filter((def) => !SKIP_JOBS.includes(def)),
-            activity: '$activity',
-            byStatus: '$status',
-            byName: '$name',
-          },
-        } },
+        {
+          $project: {
+            totalCount: { $ifNull: ['$totalCount.totalCount', 0] },
+            data: 1,
+            statuses: 1,
+            aggregations: {
+              definitions: Object.keys(agenda._definitions).filter((def) => !SKIP_JOBS.includes(def)),
+              activity: '$activity',
+              byStatus: '$status',
+              byName: '$name',
+            },
+          }
+        },
       ]).toArray();
       return res.json(stats?.[0] || {});
     },

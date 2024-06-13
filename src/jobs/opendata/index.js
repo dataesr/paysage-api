@@ -4,3 +4,4 @@ export { default as exportFrEsrStructureIdentifiers } from './fr-esr-paysage_str
 export { default as exportFrEsrPersonIdentifiers } from './fr-esr-paysage_personnes_identifiants';
 export { default as exportFrEsrStructureWebsites } from './fr-esr-paysage_structures_websites';
 export { default as exportFrEsrPrizes } from './fr-esr-paysage_prix';
+export { default as exportFrEsrPaysageLaureatAll } from './fr_esr_paysage_laureats_all';
