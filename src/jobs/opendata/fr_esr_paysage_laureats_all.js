@@ -113,12 +113,12 @@ export default async function exportFrEsrPaysageLaureatAll() {
         }
     });
     console.log(json[0]);
-    // const session = client.startSession();
-    // await session.withTransaction(async () => {
-    //     await db.collection('opendata').deleteMany({ dataset });
-    //     await db.collection('opendata').insertMany(json);
-    //     await session.endSession();
-    // });
+    const session = client.startSession();
+    await session.withTransaction(async () => {
+        await db.collection('opendata').deleteMany({ dataset });
+        await db.collection('opendata').insertMany(json);
+        await session.endSession();
+    });
 
     return { status: 'success', location: `/opendata/${dataset}` };
 }
