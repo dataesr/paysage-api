@@ -14,7 +14,7 @@ const FILTERS = {
   'fr-esr-paysage_personnes_identifiants': { dataset: 'fr-esr-paysage_personnes_identifiants' },
   'fr-esr-paysage_structures_websites': { dataset: 'fr-esr-paysage_structures_websites' },
   'fr-esr-paysage_prix': { dataset: 'fr-esr-paysage_prix' },
-
+  fr_esr_paysage_laureats_all: { dataset: 'fr_esr_paysage_laureats_all' },
 };
 
 router.route('/opendata/:datasetId')
