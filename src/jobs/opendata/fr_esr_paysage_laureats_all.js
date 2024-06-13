@@ -64,7 +64,6 @@ export default async function exportFrEsrPaysageLaureatAll() {
         },
 
     ]).toArray();
-    // console.log(`Exporting ${data.length} relations for dataset ${dataset}`, data[0].websites);
     const json = data.map(e => {
         const wikidata = e.relatedObject.identifiers?.filter((i) => (i.type === 'wikidata'))
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate)).map((i) => i.value).join('|') || null;
@@ -112,7 +111,6 @@ export default async function exportFrEsrPaysageLaureatAll() {
 
         }
     });
-    console.log(json[0]);
     const session = client.startSession();
     await session.withTransaction(async () => {
         await db.collection('opendata').deleteMany({ dataset });
