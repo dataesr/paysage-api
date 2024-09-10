@@ -5,7 +5,7 @@ import logger from './logger.service';
 
 const { mongoDbName, mongoUri } = config.mongo;
 
-const client = new MongoClient(mongoUri);
+const client = new MongoClient(mongoUri, { directConnection: process.env.NODE_ENV === 'testing' });
 
 logger.info(`Try to connect to mongo... ${mongoUri}`);
 await client.connect().catch((e) => {
