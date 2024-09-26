@@ -40,11 +40,11 @@ router.route("/opendata/:datasetId").get(async (req, res) => {
 
 router.route("/exports/annelis/gouvernance").get(async (req, res) => {
   const annelis = req.query.annelis;
-  const etat = req.query.etat;
+  const etat = req.query.etat?.split(",");
 
   const query = { dataset: "fr-esr-paysage-fonctions-gouvernance" };
   if (annelis) query.annelis = annelis;
-  if (etat) query.etat = etat;
+  if (Array.isArray(etat)) query.etat = { $in: etat };
   const data = await db.collection("opendata").find(query, OPTIONS).toArray();
   res.status(200).json(data);
 });
