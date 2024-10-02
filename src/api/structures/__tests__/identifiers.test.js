@@ -1,4 +1,7 @@
-import { structures as resource, identifiers as subresource } from '../../resources';
+import {
+  structures as resource,
+  identifiers as subresource,
+} from '../../resources';
 
 let authorization;
 let id;
@@ -76,6 +79,22 @@ describe('API > structures > identifiers > create', () => {
       .set('Authorization', authorization)
       .send(rest)
       .expect(400);
+  });
+
+  it('should return 204 if an identifier with same type and same value already exists', async () => {
+    const paylod = { type: 'siret', value: '12345678912346' };
+
+    await global.superapp
+      .post(`/${resource}/${resourceId}/${subresource}`)
+      .set('Authorization', authorization)
+      .send(paylod)
+      .expect(201);
+
+    await global.superapp
+      .post(`/${resource}/${resourceId}/${subresource}`)
+      .set('Authorization', authorization)
+      .send(paylod)
+      .expect(204);
   });
 });
 
