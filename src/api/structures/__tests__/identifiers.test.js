@@ -4,7 +4,6 @@ import {
 } from '../../resources';
 
 let authorization;
-let id;
 let resourceId;
 
 const payload = {
@@ -28,20 +27,16 @@ beforeAll(async () => {
   resourceId = body.id;
 });
 
-beforeEach(async () => {
-  const { body } = await global.superapp
-    .post(`/${resource}/${resourceId}/${subresource}`)
-    .set('Authorization', authorization)
-    .send(payload);
-  id = body.id;
-});
-
 afterEach(async () => {
-  if (id) {
-    await global.superapp
-      .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
-      .set('Authorization', authorization);
-  }
+  // Delete all structures identifiers
+  const { body } = await global.superapp
+    .get(`/${resource}/${resourceId}/${subresource}`)
+    .set('Authorization', authorization);
+  const promises = body.data.map((identifier) => global.superapp
+    .delete(`/${resource}/${resourceId}/${subresource}/${identifier.id}`)
+    .set('Authorization', authorization));
+
+  await Promise.all(promises);
 });
 
 describe('API > structures > identifiers > create', () => {
@@ -100,13 +95,18 @@ describe('API > structures > identifiers > create', () => {
 
 describe('API > structures > identifiers > update', () => {
   it('should update an existing identifier', async () => {
+    const { body: { id } } = await global.superapp
+      .post(`/${resource}/${resourceId}/${subresource}`)
+      .set('Authorization', authorization)
+      .send(payload);
+
     const type = 'wikidata';
-    const { body } = await global.superapp
+    const { body: updatedBody } = await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .send({ type })
       .expect(200);
-    expect(body.type).toBe(type);
+    expect(updatedBody.type).toBe(type);
   });
 
   it('should throw bad request if id too short', async () => {
@@ -126,6 +126,11 @@ describe('API > structures > identifiers > update', () => {
   });
 
   it('should throw bad request with badly formatted payload', async () => {
+    const { body: { id } } = await global.superapp
+      .post(`/${resource}/${resourceId}/${subresource}`)
+      .set('Authorization', authorization)
+      .send(payload);
+
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
@@ -134,6 +139,11 @@ describe('API > structures > identifiers > update', () => {
   });
 
   it('should accept empty dates', async () => {
+    const { body: { id } } = await global.superapp
+      .post(`/${resource}/${resourceId}/${subresource}`)
+      .set('Authorization', authorization)
+      .send(payload);
+
     await global.superapp
       .patch(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
@@ -145,13 +155,19 @@ describe('API > structures > identifiers > update', () => {
 describe('API > structures > identifiers > read', () => {
   it('should read existing identifier', async () => {
     const { body } = await global.superapp
+      .post(`/${resource}/${resourceId}/${subresource}`)
+      .set('Authorization', authorization)
+      .send(payload);
+    const { id } = body;
+
+    const { body: readBody } = await global.superapp
       .get(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
       .expect(200);
-    expect(body.type).toBe(payload.type);
-    expect(body.value).toBe(payload.value);
-    expect(body.active).toBeFalsy();
-    expect(body.createdBy.lastName).toBe('user');
+    expect(readBody.type).toBe(payload.type);
+    expect(readBody.value).toBe(payload.value);
+    expect(readBody.active).toBeFalsy();
+    expect(readBody.createdBy.lastName).toBe('user');
   });
 
   it('should throw bad request if id too short', async () => {
@@ -185,6 +201,11 @@ describe('API > structures > identifiers > delete', () => {
   });
 
   it('should delete existing identifier', async () => {
+    const { body: { id } } = await global.superapp
+      .post(`/${resource}/${resourceId}/${subresource}`)
+      .set('Authorization', authorization)
+      .send(payload);
+
     await global.superapp
       .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
       .set('Authorization', authorization)
@@ -224,14 +245,6 @@ describe('API > structures > identifiers > list', () => {
         startDate: '2012-01-01',
         endDate: '2014-12-31',
       });
-  });
-
-  beforeEach(async () => {
-    if (id) {
-      await global.superapp
-        .delete(`/${resource}/${resourceId}/${subresource}/${id}`)
-        .set('Authorization', authorization);
-    }
   });
 
   it('should list', async () => {
