@@ -36,7 +36,7 @@ jobs:
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository }}
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          docker push --all-tags $IMAGE_ID
+          docker push -a $IMAGE_ID
 
   release:
     name: Create new Github release
@@ -50,7 +50,7 @@ jobs:
 
       - name: 🏷️ Get tag
         id: tag
-        run: echo "tag=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
       - name: Create changelog text
         id: changelog
