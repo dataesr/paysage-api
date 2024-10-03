@@ -57,6 +57,8 @@ collectionMethods:
           application/json:
             schema:
               $ref: '../../api.yml#/components/schemas/StructureIdentifier'
+      '204':
+        description: 'No content'
       '400':
         $ref: '../../api.yml#/components/responses/BadRequest'
       '401':
