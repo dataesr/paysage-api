@@ -24,7 +24,7 @@ jobs:
       
       - name: 🏷️ Get tag
         id: tag
-        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: echo "tag=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
   
       - name: 🐋 Build Docker image
         run: |
