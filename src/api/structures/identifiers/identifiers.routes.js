@@ -6,7 +6,8 @@ import { saveInElastic, saveInStore } from '../../commons/middlewares/event.midd
 import { readQuery, readQueryWithLookup } from '../../commons/queries/identifiers.query';
 import elasticQuery from '../../commons/queries/structures.elastic';
 import { identifiersRepository as repository, structuresRepository } from '../../commons/repositories';
-import { identifiers as subresource, structures as resource } from '../../resources';
+import { structures as resource, identifiers as subresource } from '../../resources';
+import { validateStructureIdentifierCreatePayload } from './identifiers.middlewares';
 
 const router = new express.Router();
 
@@ -14,6 +15,7 @@ router.route(`/${resource}/:resourceId/${subresource}`)
   .get(controllers.list(repository, readQuery))
   .post([
     createContext,
+    validateStructureIdentifierCreatePayload,
     setGeneratedInternalIdInContext(subresource),
     controllers.create(repository, readQueryWithLookup),
     saveInStore(subresource),
