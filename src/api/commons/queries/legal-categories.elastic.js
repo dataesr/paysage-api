@@ -13,6 +13,7 @@ export default [
       pluralNameFr: { $ifNull: ['$pluralNameFr', null] },
       shortNameEn: { $ifNull: ['$shortNameEn', null] },
       shortNameFr: { $ifNull: ['$shortNameFr', null] },
+      inseeCode: { $ifNull: ['$inseeCode', null] },
     },
   },
 ];

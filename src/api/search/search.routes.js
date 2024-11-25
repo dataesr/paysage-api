@@ -38,7 +38,6 @@ const searchedFields = [
   'nameFr',
   'names',
   'names.acronymFr',
-  'names.id',
   'names.nameEn',
   'names.officialName',
   'names.otherNames',
@@ -48,6 +47,7 @@ const searchedFields = [
   'otherNames',
   'otherNamesEn',
   'otherNamesFr',
+  'inseeCode',
   'shortName',
 ];
 
