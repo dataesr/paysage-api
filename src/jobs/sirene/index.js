@@ -16,14 +16,16 @@ export default async function monitorSiren(job) {
 				name: SIREN_TASK_NAME,
 				"result.status": "success",
 			},
-			{ sort: { lastFinishedAt: -1 } },
+			{ sort: { "result.lastExecution": -1 } },
 		)
 		.toArray()?.[0];
-	const from = lastSuccessfullExecution
-		? lastSuccessfullExecution.result?.lastExecution
-				?.toISOString()
-				?.slice(0, 19)
-		: now.toISOString().slice(0, 19);
+	const from =
+		lastSuccessfullExecution.result?.lastExecution
+			?.toISOString()
+			?.slice(0, 19) ??
+		new Date(lastSuccessfullExecution.result?.lastExecution)
+			.toISOString()
+			.slice(0, 19);
 
 	const siretStockFromPaysage = await getSiretStockFromPaysage();
 
