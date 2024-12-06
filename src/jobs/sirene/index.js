@@ -16,13 +16,12 @@ export default async function monitorSiren(job) {
 	const from = lastSuccessfullExecution
 		? lastSuccessfullExecution.result?.lastExecution
 				?.toISOString()
-				?.split("T")?.[0]
-		: now.toISOString().split("T")?.[0];
+				?.slice(0, 19)
+		: now.toISOString().slice(0, 19);
 
 	const siretStockFromPaysage = await getSiretStockFromPaysage();
 
-	await new Promise((resolve) => setTimeout(resolve, 100000));
-	const until = new Date().toISOString().split("T")?.[0];
+	const until = new Date().toISOString().slice(0, 19);
 	const updatesInSirene = await fetchSireneUpdates(from, until);
 	console.log(updatesInSirene?.length, updatesInSirene);
 
