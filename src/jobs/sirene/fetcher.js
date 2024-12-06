@@ -20,14 +20,14 @@ export const fetchSireneUpdates = async (startDate, endDate) => {
 		const result = await response.json();
 		await new Promise((resolve) => setTimeout(resolve, 2100));
 
-		if (!result || result.header.statut !== 200) {
+		if (!result || response.status !== 200) {
 			return [];
 		}
 
-		return result.header.curseurSuivant !== cursor
+		return response.headers.curseurSuivant !== cursor
 			? [
 					...result.etablissements,
-					...(await fetchPage(result.header.curseurSuivant)),
+					...(await fetchPage(response.headers.curseurSuivant)),
 				]
 			: result.etablissements;
 	};
@@ -50,11 +50,9 @@ export const fetchSirenDataById = async (sirenId) => {
 		const structure = {
 			siren: sirenId,
 			siret: null,
-			statut: result.header.statut,
-			message: result.header.message,
 		};
 
-		if (result.header.statut !== 200 || !result.unitesLegales?.[0]) {
+		if (response.status !== 200 || !result.unitesLegales?.[0]) {
 			return structure;
 		}
 
@@ -129,7 +127,7 @@ export const fetchSirenDataById = async (sirenId) => {
 		return structure;
 	} catch (error) {
 		console.error("Error fetching SIREN data:", error);
-		return { siren: sirenId, statut: 500 };
+		return { siren: sirenId, message: error.message };
 	}
 };
 
@@ -151,10 +149,7 @@ export const fetchSiretDataById = async (siretId) => {
 		const result = await response.json();
 		await new Promise((resolve) => setTimeout(resolve, 2020));
 
-		structure.statut = result.header.statut;
-		structure.message = result.header.message;
-
-		if (result.header.statut !== 200 || !result.etablissements?.[0]) {
+		if (response.status !== 200 || !result.etablissements?.[0]) {
 			return structure;
 		}
 
@@ -225,7 +220,6 @@ export const fetchSiretDataById = async (siretId) => {
 		console.error("Error fetching SIRET data:", error);
 		return {
 			...structure,
-			statut: 500,
 			message: error.message,
 		};
 	}
