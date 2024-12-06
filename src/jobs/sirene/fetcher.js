@@ -133,7 +133,7 @@ export const fetchSirenDataById = async (sirenId) => {
 	}
 };
 
-const fetchSiretDataById = async (siretId) => {
+export const fetchSiretDataById = async (siretId) => {
 	const structure = {
 		siren: siretId.slice(0, 9),
 		siret: siretId,
