@@ -21,12 +21,13 @@ export default async function monitorSiren(job) {
 
 	const siretStockFromPaysage = await getSiretStockFromPaysage();
 
-	await new Promise((resolve) => setTimeout(resolve, 10000));
+	await new Promise((resolve) => setTimeout(resolve, 100000));
 
 	const updatesInSirene = await fetchSireneUpdates(
 		lastSuccessfullExecutionDate,
 		new Date().toISOString().split("T")?.[0],
 	);
+	console.log(updatesInSirene?.length, updatesInSirene);
 
 	const stockToBeUpdated = siretStockFromPaysage.filter(({ siret }) =>
 		updatesInSirene.some((update) => update.siret === siret),
@@ -42,7 +43,13 @@ export default async function monitorSiren(job) {
 			sireneData,
 		});
 	}
-
+	if (stockUpdates.length === 0) {
+		return { status: "success", lastExecution: now, updatesInSirene };
+	}
 	const ok = await db.collection("_siren").insertMany(stockUpdates);
-	return { status: ok ? "success" : "failed", lastExecution: now };
+	return {
+		status: ok ? "success" : "failed",
+		lastExecution: now,
+		updatesInSirene,
+	};
 }
