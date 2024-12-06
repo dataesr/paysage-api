@@ -9,10 +9,16 @@ import { getSiretStockFromPaysage } from "./get-stock";
 
 export default async function monitorSiren(job) {
 	const now = new Date();
-	const lastSuccessfullExecution = db.collection("_jobs").find({
-		name: SIREN_TASK_NAME,
-		"result.status": "success",
-	});
+	const lastSuccessfullExecution = db
+		.collection("_jobs")
+		.find(
+			{
+				name: SIREN_TASK_NAME,
+				"result.status": "success",
+			},
+			{ sort: { lastFinishedAt: -1 } },
+		)
+		.toArray();
 	const from = lastSuccessfullExecution
 		? lastSuccessfullExecution.result?.lastExecution
 				?.toISOString()
