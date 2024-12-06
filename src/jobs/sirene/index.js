@@ -18,7 +18,7 @@ export default async function monitorSiren(job) {
 			},
 			{ sort: { lastFinishedAt: -1 } },
 		)
-		.toArray();
+		.toArray()?.[0];
 	const from = lastSuccessfullExecution
 		? lastSuccessfullExecution.result?.lastExecution
 				?.toISOString()
