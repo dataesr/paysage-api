@@ -8,6 +8,7 @@ export const fetchSireneUpdates = async (startDate, endDate) => {
 	const buildParams = (cursor) =>
 		new URLSearchParams({
 			q: `dateDernierTraitementEtablissement:[${startDate} TO ${endDate}]`,
+			champs: "siret,dateDernierTraitementEtablissement",
 			nombre: "1000",
 			curseur: cursor,
 		});
