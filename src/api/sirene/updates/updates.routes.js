@@ -1,6 +1,6 @@
 import express from "express";
 
-import controllers from "../../commons/middlewares/crud-nested.middlewares";
+import controllers from "../../commons/middlewares/crud.middlewares";
 
 import readQuery from "../../commons/queries/sirene-updates.query";
 import { sireneUpdatesRepository as repository } from "../../commons/repositories";
