@@ -13,12 +13,14 @@ async function getLastExecutionDate() {
 		"result.status": "success",
 		// repeatInterval: { $exists: true },
 	};
-	return db
+
+	const jobs = db
 		.collection("_jobs")
-		.find(filters, { sort: { "result.lastExecution": -1 } })
-		.toArray()?.[0]
-		?.result?.lastExecution?.toISOString()
-		?.slice(0, 19);
+		.find(filters)
+		.sort({ "result.lastExecution": -1 })
+		.toArray();
+
+	return jobs?.[0]?.result?.lastExecution?.toISOString()?.slice(0, 19);
 }
 
 export default async function monitorSiren(job) {
