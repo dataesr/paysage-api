@@ -30,13 +30,15 @@ export default async function monitorSiren(job) {
 	if (!from) return { status: "failed", message: "No previous execution" };
 
 	const siretStockFromPaysage = await getSiretStockFromPaysage();
+	console.log("STOCK", siretStockFromPaysage.length, siretStockFromPaysage);
 
 	const updatesInSirene = await fetchSireneUpdates(from, until);
+	console.log("SIRENE", updatesInSirene.length, updatesInSirene);
 
 	const stockToBeUpdated = siretStockFromPaysage.filter(({ siret }) =>
 		updatesInSirene.some((update) => update.siret === siret),
 	);
-	console.log(stockToBeUpdated?.length, stockToBeUpdated);
+	console.log("UPDATES", stockToBeUpdated?.length, stockToBeUpdated);
 	const stockUpdates = [];
 	for (const stockElement of stockToBeUpdated) {
 		const siretData = await fetchSiretDataById(stockElement.siret);
@@ -51,6 +53,7 @@ export default async function monitorSiren(job) {
 		return {
 			status: "success",
 			message: "Nothing to update",
+			lastExecution: now,
 			from,
 			until,
 			stockUpdates,
