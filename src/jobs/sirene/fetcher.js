@@ -1,9 +1,8 @@
 import config from "../../config";
 
-const { apiKey, apiUrl } = config.sirene;
-const headers = {
-	"X-INSEE-Api-Key-Integration": apiKey,
-};
+const { apiUrl, apiKey } = config.sirene;
+
+const headers = { "X-INSEE-Api-Key-Integration": apiKey };
 
 export const fetchSireneUpdates = async (startDate, endDate) => {
 	const buildParams = (cursor) =>
@@ -14,25 +13,17 @@ export const fetchSireneUpdates = async (startDate, endDate) => {
 		});
 
 	const fetchPage = async (cursor = "*") => {
-		const response = await fetch(
-			`${apiUrl}/siret?${buildParams(cursor).toString()}`,
-			{ headers },
-		);
+		const url = `${apiUrl}/siret?${buildParams(cursor).toString()}`;
+		const response = await fetch(url, { headers });
 		const result = await response.json();
-		const nextCursor = response.headers.get("curseurSuivant");
-		const total = response.headers.get("curseurSuivant");
-		console.log("fetchPage", response.status, total, nextCursor);
+
+		if (result?.header?.statut !== 200) return [];
+		if (!result?.etablissements) return [];
+		const nextCursor = result.header.curseurSuivant;
 		await new Promise((resolve) => setTimeout(resolve, 2100));
 
-		if (!result || response.status !== 200) {
-			return [];
-		}
-
 		return nextCursor !== cursor
-			? [
-					...result.etablissements,
-					...(await fetchPage(response.headers.curseurSuivant)),
-				]
+			? [...result.etablissements, ...(await fetchPage(nextCursor))]
 			: result.etablissements;
 	};
 	return fetchPage();
@@ -56,7 +47,7 @@ export const fetchSirenDataById = async (sirenId) => {
 			siret: null,
 		};
 
-		if (response.status !== 200 || !result.unitesLegales?.[0]) {
+		if (result?.header?.statut !== 200 || !result.unitesLegales?.[0]) {
 			return structure;
 		}
 
@@ -153,7 +144,7 @@ export const fetchSiretDataById = async (siretId) => {
 		const result = await response.json();
 		await new Promise((resolve) => setTimeout(resolve, 2020));
 
-		if (response.status !== 200 || !result.etablissements?.[0]) {
+		if (result?.header?.statut !== 200 || !result.etablissements?.[0]) {
 			return structure;
 		}
 
