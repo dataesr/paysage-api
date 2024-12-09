@@ -14,7 +14,7 @@ async function getLastExecutionDate() {
 		// repeatInterval: { $exists: true },
 	};
 
-	const jobs = db
+	const jobs = await db
 		.collection("_jobs")
 		.find(filters)
 		.sort({ "result.lastExecution": -1 })
