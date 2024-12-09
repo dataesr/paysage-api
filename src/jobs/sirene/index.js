@@ -1,5 +1,6 @@
+import config from "../../config";
 import { db } from "../../services/mongo.service";
-import { SIREN_TASK_NAME } from "./config";
+
 import {
 	fetchSirenDataById,
 	fetchSireneUpdates,
@@ -7,9 +8,11 @@ import {
 } from "./fetcher";
 import { getSiretStockFromPaysage } from "./get-stock";
 
+const { taskName } = config.sirene;
+
 async function getLastExecutionDate() {
 	const filters = {
-		name: SIREN_TASK_NAME,
+		name: taskName,
 		"result.status": "success",
 		// repeatInterval: { $exists: true },
 	};

@@ -1,8 +1,11 @@
-import { SIREN_API_KEY, SIREN_API_URL } from "./config.js";
+import config from "../../config";
 
+const { apiKey, apiUrl } = config.sirene;
 const headers = {
-	"X-INSEE-Api-Key-Integration": SIREN_API_KEY,
+	"X-INSEE-Api-Key-Integration": apiKey,
 };
+
+console.log(apiKey);
 
 export const fetchSireneUpdates = async (startDate, endDate) => {
 	const buildParams = (cursor) =>
@@ -14,10 +17,11 @@ export const fetchSireneUpdates = async (startDate, endDate) => {
 
 	const fetchPage = async (cursor = "*") => {
 		const response = await fetch(
-			`${SIREN_API_URL}/siret?${buildParams(cursor).toString()}`,
+			`${apiUrl}/siret?${buildParams(cursor).toString()}`,
 			{ headers },
 		);
 		const result = await response.json();
+		console.log("fetchPage", response.status, JSON.stringify(response.headers));
 		await new Promise((resolve) => setTimeout(resolve, 2100));
 
 		if (!result || response.status !== 200) {
@@ -41,7 +45,7 @@ export const fetchSirenDataById = async (sirenId) => {
 	});
 
 	try {
-		const response = await fetch(`${SIREN_API_URL}/siren?${params}`, {
+		const response = await fetch(`${apiUrl}/siren?${params}`, {
 			headers,
 		});
 		const result = await response.json();
@@ -143,7 +147,7 @@ export const fetchSiretDataById = async (siretId) => {
 	});
 
 	try {
-		const response = await fetch(`${SIREN_API_URL}/siret?${params}`, {
+		const response = await fetch(`${apiUrl}/siret?${params}`, {
 			headers,
 		});
 		const result = await response.json();

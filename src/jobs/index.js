@@ -1,5 +1,6 @@
 import os from "os";
 import { Agenda } from "agenda";
+import config from "../../config";
 import logger from "../services/logger.service";
 import { db } from "../services/mongo.service";
 import askForEmailRevalidation from "./ask-for-email-validation";
@@ -23,11 +24,12 @@ import {
 	exportFrEsrStructureWebsites,
 } from "./opendata";
 import monitorSiren from "./sirene";
-import { SIREN_TASK_NAME } from "./sirene/config";
 import synchronizeAnnuaireCollection from "./synchronize/annuaire-collection";
 import synchronizeCuriexploreActors from "./synchronize/curiexplore-actors";
 import synchronizeFrEsrReferentielGeographique from "./synchronize/fr-esr-referentiel-geographique";
 import deletePassedGouvernancePersonnalInformation from "./treatments/delete-passed-gouvernance-personal-infos";
+
+const { taskName } = config.sirene;
 
 const agenda = new Agenda()
 	.mongo(db, "_jobs")
@@ -130,7 +132,7 @@ agenda.define(
 	{ shouldSaveResult: true },
 	synchronizeAnnuaireCollection,
 );
-agenda.define(SIREN_TASK_NAME, { shouldSaveResult: true }, monitorSiren);
+agenda.define(taskName, { shouldSaveResult: true }, monitorSiren);
 
 agenda
 	.on("ready", () => {
