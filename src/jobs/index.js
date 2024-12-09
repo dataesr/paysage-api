@@ -1,6 +1,6 @@
 import os from "os";
 import { Agenda } from "agenda";
-import config from "../../config";
+import config from "../config";
 import logger from "../services/logger.service";
 import { db } from "../services/mongo.service";
 import askForEmailRevalidation from "./ask-for-email-validation";
