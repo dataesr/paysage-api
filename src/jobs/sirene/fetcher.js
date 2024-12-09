@@ -5,8 +5,6 @@ const headers = {
 	"X-INSEE-Api-Key-Integration": apiKey,
 };
 
-console.log(apiKey);
-
 export const fetchSireneUpdates = async (startDate, endDate) => {
 	const buildParams = (cursor) =>
 		new URLSearchParams({
@@ -21,14 +19,16 @@ export const fetchSireneUpdates = async (startDate, endDate) => {
 			{ headers },
 		);
 		const result = await response.json();
-		console.log("fetchPage", response.status, JSON.stringify(response.headers));
+		const nextCursor = response.headers.get("curseurSuivant");
+		const total = response.headers.get("curseurSuivant");
+		console.log("fetchPage", response.status, total, nextCursor);
 		await new Promise((resolve) => setTimeout(resolve, 2100));
 
 		if (!result || response.status !== 200) {
 			return [];
 		}
 
-		return response.headers.curseurSuivant !== cursor
+		return nextCursor !== cursor
 			? [
 					...result.etablissements,
 					...(await fetchPage(response.headers.curseurSuivant)),
