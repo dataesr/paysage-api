@@ -7,31 +7,29 @@ import {
 } from "./fetcher";
 import { getSiretStockFromPaysage } from "./get-stock";
 
+async function getLastExecutionDate() {
+	const filters = {
+		name: SIREN_TASK_NAME,
+		"result.status": "success",
+		// repeatInterval: { $exists: true },
+	};
+	return db
+		.collection("_jobs")
+		.find(filters, { sort: { "result.lastExecution": -1 } })
+		.toArray()?.[0]
+		?.result?.lastExecution?.toISOString()
+		?.slice(0, 19);
+}
+
 export default async function monitorSiren(job) {
 	const now = new Date();
-	const lastSuccessfullExecution = db
-		.collection("_jobs")
-		.find(
-			{
-				name: SIREN_TASK_NAME,
-				"result.status": "success",
-			},
-			{ sort: { "result.lastExecution": -1 } },
-		)
-		.toArray()?.[0];
-	const from =
-		lastSuccessfullExecution.result?.lastExecution
-			?.toISOString()
-			?.slice(0, 19) ??
-		new Date(lastSuccessfullExecution.result?.lastExecution)
-			.toISOString()
-			.slice(0, 19);
+	const from = await getLastExecutionDate();
+	const until = now.toISOString().slice(0, 19);
+	if (!from) return { status: "failed", message: "No previous execution" };
 
 	const siretStockFromPaysage = await getSiretStockFromPaysage();
 
-	const until = new Date().toISOString().slice(0, 19);
 	const updatesInSirene = await fetchSireneUpdates(from, until);
-	console.log(updatesInSirene?.length, updatesInSirene);
 
 	const stockToBeUpdated = siretStockFromPaysage.filter(({ siret }) =>
 		updatesInSirene.some((update) => update.siret === siret),
@@ -47,16 +45,14 @@ export default async function monitorSiren(job) {
 			sireneData,
 		});
 	}
-	if (stockUpdates.length === 0) {
+	if (stockUpdates.length === 0)
 		return {
 			status: "success",
-			lastExecution: now,
+			message: "Nothing to update",
 			from,
 			until,
-			updatesInSirene,
-			stockUpdates: [],
+			stockUpdates,
 		};
-	}
 	const ok = await db.collection("_siren").insertMany(stockUpdates);
 	return {
 		status: ok ? "success" : "failed",
