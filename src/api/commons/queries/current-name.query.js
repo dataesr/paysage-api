@@ -1,5 +1,21 @@
 export default [
   {
+    $project: {
+      names: {
+        $filter: {
+          input: '$names',
+          as: 'name',
+          cond: {
+            $and: [
+              { $lte: ['$$name.startDate', '$NOW'] },
+              { $gte: ['$$name.endDate', '$NOW'] },
+            ],
+          },
+        },
+      },
+    },
+  },
+  {
     $set: {
       currentName: {
         $reduce: {
