@@ -7,8 +7,8 @@ export default [
           as: 'name',
           cond: {
             $and: [
-              { $lte: ['$$name.startDate', '$NOW'] },
-              { $gte: ['$$name.endDate', '$NOW'] },
+              { $lte: ['$$name.startDate', new Date().toISOString().split('T')[0]] },
+              { $gte: ['$$name.endDate', new Date().toISOString().split('T')[0]] },
             ],
           },
         },
