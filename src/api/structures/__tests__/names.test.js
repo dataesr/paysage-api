@@ -146,6 +146,7 @@ describe('API > structures > names > delete', () => {
       .set('Authorization', authorization)
       .expect(400);
   });
+
   it('throws not found with unknown id', async () => {
     await global.superapp
       .delete(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)

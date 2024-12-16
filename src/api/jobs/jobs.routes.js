@@ -68,7 +68,7 @@ router.route('/jobs')
                       },
                     ],
                   },
-                }
+                },
               },
               { $set: { duration: { $cond: [{ $eq: ['$status', 'scheduled'] }, 0, '$duration'] } } },
               { $set: { duration: { $cond: [{ $eq: ['$status', 'running'] }, 0, '$duration'] } } },
@@ -92,7 +92,7 @@ router.route('/jobs')
                   date: { $toLong: '$date' },
                   duration: { $ifNull: ['$duration', 0] },
                   name: 1,
-                }
+                },
               },
             ],
             status: [
@@ -116,7 +116,7 @@ router.route('/jobs')
               byStatus: '$status',
               byName: '$name',
             },
-          }
+          },
         },
       ]).toArray();
       return res.json(stats?.[0] || {});
