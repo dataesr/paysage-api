@@ -1,4 +1,4 @@
-import { db } from "./mongo.js";
+import { db } from "../../services/mongo.service";
 
 export async function getSiretStockFromPaysage() {
   const sirets = db.collection("identifiers").aggregate([
