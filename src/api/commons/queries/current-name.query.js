@@ -1,16 +1,10 @@
 export default [
   {
-    $project: {
-      names: {
+    $set: {
+      filteredNames: {
         $filter: {
           input: '$names',
-          as: 'name',
-          cond: {
-            $and: [
-              { $or: [{ $ifNull: ['$$name.startDate', true] }, { $lte: ['$$name.startDate', '$$NOW'] }] },
-              { $or: [{ $ifNull: ['$$name.endDate', true] }, { $gte: ['$$name.endDate', '$$NOW'] }] },
-            ],
-          },
+          cond: { $lte: [{ $toDate: '$$this.startDate' }, '$$NOW'] },
         },
       },
     },
@@ -19,7 +13,7 @@ export default [
     $set: {
       currentName: {
         $reduce: {
-          input: '$names',
+          input: '$filteredNames',
           initialValue: null,
           in: {
             $cond: [
@@ -35,7 +29,7 @@ export default [
       currentName: {
         $ifNull: ['$currentName', {
           $reduce: {
-            input: '$names',
+            input: '$filteredNames',
             initialValue: null,
             in: {
               $cond: [
