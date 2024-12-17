@@ -16,3 +16,5 @@ docs/reference
 dumps
 scripts/data
 scripts/countries.csv
+
+/test-sirene
