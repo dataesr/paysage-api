@@ -41,7 +41,11 @@ export default [
         $reduce: {
           input: '$filteredNames',
           initialValue: null,
-          in: { $cond: [{ $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value'] },
+          in: { $cond: [
+            { $ifNull: ['$$this.startDate', 0] },
+            { $cond: [{ $ifNull: ['$$value.startDate', 0] }, {}, '$$value'] },
+            { $cond: [{ $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value'] },
+          ] },
         },
       },
     },
@@ -49,13 +53,17 @@ export default [
   {
     $set: {
       currentName: {
-        $ifNull: ['$currentName', {
-          $reduce: {
-            input: '$filteredNames',
-            initialValue: null,
-            in: { $cond: [{ $gt: ['$$this.createdAt', '$$value.createdAt'] }, '$$this', '$$value'] },
+        $cond: [
+          { $ifNull: ['$currentName.startDate', 0] },
+          '$currentName',
+          {
+            $reduce: {
+              input: '$filteredNames',
+              initialValue: null,
+              in: { $cond: [{ $gt: ['$$this.createdAt', '$$value.createdAt'] }, '$$this', '$$value'] },
+            },
           },
-        }],
+        ],
       },
     },
   },

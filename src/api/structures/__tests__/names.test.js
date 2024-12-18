@@ -218,7 +218,7 @@ describe('API > structures > names > currentName', () => {
       .expect(201);
   });
 
-  it('returns currentName successfully', async () => {
+  it('returns currentName as last created name', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}`)
       .set('Authorization', authorization)
