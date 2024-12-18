@@ -1,6 +1,32 @@
 export default [
   {
     $set: {
+      names: {
+        $map: {
+          input: '$names',
+          in: { $mergeObjects: ['$$this', { startDate: { $concat: ['$$this.startDate', '-01-01'] } }] },
+        },
+      },
+    },
+  },
+  {
+    $set: {
+      names: {
+        $map: {
+          input: '$names',
+          in: {
+            $cond: [
+              { $ifNull: ['$$this.startDate', 0] },
+              { $mergeObjects: ['$$this', { startDate: { $substr: ['$$this.startDate', 0, 10] } }] },
+              '$$this',
+            ],
+          },
+        },
+      },
+    },
+  },
+  {
+    $set: {
       filteredNames: {
         $filter: {
           input: '$names',
@@ -15,11 +41,7 @@ export default [
         $reduce: {
           input: '$filteredNames',
           initialValue: null,
-          in: {
-            $cond: [
-              { $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value',
-            ],
-          },
+          in: { $cond: [{ $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value'] },
         },
       },
     },
@@ -31,11 +53,7 @@ export default [
           $reduce: {
             input: '$filteredNames',
             initialValue: null,
-            in: {
-              $cond: [
-                { $gt: ['$$this.createdAt', '$$value.createdAt'] }, '$$this', '$$value',
-              ],
-            },
+            in: { $cond: [{ $gt: ['$$this.createdAt', '$$value.createdAt'] }, '$$this', '$$value'] },
           },
         }],
       },
