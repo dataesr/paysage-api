@@ -1,13 +1,24 @@
 export default [
   {
     $set: {
-      currentName: {
-        $reduce: {
+      names: {
+        $map: {
           input: '$names',
-          initialValue: null,
+          in: { $mergeObjects: ['$$this', { startDate: { $concat: ['$$this.startDate', '-01-01'] } }] },
+        },
+      },
+    },
+  },
+  {
+    $set: {
+      names: {
+        $map: {
+          input: '$names',
           in: {
             $cond: [
-              { $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value',
+              { $ifNull: ['$$this.startDate', 0] },
+              { $mergeObjects: ['$$this', { startDate: { $substr: ['$$this.startDate', 0, 10] } }] },
+              '$$this',
             ],
           },
         },
@@ -16,18 +27,43 @@ export default [
   },
   {
     $set: {
+      filteredNames: {
+        $filter: {
+          input: '$names',
+          cond: { $lte: [{ $toDate: '$$this.startDate' }, '$$NOW'] },
+        },
+      },
+    },
+  },
+  {
+    $set: {
       currentName: {
-        $ifNull: ['$currentName', {
-          $reduce: {
-            input: '$names',
-            initialValue: null,
-            in: {
-              $cond: [
-                { $gt: ['$$this.createdAt', '$$value.createdAt'] }, '$$this', '$$value',
-              ],
+        $reduce: {
+          input: '$filteredNames',
+          initialValue: null,
+          in: { $cond: [
+            { $ifNull: ['$$this.startDate', 0] },
+            { $cond: [{ $ifNull: ['$$value.startDate', 0] }, {}, '$$value'] },
+            { $cond: [{ $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value'] },
+          ] },
+        },
+      },
+    },
+  },
+  {
+    $set: {
+      currentName: {
+        $cond: [
+          { $ifNull: ['$currentName.startDate', 0] },
+          '$currentName',
+          {
+            $reduce: {
+              input: '$filteredNames',
+              initialValue: null,
+              in: { $cond: [{ $gt: ['$$this.createdAt', '$$value.createdAt'] }, '$$this', '$$value'] },
             },
           },
-        }],
+        ],
       },
     },
   },

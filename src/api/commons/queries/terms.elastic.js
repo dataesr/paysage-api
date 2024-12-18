@@ -9,7 +9,7 @@ export default [
         $match: {
           $expr: {
             $and: [
-              { $in: ['$type', ['wikidata','rncp']] },
+              { $in: ['$type', ['rncp', 'wikidata']] },
             ],
           },
         },

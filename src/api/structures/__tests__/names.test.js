@@ -146,6 +146,7 @@ describe('API > structures > names > delete', () => {
       .set('Authorization', authorization)
       .expect(400);
   });
+
   it('throws not found with unknown id', async () => {
     await global.superapp
       .delete(`/${resource}/${resourceId}/${subresource}/45dlrt5dkkhhuu7`)
@@ -217,7 +218,7 @@ describe('API > structures > names > currentName', () => {
       .expect(201);
   });
 
-  it('returns currentName successfully', async () => {
+  it('returns currentName as last created name', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}`)
       .set('Authorization', authorization)
