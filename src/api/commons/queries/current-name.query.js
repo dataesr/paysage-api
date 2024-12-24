@@ -42,8 +42,8 @@ export default [
           input: '$filteredNames',
           initialValue: null,
           in: { $cond: [
-            { $ifNull: ['$$this.startDate', 0] },
-            { $cond: [{ $ifNull: ['$$value.startDate', 0] }, {}, '$$value'] },
+            { $eq: ['$$this.startDate', null] },
+            { $cond: [{ $eq: ['$$value.startDate', null] }, {}, '$$value'] },
             { $cond: [{ $gt: ['$$this.startDate', '$$value.startDate'] }, '$$this', '$$value'] },
           ] },
         },

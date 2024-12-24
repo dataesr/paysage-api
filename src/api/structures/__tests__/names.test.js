@@ -190,39 +190,123 @@ describe('API > structures > names > list', () => {
 });
 
 describe('API > structures > names > currentName', () => {
-  beforeAll(async () => {
-    const { startDate, ...structure } = structureName;
+  it('should return the last created name if multiple names without startDate', async () => {
     const response = await global.superapp
       .post(`/${resource}`)
       .set('Authorization', authorization)
       .send({
         structureStatus: 'active',
-        creationDate: '2021-02',
-        usualName: 'Université',
+        usualName: 'name_01_01',
       }).expect(201);
     resourceId = response.body.id;
     await global.superapp
-      .post(`/${resource}/${resourceId}/${subresource}/`)
+      .post(`/${resource}/${resourceId}/names`)
       .set('Authorization', authorization)
-      .send({ ...structure })
+      .send({ usualName: 'name_01_02' })
       .expect(201);
-    await global.superapp
-      .post(`/${resource}/${resourceId}/${subresource}/`)
-      .set('Authorization', authorization)
-      .send({ ...structure, usualName: 'string2' })
-      .expect(201);
-    await global.superapp
-      .post(`/${resource}/${resourceId}/${subresource}/`)
-      .set('Authorization', authorization)
-      .send({ ...structure, usualName: 'string3' })
-      .expect(201);
-  });
 
-  it('returns currentName as last created name', async () => {
     const { body } = await global.superapp
       .get(`/${resource}/${resourceId}`)
       .set('Authorization', authorization)
       .expect(200);
-    expect(body.currentName.usualName).toBe('string3');
+    expect(body.currentName.usualName).toBe('name_01_02');
+  });
+
+  it('should return the name with a startDate if multiple names and one has a startDate', async () => {
+    const response = await global.superapp
+      .post(`/${resource}`)
+      .set('Authorization', authorization)
+      .send({
+        structureStatus: 'active',
+        usualName: 'name_02_01',
+      }).expect(201);
+    resourceId = response.body.id;
+    await global.superapp
+      .post(`/${resource}/${resourceId}/names`)
+      .set('Authorization', authorization)
+      .send({ startDate: '2020-10-08', usualName: 'name_02_02' })
+      .expect(201);
+
+    const { body } = await global.superapp
+      .get(`/${resource}/${resourceId}`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.currentName.usualName).toBe('name_02_02');
+  });
+
+  it('should return the most recent startDate', async () => {
+    const response = await global.superapp
+      .post(`/${resource}`)
+      .set('Authorization', authorization)
+      .send({
+        structureStatus: 'active',
+        usualName: 'name_03_01',
+      }).expect(201);
+    resourceId = response.body.id;
+    await global.superapp
+      .post(`/${resource}/${resourceId}/names`)
+      .set('Authorization', authorization)
+      .send({ startDate: '2020-10-08', usualName: 'name_03_02' })
+      .expect(201);
+    await global.superapp
+      .post(`/${resource}/${resourceId}/names`)
+      .set('Authorization', authorization)
+      .send({ startDate: '2012-02-05', usualName: 'name_03_03' })
+      .expect(201);
+
+    const { body } = await global.superapp
+      .get(`/${resource}/${resourceId}`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.currentName.usualName).toBe('name_03_02');
+  });
+
+  it('should fill partial date with YYY-01-01 and then compare dates and return the most recent startDate', async () => {
+    const response = await global.superapp
+      .post(`/${resource}`)
+      .set('Authorization', authorization)
+      .send({
+        structureStatus: 'active',
+        usualName: 'name_04_01',
+      }).expect(201);
+    resourceId = response.body.id;
+    await global.superapp
+      .post(`/${resource}/${resourceId}/names`)
+      .set('Authorization', authorization)
+      .send({ startDate: '2020-10-08', usualName: 'name_04_02' })
+      .expect(201);
+    await global.superapp
+      .post(`/${resource}/${resourceId}/names`)
+      .set('Authorization', authorization)
+      .send({ startDate: '2020', usualName: 'name_04_03' })
+      .expect(201);
+
+    const { body } = await global.superapp
+      .get(`/${resource}/${resourceId}`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.currentName.usualName).toBe('name_04_02');
+  });
+
+  it('should return empty startDate rather than future ones', async () => {
+    const response = await global.superapp
+      .post(`/${resource}`)
+      .set('Authorization', authorization)
+      .send({
+        structureStatus: 'active',
+        usualName: 'name_05_01',
+      }).expect(201);
+    resourceId = response.body.id;
+    await global.superapp
+      .post(`/${resource}/${resourceId}/names`)
+      .set('Authorization', authorization)
+      .send({ startDate: '2042-02-05', usualName: 'name_05_02' })
+      .expect(201);
+
+    const { body } = await global.superapp
+      .get(`/${resource}/${resourceId}`)
+      .set('Authorization', authorization)
+      .expect(200);
+    expect(body.currentName.usualName).toBe('name_05_01');
   });
 });
