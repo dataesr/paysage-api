@@ -35,15 +35,15 @@ export default async function monitorSiren(job) {
   }
 
   const siretStockFromPaysage = await getSiretStockFromPaysage();
-  const siretUpdatesMap = await fetchEstablishmentUpdates(from, until);
+  // const siretUpdatesMap = await fetchEstablishmentUpdates(from, until);
   const sirenUpdatesMap = await fetchLegalUnitUpdates(from, until);
 
 
   const hasLegalUnitUpdates = siretStockFromPaysage
-    .filter(element => element.type === "siren" && sirenUpdatesMap.has(element.siren))
+    .filter(element => element.type === "legalUnit" && sirenUpdatesMap.has(element.siren))
 
   const hasEstablishmentUpdates = siretStockFromPaysage
-    .filter(element => element.type === "siret" && siretUpdatesMap.has(element.siret))
+    .filter(element => element.type === "establishment")
 
   const updates = []
   for (const element of hasLegalUnitUpdates) {
