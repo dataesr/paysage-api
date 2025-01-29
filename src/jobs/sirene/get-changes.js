@@ -77,8 +77,8 @@ export const getEstablishmentChanges = async (element) => {
   const establishment = await fetchEstablishmentById(siret);
   if (!establishment) return [];
 
-  const period = data.periodesEtablissement?.[0];
-  const previousPeriod = data.periodesEtablissement?.[1];
+  const period = establishment.periodesEtablissement?.[0];
+  const previousPeriod = establishment.periodesEtablissement?.[1];
 
   const changes = [];
 
