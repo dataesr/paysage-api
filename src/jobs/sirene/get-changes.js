@@ -88,7 +88,7 @@ export const getEstablishmentChanges = async (element) => {
       paysage,
       siret,
       type: 'establishment',
-      field,
+      field: "changementEtatAdministratifEtablissement",
       value: period.etatAdministratifEtablissement,
       previousValue: previousPeriod.etatAdministratifEtablissement,
       changeEffectiveDate: period.dateDebut,
