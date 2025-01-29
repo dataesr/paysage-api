@@ -1,7 +1,7 @@
 import { fetchLegalUnitById, fetchEstablishmentById } from './api';
 
 export const getLegalUnitChanges = async (element) => {
-  const { siren } = element;
+  const { siren, paysage } = element;
 
   const legalUnit = await fetchLegalUnitById(siren);
   if (!legalUnit) return [];
