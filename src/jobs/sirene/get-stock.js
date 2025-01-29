@@ -31,12 +31,13 @@ export async function getSiretStockFromPaysage() {
       $project: {
         _id: 0,
         paysage: "$docs.paysage",
-        siret: "$docs.siret",
         siren: "$docs.siren",
-        type: {
-          $cond: [{ $eq: ["$sirenCount", 1] }, "siren", "siret"],
+        siret: {
+          $cond: [{ $eq: ["$sirenCount", 1] }, null, "$docs.siret"],
         },
-        sirenCount: 1,
+        type: {
+          $cond: [{ $eq: ["$sirenCount", 1] }, "legalUnit", "establishment"],
+        },
       },
     },
   ]);

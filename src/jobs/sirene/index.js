@@ -22,11 +22,6 @@ async function getLastExecutionDate() {
   return jobs?.[0]?.result?.lastExecution?.toISOString()?.slice(0, 19);
 }
 
-async function getLegalCategoryPaysageDocs(inseeCode) {
-  return db.collection("legalcategories").findOne({ inseeCode });
-}
-
-
 export default async function monitorSiren(job) {
   const now = new Date();
   const from = await getLastExecutionDate();
@@ -44,23 +39,21 @@ export default async function monitorSiren(job) {
   const sirenUpdatesMap = await fetchLegalUnitUpdates(from, until);
 
 
-  const hasUpdates = siretStockFromPaysage
-    .filter(element => {
-      const hasSiretUpdate = siretUpdatesMap.has(element.siret);
-      const hasSirenUpdate = element.type === "siren" && sirenUpdatesMap.has(element.siren);
-      return hasSiretUpdate || hasSirenUpdate;
-    })
+  const hasLegalUnitUpdates = siretStockFromPaysage
+    .filter(element => element.type === "siren" && sirenUpdatesMap.has(element.siren))
+
+  const hasEstablishmentUpdates = siretStockFromPaysage
+    .filter(element => element.type === "siret" && siretUpdatesMap.has(element.siret))
 
   const updates = []
-  for (const element of hasUpdates) {
-    const siretData = await fetchEstablishmentById(element.siret);
-    const sirenData = await fetchLegalUnitById(element.siren);
-    const legalUnitChanges = getLegalUnitChanges(sirenData);
-    const establishmentChanges = getEstablishmentChanges(siretData);
-    const allChanges = [...legalUnitChanges, ...establishmentChanges]
-      .map(change => ({ ...element, ...change }));
-    updates.push(...allChanges);
+  for (const element of hasLegalUnitUpdates) {
+    const changes = await getLegalUnitChanges(element);
+    updates.push(...changes);
   };
+  for (const element of hasEstablishmentUpdates) {
+    const changes = await getEstablishmentChanges(element);
+    updates.push(...changes);
+  }
 
   if (updates.length === 0) {
     return {
@@ -74,19 +67,15 @@ export default async function monitorSiren(job) {
 
   const bulkOperations = updates.map(update => ({
     updateOne: {
-      filter: {
-        siren: update.siren,
-        paysage: update.paysage,
-        siret: update.siret,
-        type: update.type,
-        field: update.field,
-        value: update.value,
-        changeEffectiveDate: update.changeEffectiveDate
-      },
+      filter: { ...update },
       update: {
-        $set: {
+        $setOnInsert: {
           ...update,
-          lastChecked: now
+          status: "pending",
+          createdAt: now
+        },
+        $set: {
+          lastChecked: now,
         }
       },
       upsert: true
@@ -94,7 +83,7 @@ export default async function monitorSiren(job) {
   }));
 
   try {
-    const result = await db.collection("_siren").bulkWrite(bulkOperations);
+    const result = await db.collection("siren_updates").bulkWrite(bulkOperations);
 
     return {
       status: "success",

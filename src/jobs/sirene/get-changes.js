@@ -1,6 +1,12 @@
-export const getLegalUnitChanges = (data) => {
+import { fetchLegalUnitById, fetchEstablishmentById } from './api';
 
-  const periode = data.periodesUniteLegale?.[0] || {};
+export const getLegalUnitChanges = async (element) => {
+  const { siren } = element;
+
+  const legalUnit = await fetchLegalUnitById(siren);
+  if (!legalUnit) return [];
+  const period = legalUnit.periodesUniteLegale?.[0] || {};
+  const previousPeriod = legalUnit.periodesUniteLegale?.[1] || {};
 
   const trackedFields = [
     "changementNicSiegeUniteLegale",
@@ -12,60 +18,83 @@ export const getLegalUnitChanges = (data) => {
     "changementDenominationUsuelleUniteLegale"
   ];
 
-  const getChangeValue = (field, periode) => {
+  const getChangeValue = (field, period) => {
     if (field === 'changementDenominationUsuelleUniteLegale') {
       return [
-        periode.denominationUsuelle1UniteLegale,
-        periode.denominationUsuelle2UniteLegale,
-        periode.denominationUsuelle3UniteLegale
+        period.denominationUsuelle1UniteLegale,
+        period.denominationUsuelle2UniteLegale,
+        period.denominationUsuelle3UniteLegale
       ].filter(Boolean);
     }
     if (trackedFields.includes(field)) {
       const fieldWithoutChangement = field.replace('changement', '');
-      return periode[fieldWithoutChangement.charAt(0).toLowerCase() + fieldWithoutChangement.slice(1)];
+      return period[fieldWithoutChangement.charAt(0).toLowerCase() + fieldWithoutChangement.slice(1)];
     }
   };
 
-  return Object.entries(periode)
+  const changes = Object.entries(period)
     .filter(([field, value]) => trackedFields.includes(field) && value === true)
     .map(([field]) => {
-      const value = getChangeValue(field, periode);
+      const value = getChangeValue(field, period);
+      const previousValue = getChangeValue(field, previousPeriod);
       if (value === undefined) return null;
       return {
-        changeType: 'change',
-        changeEffectiveDate: periode.dateDebut,
+        siren,
+        paysage,
+        type: 'legalUnit',
+        siret: null,
         field,
-        value
+        value,
+        previousValue,
+        changeEffectiveDate: period.dateDebut,
+        numberOfPeriods: legalUnit.nombrePeriodesUniteLegale,
       };
     })
     .filter(Boolean);
 
+  if (changes.find((change) => change.field === 'changementNicSiegeUniteLegale')) {
+    const headquarter = await fetchEstablishmentById(siren + period.nicSiegeUniteLegale);
+    if (headquarter) {
+      changes.push({
+        siren,
+        paysage,
+        type: 'legalUnit',
+        siret: null,
+        field: 'changementAdresseSiegeUniteLegale',
+        value: headquarter.adresseEtablissement,
+        previousValue: null,
+        changeEffectiveDate: period.dateDebut,
+        numberOfPeriods: legalUnit.nombrePeriodesUniteLegale,
+      });
+    }
+  }
+  return changes;
 };
 
-export const getEstablishmentChanges = (data) => {
+export const getEstablishmentChanges = async (element) => {
+  const { siren, siret, paysage } = element;
+
+  const establishment = await fetchEstablishmentById(siret);
+  if (!establishment) return [];
 
   const period = data.periodesEtablissement?.[0];
+  const previousPeriod = data.periodesEtablissement?.[1];
 
   const changes = [];
 
   if (period.changementEtatAdministratifEtablissement) {
     changes.push({
-      changeType: 'change',
+      siren,
+      paysage,
+      siret,
+      type: 'establishment',
+      field,
+      value: period.etatAdministratifEtablissement,
+      previousValue: previousPeriod.etatAdministratifEtablissement,
       changeEffectiveDate: period.dateDebut,
-      field: 'etatAdministratifEtablissement',
-      value: period.etatAdministratifEtablissement
+      numberOfPeriods: establishment.nombrePeriodesEtablissement,
     });
   }
-  changes.push({
-    changeType: 'check',
-    field: 'dateCreationEtablissement',
-    value: data.dateCreationEtablissement
-  });
-  changes.push({
-    changeType: 'check',
-    field: 'addressEtablissement',
-    value: data.adresseEtablissement
-  })
 
   return changes;
 };
