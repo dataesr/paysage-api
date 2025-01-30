@@ -18,7 +18,7 @@ const structQuery = [
       emails: { $ifNull: ['$emails', []] },
       href: { $concat: ['/structures/', '$id'] },
       legalcategory: { $ifNull: ['$legalcategory', {}] },
-      structureStatus: { $ifNull: ['$structureStatus', null] },
+      structureStatus: { $ifNull: ['$structureStatus', 'active'] },
     },
   },
 ];
@@ -26,29 +26,7 @@ export default [
   {
     $group: {
       _id: "$paysage",
-      siren: { $first: "$siren" },
-      siret: { $first: "$siret" },
-      id: { $first: "$paysage" },
-      type: { $first: "$type" },
-      lastModificationDate: { $max: "$lastChecked" },
-      updates: {
-        $push: {
-          $cond: {
-            if: { $eq: ["$changeType", "change"] },
-            then: "$$ROOT",
-            else: "$$REMOVE"
-          }
-        }
-      },
-      checks: {
-        $push: {
-          $cond: {
-            if: { $eq: ["$changeType", "check"] },
-            then: "$$ROOT",
-            else: "$$REMOVE"
-          }
-        }
-      }
+      updates: { $push: "$$ROOT" },
     }
   },
   {
@@ -63,17 +41,9 @@ export default [
   {
     $project: {
       _id: 0,
-      id: 1,
-      type: 1,
-      lastModificationDate: 1,
-      siren: 1,
-      siret: 1,
+      id: "$_id",
       paysageData: { $arrayElemAt: ["$paysageData", 0] },
       updates: 1,
-      checks: 1,
     }
   },
-  {
-    $sort: { lastModificationDate: -1 }
-  }
 ];

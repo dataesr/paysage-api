@@ -48,7 +48,7 @@ export const geographicalCategoriesRepository = new BaseMongoRepository({
   db,
   collection: 'geographicalcategories',
 });
-export const geographicalCategoriesExceptionsRepository =	new BaseMongoRepository({ db, collection: 'geographicalexceptions' });
+export const geographicalCategoriesExceptionsRepository = new BaseMongoRepository({ db, collection: 'geographicalexceptions' });
 export const groupsRepository = new BaseMongoRepository({
   db,
   collection: 'groups',
@@ -108,7 +108,7 @@ export const relationTypesRepository = new BaseMongoRepository({
 });
 export const sireneUpdatesRepository = new BaseMongoRepository({
   db,
-  collection: '_siren',
+  collection: 'sirene_updates',
 });
 export const socialmediasRepository = new BaseMongoRepository({
   db,
