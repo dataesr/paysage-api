@@ -26,6 +26,11 @@ export default [
   {
     $group: {
       _id: "$paysage",
+      siren: { $first: "$siren" },
+      siret: { $first: "$siret" },
+      id: { $first: "$paysage" },
+      type: { $first: "$type" },
+      lastModificationDate: { $max: "$lastChecked" },
       updates: { $push: "$$ROOT" },
     }
   },
@@ -42,6 +47,11 @@ export default [
     $project: {
       _id: 0,
       id: "$_id",
+      siren: 1,
+      siret: 1,
+      id: 1,
+      type: 1,
+      lastModificationDate: { $max: "$lastChecked" },
       paysageData: { $arrayElemAt: ["$paysageData", 0] },
       updates: 1,
     }
