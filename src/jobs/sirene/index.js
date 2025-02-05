@@ -46,12 +46,7 @@ export async function monitorSiren(job) {
   const from = await getLastExecutionDate();
   const until = now.toISOString().slice(0, 19);
 
-  if (!from) {
-    return {
-      status: "failed",
-      message: "No previous execution"
-    };
-  }
+  if (!from) job.fail("No previous execution")
 
   const siretStockFromPaysage = await getSiretStockFromPaysage();
   const sirenUpdatesMap = await fetchLegalUnitUpdates(from, until);
