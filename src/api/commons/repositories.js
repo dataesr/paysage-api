@@ -108,7 +108,7 @@ export const relationTypesRepository = new BaseMongoRepository({
 });
 export const sireneUpdatesRepository = new BaseMongoRepository({
   db,
-  collection: 'sirene_updates',
+  collection: '_sirene_updates',
 });
 export const socialmediasRepository = new BaseMongoRepository({
   db,

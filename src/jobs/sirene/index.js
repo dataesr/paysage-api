@@ -77,7 +77,7 @@ export async function monitorSiren(job) {
   } else {
     const bulkOperations = makeBulk(updates);
 
-    const result = await db.collection("sirene_updates").bulkWrite(bulkOperations).catch((error) => {
+    const result = await db.collection("_sirene_updates").bulkWrite(bulkOperations).catch((error) => {
       console.error('Bulk write error:', error.message);
       job.fail(error)
       return null;
@@ -131,7 +131,7 @@ export async function monitorSiret(job) {
 
   const bulkOperations = makeBulk(updates);
 
-  const result = await db.collection("sirene_updates").bulkWrite(bulkOperations).catch((error) => {
+  const result = await db.collection("_sirene_updates").bulkWrite(bulkOperations).catch((error) => {
     console.error('Bulk write error:', error);
     job.fail(error.message)
   })
