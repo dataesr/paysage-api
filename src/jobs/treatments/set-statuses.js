@@ -167,7 +167,7 @@ export async function setStructureStatus() {
     );
 }
 
-export async function setIdentiferStatus() {
+export async function setIdentifierStatus() {
   return db.collection('identifiers')
     .updateMany(
       { active: { $ne: false } },
