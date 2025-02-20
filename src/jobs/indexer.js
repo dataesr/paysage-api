@@ -1,6 +1,6 @@
-import config from '../../config';
-import esClient from '../../services/elastic.service';
-import { db } from '../../services/mongo.service';
+import config from '../config';
+import esClient from '../services/elastic.service';
+import { db } from '../services/mongo.service';
 
 const { index } = config.elastic;
 
@@ -18,7 +18,7 @@ const TYPES = [
 ];
 
 async function reindexDocumentsByType(type, _indexer) {
-  const { default: query } = await import(`../../api/commons/queries/${type}.elastic.js`);
+  const { default: query } = await import(`../api/commons/queries/${type}.elastic.js`);
   const documents = await db.collection(type.replace('-', '')).aggregate(query).toArray();
   const documentCount = documents.length;
   if (documentCount === 0) return { type, status: 'aborted', reason: 'No document to index.' };

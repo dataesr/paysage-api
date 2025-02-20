@@ -15,9 +15,8 @@ router.route("/sirene/updates/:id")
   .patch(async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
-    console.log('HERE', status, id)
 
-    const { value } = await db.collection("sirene_updates").findOneAndUpdate(
+    const { value } = await db.collection("_sirene_updates").findOneAndUpdate(
       { _id: new ObjectId(id) },
       { $set: { status } },
       { returnDocument: "after" },

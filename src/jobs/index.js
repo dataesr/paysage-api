@@ -28,6 +28,7 @@ import synchronizeAnnuaireCollection from "./synchronize/annuaire-collection";
 import synchronizeCuriexploreActors from "./synchronize/curiexplore-actors";
 import synchronizeFrEsrReferentielGeographique from "./synchronize/fr-esr-referentiel-geographique";
 import deletePassedGouvernancePersonnalInformation from "./treatments/delete-passed-gouvernance-personal-infos";
+import { setStructureStatus, setIdentifierStatus } from "./treatments/set-statuses";
 
 const { taskName } = config.sirene;
 
@@ -131,6 +132,16 @@ agenda.define(
   "synchronize governance collection",
   { shouldSaveResult: true },
   synchronizeAnnuaireCollection,
+);
+agenda.define(
+  "synchronize structures' status",
+  { shouldSaveResult: true },
+  setStructureStatus,
+);
+agenda.define(
+  "synchronize identifiers' status",
+  { shouldSaveResult: true },
+  setIdentifierStatus,
 );
 agenda.define(taskName, { shouldSaveResult: true }, monitorSiren);
 agenda.define(`${taskName}-etab`, { shouldSaveResult: true }, monitorSiret);
