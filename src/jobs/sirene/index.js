@@ -1,6 +1,6 @@
 import config from "../../config";
 import { db } from "../../services/mongo.service";
-import { fetchLegalUnitUpdates, fetchEstablishmentUpdates, fetchLegalUnitById, fetchEstablishmentById } from "./api";
+import { fetchEstablishmentUpdates, fetchLegalUnitUpdates } from "./api";
 import { getEstablishmentChanges, getLegalUnitChanges } from "./get-changes";
 import { getSiretStockFromPaysage } from "./get-stock";
 
@@ -23,6 +23,23 @@ async function getLastExecutionDate() {
   return jobs?.[0]?.result?.lastExecution?.toISOString()?.slice(0, 19);
 }
 
+const processBulkWrite = async (bulkOperations) => {
+  try {
+    return await db.collection("_sirene_updates").bulkWrite(bulkOperations, { ordered: false });
+  } catch (error) {
+    console.error('Bulk write error:', error);
+    throw error;
+  }
+};
+
+const validateDateRange = (from, until) => {
+  if (!from) throw new Error("No previous execution");
+  if (!from || !until) throw new Error("Invalid date range");
+  if (new Date(from) >= new Date(until)) {
+    throw new Error("'from' date must be before 'until' date");
+  }
+};
+
 function makeBulk(updates) {
   return updates.map(update => ({
     updateOne: {
@@ -42,107 +59,70 @@ function makeBulk(updates) {
   }));
 }
 
-export async function monitorSiren(job) {
-  const now = new Date();
-  const from = await getLastExecutionDate();
-  const until = now.toISOString().slice(0, 19);
-  let res = null
+async function monitorSirene(type) {
 
-  if (!from) {
-    job.fail("No previous execution");
-    return res;
-  }
+  if (!type) throw new Error("Type missing");
+  if (type !== 'establishment' && type !== 'legalUnit') throw new Error("Invalid type");
 
-  const siretStockFromPaysage = await getSiretStockFromPaysage();
-  const sirenUpdatesMap = await fetchLegalUnitUpdates(from, until);
+  const fetchUpdateFunction = type === 'establishment' ? fetchEstablishmentUpdates : fetchLegalUnitUpdates;
+  const getChanges = type === 'establishment' ? getEstablishmentChanges : getLegalUnitChanges;
 
+  try {
+    const now = new Date();
+    const from = await getLastExecutionDate();
+    const until = now.toISOString().slice(0, 19);
 
-  const hasLegalUnitUpdates = siretStockFromPaysage
-    .filter(element => element.type === "legalUnit" && sirenUpdatesMap.has(element.siren))
+    validateDateRange(from, until);
 
+    const [siretStockFromPaysage, sirenUpdatesMap] = await Promise.all([
+      getSiretStockFromPaysage(),
+      fetchUpdateFunction(from, until)
+    ]);
 
-  const updates = []
-  for (const element of hasLegalUnitUpdates) {
-    const changes = await getLegalUnitChanges(element);
-    updates.push(...changes);
-  };
-  if (updates.length === 0) {
-    res = {
-      status: "success",
-      message: "Nothing to update",
-      lastExecution: now,
-      from,
-      until,
+    const legalUnitsToUpdate = siretStockFromPaysage
+      .filter(element =>
+        element.type === type &&
+        element.siren &&
+        sirenUpdatesMap.has(element.siren)
+      );
+
+    const updates = []
+    for (const element of legalUnitsToUpdate) {
+      const changes = await getChanges(element);
+      updates.push(...changes);
     };
-  } else {
+    if (!updates.length) {
+      return {
+        status: "success",
+        message: "Nothing to update",
+        lastExecution: now,
+        from,
+        until,
+      };
+    }
     const bulkOperations = makeBulk(updates);
+    const result = await processBulkWrite(bulkOperations);
 
-    const result = await db.collection("_sirene_updates").bulkWrite(bulkOperations).catch((error) => {
-      console.error('Bulk write error:', error.message);
-      job.fail(error)
-      return null;
-    })
-    res = {
+    return {
       status: "success",
       lastExecution: now,
       from,
       until,
       updates: {
-        modified: result?.modifiedCount,
-        inserted: result?.upsertedCount
+        modified: result?.modifiedCount || 0,
+        inserted: result?.upsertedCount || 0,
+        total: updates.length
       }
     };
+  } catch (error) {
+    console.error(`${type} -- Monitoring failed:`, error);
+    throw error;
   }
-  return res;
 }
 
-export async function monitorSiret(job) {
-  const now = new Date();
-  const from = await getLastExecutionDate();
-  const until = now.toISOString().slice(0, 19);
-
-  if (!from) {
-    return {
-      status: "failed",
-      message: "No previous execution"
-    };
-  }
-
-  const siretStockFromPaysage = await getSiretStockFromPaysage();
-
-  const hasEstablishmentUpdates = siretStockFromPaysage
-    .filter(element => element.type === "establishment")
-
-  const updates = []
-  for (const element of hasEstablishmentUpdates) {
-    const changes = await getEstablishmentChanges(element);
-    updates.push(...changes);
-  }
-
-  if (updates.length === 0) {
-    return {
-      status: "success",
-      message: "Nothing to update",
-      lastExecution: now,
-      from,
-      until,
-    };
-  }
-
-  const bulkOperations = makeBulk(updates);
-
-  const result = await db.collection("_sirene_updates").bulkWrite(bulkOperations).catch((error) => {
-    console.error('Bulk write error:', error);
-    job.fail(error.message)
-  })
-  return {
-    status: "success",
-    lastExecution: now,
-    from,
-    until,
-    updates: {
-      modified: result?.modifiedCount,
-      inserted: result?.upsertedCount
-    }
-  };
+export async function monitorSiren() {
+  return monitorSirene('legalUnit');
+}
+export async function monitorSiret() {
+  return monitorSirene('establishment');
 }
