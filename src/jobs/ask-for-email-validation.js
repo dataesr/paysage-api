@@ -1,4 +1,4 @@
-import { db } from '../../services/mongo.service';
+import { db } from '../services/mongo.service';
 
 export default async function askForEmailRevalidation() {
   return db.collection('users')

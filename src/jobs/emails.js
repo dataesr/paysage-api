@@ -1,4 +1,4 @@
-import mailer from '../../services/mailer.service';
+import mailer from '../services/mailer.service';
 
 export const sendAuthenticationEmail = async (job) => mailer.sendEmail({
   to: [{ email: job.attrs?.data?.user?.email }],

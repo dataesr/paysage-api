@@ -38,11 +38,12 @@ const fetchPage = async (endpoint, params, cursor) => {
 
   const json = await response.json();
 
-  if (json?.header?.statut !== 200) throw new Error(json?.header?.message);
+  if (json?.header?.statut !== 200 && json?.header?.statut !== 404) throw new Error(json?.header?.message);
 
+  const data = json?.[API_CONFIG[endpoint]] ?? [];
 
   return {
-    data: json[API_CONFIG[endpoint]] || [],
+    data,
     nextCursor: json.header.curseurSuivant,
     total: json.header.total
   };
@@ -63,7 +64,7 @@ async function* sirenePageGenerator(endpoint, params, cursor = '*', total = null
   yield {
     data,
     progress: {
-      total: total ?? pageTotal,
+      total: total ?? pageTotal ?? 0,
       cursor,
     }
   };
@@ -90,7 +91,7 @@ const fetchSireneApi = async (endpoint, params) => {
     results.push(...data);
     processedCount += data.length;
     console.log(
-      `Processed ${processedCount.toLocaleString()}/${progress.total.toLocaleString()} records`
+      `Processed ${processedCount?.toLocaleString()}/${progress.total?.toLocaleString()} records`
     );
   }
 
