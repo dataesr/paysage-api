@@ -156,6 +156,10 @@ agenda
 
 agenda.on("complete", async (job) => {
   if (job.attrs?.type !== "single") return null;
+
+  const keepFailureFields = job.attrs.failedAt &&
+    job.attrs.failedAt === job.attrs.lastFinishedAt;
+
   const {
     _id,
     repeatInterval,
@@ -164,9 +168,14 @@ agenda.on("complete", async (job) => {
     startDate,
     endDate,
     nextRunAt,
+    failedAt,
+    failReason,
+    failCount,
     ...rest
   } = job.attrs;
+
   return db.collection("_jobs").insertOne({
+    ...(keepFailureFields ? { failedAt, failReason, failCount } : {}),
     ...rest,
     type: "normal",
   });
