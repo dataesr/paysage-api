@@ -33,20 +33,37 @@ const fetchPage = async (endpoint, params, cursor) => {
   });
 
   const url = `${apiUrl}/${endpoint}?${urlParams}`;
-  const response = await fetch(url, { headers: API_KEY_HEADER });
-  await sleep(RATE_LIMIT_DELAY);
+  try {
+    const response = await fetch(url, { headers: API_KEY_HEADER });
+    await sleep(RATE_LIMIT_DELAY);
 
-  const json = await response.json();
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-  if (json?.header?.statut !== 200 && json?.header?.statut !== 404) throw new Error(json?.header?.message);
+    const json = await response.json();
 
-  const data = json?.[API_CONFIG[endpoint]] ?? [];
+    if (json?.header?.statut !== 200 && json?.header?.statut !== 404) {
+      throw new Error(
+        JSON.stringify({
+          message: 'Invalid API response status',
+          header: json?.header,
+          url,
+          params: urlParams.toString()
+        })
+      );
+    }
 
-  return {
-    data,
-    nextCursor: json.header.curseurSuivant,
-    total: json.header.total
-  };
+    const data = json?.[API_CONFIG[endpoint]] ?? [];
+
+    return {
+      data,
+      nextCursor: json.header.curseurSuivant,
+      total: json.header.total
+    };
+  } catch (error) {
+    throw new Error(`Failed to fetch from Sirene API: ${error.message}\nURL: ${url}\nParams: ${urlParams.toString()}`);
+  }
 };
 
 
