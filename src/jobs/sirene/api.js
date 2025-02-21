@@ -37,11 +37,11 @@ const fetchPage = async (endpoint, params, cursor) => {
     const response = await fetch(url, { headers: API_KEY_HEADER });
     await sleep(RATE_LIMIT_DELAY);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    console.log(`API Response Status: ${response.status}`);
 
     const json = await response.json();
+
+    console.log(`API Response header: ${JSON.stringify(json.header, null, 2)}`);
 
     if (json?.header?.statut !== 200 && json?.header?.statut !== 404) {
       throw new Error(
