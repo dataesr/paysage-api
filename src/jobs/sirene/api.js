@@ -26,89 +26,32 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
  * @returns {Promise} Page data, next cursor and total count
  */
 const fetchPage = async (endpoint, params, cursor) => {
-  try {
-    // Log request details
-    console.log('=== SIRENE API REQUEST DETAILS ===');
-    console.log('Endpoint:', endpoint);
-    console.log('Parameters:', JSON.stringify(params, null, 2));
-    console.log('Cursor:', cursor);
+  const urlParams = new URLSearchParams({
+    ...params,
+    curseur: cursor,
+    nombre: SIZE_LIMIT
+  });
 
-    // Log API configuration
-    console.log('=== API CONFIGURATION ===');
-    console.log('API URL:', apiUrl);
-    // Log first and last 4 chars of API key if exists
-    if (apiKey) {
-      console.log('API Key Length:', apiKey?.length);
-      console.log('API Key Preview:', `${apiKey.substring(0, 4)}...${apiKey.substring(apiKey.length - 4)}`);
-    }
+  const url = `${apiUrl}/${endpoint}?${urlParams}`;
 
-    const urlParams = new URLSearchParams({
-      ...params,
-      curseur: cursor,
-      nombre: SIZE_LIMIT
-    });
+  const response = await fetch(url, { headers: API_KEY_HEADER });
+  await sleep(RATE_LIMIT_DELAY);
 
-    const url = `${apiUrl}/${endpoint}?${urlParams}`;
-    console.log('=== REQUEST URL ===');
-    console.log('Full URL:', url);
-
-    console.log('=== REQUEST HEADERS ===');
-    console.log('Headers:', JSON.stringify(API_KEY_HEADER, null, 2));
-
-    // Make the request
-    console.log('=== MAKING REQUEST ===');
-    const response = await fetch(url, { headers: API_KEY_HEADER });
-
-    // Log response details
-    console.log('=== RESPONSE DETAILS ===');
-    console.log('Status:', response.status);
-    console.log('Status Text:', response.statusText);
-    console.log('Response Headers:', JSON.stringify(Object.fromEntries([...response.headers]), null, 2));
-
-    await sleep(RATE_LIMIT_DELAY);
-
-    if (response.status === 404) {
-      console.log('404 Not Found - Returning empty result');
-      return { data: [], nextCursor: null, total: 0 };
-    }
-
-    if (response.status === 401) {
-      console.error('401 Unauthorized - Authentication failed');
-      throw new Error('Authentication failed - Please check API credentials');
-    }
-
-    if (response.status === 200) {
-      const json = await response.json();
-      console.log('=== RESPONSE BODY PREVIEW ===');
-      console.log('Header:', JSON.stringify(json.header, null, 2));
-      console.log(`${API_CONFIG[endpoint]} Count:`, json?.[API_CONFIG[endpoint]]?.length);
-
-      const data = json?.[API_CONFIG[endpoint]] ?? [];
-      return {
-        data,
-        nextCursor: json.header.curseurSuivant,
-        total: json.header.total
-      };
-    }
-
-    // If we get here, it's an unexpected status
-    console.error('=== UNEXPECTED RESPONSE ===');
-    console.error('Response:', JSON.stringify(response, null, 2));
-    const responseBody = await response.json().catch(async () => {
-      console.error('Failed to parse JSON response, trying text');
-      return await response.text();
-    });
-    console.error('Response body:', responseBody);
-
-    throw new Error(`Invalid API response status ${response.status}`);
-
-  } catch (error) {
-    console.error('=== ERROR IN FETCH PAGE ===');
-    console.error('Error Type:', error.constructor.name);
-    console.error('Error Message:', error.message);
-    console.error('Error Stack:', error.stack);
-    throw error;
+  if (response.status === 404) {
+    console.log('404 Not Found - Returning empty result');
+    return { data: [], nextCursor: null, total: 0 };
   }
+
+  if (response.status === 200) {
+    const json = await response.json();
+    const data = json?.[API_CONFIG[endpoint]] ?? [];
+    return {
+      data,
+      nextCursor: json.header.curseurSuivant,
+      total: json.header.total
+    };
+  }
+  throw new Error(`Invalid API response status ${response.status}`);
 };
 
 
