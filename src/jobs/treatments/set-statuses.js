@@ -147,7 +147,7 @@ export async function setStructureStatus() {
                         if: {
                           $gt: [
                             { $dateFromString: { dateString: "$normalizedEndDate" } },
-                            "$$NOW"
+                            { $add: ["$$NOW", 86400000] }
                           ]
                         },
                         then: "active",
@@ -261,7 +261,7 @@ export async function setIdentifierStatus() {
                 else: {
                   $gt: [
                     { $dateFromString: { dateString: "$normalizedEndDate" } },
-                    "$$NOW"
+                    { $add: ["$$NOW", 86400000] }
                   ]
                 }
               }
