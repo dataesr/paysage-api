@@ -131,8 +131,19 @@ export async function setStructureStatus() {
                     { $ne: ["$normalizedCreationDate", null] },
                     {
                       $gt: [
-                        { $dateFromString: { dateString: "$normalizedCreationDate" } },
-                        "$$NOW"
+                        {
+                          $dateFromString: {
+                            dateString: "$normalizedCreationDate",
+                            timezone: "UTC"
+                          }
+                        },
+                        {
+                          $dateTrunc: {
+                            date: "$$NOW",
+                            unit: "day",
+                            timezone: "UTC"
+                          }
+                        }
                       ]
                     }
                   ]
@@ -145,9 +156,20 @@ export async function setStructureStatus() {
                     else: {
                       $cond: {
                         if: {
-                          $gt: [
-                            { $dateFromString: { dateString: "$normalizedEndDate" } },
-                            "$$NOW"
+                          $gte: [
+                            {
+                              $dateFromString: {
+                                dateString: "$normalizedEndDate",
+                                timezone: "UTC"
+                              }
+                            },
+                            {
+                              $dateTrunc: {
+                                date: "$$NOW",
+                                unit: "day",
+                                timezone: "UTC"
+                              }
+                            }
                           ]
                         },
                         then: "active",
@@ -259,9 +281,20 @@ export async function setIdentifierStatus() {
                 if: { $eq: ["$normalizedEndDate", null] },
                 then: true,
                 else: {
-                  $gt: [
-                    { $dateFromString: { dateString: "$normalizedEndDate" } },
-                    "$$NOW"
+                  $gte: [
+                    {
+                      $dateFromString: {
+                        dateString: "$normalizedEndDate",
+                        timezone: "UTC"
+                      }
+                    },
+                    {
+                      $dateTrunc: {
+                        date: "$$NOW",
+                        unit: "day",
+                        timezone: "UTC"
+                      }
+                    }
                   ]
                 }
               }
