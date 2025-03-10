@@ -69,7 +69,10 @@ agenda.define(
 );
 agenda.define(
   "update key numbers",
-  { shouldSaveResult: true },
+  {
+    shouldSaveResult: true,
+    lockLifetime: 1000 * 60 * 60 * 5,
+  },
   updateKeyNumbers,
 );
 agenda.define("reindex", { shouldSaveResult: true }, reindex);
@@ -143,8 +146,22 @@ agenda.define(
   { shouldSaveResult: true },
   setIdentifierStatus,
 );
-agenda.define(taskName, { shouldSaveResult: true }, monitorSiren);
-agenda.define(`${taskName}-etab`, { shouldSaveResult: true }, monitorSiret);
+agenda.define(
+  taskName,
+  {
+    shouldSaveResult: true,
+    lockLifetime: 1000 * 60 * 60 * 2,
+  },
+  monitorSiren,
+);
+agenda.define(
+  `${taskName}-etab`,
+  {
+    shouldSaveResult: true,
+    lockLifetime: 1000 * 60 * 60 * 2,
+  },
+  monitorSiret,
+);
 
 agenda
   .on("ready", () => {
