@@ -41,7 +41,7 @@ function* periodPairsGenerator(periods) {
     yield {
       previousPeriod: periods[i],
       currentPeriod: periods[i - 1],
-      period: i - 1,
+      period: i + 1,
     };
   }
 }
