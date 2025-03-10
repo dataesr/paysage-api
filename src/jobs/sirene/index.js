@@ -23,7 +23,7 @@ async function getLastExecutionDate() {
   return jobs?.[0]?.result?.lastExecution?.toISOString()?.slice(0, 19);
 }
 
-const processBulkWrite = async (bulkOperations) => {
+const processBulkOps = async (bulkOperations) => {
   try {
     return await db.collection("_sirene_updates").bulkWrite(bulkOperations, { ordered: false });
   } catch (error) {
@@ -40,7 +40,7 @@ const validateDateRange = (from, until) => {
   }
 };
 
-function makeBulk(updates) {
+function createBulkOps(updates) {
   return updates.map(update => ({
     updateOne: {
       filter: { ...update },
@@ -59,13 +59,25 @@ function makeBulk(updates) {
   }));
 }
 
+const configFromType = {
+  establishment: {
+    fetchUpdateFunction: fetchEstablishmentUpdates,
+    getChanges: getEstablishmentChanges,
+    filterKey: 'siret'
+  },
+  legalUnit: {
+    fetchUpdateFunction: fetchLegalUnitUpdates,
+    getChanges: getLegalUnitChanges,
+    filterKey: 'siren'
+  }
+}
+
 async function monitorSirene(type) {
 
   if (!type) throw new Error("Type missing");
   if (type !== 'establishment' && type !== 'legalUnit') throw new Error("Invalid type");
 
-  const fetchUpdateFunction = type === 'establishment' ? fetchEstablishmentUpdates : fetchLegalUnitUpdates;
-  const getChanges = type === 'establishment' ? getEstablishmentChanges : getLegalUnitChanges;
+  const { fetchUpdateFunction, getChanges, filterKey } = configFromType[type];
 
   try {
     const now = new Date();
@@ -74,20 +86,22 @@ async function monitorSirene(type) {
 
     validateDateRange(from, until);
 
-    const [siretStockFromPaysage, sirenUpdatesMap] = await Promise.all([
+    const [stockFromPaysage, sireneUpdatesMap] = await Promise.all([
       getSiretStockFromPaysage(),
       fetchUpdateFunction(from, until)
     ]);
+    console.log("MAP_SIZE_FROM_SIRENE", sireneUpdatesMap.size)
 
-    const legalUnitsToUpdate = siretStockFromPaysage
+    const toUpdate = stockFromPaysage
       .filter(element =>
         element.type === type &&
-        element.siren &&
-        sirenUpdatesMap.has(element.siren)
+        sireneUpdatesMap.has(element?.[filterKey])
       );
 
+    console.log("TO_UPDATE", toUpdate);
+
     const updates = []
-    for (const element of legalUnitsToUpdate) {
+    for (const element of toUpdate) {
       const changes = await getChanges(element);
       updates.push(...changes);
     };
@@ -100,8 +114,8 @@ async function monitorSirene(type) {
         until,
       };
     }
-    const bulkOperations = makeBulk(updates);
-    const result = await processBulkWrite(bulkOperations);
+    const bulkOperations = createBulkOps(updates);
+    const result = await processBulkOps(bulkOperations);
 
     return {
       status: "success",

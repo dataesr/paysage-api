@@ -1,100 +1,141 @@
 import { fetchLegalUnitById, fetchEstablishmentById } from './api';
 
+const TRACKED_FIELDS = [
+  "changementNicSiegeUniteLegale",
+  "changementEtatAdministratifUniteLegale",
+  "changementNomUniteLegale",
+  "changementNomUsageUniteLegale",
+  "changementDenominationUniteLegale",
+  "changementCategorieJuridiqueUniteLegale",
+  "changementDenominationUsuelleUniteLegale"
+];
+
+const extractDenominationUsuelle = (period) =>
+  [
+    period.denominationUsuelle1UniteLegale,
+    period.denominationUsuelle2UniteLegale,
+    period.denominationUsuelle3UniteLegale
+  ].filter(Boolean);
+
+const getFieldWithoutChangement = (field) => {
+  const fieldWithoutChangement = field.replace('changement', '');
+  return fieldWithoutChangement.charAt(0).toLowerCase() + fieldWithoutChangement.slice(1);
+};
+
+const getFieldValue = (field, period) => {
+  if (!period) return undefined;
+
+  if (field === 'changementDenominationUsuelleUniteLegale') {
+    return extractDenominationUsuelle(period);
+  }
+
+  return TRACKED_FIELDS.includes(field)
+    ? period[getFieldWithoutChangement(field)]
+    : undefined;
+};
+
+
+function* periodPairsGenerator(periods) {
+  if (!periods || periods.length < 2) return;
+  for (let i = periods.length - 1; i > 0; i--) {
+    yield {
+      previousPeriod: periods[i],
+      currentPeriod: periods[i - 1],
+      period: i - 1,
+    };
+  }
+}
+
+
 export const getLegalUnitChanges = async (element) => {
   const { siren, paysage } = element;
+  if (!siren) return [];
 
   const legalUnit = await fetchLegalUnitById(siren);
   if (!legalUnit) return [];
-  const period = legalUnit.periodesUniteLegale?.[0] || {};
-  const previousPeriod = legalUnit.periodesUniteLegale?.[1] || {};
 
-  const trackedFields = [
-    "changementNicSiegeUniteLegale",
-    "changementEtatAdministratifUniteLegale",
-    "changementNomUniteLegale",
-    "changementNomUsageUniteLegale",
-    "changementDenominationUniteLegale",
-    "changementCategorieJuridiqueUniteLegale",
-    "changementDenominationUsuelleUniteLegale"
-  ];
+  async function getChangesForPeriodPair(periodPair) {
+    const { previousPeriod, currentPeriod, period } = periodPair;
+    const periodPairChanges = []
 
-  const getChangeValue = (field, period) => {
-    if (field === 'changementDenominationUsuelleUniteLegale') {
-      return [
-        period.denominationUsuelle1UniteLegale,
-        period.denominationUsuelle2UniteLegale,
-        period.denominationUsuelle3UniteLegale
-      ].filter(Boolean);
+    for (const [field, value] of Object.entries(currentPeriod)) {
+      if (TRACKED_FIELDS.includes(field) && value === true) {
+        const change = {
+          siren,
+          paysage,
+          type: 'legalUnit',
+          siret: null,
+          field,
+          value: getFieldValue(field, currentPeriod),
+          previousValue: getFieldValue(field, previousPeriod),
+          changeEffectiveDate: currentPeriod.dateDebut,
+          numberOfPeriods: period,
+        };
+
+        if (change.value !== undefined) {
+          periodPairChanges.push(change);
+        }
+      }
     }
-    if (trackedFields.includes(field)) {
-      const fieldWithoutChangement = field.replace('changement', '');
-      return period[fieldWithoutChangement.charAt(0).toLowerCase() + fieldWithoutChangement.slice(1)];
-    }
-  };
 
-  const changes = Object.entries(period)
-    .filter(([field, value]) => trackedFields.includes(field) && value === true)
-    .map(([field]) => {
-      const value = getChangeValue(field, period);
-      const previousValue = getChangeValue(field, previousPeriod);
-      if (value === undefined) return null;
-      return {
-        siren,
-        paysage,
-        type: 'legalUnit',
-        siret: null,
-        field,
-        value,
-        previousValue,
-        changeEffectiveDate: period.dateDebut,
-        numberOfPeriods: legalUnit.nombrePeriodesUniteLegale,
-      };
-    })
-    .filter(Boolean);
-
-  if (changes.find((change) => change.field === 'changementNicSiegeUniteLegale')) {
-    const headquarter = await fetchEstablishmentById(siren + period.nicSiegeUniteLegale);
-    if (headquarter) {
-      changes.push({
-        siren,
-        paysage,
-        type: 'legalUnit',
-        siret: null,
-        field: 'changementAdresseSiegeUniteLegale',
-        value: headquarter.adresseEtablissement,
-        previousValue: null,
-        changeEffectiveDate: period.dateDebut,
-        numberOfPeriods: legalUnit.nombrePeriodesUniteLegale,
-      });
+    // Handle address changes
+    if (currentPeriod.changementNicSiegeUniteLegale) {
+      const headquarter = await fetchEstablishmentById(siren + currentPeriod.nicSiegeUniteLegale);
+      if (headquarter) {
+        periodPairChanges.push({
+          siren,
+          paysage,
+          type: 'legalUnit',
+          siret: null,
+          field: 'changementAdresseSiegeUniteLegale',
+          value: headquarter.adresseEtablissement,
+          previousValue: null,
+          changeEffectiveDate: currentPeriod.dateDebut,
+          numberOfPeriods: period,
+        });
+      }
     }
+    return periodPairChanges;
+  }
+  const periods = legalUnit.periodesUniteLegale || [];
+  const changes = [];
+
+  for (const periodPair of periodPairsGenerator(periods)) {
+    const pairChanges = await getChangesForPeriodPair(periodPair);
+    changes.push(...pairChanges);
   }
   return changes;
 };
 
 export const getEstablishmentChanges = async (element) => {
   const { siren, siret, paysage } = element;
+  if (!siret) return [];
 
   const establishment = await fetchEstablishmentById(siret);
   if (!establishment) return [];
 
-  const period = establishment.periodesEtablissement?.[0];
-  const previousPeriod = establishment.periodesEtablissement?.[1];
+  const periods = establishment.periodesEtablissement || [];
 
-  const changes = [];
+  for (const periodPair of periodPairsGenerator(periods)) {
+    const { previousPeriod, currentPeriod, period } = periodPair;
 
-  if (period.changementEtatAdministratifEtablissement) {
-    changes.push({
-      siren,
-      paysage,
-      siret,
-      type: 'establishment',
-      field: "changementEtatAdministratifEtablissement",
-      value: period.etatAdministratifEtablissement,
-      previousValue: previousPeriod.etatAdministratifEtablissement,
-      changeEffectiveDate: period.dateDebut,
-      numberOfPeriods: establishment.nombrePeriodesEtablissement,
-    });
+    if (currentPeriod.changementEtatAdministratifEtablissement) {
+      changes.push({
+        siren,
+        paysage,
+        siret,
+        type: 'establishment',
+        field: "changementEtatAdministratifEtablissement",
+        value: currentPeriod.etatAdministratifEtablissement,
+        previousValue: previousPeriod.etatAdministratifEtablissement,
+        changeEffectiveDate: currentPeriod.dateDebut,
+        numberOfPeriods: period,
+      });
+    }
+    const pairChanges = (periodPair);
+    changes.push(...pairChanges);
   }
+
 
   return changes;
 };
