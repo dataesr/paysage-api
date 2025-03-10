@@ -30,6 +30,7 @@ export const signup = async (req, res, next) => {
   const userData = {
     ...body,
     ...context,
+    email: body.email.toLowerCase(),
     confirmed: defaultAccountConfirmation,
     createdAt: new Date(),
     createdBy: context.id,
@@ -74,7 +75,7 @@ export const signin = async (req, res, next) => {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       const { firstName, lastName } = user;
-      agenda.now('send signin email', { user: { firstName, lastName, email }, otp, ip });
+      agenda.now('send signin email', { user: { firstName, lastName, email: user.email }, otp, ip });
       const expires = new Date().setMinutes(new Date().getMinutes() + 15);
       const options = {
         year: 'numeric',
@@ -158,7 +159,7 @@ export const resetPassword = async (req, res, next) => {
       const otp = totp.generate(user.otpSecret);
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       const { firstName, lastName } = user;
-      agenda.now('send recovery email', { user: { firstName, lastName, email }, otp, ip });
+      agenda.now('send recovery email', { user: { firstName, lastName, email: user.email }, otp, ip });
       const expires = new Date().setMinutes(new Date().getMinutes() + 15);
       const options = {
         year: 'numeric',
