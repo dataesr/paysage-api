@@ -114,6 +114,7 @@ const fetchSireneApi = async (endpoint, params) => {
  * @returns {Promise} SIRET updates
  */
 export const fetchEstablishmentUpdates = async (startDate, endDate) => {
+  console.log('CALL TO FETCH ESTABLISHEMENT UPDATES')
   const params = {
     q: `dateDernierTraitementEtablissement:[${startDate} TO ${endDate}] AND nombrePeriodesEtablissement:[2 TO *]`,
     champs: "siret,dateDernierTraitementEtablissement",
@@ -133,6 +134,7 @@ export const fetchEstablishmentUpdates = async (startDate, endDate) => {
  * @returns {Promise} SIREN updates
  */
 export const fetchLegalUnitUpdates = async (startDate, endDate) => {
+  console.log('CALL TO FETCH LEGAL UNIT UPDATES')
   const params = {
     q: `dateDernierTraitementUniteLegale:[${startDate} TO ${endDate}] AND nombrePeriodesUniteLegale:[2 TO *]`,
     champs: "siren,dateDernierTraitementUniteLegale",

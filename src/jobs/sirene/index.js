@@ -34,7 +34,7 @@ const processBulkOps = async (bulkOperations) => {
 
 const validateDateRange = (from, until) => {
   if (!from) throw new Error("No previous execution");
-  if (!from || !until) throw new Error("Invalid date range");
+  if (!until) throw new Error("Invalid date range");
   if (new Date(from) >= new Date(until)) {
     throw new Error("'from' date must be before 'until' date");
   }
@@ -90,7 +90,6 @@ async function monitorSirene(type) {
       getSiretStockFromPaysage(),
       fetchUpdateFunction(from, until)
     ]);
-    console.log("MAP_SIZE_FROM_SIRENE", sireneUpdatesMap.size)
 
     const toUpdate = stockFromPaysage
       .filter(element =>
@@ -98,13 +97,11 @@ async function monitorSirene(type) {
         sireneUpdatesMap.has(element?.[filterKey])
       );
 
-    console.log("TO_UPDATE", toUpdate);
-
     const updates = []
     for (const element of toUpdate) {
       const changes = await getChanges(element);
       updates.push(...changes);
-    };
+    }
     if (!updates.length) {
       return {
         status: "success",
