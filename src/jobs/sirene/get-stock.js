@@ -40,6 +40,39 @@ export async function getSiretStockFromPaysage() {
         },
       },
     },
+    // {
+    //   $lookup: {
+    //     from: "relationships",
+    //     let: { paysageId: "$paysage" },
+    //     pipeline: [
+    //       {
+    //         $match: {
+    //           $expr: { $eq: ["$resourceId", "$$paysageId"] },
+    //           relatedObjectId: { $in: ["3ectR3ectR3ectR", "K6Q23K6Q23K6Q23"] }
+    //         }
+    //       },
+    //       { $limit: 1 }
+    //     ],
+    //     as: "hasNolegalCategoryCheck"
+    //   }
+    // },
+    // {
+    //   $project: {
+    //     _id: 0,
+    //     paysage: 1,
+    //     siren: 1,
+    //     siret: {
+    //       $cond: [
+    //         { $eq: [{ $size: "$hasNolegalCategoryCheck" }, 0] }, null, "$siret"
+    //       ],
+    //     },
+    //     type: {
+    //       $cond: [
+    //         { $eq: [{ $size: "$hasNolegalCategoryCheck" }, 0] }, "legalUnit", "$type"
+    //       ]
+    //     },
+    //   }
+    // },
   ]);
 
   return sirets.toArray();
