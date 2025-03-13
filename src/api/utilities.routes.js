@@ -1,7 +1,6 @@
 import express from "express";
 
-import { db } from "../../../services/mongo.service";
-import { requireRoles } from "./commons/middlewares/rbac.middlewares";
+import { db } from "../services/mongo.service";
 
 const router = new express.Router();
 
