@@ -29,6 +29,7 @@ import synchronizeCuriexploreActors from "./synchronize/curiexplore-actors";
 import synchronizeFrEsrReferentielGeographique from "./synchronize/fr-esr-referentiel-geographique";
 import deletePassedGouvernancePersonnalInformation from "./treatments/delete-passed-gouvernance-personal-infos";
 import { setStructureStatus, setIdentifierStatus } from "./treatments/set-statuses";
+import dedupLegalCategorySirene from "./dedup-legal-category-sirene";
 
 const { taskName } = config.sirene;
 
@@ -145,6 +146,11 @@ agenda.define(
   "synchronize identifiers' status",
   { shouldSaveResult: true },
   setIdentifierStatus,
+);
+agenda.define(
+  "check de double catégories juridiques pour une unité légale",
+  { shouldSaveResult: true },
+  dedupLegalCategorySirene,
 );
 agenda.define(
   taskName,
