@@ -15,8 +15,8 @@ import assetsRoutes from "./assets/assets.routes";
 import authRoutes from "./auth/auth.routes";
 import categoriesRoutes from "./categories/categories.routes";
 import {
-	forbidReadersToWrite,
-	requireAuth,
+  forbidReadersToWrite,
+  requireAuth,
 } from "./commons/middlewares/rbac.middlewares";
 import contactRoutes from "./contacts/contacts.routes";
 import curiexploreRoutes from "./curiexplore/curiexplore.routes";
@@ -48,6 +48,7 @@ import supervisingMinistersRoutes from "./supervising-ministers/supervising-mini
 import termsRoutes from "./terms/terms.routes";
 import usersRoutes from "./users/users.routes";
 import weblinksRoutes from "./weblinks/weblinks.routes";
+import utilitiesRoutes from "./utilities.routes";
 
 // Load API specifications
 const apiSpec = path.join(path.resolve(), "docs/reference/api.yml");
@@ -59,26 +60,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.disable("x-powered-by");
 if (process.env.NODE_ENV === "development") {
-	app.use(
-		cors({
-			origin: "*",
-			methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-		}),
-	);
+  app.use(
+    cors({
+      origin: "*",
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    }),
+  );
 }
 app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]);
 
 // Health checker
 const healthcheck = new health.HealthChecker();
 const isReady = async (expressApp) => {
-	if (!expressApp.isReady) {
-		throw new Error("App in not running yet.");
-	}
-	return "Listening to requests";
+  if (!expressApp.isReady) {
+    throw new Error("App in not running yet.");
+  }
+  return "Listening to requests";
 };
 const liveCheck = new health.LivenessCheck("LivenessCheck", () => isReady(app));
 const readyCheck = new health.ReadinessCheck("ReadinessCheck", () =>
-	isReady(app),
+  isReady(app),
 );
 healthcheck.registerLivenessCheck(liveCheck);
 healthcheck.registerReadinessCheck(readyCheck);
@@ -88,29 +89,29 @@ app.use("/readyz", health.ReadinessEndpoint(healthcheck));
 // Expose swagger API documentation
 const { schemas } = apiDocument.components;
 app.get("/docs/specs", (req, res) => {
-	res.status(200).json(apiDocument);
+  res.status(200).json(apiDocument);
 });
 app.get("/docs/enums", (req, res) => {
-	res
-		.status(200)
-		.json(
-			Object.fromEntries(
-				Object.entries(schemas).filter(([key]) => key.match(/Enum$/)),
-			),
-		);
+  res
+    .status(200)
+    .json(
+      Object.fromEntries(
+        Object.entries(schemas).filter(([key]) => key.match(/Enum$/)),
+      ),
+    );
 });
 
 // express-openapi-validator setup to validate requests
 app.use(
-	OAV.middleware({
-		apiSpec,
-		validateRequests: {
-			removeAdditional: true,
-		},
-		validateResponses: true,
-		fileUploader: { storage: multer.memoryStorage() },
-		ignoreUndocumented: true,
-	}),
+  OAV.middleware({
+    apiSpec,
+    validateRequests: {
+      removeAdditional: true,
+    },
+    validateResponses: true,
+    fileUploader: { storage: multer.memoryStorage() },
+    ignoreUndocumented: true,
+  }),
 );
 
 // Authenticate currentUser
@@ -155,6 +156,7 @@ app.use(supervisingMinistersRoutes);
 app.use(termsRoutes);
 app.use(usersGroupsRoutes);
 app.use(usersRoutes);
+app.use(utilitiesRoutes);
 app.use(weblinksRoutes);
 
 // Error handler
