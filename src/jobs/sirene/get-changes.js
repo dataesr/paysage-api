@@ -112,6 +112,7 @@ export const getEstablishmentChanges = async (element) => {
   if (!establishment) return [];
 
   const periods = establishment.periodesEtablissement || [];
+  const changes = [];
 
   for (const periodPair of periodPairsGenerator(periods)) {
     const { previousPeriod, currentPeriod } = periodPair;
@@ -128,10 +129,6 @@ export const getEstablishmentChanges = async (element) => {
         changeEffectiveDate: currentPeriod.dateDebut,
       });
     }
-    const pairChanges = (periodPair);
-    changes.push(...pairChanges);
   }
-
-
   return changes;
 };
