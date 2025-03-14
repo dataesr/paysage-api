@@ -41,7 +41,6 @@ function* periodPairsGenerator(periods) {
     yield {
       previousPeriod: periods[i],
       currentPeriod: periods[i - 1],
-      period: i + 1,
     };
   }
 }
@@ -55,7 +54,7 @@ export const getLegalUnitChanges = async (element) => {
   if (!legalUnit) return [];
 
   async function getChangesForPeriodPair(periodPair) {
-    const { previousPeriod, currentPeriod, period } = periodPair;
+    const { previousPeriod, currentPeriod } = periodPair;
     const periodPairChanges = []
 
     for (const [field, value] of Object.entries(currentPeriod)) {
@@ -69,7 +68,6 @@ export const getLegalUnitChanges = async (element) => {
           value: getFieldValue(field, currentPeriod),
           previousValue: getFieldValue(field, previousPeriod),
           changeEffectiveDate: currentPeriod.dateDebut,
-          numberOfPeriods: period,
         };
 
         if (change.value !== undefined) {
@@ -91,7 +89,6 @@ export const getLegalUnitChanges = async (element) => {
           value: headquarter.adresseEtablissement,
           previousValue: null,
           changeEffectiveDate: currentPeriod.dateDebut,
-          numberOfPeriods: period,
         });
       }
     }
@@ -115,9 +112,10 @@ export const getEstablishmentChanges = async (element) => {
   if (!establishment) return [];
 
   const periods = establishment.periodesEtablissement || [];
+  const changes = [];
 
   for (const periodPair of periodPairsGenerator(periods)) {
-    const { previousPeriod, currentPeriod, period } = periodPair;
+    const { previousPeriod, currentPeriod } = periodPair;
 
     if (currentPeriod.changementEtatAdministratifEtablissement) {
       changes.push({
@@ -129,13 +127,8 @@ export const getEstablishmentChanges = async (element) => {
         value: currentPeriod.etatAdministratifEtablissement,
         previousValue: previousPeriod.etatAdministratifEtablissement,
         changeEffectiveDate: currentPeriod.dateDebut,
-        numberOfPeriods: period,
       });
     }
-    const pairChanges = (periodPair);
-    changes.push(...pairChanges);
   }
-
-
   return changes;
 };
