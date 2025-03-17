@@ -2,6 +2,22 @@ import currentLegalCategoryQuery from './current-legal-category.query';
 import currentLocalisationQuery from './current-localisation.query';
 import currentNameQuery from './current-name.query';
 
+const currentLegalRelationshipIdQuery = [
+  {
+    $lookup: {
+      from: 'relationships',
+      let: { item: '$id' },
+      pipeline: [
+        { $match: { $expr: { $and: [{ $eq: ['$resourceId', '$$item'] }, { $eq: ['$relationTag', 'structure-categorie-juridique'] }] } } },
+        { $sort: { startDate: 1 } },
+      ],
+      as: 'legalcategoryRelationshipId',
+    },
+  },
+  { $set: { legalcategoryRelationshipId: '$legalcategoryRelationshipId.id' } },
+  { $set: { legalcategoryRelationshipId: { $arrayElemAt: ['$legalcategoryRelationshipId', 0] } } },
+];
+
 const currentSiretQuery = [
   {
     $lookup: {
@@ -33,6 +49,7 @@ const structQuery = [
   ...currentLocalisationQuery,
   ...currentNameQuery,
   ...currentSiretQuery,
+  ...currentLegalRelationshipIdQuery,
   {
     $project: {
       _id: 0,
@@ -47,6 +64,7 @@ const structQuery = [
       href: { $concat: ['/structures/', '$id'] },
       legalcategory: { $ifNull: ['$legalcategory', {}] },
       structureStatus: { $ifNull: ['$structureStatus', 'active'] },
+      legalcategoryRelationshipId: 1,
     },
   },
 ];
