@@ -15,7 +15,8 @@ function getDateXDaysAfter(x) {
   return new Date(Date.now() + x * 24 * 60 * 60 * 1000);
 }
 
-const SKIP_JOBS = ['send welcome email', 'send confirmed email', 'send signin email', 'send recovery email', 'send contact email'];
+const SKIP_JOBS = ['send mattermost notification',
+  'send welcome email', 'send confirmed email', 'send signin email', 'send recovery email', 'send contact email'];
 
 router.route('/jobs')
   .get([
