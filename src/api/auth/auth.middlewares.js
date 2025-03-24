@@ -46,6 +46,10 @@ export const signup = async (req, res, next) => {
   const { firstName, lastName, email } = body;
   agenda.now('send welcome email', { user: { firstName, lastName, email } });
   agenda.now('send user creation notification email', { user: { firstName, lastName } });
+  agenda.now(
+    'send mattermost notification',
+    { message: `:tada: Un nouvel utilisateur a été créé !\n**Nom :** ${firstName} ${lastName}\n**Email :** ${email}` },
+  );
   res.status(201).json({ message: 'Compte crée.' });
   return next();
 };
