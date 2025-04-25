@@ -17,7 +17,7 @@ const payload = {
   endDate: '2020',
   textExtract: 'string',
 };
-const updatePayLoad = { nature: 'Publication au BOESR', type: 'Décret' };
+const updatePayLoad = { nature: 'Publication au BOESR', type: 'Décret', publicationDate: '2020-06-01' };
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
