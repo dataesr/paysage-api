@@ -30,7 +30,7 @@ properties:
     pattern: '^\d{2,4}-\d{1,4}$'
     nullable: true
   publicationDate:
-    nullable: false
+    nullable: true
     type: string
     pattern: '((^$)|(^\d{4}$)|(^\d{4}-(0[1-9]|1[0-2]))|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$))'
   signatureDate:

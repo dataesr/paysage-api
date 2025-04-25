@@ -28,6 +28,7 @@ beforeAll(async () => {
       nature: 'Publication au JO',
       type: 'Loi',
       jorftext: 'jorftextNumber',
+      publicationDate: '2020-06-01',
       nor: 'norNumber',
       title: 'title',
       pageUrl: 'http://string.fr',
