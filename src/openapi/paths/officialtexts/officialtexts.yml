@@ -45,6 +45,7 @@ collectionMethods:
               - type
               - title
               - pageUrl
+              - publicationDate
             allOf:
               - $ref: '../../api.yml#/components/schemas/OfficialTextPayload'
     responses:
