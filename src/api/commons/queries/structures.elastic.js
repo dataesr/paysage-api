@@ -51,10 +51,17 @@ export default [
       brandName: { $ifNull: ['$currentName.brandName', null] },
       category: { $ifNull: ['$category.usualNameFr', null] },
       city: { $ifNull: ['$localisations.city', null] },
+      country: { $ifNull: ['$localisations.country', null] },
       closureDate: { $ifNull: ['$closureDate', null] },
       creationDate: { $ifNull: ['$creationDate', null] },
       id: 1,
       identifiers: { $ifNull: ['$identifiers.value', null] },
+      identifiantsLists: {
+        $ifNull: [
+          { $map: { input: '$identifiers', as: 'id', in: { type: '$$id.type', value: '$$id.value' } } },
+          null,
+        ],
+      },
       isDeleted: { $ifNull: ['$isDeleted', false] },
       coordinates: { $ifNull: ['$currentLocalisation.geometry.coordinates', null] },
       locality: { $ifNull: ['$localisations.locality', null] },
