@@ -12,11 +12,12 @@ const payload = {
   nor: 'norNumber',
   title: 'title',
   pageUrl: 'http://string.fr',
+  publicationDate: '2020-06-01',
   signatureDate: '2020',
   endDate: '2020',
   textExtract: 'string',
 };
-const updatePayLoad = { nature: 'Publication au BOESR', type: 'Décret' };
+const updatePayLoad = { nature: 'Publication au BOESR', type: 'Décret', publicationDate: '2020-06-01' };
 
 beforeAll(async () => {
   authorization = await global.utils.createUser('user');
