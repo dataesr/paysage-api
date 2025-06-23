@@ -68,6 +68,12 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
         eta_ville: structure.currentLocalisation?.locality,
         eta_id_paysage: structure.id,
         eta_lib: structure.currentName?.usualName,
+        eta_lib_off: structure.currentName?.officialName,
+        eta_lib_court: structure.currentName?.shortName,
+        eta_acronym: structure.currentName?.acronymFr,
+        eta_vague: structure.categories.find((cat) => cat?.usualNameFr.startsWith("Vague"))?.usualNameFr,
+        eta_site_web: structure.websites.find((website) => website.type === "website")?.url,
+        eta_type_paysage: structure.category?.usualNameFr,
         eta_scd_esgbu:
           structure.identifiers
             ?.filter((i) => i.type === "sdid")
@@ -92,19 +98,19 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate))
             .map((i) => i.value)
             .join("|") || null,
-        "eta_siret de la structure":
+        eta_siret:
           structure.identifiers
             ?.filter((i) => i.type === "siret")
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate))
             .map((i) => i.value)
             .join("|") || null,
-        "eta_grid de la structure":
+        eta_grid:
           structure.identifiers
             ?.filter((i) => i.type === "grid")
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate))
             .map((i) => i.value)
             .join("|") || null,
-        "eta_ror de la structure":
+        eta_ror:
           structure.identifiers
             ?.filter((i) => i.type === "ror")
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate))
