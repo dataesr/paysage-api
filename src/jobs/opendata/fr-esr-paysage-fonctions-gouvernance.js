@@ -12,10 +12,32 @@ import readQuery from "../../api/commons/queries/relations.query";
 const dataset = "fr-esr-paysage-fonctions-gouvernance";
 
 export default async function exportFrEsrPaysageFonctionsGourvernance() {
+  const supervisingMinisters = new Map();
+  const ministersQuery = await db.collection('supervisingministers').find().toArray();
+  console.log('Supervising ministers query loaded:', ministersQuery);
+  for (const s of ministersQuery) {
+    supervisingMinisters.set(s.id, s.usualName);
+  }
+
+  console.log('Supervising ministers loaded:', supervisingMinisters.size);
+
+  const getSupervisingMinisters = async (structId) => {
+    const ministers = await db.collection("relationships")
+      .find({ relationTag: "structure-tutelle", relatedObjectId: structId }).toArray();
+
+    if (!ministers?.length) return null;
+    return ministers?.map((minister) => supervisingMinisters.get(minister.resourceId))?.join(';');
+  };
+
   const data = await db
     .collection("relationships")
-    .aggregate([{ $match: { relationTag: "gouvernance" } }, ...readQuery])
+    .aggregate([{ $match: { relationTag: "gouvernance" } }, ...readQuery, ])
     .toArray();
+
+  for (const d of data) {
+    d.supervisingMinisters = await getSupervisingMinisters(d.resource.id);
+  }
+
   const json = data.map(
     ({
       resource: structure = {},
@@ -64,10 +86,17 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
           .map((a) => a)
           .join("\n")
           .trim(),
+        eta_tutelle: relation.supervisingMinisters,
         eta_cp: structure.currentLocalisation?.postalCode,
         eta_ville: structure.currentLocalisation?.locality,
         eta_id_paysage: structure.id,
         eta_lib: structure.currentName?.usualName,
+        eta_lib_off: structure.currentName?.officialName,
+        eta_lib_court: structure.currentName?.shortName,
+        eta_acronym: structure.currentName?.acronymFr,
+        eta_vague: structure.categories.find((cat) => cat?.usualNameFr.startsWith("Vague"))?.usualNameFr,
+        eta_site_web: structure.websites.find((website) => website.type === "website")?.url,
+        eta_type_paysage: structure.category?.usualNameFr,
         eta_scd_esgbu:
           structure.identifiers
             ?.filter((i) => i.type === "sdid")
@@ -92,19 +121,19 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate))
             .map((i) => i.value)
             .join("|") || null,
-        "eta_siret de la structure":
+        eta_siret:
           structure.identifiers
             ?.filter((i) => i.type === "siret")
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate))
             .map((i) => i.value)
             .join("|") || null,
-        "eta_grid de la structure":
+        eta_grid:
           structure.identifiers
             ?.filter((i) => i.type === "grid")
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate))
             .map((i) => i.value)
             .join("|") || null,
-        "eta_ror de la structure":
+        eta_ror:
           structure.identifiers
             ?.filter((i) => i.type === "ror")
             .sort((a, b) => a?.startDate?.localeCompare(b?.startDate))
@@ -216,5 +245,5 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
     await session.endSession();
   });
 
-  return { status: "success", location: `/opendata/${dataset}` };
+  return { status: "success", location: `/opendata/${dataset}`, length: json.length };
 }
