@@ -11,13 +11,6 @@ import readQuery from "../../api/commons/queries/relations.query";
 
 const dataset = "fr-esr-paysage-fonctions-gouvernance";
 
-const getSupervisingMinisters = async (structId) => {
-  const ministers = await db.collection("relationships")
-    .find({ relationTag: "structure-tuelle", relatedobjectId: structId }).toArray();
-  const ministerIds = ministers.map((minister) => minister.resource);
-  return ministerIds;
-};
-
 export default async function exportFrEsrPaysageFonctionsGourvernance() {
   const supervisingMinisters = new Map();
   const ministersQuery = await db.collection('supervisingministers').find().toArray();
@@ -26,9 +19,13 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
   }
 
   const getSupervisingMinisters = async (structId) => {
+    console.log('Fetching supervising ministers for structure:', structId);
     const ministers = await db.collection("relationships")
       .find({ relationTag: "structure-tuelle", relatedObjectId: structId }).toArray();
+    console.log('Fetched', ministers.length, 'supervising ministers', JSON.stringify(ministers));
+
     if (!ministers?.length) return null;
+    console.log('First minister name', supervisingMinisters.get(ministers[0].resourceId));
     return ministers?.map((minister) => supervisingMinisters.get(minister.resourceId))?.join(';');
   };
 
