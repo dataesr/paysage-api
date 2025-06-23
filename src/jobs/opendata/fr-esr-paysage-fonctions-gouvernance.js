@@ -20,17 +20,16 @@ const getSupervisingMinisters = async (structId) => {
 
 export default async function exportFrEsrPaysageFonctionsGourvernance() {
   const supervisingMinisters = new Map();
-
-  for await (const s of db.collection('supervisingministers').find()) {
+  const ministersQuery = await db.collection('supervisingministers').find().toArray();
+  for (const s of ministersQuery) {
     supervisingMinisters.set(s.id, s.usualName);
-}
+  }
 
   const getSupervisingMinisters = async (structId) => {
     const ministers = await db.collection("relationships")
       .find({ relationTag: "structure-tuelle", relatedObjectId: structId }).toArray();
     if (!ministers?.length) return null;
-    const ministerIds = ministers?.map((minister) => supervisingMinisters.get(minister.resourceId))?.join(';');
-    return ministerIds;
+    return ministers?.map((minister) => supervisingMinisters.get(minister.resourceId))?.join(';');
   };
 
   const data = await db
@@ -38,9 +37,8 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
     .aggregate([{ $match: { relationTag: "gouvernance" } }, ...readQuery, ])
     .toArray();
 
-  for await (const d of data) {
-    const supervisingMinisters = await getSupervisingMinisters(d.resourceId);
-    d.supervisingMinisters = supervisingMinisters;
+  for (const d of data) {
+    d.supervisingMinisters = await getSupervisingMinisters(d.resource.id);
   }
 
   const json = data.map(
