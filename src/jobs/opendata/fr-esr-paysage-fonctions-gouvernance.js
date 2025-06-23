@@ -28,7 +28,8 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
   const getSupervisingMinisters = async (structId) => {
     const ministers = await db.collection("relationships")
       .find({ relationTag: "structure-tuelle", relatedObjectId: structId }).toArray();
-    const ministerIds = ministers.map((minister) => supervisingMinisters.get(minister.resource));
+    if (!ministers?.length) return null;
+    const ministerIds = ministers?.map((minister) => supervisingMinisters.get(minister.resource))?.join(';');
     return ministerIds;
   };
 
