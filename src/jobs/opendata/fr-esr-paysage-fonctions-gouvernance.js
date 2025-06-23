@@ -37,8 +37,14 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
     .collection("relationships")
     .aggregate([{ $match: { relationTag: "gouvernance" } }, ...readQuery, ])
     .toArray();
+
+  for await (const d of data) {
+    const supervisingMinisters = await getSupervisingMinisters(d.resourceId);
+    d.supervisingMinisters = supervisingMinisters;
+  }
+
   const json = data.map(
-    async ({
+    ({
       resource: structure = {},
       relatedObject: person = {},
       relationType = {},
@@ -85,7 +91,7 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
           .map((a) => a)
           .join("\n")
           .trim(),
-        eta_tutelle: await getSupervisingMinisters(structure.id),
+        eta_tutelle: relation.supervisingMinisters,
         eta_cp: structure.currentLocalisation?.postalCode,
         eta_ville: structure.currentLocalisation?.locality,
         eta_id_paysage: structure.id,
@@ -244,5 +250,5 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
     await session.endSession();
   });
 
-  return { status: "success", location: `/opendata/${dataset}` };
+  return { status: "success", location: `/opendata/${dataset}`, length: json.length };
 }
