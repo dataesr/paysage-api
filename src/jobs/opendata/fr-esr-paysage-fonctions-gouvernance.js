@@ -11,13 +11,33 @@ import readQuery from "../../api/commons/queries/relations.query";
 
 const dataset = "fr-esr-paysage-fonctions-gouvernance";
 
+const getSupervisingMinisters = async (structId) => {
+  const ministers = await db.collection("relationships")
+    .find({ relationTag: "structure-tuelle", relatedobjectId: structId }).toArray();
+  const ministerIds = ministers.map((minister) => minister.resource);
+  return ministerIds;
+};
+
 export default async function exportFrEsrPaysageFonctionsGourvernance() {
+  const supervisingMinisters = new Map();
+
+  for await (const s of db.collection('supervisingministers').find()) {
+    supervisingMinisters.set(s.id, s.usualName);
+}
+
+  const getSupervisingMinisters = async (structId) => {
+    const ministers = await db.collection("relationships")
+      .find({ relationTag: "structure-tuelle", relatedObjectId: structId }).toArray();
+    const ministerIds = ministers.map((minister) => supervisingMinisters.get(minister.resource));
+    return ministerIds;
+  };
+
   const data = await db
     .collection("relationships")
-    .aggregate([{ $match: { relationTag: "gouvernance" } }, ...readQuery])
+    .aggregate([{ $match: { relationTag: "gouvernance" } }, ...readQuery, ])
     .toArray();
   const json = data.map(
-    ({
+    async ({
       resource: structure = {},
       relatedObject: person = {},
       relationType = {},
@@ -64,6 +84,7 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
           .map((a) => a)
           .join("\n")
           .trim(),
+        eta_tutelle: await getSupervisingMinisters(structure.id),
         eta_cp: structure.currentLocalisation?.postalCode,
         eta_ville: structure.currentLocalisation?.locality,
         eta_id_paysage: structure.id,
