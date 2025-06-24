@@ -237,7 +237,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   const structureSocialMedias = [];
   if (payload.twitter) {
     structureSocialMedias.push({
-      value: payload.twitter,
+      account: payload.twitter,
       type: 'Twitter',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
@@ -246,7 +246,7 @@ export const fromPayloadToStructure = async (req, res, next) => {
   }
   if (payload.linkedIn) {
     structureSocialMedias.push({
-      value: payload.linkedIn,
+      account: payload.linkedIn,
       type: 'Linkedin',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
