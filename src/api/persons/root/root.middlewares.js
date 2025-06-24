@@ -116,7 +116,7 @@ export const fromPayloadToPerson = async (req, res, next) => {
   const socialMedias = [];
   if (payload.twitter) {
     socialMedias.push({
-      value: payload.twitter,
+      account: payload.twitter,
       type: 'Twitter',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
@@ -125,7 +125,7 @@ export const fromPayloadToPerson = async (req, res, next) => {
   }
   if (payload.linkedIn) {
     socialMedias.push({
-      value: payload.linkedIn,
+      account: payload.linkedIn,
       type: 'Linkedin',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
@@ -134,7 +134,7 @@ export const fromPayloadToPerson = async (req, res, next) => {
   }
   if (payload.researchgate) {
     socialMedias.push({
-      value: payload.researchgate,
+      account: payload.researchgate,
       type: 'researchgate',
       createdBy: req.currentUser.id,
       createdAt: new Date(),
