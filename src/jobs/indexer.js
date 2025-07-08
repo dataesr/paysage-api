@@ -45,13 +45,12 @@ async function reindexDocumentsByType(type, _indexer) {
 
 export default async function reindex(job) {
   const jobId = job.attrs._id.toString();
-  try {
-
-  const reindexations = TYPES.map(async (type) => reindexDocumentsByType(type, jobId).catch((e) => ({ type, status: 'error', error: e })));
-  const results = await Promise.all(reindexations);
-  return results;
-  } catch (error) {
-    console.error(error);
-    throw error;
+  const result = [];
+  for (const type of TYPES) {
+    console.log(`Reindexing ${type}...`);
+    const res = await reindexDocumentsByType(type, jobId);
+    result.push(res);
+    console.log(`Reindexed ${type}`);
   }
+  return result;
 }
