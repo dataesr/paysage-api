@@ -1,5 +1,6 @@
 import config from '../config';
 import esClient from '../services/elastic.service';
+import logger from '../services/logger.service';
 import { db } from '../services/mongo.service';
 
 const { index } = config.elastic;
@@ -44,8 +45,11 @@ async function reindexDocumentsByType(type, _indexer) {
 }
 
 export default async function reindex(job) {
+  logger.info(`Reindexing job ${jobId}`);
   const jobId = job.attrs._id.toString();
-  const reindexations = TYPES.map(async (type) => reindexDocumentsByType(type, jobId).catch((e) => ({ type, status: 'error', error: e })));
+  const reindexations = TYPES.map(async (type) => {
+    return reindexDocumentsByType(type, jobId).catch((e) => ({ type, status: 'error', error: e }));
+  });
   const results = await Promise.all(reindexations);
   return results;
 }
