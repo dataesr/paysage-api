@@ -56,12 +56,12 @@ export default [
       creationDate: { $ifNull: ['$creationDate', null] },
       id: 1,
       identifiers: { $ifNull: ['$identifiers.value', null] },
-      // identifiantsLists: {
-      //   $ifNull: [
-      //     { $map: { input: '$identifiers', as: 'id', in: { type: '$$id.type', value: '$$id.value' } } },
-      //     null,
-      //   ],
-      // },
+      identifiantsLists: {
+        $ifNull: [
+          { $map: { input: '$identifiers', as: 'id', in: { type: '$$id.type', value: '$$id.value' } } },
+          null,
+        ],
+      },
       isDeleted: { $ifNull: ['$isDeleted', false] },
       coordinates: { $ifNull: ['$currentLocalisation.geometry.coordinates', null] },
       locality: { $ifNull: ['$localisations.locality', null] },
