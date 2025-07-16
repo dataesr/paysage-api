@@ -35,6 +35,12 @@ export default async function exportFrEsrAnnelisPaysageEtablissements() {
     },
     { $set: { structure: { $arrayElemAt: ['$structure', 0] } } },
   ]).toArray();
+
+  for (const d of data) {
+    d.structure.supervisingMinisters = await getSupervisingMinisters(d.structure.id);
+  }
+
+
   const json = data.map(({ structure = {}, ...identifier }) => {
     if (!structure.id) return null;
     const altLib = structure.currentName?.acronymFr
@@ -65,7 +71,7 @@ export default async function exportFrEsrAnnelisPaysageEtablissements() {
 			eta_site_web: structure.websites.find(
 				(website) => website.type === "website",
 			)?.url,
-			eta_tutelle: getSupervisingMinisters(structure.id),
+			eta_tutelle: structure.supervisingMinisters,
     };
     return row;
   });
