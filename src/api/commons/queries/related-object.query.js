@@ -122,6 +122,13 @@ export const excludedObjectsListLookup = [
   { $set: { excluded: '$related' } },
 ];
 export const associatedObjectsListLookup = [
-  ...getRelatedObject('otherAssociatedObjectIds'),
-  { $set: { otherAssociatedObjects: '$related' } },
+  {
+    $lookup: {
+      from: 'structures',
+      localField: 'otherAssociatedObjectIds',
+      foreignField: 'id',
+      pipeline: structuresLightQuery,
+      as: 'otherAssociatedObjects',
+    },
+  },
 ];
