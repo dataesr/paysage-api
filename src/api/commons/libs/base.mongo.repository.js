@@ -15,18 +15,16 @@ class BaseMongoRepository {
   } = {}) => {
     const _filters = mongoFilters(parseFilters(filters));
     const match = keepDeleted ? _filters : { $and: [{ isDeleted: { $ne: true } }, _filters] };
+    const totalCount = await this._collection.countDocuments(match);
     const pipeline = [
       { $match: match },
-      ...useQuery,
-      { $setWindowFields: { output: { totalCount: { $count: {} } } } },
       { $sort: parseSortParams(sort) },
       { $skip: skip },
       { $limit: limit },
-      { $group: { _id: null, data: { $push: '$$ROOT' }, totalCount: { $max: '$totalCount' } } },
-      { $project: { _id: 0, 'data.totalCount': 0 } },
+      ...useQuery,
     ];
-    const data = await this._collection.aggregate(pipeline).toArray();
-    return data?.[0]?.data ? data[0] : { data: [], totalCount: 0 };
+    const data = await this._collection.aggregate(pipeline, { allowDiskUse: true }).toArray();
+    return { data, totalCount };
   };
 
   get = async (id, { useQuery = [], keepDeleted = false } = {}) => {
