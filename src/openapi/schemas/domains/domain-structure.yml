@@ -12,5 +12,5 @@ allOf:
         type: string
       type:
         type: string
-        enum: [primary, secondary]
+        enum: [primary, secondary, historical]
   - $ref: '../../api.yml#/components/schemas/Metas'

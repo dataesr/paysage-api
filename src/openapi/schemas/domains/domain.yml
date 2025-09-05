@@ -23,7 +23,7 @@ allOf:
               pattern: '^[a-zA-Z0-9]{15}$'
             type:
               type: string
-              enum: [primary, secondary]
+              enum: [primary, secondary, historical]
             structureId:
               type: string
               pattern: '^[a-zA-Z0-9]{5}$'

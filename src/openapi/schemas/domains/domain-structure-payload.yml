@@ -5,4 +5,4 @@ properties:
     pattern: '^[a-zA-Z0-9]{5}$'
   type:
     type: string
-    enum: ['primary', 'secondary']
+    enum: [primary, secondary, historical]
