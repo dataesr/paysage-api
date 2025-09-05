@@ -15,8 +15,8 @@ async function setupMongo() {
   await db.collection('documenttypes').createIndex({ createdAt: 1 });
   await db.collection('domains').createIndex({ id: 1 }, { unique: true });
   await db.collection('domains').createIndex({ createdAt: 1 });
-  await db.collection('domains').createIndex({ 'structure.structureId': 1 });
-  await db.collection('domains').createIndex({ 'structure.id': 1 });
+  await db.collection('domains').createIndex({ 'structures.structureId': 1 });
+  await db.collection('domains').createIndex({ 'structures.id': 1 });
   await db.collection('domains').createIndex({ domainName: 'text' });
   await db.collection('emails').createIndex({ id: 1 }, { unique: true });
   await db.collection('emails').createIndex({ createdAt: 1 });
