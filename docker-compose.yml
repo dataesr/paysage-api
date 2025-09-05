@@ -37,6 +37,7 @@ services:
       - ES_PASSWORD=
       - ES_USERNAME=
       - MONGO_URI=mongodb://mongodb:27017
+      - MONGO_DBNAME=paysage
     env_file:
       - .env
     volumes:

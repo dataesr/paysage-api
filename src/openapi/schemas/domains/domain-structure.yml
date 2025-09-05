@@ -1,0 +1,16 @@
+type: object
+required:
+  - structureId
+  - type
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+      structureId:
+        type: string
+      type:
+        type: string
+        enum: [primary, secondary]
+  - $ref: '../../api.yml#/components/schemas/Metas'
