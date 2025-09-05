@@ -9,11 +9,12 @@ const read = (repository, useQuery, keepDeleted = false) => async (req, res, nex
 };
 
 const list = (repository, useQuery, keepDeleted = false) => async (req, res, next) => {
-  const { params, query } = req;
-  const { limit, skip, sort } = query;
-  let { filters } = query;
+  const { params, query: inputQuery } = req;
+  const { limit, skip, sort, query } = inputQuery;
+  let { filters } = inputQuery;
   const { resourceId } = params;
   if (resourceId) { filters = { ...filters, resourceId }; }
+  if (query) { filters = { ...filters, $text: { $search: query } }; }
   const { data, totalCount = 0 } = await repository.find({ filters, keepDeleted, limit, skip, sort, useQuery });
   res.status(200).json({ data, totalCount });
   return next();
