@@ -17,7 +17,11 @@ async function setupMongo() {
   await db.collection('domains').createIndex({ createdAt: 1 });
   await db.collection('domains').createIndex({ 'structures.structureId': 1 });
   await db.collection('domains').createIndex({ 'structures.id': 1 });
-  await db.collection('domains').createIndex({ domainName: 'text' });
+  await db.collection('domains').createIndex({
+    domainName: 'text',
+    'structures.structureId': 'text',
+    domainNameParsed: 'text'
+  });
   await db.collection('emails').createIndex({ id: 1 }, { unique: true });
   await db.collection('emails').createIndex({ createdAt: 1 });
   await db.collection('emails').createIndex({ resourceId: 1 });
@@ -31,7 +35,10 @@ async function setupMongo() {
   await db.collection('geographicalcategories').createIndex({ parentOriginalId: 1 });
   await db.collection('geographicalexceptions').createIndex({ geographicalCategoryId: 1 });
   await db.collection('geographicalexceptions').createIndex({ resourceId: 1 });
-  await db.collection('geographicalexceptions').createIndex({ geographicalCategoryId: 1, resourceId: 1 }, { unique: true });
+  await db.collection('geographicalexceptions').createIndex(
+    { geographicalCategoryId: 1, resourceId: 1 },
+    { unique: true }
+  );
   await db.collection('groups').createIndex({ id: 1 }, { unique: true });
   await db.collection('groups').createIndex({ createdAt: 1 });
   await db.collection('groupmembers').createIndex({ userId: 1, groupId: 1 }, { unique: true });
@@ -44,8 +51,14 @@ async function setupMongo() {
   await db.collection('identifiers').createIndex({ resourceId: 1 });
   await db.collection('identifiers').createIndex({ resourceId: 1, type: 1 });
   await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1 });
-  await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1, annee: 1 }, { sparse: true });
-  await db.collection('keynumbers').createIndex({ dataset: 1, resourceId: 1, rentree: 1 }, { sparse: true });
+  await db.collection('keynumbers').createIndex(
+    { dataset: 1, resourceId: 1, annee: 1 },
+    { sparse: true }
+  );
+  await db.collection('keynumbers').createIndex(
+    { dataset: 1, resourceId: 1, rentree: 1 },
+    { sparse: true }
+  );
   await db.collection('keynumbers').createIndex({ annee_universitaire: 1 }, { sparse: true });
   await db.collection('keynumbers').createIndex({ exercice: 1 }, { sparse: true });
   await db.collection('legalcategories').createIndex({ id: 1 }, { unique: true });

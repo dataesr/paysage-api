@@ -20,9 +20,11 @@ export async function validateDomainName(req, res, next) {
 				"Invalid domain name format. Must be a valid domain name (e.g., example.com)",
 		});
 	}
+
 	req.body.domainName = domainName;
 
 	next();
+
 }
 export async function ensureDomainNameIsUnique(req, res, next) {
 	const { domainName } = req.body;
@@ -66,7 +68,6 @@ export async function createWithStructuresMetas(req, res, next) {
 		filters: { id: { $in: structureIds } },
 	});
 	const savedStructures = structuresData.map((structure) => structure.id);
-	console.log("afterSaved", savedStructures)
 	const notFoundStructures = structureIds.filter(
 		(id) => !savedStructures.includes(id),
 	);
@@ -103,6 +104,7 @@ export async function createWithStructuresMetas(req, res, next) {
 	}
 	req.body = {
 		...rest,
+		domainNameParsed: domainName.toLowerCase().replace(/[.-]/g, ' '),
 		structures,
 	};
 	next();
