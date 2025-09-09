@@ -26,6 +26,8 @@ tags:
   - name: Documentation
   - name: Documents
   - name: Document types
+  - name: Domains
+  - name: Domains - Structures
   - name: Email types
   - name: Files
   - name: Follow-ups
@@ -108,7 +110,7 @@ paths:
     $ref: ./paths/users/me.yml#/Password
   '/me/avatar':
     $ref: ./paths/users/me.yml#/Avatar
-  
+
   ### GROUPS ###
   '/groups':
     $ref: ./paths/groups/groups.yml#/collectionMethods
@@ -164,7 +166,7 @@ paths:
     $ref: './paths/structures/weblinks.yml#/collectionMethods'
   '/structures/{structureId}/weblinks/{weblinkId}':
     $ref: './paths/structures/weblinks.yml#/documentMethods'
-  
+
   ### PERSONS ###
   '/persons':
     $ref: './paths/persons/persons.yml#/collectionMethods'
@@ -226,7 +228,7 @@ paths:
     $ref: './paths/categories/social-medias.yml#/collectionMethods'
   '/categories/{categoryId}/social-medias/{socialmediaId}':
     $ref: './paths/categories/social-medias.yml#/documentMethods'
-  
+
   ### GEOGRAPHICAL CATEGORIES ###
   '/geographical-categories':
     $ref: './paths/geographicalcategories/geographicalcategories.yml#/collectionMethods'
@@ -240,7 +242,7 @@ paths:
     $ref: './paths/geographicalcategories/exceptions.yml#/collectionMethods'
   '/geographical-exception/{geographicalExceptionId}':
     $ref: './paths/geographicalcategories/exceptions.yml#/documentMethods'
-    
+
   ### OFFICIAL TEXTS ###
   '/official-texts':
     $ref: './paths/officialtexts/officialtexts.yml#/collectionMethods'
@@ -260,6 +262,16 @@ paths:
     $ref: './paths/documents/documents.yml#/collectionMethods'
   '/documents/{documentId}':
     $ref: './paths/documents/documents.yml#/documentMethods'
+
+  ### DOMAINS ###
+  '/domains':
+    $ref: './paths/domains/domains.yml#/collectionMethods'
+  '/domains/{domainId}':
+    $ref: './paths/domains/domains.yml#/documentMethods'
+  '/domains/{domainId}/structures':
+    $ref: './paths/domains/structures.yml#/collectionMethods'
+  '/domains/{domainId}/structures/{domainStructureId}':
+    $ref: './paths/domains/structures.yml#/documentMethods'
 
   ### IDENTIFIANTS ###
   '/identifiers':
@@ -337,7 +349,7 @@ paths:
     $ref: './paths/email-types/email-types.yml#/collectionMethods'
   '/email-types/{emailTypeId}':
     $ref: './paths/email-types/email-types.yml#/documentMethods'
-  
+
   ### MINISTRES DE TUTELLE ###
   '/supervising-ministers':
     $ref: './paths/supervising-ministers/supervising-ministers.yml#/collectionMethods'
@@ -350,7 +362,7 @@ paths:
     $ref: './paths/apikeys/apikeys.yml#/collectionMethods'
   '/admin/api-keys/{apiKeyId}':
     $ref: './paths/apikeys/apikeys.yml#/documentMethods'
-  
+
   ### SEARCH ###
   '/autocomplete':
     $ref: './paths/search/autocomplete.yml#/~1autocomplete'
@@ -381,6 +393,10 @@ components:
       $ref: ./parameters/ids/document-id.yml
     documentTypeId:
       $ref: ./parameters/ids/document-type-id.yml
+    domainId:
+      $ref: ./parameters/ids/domain-id.yml
+    domainStructureId:
+      $ref: ./parameters/ids/domain-structure-id.yml
     emailId:
       $ref: ./parameters/ids/email-id.yml
     emailTypeId:
@@ -490,6 +506,10 @@ components:
       $ref: './schemas/commons/nomenclature.yml'
     DocumentTypeLight:
       $ref: './schemas/commons/nomenclature-light.yml'
+    Domain:
+      $ref: './schemas/domains/domain.yml'
+    DomainStructure:
+      $ref: './schemas/domains/domain-structure.yml'
     EmailType:
       $ref: './schemas/commons/nomenclature.yml'
     EmailTypeLight:
@@ -628,6 +648,10 @@ components:
       $ref: './schemas/documents/document-payload.yml'
     DocumentTypePayload:
       $ref: './schemas/commons/nomenclature-payload.yml'
+    DomainPayload:
+      $ref: './schemas/domains/domain-payload.yml'
+    DomainStructurePayload:
+      $ref: './schemas/domains/domain-structure-payload.yml'
     EmailTypePayload:
       $ref: './schemas/commons/nomenclature-payload.yml'
     FollowUpPayload:

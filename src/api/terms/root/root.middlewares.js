@@ -76,7 +76,7 @@ export const fromPayloadToTerms = async (req, res, next) => {
       id: await catalog.getUniqueId('identifiers', 15),
     });
   }
-   if (payload.rncp) {
+  if (payload.rncp) {
     termsIdentifiers.push({
       value: payload.rncp,
       type: 'rncp',
@@ -96,7 +96,6 @@ export const fromPayloadToTerms = async (req, res, next) => {
   req.body = terms;
   return next();
 };
-
 
 export const storeTerms = async (req, res, next) => {
   const { identifiers, websites, ...rest } = req.body;
@@ -124,7 +123,6 @@ export const createTermsResponse = async (req, res, next) => {
   res.status(201).json(resource);
   return next();
 };
-
 
 export function setDefaultPriorityField(req, res, next) {
   if (!req.body.priority) {

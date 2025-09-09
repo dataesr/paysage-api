@@ -1,0 +1,40 @@
+type: object
+required:
+  - domainName
+  - archived
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '^[a-zA-Z0-9]{15}$'
+      domainName:
+        type: string
+      archived:
+        type: boolean
+        default: false
+      structures:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              pattern: '^[a-zA-Z0-9]{15}$'
+            type:
+              type: string
+              enum: [primary, secondary, historical]
+            structureId:
+              type: string
+              pattern: '^[a-zA-Z0-9]{5}$'
+            structure:
+              type: object
+              properties:
+                id:
+                  type: string
+                  pattern: '^[a-zA-Z0-9]{5}$'
+                displayName:
+                  type: string
+                href:
+                  type: string
+  - $ref: '../../api.yml#/components/schemas/Metas'

@@ -1,0 +1,21 @@
+type: object
+properties:
+  domainName:
+    type: string
+  archived:
+    type: boolean
+    default: false
+  structures:
+    type: array
+    items:
+      type: object
+      properties:
+        structureId:
+          type: string
+          pattern: '^[a-zA-Z0-9]{5}$'
+        type:
+          type: string
+          enum: [primary, secondary, historical]
+      required:
+        - structureId
+        - type

@@ -28,6 +28,15 @@ export const documentTypesRepository = new BaseMongoRepository({
   db,
   collection: 'documenttypes',
 });
+export const domainsRepository = new BaseMongoRepository({
+  db,
+  collection: 'domains',
+});
+export const domainsStructuresRepository = new NestedMongoRepository({
+  db,
+  collection: 'domains',
+  field: 'structures',
+});
 export const emailsRepository = new BaseMongoRepository({
   db,
   collection: 'emails',

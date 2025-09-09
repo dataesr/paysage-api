@@ -1,0 +1,56 @@
+collectionMethods:
+  post:
+    tags:
+      - Domains - Structures
+    summary: Add a new structure
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/domainId'
+    requestBody:
+      content:
+        application/json:
+          schema:
+            title: DomainStructurePayLoad
+            type: object
+            required:
+              - structureId
+              - type
+            allOf:
+              - $ref: '../../api.yml#/components/schemas/DomainStructurePayload'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: '../../api.yml#/components/schemas/DomainStructure'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
+
+documentMethods:
+
+  delete:
+    tags:
+      - Domains - Structures
+    summary: Delete a project's identifier by ID
+    parameters:
+      - $ref: '../../api.yml#/components/parameters/domainId'
+      - $ref: '../../api.yml#/components/parameters/domainStructureId'
+    responses:
+      '204':
+        description: No content
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '404':
+        $ref: '../../api.yml#/components/responses/NotFound'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'
