@@ -79,6 +79,12 @@ export const fromPayloadToTerms = async (req, res, next) => {
   if (termsWebsites.length) {
     terms.websites = termsWebsites;
   }
+  if (payload.creationOfficialTextId === null) {
+    delete payload.creationOfficialTextId;
+  }
+  if (payload.closureOfficialTextId === null) {
+    delete payload.closureOfficialTextId;
+  }
 
   req.body = terms;
   return next();
