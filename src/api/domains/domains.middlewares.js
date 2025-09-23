@@ -1,9 +1,9 @@
+import catalog from "../commons/catalog";
 import {
 	domainsRepository,
 	domainsStructuresRepository,
 	structuresRepository,
 } from "../commons/repositories";
-import catalog from "../commons/catalog";
 
 export async function validateDomainName(req, res, next) {
 	const { domainName: inputDomain } = req.body;
@@ -24,7 +24,6 @@ export async function validateDomainName(req, res, next) {
 	req.body.domainName = domainName;
 
 	next();
-
 }
 export async function ensureDomainNameIsUnique(req, res, next) {
 	const { domainName } = req.body;
@@ -41,10 +40,12 @@ export async function ensureDomainNameIsUnique(req, res, next) {
 }
 
 export async function ensureAddStructureIsPossible(req, res, next) {
-  const { domainId } = req.params;
+	const { domainId } = req.params;
 	const { structureId } = req.body;
-	const exists = await structuresRepository.findOne({id: structureId });
-	const alreadyThere = await domainsStructuresRepository.get(domainId, { structureId });
+	const exists = await structuresRepository.findOne({ id: structureId });
+	const alreadyThere = await domainsStructuresRepository.get(domainId, {
+		structureId,
+	});
 
 	if (!exists) {
 		return res.status(404).json({
@@ -60,7 +61,7 @@ export async function ensureAddStructureIsPossible(req, res, next) {
 }
 
 export async function createWithStructuresMetas(req, res, next) {
-	const { structures: inputStructures = [], ...rest } = req.body;
+	const { structures: inputStructures = [], domainName, ...rest } = req.body;
 	const errors = [];
 
 	const structureIds = inputStructures.map((el) => el.structureId);
@@ -72,7 +73,6 @@ export async function createWithStructuresMetas(req, res, next) {
 		(id) => !savedStructures.includes(id),
 	);
 
-
 	if (notFoundStructures.length > 0) {
 		notFoundStructures.forEach((structureId) => {
 			const index = structureIds.indexOf(structureId);
@@ -83,7 +83,6 @@ export async function createWithStructuresMetas(req, res, next) {
 		});
 	}
 
-
 	if (errors.length > 0) {
 		return res.status(400).json({ error: "Structure not found", errors });
 	}
@@ -92,7 +91,7 @@ export async function createWithStructuresMetas(req, res, next) {
 	const userId = req.currentUser?.id;
 	const now = new Date();
 	for (const struct of inputStructures) {
-		let id = await catalog.getUniqueId("domain-structure", 15);
+		const id = await catalog.getUniqueId("domain-structure", 15);
 		structures.push({
 			id,
 			...struct,
@@ -104,7 +103,8 @@ export async function createWithStructuresMetas(req, res, next) {
 	}
 	req.body = {
 		...rest,
-		domainNameParsed: domainName.toLowerCase().replace(/[.-]/g, ' '),
+		domainName,
+		domainNameParsed: domainName.toLowerCase().replace(/[.-]/g, " "),
 		structures,
 	};
 	next();

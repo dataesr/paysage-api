@@ -24,20 +24,7 @@ export const fromPayloadToTerms = async (req, res, next) => {
   const payload = req.body;
   const termsId = req?.context?.id;
   const terms = {
-    usualNameFr: payload.usualNameFr,
-    usualNameEn: payload.usualNameEn,
-    shortNameEn: payload.shortNameEn,
-    shortNameFr: payload.shortNameFr,
-    acronymFr: payload.acronymFr,
-    pluralNameFr: payload.pluralNameFr,
-    otherNamesFr: payload.otherNamesFr,
-    otherNamesEn: payload.otherNamesEn,
-    descriptionFr: payload.descriptionFr,
-    descriptionEn: payload.descriptionEn,
-    priority: payload.priority,
-    creationOfficialTextId: payload.creationOfficialTextId,
-    closureOfficialTextId: payload.closureOfficialTextId,
-    comment: payload.comment,
+    ...payload,
     createdBy: req.currentUser.id,
     createdAt: new Date(),
     id: termsId,
@@ -91,6 +78,12 @@ export const fromPayloadToTerms = async (req, res, next) => {
   }
   if (termsWebsites.length) {
     terms.websites = termsWebsites;
+  }
+  if (payload.creationOfficialTextId === null) {
+    delete payload.creationOfficialTextId;
+  }
+  if (payload.closureOfficialTextId === null) {
+    delete payload.closureOfficialTextId;
   }
 
   req.body = terms;
