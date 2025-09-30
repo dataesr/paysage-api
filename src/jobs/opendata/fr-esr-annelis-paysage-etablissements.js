@@ -50,7 +50,7 @@ export default async function exportFrEsrAnnelisPaysageEtablissements() {
       dataset,
       eta_id: identifier.value,
       eta_id_paysage: structure.id,
-      eta_uai: structure.identifiers?.find((i) => i.type === 'uai')?.value,
+      eta_uai: structure.identifiers?.filter((i) => i.type === "uai" && i.active === true)?.[0]?.value,
       eta_lib: structure.currentName?.usualName,
       eta_lib_alt: altLib,
       eta_sigle: structure.currentName?.acronymFr,
