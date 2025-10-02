@@ -6,9 +6,7 @@ export default [
       pipeline: [{
         $match: {
           $expr: {
-            $and: [
-              { $eq: ['$resourceId', '$$item'] }, { $eq: ['$active', true] },
-            ],
+            $eq: ['$resourceId', '$$item']
           },
         },
       }],

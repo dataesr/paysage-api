@@ -3,6 +3,17 @@ import { client, db } from '../../services/mongo.service';
 
 const dataset = 'fr-esr-annelis-paysage-etablissements';
 
+const getWebsite = (structure) => {
+  const websites = structure.websites?.filter((website) => website.type === "website") || [];
+  // Priority: French first, then undefined, then English, then any other
+  return websites.find(w => w.language === "fr")?.url ||
+    websites.find(w => w.language === "Fr")?.url ||
+    websites.find(w => w.language === undefined)?.url ||
+    websites.find(w => w.language === "en")?.url ||
+    websites.find(w => w.language === "En")?.url ||
+    websites[0]?.url || "";
+};
+
 export default async function exportFrEsrAnnelisPaysageEtablissements() {
   const supervisingMinisters = new Map();
   const ministersQuery = await db.collection('supervisingministers').find().toArray();
@@ -50,7 +61,7 @@ export default async function exportFrEsrAnnelisPaysageEtablissements() {
       dataset,
       eta_id: identifier.value,
       eta_id_paysage: structure.id,
-      eta_uai: structure.identifiers?.find((i) => i.type === 'uai')?.value,
+      eta_uai: structure.identifiers?.filter((i) => i.type === "uai" && i.active === true)?.[0]?.value,
       eta_lib: structure.currentName?.usualName,
       eta_lib_alt: altLib,
       eta_sigle: structure.currentName?.acronymFr,
@@ -68,9 +79,7 @@ export default async function exportFrEsrAnnelisPaysageEtablissements() {
       eta_vague: structure.categories.find((cat) =>
 					cat?.usualNameFr.startsWith("Vague"),
 				)?.usualNameFr,
-			eta_site_web: structure.websites.find(
-				(website) => website.type === "website",
-			)?.url,
+			eta_site_web: getWebsite(structure),
 			eta_tutelle: structure.supervisingMinisters,
     };
     return row;
