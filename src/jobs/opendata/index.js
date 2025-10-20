@@ -5,3 +5,4 @@ export { default as exportFrEsrPersonIdentifiers } from './fr-esr-paysage_person
 export { default as exportFrEsrStructureWebsites } from './fr-esr-paysage_structures_websites';
 export { default as exportFrEsrPrizes } from './fr-esr-paysage_prix';
 export { default as exportFrEsrPaysageLaureatAll } from './fr_esr_paysage_laureats_all';
+export { default as exportFrEsrAnnelisPaysageMails } from './fr-esr-annelis-paysage-email-generiques';
