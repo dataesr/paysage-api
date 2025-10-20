@@ -7,15 +7,15 @@ export default async function exportFrEsrAnnelisPaysageMails() {
   const emails = await db.collection('emailtypes').find({ $and: [{ annelisId: { $ne: null } }, { annelisId: { $ne: "" } }] }).toArray();
   const emailMap = new Map(emails.map(email => [email.id, email]));
 
-  const data = await db.collection('emails').aggregate([
-    { $match: { emailTypeId: { $in: emails.map(email => email.id) } } },
+  const data = await db.collection('emails').find([
+    { emailTypeId: { $in: emails.map(email => email.id) } },
   ]).toArray();
 
   const json = data.map((elem) => {
     const row = {
       dataset,
       eta_id_paysage: elem.resourceId,
-      annelis_email_type_id: emailMap.get(elem.emailTypeId)?.annelisId || '',
+      annelis_email_type_id: elem.emailTypeId,
       annelis_email_type: emailMap.get(elem.emailTypeId)?.usualName || '',
       annelis_email: elem.email
     };
