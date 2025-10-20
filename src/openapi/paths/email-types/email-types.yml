@@ -89,7 +89,7 @@ documentMethods:
         $ref: '../../api.yml#/components/responses/NotFound'
       '500':
         $ref: '../../api.yml#/components/responses/ServerError'
-  
+
   put:
     tags:
       - Email types
