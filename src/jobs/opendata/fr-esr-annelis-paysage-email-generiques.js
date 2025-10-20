@@ -15,7 +15,8 @@ export default async function exportFrEsrAnnelisPaysageMails() {
     const row = {
       dataset,
       eta_id_paysage: elem.resourceId,
-      annelis_email_type_id: elem.emailTypeId,
+      paysage_email_type_id: elem.emailTypeId,
+      annelis_email_type_id: emailMap.get(elem.emailTypeId)?.annelisId || '',
       annelis_email_type: emailMap.get(elem.emailTypeId)?.usualName || '',
       annelis_email: elem.email
     };
