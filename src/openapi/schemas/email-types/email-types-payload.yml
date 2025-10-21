@@ -1,0 +1,12 @@
+additionalProperties: false
+type: object
+properties:
+  usualName:
+    type: string
+  annelisId:
+    type: string
+    nullable: true
+  otherNames:
+    type: array
+    items:
+      type: string

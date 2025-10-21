@@ -23,6 +23,7 @@ import {
 	exportFrEsrPrizes,
 	exportFrEsrStructureIdentifiers,
 	exportFrEsrStructureWebsites,
+	exportFrEsrAnnelisPaysageMails,
 } from "./opendata";
 import { sendMattermostNotification } from "./send-mattermost-notification";
 import { monitorSiren, monitorSiret } from "./sirene";
@@ -112,6 +113,11 @@ agenda.define(
 	"export fr-esr-annelis-paysage-etablissements",
 	{ shouldSaveResult: true },
 	exportFrEsrAnnelisPaysageEtablissements,
+);
+agenda.define(
+	"export fr-esr-annelis-paysage-email-generiques",
+	{ shouldSaveResult: true },
+	exportFrEsrAnnelisPaysageMails,
 );
 agenda.define(
 	"export fr-esr-paysage_structures_websites",

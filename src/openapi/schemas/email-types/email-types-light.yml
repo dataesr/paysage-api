@@ -1,0 +1,16 @@
+type: object
+required:
+  - id
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+        pattern: '(^[a-zA-Z0-9]{15}$)|(^[a-zA-Z0-9]{5}$)'
+      usualName:
+        type: string
+      otherNames:
+        type: array
+        items:
+          type: string
+  - $ref: '../../api.yml#/components/schemas/Metas'

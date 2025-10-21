@@ -8,6 +8,7 @@ export default [
       id: 1,
       usualName: 1,
       otherNames: { $ifNull: ['$otherNames', []] },
+      annelisId: 1,
       createdBy: 1,
       updatedBy: 1,
       createdAt: 1,

@@ -511,9 +511,9 @@ components:
     DomainStructure:
       $ref: './schemas/domains/domain-structure.yml'
     EmailType:
-      $ref: './schemas/commons/nomenclature.yml'
+      $ref: './schemas/email-types/email-types.yml'
     EmailTypeLight:
-      $ref: './schemas/commons/nomenclature-light.yml'
+      $ref: './schemas/email-types/email-types-light.yml'
     File:
       $ref: './schemas/commons/file.yml'
     FollowUp:
@@ -653,7 +653,7 @@ components:
     DomainStructurePayload:
       $ref: './schemas/domains/domain-structure-payload.yml'
     EmailTypePayload:
-      $ref: './schemas/commons/nomenclature-payload.yml'
+      $ref: './schemas/email-types/email-types-payload.yml'
     FollowUpPayload:
       $ref: './schemas/followups/followup-payload.yml'
     GeographicalCategoryPayload:

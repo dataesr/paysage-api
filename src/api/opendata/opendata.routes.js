@@ -26,6 +26,9 @@ const FILTERS = {
   "fr-esr-paysage_structures_websites": {
     dataset: "fr-esr-paysage_structures_websites",
   },
+  "fr-esr-annelis-paysage-email-generiques": {
+    dataset: "fr-esr-annelis-paysage-email-generiques",
+  },
   "fr-esr-paysage_prix": { dataset: "fr-esr-paysage_prix" },
   fr_esr_paysage_laureats_all: { dataset: "fr_esr_paysage_laureats_all" },
 };
