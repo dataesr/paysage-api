@@ -1,3 +1,4 @@
+import structuresLightQuery from '../../api/commons/queries/structures.light.query';
 import { client, db } from "../../services/mongo.service";
 
 const dataset = "fr-esr-annelis-paysage-email-generiques";
@@ -11,20 +12,33 @@ export default async function exportFrEsrAnnelisPaysageMails() {
 
 	const data = await db
 		.collection("emails")
-		.find({ emailTypeId: { $in: emails.map((email) => email.id) } })
+		.aggregate([
+			{ $match: { emailTypeId: { $in: emails.map((email) => email.id) } } },
+			{
+        $lookup: {
+          from: 'structures',
+          localField: 'resourceId',
+          foreignField: 'id',
+          pipeline: structuresLightQuery,
+          as: 'structure',
+        },
+      },
+      { $set: { structure: { $arrayElemAt: ['$structure', 0] } } },
+		])
 		.toArray();
 
 	const json = data.map((elem) => {
 		const row = {
 			dataset,
 			eta_id_paysage: elem.resourceId,
+			eta_id_annelis: elem.structure?.identifiers?.find((i) => i.type === "annelis")?.[0]?.value,
 			paysage_email_type_id: elem.emailTypeId,
 			annelis_email_type_id: emailMap.get(elem.emailTypeId)?.annelisId || "",
 			annelis_email_type: emailMap.get(elem.emailTypeId)?.usualName || "",
 			annelis_email: elem.email,
 		};
 		return row;
-	});
+	}).filter((row) => row.eta_id_annelis);
 	const session = client.startSession();
 	await session.withTransaction(async () => {
 		await db.collection("opendata").deleteMany({ dataset });
