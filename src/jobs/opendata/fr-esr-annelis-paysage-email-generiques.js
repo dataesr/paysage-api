@@ -36,7 +36,7 @@ export default async function exportFrEsrAnnelisPaysageMails() {
 			annelis_email_type_id: emailMap.get(elem.emailTypeId)?.annelisId || "",
 			annelis_email_type: emailMap.get(elem.emailTypeId)?.usualName || "",
 			annelis_email: elem.email,
-			last_updated_at: elem.updatedAt || elem.updatedAt,
+			last_updated_at: elem.updatedAt || elem.createdAt,
 		};
 		return row;
 	}).filter((row) => row.eta_id_annelis);
