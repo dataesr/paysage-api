@@ -1,5 +1,5 @@
 title: StructureBulkInsertPayload
-description: Liste 
+description: Liste
 additionalProperties: false
 type: object
 properties:
@@ -46,7 +46,7 @@ properties:
       - dans les
       - aux
       - au
-      - ''
+      - ""
       - null
   structureStatus:
     type: string
@@ -62,7 +62,7 @@ properties:
     nullable: true
   creationOfficialTextId:
     type: string
-    pattern: '^[a-zA-Z0-9]{15}$'
+    pattern: "^[a-zA-Z0-9]{15}$"
     description: Identifiant d'un texte officiel
     nullable: true
   closureDate:
@@ -71,7 +71,7 @@ properties:
     nullable: true
   closureOfficialTextId:
     type: string
-    pattern: '^[a-zA-Z0-9]{15}$'
+    pattern: "^[a-zA-Z0-9]{15}$"
     description: Identifiant d'un texte officiel
     nullable: true
   creationReason:
@@ -172,4 +172,90 @@ properties:
   iso3:
     type: string
     nullable: true
-    pattern: '^[A-Z]{3}$'
+  annelis:
+    type: string
+    nullable: true
+  bibid:
+    type: string
+    nullable: true
+  bnf:
+    type: string
+    nullable: true
+  cnrs-unit:
+    type: string
+    nullable: true
+  cti:
+    type: string
+    nullable: true
+  ringgold:
+    type: string
+    nullable: true
+  euTransparency:
+    type: string
+    nullable: true
+  eter:
+    type: string
+    nullable: true
+  etid:
+    type: string
+    nullable: true
+  finess:
+    type: string
+    nullable: true
+  fundref:
+    type: string
+    nullable: true
+  googleScholar:
+    type: string
+    nullable: true
+  grid:
+    type: string
+    nullable: true
+  hatvp:
+    type: string
+    nullable: true
+  idhal:
+    type: string
+    nullable: true
+  isil:
+    type: string
+    nullable: true
+  isni:
+    type: string
+    nullable: true
+  oc:
+    type: string
+    nullable: true
+  openAlexPersonId:
+    type: string
+    nullable: true
+  openAlexTermId:
+    type: string
+    nullable: true
+  orgref:
+    type: string
+    nullable: true
+  pia:
+    type: string
+    nullable: true
+  piaweb-organization:
+    type: string
+    nullable: true
+  piaweb-project:
+    type: string
+    nullable: true
+  pic:
+    type: string
+    nullable: true
+  rcr:
+    type: string
+    nullable: true
+  rna:
+    type: string
+    nullable: true
+  rtoad:
+    type: string
+    nullable: true
+  sdid:
+    type: string
+    nullable: true
