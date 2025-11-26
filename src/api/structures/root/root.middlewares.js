@@ -2,6 +2,7 @@ import { client, db } from '../../../services/mongo.service';
 import catalog from '../../commons/catalog';
 import { BadRequestError, NotFoundError } from '../../commons/http-errors';
 import readQuery from '../../commons/queries/structures.query';
+import identifierTypes from '../identifiers/bulk-import-identifier-types';
 import {
   categoriesRepository,
   identifiersRepository,
@@ -152,88 +153,20 @@ export const fromPayloadToStructure = async (req, res, next) => {
       id: await catalog.getUniqueId('weblinks', 15),
     });
   }
-  const structureIdentifiers = [];
-  if (payload.idref) {
-    structureIdentifiers.push({
-      value: payload.idref,
-      type: 'idref',
-      createdBy: req.currentUser.id,
-      createdAt: new Date(),
-      id: await catalog.getUniqueId('identifiers', 15),
-    });
-  }
-  if (payload.wikidata) {
-    structureIdentifiers.push({
-      value: payload.wikidata,
-      type: 'wikidata',
-      createdBy: req.currentUser.id,
-      createdAt: new Date(),
-      id: await catalog.getUniqueId('identifiers', 15),
-    });
-  }
-  if (payload.uai) {
-    structureIdentifiers.push({
-      value: payload.uai,
-      type: 'uai',
-      createdBy: req.currentUser.id,
-      createdAt: new Date(),
-      id: await catalog.getUniqueId('identifiers', 15),
-    });
-  }
-  if (payload.siret) {
-    structureIdentifiers.push({
-      value: payload.siret,
-      type: 'siret',
-      createdBy: req.currentUser.id,
-      createdAt: new Date(),
-      id: await catalog.getUniqueId('identifiers', 15),
-    });
-  }
-  if (payload.rnsr) {
-    structureIdentifiers.push({
-      value: payload.rnsr,
-      type: 'rnsr',
-      createdBy: req.currentUser.id,
-      createdAt: new Date(),
-      id: await catalog.getUniqueId('identifiers', 15),
-    });
-  }
-  if (payload.ed) {
-    structureIdentifiers.push({
-      value: payload.ed,
-      type: 'ed',
-      createdBy: req.currentUser.id,
-      createdAt: new Date(),
-      id: await catalog.getUniqueId('identifiers', 15),
-    });
-  }
-  if (payload.crunchbase) {
-    structureIdentifiers.push({
-      value: payload.crunchbase,
-      type: 'crunchbase',
-      createdBy: req.currentUser.id,
-      createdAt: new Date(),
-      id: await catalog.getUniqueId('identifiers', 15),
-    });
-  }
-  if (payload.dealroom) {
-    structureIdentifiers.push({
-      value: payload.dealroom,
-      type: 'dealroom',
-      createdBy: req.currentUser.id,
-      createdAt: new Date(),
-      id: await catalog.getUniqueId('identifiers', 15),
-    });
-  }
-  if (payload.ror) {
-    structureIdentifiers.push({
-      value: payload.ror,
-      type: 'ror',
-      createdBy: req.currentUser.id,
-      createdAt: new Date(),
-      id: await catalog.getUniqueId('identifiers', 15),
-    });
-  }
+  const structureIdentifiers = (await Promise.all(
+    identifierTypes.map(async (type) => {
+      if (payload[type]) {
+        return {
+          value: payload[type],
+          type,
+          createdBy: req.currentUser.id,
+          createdAt: new Date(),
+          id: await catalog.getUniqueId('identifiers', 15),
+        };
+      }
+      return null;
+    }),
+  )).filter(Boolean);
   const structureSocialMedias = [];
   if (payload.twitter) {
     structureSocialMedias.push({
