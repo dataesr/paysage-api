@@ -29,7 +29,7 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
 			const previsionalEndDate = new Date(relation.endDatePrevisional);
 			let state;
 			if (!relation.startDate && !relation.endDate) {
-				state = "Sans date";
+				state = "Actif";
 			}
 			if (relation.startDate && startDate > new Date()) {
 				state = "Futur";
