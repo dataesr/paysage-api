@@ -1,3 +1,5 @@
+import currentCategoryQuery from './current-category.query';
+import currentLegalCategoryQuery from './current-legal-category.query';
 import currentLocalisationQuery from './current-localisation.query';
 import currentNameQuery from './current-name.query';
 import metas from './metas.query';
@@ -6,6 +8,8 @@ import officialtextLightQuery from './official-texts.light.query';
 export default [
   ...metas,
   ...currentLocalisationQuery,
+  ...currentLegalCategoryQuery,
+  ...currentCategoryQuery,
   ...currentNameQuery,
   {
     $lookup: {
@@ -32,6 +36,7 @@ export default [
       _id: 0,
       id: 1,
       alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
+      categories: { $ifNull: ['$categories', []] },
       closureDate: { $ifNull: ['$closureDate', null] },
       closureOfficialText: { $ifNull: ['$closureOfficialText', {}] },
       closureOfficialTextId: { $ifNull: ['$closureOfficialTextId', null] },
@@ -45,6 +50,7 @@ export default [
       descriptionEn: { $ifNull: ['$descriptionEn', null] },
       descriptionFr: { $ifNull: ['$descriptionFr', null] },
       exercice: { $ifNull: ['$exercice', null] },
+      legalcategory: { $ifNull: ['$legalcategory', {}] },
       motto: { $ifNull: ['$motto', null] },
       netAccountingResult: { $ifNull: ['$netAccountingResult', null] },
       population: { $ifNull: ['$population', null] },
