@@ -36,7 +36,7 @@ export default [
       _id: 0,
       id: 1,
       alternativePaysageIds: { $ifNull: ['$alternativePaysageIds', []] },
-      categories: { $ifNull: ['$categories', []] },
+      category: { $ifNull: ['$category', {}] },
       closureDate: { $ifNull: ['$closureDate', null] },
       closureOfficialText: { $ifNull: ['$closureOfficialText', {}] },
       closureOfficialTextId: { $ifNull: ['$closureOfficialTextId', null] },

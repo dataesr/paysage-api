@@ -68,8 +68,8 @@ allOf:
       population:
         type: integer
         nullable: true
-      categories:
-        type: array
+      category:
+        type: object
       legalcategory:
         type: object
   - $ref: '../../api.yml#/components/schemas/Metas'
