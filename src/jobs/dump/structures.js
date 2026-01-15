@@ -10,7 +10,6 @@ import relationsQuery from "../../api/commons/queries/relations.query";
 
 
 const structureDumpQuery =  [
-  ...metas,
   ...currentCategoryQuery,
   ...currentEmailsQuery,
   ...currentIdentifiersQuery,
