@@ -10,9 +10,107 @@ import currentWebsitesQuery from "../../api/commons/queries/current-websites.que
 import currentSocialsQuery from "../../api/commons/queries/current-socials.query";
 import { relatedObjectLookup, resourceLookup } from '../../api/commons/queries/related-object.query';
 import relationTypesLightQuery from '../../api/commons/queries/relation-types.light.query';
+import categoryLightQuery from '../../api/commons/queries/categories.light.query';
+import legalCategoryLightQuery from '../../api/commons/queries/legal-categories.light.query';
+import personLightQuery from '../../api/commons/queries/persons.light.query';
+import prizeLightQuery from '../../api/commons/queries/prizes.light.query';
+import structuresDumpQuery from '../../api/commons/queries/structures.dump.query';
+import supervisingMinistersLightQuery from '../../api/commons/queries/supervising-ministers.light.query';
+import termsLightQuery from '../../api/commons/queries/terms.light.query';
 
-const relationRelatedQuery = [
-  ...relatedObjectLookup,
+function getRelatedObject(localField) {
+  return ([
+    {
+      $lookup: {
+        from: 'categories',
+        localField,
+        foreignField: 'id',
+        pipeline: categoryLightQuery,
+        as: 'relatedCategories',
+      },
+    },
+    {
+      $lookup: {
+        from: 'legalcategories',
+        localField,
+        foreignField: 'id',
+        pipeline: legalCategoryLightQuery,
+        as: 'relatedLegalCategories',
+      },
+    },
+    {
+      $lookup: {
+        from: 'terms',
+        localField,
+        foreignField: 'id',
+        pipeline: termsLightQuery,
+        as: 'relatedTerms',
+      },
+    },
+    {
+      $lookup: {
+        from: 'persons',
+        localField,
+        foreignField: 'id',
+        pipeline: personLightQuery,
+        as: 'relatedPersons',
+      },
+    },
+    {
+      $lookup: {
+        from: 'prizes',
+        localField,
+        foreignField: 'id',
+        pipeline: prizeLightQuery,
+        as: 'relatedPrizes',
+      },
+    },
+    {
+      $lookup: {
+        from: 'structures',
+        localField,
+        foreignField: 'id',
+        pipeline: structuresDumpQuery,
+        as: 'relatedStructures',
+      },
+    },
+    {
+      $lookup: {
+        from: 'supervisingministers',
+        localField,
+        foreignField: 'id',
+        pipeline: supervisingMinistersLightQuery,
+        as: 'relatedMinisters',
+      },
+    },
+    {
+      $set: {
+        related: {
+          $concatArrays: [
+            '$relatedLegalCategories',
+            '$relatedStructures',
+            '$relatedPrizes',
+            '$relatedPersons',
+            '$relatedTerms',
+            '$relatedCategories',
+            '$relatedMinisters',
+          ],
+        },
+      },
+    },
+  ]);
+}
+
+export const relatedObjectLookup = [
+  ...getRelatedObject('relatedObjectId'),
+  { $set: { relatedObject: { $arrayElemAt: ['$related', 0] } } },
+];
+export const resourceLookup = [
+  ...getRelatedObject('resourceId'),
+  { $set: { resource: { $arrayElemAt: ['$related', 0] } } },
+];
+
+const relationTypeQuery = [
   {
     $lookup: {
       from: 'relationtypes',
@@ -23,34 +121,66 @@ const relationRelatedQuery = [
     },
   },
   { $set: { relationType: { $arrayElemAt: ['$relationType', 0] } } },
+]
+const relationGroupQuery = [
   {
-    $project: {
-      _id: 0,
-      id: 1,
-      structureId: "$resourceId",
-      relationsGroupId: { $ifNull: ['$relationsGroupId', null] },
-      relatedObject: 1,
-      relatedObjectId: 1,
-      relationType: { $ifNull: ['$relationType', { priority: 99 }] },
-      relationTag: { $ifNull: ['$relationTag', null] },
-      startDate: { $ifNull: ['$startDate', null] },
-      endDate: { $ifNull: ['$endDate', null] },
-      endDatePrevisional: { $ifNull: ['$endDatePrevisional', null] },
-      mandatePosition: { $ifNull: ['$mandatePosition', null] },
-      mandateReason: { $ifNull: ['$mandateReason', null] },
-      mandateEmail: { $ifNull: ['$mandateEmail', null] },
-      personalEmail: { $ifNull: ['$personalEmail', null] },
-      mandatePhonenumber: { $ifNull: ['$mandatePhonenumber', null] },
-      mandateTemporary: { $ifNull: ['$mandateTemporary', null] },
-      mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
-      laureatePrecision: { $ifNull: ['$laureatePrecision', null] },
-      active: { $ifNull: ['$active', null] },
+    $lookup: {
+      from: 'relationgroups',
+      localField: '$relationsGroupId',
+      foreignField: 'id',
+      pipeline: [
+        {
+          $project: {
+            _id: 0,
+            id: 1,
+            resourceId: 1,
+            name: 1,
+            accepts: 1,
+            priority: 1,
+          },
+        },
+      ],
+      as: 'relationGroup',
     },
+  },
+  { $set: { relationGroup: { $arrayElemAt: ['$relationGroup', 0] } } },
+]
+
+const projection = {
+  _id: 0,
+  id: 1,
+  resourceId: 1,
+  relatedObjectId: 1,
+  relationGroup: { $ifNull: ['$relationGroup', null] },
+  relationType: { $ifNull: ['$relationType', { priority: 99 }] },
+  relationTag: { $ifNull: ['$relationTag', null] },
+  startDate: { $ifNull: ['$startDate', null] },
+  endDate: { $ifNull: ['$endDate', null] },
+  endDatePrevisional: { $ifNull: ['$endDatePrevisional', null] },
+  mandatePosition: { $ifNull: ['$mandatePosition', null] },
+  mandateReason: { $ifNull: ['$mandateReason', null] },
+  mandateEmail: { $ifNull: ['$mandateEmail', null] },
+  personalEmail: { $ifNull: ['$personalEmail', null] },
+  mandatePhonenumber: { $ifNull: ['$mandatePhonenumber', null] },
+  mandateTemporary: { $ifNull: ['$mandateTemporary', null] },
+  mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
+  laureatePrecision: { $ifNull: ['$laureatePrecision', null] },
+  active: { $ifNull: ['$active', null] },
+}
+
+const relationRelatedQuery = [
+  ...relatedObjectLookup,
+  ...relationTypeQuery,
+  ...relationGroupQuery,
+  {
+    $project: {...projection, relatedObject: 1 },
   },
 ];
 
 const relationResourceQuery = [
   ...resourceLookup,
+  ...relationTypeQuery,
+  ...relationGroupQuery,
   {
     $lookup: {
       from: 'relationtypes',
@@ -62,28 +192,7 @@ const relationResourceQuery = [
   },
   { $set: { relationType: { $arrayElemAt: ['$relationType', 0] } } },
   {
-    $project: {
-      _id: 0,
-      id: 1,
-      structureId: "$relatedObjectId",
-      relationsGroupId: { $ifNull: ['$relationsGroupId', null] },
-      relatedObject: "$resource",
-      relatedObjectId: "$resourceId",
-      relationType: { $ifNull: ['$relationType', { priority: 99 }] },
-      relationTag: { $ifNull: ['$relationTag', null] },
-      startDate: { $ifNull: ['$startDate', null] },
-      endDate: { $ifNull: ['$endDate', null] },
-      endDatePrevisional: { $ifNull: ['$endDatePrevisional', null] },
-      mandatePosition: { $ifNull: ['$mandatePosition', null] },
-      mandateReason: { $ifNull: ['$mandateReason', null] },
-      mandateEmail: { $ifNull: ['$mandateEmail', null] },
-      personalEmail: { $ifNull: ['$personalEmail', null] },
-      mandatePhonenumber: { $ifNull: ['$mandatePhonenumber', null] },
-      mandateTemporary: { $ifNull: ['$mandateTemporary', null] },
-      mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
-      laureatePrecision: { $ifNull: ['$laureatePrecision', null] },
-      active: { $ifNull: ['$active', null] },
-    },
+    $project: {...projection, resource: 1 },
   },
 ];
 
