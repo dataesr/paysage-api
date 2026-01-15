@@ -31,9 +31,20 @@ router.route('/dump/structures')
     requireRoles(['admin']),
     async (req, res) => {
       try {
-        res.setHeader('Content-Type', 'application/x-ndjson');
-        res.setHeader('Content-Encoding', 'gzip');
-        res.setHeader('Content-Disposition', 'attachment; filename="structures-dump.ndjson.gz"');
+        // Check if it's a browser download (query param ?download=true for raw .gz file)
+        const isBrowserDownload = req.query.download === 'true';
+
+        if (isBrowserDownload) {
+          // For browser downloads: send as raw gzip file (not auto-decompressed)
+          res.setHeader('Content-Type', 'application/gzip');
+          res.setHeader('Content-Disposition', 'attachment; filename="structures-dump.ndjson.gz"');
+        } else {
+          // For programmatic access: browsers will auto-decompress, Python sees compressed
+          res.setHeader('Content-Type', 'application/x-ndjson');
+          res.setHeader('Content-Encoding', 'gzip');
+          res.setHeader('Content-Disposition', 'attachment; filename="structures-dump.ndjson.gz"');
+        }
+
         res.setHeader('Transfer-Encoding', 'chunked');
         res.setHeader('Cache-Control', 'no-cache');
 
@@ -56,8 +67,13 @@ router.route('/dump/structures')
           res
         );
       } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Failed to generate dump', message: error.message });
+        // Only send error if headers haven't been sent
+        if (!res.headersSent) {
+          res.status(500).json({ error: 'Failed to generate dump', message: error.message });
+        } else {
+          // If streaming has started, we can only close the connection
+          res.end();
+        }
       }
     },
   ]);

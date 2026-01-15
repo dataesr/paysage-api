@@ -52,7 +52,7 @@ agenda.define(
 agenda.define(
 	"create structure dump",
 	{ shouldSaveResult: true },
-	sendNewUserNotificationEmail,
+	createStructuresDump,
 );
 agenda.define(
 	"send welcome email",
