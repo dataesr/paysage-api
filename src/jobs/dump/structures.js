@@ -8,7 +8,6 @@ import currentLocalisationQuery from "../../api/commons/queries/current-localisa
 import currentNameQuery from "../../api/commons/queries/current-name.query";
 import currentWebsitesQuery from "../../api/commons/queries/current-websites.query";
 import currentSocialsQuery from "../../api/commons/queries/current-socials.query";
-import { relatedObjectLookup, resourceLookup } from '../../api/commons/queries/related-object.query';
 import relationTypesLightQuery from '../../api/commons/queries/relation-types.light.query';
 import categoryLightQuery from '../../api/commons/queries/categories.light.query';
 import legalCategoryLightQuery from '../../api/commons/queries/legal-categories.light.query';
