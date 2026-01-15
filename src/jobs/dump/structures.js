@@ -8,7 +8,85 @@ import currentLocalisationQuery from "../../api/commons/queries/current-localisa
 import currentNameQuery from "../../api/commons/queries/current-name.query";
 import currentWebsitesQuery from "../../api/commons/queries/current-websites.query";
 import currentSocialsQuery from "../../api/commons/queries/current-socials.query";
-import relationsQuery from "../../api/commons/queries/relations.query";
+import { relatedObjectLookup, resourceLookup } from './related-object.query';
+import relationTypesLightQuery from './relation-types.light.query';
+
+const relationRelatedQuery = [
+  ...relatedObjectLookup,
+  {
+    $lookup: {
+      from: 'relationtypes',
+      localField: 'relationTypeId',
+      foreignField: 'id',
+      pipeline: relationTypesLightQuery,
+      as: 'relationType',
+    },
+  },
+  { $set: { relationType: { $arrayElemAt: ['$relationType', 0] } } },
+  {
+    $project: {
+      _id: 0,
+      id: 1,
+      structureId: "$resourceId",
+      relationsGroupId: { $ifNull: ['$relationsGroupId', null] },
+      relatedObject: 1,
+      relatedObjectId: 1,
+      relationType: { $ifNull: ['$relationType', { priority: 99 }] },
+      relationTag: { $ifNull: ['$relationTag', null] },
+      startDate: { $ifNull: ['$startDate', null] },
+      endDate: { $ifNull: ['$endDate', null] },
+      endDatePrevisional: { $ifNull: ['$endDatePrevisional', null] },
+      mandatePosition: { $ifNull: ['$mandatePosition', null] },
+      mandateReason: { $ifNull: ['$mandateReason', null] },
+      mandateEmail: { $ifNull: ['$mandateEmail', null] },
+      personalEmail: { $ifNull: ['$personalEmail', null] },
+      mandatePhonenumber: { $ifNull: ['$mandatePhonenumber', null] },
+      mandateTemporary: { $ifNull: ['$mandateTemporary', null] },
+      mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
+      laureatePrecision: { $ifNull: ['$laureatePrecision', null] },
+      active: { $ifNull: ['$active', null] },
+    },
+  },
+];
+
+const relationResourceQuery = [
+  ...resourceLookup,
+  {
+    $lookup: {
+      from: 'relationtypes',
+      localField: 'relationTypeId',
+      foreignField: 'id',
+      pipeline: relationTypesLightQuery,
+      as: 'relationType',
+    },
+  },
+  { $set: { relationType: { $arrayElemAt: ['$relationType', 0] } } },
+  {
+    $project: {
+      _id: 0,
+      id: 1,
+      structureId: "$relatedObjectId",
+      relationsGroupId: { $ifNull: ['$relationsGroupId', null] },
+      relatedObject: "$resource",
+      relatedObjectId: "$resourceId",
+      relationType: { $ifNull: ['$relationType', { priority: 99 }] },
+      relationTag: { $ifNull: ['$relationTag', null] },
+      startDate: { $ifNull: ['$startDate', null] },
+      endDate: { $ifNull: ['$endDate', null] },
+      endDatePrevisional: { $ifNull: ['$endDatePrevisional', null] },
+      mandatePosition: { $ifNull: ['$mandatePosition', null] },
+      mandateReason: { $ifNull: ['$mandateReason', null] },
+      mandateEmail: { $ifNull: ['$mandateEmail', null] },
+      personalEmail: { $ifNull: ['$personalEmail', null] },
+      mandatePhonenumber: { $ifNull: ['$mandatePhonenumber', null] },
+      mandateTemporary: { $ifNull: ['$mandateTemporary', null] },
+      mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
+      laureatePrecision: { $ifNull: ['$laureatePrecision', null] },
+      active: { $ifNull: ['$active', null] },
+    },
+  },
+];
+
 
 
 const structureDumpQuery =  [
@@ -25,7 +103,7 @@ const structureDumpQuery =  [
       from: 'relationships',
       localField: 'id',
       foreignField: 'resourceId',
-      pipeline: [...relationsQuery],
+      pipeline: [...relationRelatedQuery],
       as: 'rel1'
     }
   },
@@ -34,7 +112,7 @@ const structureDumpQuery =  [
       from: 'relationships',
       localField: 'id',
       foreignField: 'relatedObjectId',
-      pipeline: [...relationsQuery],
+      pipeline: [...relationResourceQuery],
       as: 'rel2'
     }
   },
