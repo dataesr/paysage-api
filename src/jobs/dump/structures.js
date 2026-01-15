@@ -76,23 +76,23 @@ const structureDumpQuery =  [
 
 
 export default async function createStructuresDump() {
-  onsole.log('--------------------------------------');
+  console.log('--------------------------------------');
   console.log('Creating structures dump...');
-  onsole.log('--------------------------------------');
+  console.log('--------------------------------------');
   try {
     const res = await db.collection('structures').aggregate(structureDumpQuery, { allowDiskUse: true });
-    onsole.log('--------------------------------------');
+    console.log('--------------------------------------');
     console.log('Structures dump created successfully', res);
-    onsole.log('--------------------------------------');
+    console.log('--------------------------------------');
     return {status: 'success', data: res};
   } catch (error) {
     console.log('--------------------------------------');
-    onsole.log('--------------------------------------');
-    onsole.log('--------------------------------------');
+    console.log('--------------------------------------');
+    console.log('--------------------------------------');
     console.error('Error creating structures dump:', error);
-    onsole.log('--------------------------------------');
-    onsole.log('--------------------------------------');
-    onsole.log('--------------------------------------');
+    console.log('--------------------------------------');
+    console.log('--------------------------------------');
+    console.log('--------------------------------------');
     throw error;
   }
 }
