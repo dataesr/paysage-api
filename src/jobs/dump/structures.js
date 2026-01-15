@@ -82,7 +82,7 @@ export default async function createStructuresDump() {
   console.log('Creating structures dump...');
   console.log('--------------------------------------');
   try {
-    const res = await db.collection('structures').aggregate(structureDumpQuery, { allowDiskUse: true });
+    const res = await db.collection('structures').aggregate(structureDumpQuery, { allowDiskUse: true }).toArray();
     console.log('--------------------------------------');
     console.log('Structures dump created successfully', res);
     console.log('--------------------------------------');
