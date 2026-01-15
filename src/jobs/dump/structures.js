@@ -76,8 +76,9 @@ const structureDumpQuery =  [
 
 
 export default async function createStructuresDump() {
+
   try {
-    const res = await db.collection('structures').aggregate(structureDumpQuery, { allowDiskUse: true }).toArray();
+    const res = await db.collection('structures').aggregate(structureDumpQuery, { allowDiskUse: true });
     return {status: 'success', data: res};
   } catch (error) {
     console.error('Error creating structures dump:', error);
