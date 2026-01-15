@@ -15,6 +15,7 @@ import {
 } from "./emails";
 import reindex from "./indexer";
 import updateKeyNumbers from "./key-numbers";
+import createStructuresDump from "./dump/structures";
 import {
 	exportFrEsrAnnelisPaysageEtablissements,
 	exportFrEsrPaysageFonctionsGourvernance,
@@ -47,6 +48,11 @@ agenda.define(
 	"send user creation notification email",
 	{ shouldSaveResult: true },
 	sendNewUserNotificationEmail,
+);
+agenda.define(
+	"create structure dump",
+	{ shouldSaveResult: true },
+	createStructuresDump,
 );
 agenda.define(
 	"send welcome email",
