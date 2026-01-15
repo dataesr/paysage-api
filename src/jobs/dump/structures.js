@@ -1,3 +1,5 @@
+import { db } from "../../services/mongo.service";
+
 import currentCategoryQuery from "../../api/commons/queries/current-category.query";
 import currentEmailsQuery from "../../api/commons/queries/current-emails.query";
 import currentIdentifiersQuery from "../../api/commons/queries/current-identifiers.query";
