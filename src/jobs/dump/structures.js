@@ -124,7 +124,7 @@ const relationTypeQuery = [
 const relationGroupQuery = [
   {
     $lookup: {
-      from: 'relationgroups',
+      from: 'relationsgroups',
       localField: 'relationsGroupId',
       foreignField: 'id',
       pipeline: [
