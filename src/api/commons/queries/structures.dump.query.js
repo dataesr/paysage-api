@@ -10,8 +10,7 @@ export default [
       _id: 0,
       id: 1,
       displayName: '$currentName.usualName',
-      href: { $concat: ['/structures/', '$id'] },
-      identifiers: 1,
+      identifiers: { $ifNull: ['$identifiers', []] },
     },
   },
 ];

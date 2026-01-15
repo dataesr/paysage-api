@@ -125,7 +125,7 @@ const relationGroupQuery = [
   {
     $lookup: {
       from: 'relationgroups',
-      localField: '$relationsGroupId',
+      localField: 'relationsGroupId',
       foreignField: 'id',
       pipeline: [
         {
@@ -180,16 +180,6 @@ const relationResourceQuery = [
   ...resourceLookup,
   ...relationTypeQuery,
   ...relationGroupQuery,
-  {
-    $lookup: {
-      from: 'relationtypes',
-      localField: 'relationTypeId',
-      foreignField: 'id',
-      pipeline: relationTypesLightQuery,
-      as: 'relationType',
-    },
-  },
-  { $set: { relationType: { $arrayElemAt: ['$relationType', 0] } } },
   {
     $project: {...projection, resource: 1 },
   },
