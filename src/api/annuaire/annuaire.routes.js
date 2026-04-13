@@ -56,7 +56,7 @@ router.get('/annuaire', async (req, res) => {
     relationType, structure, category, mandateTypeGroup, skip = '0', limit = '0',
   } = req.query;
   const filters = {
-    ...(relationType && { 'relationType.name': { $in: relationType.split(',') } }),
+    ...(relationType && { 'relationType.name': { $in: relationType.split('||') } }),
     ...(structure && { 'resource.displayName': { $in: structure.split(',') } }),
     ...(category && { 'resource.categories.usualNameFr': { $in: category.split(',') } }),
     ...(mandateTypeGroup && { 'relationType.mandateTypeGroup': { $in: mandateTypeGroup.split(',') } }),
@@ -73,7 +73,7 @@ router.get('/annuaire', async (req, res) => {
 router.get('/annuaire/export', async (req, res) => {
   const { relationType, structure, category, mandateTypeGroup } = req.query;
   const filters = {
-    ...(relationType && { 'relationType.name': { $in: relationType.split(',') } }),
+    ...(relationType && { 'relationType.name': { $in: relationType.split('||') } }),
     ...(structure && { 'resource.displayName': { $in: structure.split(',') } }),
     ...(category && { 'resource.categories.usualNameFr': { $in: category.split(',') } }),
     ...(mandateTypeGroup && { 'relationType.mandateTypeGroup': { $in: mandateTypeGroup.split(',') } }),
