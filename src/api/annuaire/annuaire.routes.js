@@ -6,8 +6,6 @@ const rt = db.collection('relationtypes');
 
 const router = new express.Router();
 
-const toArray = (value) => (Array.isArray(value) ? value : [value]);
-
 const lightProjection = {
   _id: 0,
   id: 1,
@@ -58,10 +56,10 @@ router.get('/annuaire', async (req, res) => {
     relationType, structure, category, mandateTypeGroup, skip = '0', limit = '0',
   } = req.query;
   const filters = {
-    ...(relationType && { 'relationType.name': { $in: toArray(relationType) } }),
-    ...(structure && { 'resource.displayName': { $in: toArray(structure) } }),
-    ...(category && { 'resource.categories.usualNameFr': { $in: toArray(category) } }),
-    ...(mandateTypeGroup && { 'relationType.mandateTypeGroup': { $in: toArray(mandateTypeGroup) } }),
+    ...(relationType && { 'relationType.name': { $in: relationType.split(',') } }),
+    ...(structure && { 'resource.displayName': { $in: structure.split(',') } }),
+    ...(category && { 'resource.categories.usualNameFr': { $in: category.split(',') } }),
+    ...(mandateTypeGroup && { 'relationType.mandateTypeGroup': { $in: mandateTypeGroup.split(',') } }),
   };
   const data = (parseInt(limit, 10) > 0)
     ? await annuaire.find(filters).project(lightProjection).skip(parseInt(skip, 10)).limit(parseInt(limit, 10))
@@ -75,10 +73,10 @@ router.get('/annuaire', async (req, res) => {
 router.get('/annuaire/export', async (req, res) => {
   const { relationType, structure, category, mandateTypeGroup } = req.query;
   const filters = {
-    ...(relationType && { 'relationType.name': { $in: toArray(relationType) } }),
-    ...(structure && { 'resource.displayName': { $in: toArray(structure) } }),
-    ...(category && { 'resource.categories.usualNameFr': { $in: toArray(category) } }),
-    ...(mandateTypeGroup && { 'relationType.mandateTypeGroup': { $in: toArray(mandateTypeGroup) } }),
+    ...(relationType && { 'relationType.name': { $in: relationType.split(',') } }),
+    ...(structure && { 'resource.displayName': { $in: structure.split(',') } }),
+    ...(category && { 'resource.categories.usualNameFr': { $in: category.split(',') } }),
+    ...(mandateTypeGroup && { 'relationType.mandateTypeGroup': { $in: mandateTypeGroup.split(',') } }),
   };
   const data = await annuaire.find(filters).toArray();
   return res.json(data);
