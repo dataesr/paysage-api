@@ -18,7 +18,7 @@
     "setup:mongo": "NODE_ENV=${npm_config_env} node --experimental-specifier-resolution=node src/setup/mongo.js",
     "setup:storage": "NODE_ENV=${npm_config_env} node --experimental-specifier-resolution=node src/setup/storage.js",
     "start": "npm run docs:build && npm run setup:mongo --env=development && npm run setup:elastic --env=development && npm run setup:storage --env=development && npm run api:dev",
-    "start:production": "npm run docs:build && npm run setup:mongo --env=production && npm run setup:storage --env=production && npm run api:start --env=production",
+    "start:production": "npm run docs:build && npm run setup:mongo --env=production && npm run setup:elastic --env=production && npm run setup:storage --env=production && npm run api:start --env=production",
     "start:staging": "npm run docs:build && npm run setup:mongo --env=staging && npm run setup:elastic --env=staging && npm run setup:storage --env=staging && npm run api:start --env=staging",
     "test": "npm run docs:build && npm run setup:mongo --env=testing && npm run setup:elastic --env=testing && npm run api:test"
   },
