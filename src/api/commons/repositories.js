@@ -119,6 +119,10 @@ export const sireneUpdatesRepository = new BaseMongoRepository({
   db,
   collection: '_sirene_updates',
 });
+export const identifierUpdatesStructuresRepository = new BaseMongoRepository({
+  db,
+  collection: '_identifier_updates_structures',
+});
 export const socialmediasRepository = new BaseMongoRepository({
   db,
   collection: 'socialmedias',
