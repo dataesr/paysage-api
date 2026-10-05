@@ -19,6 +19,7 @@ import {
 } from "./commons/middlewares/rbac.middlewares";
 import contactRoutes from "./contacts/contacts.routes";
 import curiexploreRoutes from "./curiexplore/curiexplore.routes";
+import dialogueRoutes from "./dialogue/dialogue.routes";
 import documentTypesRoutes from "./document-types/document-types.routes";
 import documentsRoutes from "./documents/documents.routes";
 import domainsRoutes from "./domains/domains.routes";
@@ -130,6 +131,7 @@ app.use(authRoutes);
 app.use(categoriesRoutes);
 app.use(contactRoutes);
 app.use(curiexploreRoutes);
+app.use(dialogueRoutes);
 app.use(documentsRoutes);
 app.use(documentTypesRoutes);
 app.use(domainsRoutes);

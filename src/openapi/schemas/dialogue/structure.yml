@@ -1,0 +1,190 @@
+title: DialogueStructure
+description: A structure, as Dialogue keeps it
+type: object
+properties:
+  id:
+    type: string
+  status:
+    type: string
+    nullable: true
+    description: active, inactive or forthcoming
+  creationDate:
+    type: string
+    nullable: true
+  closureDate:
+    type: string
+    nullable: true
+    description: Partial date (YYYY, YYYY-MM or YYYY-MM-DD)
+  alternativePaysageIds:
+    type: array
+    items:
+      type: string
+  currentName:
+    type: object
+    properties:
+      usualName:
+        type: string
+        nullable: true
+      officialName:
+        type: string
+        nullable: true
+      shortName:
+        type: string
+        nullable: true
+      acronymFr:
+        type: string
+        nullable: true
+      nameEn:
+        type: string
+        nullable: true
+  names:
+    type: array
+    description: Every name, current or past — for search
+    items:
+      type: object
+      properties:
+        usualName:
+          type: string
+          nullable: true
+        officialName:
+          type: string
+          nullable: true
+        shortName:
+          type: string
+          nullable: true
+        acronymFr:
+          type: string
+          nullable: true
+        otherNames:
+          type: array
+          items:
+            type: string
+        startDate:
+          type: string
+          nullable: true
+        endDate:
+          type: string
+          nullable: true
+  categories:
+    type: array
+    description: Sorted by priority
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+        usualNameFr:
+          type: string
+          nullable: true
+        priority:
+          type: number
+  localisation:
+    type: object
+    properties:
+      address:
+        type: string
+        nullable: true
+      postalCode:
+        type: string
+        nullable: true
+      locality:
+        type: string
+        nullable: true
+      city:
+        type: string
+        nullable: true
+      country:
+        type: string
+        nullable: true
+  identifiers:
+    type: array
+    items:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+        active:
+          type: boolean
+          nullable: true
+        startDate:
+          type: string
+          nullable: true
+        endDate:
+          type: string
+          nullable: true
+  emailDomains:
+    type: array
+    items:
+      type: object
+      properties:
+        domain:
+          type: string
+        type:
+          type: string
+          enum: [primary, secondary, historical]
+  governance:
+    type: array
+    description: Direction team mandates, current or announced
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+        state:
+          type: string
+          enum: [active, future]
+        relationType:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            priority:
+              type: number
+        title:
+          type: string
+          nullable: true
+        temporary:
+          type: boolean
+        person:
+          type: object
+          properties:
+            id:
+              type: string
+            firstName:
+              type: string
+              nullable: true
+            lastName:
+              type: string
+              nullable: true
+            gender:
+              type: string
+              nullable: true
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              kind:
+                type: string
+                enum: [generic, nominative]
+        startDate:
+          type: string
+          nullable: true
+        endDate:
+          type: string
+          nullable: true
+        endDatePrevisional:
+          type: string
+          nullable: true
+        updatedAt:
+          type: string
+          nullable: true
+  updatedAt:
+    type: string
+    nullable: true

@@ -24,6 +24,7 @@ tags:
   - name: Categories - SocialMedias
   - name: Categories - Weblinks
   - name: Documentation
+  - name: Dialogue
   - name: Documents
   - name: Document types
   - name: Domains
@@ -363,6 +364,10 @@ paths:
   '/admin/api-keys/{apiKeyId}':
     $ref: './paths/apikeys/apikeys.yml#/documentMethods'
 
+  ### DIALOGUE ###
+  '/dialogue/structures':
+    $ref: './paths/dialogue/structures.yml#/~1dialogue~1structures'
+
   ### SEARCH ###
   '/autocomplete':
     $ref: './paths/search/autocomplete.yml#/~1autocomplete'
@@ -500,6 +505,8 @@ components:
       $ref: './schemas/commons/category-relationship.yml'
     CategoryWeblink:
       $ref: './schemas/categories/weblink.yml'
+    DialogueStructure:
+      $ref: './schemas/dialogue/structure.yml'
     Document:
       $ref: './schemas/documents/document.yml'
     DocumentType:
