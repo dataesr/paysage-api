@@ -1,0 +1,32 @@
+title: DialogueLinkedStructure
+description: |
+  The other end of a succession (a Paysage `structure-predecesseur` relation, held by the
+  successor). A proposal for Dialogue: taking over a structure stays a human decision there.
+type: object
+properties:
+  id:
+    type: string
+  usualName:
+    type: string
+    nullable: true
+  status:
+    type: string
+    nullable: true
+    description: active, inactive or forthcoming
+  closureDate:
+    type: string
+    nullable: true
+    description: Partial date (YYYY, YYYY-MM or YYYY-MM-DD)
+  date:
+    type: string
+    nullable: true
+    description: When the succession took effect
+  relationType:
+    type: object
+    nullable: true
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+        nullable: true

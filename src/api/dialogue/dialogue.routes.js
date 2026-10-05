@@ -6,6 +6,7 @@ import { BadRequestError } from '../commons/http-errors';
 import emailDomainsQuery from './queries/email-domains.query';
 import governanceQuery from './queries/governance.query';
 import structuresQuery from './queries/structures.query';
+import { predecessorsQuery, successorsQuery } from './queries/successions.query';
 
 // A read-only POST: readers may call it (see READ_ONLY_POSTS in rbac.middlewares).
 
@@ -84,6 +85,17 @@ async function readEmailDomains(ids) {
   return groupByStructure(domains);
 }
 
+// Both ends of each succession: the structures this one succeeds, and those
+// that succeed it — a closed structure's successors are what Dialogue proposes.
+async function readSuccessions(ids) {
+  const relationships = db.collection('relationships');
+  const [predecessors, successors] = await Promise.all([
+    relationships.aggregate([{ $match: { resourceId: { $in: ids } } }, ...predecessorsQuery]).toArray(),
+    relationships.aggregate([{ $match: { relatedObjectId: { $in: ids } } }, ...successorsQuery]).toArray(),
+  ]);
+  return { predecessors: groupByStructure(predecessors), successors: groupByStructure(successors) };
+}
+
 router.post('/dialogue/structures', async (req, res) => {
   const requested = [...new Set((req.body.ids || []).map((id) => id.trim()).filter(Boolean))];
   if (!requested.length) throw new BadRequestError('"ids" must list at least one structure id');
@@ -92,10 +104,11 @@ router.post('/dialogue/structures', async (req, res) => {
   // The moment the read starts: the date of the snapshot.
   const generatedAt = new Date().toISOString();
   const { ids, redirections, notFound } = await resolveIds(requested);
-  const [structures, governance, emailDomains] = await Promise.all([
+  const [structures, governance, emailDomains, successions] = await Promise.all([
     db.collection('structures').aggregate([{ $match: { id: { $in: ids } } }, ...structuresQuery]).toArray(),
     readGovernance(ids),
     readEmailDomains(ids),
+    readSuccessions(ids),
   ]);
 
   res.status(200).json({
@@ -107,6 +120,8 @@ router.post('/dialogue/structures', async (req, res) => {
       updatedAt: toIso(structure.updatedAt),
       emailDomains: emailDomains.get(structure.id) || [],
       governance: governance.get(structure.id) || [],
+      predecessors: successions.predecessors.get(structure.id) || [],
+      successors: successions.successors.get(structure.id) || [],
     })),
   });
 });

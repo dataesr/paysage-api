@@ -505,6 +505,8 @@ components:
       $ref: './schemas/commons/category-relationship.yml'
     CategoryWeblink:
       $ref: './schemas/categories/weblink.yml'
+    DialogueLinkedStructure:
+      $ref: './schemas/dialogue/linked-structure.yml'
     DialogueStructure:
       $ref: './schemas/dialogue/structure.yml'
     Document:

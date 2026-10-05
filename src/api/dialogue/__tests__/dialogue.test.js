@@ -7,6 +7,7 @@ import { forbidReadersToWrite, requireAuth } from '../../commons/middlewares/rba
 let authorization;
 let lyon;
 let rennes;
+let named;
 
 const ago = (days) => new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
 const ahead = (days) => new Date(Date.now() + days * 86400000).toISOString().slice(0, 10);
@@ -29,10 +30,24 @@ const MANDATES = [
   { id: 'gov-board', startDate: ago(100), group: 'board', expected: null },
 ];
 
+// The successions, written by hand: one relation, held by the successor and
+// pointing at its predecessor — and the two Dialogue never sees.
+const SUCCESSIONS = [
+  { id: 'succ-merger', successor: 'heir', predecessor: 'lyon', expected: true },
+  { id: 'succ-deleted', successor: 'ghost', predecessor: 'lyon', expected: false },
+  { id: 'succ-loop', successor: 'lyon', predecessor: 'lyon', expected: false },
+];
+
 beforeAll(async () => {
   authorization = await global.utils.createUser('dialogue');
   lyon = await createStructure('Université Lumière Lyon 2');
   rennes = await createStructure('Université de Rennes');
+  named = {
+    lyon,
+    heir: await createStructure('Université Lumière Lyon'),
+    ghost: await createStructure('Université fantôme'),
+  };
+  await global.db.collection('structures').updateOne({ id: named.ghost }, { $set: { isDeleted: true } });
 
   await global.superapp
     .post(`/structures/${lyon}/identifiers`)
@@ -49,6 +64,7 @@ beforeAll(async () => {
       id: 'rtPres', name: 'Président', maleName: 'Président', feminineName: 'Présidente', priority: 1, mandateTypeGroup: 'Équipe de direction',
     },
     { id: 'rtCa', name: 'Membre du CA', priority: 50, mandateTypeGroup: 'Conseil d\'administration' },
+    { id: 'rtFusion', name: 'Fusion' },
   ]);
   await global.db.collection('persons').insertOne({
     id: 'persMarie', firstName: 'Marie', lastName: 'Curie', gender: 'Femme',
@@ -64,6 +80,14 @@ beforeAll(async () => {
     ...(mandate.active === false && { active: false }),
     mandateEmail: 'presidence@univ-lyon2.fr',
     personalEmail: ' marie.curie@univ-lyon2.fr ',
+  })));
+  await global.db.collection('relationships').insertMany(SUCCESSIONS.map((succession) => ({
+    id: succession.id,
+    resourceId: named[succession.successor],
+    relatedObjectId: named[succession.predecessor],
+    relationTag: 'structure-predecesseur',
+    startDate: '2025-01-01',
+    ...(succession.expected && { relationTypeId: 'rtFusion' }),
   })));
   await global.db.collection('domains').insertMany([
     {
@@ -113,6 +137,37 @@ describe('API > dialogue > structures', () => {
     const { structures } = await read([lyon]);
     expect(structures[0].governance.map((m) => m.id)).toContain('gov-ended');
     await global.db.collection('relationships').updateOne({ id: 'gov-ended' }, { $set: { endDate: ago(400) } });
+  });
+
+  it('successions: both ends of the one relation — derived from the table', async () => {
+    const { structures } = await read([lyon, named.heir]);
+    const links = Object.fromEntries(structures.map((structure) => [structure.id, {
+      predecessors: structure.predecessors.map((link) => link.id),
+      successors: structure.successors.map((link) => link.id),
+    }]));
+    const expected = Object.fromEntries([lyon, named.heir].map((id) => [id, { predecessors: [], successors: [] }]));
+    SUCCESSIONS.filter((succession) => succession.expected).forEach((succession) => {
+      expected[named[succession.successor]]?.predecessors.push(named[succession.predecessor]);
+      expected[named[succession.predecessor]]?.successors.push(named[succession.successor]);
+    });
+    expect(links).toEqual(expected);
+    // The other end comes with what Dialogue needs to propose it.
+    const [predecessor] = structures.find((structure) => structure.id === named.heir).predecessors;
+    expect(predecessor).toEqual({
+      id: lyon,
+      usualName: 'Université Lumière Lyon 2',
+      status: 'active',
+      closureDate: null,
+      date: '2025-01-01',
+      relationType: { id: 'rtFusion', name: 'Fusion' },
+    });
+  });
+
+  it('counter-check: the deleted successor comes back once it is restored', async () => {
+    await global.db.collection('structures').updateOne({ id: named.ghost }, { $unset: { isDeleted: '' } });
+    const { structures } = await read([lyon]);
+    expect(structures[0].successors.map((link) => [link.id, link.relationType])).toContainEqual([named.ghost, null]);
+    await global.db.collection('structures').updateOne({ id: named.ghost }, { $set: { isDeleted: true } });
   });
 
   it('every id is answered: found, redirected, or not found', async () => {

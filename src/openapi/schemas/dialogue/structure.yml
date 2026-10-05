@@ -185,6 +185,16 @@ properties:
         updatedAt:
           type: string
           nullable: true
+  predecessors:
+    type: array
+    description: The structures this one succeeds, oldest succession first
+    items:
+      $ref: '../../api.yml#/components/schemas/DialogueLinkedStructure'
+  successors:
+    type: array
+    description: The structures that succeed this one — what Dialogue proposes for a closed structure
+    items:
+      $ref: '../../api.yml#/components/schemas/DialogueLinkedStructure'
   updatedAt:
     type: string
     nullable: true
