@@ -21,12 +21,3 @@ properties:
     type: string
     nullable: true
     description: When the succession took effect
-  relationType:
-    type: object
-    nullable: true
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-        nullable: true

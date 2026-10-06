@@ -64,7 +64,6 @@ beforeAll(async () => {
       id: 'rtPres', name: 'Président', maleName: 'Président', feminineName: 'Présidente', priority: 1, mandateTypeGroup: 'Équipe de direction',
     },
     { id: 'rtCa', name: 'Membre du CA', priority: 50, mandateTypeGroup: 'Conseil d\'administration' },
-    { id: 'rtFusion', name: 'Fusion' },
   ]);
   await global.db.collection('persons').insertOne({
     id: 'persMarie', firstName: 'Marie', lastName: 'Curie', gender: 'Femme',
@@ -87,7 +86,6 @@ beforeAll(async () => {
     relatedObjectId: named[succession.predecessor],
     relationTag: 'structure-predecesseur',
     startDate: '2025-01-01',
-    ...(succession.expected && { relationTypeId: 'rtFusion' }),
   })));
   await global.db.collection('domains').insertMany([
     {
@@ -159,14 +157,13 @@ describe('API > dialogue > structures', () => {
       status: 'active',
       closureDate: null,
       date: '2025-01-01',
-      relationType: { id: 'rtFusion', name: 'Fusion' },
     });
   });
 
   it('counter-check: the deleted successor comes back once it is restored', async () => {
     await global.db.collection('structures').updateOne({ id: named.ghost }, { $unset: { isDeleted: '' } });
     const { structures } = await read([lyon]);
-    expect(structures[0].successors.map((link) => [link.id, link.relationType])).toContainEqual([named.ghost, null]);
+    expect(structures[0].successors.map((link) => link.id)).toContain(named.ghost);
     await global.db.collection('structures').updateOne({ id: named.ghost }, { $set: { isDeleted: true } });
   });
 

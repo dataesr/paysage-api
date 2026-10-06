@@ -11,15 +11,6 @@ function getLinkedStructures(from, to) {
     { $match: { relationTag: 'structure-predecesseur', $expr: { $ne: [`$${from}`, `$${to}`] } } },
     {
       $lookup: {
-        from: 'relationtypes',
-        localField: 'relationTypeId',
-        foreignField: 'id',
-        as: 'relationType',
-      },
-    },
-    { $set: { relationType: { $arrayElemAt: ['$relationType', 0] } } },
-    {
-      $lookup: {
         from: 'structures',
         localField: to,
         foreignField: 'id',
@@ -37,15 +28,9 @@ function getLinkedStructures(from, to) {
         usualName: { $ifNull: ['$structure.currentName.usualName', null] },
         status: { $ifNull: ['$structure.structureStatus', null] },
         closureDate: { $ifNull: ['$structure.closureDate', null] },
-        // When the succession took effect.
+        // When the succession took effect. Paysage does not type its
+        // successions (no relation type on any of them, measured 05/10).
         date: { $ifNull: ['$startDate', null] },
-        relationType: {
-          $cond: [
-            { $ifNull: ['$relationType.id', false] },
-            { id: '$relationType.id', name: '$relationType.name' },
-            null,
-          ],
-        },
       },
     },
   ];
