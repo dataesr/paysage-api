@@ -54,23 +54,21 @@ export const fromPayloadToPrizes = async (req, res, next) => {
     id: prizeId,
   };
 
-  const structures = [];
-  payload?.structures?.forEach(async (structure) => structures.push({
+  const structures = await Promise.all((payload.structures || []).map(async (structure) => ({
     relatedObjectId: structure,
     relationTag: 'prix-porteur',
     createdBy: req.currentUser.id,
     createdAt: new Date(),
     id: await catalog.getUniqueId('relations', 15),
-  }));
+  })));
 
-  const categories = [];
-  payload?.categories?.forEach(async (category) => categories.push({
+  const categories = await Promise.all((payload.categories || []).map(async (category) => ({
     relatedObjectId: category,
     relationTag: 'prix-categorie',
     createdBy: req.currentUser.id,
     createdAt: new Date(),
     id: await catalog.getUniqueId('relations', 15),
-  }));
+  })));
 
   const prizesWebsites = [];
   if (payload.websiteFr) {
