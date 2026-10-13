@@ -1,0 +1,81 @@
+/dialogue/structures:
+  post:
+    tags:
+      - Dialogue
+    summary: |
+      Everything Dialogue keeps about its structures, in one call.
+    description: |
+      Dialogue refreshes its own copy of the structures it works with, every night or on demand.
+      It posts the ids it knows (at most 5000); a read-only POST, open to readers and viewers.
+
+      Every id is answered: found (in `structures`), redirected (`redirections`: the id to keep
+      from now on, because of a wrong case or a merge), or not found (`notFound`). A deleted
+      structure is not found.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - ids
+            properties:
+              ids:
+                type: array
+                minItems: 1
+                maxItems: 5000
+                items:
+                  type: string
+                  minLength: 1
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - generatedAt
+                - redirections
+                - notFound
+                - structures
+              properties:
+                generatedAt:
+                  type: string
+                  format: date-time
+                  description: When the read started — the date of this snapshot
+                redirections:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - replacedBy
+                      - reason
+                    properties:
+                      id:
+                        type: string
+                        description: The id as Dialogue sent it
+                      replacedBy:
+                        type: string
+                        description: The id to keep from now on
+                      reason:
+                        type: string
+                        enum: [case, merged]
+                        description: '`case`: wrong case; `merged`: absorbed by another structure'
+                notFound:
+                  type: array
+                  items:
+                    type: string
+                structures:
+                  type: array
+                  items:
+                    $ref: '../../api.yml#/components/schemas/DialogueStructure'
+      '400':
+        $ref: '../../api.yml#/components/responses/BadRequest'
+      '401':
+        $ref: '../../api.yml#/components/responses/Unauthorized'
+      '403':
+        $ref: '../../api.yml#/components/responses/Forbidden'
+      '500':
+        $ref: '../../api.yml#/components/responses/ServerError'

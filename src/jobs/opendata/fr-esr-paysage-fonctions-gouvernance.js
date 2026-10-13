@@ -1,3 +1,4 @@
+import getMandateState from "../../api/commons/helpers/mandate-state";
 import readQuery from "../../api/commons/queries/relations.query";
 import { client, db } from "../../services/mongo.service";
 import {
@@ -27,22 +28,7 @@ export default async function exportFrEsrPaysageFonctionsGourvernance() {
 			const startDate = new Date(relation.startDate);
 			const endDate = new Date(relation.endDate);
 			const previsionalEndDate = new Date(relation.endDatePrevisional);
-			let state;
-			if (!relation.startDate && !relation.endDate) {
-				state = "Actif";
-			}
-			if (relation.startDate && startDate > new Date()) {
-				state = "Futur";
-			}
-			if (relation.startDate && startDate <= new Date()) {
-				state = "Actif";
-			}
-			if (relation.endDate && endDate < new Date()) {
-				state = "Passé";
-			}
-			if (relation.active === false) {
-				state = "Passé";
-			}
+			const state = getMandateState(relation);
 			const annelis =
 				structure?.identifiers?.find((i) => i.type === "annelis")?.value &&
 				relationType.annelisId
