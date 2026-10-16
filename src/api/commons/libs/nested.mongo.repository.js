@@ -1,4 +1,4 @@
-import { parseSortParams, parseFilters } from './helpers';
+import { parseSortParams, parseFilters } from '../helpers/query-params';
 
 class NestedMongoRepository {
   constructor({ db, collection, field, queries = {} }) {

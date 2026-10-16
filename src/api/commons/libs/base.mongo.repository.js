@@ -1,4 +1,4 @@
-import { parseSortParams, parseFilters, mongoFilters } from './helpers';
+import { parseSortParams, parseFilters } from '../helpers/query-params';
 
 class BaseMongoRepository {
   constructor({ collection, db }) {
@@ -13,7 +13,7 @@ class BaseMongoRepository {
   find = async ({
     filters = {}, skip = 0, limit = 10000, sort = '-createdAt', useQuery = [], keepDeleted = false,
   } = {}) => {
-    const _filters = mongoFilters(parseFilters(filters));
+    const _filters = parseFilters(filters);
     const match = keepDeleted ? _filters : { $and: [{ isDeleted: { $ne: true } }, _filters] };
     const totalCount = await this._collection.countDocuments(match);
     const pipeline = [

@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { authenticator, totp } from 'otplib';
+import { authenticator, totp as globalTotp } from 'otplib';
 
 import config from '../../config';
 import agenda from '../../jobs';
@@ -21,7 +21,10 @@ const {
   refreshTokenExpiresIn,
   otpHeader,
   otpMethodHeader,
+  otpValidityInMinutes,
 } = config;
+
+const totp = globalTotp.clone({ window: [otpValidityInMinutes * 2, 0] });
 
 export const signup = async (req, res, next) => {
   const { body, context } = req;
@@ -71,7 +74,6 @@ export const signin = async (req, res, next) => {
   const { password: _password } = user;
   const isMatch = await bcrypt.compare(password, _password);
   if (!isMatch) throw new BadRequestError('Mauvaise combinaison utilisateur/mot de passe');
-  totp.options = { window: [60, 0] };
   if (user.isOtpRequired && !userOtp) {
     res.setHeader(otpHeader, 'required');
     res.setHeader(otpMethodHeader, 'email;');
@@ -80,7 +82,7 @@ export const signin = async (req, res, next) => {
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       const { firstName, lastName } = user;
       agenda.now('send signin email', { user: { firstName, lastName, email: user.email }, otp, ip });
-      const expires = new Date().setMinutes(new Date().getMinutes() + 15);
+      const expires = new Date().setMinutes(new Date().getMinutes() + otpValidityInMinutes);
       const options = {
         year: 'numeric',
         month: 'long',
@@ -155,7 +157,6 @@ export const resetPassword = async (req, res, next) => {
   const otpMethod = req.headers[otpMethodHeader];
   const user = await usersRepository.getByEmail(email);
   if (!user) throw new NotFoundError();
-  totp.options = { window: [60, 0] };
   if (!userOtp) {
     res.setHeader(otpHeader, 'required');
     res.setHeader(otpMethodHeader, 'email;');
@@ -164,7 +165,7 @@ export const resetPassword = async (req, res, next) => {
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       const { firstName, lastName } = user;
       agenda.now('send recovery email', { user: { firstName, lastName, email: user.email }, otp, ip });
-      const expires = new Date().setMinutes(new Date().getMinutes() + 15);
+      const expires = new Date().setMinutes(new Date().getMinutes() + otpValidityInMinutes);
       const options = {
         year: 'numeric',
         month: 'long',

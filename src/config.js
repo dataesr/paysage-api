@@ -1,7 +1,7 @@
 const production = {
   jwtSecret: process.env.JWT_SECRET,
   defaultAccountConfirmation: false,
-  totpWindow: [20, 0],
+  otpValidityInMinutes: 15,
   accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPRIES_IN || '10d',
   refreshTokenExpiresIn: process.env.REFRESH_TOKEN_EXPRIES_IN || '20d',
   otpHeader: 'x-paysage-otp',
