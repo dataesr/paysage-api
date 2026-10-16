@@ -1,13 +1,13 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { authenticator, totp as globalTotp } from 'otplib';
+import { randomUUID } from 'crypto';
 
 import config from '../../config';
 import agenda from '../../jobs';
 import logger from '../../services/logger.service';
 import {
   BadRequestError,
-  NotFoundError,
   ServerError,
   UnauthorizedError,
 } from '../commons/http-errors';
@@ -57,13 +57,17 @@ export const signup = async (req, res, next) => {
   return next();
 };
 
+const DUMMY_HASH = bcrypt.hashSync(randomUUID(), 10);
+
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
   const userAgent = req.headers['user-agent'];
   const userOtp = req.headers[otpHeader];
   const otpMethod = req.headers[otpMethodHeader];
   const user = await usersRepository.getByEmail(email);
-  if (!user) throw new BadRequestError('Utilisateur inconnu');
+
+  const isMatch = await bcrypt.compare(password, user?.password || DUMMY_HASH);
+  if (!user || !isMatch) throw new BadRequestError('Mauvaise combinaison utilisateur/mot de passe');
   if (!user.confirmed) {
     throw new UnauthorizedError(
       `Votre compte est en attente de validation par un administrateur.
@@ -71,15 +75,12 @@ export const signin = async (req, res, next) => {
     );
   }
   if (user.isDeleted) throw new UnauthorizedError('Compte désactivé');
-  const { password: _password } = user;
-  const isMatch = await bcrypt.compare(password, _password);
-  if (!isMatch) throw new BadRequestError('Mauvaise combinaison utilisateur/mot de passe');
   if (user.isOtpRequired && !userOtp) {
     res.setHeader(otpHeader, 'required');
     res.setHeader(otpMethodHeader, 'email;');
     if (!otpMethod || otpMethod === 'email') {
       const otp = totp.generate(user.otpSecret);
-      const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+      const ip = req.ip || req.socket.remoteAddress;
       const { firstName, lastName } = user;
       agenda.now('send signin email', { user: { firstName, lastName, email: user.email }, otp, ip });
       const expires = new Date().setMinutes(new Date().getMinutes() + otpValidityInMinutes);
@@ -156,15 +157,16 @@ export const resetPassword = async (req, res, next) => {
   const userOtp = req.headers[otpHeader];
   const otpMethod = req.headers[otpMethodHeader];
   const user = await usersRepository.getByEmail(email);
-  if (!user) throw new NotFoundError();
   if (!userOtp) {
     res.setHeader(otpHeader, 'required');
     res.setHeader(otpMethodHeader, 'email;');
     if (otpMethod === 'email') {
-      const otp = totp.generate(user.otpSecret);
-      const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-      const { firstName, lastName } = user;
-      agenda.now('send recovery email', { user: { firstName, lastName, email: user.email }, otp, ip });
+      if (user) {
+        const otp = totp.generate(user.otpSecret);
+        const ip = req.ip || req.socket.remoteAddress;
+        const { firstName, lastName } = user;
+        agenda.now('send recovery email', { user: { firstName, lastName, email: user.email }, otp, ip });
+      }
       const expires = new Date().setMinutes(new Date().getMinutes() + otpValidityInMinutes);
       const options = {
         year: 'numeric',
@@ -175,13 +177,13 @@ export const resetPassword = async (req, res, next) => {
         second: 'numeric',
       };
       res.status(202).json({
-        message: `Un nouveau code a été envoyé à l'adresse ${user.email}.
-         Code utilisable jusqu'au ${new Date(expires).toLocaleString('fr-FR', options)}`,
+        message: `Si un compte existe pour l'adresse ${email}, un code y a été envoyé.
+          Code utilisable jusqu'au ${new Date(expires).toLocaleString('fr-FR', options)}`,
       });
       return next();
     }
   }
-  if (!totp.check(userOtp, user.otpSecret)) throw new UnauthorizedError('Code invalide');
+  if (!user || !totp.check(userOtp, user.otpSecret)) throw new UnauthorizedError('Code invalide');
   if (!password) throw new BadRequestError('Un nouveau mot de passe est requis.');
   const { password: _password } = user;
   const isMatch = await bcrypt.compare(password, _password);
