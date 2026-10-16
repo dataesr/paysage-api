@@ -1,4 +1,4 @@
-import { parseSortParams } from '../../commons/libs/helpers';
+import { parseSortParams } from '../../commons/helpers/query-params';
 import { db } from '../../../services/mongo.service';
 
 export function setFilters(req, res, next) {

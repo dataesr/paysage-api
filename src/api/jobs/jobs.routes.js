@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import agenda from '../../jobs';
 import { db } from '../../services/mongo.service';
 import { BadRequestError } from '../commons/http-errors';
-import { parseSortParams } from '../commons/libs/helpers';
+import { parseSortParams } from '../commons/helpers/query-params';
 import { requireRoles } from '../commons/middlewares/rbac.middlewares';
 
 const router = new express.Router();
