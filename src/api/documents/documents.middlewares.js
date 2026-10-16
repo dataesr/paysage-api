@@ -1,6 +1,7 @@
 import {
   BadRequestError,
   ForbiddenError,
+  NotFoundError,
 } from '../commons/http-errors';
 import {
   catalogRepository,
@@ -9,16 +10,17 @@ import {
   groupMembersRepository,
 } from '../commons/repositories';
 
-// TODO: authorize access for admins
 export async function forbidUnauthorizedUser(req, res, next) {
-  const { canAccess = [] } = await documentsRepository.find(req.params.id);
-  if (!canAccess.length) return next();
-  const groups = await groupMembersRepository.find({ userId: req.currentUser.id });
-  const groupsIds = groups?.map(((group) => group.groupId)) || [];
-  const permissions = groupsIds.filter((x) => canAccess.indexOf(x) === -1);
-  if (permissions.length) return next();
+  if (req.currentUser.role === 'admin') return next();
+  const document = await documentsRepository.get(req.params.id);
+  if (!document) throw new NotFoundError();
+  if (document.isPublic) return next();
+  const { data: memberships } = await groupMembersRepository.find({ filters: { userId: req.currentUser.id } });
+  const canAccess = document.canAccess || [];
+  if (memberships.some(({ groupId }) => canAccess.includes(groupId))) return next();
   throw new ForbiddenError();
 }
+
 export async function setViewerFilter(req, res, next) {
   if (req.currentUser.role === 'admin') return next();
   const groups = await groupMembersRepository.find({ filters: { userId: req.currentUser.id } });

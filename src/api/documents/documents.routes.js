@@ -29,7 +29,7 @@ router.route(`/${resource}/:id`)
     controllers.read(repository, readQuery),
   ])
   .patch([
-    setViewerFilter,
+    forbidUnauthorizedUser,
     validatePayload,
     patchContext,
     controllers.patch(repository, readQuery),
