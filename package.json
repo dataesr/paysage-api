@@ -70,6 +70,7 @@
     "setupFilesAfterEnv": [
       "./tests/globalSetup.js"
     ],
-    "testEnvironment": "node"
+    "globalTeardown": "./tests/globalTeardown.js",
+    "testEnvironment": "./tests/environment.js"
   }
 }
