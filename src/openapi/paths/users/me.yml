@@ -23,11 +23,18 @@ Me:
         application/json:
           schema:
             type: object
+            additionalProperties: false
             properties:
               firstName:
                 type: string
               lastName:
                 type: string
+              position:
+                type: string
+                nullable: true
+              service:
+                type: string
+                nullable: true
     responses:
       '200':
         description: OK
