@@ -105,8 +105,8 @@ export const signin = async (req, res, next) => {
   }
   const userForToken = await usersRepository.getByEmail(email, { useQuery: userTokenQuery });
   const { isOtpRequired, ...tokenUser } = userForToken;
-  const accessToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: accessTokenExpiresIn });
-  const refreshToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: refreshTokenExpiresIn });
+  const accessToken = jwt.sign({ user: tokenUser, type: 'access' }, jwtSecret, { expiresIn: accessTokenExpiresIn });
+  const refreshToken = jwt.sign({ user: tokenUser, type: 'refresh' }, jwtSecret, { expiresIn: refreshTokenExpiresIn });
   const expireAt = new Date(jwt.verify(refreshToken, jwtSecret).exp * 1000);
   await tokensRepository.upsert(
     { userId: user.id, userAgent },
@@ -118,7 +118,8 @@ export const signin = async (req, res, next) => {
 };
 
 export const signout = async (req, res, next) => {
-  const { currentUser, userAgent } = req;
+  const { currentUser } = req;
+  const userAgent = req.headers['user-agent'];
   await tokensRepository.remove({ userId: currentUser.id, userAgent });
   res.status(204).json({ message: 'Vous êtes déconnecté.' });
   return next();
@@ -135,10 +136,11 @@ export const refreshAccessToken = async (req, res) => {
   if (!savedToken?.userId) throw new UnauthorizedError('Token invalide');
   const { userId } = savedToken;
   const user = await usersRepository.get(userId, { useQuery: userTokenQuery });
+  if (!user) throw new UnauthorizedError('Token invalide');
   const { isOtpRequired, ...tokenUser } = user;
   if (isOtpRequired) throw new UnauthorizedError('La verification du compte est requise. Reconnectez-vous');
-  const accessToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: accessTokenExpiresIn });
-  const refreshToken = jwt.sign({ user: tokenUser }, jwtSecret, { expiresIn: refreshTokenExpiresIn });
+  const accessToken = jwt.sign({ user: tokenUser, type: 'access' }, jwtSecret, { expiresIn: accessTokenExpiresIn });
+  const refreshToken = jwt.sign({ user: tokenUser, type: 'refresh' }, jwtSecret, { expiresIn: refreshTokenExpiresIn });
   const expireAt = new Date(jwt.verify(refreshToken, jwtSecret).exp * 1000);
   await tokensRepository.upsert(
     { userId, userAgent },
@@ -190,6 +192,7 @@ export const resetPassword = async (req, res, next) => {
   if (isMatch) throw new BadRequestError('Vous devez modifier votre mot de passe');
   const __password = await bcrypt.hash(password, 10);
   await usersRepository.setPassword(user.id, __password);
+  await tokensRepository.remove({ userId: user.id });
   res.status(200).json({ message: 'Mot de passe modifié. Vous pouvez vous connecter.' });
   return next();
 };
