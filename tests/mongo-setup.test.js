@@ -1,4 +1,4 @@
-import { client, db } from '../src/services/mongo.service';
+const { client, db } = global;
 
 describe('config tests', () => {
   it('should successfully use mongo transactions', async () => {

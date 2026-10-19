@@ -1,31 +1,17 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { jest } from '@jest/globals';
-import 'dotenv/config';
 import request from 'supertest';
 
-import app from '../src/api/app';
-import { clearDB, client, db } from '../src/services/mongo.service';
-import esClient from '../src/services/elastic.service';
 import Utils from './utils';
-import agenda from '../src/jobs';
 
 jest.setTimeout(60000);
 
+// app, db and the other shared instances are set by tests/environment.js.
 beforeAll(() => {
-  global.superapp = request(app);
-  global.utils = new Utils(db);
-  global.db = db;
+  global.superapp = request(global.app);
+  global.utils = new Utils(global.db);
 });
 
 afterAll(async () => {
-  if (global && global.db) {
-    await clearDB(global.db);
-  }
-  if (client) {
-    await client.close();
-  }
-  if (esClient) {
-    await esClient.close();
-  }
-  await agenda.stop();
+  await global.clearDB(global.db);
 });

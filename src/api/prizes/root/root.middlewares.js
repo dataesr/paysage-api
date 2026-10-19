@@ -124,24 +124,16 @@ export const storePrize = async (req, res, next) => {
   await session.withTransaction(async () => {
     await repository.create(rest);
     if (identifiers?.length) {
-      await identifiers.forEach(async (identifier) => {
-        await identifiersRepository.create({ ...identifier, resourceId });
-      });
+      await Promise.all(identifiers.map((identifier) => identifiersRepository.create({ ...identifier, resourceId })));
     }
     if (websites?.length) {
-      await websites.forEach(async (website) => {
-        await weblinksRepository.create({ ...website, resourceId });
-      });
+      await Promise.all(websites.map((website) => weblinksRepository.create({ ...website, resourceId })));
     }
     if (categories?.length) {
-      await categories.forEach(async (category) => {
-        await relationshipsRepository.create({ ...category, resourceId });
-      });
+      await Promise.all(categories.map((category) => relationshipsRepository.create({ ...category, resourceId })));
     }
     if (structures?.length) {
-      await structures.forEach(async (structure) => {
-        await relationshipsRepository.create({ ...structure, resourceId });
-      });
+      await Promise.all(structures.map((structure) => relationshipsRepository.create({ ...structure, resourceId })));
     }
     await session.endSession();
   });

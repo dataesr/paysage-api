@@ -19,6 +19,13 @@ import { users as resource } from '../resources';
 
 const authRoutes = new express.Router();
 
+const maxRequestsPerHourPerAccount = (max) => rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max,
+  keyGenerator: (req) => String(req.body?.email || '').toLowerCase(),
+  message: 'Trop de tentatives pour ce compte, essayez à nouveau dans une heure.',
+});
+
 const maxRequestsPerHour = (max) => rateLimit({
   windowMs: 60 * 60 * 1000,
   max,
@@ -32,9 +39,9 @@ authRoutes.post('/signup', [
   signup,
   saveInElastic(repository, elasticQuery, resource),
 ]);
-authRoutes.post('/signin', [maxRequestsPerHour(30), signin]);
+authRoutes.post('/signin', [maxRequestsPerHour(30), maxRequestsPerHourPerAccount(10), signin]);
 authRoutes.post('/signout', [signout]);
 authRoutes.post('/token', [refreshAccessToken]);
-authRoutes.post('/recovery/password', [maxRequestsPerHour(6), resetPassword]);
+authRoutes.post('/recovery/password', [maxRequestsPerHour(6), maxRequestsPerHourPerAccount(6), resetPassword]);
 
 export default authRoutes;

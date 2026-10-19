@@ -1,7 +1,7 @@
 import config from '../../../config';
-import esClient from '../../../services/elastic.service';
 
 let authorization;
+const { esClient } = global;
 const { index } = config.elastic;
 
 beforeAll(async () => {

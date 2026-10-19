@@ -7,8 +7,10 @@ import { setFileInfo, saveFile, deleteFile } from '../commons/middlewares/files.
 import elasticQuery from '../commons/queries/users.elastic';
 import readQuery from '../commons/queries/me.query';
 import { usersRepository as repository } from '../commons/repositories';
-import { setUserIdInParams, setAvatarData, unsetAvatarData, updatePassword } from './me.middlewares';
+import { keepBodyFields, setUserIdInParams, setAvatarData, unsetAvatarData, updatePassword } from './me.middlewares';
 import { me as resource } from '../resources';
+
+const PROFILE_FIELDS = ['firstName', 'lastName', 'position', 'service'];
 
 const router = new express.Router();
 
@@ -16,6 +18,7 @@ router.route(`/${resource}`)
   .get([setUserIdInParams, controllers.read(repository, readQuery)])
   .patch([
     setUserIdInParams,
+    keepBodyFields(PROFILE_FIELDS),
     patchContext,
     controllers.patch(repository, readQuery),
     saveInStore(resource),
@@ -25,6 +28,7 @@ router.route(`/${resource}`)
 router.route(`/${resource}/avatar`)
   .put([
     setUserIdInParams,
+    keepBodyFields([]),
     patchContext,
     setFileInfo('avatars'),
     saveFile,
@@ -34,6 +38,7 @@ router.route(`/${resource}/avatar`)
   ])
   .delete([
     setUserIdInParams,
+    keepBodyFields([]),
     patchContext,
     deleteFile('avatars'),
     unsetAvatarData,

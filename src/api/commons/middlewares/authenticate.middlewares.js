@@ -17,7 +17,8 @@ export async function authenticate(req, res, next) {
     try {
       const token = authorization.replace('Bearer ', '');
       const decodedToken = jwt.verify(token, jwtSecret);
-      req.currentUser = decodedToken.user;
+      // Refresh tokens are signed with the same secret: only access tokens authenticate a request.
+      if (decodedToken.type === 'access') req.currentUser = decodedToken.user;
     } catch (e) {
       return next();
     }

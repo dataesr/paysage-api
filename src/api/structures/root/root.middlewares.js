@@ -105,14 +105,13 @@ export const fromPayloadToStructure = async (req, res, next) => {
     structureLocalisation.id = await catalog.getUniqueId('localisations', 15);
     structure.localisations = [structureLocalisation];
   }
-  const categories = [];
-  payload?.categories?.forEach(async (category) => categories.push({
+  const categories = await Promise.all((payload?.categories || []).map(async (category) => ({
     relatedObjectId: category,
     relationTag: 'structure-categorie',
     createdBy: req.currentUser.id,
     createdAt: new Date(),
     id: await catalog.getUniqueId('relations', 15),
-  }));
+  })));
   const legalCategory = {
     relatedObjectId: payload.legalCategory,
     relationTag: 'structure-categorie-juridique',
@@ -214,27 +213,19 @@ export const storeStructure = async (req, res, next) => {
   await session.withTransaction(async () => {
     await repository.create(rest);
     if (identifiers?.length) {
-      await identifiers.forEach(async (identifier) => {
-        await identifiersRepository.create({ ...identifier, resourceId });
-      });
+      await Promise.all(identifiers.map((identifier) => identifiersRepository.create({ ...identifier, resourceId })));
     }
     if (socials?.length) {
-      await socials.forEach(async (social) => {
-        await socialmediasRepository.create({ ...social, resourceId });
-      });
+      await Promise.all(socials.map((social) => socialmediasRepository.create({ ...social, resourceId })));
     }
     if (websites?.length) {
-      await websites.forEach(async (website) => {
-        await weblinksRepository.create({ ...website, resourceId });
-      });
+      await Promise.all(websites.map((website) => weblinksRepository.create({ ...website, resourceId })));
     }
     if (parentStructure) {
       await relationshipsRepository.create({ ...parentStructure, structureId });
     }
     if (categories?.length) {
-      await categories.forEach(async (category) => {
-        await relationshipsRepository.create({ ...category, resourceId });
-      });
+      await Promise.all(categories.map((category) => relationshipsRepository.create({ ...category, resourceId })));
     }
     if (legalCategory) {
       await relationshipsRepository.create({ ...legalCategory, resourceId });

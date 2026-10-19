@@ -25,7 +25,7 @@ export default class Utils {
     };
     await this.db.collection('users').insertOne(user);
     const accessToken = jwt.sign(
-      { user },
+      { user, type: 'access' },
       jwtSecret,
       { expiresIn: '15m' },
     );
