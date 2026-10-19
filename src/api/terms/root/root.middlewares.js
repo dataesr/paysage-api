@@ -97,14 +97,10 @@ export const storeTerms = async (req, res, next) => {
   await session.withTransaction(async () => {
     await repository.create(rest);
     if (identifiers?.length) {
-      await identifiers.forEach(async (identifier) => {
-        await identifiersRepository.create({ ...identifier, resourceId });
-      });
+      await Promise.all(identifiers.map((identifier) => identifiersRepository.create({ ...identifier, resourceId })));
     }
     if (websites?.length) {
-      await websites.forEach(async (website) => {
-        await weblinksRepository.create({ ...website, resourceId });
-      });
+      await Promise.all(websites.map((website) => weblinksRepository.create({ ...website, resourceId })));
     }
     await session.endSession();
   });

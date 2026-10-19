@@ -47,14 +47,13 @@ export const fromPayloadToPerson = async (req, res, next) => {
     id: personId,
   };
 
-  const categories = [];
-  payload?.categories?.forEach(async (category) => categories.push({
+  const categories = await Promise.all((payload?.categories || []).map(async (category) => ({
     relatedObjectId: category,
     relationTag: 'personne-categorie',
     createdBy: req.currentUser.id,
     createdAt: new Date(),
     id: await catalog.getUniqueId('relations', 15),
-  }));
+  })));
   const websites = [];
   if (payload.websiteFr) {
     websites.push({
@@ -166,24 +165,16 @@ export const storePerson = async (req, res, next) => {
   await session.withTransaction(async () => {
     await personsRepository.create(rest);
     if (identifiers?.length) {
-      await identifiers.forEach(async (identifier) => {
-        await identifiersRepository.create({ ...identifier, resourceId });
-      });
+      await Promise.all(identifiers.map((identifier) => identifiersRepository.create({ ...identifier, resourceId })));
     }
     if (socials?.length) {
-      await socials.forEach(async (social) => {
-        await socialmediasRepository.create({ ...social, resourceId });
-      });
+      await Promise.all(socials.map((social) => socialmediasRepository.create({ ...social, resourceId })));
     }
     if (websites?.length) {
-      await websites.forEach(async (website) => {
-        await weblinksRepository.create({ ...website, resourceId });
-      });
+      await Promise.all(websites.map((website) => weblinksRepository.create({ ...website, resourceId })));
     }
     if (categories?.length) {
-      await categories.forEach(async (category) => {
-        await relationshipsRepository.create({ ...category, resourceId });
-      });
+      await Promise.all(categories.map((category) => relationshipsRepository.create({ ...category, resourceId })));
     }
     await session.endSession();
   });
