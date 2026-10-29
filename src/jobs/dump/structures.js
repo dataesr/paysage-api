@@ -1,13 +1,14 @@
-import { db } from "../../services/mongo.service";
+import { db } from '../../services/mongo.service';
 
-import currentCategoryQuery from "../../api/commons/queries/current-category.query";
-import currentEmailsQuery from "../../api/commons/queries/current-emails.query";
-import currentIdentifiersQuery from "../../api/commons/queries/current-identifiers.query";
-import currentLegalCategoryQuery from "../../api/commons/queries/current-legal-category.query";
-import currentLocalisationQuery from "../../api/commons/queries/current-localisation.query";
-import currentNameQuery from "../../api/commons/queries/current-name.query";
-import currentWebsitesQuery from "../../api/commons/queries/current-websites.query";
-import currentSocialsQuery from "../../api/commons/queries/current-socials.query";
+import currentCategoryQuery from '../../api/commons/queries/current-category.query';
+import currentEmailsQuery from '../../api/commons/queries/current-emails.query';
+import currentIdentifiersQuery from '../../api/commons/queries/current-identifiers.query';
+import currentLegalCategoryQuery from '../../api/commons/queries/current-legal-category.query';
+import currentLocalisationQuery from '../../api/commons/queries/current-localisation.query';
+import currentNameQuery from '../../api/commons/queries/current-name.query';
+import currentWebsitesQuery from '../../api/commons/queries/current-websites.query';
+import currentSocialsQuery from '../../api/commons/queries/current-socials.query';
+import emailDomainsQuery from '../../api/commons/queries/email-domains.query';
 import relationTypesLightQuery from '../../api/commons/queries/relation-types.light.query';
 import categoryLightQuery from '../../api/commons/queries/categories.light.query';
 import legalCategoryLightQuery from '../../api/commons/queries/legal-categories.light.query';
@@ -165,14 +166,14 @@ const projection = {
   mandatePrecision: { $ifNull: ['$mandatePrecision', null] },
   laureatePrecision: { $ifNull: ['$laureatePrecision', null] },
   active: { $ifNull: ['$active', null] },
-}
+};
 
 const relationRelatedQuery = [
   ...relatedObjectLookup,
   ...relationTypeQuery,
   ...relationGroupQuery,
   {
-    $project: {...projection, relatedObject: 1 },
+    $project: { ...projection, relatedObject: 1 },
   },
 ];
 
@@ -181,13 +182,13 @@ const relationResourceQuery = [
   ...relationTypeQuery,
   ...relationGroupQuery,
   {
-    $project: {...projection, resource: 1 },
+    $project: { ...projection, resource: 1 },
   },
 ];
 
 
 
-const structureDumpQuery =  [
+const structureDumpQuery = [
   ...currentCategoryQuery,
   ...currentEmailsQuery,
   ...currentIdentifiersQuery,
@@ -202,8 +203,8 @@ const structureDumpQuery =  [
       localField: 'id',
       foreignField: 'resourceId',
       pipeline: [...relationRelatedQuery],
-      as: 'rel1'
-    }
+      as: 'rel1',
+    },
   },
   {
     $lookup: {
@@ -211,15 +212,30 @@ const structureDumpQuery =  [
       localField: 'id',
       foreignField: 'relatedObjectId',
       pipeline: [...relationResourceQuery],
-      as: 'rel2'
-    }
+      as: 'rel2',
+    },
   },
   {
     $set: {
       relations: {
         $concatArrays: ['$rel1', '$rel2']
-      }
-    }
+      },
+    },
+  },
+  {
+    $lookup: {
+      from: 'domains',
+      localField: 'id',
+      foreignField: 'structures.structureId',
+      let: { structureId: '$id' },
+      pipeline: [
+        ...emailDomainsQuery,
+        // A domain can be shared by several structures: keep only this one's link.
+        { $match: { $expr: { $eq: ['$structureId', '$$structureId'] } } },
+        { $project: { structureId: 0 } },
+      ],
+      as: 'emailDomains',
+    },
   },
   {
     $project: {
@@ -243,15 +259,15 @@ const structureDumpQuery =  [
       createdAt: 1,
       creationDate: { $ifNull: ['$creationDate', null] },
       emails: { $ifNull: ['$emails', []] },
+      emailDomains: 1,
       websites: { $ifNull: ['$websites', []] },
-      dumpedAt: new Date()
+      dumpedAt: new Date(),
     },
   },
   {
     $out: 'structures-dump',
   },
 ];
-
 
 export default async function createStructuresDump() {
   console.log('--------------------------------------');
@@ -262,7 +278,7 @@ export default async function createStructuresDump() {
     console.log('--------------------------------------');
     console.log('Structures dump created successfully', res);
     console.log('--------------------------------------');
-    return {status: 'success', data: res};
+    return { status: 'success', data: res };
   } catch (error) {
     console.log('--------------------------------------');
     console.log('--------------------------------------');
