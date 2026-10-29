@@ -1,7 +1,6 @@
 import catalog from "../commons/catalog";
 import {
 	domainsRepository,
-	domainsStructuresRepository,
 	structuresRepository,
 } from "../commons/repositories";
 
@@ -40,11 +39,12 @@ export async function ensureDomainNameIsUnique(req, res, next) {
 }
 
 export async function ensureAddStructureIsPossible(req, res, next) {
-	const { domainId } = req.params;
+	const { resourceId } = req.params;
 	const { structureId } = req.body;
 	const exists = await structuresRepository.findOne({ id: structureId });
-	const alreadyThere = await domainsStructuresRepository.get(domainId, {
-		structureId,
+	const alreadyThere = await domainsRepository.findOne({
+		id: resourceId,
+		"structures.structureId": structureId,
 	});
 
 	if (!exists) {

@@ -3,7 +3,7 @@ import express from 'express';
 import { db } from '../../services/mongo.service';
 import getMandateState, { MANDATE_STATES } from '../commons/helpers/mandate-state';
 import { BadRequestError } from '../commons/http-errors';
-import emailDomainsQuery from './queries/email-domains.query';
+import emailDomainsQuery from '../commons/queries/email-domains.query';
 import governanceQuery from './queries/governance.query';
 import structuresQuery from './queries/structures.query';
 import { predecessorsQuery, successorsQuery } from './queries/successions.query';
