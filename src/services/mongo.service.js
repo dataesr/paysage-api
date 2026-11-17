@@ -7,7 +7,7 @@ const { mongoDbName, mongoUri } = config.mongo;
 
 const client = new MongoClient(mongoUri, { directConnection: mongoUri === 'mongodb://mongodb:27017' });
 
-logger.info(`Try to connect to mongo... ${mongoUri}`);
+logger.info('Try to connect to mongo...');
 await client.connect().catch((e) => {
   logger.info(`Connexion to mongo instance failed... Terminating... ${e.message}`);
   process.kill(process.pid, 'SIGTERM');
