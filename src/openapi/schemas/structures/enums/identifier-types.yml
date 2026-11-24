@@ -32,6 +32,7 @@ enum:
   - rcr
   - ringgold
   - rna
+  - rnf
   - rnsr
   - ror
   - rtoad
