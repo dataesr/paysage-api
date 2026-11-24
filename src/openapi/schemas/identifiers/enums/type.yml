@@ -18,6 +18,7 @@ enum:
   - hatvp
   - idhal
   - idref
+  - inf
   - isil
   - isni
   - oc
@@ -32,6 +33,7 @@ enum:
   - rcr
   - ringgold
   - rna
+  - rnf
   - rnsr
   - ror
   - rtoad
