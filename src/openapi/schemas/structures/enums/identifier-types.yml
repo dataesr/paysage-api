@@ -19,6 +19,7 @@ enum:
   - hatvp
   - idhal
   - idref
+  - inf
   - isil
   - isni
   - oc
